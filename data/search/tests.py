@@ -1,11 +1,11 @@
 
-from datetime import date, datetime
+from datetime import date
 
 from django.test import TestCase
 
 from dcdata.contribution.models import Contribution
 from dcdata.models import Import
-from search.queries import DateSearch, ContributorSearch, RecipientSearch, build_query
+from search.queries import extract_query
 
 
 class SimpleTest(TestCase):
@@ -29,7 +29,7 @@ class SimpleTest(TestCase):
         self.create_contribution(datestamp=date(1999,12,31))
         self.create_contribution(datestamp=date(2000,1,1))
         
-        q = build_query([[DateSearch.before_op, date(1999,12,31)]])
+        q = extract_query({'date': "<|1999-12-31"})
         self.assertEqual(2, Contribution.objects.filter(*q).count())
         
         
@@ -38,5 +38,5 @@ class SimpleTest(TestCase):
         self.create_contribution(datestamp=date(2000,1,1), contributor_entity='1234')
         self.create_contribution(datestamp=date(2000,1,1), contributor_entity='5678')
         
-        q = build_query([[ContributorSearch.in_op, '1234']])
+        q = extract_query({'contributor': "in|1234"})
         self.assertEqual(2, Contribution.objects.filter(*q).count())
