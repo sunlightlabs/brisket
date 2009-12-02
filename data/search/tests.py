@@ -5,8 +5,8 @@ from django.test import TestCase
 
 from dcdata.contribution.models import Contribution
 from dcdata.models import Import
-from search.queries import extract_query
-
+from search.contributions import CONTRIBUTION_SCHEMA
+ 
 
 class SimpleTest(TestCase):
     def create_entities(self):
@@ -18,7 +18,7 @@ class SimpleTest(TestCase):
         self.create_contribution(committee_entity='efgh')  
         
     def assert_num_results(self, expected_num, request):
-        q = extract_query(request)
+        q = CONTRIBUTION_SCHEMA.extract_query(request)
         self.assertEqual(expected_num, Contribution.objects.filter(*q).count())
     
     def create_contribution(self, **kwargs):
