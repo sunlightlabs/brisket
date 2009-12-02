@@ -4,10 +4,6 @@ from datetime import date
 from django.db.models.query_utils import Q
 
 
-##### Generic Data Model #####
-
-ARGUMENT_TYPES = ('entities', 'date', 'amount', 'state', 'cycle')
-
 class Operator(object):
     def __init__(self, param_name, generator, args):
         self._param_name = param_name
@@ -25,16 +21,11 @@ class Operator(object):
 
 
 class Field(object):
-    def __init__(self, param_name, **kwargs):
+    def __init__(self, param_name, *operators):
         self._param_name = param_name
-        self._before_op = kwargs.get('before_op', None)
-        self._after_op = kwargs.get('after_op', None)
-        self._between_op = kwargs.get('between_op', None)
-        self._equals_op = kwargs.get('equals_op', None)
-        self._in_op = kwargs.get('in_op', None)
         
         self._name_to_op = dict()
-        for op in [op for op in [self._before_op, self._after_op, self._between_op, self._equals_op, self._in_op] if op]:
+        for op in [op for op in operators]:
             self._name_to_op[op.get_name()] = op
             
     def get_op_names(self):
@@ -89,36 +80,61 @@ def _contributor_in_generator(*entities):
 def _recipient_in_generator(entities):
     return Q(recipient_entity__in=entities) | Q(committee_entity__in=entities)    
 
+def _entity_in_generator(entities):
+    return _contributor_in_generator(entities) | _recipient_in_generator(entities)
+
+def _amount_less_than_generator(amount):
+    return Q(amount__lte=int(amount))
+
+def _amount_greater_than_generator(amount):
+    return Q(amount__gte=int(amount))
+
+def _amount_between_generator(lower, upper):
+    return Q(amount__range=(int(lower), int(upper)))
+
+def _cycle_equals_generator(cycle):
+    return Q(cycle=int(cycle))
 
 
-STATE_FIELD = Field('state',
-                    equals_op = Operator('=',
-                                         _state_equals_generator,
-                                         ['state']))
+ENTITY_TYPE = 'entities'
+DATE_TYPE = 'date'
+AMOUNT_TYPE = 'amount'
+STATE_TYPE = 'state'
+CYCLE_TYPE = 'cycle'
 
-DATE_FIELD = Field('date',
-                     before_op = Operator('<',
-                                          _date_before_generator,
-                                          ['date']),
-                     after_op = Operator('>',
-                                         _date_after_generator,
-                                         ['date']),
-                     between_op = Operator('><',
-                                           _date_between_generator,
-                                           ['date', 'date']))
-    
-CONTRIBUTOR_FIELD = Field('contributor',
-                           in_op = Operator('in',
-                                            _contributor_in_generator,
-                                            ['entities']))
-    
-RECIPIENT_FIELD = Field('recipient',
-                         in_op = Operator('in',
-                                          _recipient_in_generator,
-                                          ['entities']))
+IN_OP = 'in'
+EQUALS_OP = '='
+LESS_THAN_OP = '<'
+GREATER_THAN_OP = '>'
+BETWEEN_OP = '><'
 
-CONTRIBUTION_SCHEMA = Schema(STATE_FIELD, DATE_FIELD, CONTRIBUTOR_FIELD, RECIPIENT_FIELD)
+STATE_FIELD = 'state'
+DATE_FIELD = 'date'
+CONTRIBUTOR_FIELD ='contributor'
+RECIPIENT_FIELD = 'recipient'
+ENTITY_FIELD = 'entity'
+AMOUNT_FIELD = 'amount'
+CYCLE_FIELD = 'cycle'
 
+
+CONTRIBUTION_SCHEMA = Schema(Field(STATE_FIELD,
+                                   Operator(EQUALS_OP, _state_equals_generator, [STATE_TYPE])),
+                             Field(DATE_FIELD,
+                                   Operator(LESS_THAN_OP, _date_before_generator, [DATE_TYPE]),
+                                   Operator(GREATER_THAN_OP, _date_after_generator, [DATE_TYPE]),
+                                   Operator(BETWEEN_OP, _date_between_generator, [DATE_TYPE, DATE_TYPE])),
+                             Field(CONTRIBUTOR_FIELD,
+                                   Operator(IN_OP, _contributor_in_generator, [ENTITY_TYPE])),
+                             Field(RECIPIENT_FIELD,
+                                   Operator(IN_OP, _recipient_in_generator, [ENTITY_TYPE])),
+                             Field(ENTITY_FIELD,
+                                   Operator(IN_OP, _entity_in_generator, [ENTITY_TYPE])),
+                             Field(AMOUNT_FIELD,
+                                   Operator(LESS_THAN_OP, _amount_less_than_generator, [AMOUNT_TYPE]),
+                                   Operator(GREATER_THAN_OP, _amount_greater_than_generator, [AMOUNT_TYPE]),
+                                   Operator(BETWEEN_OP, _amount_between_generator, [AMOUNT_TYPE, AMOUNT_TYPE])),
+                             Field(CYCLE_FIELD,
+                                   Operator(EQUALS_OP, _cycle_equals_generator, [CYCLE_TYPE])))
 
 
 ##### Parsing of HTTP Requests #####
