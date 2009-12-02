@@ -1,58 +1,17 @@
+"""
+The schema used to search the Contribution model.
+
+Defines the syntax of HTTP requests and how the requests are mapped into Django queries.
+"""
 
 from datetime import date
 
 from django.db.models.query_utils import Q
 
-
-class Operator(object):
-    def __init__(self, param_name, generator):
-        self._param_name = param_name
-        self._generator = generator
-    
-    def get_name(self):
-        return self._param_name
-    
-    def apply(self, *args):
-        return self._generator(*args)
+from schema import Operator, Field, Schema
 
 
-class Field(object):
-    def __init__(self, param_name, *operators):
-        self._param_name = param_name
-        
-        self._name_to_op = dict()
-        for op in [op for op in operators]:
-            self._name_to_op[op.get_name()] = op
-            
-    def get_op_names(self):
-        return self._name_to_op.keys()
-    
-    def get_op(self, name):
-        return self._name_to_op[name]
-    
-    def get_name(self):
-        return self._param_name
-    
-        
-class Schema(object):
-    def __init__(self, *search_fields):
-        self._name_to_field = dict()
-        for search_field in search_fields:
-            self._name_to_field[search_field.get_name()] = search_field
-
-    def get_field_names(self):
-        return self._name_to_field.keys()
-    
-    def get_field(self, name):
-        return self._name_to_field[name]
-    
-    def get_query_clause(self, field_name, op_name, *values):
-        return self.get_field(field_name).get_op(op_name).apply(*values)
-        
-
-
- 
-##### Specific Queries #####
+# Generator functions
 
 def _date_from_string(string_val):
     (year, month, day) = string_val.split('-')
@@ -92,6 +51,8 @@ def _cycle_equals_generator(cycle):
     return Q(cycle=int(cycle))
 
 
+# Strings used in the HTTP request syntax
+
 IN_OP = 'in'
 EQUALS_OP = '='
 LESS_THAN_OP = '<'
@@ -106,6 +67,8 @@ ENTITY_FIELD = 'entity'
 AMOUNT_FIELD = 'amount'
 CYCLE_FIELD = 'cycle'
 
+
+# the final search schema
 
 CONTRIBUTION_SCHEMA = Schema(Field(STATE_FIELD,
                                    Operator(EQUALS_OP, _state_equals_generator)),
@@ -125,19 +88,5 @@ CONTRIBUTION_SCHEMA = Schema(Field(STATE_FIELD,
                                    Operator(BETWEEN_OP, _amount_between_generator)),
                              Field(CYCLE_FIELD,
                                    Operator(EQUALS_OP, _cycle_equals_generator)))
-
-
-##### Parsing of HTTP Requests #####
-
-VALUE_DELIMITER = '|'
-
-def extract_query(request):
-    def extract_clause(field_name, value):
-        value_components = value.split(VALUE_DELIMITER)
-        op_name = value_components[0]
-        args = value_components[1:]
-        return CONTRIBUTION_SCHEMA.get_query_clause(field_name, op_name, *args)
-    
-    return [extract_clause(name, value) for (name, value) in request.items()]
 
 
