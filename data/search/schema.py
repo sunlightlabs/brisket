@@ -80,7 +80,7 @@ class Schema(object):
             args = value_components[1:]
             return self.get_query_clause(field_name, op_name, *args)
         
-        return [extract_clause(name, value) for (name, value) in request.items()]
+        return [extract_clause(name, value) for (name, value) in request.iteritems()]
         
 
 
