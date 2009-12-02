@@ -47,7 +47,7 @@ class Field(object):
         return self._param_name
     
         
-class Syntax(object):
+class Schema(object):
     def __init__(self, *search_fields):
         self._name_to_field = dict()
         for search_field in search_fields:
@@ -81,7 +81,7 @@ def _date_after_generator(date):
     return Q(datestamp__gte=_date_from_string(date))
 
 def _date_between_generator(first, second):
-    return Q(datestamp__rang=(_date_from_string(first), _date_from_string(second)))
+    return Q(datestamp__range=(_date_from_string(first), _date_from_string(second)))
 
 def _contributor_in_generator(*entities):    
     return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
@@ -117,7 +117,7 @@ RECIPIENT_FIELD = Field('recipient',
                                           _recipient_in_generator,
                                           ['entities']))
 
-SYNTAX = Syntax(STATE_FIELD, DATE_FIELD, CONTRIBUTOR_FIELD, RECIPIENT_FIELD)
+CONTRIBUTION_SCHEMA = Schema(STATE_FIELD, DATE_FIELD, CONTRIBUTOR_FIELD, RECIPIENT_FIELD)
 
 
 
@@ -130,6 +130,8 @@ def extract_query(request):
         value_components = value.split(VALUE_DELIMITER)
         op_name = value_components[0]
         args = value_components[1:]
-        return SYNTAX.get_query_clause(field_name, op_name, *args)
+        return CONTRIBUTION_SCHEMA.get_query_clause(field_name, op_name, *args)
     
     return [extract_clause(name, value) for (name, value) in request.items()]
+
+
