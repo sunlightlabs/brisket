@@ -5,13 +5,9 @@ from django.db.models.query_utils import Q
 
 
 class Operator(object):
-    def __init__(self, param_name, generator, args):
+    def __init__(self, param_name, generator):
         self._param_name = param_name
         self._generator = generator
-        self._args = args
-        
-    def get_arg_types(self):
-        return self._args
     
     def get_name(self):
         return self._param_name
@@ -63,7 +59,7 @@ def _date_from_string(string_val):
     return date(int(year), int(month), int(day))
 
 def _state_equals_generator(state):
-    return Q(state=state)
+    return Q(contributor_state=state)
 
 def _date_before_generator(date):
     return Q(datestamp__lte=_date_from_string(date))
@@ -77,11 +73,11 @@ def _date_between_generator(first, second):
 def _contributor_in_generator(*entities):    
     return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
     
-def _recipient_in_generator(entities):
+def _recipient_in_generator(*entities):
     return Q(recipient_entity__in=entities) | Q(committee_entity__in=entities)    
 
-def _entity_in_generator(entities):
-    return _contributor_in_generator(entities) | _recipient_in_generator(entities)
+def _entity_in_generator(*entities):
+    return _contributor_in_generator(*entities) | _recipient_in_generator(*entities)
 
 def _amount_less_than_generator(amount):
     return Q(amount__lte=int(amount))
@@ -95,12 +91,6 @@ def _amount_between_generator(lower, upper):
 def _cycle_equals_generator(cycle):
     return Q(cycle=int(cycle))
 
-
-ENTITY_TYPE = 'entities'
-DATE_TYPE = 'date'
-AMOUNT_TYPE = 'amount'
-STATE_TYPE = 'state'
-CYCLE_TYPE = 'cycle'
 
 IN_OP = 'in'
 EQUALS_OP = '='
@@ -118,23 +108,23 @@ CYCLE_FIELD = 'cycle'
 
 
 CONTRIBUTION_SCHEMA = Schema(Field(STATE_FIELD,
-                                   Operator(EQUALS_OP, _state_equals_generator, [STATE_TYPE])),
+                                   Operator(EQUALS_OP, _state_equals_generator)),
                              Field(DATE_FIELD,
-                                   Operator(LESS_THAN_OP, _date_before_generator, [DATE_TYPE]),
-                                   Operator(GREATER_THAN_OP, _date_after_generator, [DATE_TYPE]),
-                                   Operator(BETWEEN_OP, _date_between_generator, [DATE_TYPE, DATE_TYPE])),
+                                   Operator(LESS_THAN_OP, _date_before_generator),
+                                   Operator(GREATER_THAN_OP, _date_after_generator),
+                                   Operator(BETWEEN_OP, _date_between_generator)),
                              Field(CONTRIBUTOR_FIELD,
-                                   Operator(IN_OP, _contributor_in_generator, [ENTITY_TYPE])),
+                                   Operator(IN_OP, _contributor_in_generator)),
                              Field(RECIPIENT_FIELD,
-                                   Operator(IN_OP, _recipient_in_generator, [ENTITY_TYPE])),
+                                   Operator(IN_OP, _recipient_in_generator)),
                              Field(ENTITY_FIELD,
-                                   Operator(IN_OP, _entity_in_generator, [ENTITY_TYPE])),
+                                   Operator(IN_OP, _entity_in_generator)),
                              Field(AMOUNT_FIELD,
-                                   Operator(LESS_THAN_OP, _amount_less_than_generator, [AMOUNT_TYPE]),
-                                   Operator(GREATER_THAN_OP, _amount_greater_than_generator, [AMOUNT_TYPE]),
-                                   Operator(BETWEEN_OP, _amount_between_generator, [AMOUNT_TYPE, AMOUNT_TYPE])),
+                                   Operator(LESS_THAN_OP, _amount_less_than_generator),
+                                   Operator(GREATER_THAN_OP, _amount_greater_than_generator),
+                                   Operator(BETWEEN_OP, _amount_between_generator)),
                              Field(CYCLE_FIELD,
-                                   Operator(EQUALS_OP, _cycle_equals_generator, [CYCLE_TYPE])))
+                                   Operator(EQUALS_OP, _cycle_equals_generator)))
 
 
 ##### Parsing of HTTP Requests #####
