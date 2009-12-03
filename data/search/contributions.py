@@ -4,30 +4,26 @@ The schema used to search the Contribution model.
 Defines the syntax of HTTP requests and how the requests are mapped into Django queries.
 """
 
-from datetime import date
 
 from django.db.models.query_utils import Q
 
+from dcdata.utils.sql import parse_date
 from schema import Operator, Field, Schema
 
 
 # Generator functions
 
-def _date_from_string(string_val):
-    (year, month, day) = string_val.split('-')
-    return date(int(year), int(month), int(day))
-
 def _state_equals_generator(state):
     return Q(contributor_state=state)
 
 def _date_before_generator(date):
-    return Q(datestamp__lte=_date_from_string(date))
+    return Q(datestamp__lte=parse_date(date))
 
 def _date_after_generator(date):
-    return Q(datestamp__gte=_date_from_string(date))
+    return Q(datestamp__gte=parse_date(date))
 
 def _date_between_generator(first, second):
-    return Q(datestamp__range=(_date_from_string(first), _date_from_string(second)))
+    return Q(datestamp__range=(parse_date(first), parse_date(second)))
 
 def _contributor_in_generator(*entities):    
     return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
