@@ -5,11 +5,15 @@ from dc_web.search.contributions import CONTRIBUTION_SCHEMA
 
 class ContributionFilterHandler(BaseHandler):
     allowed_methods = ('GET',)
-    exclude = ('id',)
+    exclude = ('id','import_reference')
+    model = Contribution
     
     def read(self, request):
-        q = CONTRIBUTION_SCHEMA.extract_query(request.GET)
-        return Contribution.objects.filter(*q)[:1]
+        params = request.GET.copy()
+        if 'key' in params:
+            del params['key']
+        q = CONTRIBUTION_SCHEMA.extract_query(params)
+        return Contribution.objects.filter(*q)[:3]
 
 class EntityHandler(BaseHandler):
     allowed_methods = ('GET',)
