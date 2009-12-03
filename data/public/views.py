@@ -6,8 +6,10 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render_to_response('base.html')
 
-def filter(request):
-    pass
+def account_index(request):
+    return render_to_response('account/index.html')
 
-def download(request):
-    pass
+def account_create(request):
+    if request.method == 'POST':
+        pass
+    return render_to_response('account/create.html')
