@@ -11,7 +11,7 @@ urlpatterns = patterns('django.contrib.auth.views',
 
 urlpatterns += patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('dc_web.api.urls')),
+    url(r'^api/1.0/', include('dc_web.api.urls')),
     url(r'^', include('dc_web.public.urls')),
 )
 
