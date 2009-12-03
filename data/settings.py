@@ -61,6 +61,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'matchbox',
     'dcdata.contribution',
+    'dc_web.api',
 )
 
 LOGIN_URL = '/auth/login/'
