@@ -52,25 +52,25 @@ class SimpleTest(TestCase):
     def test_contributor(self):
         self.create_entities()
         
-        self.assert_num_results(0, {'contributor': "in|abcd"})
-        self.assert_num_results(2, {'contributor': "in|1234"})
-        self.assert_num_results(3, {'contributor': "in|1234|5678"})
+        self.assert_num_results(0, {'contributor': "abcd"})
+        self.assert_num_results(2, {'contributor': "1234"})
+        self.assert_num_results(3, {'contributor': "1234|5678"})
         
     def test_recipient(self):
         self.create_entities()
 
-        self.assert_num_results(0, {'recipient': "in|1234"})
-        self.assert_num_results(1, {'recipient': "in|abcd"})
-        self.assert_num_results(2, {'recipient': "in|efgh"})
-        self.assert_num_results(3, {'recipient': "in|abcd|efgh"})
-        self.assert_num_results(3, {'recipient': "in|0000|abcd|efgh"})
+        self.assert_num_results(0, {'recipient': "1234"})
+        self.assert_num_results(1, {'recipient': "abcd"})
+        self.assert_num_results(2, {'recipient': "efgh"})
+        self.assert_num_results(3, {'recipient': "abcd|efgh"})
+        self.assert_num_results(3, {'recipient': "0000|abcd|efgh"})
         
     def test_entity(self):
         self.create_entities()    
         
-        self.assert_num_results(0, {'entity': "in|0000"})
-        self.assert_num_results(1, {'entity': "in|5678"})
-        self.assert_num_results(2, {'entity': "in|5678|abcd"})
+        self.assert_num_results(0, {'entity': "0000"})
+        self.assert_num_results(1, {'entity': "5678"})
+        self.assert_num_results(2, {'entity': "5678|abcd"})
         
     def test_amount(self):
         self.create_contribution(amount=100)
@@ -88,23 +88,26 @@ class SimpleTest(TestCase):
         self.create_contribution(cycle=04)
         self.create_contribution(cycle=04)
         
-        self.assert_num_results(0, {'cycle': "=|08"})
-        self.assert_num_results(1, {'cycle': "=|02"})
-        self.assert_num_results(2, {'cycle': "=|04"})
+        self.assert_num_results(0, {'cycle': "08"})
+        self.assert_num_results(1, {'cycle': "02"})
+        self.assert_num_results(2, {'cycle': "04"})
         
     def test_state(self):
         self.create_contribution(contributor_state='CA')
         self.create_contribution(contributor_state='OR')
         self.create_contribution(contributor_state='OR')
         
-        self.assert_num_results(0, {'state': "=|WA"})
-        self.assert_num_results(1, {'state': "=|CA"})
-        self.assert_num_results(2, {'state': "=|OR"})
+        self.assert_num_results(0, {'state': "WA"})
+        self.assert_num_results(1, {'state': "CA"})
+        self.assert_num_results(2, {'state': "OR"})
         
     def test_conjunctions(self):
         self.create_contribution(contributor_state="WA", amount=1000, contributor_entity="1234")
         self.create_contribution(contributor_state="WA", amount=100, contributor_entity="1234")
         
-        self.assert_num_results(0, {'state': "=|CA", 'amount': ">|500", 'entity': "in|1234"})
-        self.assert_num_results(1, {'state': "=|WA", 'amount': ">|500", 'entity': "in|1234"})
-        self.assert_num_results(1, {'amount': ">|500", 'entity': "in|1234"})
+        self.assert_num_results(0, {'state': "CA", 'amount': ">|500", 'entity': "1234"})
+        self.assert_num_results(1, {'state': "WA", 'amount': ">|500", 'entity': "1234"})
+        self.assert_num_results(1, {'amount': ">|500", 'entity': "1234"})
+        
+        
+        

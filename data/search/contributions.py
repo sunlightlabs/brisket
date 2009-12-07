@@ -8,13 +8,13 @@ Defines the syntax of HTTP requests and how the requests are mapped into Django 
 from django.db.models.query_utils import Q
 
 from dcdata.utils.sql import parse_date
-from schema import Operator, Field, Schema
+from schema import Operator, Schema, InclusionField, OperatorField
 
 
 # Generator functions
 
-def _state_equals_generator(state):
-    return Q(contributor_state=state)
+def _state_in_generator(*states):
+    return Q(contributor_state__in=states)
 
 def _date_before_generator(date):
     return Q(datestamp__lte=parse_date(date))
@@ -43,14 +43,12 @@ def _amount_greater_than_generator(amount):
 def _amount_between_generator(lower, upper):
     return Q(amount__range=(int(lower), int(upper)))
 
-def _cycle_equals_generator(cycle):
-    return Q(cycle=int(cycle))
+def _cycle_in_generator(*cycles):
+    return Q(cycle__in=[int(cycle) for cycle in cycles])
 
 
 # Strings used in the HTTP request syntax
 
-IN_OP = 'in'
-EQUALS_OP = '='
 LESS_THAN_OP = '<'
 GREATER_THAN_OP = '>'
 BETWEEN_OP = '><'
@@ -66,23 +64,17 @@ CYCLE_FIELD = 'cycle'
 
 # the final search schema
 
-CONTRIBUTION_SCHEMA = Schema(Field(STATE_FIELD,
-                                   Operator(EQUALS_OP, _state_equals_generator)),
-                             Field(DATE_FIELD,
+CONTRIBUTION_SCHEMA = Schema(
+                             InclusionField(STATE_FIELD, _state_in_generator),
+                             InclusionField(CYCLE_FIELD, _cycle_in_generator),
+                             InclusionField(CONTRIBUTOR_FIELD, _contributor_in_generator),
+                             InclusionField(RECIPIENT_FIELD, _recipient_in_generator),
+                             InclusionField(ENTITY_FIELD, _entity_in_generator),
+                             OperatorField(DATE_FIELD,
                                    Operator(LESS_THAN_OP, _date_before_generator),
                                    Operator(GREATER_THAN_OP, _date_after_generator),
                                    Operator(BETWEEN_OP, _date_between_generator)),
-                             Field(CONTRIBUTOR_FIELD,
-                                   Operator(IN_OP, _contributor_in_generator)),
-                             Field(RECIPIENT_FIELD,
-                                   Operator(IN_OP, _recipient_in_generator)),
-                             Field(ENTITY_FIELD,
-                                   Operator(IN_OP, _entity_in_generator)),
-                             Field(AMOUNT_FIELD,
+                             OperatorField(AMOUNT_FIELD,
                                    Operator(LESS_THAN_OP, _amount_less_than_generator),
                                    Operator(GREATER_THAN_OP, _amount_greater_than_generator),
-                                   Operator(BETWEEN_OP, _amount_between_generator)),
-                             Field(CYCLE_FIELD,
-                                   Operator(EQUALS_OP, _cycle_equals_generator)))
-
-
+                                   Operator(BETWEEN_OP, _amount_between_generator)))
