@@ -7,14 +7,11 @@
     {% endif %}
 
     <form method="post" action="{% url django.contrib.auth.views.login %}">
+        <input type="hidden" name="next" value="{{ next }}">
         <ul>
-            <li>{{ form.username.label_tag }}{{ form.username }}</li>
-            <li>{{ form.password.label_tag }}{{ form.password }}</li>
-            <li>
-                <input type="submit" value="login" />
-                <input type="hidden" name="next" value="{{ next }}" />
-            </li>
-        </ul>
+            {{ form.as_ul }}
+        </ul>    
+        <input type="submit" value="Login"> or <a href="{% url registration_register %}">create a new account</a>
     </form>
     
 {% endblock %}

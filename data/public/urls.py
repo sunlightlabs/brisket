@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('dc_web.public.views',
-    url(r'^account/$', 'account_index', name="dcweb_account_index"),
-    url(r'^account/create/$', 'account_create', name="dcweb_account_create"),
-    url(r'^$', 'index', name="dcweb_index"),
+    url(r'^api/$', 'api_index', name="api_index"),
+    url(r'^bulk/$', 'bulk_index', name="bulk_index"),
+    url(r'^$', 'index', name="index"),
 )

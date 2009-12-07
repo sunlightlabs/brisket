@@ -22,3 +22,11 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates'),
 )
+
+EMAIL_HOST = ''
+EMAIL_PORT = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = ''

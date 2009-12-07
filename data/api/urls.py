@@ -13,7 +13,7 @@ contributionfilter_handler = Resource(ContributionFilterHandler, **ad)
 entity_handler = Resource(EntityHandler, **ad)
 
 urlpatterns = patterns('',
-    url(r'^contributions.(?P<emitter_format>.+)$', contributionfilter_handler),
-    url(r'^entities/(?P<entity_id>\w+)(?P<emitter_format>.+)$', entity_handler),
+    url(r'^contributions.(?P<emitter_format>.+)$', contributionfilter_handler, name='api_contributions'),
+    url(r'^entities/(?P<entity_id>\w+)(?P<emitter_format>.+)$', entity_handler, name='api_entities'),
 )
 
