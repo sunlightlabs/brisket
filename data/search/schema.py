@@ -19,29 +19,55 @@ class Operator(object):
         return self._generator(*args)
 
 
+
 class Field(object):
     """
     A field that may be searched over.
     
-    Consists of a name and a set of operators. The search may or may not correlate to a single database field.
+    Consists of a name and an apply method. The search may or may not correlate to a single database field.
     """
     
-    def __init__(self, param_name, *operators):
-        self._param_name = param_name
+    def __init__(self, name):
+        self._name = name
+            
+    def get_name(self):
+        return self._name
+
+    def apply(self, args):
+        raise NotImplementedError
+    
+    
+class OperatorField(Field):
+    """
+    A field that support multiple operators.
+    
+    The first argument to the apply method should always be the operator name.
+    """
+            
+    def __init__(self, name, *operators):
+        super(OperatorField, self).__init__(name)
         
         self._name_to_op = dict()
         for op in [op for op in operators]:
             self._name_to_op[op.get_name()] = op
             
-    def get_op_names(self):
-        return self._name_to_op.keys()
+    def apply(self, op_name, *args):
+        return self._name_to_op[op_name].apply(*args)
     
-    def get_op(self, name):
-        return self._name_to_op[name]
+class InclusionField(Field):
+    """
+    A field where the only operation is inclusion.
     
-    def get_name(self):
-        return self._param_name
+    The arguments to apply should be a delimited list of values.
+    """
     
+    def __init__(self, name, inclusion_op):
+        super(InclusionField, self).__init__(name)
+        self._inclusion_op = inclusion_op
+      
+    def apply(self, *args):
+        return self._inclusion_op(*args)
+        
         
 class Schema(object):
     """
@@ -62,8 +88,9 @@ class Schema(object):
     def get_field(self, name):
         return self._name_to_field[name]
     
-    def get_query_clause(self, field_name, op_name, *values):
-        return self.get_field(field_name).get_op(op_name).apply(*values)
+    def _apply(self, field_name, value):
+        args = value.split(Schema.VALUE_DELIMITER)
+        return self.get_field(field_name).apply(*args)
     
     def extract_query(self, request):
         """
@@ -74,13 +101,7 @@ class Schema(object):
         operator name followed by argument values, all separated by a pipe ('|').
         """
         
-        def extract_clause(field_name, value):
-            value_components = value.split(Schema.VALUE_DELIMITER)
-            op_name = value_components[0]
-            args = value_components[1:]
-            return self.get_query_clause(field_name, op_name, *args)
-        
-        return [extract_clause(name, value) for (name, value) in request.iteritems()]
+        return [self._apply(name, value) for (name, value) in request.iteritems()]
         
 
 
