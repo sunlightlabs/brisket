@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>{% block title %}Data Commons{% endblock %}</title>
+        <title>{% block title %}Transparency Data{% endblock %}</title>
         <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
         <style>
             article, aside, dialog, figure, footer, header,
@@ -10,6 +10,21 @@
         </style>
     </head>
     <body>
+        <header>
+            <h1>TransparencyData.org</h1>
+            {% if user.is_authenticated %}
+                <p>Hi, Jeremy. Be sure to <a href="{% url auth_logout %}">logout</a> when you are done.</p>
+            {% endif %}
+            <nav>
+                <ul>
+                    <li><a href="{% url index %}">Home</a></li>
+                    <li><a href="#">Filter</a></li>
+                    <li><a href="{% url bulk_index %}">Bulk Downloads</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="{% url api_index %}">API</a></li>
+                </ul>
+            </nav>
+        </header>
         {% block content %}{% endblock %}
     </body>
 </html>

@@ -59,14 +59,21 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'registration',
     'matchbox',
     'dcdata.contribution',
     'dc_web.api',
+    'dc_web.public',
 )
 
-LOGIN_URL = '/auth/login/'
+# LOGIN_URL = '/auth/login/'
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_URL = '/auth/logout/'
+
+ACCOUNT_ACTIVATION_DAYS = 2
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_URL = '/auth/logout/'
+
+AUTH_PROFILE_MODULE = 'public.UserProfile'
 
 PISTON_DISPLAY_ERRORS = True
 PISTON_STREAM_OUTPUT = True

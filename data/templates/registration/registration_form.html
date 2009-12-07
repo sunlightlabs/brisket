@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="." method="post">
+        <ul>
+            {{ form.as_ul }}
+        </ul>
+        <input type="submit" value="Create account"> or <a href="{% url auth_login %}">login to existing account</a>
+    </form>
+{% endblock %}
