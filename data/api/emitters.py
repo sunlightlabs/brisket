@@ -29,9 +29,20 @@ class StreamingLoggingEmitter(Emitter):
         raise NotImplementedError('please implement this method')
     
     def stream_render(self, request):
+        
         stats = StatsLogger()
-        for chunk in self.stream(request, stats):
+        
+        if self.handler.fields:
+            fields = self.handler.fields
+        else:
+            fields = self.data.model._meta.get_all_field_names()
+            if self.handler.exclude:
+                for field in self.handler.exclude:
+                    fields.remove(field)
+        
+        for chunk in self.stream(request, fields, stats):
             yield chunk
+            
         APIInvocation.objects.create(
             user=request.user,
             method=self.handler.__class__.__name__,
@@ -45,7 +56,7 @@ class StreamingLoggingEmitter(Emitter):
             
 class StreamingLoggingJSONEmitter(StreamingLoggingEmitter):    
     
-    def stream(self, request, stats):
+    def stream(self, request, fields, stats):
         yield "["
         for record in self.data.values():
             stats.log(record)
@@ -55,17 +66,11 @@ class StreamingLoggingJSONEmitter(StreamingLoggingEmitter):
 
 class StreamingLoggingCSVEmitter(StreamingLoggingEmitter):
     
-    def stream(self, request, stats):
-        # fields = self.data.model._meta.get_all_field_names()
-        # print fields
-        # print self.handler.exclude
-        # for field in self.handler.exclude:
-        #     fields.remove(field)
+    def stream(self, request, fields, stats):
         f = AmnesiacFile()
         writer = csv.DictWriter(f, fieldnames=fields)
         yield ",".join(fields) + "\n"
-        # for record in self.data.values(*fields):
-        for record in self.data.values():
+        for record in self.data.values(*fields):
             stats.log(record)
             writer.writerow(record)
             yield f.read()
