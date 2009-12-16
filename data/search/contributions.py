@@ -8,6 +8,7 @@ Defines the syntax of HTTP requests and how the requests are mapped into Django 
 from django.db.models.query_utils import Q
 
 from dcdata.utils.sql import parse_date
+from dcdata.contribution.models import Contribution
 from schema import Operator, Schema, InclusionField, OperatorField
 
 
@@ -78,3 +79,7 @@ CONTRIBUTION_SCHEMA = Schema(
                                    Operator(LESS_THAN_OP, _amount_less_than_generator),
                                    Operator(GREATER_THAN_OP, _amount_greater_than_generator),
                                    Operator(BETWEEN_OP, _amount_between_generator)))
+
+
+def filter_contributions(request):
+    return Contribution.objects.filter(*CONTRIBUTION_SCHEMA.extract_query(request)).order_by()
