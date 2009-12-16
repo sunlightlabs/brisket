@@ -1,11 +1,12 @@
 
 from datetime import date
+import gc
 
 from django.test import TestCase
 
 from dcdata.contribution.models import Contribution
 from dcdata.models import Import
-from search.contributions import CONTRIBUTION_SCHEMA
+from search.contributions import filter_contributions
  
 
 class SimpleTest(TestCase):
@@ -18,8 +19,7 @@ class SimpleTest(TestCase):
         self.create_contribution(committee_entity='efgh')  
         
     def assert_num_results(self, expected_num, request):
-        q = CONTRIBUTION_SCHEMA.extract_query(request)
-        self.assertEqual(expected_num, Contribution.objects.filter(*q).count())
+        self.assertEqual(expected_num, filter_contributions(request).count())
     
     def create_contribution(self, **kwargs):
         c = Contribution(**kwargs)
@@ -110,4 +110,18 @@ class SimpleTest(TestCase):
         self.assert_num_results(1, {'amount': ">|500", 'entity': "1234"})
         
         
+# not an actual test case because there are no Contribution records in the test database.
+# instead, copy this code to a Django shell and run it there.
+
+#class MemoryTests(TestCase):
+#    def test_streaming(self):
+#        self.assertEqual()
+#        
+#        i = 0;
+#        for c in filter_contributions({'cycle': "2006"})[:1000000].iterator():
+#            
+#            i += 1
+#            if i % 100000 == 0:
+#                gc.collect()
+#                raw_input("At %s records streamed...press any key to continue." % i)
         
