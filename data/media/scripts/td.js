@@ -38,13 +38,23 @@ TD.DataFilter = {
             return false;
         });
         $('#downloadDataSet').click(function() {
-            for (key in TD.DataFilter.fields) {
-                var field = TD.DataFilter.fields[key];
-                var data = field.data();
-                if (data[1]) {
-                    alert(data[0] + ": " + data[1]);
-                }
-            }    
+            var values = TD.DataFilter.values();
+            for (attr in values) {
+                alert(attr + ' ' + _.reduce(values[attr], '', function(memo, item) {
+                    if (memo) {
+                        memo += '|';
+                    }
+                    memo += item;
+                    return memo;
+                }));
+            }
+            // for (key in TD.DataFilter.fields) {
+            //     var field = TD.DataFilter.fields[key];
+            //     var data = field.data();
+            //     if (data[1]) {
+            //         alert(data[0] + ": " + data[1]);
+            //     }
+            // }
             return false;
         });
     },
@@ -57,6 +67,18 @@ TD.DataFilter = {
     removeField: function(field) {
         $('#field_' + field.id).remove();
         delete TD.DataFilter.fields[field.id];
+    },
+    values: function() {
+        return _(TD.DataFilter.fields).chain()
+            .map(function(item) { return item.data(); })
+            .reduce({ }, function(memo, item) {
+                var key = item[0], value = item[1];
+                if (memo[key] === undefined) {
+                    memo[key] = [];
+                }
+                memo[key].push(value);
+                return memo;
+            }).value();
     }
 };
 
