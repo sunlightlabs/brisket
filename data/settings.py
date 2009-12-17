@@ -1,6 +1,6 @@
 # Django settings for dc_web project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'mediasync',
     'registration',
     'matchbox',
     'dcdata.contribution',

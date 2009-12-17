@@ -1,30 +1,77 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load media %}
+<html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
-        <meta charset="utf-8" />
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>{% block title %}Transparency Data{% endblock %}</title>
-        <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-        <style>
-            article, aside, dialog, figure, footer, header,
-            hgroup, menu, nav, section { display: block; }
-        </style>
+        {% css "styles/main.css" %}
+        <!--[if IE 6]>{% css "styles/buggy.css" %}<![endif]-->
+        <!--[if IE 7]>{% css "styles/buggy7.css" %}<![endif]-->
+        <script type="text/javascript" src="http://use.typekit.com/plg0bms.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+        {% js "scripts/jquery-1.3.2.min.js" %}
+        {% js "scripts/underscore-min.js" %}
+        {% js "scripts/td.js" %}
     </head>
-    <body>
-        <header>
-            <h1>TransparencyData.org</h1>
-            {% if user.is_authenticated %}
-                <p>Hi, Jeremy. Be sure to <a href="{% url auth_logout %}">logout</a> when you are done.</p>
-            {% endif %}
-            <nav>
-                <ul>
-                    <li><a href="{% url index %}">Home</a></li>
-                    <li><a href="#">Filter</a></li>
-                    <li><a href="{% url bulk_index %}">Bulk Downloads</a></li>
-                    <li><a href="#">Documentation</a></li>
-                    <li><a href="{% url api_index %}">API</a></li>
-                </ul>
-            </nav>
-        </header>
-        {% block content %}{% endblock %}
+    <body class="{% block bodyclass %}{% endblock %}">
+        <div id="headerWrapper">
+            <div id="headerContainer">
+                <div id="pageMain">
+                    <div id="header">
+                        <h1><a href="{% url index %}">Transparency Data</a></h1>
+                        <form id="searchForm" action="." method="get">
+                            <input id="searchBtn" type="text" name="search" title="Search Database"/>
+                            <input id="searchEntityID" type="hidden" name="entityId" />
+                            <button class="searchBtn" type="submit">
+                                <span>Search</span>
+                            </button>
+                        </form>
+                        <div class="clear"></div>
+                        <div id="nav">
+                            <ul>
+                                <li id="nav_filtered"><a href="#">Filtered Search</a></li>
+                                <li id="nav_bulk"><a href="{% url bulk_index %}">Bulk Downloads</a></li>
+                                <li id="nav_docs"><a href="#">Documentation</a></li>
+                                <li id="nav_api"><a href="{% url api_index %}">API</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="columnWrapper">
+                        <div id="leftColumn">
+                            {% block sidebar %}{% endblock %}
+                        </div>
+                        <div id="rightColumn">
+                            {% block content %}{% endblock %}
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
+
+
+
+
+
+{% comment %}
+<header>
+    <h1>TransparencyData.org</h1>
+    {% if user.is_authenticated %}
+        <p>Hi, Jeremy. Be sure to <a href="{% url auth_logout %}">logout</a> when you are done.</p>
+    {% endif %}
+    <nav>
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="#">Filter</a></li>
+            <li><a href="">Bulk Downloads</a></li>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="">API</a></li>
+        </ul>
+    </nav>
+</header>
+{% block content %}{% endblock %}
+{% endcomment %}
