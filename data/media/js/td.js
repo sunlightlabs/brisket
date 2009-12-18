@@ -9,58 +9,29 @@ TD.DataFilter = {
         });
         $('#filterForm a.plus-button').bind('click', function() {
             //var fieldName = $('#filterForm #id_filter').val();
-            if (Math.floor(Math.random() * 2) == 1) {
-                TD.DataFilter.addField(
-                    TD.DataFilter.TextField({
-                        label: 'Amount',
-                        name: 'amount',
-                        helper: 'Amount of contribution in dollars'
-                    }));
-                TD.DataFilter.addField(
-                    TD.DataFilter.OperatorField({
-                        label: 'Amount',
-                        name: 'amount',
-                        helper: 'Amount of contribution in dollars'
-                    }));
-            } else {
-                TD.DataFilter.addField(
-                    TD.DataFilter.DropDownField({
-                        label: 'Cycle',
-                        name: 'cycle',
-                        helper: 'Election cycle',
-                        options: [
-                            [2004, 2004],
-                            [2006, 2006],
-                            [2008, 2008]
-                        ]
-                    }));
-            }
+            TD.DataFilter.addField(
+                TD.DataFilter.DateRangeField({
+                    label: 'Amount',
+                    name: 'amount',
+                    helper: 'Amount of contribution in dollars'
+                }));
             return false;
         });
         $('#downloadDataSet').click(function() {
             var values = TD.DataFilter.values();
             for (attr in values) {
                 alert(attr + ' ' + _.reduce(values[attr], '', function(memo, item) {
-                    if (memo) {
-                        memo += '|';
-                    }
+                    if (memo) memo += '|';
                     memo += item;
                     return memo;
                 }));
             }
-            // for (key in TD.DataFilter.fields) {
-            //     var field = TD.DataFilter.fields[key];
-            //     var data = field.data();
-            //     if (data[1]) {
-            //         alert(data[0] + ": " + data[1]);
-            //     }
-            // }
             return false;
         });
     },
     addField: function(field) {
         var node = field.render();
-        node.appendTo('#filterForm ul');
+        node.appendTo('#filterForm > ul');
         field.bind(node);
         TD.DataFilter.fields[field.id] = field;
     },
@@ -93,8 +64,11 @@ TD.DataFilter.Field.prototype.bind = function(node) {
     });
 };
 
+
 TD.DataFilter.TextField = function(config) {
+    
     var that = new TD.DataFilter.Field();
+    
     that.render = function() {
         var content = '';
         content += '<li id="field_' + this.id + '" class="textField">';
@@ -105,14 +79,20 @@ TD.DataFilter.TextField = function(config) {
         content += '</li>';
         return $(content);
     };
+    
     that.data = function() {
         return [config.name, $("#field_" + this.id + " input").val()];
     };
+    
     return that;
+    
 };
 
+
 TD.DataFilter.DropDownField = function(config) {
+    
     var that = new TD.DataFilter.Field();
+    
     that.render = function() {
         var content = '';
         content += '<li id="field_' + this.id + '" class="dropDownField">';
@@ -127,14 +107,20 @@ TD.DataFilter.DropDownField = function(config) {
         content += '</li>';
         return $(content);
     };
+    
     that.data = function() {
         return [config.name, $("#field_" + this.id + " select").val()];
     };
+    
     return that;
+    
 };
 
+
 TD.DataFilter.OperatorField = function(config) {
+    
     var that = new TD.DataFilter.Field();
+    
     that.render = function() {
         var content = '';
         content += '<li id="field_' + this.id + '" class="operatorField">';
@@ -150,22 +136,119 @@ TD.DataFilter.OperatorField = function(config) {
         content += '</li>';
         return $(content);
     };
+    
     that.data = function() {
         var selector = "#field_" + this.id + "_" + config.name;
-        return [
-            config.name,
-            $(selector + "_operator").val() + '|' + $(selector).val()
-        ];
+        return [config.name,
+            $(selector + "_operator").val() + '|' + $(selector).val()];
     };
+    
     return that;
 };
 
-// TD.DataFilter.EntityField = { }
-// TD.DataFilter.DateRangeField = { }
+
+TD.DataFilter.DateRangeField = function(config) {
+    
+    var that = new TD.DataFilter.Field();
+    
+    that.render = function() {
+        
+        var content = '';
+        content += '<li id="field_' + this.id + '" class="dateRangeField">';
+        content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
+        content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
+        content += '<span class="helper">' + config.helper + '</span>';
+        content += '<input id="field_' + this.id + '_' + config.name + '_start" type="text" class="date_start" name="' + config.name + '_start"/>';
+        content += '<input id="field_' + this.id + '_' + config.name + '_end" type="text" class="date_end" name="' + config.name + '_end"/>';
+        content += '</li>';
+        
+        var elem = $(content);
+        
+        var options = {
+            changeMonth: true,
+            changeYear: true,
+            duration: ''
+        }        
+        elem.find('input.date_start').datepicker(options);
+        elem.find('input.date_end').datepicker(options);
+        
+        return elem;
+        
+    };
+    
+    that.data = function() {
+        var inputs = $("#field_" + this.id + " input");
+        return [config.name, inputs[0].value + '-' + inputs[1].value];
+    };
+    
+    return that;
+    
+};
+
+
+TD.DataFilter.EntityField = function(config) {
+    
+    var that = new TD.DataFilter.Field();
+    
+    that.render = function() {
+        
+        var content = '';
+        content += '<li id="field_' + this.id + '" class="entityField">';
+        content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
+        content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
+        content += '<span class="helper">' + config.helper + '</span>';
+        content += '<ul></ul>';
+        content += '<input id="field_' + this.id + '_' + config.name + '" type="text" name="' + config.name + '"/>';
+        content += '</li>';
+        
+        var elem = $(content);
+        
+        // temporarily add something to the field, this will be replaced
+        // by callback from autocomplete field
+        elem.find('input').bind('keypress', function(e) {
+            if (e.which == 13) {
+                that.addSelection('xxxx', $(this).val());
+                return false;
+            }
+        });
+        
+        return elem;
+        
+    };
+    
+    that.data = function() {
+        
+        var value = _.reduce(
+            $("#field_" + this.id + " ul li"),
+            '',
+            function(memo, item) {
+                var text = item.innerHTML;
+                if (text) {
+                    if (memo) memo += '|';
+                    memo += text;
+                }
+                return memo;
+            });
+            
+        return [config.name, value];
+        
+    };
+    
+    that.addSelection = function(id, name) {
+        var s = $('<li data-id="' + id + '">' + name + '</li>');
+        s.appendTo("#field_" + this.id + " ul");
+        $("#field_" + this.id + " input").val('');
+    };
+    
+    return that;
+    
+};
+
 
 /*
  * main search box functionality
  */
+ 
 TD.SearchBox = {
     isValid: false,
     init: function() {
@@ -195,6 +278,7 @@ TD.SearchBox = {
 /*
  * UI modifiers
  */
+ 
 TD.UI = {
     fluid: function() {
         $('body').addClass('filteredSearch');
