@@ -3,18 +3,17 @@ var TD = { };
 
 TD.DataFilter = {
     fields: { },
+    registry: { },
     init: function() {
         $('#filterForm').bind('submit', function() {
             return false;
         });
         $('#filterForm a.plus-button').bind('click', function() {
-            //var fieldName = $('#filterForm #id_filter').val();
-            TD.DataFilter.addField(
-                TD.DataFilter.DateRangeField({
-                    label: 'Amount',
-                    name: 'amount',
-                    helper: 'Amount of contribution in dollars'
-                }));
+            var fieldType = $('#filterForm #id_filter').val();
+            var fieldGenerator = TD.DataFilter.registry[fieldType];
+            if (fieldGenerator != undefined) {
+                TD.DataFilter.addField(fieldGenerator());
+            }
             return false;
         });
         $('#downloadDataSet').click(function() {
@@ -289,6 +288,43 @@ TD.UI = {
 }
 
 $().ready(function() {
+    
     TD.SearchBox.init();
     TD.DataFilter.init();
+    
+    TD.DataFilter.registry = {
+        amount: function() {
+            return TD.DataFilter.OperatorField({
+                label: 'Amount',
+                name: 'amount',
+                helper: 'Amount of contribution in dollars'
+            });
+        },
+        datestamp: function() {
+            return TD.DataFilter.DateRangeField({
+                label: 'Date',
+                name: 'datestamp',
+                helper: 'Date of contribution'
+            });
+        },
+        jurisdiction: function() {
+            return TD.DataFilter.DropDownField({
+                label: 'Jurisdiction',
+                name: 'transaction_namespace',
+                helper: 'State or federal seat',
+                options: [
+                    ['urn:fec:contribution','Federal'],
+                    ['urn:nimsp:contribution','State']
+                ]
+            });
+        },
+        organization: function() {
+            return TD.DateFilter.EntityField({
+                label: 'Organization',
+                name: 'organization_entity',
+                helper: 'Corporation related to contribution'
+            });
+        }
+    }
+    
 });
