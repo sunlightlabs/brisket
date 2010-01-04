@@ -7,6 +7,12 @@ TD.DataFilter = {
     
     init: function() {
         
+        // populate field selection drop down
+        $.each(TD.DataFilter.registry, function(item) {
+            var fieldDef = TD.DataFilter.registry[item];
+            $('#id_filter').append('<option value="' + item + '">' + fieldDef.config.label + '</option>');
+        });
+        
         // bind filter form to the submit button
         $('#filterForm').bind('submit', function() {
             return false;
@@ -92,6 +98,7 @@ TD.DataFilter.Field.prototype.instance = function() {
 TD.DataFilter.TextField = function(config) {
     
     var that = new TD.DataFilter.Field();
+    that.config = config;
     
     that.render = function() {
         var content = '';
@@ -119,6 +126,7 @@ TD.DataFilter.TextField = function(config) {
 TD.DataFilter.DropDownField = function(config) {
     
     var that = new TD.DataFilter.Field();
+    that.config = config;
     
     that.render = function() {
         var content = '';
@@ -150,6 +158,7 @@ TD.DataFilter.DropDownField = function(config) {
 TD.DataFilter.OperatorField = function(config) {
     
     var that = new TD.DataFilter.Field();
+    that.config = config;
     
     that.render = function() {
         var content = '';
@@ -183,6 +192,7 @@ TD.DataFilter.OperatorField = function(config) {
 TD.DataFilter.DateRangeField = function(config) {
     
     var that = new TD.DataFilter.Field();
+    that.config = config;
     
     that.render = function() {
         
@@ -222,6 +232,7 @@ TD.DataFilter.DateRangeField = function(config) {
 TD.DataFilter.EntityField = function(config) {
     
     var that = new TD.DataFilter.Field();
+    that.config = config;
     
     that.render = function() {
         
@@ -331,15 +342,49 @@ TD.UI = {
 $().ready(function() {
     
     TD.SearchBox.init();
-    TD.DataFilter.init();
     
     TD.DataFilter.registry = {
+        
+        // amount and cycle
         
         amount: TD.DataFilter.OperatorField({
             label: 'Amount',
             name: 'amount',
             helper: 'Amount of contribution in dollars'
         }),
+
+        cycle: TD.DataFilter.DropDownField({
+            label: 'Cycle',
+            name: 'cycle',
+            helper: 'Federal election cycle',
+            options: [
+                ['1990','1990'], ['1992','1992'], ['1994','1994'], ['1996','1996'],
+                ['1998','1998'], ['2000','2000'], ['2002','2002'], ['2004','2004'],
+                ['2006','2006'], ['2008','2008'], ['2010','2010']
+            ]
+        }),
+        
+        // entity fields
+        
+        contributor: TD.DataFilter.EntityField({
+            label: 'Contributor',
+            name: 'contributor_entity',
+            helper: 'Name of individual or PAC that made contribution'
+        }),
+                
+        recipient: TD.DataFilter.EntityField({
+            label: 'Recipient',
+            name: 'recipient_entity',
+            helper: 'Name of candidate or PAC that received contribution'
+        }),
+
+        organization: TD.DataFilter.EntityField({
+            label: 'Organization',
+            name: 'organization_entity',
+            helper: 'Corporation related to contribution'
+        }),
+        
+        // date 
         
         datestamp: TD.DataFilter.DateRangeField({
             label: 'Date',
@@ -355,14 +400,10 @@ $().ready(function() {
                 ['urn:fec:contribution','Federal'],
                 ['urn:nimsp:contribution','State']
             ]
-        }),
-        
-        organization: TD.DataFilter.EntityField({
-            label: 'Organization',
-            name: 'organization_entity',
-            helper: 'Corporation related to contribution'
         })
         
     }
+    
+    TD.DataFilter.init();
     
 });
