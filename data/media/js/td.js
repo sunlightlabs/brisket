@@ -28,22 +28,59 @@ TD.DataFilter = {
             return false;
         });
         
-        /***
-         * TEMPORARILY BIND DOWNLOAD DATA SET FOR DEBUGGING
-         */
-        $('#downloadDataSet').click(function() {
+        // bind data refresh
+        $('#id_refreshdata').bind('click', function() {
+            var qs = '';
             var values = TD.DataFilter.values();
             for (attr in values) {
-                alert(attr + '=' + _.reduce(values[attr], '', function(memo, item) {
+                if (qs) qs += '&';
+                var val = _.reduce(values[attr], '', function(memo, item) {
                     if (item && item != '') {
                         if (memo) memo += '|';
                         memo += item;
                     }
                     return memo;
-                }));
+                });
+                qs += attr + '=' + val;
             }
+            $('#mainTable tbody').empty();
+            $.getJSON('/data/contributions/?' + qs, function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    var contrib = data[i];
+                    var className = (i % 2 == 0) ? 'even' : 'odd';
+                    var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
+                    var content = '<tr class="' + className + '">';
+                    content += '<td>' + jurisdiction + '</td>';
+                    content += '<td>' + (contrib.datestamp || '&nbsp;') + '</td>';
+                    content += '<td>$' + contrib.amount + '</td>';
+                    content += '<td>' + contrib.contributor_name + '</td>';
+                    content += '<td>' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
+                    content += '<td>' + contrib.recipient_name + '</td>';
+                    content += '</tr>';
+                    $('#mainTable tbody').append(content);
+                }
+            });
             return false;
         });
+        
+        $('#downloadDataSet').bind('click', function() {
+            var qs = '';
+            var values = TD.DataFilter.values();
+            for (attr in values) {
+                if (qs) qs += '&';
+                var val = _.reduce(values[attr], '', function(memo, item) {
+                    if (item && item != '') {
+                        if (memo) memo += '|';
+                        memo += item;
+                    }
+                    return memo;
+                });
+                qs += attr + '=' + val;
+            }
+            window.location.replace("/data/contributions/download/?" + qs);
+            return false;
+        });
+        
     },
     
     addField: function(field) {
@@ -179,9 +216,6 @@ TD.DataFilter.OperatorField = function(config) {
             var op = config.operators[i];
             content += '<option value="' + op[0] + '">' + op[1] + '</option>';
         }
-        // content += '<option value="&gt;">greater than</option>';
-        // content += '<option value="&lt;">less than</option>';
-        // content += '<option value="=">equal to</option>';
         content += '</select>';
         content += '<input id="field_' + this.id + '_' + config.name + '" type="text" name="' + config.name + '"/>';
         content += '</li>';
@@ -356,18 +390,12 @@ $().ready(function() {
     
     TD.DataFilter.registry = {
         
-        // amount and cycle
+        // amount, cycle, and state
         
         amount: TD.DataFilter.OperatorField({
             label: 'Amount',
             name: 'amount',
-            helper: 'Amount of contribution in dollars',
-            operators: [
-                ['&gt;', 'greater than'],
-                ['&lt;', 'less than'],
-                ['=', 'equal to'],
-                ['!!!!!', 'awesomer than']
-            ]
+            helper: 'Amount of contribution in dollars'
         }),
 
         cycle: TD.DataFilter.DropDownField({
@@ -383,7 +411,7 @@ $().ready(function() {
         
         state: TD.DataFilter.DropDownField({
             label: 'State',
-            name: 'contributor_state',
+            name: 'state',
             helper: 'State from which the contribution was made',
             options: [
                 ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
