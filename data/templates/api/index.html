@@ -1,75 +1,82 @@
-{% extends "base.html" %}
+{% extends "base_large.html" %}
 
 {% block content %}
+    <div class="module whitebox">
+		<h2>Transparency Data API</h2>
+		<ul>
+			<li>
+				<div class="api-docs">
+					<h3>Subject Heading</h3>
+					<span class="apiTitle">Subject Title</span>
+					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
+					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
+				</div>
+			</li>
+			<li>
+				<div class="api-docs">
+					<h3>Subject Heading</h3>
+					<span class="apiTitle">Subject Title</span>
+					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
+					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
+				</div>
+			</li>
+			<li>
+				<div class="api-docs">
+					<h3>Subject Heading</h3>
+					<span class="apiTitle">Subject Title</span>
+					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
+					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
+				</div>
+			</li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+
     {% if user.is_authenticated %}
     
         {% with user.api_keys.all|first as key %}
-    
-            <dl>
-                <dt>Your API key</dt>
-                <dd>{{ key }}</dd>
-            </dl>
-            
-            <h2 id="auth">Authentication</h2>
-            
-            
-            
-            
-            
-            <h2>Methods and Query String Parameters</h2>
-            <p>key query string parameter or X-API-KEY HTTP header</p>
-                        
-            <h3>Common Parameters</h3>
-            <dl>    
-                <dt>limit</dt>
-                <dd>The maximum number of records to be returned. The default and maximum value is 100,000 records. If you need more data than this, please download a partial dataset from the <a href="{% url bulk_index %}">bulk downloads</a>.</dd>
-                <dt>key</dt>
-                <dd>Your API key. The key may also be passed as a X-API-KEY HTTP request header. See the <a href="#auth">authentication documentation</a> for more information.</dd>
-                <dt>format</dt>
-                <dd>The response format. Allowed values are:
-                    <table>
-                        <tr>
-                            <th>Format</th>
-                            <th>Description</th>
-                            <th>Content-Type</th>
-                        </tr>
-                        <tr>
-                            <td>csv</td>
-                            <td><a href="http://tools.ietf.org/html/rfc4180">Comma-Separated Values</a></td>
-                            <td>text/csv</td>
-                        </tr>
-                        <tr>
-                            <td>json</td>
-                            <td><a href="http://json.org">JavaScript Object Notation</a></td>
-                            <td>application/json</td>
-                        </tr>
-                        <tr>
-                            <td>xml</td>
-                            <td><a href="http://www.w3.org/XML/">Extensible Markup Language</a></td>
-                            <td>text/xml</td>
-                        </tr>
-                    </table>
-                </dd>
-            </dl>
-                    
-            <h3>Contributions</h3>
-            <p>/api/1.0/contributions.&lt;format&gt;</p>
-                    
-            <h3>Entities</h3>
-            <p>/api/1.0/entities/&lt;entity_id&gt;.&lt;format&gt;</p>
-        
-        
-        
-        
-        
-            Example API calls:
-            <a href="?key={{ key }}">x</a>
-        
+            <h2>Your API Key</h2>
+            <p>{{ key }}</p>
         {% endwith %}
         
     {% else %}
-        <p>An account is required to access the API.</p>
-        <a href="{% url auth_login %}">Login to existing account.</a>
-        <a href="{% url registration_register %}">Create a new account.</a>
+    
+        <div class="module login">
+    		<h2>Log In</h2>
+		    <form method="post" action="{% url django.contrib.auth.views.login %}">
+    			<ul class="login">
+    				<li>
+    					<label id="userName">User Name:</label>
+    					<input id="userNameField" type="text" name="username"/>
+    				</li>
+    				<li>
+    					<label id="loginPass">Password:</label>
+    					<input id="loginPassField" type="password" name="password"/>
+    				</li>
+    				<li>
+    					<span class="newpass">
+    						<a href="{% url registration_register %}">New User</a><!-- / <a href="#">Password Help?</a> -->
+    					</span>	
+    				</li>	
+    				<li>
+    					<button class="signIn" type="submit">
+    						<span>Sign In</span>
+    					</button>
+    				</li>	
+    			</ul>
+			</form>
+			<div class="clear"></div>
+    	</div>
+    	
     {% endif %}
+    
+	<div class="module partner">
+		<h2>Partnered With</h2>
+		<a id="openSecrets" href="#"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
+		<a id="nimsp" href="#"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
+		<div class="clear"></div>
+	</div>
 {% endblock %}

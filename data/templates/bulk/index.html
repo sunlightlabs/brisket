@@ -1,5 +1,77 @@
 {% extends "base.html" %}
 
+{% block sidebar %}
+    <div class="module">
+    	<h2>Bulk Downloads</h2>
+    	<span class="helper">Precomputed data downloads for your convience just select the State, Government Level, and Cycle in which you are seeking</span>
+    	<form id="filterBulk" action="." method="get">
+    		<ul>
+    			<li>
+    				<select class="bulk_filter" name="filter" disabled="disabled">
+    					<option value="all">State</option>
+    					<option value="1">filter</option>
+    					<option value="2">filter</option>
+    					<option value="3">filter</option>
+    				</select>
+    			</li>
+    			<li>
+    				<select class="bulk_filter" name="filter" disabled="disabled">
+    					<option value="all">Government Level</option>
+    					<option value="1">filter</option>
+    					<option value="2">filter</option>
+    					<option value="3">filter</option>
+    				</select>
+    			</li>
+    			<li>
+    				<select class="bulk_filter" name="filter" disabled="disabled">
+    					<option value="all">Cycle</option>
+    					<option value="1">filter</option>
+    					<option value="2">filter</option>
+    					<option value="3">filter</option>
+    				</select>
+    			</li>
+    			<li>
+    			<!--
+    			<button class="bulkBtn" type="submit" disabled="disabled">
+    			    <span>Search</span>
+    			</button>
+    			-->
+    			</li>
+    		</ul>
+    	</form>
+    	<div class="clear"></div>
+    </div>
+    <div class="module partner">
+    	<h2>Partnered With</h2>
+    	<a id="openSecrets" href="#"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
+    	<a id="nimsp" href="#"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
+    	<div class="clear"></div>
+    </div>
+{% endblock %}
+
+
 {% block content %}
-    Download some bulk data.
+    <div class="module whitebox">
+        
+        <h2>Bulk downloads will be added soon</h2>
+        
+		<ul id="bulkResult">
+			<li>
+				<div class="resultMetaData">
+					<span class="bulkResult">State - Government Level - Cycle Searched</span>
+					<span class="helper">size of download &amp; format</span>
+				</div>
+				<!-- <a class="downloadBulkData" href="#">Download Bulk Data</a> -->
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="resultMetaData">
+					<span class="bulkResult">State - Government Level - Cycle Searched</span>
+					<span class="helper">size of download &amp; format</span>
+				</div>
+				<!-- <a class="downloadBulkData" href="#">Download Bulk Data</a> -->
+				<div class="clear"></div>
+			</li>
+		</ul>
+	</div>
 {% endblock %}
