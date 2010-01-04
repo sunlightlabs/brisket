@@ -160,6 +160,14 @@ TD.DataFilter.OperatorField = function(config) {
     var that = new TD.DataFilter.Field();
     that.config = config;
     
+    if (!config.operators) {
+        config.operators = [
+            ['&gt;', 'greater than'],
+            ['&lt;', 'less than'],
+            ['=', 'equal to']
+        ]
+    }
+    
     that.render = function() {
         var content = '';
         content += '<li id="field_' + this.id + '" class="operatorField">';
@@ -167,10 +175,13 @@ TD.DataFilter.OperatorField = function(config) {
         content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
         content += '<span class="helper">' + config.helper + '</span>';
         content += '<select id="field_' + this.id + '_' + config.name + '_operator" name="' + config.name + '_operator">';
-        content += '<option value="&gt;">greater than</option>';
-        content += '<option value="&lt;">less than</option>';
-        content += '<option value="=">equal to</option>';
-        content += '<option value="!=">not equal to</option>';
+        for (var i = 0; i < config.operators.length; i++) {
+            var op = config.operators[i];
+            content += '<option value="' + op[0] + '">' + op[1] + '</option>';
+        }
+        // content += '<option value="&gt;">greater than</option>';
+        // content += '<option value="&lt;">less than</option>';
+        // content += '<option value="=">equal to</option>';
         content += '</select>';
         content += '<input id="field_' + this.id + '_' + config.name + '" type="text" name="' + config.name + '"/>';
         content += '</li>';
@@ -350,7 +361,13 @@ $().ready(function() {
         amount: TD.DataFilter.OperatorField({
             label: 'Amount',
             name: 'amount',
-            helper: 'Amount of contribution in dollars'
+            helper: 'Amount of contribution in dollars',
+            operators: [
+                ['&gt;', 'greater than'],
+                ['&lt;', 'less than'],
+                ['=', 'equal to'],
+                ['!!!!!', 'awesomer than']
+            ]
         }),
 
         cycle: TD.DataFilter.DropDownField({
@@ -361,6 +378,27 @@ $().ready(function() {
                 ['1990','1990'], ['1992','1992'], ['1994','1994'], ['1996','1996'],
                 ['1998','1998'], ['2000','2000'], ['2002','2002'], ['2004','2004'],
                 ['2006','2006'], ['2008','2008'], ['2010','2010']
+            ]
+        }),
+        
+        state: TD.DataFilter.DropDownField({
+            label: 'State',
+            name: 'contributor_state',
+            helper: 'State from which the contribution was made',
+            options: [
+                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
+                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
+                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
+                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
+                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
+                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
+                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
+                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
+                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
+                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
+                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
+                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
+                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
             ]
         }),
         
