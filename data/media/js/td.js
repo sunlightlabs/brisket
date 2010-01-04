@@ -1,21 +1,30 @@
-
-var TD = { };
+TD = { };
 
 TD.DataFilter = {
-    fields: { },
-    registry: { },
+    
+    fields: { },    // fields added to the filter
+    registry: { },  // registry of allowed fields
+    
     init: function() {
+        
+        // bind filter form to the submit button
         $('#filterForm').bind('submit', function() {
             return false;
         });
+        
+        // bind button to add a new field based on field type selection
         $('#filterForm a.plus-button').bind('click', function() {
             var fieldType = $('#filterForm #id_filter').val();
-            var fieldGenerator = TD.DataFilter.registry[fieldType];
-            if (fieldGenerator != undefined) {
-                TD.DataFilter.addField(fieldGenerator());
+            var fieldPrototype = TD.DataFilter.registry[fieldType];
+            if (fieldPrototype != undefined) {
+                TD.DataFilter.addField(fieldPrototype.instance());
             }
             return false;
         });
+        
+        /***
+         * TEMPORARILY BIND DOWNLOAD DATA SET FOR DEBUGGING
+         */
         $('#downloadDataSet').click(function() {
             var values = TD.DataFilter.values();
             for (attr in values) {
@@ -28,16 +37,19 @@ TD.DataFilter = {
             return false;
         });
     },
+    
     addField: function(field) {
-        var node = field.render();
-        node.appendTo('#filterForm > ul');
-        field.bind(node);
-        TD.DataFilter.fields[field.id] = field;
+        var node = field.render();              // create new DOM node
+        TD.DataFilter.fields[field.id] = field; // store reference to field
+        field.bind(node);                       // bind field object to DOM
+        node.appendTo('#filterForm > ul');      // append DOM node to filter list
     },
+    
     removeField: function(field) {
-        $('#field_' + field.id).remove();
-        delete TD.DataFilter.fields[field.id];
+        delete TD.DataFilter.fields[field.id];  // remove reference to field
+        $('#field_' + field.id).remove();       // remove field from DOM
     },
+    
     values: function() {
         return _(TD.DataFilter.fields).chain()
             .map(function(item) { return item.data(); })
@@ -50,20 +62,31 @@ TD.DataFilter = {
                 return memo;
             }).value();
     }
+    
 };
 
-TD.DataFilter.Field = function() {
-    this.id = Math.floor(Math.random() * 90000) + 10000;
-};
+/* create base Field object
+*/
+TD.DataFilter.Field = function() { };
 TD.DataFilter.Field.prototype.bind = function(node) {
+    // bind DOM node to the remove field method
     var me = this;
     node.find('a.minus-button').bind('click', function() {
         TD.DataFilter.removeField(me);
         return false;
     });
 };
+TD.DataFilter.Field.prototype.instance = function() {
+    // create a new instance of this field
+    function F() { }
+    F.prototype = this;
+    var obj = new F();
+    obj.id = Math.floor(Math.random() * 90000) + 10000;
+    return obj;
+};
 
-
+/* TextField object has a single text input
+*/
 TD.DataFilter.TextField = function(config) {
     
     var that = new TD.DataFilter.Field();
@@ -87,7 +110,9 @@ TD.DataFilter.TextField = function(config) {
     
 };
 
-
+/* DropDownField displays a select box of options.
+    - options -- list of [value, text] lists
+*/
 TD.DataFilter.DropDownField = function(config) {
     
     var that = new TD.DataFilter.Field();
@@ -115,7 +140,9 @@ TD.DataFilter.DropDownField = function(config) {
     
 };
 
-
+/* OperatorField displays a text input with an operation select box:
+   greater than, less than, equal to, not equal to
+*/
 TD.DataFilter.OperatorField = function(config) {
     
     var that = new TD.DataFilter.Field();
@@ -130,6 +157,7 @@ TD.DataFilter.OperatorField = function(config) {
         content += '<option value="&gt;">greater than</option>';
         content += '<option value="&lt;">less than</option>';
         content += '<option value="=">equal to</option>';
+        content += '<option value="!=">not equal to</option>';
         content += '</select>';
         content += '<input id="field_' + this.id + '_' + config.name + '" type="text" name="' + config.name + '"/>';
         content += '</li>';
@@ -145,7 +173,9 @@ TD.DataFilter.OperatorField = function(config) {
     return that;
 };
 
-
+/* DateRangeField displays two text input widgets that specify the dates in the range.
+   DateRangeField depends on jquery-ui for the date picker widgets.
+*/
 TD.DataFilter.DateRangeField = function(config) {
     
     var that = new TD.DataFilter.Field();
@@ -192,7 +222,7 @@ TD.DataFilter.EntityField = function(config) {
     that.render = function() {
         
         var content = '';
-        content += '<li id="field_' + this.id + '" class="entityField">';
+        content += '<li id="field_' + this.id + '" class="entityField" data-id="' + this.id + '">';
         content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
         content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
         content += '<span class="helper">' + config.helper + '</span>';
@@ -206,7 +236,8 @@ TD.DataFilter.EntityField = function(config) {
         // by callback from autocomplete field
         elem.find('input').bind('keypress', function(e) {
             if (e.which == 13) {
-                that.addSelection('xxxx', $(this).val());
+                var fieldId = $(this).parent('li').attr('data-id');
+                TD.DataFilter.fields[fieldId].addSelection('xxxx', $(this).val());
                 return false;
             }
         });
@@ -244,13 +275,17 @@ TD.DataFilter.EntityField = function(config) {
 };
 
 
-/*
- * main search box functionality
- */
- 
+/* main search box functionality
+*/ 
 TD.SearchBox = {
+    
     isValid: false,
+    
     init: function() {
+        
+        // on focus, clear text if equal to title
+        // on blur, set value to title if no value is specified
+        // trigger blur to set value to title
         $('#searchBtn').bind('focus', function() {
             if (this.value === this.title) {
                 this.value = '';
@@ -262,6 +297,8 @@ TD.SearchBox = {
                 TD.SearchBox.isValid = false;
             }
         }).trigger('blur');
+        
+        // do search
         $('button.searchBtn').bind('click', function() {
             var entityId = $('#searchEntityID').val();
             if (TD.SearchBox.isValid && entityId) {
@@ -271,13 +308,13 @@ TD.SearchBox = {
             }
             return false;
         });
+        
     }
+    
 };
 
-/*
- * UI modifiers
- */
- 
+/* UI modifiers
+*/ 
 TD.UI = {
     fluid: function() {
         $('body').addClass('filteredSearch');
@@ -285,46 +322,45 @@ TD.UI = {
     fixed: function() {
         $('body').removeClass('filteredSearch');
     }
-}
+};
 
+/* main ready function
+*/
 $().ready(function() {
     
     TD.SearchBox.init();
     TD.DataFilter.init();
     
     TD.DataFilter.registry = {
-        amount: function() {
-            return TD.DataFilter.OperatorField({
-                label: 'Amount',
-                name: 'amount',
-                helper: 'Amount of contribution in dollars'
-            });
-        },
-        datestamp: function() {
-            return TD.DataFilter.DateRangeField({
-                label: 'Date',
-                name: 'datestamp',
-                helper: 'Date of contribution'
-            });
-        },
-        jurisdiction: function() {
-            return TD.DataFilter.DropDownField({
-                label: 'Jurisdiction',
-                name: 'transaction_namespace',
-                helper: 'State or federal seat',
-                options: [
-                    ['urn:fec:contribution','Federal'],
-                    ['urn:nimsp:contribution','State']
-                ]
-            });
-        },
-        organization: function() {
-            return TD.DateFilter.EntityField({
-                label: 'Organization',
-                name: 'organization_entity',
-                helper: 'Corporation related to contribution'
-            });
-        }
+        
+        amount: TD.DataFilter.OperatorField({
+            label: 'Amount',
+            name: 'amount',
+            helper: 'Amount of contribution in dollars'
+        }),
+        
+        datestamp: TD.DataFilter.DateRangeField({
+            label: 'Date',
+            name: 'datestamp',
+            helper: 'Date of contribution'
+        }),
+        
+        jurisdiction: TD.DataFilter.DropDownField({
+            label: 'Jurisdiction',
+            name: 'transaction_namespace',
+            helper: 'State or federal seat',
+            options: [
+                ['urn:fec:contribution','Federal'],
+                ['urn:nimsp:contribution','State']
+            ]
+        }),
+        
+        organization: TD.DataFilter.EntityField({
+            label: 'Organization',
+            name: 'organization_entity',
+            helper: 'Corporation related to contribution'
+        })
+        
     }
     
 });
