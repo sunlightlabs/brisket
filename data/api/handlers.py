@@ -5,7 +5,15 @@ from dcdata.contribution.models import Contribution
 from dc_web.search.contributions import CONTRIBUTION_SCHEMA
 from matchbox.queries import search_entities_by_name
 
-RESERVED_PARAMS = ('key','limit')
+RESERVED_PARAMS = ('key','limit','format')
+
+def load_contributions(params):
+    limit = int(params.get('limit', 10))
+    for param in RESERVED_PARAMS:
+        if param in params:
+            del params[param]
+    q = CONTRIBUTION_SCHEMA.extract_query(params)
+    return Contribution.objects.filter(*q)[:limit]
 
 #
 # contribution filter
@@ -18,12 +26,7 @@ class ContributionFilterHandler(BaseHandler):
     
     def read(self, request):
         params = request.GET.copy()
-        limit = int(request.GET.get('limit', 10))
-        for param in RESERVED_PARAMS:
-            if param in params:
-                del params[param]
-        q = CONTRIBUTION_SCHEMA.extract_query(params)
-        return Contribution.objects.filter(*q)[:limit]
+        return load_contributions(params)
 
 #
 # entity handlers
