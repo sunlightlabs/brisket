@@ -29,8 +29,10 @@ TD.DataFilter = {
             var values = TD.DataFilter.values();
             for (attr in values) {
                 alert(attr + ' ' + _.reduce(values[attr], '', function(memo, item) {
-                    if (memo) memo += '|';
-                    memo += item;
+                    if (item && item != '') {
+                        if (memo) memo += '|';
+                        memo += item;
+                    }
                     return memo;
                 }));
             }
@@ -226,7 +228,7 @@ TD.DataFilter.EntityField = function(config) {
         content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
         content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
         content += '<span class="helper">' + config.helper + '</span>';
-        content += '<ul></ul>';
+        content += '<ul class="entity_values"></ul>';
         content += '<input id="field_' + this.id + '_' + config.name + '" type="text" name="' + config.name + '"/>';
         content += '</li>';
         
@@ -237,7 +239,7 @@ TD.DataFilter.EntityField = function(config) {
         elem.find('input').bind('keypress', function(e) {
             if (e.which == 13) {
                 var fieldId = $(this).parent('li').attr('data-id');
-                TD.DataFilter.fields[fieldId].addSelection('xxxx', $(this).val());
+                TD.DataFilter.fields[fieldId].addSelection('xxxx_' + Math.floor(Math.random() * 90000), $(this).val());
                 return false;
             }
         });
@@ -248,18 +250,16 @@ TD.DataFilter.EntityField = function(config) {
     
     that.data = function() {
         
-        var value = _.reduce(
-            $("#field_" + this.id + " ul li"),
-            '',
-            function(memo, item) {
-                var text = item.innerHTML;
-                if (text) {
-                    if (memo) memo += '|';
-                    memo += text;
-                }
-                return memo;
-            });
-            
+        var value = '';
+        
+        $("#field_" + this.id + " ul.entity_values li").each(function(item) {
+            var text = $(this).attr('data-id');
+            if (text) {
+                if (value) value += '|';
+                value += text;
+            }
+        });
+        
         return [config.name, value];
         
     };
