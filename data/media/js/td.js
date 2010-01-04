@@ -28,7 +28,7 @@ TD.DataFilter = {
         $('#downloadDataSet').click(function() {
             var values = TD.DataFilter.values();
             for (attr in values) {
-                alert(attr + ' ' + _.reduce(values[attr], '', function(memo, item) {
+                alert(attr + '=' + _.reduce(values[attr], '', function(memo, item) {
                     if (item && item != '') {
                         if (memo) memo += '|';
                         memo += item;
@@ -105,7 +105,8 @@ TD.DataFilter.TextField = function(config) {
     };
     
     that.data = function() {
-        return [config.name, $("#field_" + this.id + " input").val()];
+        return [config.name,
+            encodeURIComponent($("#field_" + this.id + " input").val())];
     };
     
     return that;
@@ -135,7 +136,8 @@ TD.DataFilter.DropDownField = function(config) {
     };
     
     that.data = function() {
-        return [config.name, $("#field_" + this.id + " select").val()];
+        return [config.name,
+            encodeURIComponent($("#field_" + this.id + " select").val())];
     };
     
     return that;
@@ -169,7 +171,7 @@ TD.DataFilter.OperatorField = function(config) {
     that.data = function() {
         var selector = "#field_" + this.id + "_" + config.name;
         return [config.name,
-            $(selector + "_operator").val() + '|' + $(selector).val()];
+            $(selector + "_operator").val() + '|' + encodeURIComponent($(selector).val())];
     };
     
     return that;
@@ -209,7 +211,7 @@ TD.DataFilter.DateRangeField = function(config) {
     
     that.data = function() {
         var inputs = $("#field_" + this.id + " input");
-        return [config.name, inputs[0].value + '-' + inputs[1].value];
+        return [config.name, encodeURIComponent(inputs[0].value) + '-' + encodeURIComponent(inputs[1].value)];
     };
     
     return that;
@@ -252,11 +254,11 @@ TD.DataFilter.EntityField = function(config) {
         
         var value = '';
         
-        $("#field_" + this.id + " ul.entity_values li").each(function(item) {
-            var text = $(this).attr('data-id');
-            if (text) {
+        $("#field_" + this.id + " ul.entity_values li").each(function(i) {
+            var item = $(this).attr('data-id');
+            if (item) {
                 if (value) value += '|';
-                value += text;
+                value += encodeURIComponent(item);
             }
         });
         
