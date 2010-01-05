@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load media %}
 
 {% block bodyclass %}filteredSearch{% endblock %}
 
@@ -25,42 +26,78 @@
 {% endblock %}
 
 {% block content %}
-    <div class="module tableButtons">
-        <a id="downloadDataSet" href="#">Download Data Set</a>
-        <a id="reportError" href="#">Report Error</a>
+
+    <div id="module_directions">
+        <div class="module whitebox">
+    		<h3>Using Filtered Search</h3>
+    		<ol id="instructionSteps">
+    			<li>
+    				<div class="instruct1">
+    					<span class="instructions">Pick A Field</span>
+    					<p class="text">Lorum ipsum dolor emut</p>
+    				</div>
+    				<img src="{% media_url %}/images/pickfield-image.png" alt="description" title="pick a field"/>
+    				<div class="clear"></div>
+    			</li>
+    			<li>
+    				<div class="instruct2">
+    					<span class="instructions">Add Filter</span>
+    					<p class="text">Lorum ipsum dolor emut</p>
+    				</div>
+    				<img src="{% media_url %}/images/addfilter-image.png" alt="description" title="add filter"/>
+    				<div class="clear"></div>
+    			</li>
+    			<li>
+    				<div class="instruct3">
+    					<span class="instructions">Data Updates</span>
+    					<p class="text">Lorum ipsum dolor emut</p>
+    				</div>
+    				<img src="{% media_url %}/images/dataupdates-image.png" alt="description" title="data updates"/>
+    				<div class="clear"></div>
+    			</li>
+    		</ol>
+    	</div>
     </div>
-    <div class="module">
-        <div id="tableMetadata">
-            <div id="matches">
-                <span>350,000,000 Matches</span>
+
+    <div id="module_transactions">
+        <div class="module tableButtons">
+            <a id="downloadDataSet" href="#">Download Data Set</a>
+            <a id="reportError" href="#">Report Error</a>
+        </div>
+        <div class="module">
+            <div id="tableMetadata">
+                <div id="matches">
+                    <span>350,000,000 Matches</span>
+                </div>
+                <div class="perPage">
+                   <span>Matches Per Page:</span>
+                   <a href="#">25</a>
+                   <a href="#">50</a>
+                   <a href="#">100</a>
+                </div>
             </div>
-            <div class="perPage">
-               <span>Matches Per Page:</span>
-               <a href="#">25</a>
-               <a href="#">50</a>
-               <a href="#">100</a>
+            <div id="tableScroll">
+                <table id="mainTable">
+                    <thead>
+                        <tr id="titles">
+                            <th>Type</th>
+                            <th>Date Stamp</th>
+                            <th>Amount</th>
+                            <th>Contributor</th>
+                            <th>Location</th>
+                            <th>Recipient</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="paginator">
+                    <span>Page</span>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                </div>
             </div>
         </div>
-        <div id="tableScroll">
-            <table id="mainTable">
-                <thead>
-                    <tr id="titles">
-                        <th>Type</th>
-                        <th>Date Stamp</th>
-                        <th>Amount</th>
-                        <th>Contributor</th>
-                        <th>Location</th>
-                        <th>Recipient</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <div class="paginator">
-                <span>Page</span>
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-            </div>
-        </div>
     </div>
+    
 {% endblock %}
