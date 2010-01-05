@@ -646,3 +646,5 @@ ul.login input{
 span.newpass {
 	float: left;
 }
+
+#module_transactions { display: none; }

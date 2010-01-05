@@ -41,7 +41,7 @@ TD.DataFilter = {
                     }
                     return memo;
                 });
-                qs += attr + '=' + val;
+                qs += attr + '=' + encodeURIComponent(val);
             }
             $('#mainTable tbody').empty();
             $.getJSON('/data/contributions/?' + qs, function(data) {
@@ -75,7 +75,7 @@ TD.DataFilter = {
                     }
                     return memo;
                 });
-                qs += attr + '=' + val;
+                qs += attr + '=' + encodeURIComponent(val);
             }
             window.location.replace("/data/contributions/download/?" + qs);
             return false;
@@ -88,6 +88,7 @@ TD.DataFilter = {
         TD.DataFilter.fields[field.id] = field; // store reference to field
         field.bind(node);                       // bind field object to DOM
         node.appendTo('#filterForm > ul');      // append DOM node to filter list
+        $('body').trigger('fieldadded');
     },
     
     removeField: function(field) {
@@ -236,6 +237,11 @@ TD.DataFilter.OperatorField = function(config) {
 */
 TD.DataFilter.DateRangeField = function(config) {
     
+    var ymdFormat = function(mdy) {
+        var mdyParts = mdy.split('/');
+        return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1]
+    };
+    
     var that = new TD.DataFilter.Field();
     that.config = config;
     
@@ -252,13 +258,23 @@ TD.DataFilter.DateRangeField = function(config) {
         
         var elem = $(content);
         
-        var options = {
+        elem.find('input.date_start').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            duration: '',
+            onSelect: function(dateText, inst) {
+                var endWidget = elem.find('input.date_end');
+                if (!endWidget.val()) {
+                    var now = elem.find('input.date_start').datepicker('getDate');
+                    endWidget.datepicker('setDate', now);
+                }
+            }
+        });
+        elem.find('input.date_end').datepicker({
             changeMonth: true,
             changeYear: true,
             duration: ''
-        }        
-        elem.find('input.date_start').datepicker(options);
-        elem.find('input.date_end').datepicker(options);
+        });
         
         return elem;
         
@@ -266,7 +282,9 @@ TD.DataFilter.DateRangeField = function(config) {
     
     that.data = function() {
         var inputs = $("#field_" + this.id + " input");
-        return [config.name, encodeURIComponent(inputs[0].value) + '-' + encodeURIComponent(inputs[1].value)];
+        var start = ymdFormat(inputs[0].value);
+        var end = ymdFormat(inputs[0].value);
+        return [config.name, '><|' + start + '|' + end];
     };
     
     return that;
@@ -291,6 +309,17 @@ TD.DataFilter.EntityField = function(config) {
         content += '</li>';
         
         var elem = $(content);
+        elem.find('input').autocomplete('/data/entities/' + config.name + '/', {
+            minChars: 2,
+            mustMatch: true,
+            formatItem: function(row, position, count, terms) {
+                var params = row[0].split(',', 2);
+                alert(params);
+                return '<span class="id" style="color: red;">' + params[0] + '</span> ' + params[1]; 
+            }
+        }).result(function(ev, li) {
+            
+        });
         
         // temporarily add something to the field, this will be replaced
         // by callback from autocomplete field
@@ -395,7 +424,12 @@ $().ready(function() {
         amount: TD.DataFilter.OperatorField({
             label: 'Amount',
             name: 'amount',
-            helper: 'Amount of contribution in dollars'
+            helper: 'Amount of contribution in dollars',
+            operators: [
+                ['&gt;', 'greater than'],
+                ['&lt;', 'less than'],
+                ['&gt;&lt;', 'between']
+            ]
         }),
 
         cycle: TD.DataFilter.DropDownField({
@@ -434,19 +468,19 @@ $().ready(function() {
         
         contributor: TD.DataFilter.EntityField({
             label: 'Contributor',
-            name: 'contributor_entity',
+            name: 'contributor',
             helper: 'Name of individual or PAC that made contribution'
         }),
                 
         recipient: TD.DataFilter.EntityField({
             label: 'Recipient',
-            name: 'recipient_entity',
+            name: 'recipient',
             helper: 'Name of candidate or PAC that received contribution'
         }),
 
         organization: TD.DataFilter.EntityField({
             label: 'Organization',
-            name: 'organization_entity',
+            name: 'organization',
             helper: 'Corporation related to contribution'
         }),
         
@@ -454,7 +488,7 @@ $().ready(function() {
         
         datestamp: TD.DataFilter.DateRangeField({
             label: 'Date',
-            name: 'datestamp',
+            name: 'date',
             helper: 'Date of contribution'
         }),
         
@@ -471,5 +505,10 @@ $().ready(function() {
     }
     
     TD.DataFilter.init();
+    
+    $('body').bind('fieldadded', function() {
+        $('#module_directions').hide();
+        $('#module_transactions').show();
+    });
     
 });
