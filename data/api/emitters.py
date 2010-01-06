@@ -49,7 +49,7 @@ class StreamingLoggingEmitter(Emitter):
             query_string=request.META['QUERY_STRING'],
             total_records=stats.stats['total'],
             crp_records=stats.stats.get('urn:fec:transaction', 0),
-            nimsp_records=stats.stats.get('urn:nimsp:transaction'),
+            nimsp_records=stats.stats.get('urn:nimsp:transaction', 0),
             execution_time=0, # fill this out!!!
         )
         
