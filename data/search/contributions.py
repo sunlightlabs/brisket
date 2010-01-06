@@ -47,6 +47,9 @@ def _amount_between_generator(lower, upper):
 def _cycle_in_generator(*cycles):
     return Q(cycle__in=[int(cycle) for cycle in cycles])
 
+def _jurisdiction_in_generator(*jurisdiction):
+    return Q(transaction_namespace__in=jurisdiction)
+
 
 # Strings used in the HTTP request syntax
 
@@ -61,6 +64,7 @@ RECIPIENT_FIELD = 'recipient'
 ENTITY_FIELD = 'entity'
 AMOUNT_FIELD = 'amount'
 CYCLE_FIELD = 'cycle'
+JURISDICTION_FIELD = 'transaction_namespace'
 
 
 # the final search schema
@@ -71,6 +75,7 @@ CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(CONTRIBUTOR_FIELD, _contributor_in_generator),
                              InclusionField(RECIPIENT_FIELD, _recipient_in_generator),
                              InclusionField(ENTITY_FIELD, _entity_in_generator),
+                             InclusionField(JURISDICTION_FIELD, _jurisdiction_in_generator),
                              OperatorField(DATE_FIELD,
                                    Operator(LESS_THAN_OP, _date_before_generator),
                                    Operator(GREATER_THAN_OP, _date_after_generator),
