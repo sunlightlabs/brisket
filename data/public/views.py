@@ -41,7 +41,7 @@ def data_entities(request, entity_type):
     types = entity_type_map.get(entity_type, [])
     name = request.GET.get('q', None)
     
-    result = search_entities_by_name(name, types[0])
+    result = list(search_entities_by_name(name, types))
     
     return HttpResponse("%s,%s\n" % (e[0], e[1]) for e in result)
 
