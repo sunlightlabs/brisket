@@ -8,6 +8,7 @@ from django.template import RequestContext
 from dc_web.api.handlers import load_contributions, ContributionFilterHandler
 from dc_web.api.urls import contributionfilter_handler
 from matchbox.models import Entity, Normalization
+from matchbox.queries import search_entities_by_name
 from strings.normalizer import basic_normalizer
 
 def index(request):
@@ -37,24 +38,12 @@ entity_type_map = {
 
 def data_entities(request, entity_type):
     
-    types = entity_type_map.get(entity_type, None)
+    types = entity_type_map.get(entity_type, [])
     name = request.GET.get('q', None)
     
-    entity_names = Entity.objects.filter(name__icontains=name, type__in=types).values_list('id', 'name')[:20]
+    result = search_entities_by_name(name, types[0])
     
-    # normalized = basic_normalizer(name)
-    # 
-    # names = Normalization.objects.filter(normalized__startswith=normalized).extra(where=[
-    #     "to_tsvector('simple', 'original') @@ to_tsquery('simple', %s)",
-    # ], params=[name]).values_list('original', flat=True).query.as_sql()
-    # 
-    # print names
-    # 
-    # entities = Entity.objects.filter(type__in=entity_types, name__in=names)
-    # 
-    # print entities.count()
-    
-    return HttpResponse("%s,%s\n" % (e[0], e[1]) for e in entity_names)
+    return HttpResponse("%s,%s\n" % (e[0], e[1]) for e in result)
 
 def data_contributions(request):
     request.GET = request.GET.copy()
