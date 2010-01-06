@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
@@ -9,6 +11,10 @@ from dc_web.api.handlers import load_contributions, ContributionFilterHandler
 from dc_web.api.urls import contributionfilter_handler
 from matchbox.models import Entity, Normalization
 from strings.normalizer import basic_normalizer
+
+API_KEY = getattr(settings, 'SYSTEM_API_KEY', None)
+if not API_KEY:
+    raise ImproperlyConfigured("SYSTEM_API_KEY is a required parameter")
 
 def index(request):
     return render_to_response('index.html', context_instance=RequestContext(request))
@@ -59,12 +65,12 @@ def data_entities(request, entity_type):
 def data_contributions(request):
     request.GET = request.GET.copy()
     request.GET['limit'] = 30
-    request.GET['key'] = 'asdf'
+    request.GET['key'] = API_KEY
     return contributionfilter_handler(request)
     
 def data_contributions_download(request):
     request.GET = request.GET.copy()
-    request.GET['key'] = 'asdf'
+    request.GET['key'] = API_KEY
     request.GET['limit'] = 1000000
     request.GET['format'] = 'csv'
     response = contributionfilter_handler(request)
