@@ -67,4 +67,7 @@ def data_contributions_download(request):
     request.GET['key'] = 'asdf'
     request.GET['limit'] = 1000000
     request.GET['format'] = 'csv'
-    return contributionfilter_handler(request)
+    response = contributionfilter_handler(request)
+    response['Content-Disposition'] = "attachment; filename=contributions.csv"
+    response['Content-Type'] = "text/csv; charset=utf-8"
+    return response

@@ -1,7 +1,32 @@
 {% extends "base.html" %}
+{% load media %}
 
-{% block sidebar %}
-{% endblock %}
-
-{% block content %}
+{% block content_container %}
+    <div class="module greenbox">
+    	<div id="welcome">
+    		<h2>Welcome To Transparency Data</h2>
+    	</div>
+    	<p class="introText">Onem untion explabo reribustiam is eostrum eum res seque nonsequi rest ullectur, odi tet re voles et aliquam fugit magnatem volupti onsequo dipsus adi ut quis el entorion nonsed modigenis voluptibusae conecto dem qui sime restinum et, sandio. Ferit, qui tem exeribus, utem velicatetur <a href="#">Read More ></a></p>
+    	<div class="clear"></div>
+    </div>
+    <div class="mainBody">
+    	<div class="module whiteboxLeft">
+    		<h2>Using Transparency Data</h2>
+    		<img class="searchModule" src="{% media_url %}/images/searchFeature-image.png" alt="searh feature"/>
+    		<p class="moduleText">Onem untion explabo reribustiam is eostrum eum res seque nonsequi rest ullectur, odi tet re voles et aliquam fugit magnatem volupti onsequo dipsus adi ut quis el entorion nonsed modigenis voluptibusae conecto dem qui sime restinum et, sandio. Ferit, qui tem exeribus, utem velicatetur</p>
+    	</div>
+    	<div class="module whiteboxRight">
+    		<h2>Filtering Data Sets</h2>
+    		<img class="searchModule" src="{% media_url %}/images/filterFeature-image.png" alt="searh feature"/>
+    		<p class="moduleText">Onem untion explabo reribustiam is eostrum eum res seque nonsequi rest ullectur, odi tet re voles et aliquam fugit magnatem volupti onsequo dipsus adi ut quis el entorion nonsed modigenis voluptibusae conecto dem qui sime restinum et, sandio. Ferit, qui tem exeribus, utem velicatetur</p>
+    		<a id="getStarted" href="#">Get Started</a>
+    	</div>
+    	<div class="clear"></div>
+    	<div class="module partner">
+    		<h2>Partnered With</h2>
+    		<a id="openSecrets" href="#"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
+    		<a id="nimsp" href="#"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
+    		<div class="clear"></div>
+    	</div>
+    </div>
 {% endblock %}
