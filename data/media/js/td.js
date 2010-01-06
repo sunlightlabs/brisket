@@ -30,21 +30,19 @@ TD.DataFilter = {
         
         // bind data refresh
         $('#id_refreshdata').bind('click', function() {
-            var qs = '';
+            var params = { };
             var values = TD.DataFilter.values();
             for (attr in values) {
-                if (qs) qs += '&';
-                var val = _.reduce(values[attr], '', function(memo, item) {
+                params[attr] = _.reduce(values[attr], '', function(memo, item) {
                     if (item && item != '') {
                         if (memo) memo += '|';
                         memo += item;
                     }
                     return memo;
                 });
-                qs += attr + '=' + encodeURIComponent(val);
             }
             $('#mainTable tbody').empty();
-            $.getJSON('/data/contributions/?' + qs, function(data) {
+            $.getJSON('/data/contributions/', params, function(data) {
                 for (var i = 0; i < data.length; i++) {
                     var contrib = data[i];
                     var className = (i % 2 == 0) ? 'even' : 'odd';
@@ -60,9 +58,47 @@ TD.DataFilter = {
                     $('#mainTable tbody').append(content);
                 }
             });
+            $('#module_directions').hide();
+            $('#module_transactions').show();
             return false;
         });
+        // $('#id_refreshdata').bind('click', function() {
+        //     var qs = '';
+        //     var values = TD.DataFilter.values();
+        //     for (attr in values) {
+        //         if (qs) qs += '&';
+        //         var val = _.reduce(values[attr], '', function(memo, item) {
+        //             if (item && item != '') {
+        //                 if (memo) memo += '|';
+        //                 memo += item;
+        //             }
+        //             return memo;
+        //         });
+        //         qs += attr + '=' + encodeURIComponent(val);
+        //     }
+        //     $('#mainTable tbody').empty();
+        //     $.getJSON('/data/contributions/?' + qs, function(data) {
+        //         for (var i = 0; i < data.length; i++) {
+        //             var contrib = data[i];
+        //             var className = (i % 2 == 0) ? 'even' : 'odd';
+        //             var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
+        //             var content = '<tr class="' + className + '">';
+        //             content += '<td>' + jurisdiction + '</td>';
+        //             content += '<td>' + (contrib.datestamp || '&nbsp;') + '</td>';
+        //             content += '<td>$' + contrib.amount + '</td>';
+        //             content += '<td>' + contrib.contributor_name + '</td>';
+        //             content += '<td>' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
+        //             content += '<td>' + contrib.recipient_name + '</td>';
+        //             content += '</tr>';
+        //             $('#mainTable tbody').append(content);
+        //         }
+        //     });
+        //     $('#module_directions').hide();
+        //     $('#module_transactions').show();
+        //     return false;
+        // });
         
+        // download data set
         $('#downloadDataSet').bind('click', function() {
             var qs = '';
             var values = TD.DataFilter.values();
@@ -88,7 +124,6 @@ TD.DataFilter = {
         TD.DataFilter.fields[field.id] = field; // store reference to field
         field.bind(node);                       // bind field object to DOM
         node.appendTo('#filterForm > ul');      // append DOM node to filter list
-        $('body').trigger('fieldadded');
     },
     
     removeField: function(field) {
@@ -313,9 +348,12 @@ TD.DataFilter.EntityField = function(config) {
             minChars: 2,
             mustMatch: true,
             formatItem: function(row, position, count, terms) {
-                var params = row[0].split(',', 2);
-                alert(params);
-                return '<span class="id" style="color: red;">' + params[0] + '</span> ' + params[1]; 
+                var params = row[0].split(',');
+                var val = params[1];
+                for (var i = 2; i < params.length; i++) {
+                    val += ',' + params[i];
+                }
+                return '<span data-id="' + params[0] + '">' + val + '</span>'; 
             }
         }).result(function(ev, li) {
             
@@ -505,10 +543,5 @@ $().ready(function() {
     }
     
     TD.DataFilter.init();
-    
-    $('body').bind('fieldadded', function() {
-        $('#module_directions').hide();
-        $('#module_transactions').show();
-    });
     
 });
