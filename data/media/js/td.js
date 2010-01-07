@@ -19,7 +19,7 @@ TD.DataFilter = {
         });
         
         // bind button to add a new field based on field type selection
-        $('#filterForm a.plus-button').bind('click', function() {
+        $('#filterForm #id_filter').bind('change', function() {
             var fieldType = $('#filterForm #id_filter').val();
             var fieldPrototype = TD.DataFilter.registry[fieldType];
             if (fieldPrototype != undefined) {
@@ -56,47 +56,15 @@ TD.DataFilter = {
                     content += '<td>' + contrib.recipient_name + '</td>';
                     content += '</tr>';
                     $('#mainTable tbody').append(content);
-                }
+                }    
+                $('#module_loading').hide();
+                $('#module_transactions').show();
             });
             $('#module_directions').hide();
-            $('#module_transactions').show();
+            $('#module_transactions').hide();
+            $('#module_loading').show();
             return false;
         });
-        // $('#id_refreshdata').bind('click', function() {
-        //     var qs = '';
-        //     var values = TD.DataFilter.values();
-        //     for (attr in values) {
-        //         if (qs) qs += '&';
-        //         var val = _.reduce(values[attr], '', function(memo, item) {
-        //             if (item && item != '') {
-        //                 if (memo) memo += '|';
-        //                 memo += item;
-        //             }
-        //             return memo;
-        //         });
-        //         qs += attr + '=' + encodeURIComponent(val);
-        //     }
-        //     $('#mainTable tbody').empty();
-        //     $.getJSON('/data/contributions/?' + qs, function(data) {
-        //         for (var i = 0; i < data.length; i++) {
-        //             var contrib = data[i];
-        //             var className = (i % 2 == 0) ? 'even' : 'odd';
-        //             var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
-        //             var content = '<tr class="' + className + '">';
-        //             content += '<td>' + jurisdiction + '</td>';
-        //             content += '<td>' + (contrib.datestamp || '&nbsp;') + '</td>';
-        //             content += '<td>$' + contrib.amount + '</td>';
-        //             content += '<td>' + contrib.contributor_name + '</td>';
-        //             content += '<td>' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
-        //             content += '<td>' + contrib.recipient_name + '</td>';
-        //             content += '</tr>';
-        //             $('#mainTable tbody').append(content);
-        //         }
-        //     });
-        //     $('#module_directions').hide();
-        //     $('#module_transactions').show();
-        //     return false;
-        // });
         
         // download data set
         $('#downloadDataSet').bind('click', function() {
@@ -303,12 +271,14 @@ TD.DataFilter.DateRangeField = function(config) {
                     var now = elem.find('input.date_start').datepicker('getDate');
                     endWidget.datepicker('setDate', now);
                 }
-            }
+            },
+            yearRange: '1990:2010'
         });
         elem.find('input.date_end').datepicker({
             changeMonth: true,
             changeYear: true,
-            duration: ''
+            duration: '',
+            yearRange: '1990:2010'
         });
         
         return elem;
@@ -353,8 +323,10 @@ TD.DataFilter.EntityField = function(config) {
         content += '</li>';
         
         var elem = $(content);
+        
         var control = elem.find('input');
         control.autocomplete('/data/entities/' + config.name + '/', {
+            delay: 600,
             max: 20,
             minChars: 2,
             mustMatch: true,
@@ -514,7 +486,7 @@ $().ready(function() {
             ]
         }),
         
-        cycle: TD.DataFilter.DropDownField({
+        seat: TD.DataFilter.DropDownField({
             label: 'Seat',
             name: 'seat',
             helper: 'Type of seat for which candidate is running',

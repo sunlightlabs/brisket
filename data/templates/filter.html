@@ -6,14 +6,16 @@
 {% block sidebar %}
     <div class="module">
         <h2>Filtered Search</h2>
-        <span class="helper">You can fill out the filter below or add additional filters to refine your search.</span>
+            <a href="#" id="id_refreshdata">Refresh Data</a>
+        <span class="helper">You can fill out the filters below to refine your search.</span>
         <form id="filterForm" action="." method="get">
             <ul>
                 <li>
-                    <select id="id_filter" name="filter"></select>
-                    <a class="plus-button" href="#" title="Add Filter">Add Filter</a>
+                    <select id="id_filter" name="filter">
+                        <option value="">Add filter...</option>
+                    </select>
+                    <!-- <a class="plus-button" href="#" title="Add Filter">Add Filter</a> -->
                 </li>
-                <li><a href="#" id="id_refreshdata">Refresh Data</a></li>
             </ul>
         </form>
     </div>
@@ -57,6 +59,10 @@
     			</li>
     		</ol>
     	</div>
+    </div>
+
+    <div id="module_loading">
+        <img src="{% media_url %}/images/ajax-loader.gif">
     </div>
 
     <div id="module_transactions">
