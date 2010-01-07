@@ -318,7 +318,7 @@ TD.DataFilter.DateRangeField = function(config) {
     that.data = function() {
         var inputs = $("#field_" + this.id + " input");
         var start = ymdFormat(inputs[0].value);
-        var end = ymdFormat(inputs[0].value);
+        var end = ymdFormat(inputs[1].value);
         return [config.name, '><|' + start + '|' + end];
     };
     
@@ -332,6 +332,15 @@ TD.DataFilter.EntityField = function(config) {
     var that = new TD.DataFilter.Field();
     that.config = config;
     
+    var parseSuggest = function(res) {
+        var params = res.split(',');
+        var val = params[1];
+        for (var i = 2; i < params.length; i++) {
+            val += ',' + params[i];
+        }
+        return [params[0], val];
+    };
+    
     that.render = function() {
         
         var content = '';
@@ -344,30 +353,32 @@ TD.DataFilter.EntityField = function(config) {
         content += '</li>';
         
         var elem = $(content);
-        elem.find('input').autocomplete('/data/entities/' + config.name + '/', {
+        var control = elem.find('input');
+        control.autocomplete('/data/entities/' + config.name + '/', {
+            max: 20,
             minChars: 2,
             mustMatch: true,
             formatItem: function(row, position, count, terms) {
-                var params = row[0].split(',');
-                var val = params[1];
-                for (var i = 2; i < params.length; i++) {
-                    val += ',' + params[i];
-                }
-                return '<span data-id="' + params[0] + '">' + val + '</span>'; 
+                var params = parseSuggest(row[0]);
+                return '<span data-id="' + params[0] + '">' + params[1] + '</span>'; 
+            },
+            selectFirst: true
+        });
+        control.result(function(ev, li) {
+            if (li && li[0]) {
+                var params = parseSuggest(li[0]);
+                var fieldId = elem.attr('data-id');
+                TD.DataFilter.fields[fieldId].addSelection(params[0], params[1]);
             }
-        }).result(function(ev, li) {
-            
         });
         
         // temporarily add something to the field, this will be replaced
         // by callback from autocomplete field
-        elem.find('input').bind('keypress', function(e) {
-            if (e.which == 13) {
-                var fieldId = $(this).parent('li').attr('data-id');
-                TD.DataFilter.fields[fieldId].addSelection('xxxx_' + Math.floor(Math.random() * 90000), $(this).val());
-                return false;
-            }
-        });
+        // elem.find('input').bind('keypress', function(e) {
+        //     if (e.which == 13) {
+        //         return false;
+        //     }
+        // });
         
         return elem;
         
@@ -499,6 +510,20 @@ $().ready(function() {
                 ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
                 ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
                 ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
+            ]
+        }),
+        
+        cycle: TD.DataFilter.DropDownField({
+            label: 'Seat',
+            name: 'seat',
+            helper: 'Type of seat for which candidate is running',
+            options: [
+                ['federal:senate', 'US Senate'],
+                ['federal:house', 'US House of Representatives'],
+                ['federal:president', 'US President'],
+                ['state:upper', 'State Upper Chamber'],
+                ['state:lower', 'State Lower Chamber'],
+                ['state:governor', 'State Governor']
             ]
         }),
         
