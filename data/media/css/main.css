@@ -168,7 +168,7 @@ input {
 	padding: 3px;
 	width: 250px;
 	border: 1px solid #CCC;
-	color: #CCC;
+	color: #666;
 }
 
 button{
@@ -397,7 +397,8 @@ li.dateRangeField input {
 }
 
 li.operatorField input {
-	width: 145px;
+    margin-left: 5px;
+	width: 140px;
 }
 
 div#leftColumnFields li {
@@ -719,3 +720,7 @@ span.newpass {
 }
 
 #module_transactions { display: none; }
+
+.entityField input.loading {
+    background: #fff url(../images/ajax-loader.gif) center right no-repeat;
+}
