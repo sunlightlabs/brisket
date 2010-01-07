@@ -25,6 +25,7 @@ TD.DataFilter = {
             if (fieldPrototype != undefined) {
                 TD.DataFilter.addField(fieldPrototype.instance());
             }
+            $('#filterForm #id_filter')[0].selectedIndex = 0;
             return false;
         });
         
@@ -325,6 +326,17 @@ TD.DataFilter.EntityField = function(config) {
         var elem = $(content);
         
         var control = elem.find('input');
+        
+        control.bind('keydown', function(ev) {
+            if ($(this).val() && (ev.which > 64 && ev.which < 123)) {
+                $(this).addClass('loading');
+            }
+        });
+        
+        control.bind('result', function(ev) {
+            $(this).removeClass('loading');
+        });
+        
         control.autocomplete('/data/entities/' + config.name + '/', {
             delay: 600,
             max: 20,
@@ -332,10 +344,14 @@ TD.DataFilter.EntityField = function(config) {
             mustMatch: true,
             formatItem: function(row, position, count, terms) {
                 var params = parseSuggest(row[0]);
-                return '<span data-id="' + params[0] + '">' + params[1] + '</span>'; 
+                if (position == count) {
+                    control.removeClass('loading');
+                }
+                return '<span data-id="' + params[0] + '">' + params[1] + '</span>';
             },
             selectFirst: true
         });
+        
         control.result(function(ev, li) {
             if (li && li[0]) {
                 var params = parseSuggest(li[0]);
