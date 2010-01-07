@@ -1,3 +1,5 @@
+
+from urllib import unquote_plus
 from django.db.models import Q
 from piston.handler import BaseHandler
 from matchbox.models import Entity, Normalization
@@ -12,7 +14,8 @@ def load_contributions(params):
     for param in RESERVED_PARAMS:
         if param in params:
             del params[param]
-    q = CONTRIBUTION_SCHEMA.extract_query(params)
+    unquoted_params = dict([(param, unquote_plus(quoted_value)) for (param, quoted_value) in params.iteritems()])
+    q = CONTRIBUTION_SCHEMA.extract_query(unquoted_params)
     return Contribution.objects.filter(*q)[:limit]
 
 #
