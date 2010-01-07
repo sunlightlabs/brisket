@@ -560,8 +560,8 @@ $().ready(function() {
             name: 'transaction_namespace',
             helper: 'State or federal seat',
             options: [
-                ['urn:fec:contribution','Federal'],
-                ['urn:nimsp:contribution','State']
+                ['urn:fec:transaction','Federal'],
+                ['urn:nimsp:transaction','State']
             ]
         })
         
