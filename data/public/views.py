@@ -38,7 +38,7 @@ def doc_index(request):
 
 entity_type_map = {
     'contributor': ('individual','committee'),
-    'recipient': ('candidate','committee'),
+    'recipient': ('politician','committee'),
     'organization': ('organization',)
 }
 
