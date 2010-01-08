@@ -719,6 +719,7 @@ span.newpass {
 	float: left;
 }
 
+#module_loading { display: none; }
 #module_transactions { display: none; }
 
 .entityField input.loading {
