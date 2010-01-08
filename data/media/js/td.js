@@ -155,7 +155,7 @@ TD.DataFilter.TextField = function(config) {
     
     that.data = function() {
         return [config.name,
-            encodeURIComponent($("#field_" + this.id + " input").val())];
+            $("#field_" + this.id + " input").val()];
     };
     
     return that;
@@ -187,7 +187,7 @@ TD.DataFilter.DropDownField = function(config) {
     
     that.data = function() {
         return [config.name,
-            encodeURIComponent($("#field_" + this.id + " select").val())];
+            $("#field_" + this.id + " select").val()];
     };
     
     return that;
@@ -230,7 +230,7 @@ TD.DataFilter.OperatorField = function(config) {
     that.data = function() {
         var selector = "#field_" + this.id + "_" + config.name;
         return [config.name,
-            $(selector + "_operator").val() + '|' + encodeURIComponent($(selector).val())];
+            $(selector + "_operator").val() + '|' + $(selector).val()];
     };
     
     return that;
@@ -327,18 +327,8 @@ TD.DataFilter.EntityField = function(config) {
         
         var control = elem.find('input');
         
-        control.bind('keydown', function(ev) {
-            if ($(this).val() && (ev.which > 64 && ev.which < 123)) {
-                $(this).addClass('loading');
-            }
-        });
-        
-        control.bind('result', function(ev) {
-            $(this).removeClass('loading');
-        });
-        
-        control.autocomplete('/data/entities/' + config.name + '/', {
-            delay: 600,
+        var ac = control.autocomplete('/data/entities/' + config.name + '/', {
+            delay: 600000000,
             max: 20,
             minChars: 2,
             mustMatch: true,
@@ -351,7 +341,18 @@ TD.DataFilter.EntityField = function(config) {
             },
             selectFirst: true
         });
-        
+
+        control.bind('result', function(ev) {
+            $(this).removeClass('loading');
+        });
+
+        control.bind('keydown', function(e) {
+            if (e.which == 13 && control.val() != '') {
+                $(this).addClass('loading');
+                $(this).trigger('suggest');
+            }
+        });
+    
         control.result(function(ev, li) {
             if (li && li[0]) {
                 var params = parseSuggest(li[0]);
@@ -359,14 +360,6 @@ TD.DataFilter.EntityField = function(config) {
                 TD.DataFilter.fields[fieldId].addSelection(params[0], params[1]);
             }
         });
-        
-        // temporarily add something to the field, this will be replaced
-        // by callback from autocomplete field
-        // elem.find('input').bind('keypress', function(e) {
-        //     if (e.which == 13) {
-        //         return false;
-        //     }
-        // });
         
         return elem;
         
@@ -380,7 +373,7 @@ TD.DataFilter.EntityField = function(config) {
             var item = $(this).attr('data-id');
             if (item) {
                 if (value) value += '|';
-                value += encodeURIComponent(item);
+                value += item;
             }
         });
         
@@ -456,8 +449,6 @@ $().ready(function() {
     
     TD.DataFilter.registry = {
         
-        // amount, cycle, and state
-        
         amount: TD.DataFilter.OperatorField({
             label: 'Amount',
             name: 'amount',
@@ -479,6 +470,12 @@ $().ready(function() {
                 ['2006','2006'], ['2008','2008'], ['2010','2010']
             ]
         }),
+
+        datestamp: TD.DataFilter.DateRangeField({
+            label: 'Date',
+            name: 'date',
+            helper: 'Date of contribution'
+        }),
         
         state: TD.DataFilter.DropDownField({
             label: 'State',
@@ -499,6 +496,16 @@ $().ready(function() {
                 ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
                 ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
                 ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
+            ]
+        }),
+
+        jurisdiction: TD.DataFilter.DropDownField({
+            label: 'Jurisdiction',
+            name: 'transaction_namespace',
+            helper: 'State or federal seat',
+            options: [
+                ['urn:fec:transaction','Federal'],
+                ['urn:nimsp:transaction','State']
             ]
         }),
         
@@ -534,24 +541,6 @@ $().ready(function() {
             label: 'Organization',
             name: 'organization',
             helper: 'Corporation related to contribution'
-        }),
-        
-        // date 
-        
-        datestamp: TD.DataFilter.DateRangeField({
-            label: 'Date',
-            name: 'date',
-            helper: 'Date of contribution'
-        }),
-        
-        jurisdiction: TD.DataFilter.DropDownField({
-            label: 'Jurisdiction',
-            name: 'transaction_namespace',
-            helper: 'State or federal seat',
-            options: [
-                ['urn:fec:transaction','Federal'],
-                ['urn:nimsp:transaction','State']
-            ]
         })
         
     }
