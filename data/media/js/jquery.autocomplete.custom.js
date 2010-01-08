@@ -158,15 +158,17 @@ $.Autocompleter = function(input, options) {
 		// results if the field no longer has focus
 		hasFocus++;
 	}).blur(function() {
-		hasFocus = 0;
-		if (!config.mouseDownOnSelect) {
-			hideResults();
-		}
+        // hasFocus = 0;
+        // if (!config.mouseDownOnSelect) {
+        //  hideResults();
+        // }
 	}).click(function() {
 		// show select when clicking in a focused field
 		if ( hasFocus++ > 1 && !select.visible() ) {
 			onChange(0, true);
 		}
+	}).bind("suggest", function() {
+	    onChange();
 	}).bind("search", function() {
 		// TODO why not just specifying both arguments?
 		var fn = (arguments.length > 1) ? arguments[1] : null;
