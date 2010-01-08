@@ -14,6 +14,9 @@ from schema import Operator, Schema, InclusionField, OperatorField
 
 # Generator functions
 
+def _seat_in_generator(*seats):
+    return Q(seat__in=seats)
+
 def _state_in_generator(*states):
     return Q(contributor_state__in=states)
 
@@ -57,6 +60,7 @@ LESS_THAN_OP = '<'
 GREATER_THAN_OP = '>'
 BETWEEN_OP = '><'
 
+SEAT_FIELD = 'seat'
 STATE_FIELD = 'state'
 DATE_FIELD = 'date'
 CONTRIBUTOR_FIELD ='contributor'
@@ -70,6 +74,7 @@ JURISDICTION_FIELD = 'transaction_namespace'
 # the final search schema
 
 CONTRIBUTION_SCHEMA = Schema(
+                             InclusionField(SEAT_FIELD, _seat_in_generator),
                              InclusionField(STATE_FIELD, _state_in_generator),
                              InclusionField(CYCLE_FIELD, _cycle_in_generator),
                              InclusionField(CONTRIBUTOR_FIELD, _contributor_in_generator),
