@@ -30,10 +30,14 @@ def _date_between_generator(first, second):
     return Q(datestamp__range=(parse_date(first), parse_date(second)))
 
 def _contributor_in_generator(*entities):    
-    return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
+    #return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
+    return Q(contributor_entity__in=entities)
     
 def _recipient_in_generator(*entities):
     return Q(recipient_entity__in=entities) | Q(committee_entity__in=entities)    
+
+def _organization_in_generator(*entities):
+    return Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
 
 def _entity_in_generator(*entities):
     return _contributor_in_generator(*entities) | _recipient_in_generator(*entities)
@@ -63,6 +67,7 @@ BETWEEN_OP = '><'
 SEAT_FIELD = 'seat'
 STATE_FIELD = 'state'
 DATE_FIELD = 'date'
+ORGANIZATION_FIELD ='organization'
 CONTRIBUTOR_FIELD ='contributor'
 RECIPIENT_FIELD = 'recipient'
 ENTITY_FIELD = 'entity'
@@ -81,6 +86,7 @@ CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(RECIPIENT_FIELD, _recipient_in_generator),
                              InclusionField(ENTITY_FIELD, _entity_in_generator),
                              InclusionField(JURISDICTION_FIELD, _jurisdiction_in_generator),
+                             InclusionField(ORGANIZATION_FIELD, _organization_in_generator),
                              OperatorField(DATE_FIELD,
                                    Operator(LESS_THAN_OP, _date_before_generator),
                                    Operator(GREATER_THAN_OP, _date_after_generator),
