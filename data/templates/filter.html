@@ -113,4 +113,16 @@
         <p>State records must be attributed to <a href="http://followthemoney.org">FollowTheMoney.org</a>.</p>
     </div>
     
+    {% if entity %}
+        <script type="text/javascript">
+            $().ready(function() {
+                var fieldPrototype = TD.DataFilter.registry['{{ entity.role }}'];
+                if (fieldPrototype != undefined) {
+                    var field = TD.DataFilter.addField(fieldPrototype.instance());
+                    field.addSelection('{{ entity.id }}', '{{ entity.name }}');
+                }
+            });
+        </script>
+    {% endif %}
+    
 {% endblock %}

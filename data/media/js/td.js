@@ -102,6 +102,7 @@ TD.DataFilter = {
         TD.DataFilter.fields[field.id] = field; // store reference to field
         field.bind(node);                       // bind field object to DOM
         node.appendTo('#filterForm > ul');      // append DOM node to filter list
+        return field;
     },
     
     removeField: function(field) {
@@ -426,7 +427,7 @@ TD.SearchBox = {
             return false;
         });
         
-        $('#searchBtn').autocomplete('/data/entities/recipient/', {
+        $('#searchBtn').autocomplete('/data/entities/quick/', {
             delay: 600000000,
             max: 20,
             minChars: 2,
@@ -437,6 +438,10 @@ TD.SearchBox = {
                     $(this).removeClass('loading');
                 }
                 return '<span data-id="' + params[0] + '">' + params[1] + '</span>';
+            },
+            formatResult: function(data, position, total) {
+                var params = parseSuggest(data[0]);
+                return params[1];
             },
             selectFirst: true
         });
@@ -454,9 +459,7 @@ TD.SearchBox = {
         }).result(function(ev, li) {
             if (li && li[0]) {
                 var params = parseSuggest(li[0]);
-                var fieldId = elem.attr('data-id');
-                $('searchEntityID').val(params[0]);
-                alert(params[1]);
+                $('#searchEntityID').val(params[0]);
             }
         });
         
