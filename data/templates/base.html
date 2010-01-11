@@ -28,8 +28,8 @@
                         {% if user.is_authenticated %}
                             <a href="#">logout</a>
                         {% endif %}
-                        <form id="searchForm" action="." method="get">
-                            <input id="searchBtn" type="text" name="search" title="Search candidates or organizations"/>
+                        <form id="searchForm" action="{% url filter %}" method="get">
+                            <input id="searchBtn" type="text" name="entityName" title="Search candidates or organizations"/>
                             <input id="searchEntityID" type="hidden" name="entityId" />
                             <button class="searchBtn" type="submit">
                                 <span>Search</span>

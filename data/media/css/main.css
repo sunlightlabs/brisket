@@ -158,7 +158,7 @@ input#searchBtn{
 	margin-right: 10px;
 	width: 235px;
 	border: 1px solid #CCC;
-	color: #CCC;
+	color: #666;
 	background: #FFF url(../images/spyglass-image.png) 6px 3px no-repeat;
 }
 
@@ -722,6 +722,10 @@ span.newpass {
 #module_loading { display: none; }
 #module_transactions { display: none; }
 
-.entityField input.loading {
+input.loading {
     background: #fff url(../images/ajax-loader.gif) center right no-repeat;
+}
+
+input#searchBtn.loading {
+    background: #fff url(../images/ajax-loader.gif) 6px 3px no-repeat;
 }
