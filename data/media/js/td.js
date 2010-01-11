@@ -575,9 +575,15 @@ $().ready(function() {
         }),
 
         organization: TD.DataFilter.EntityField({
-            label: 'Organization',
+            label: 'Employer',
             name: 'organization',
-            helper: 'Corporation related to contribution'
+            helper: 'Organization that employs the individual making the contribution'
+        }),
+        
+        committee: TD.DataFilter.EntityField({
+            label: 'Committee',
+            name: 'committee',
+            helper: 'Committee making contribution'
         })
         
     }

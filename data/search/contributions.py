@@ -28,7 +28,10 @@ def _date_after_generator(date):
 
 def _date_between_generator(first, second):
     return Q(datestamp__range=(parse_date(first), parse_date(second)))
-
+    
+def _committee_in_generator(*entities):    
+    return Q(committee_entity__in=entities)
+        
 def _contributor_in_generator(*entities):    
     #return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
     return Q(contributor_entity__in=entities)
@@ -68,6 +71,7 @@ SEAT_FIELD = 'seat'
 STATE_FIELD = 'state'
 DATE_FIELD = 'date'
 ORGANIZATION_FIELD ='organization'
+COMMITTEE_FIELD ='committee'
 CONTRIBUTOR_FIELD ='contributor'
 RECIPIENT_FIELD = 'recipient'
 ENTITY_FIELD = 'entity'
@@ -82,6 +86,7 @@ CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(SEAT_FIELD, _seat_in_generator),
                              InclusionField(STATE_FIELD, _state_in_generator),
                              InclusionField(CYCLE_FIELD, _cycle_in_generator),
+                             InclusionField(COMMITTEE_FIELD, _committee_in_generator),
                              InclusionField(CONTRIBUTOR_FIELD, _contributor_in_generator),
                              InclusionField(RECIPIENT_FIELD, _recipient_in_generator),
                              InclusionField(ENTITY_FIELD, _entity_in_generator),
