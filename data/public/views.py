@@ -17,7 +17,8 @@ entity_type_map = {
     'quick': ('politician','organization'),
     'contributor': ('individual','committee'),
     'recipient': ('politician','committee'),
-    'organization': ('organization',)
+    'organization': ('organization',),
+    'committee': ('committee',),
 }
 
 role_map = {
