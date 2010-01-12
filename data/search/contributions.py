@@ -14,51 +14,51 @@ from schema import Operator, Schema, InclusionField, OperatorField
 
 # Generator functions
 
-def _seat_in_generator(*seats):
-    return Q(seat__in=seats)
+def _seat_in_generator(query, *seats):
+    return query.filter(seat__in=seats)
 
-def _state_in_generator(*states):
-    return Q(contributor_state__in=states)
+def _state_in_generator(query, *states):
+    return query.filter(contributor_state__in=states)
 
-def _date_before_generator(date):
-    return Q(datestamp__lte=parse_date(date))
+def _date_before_generator(query, date):
+    return query.filter(datestamp__lte=parse_date(date))
 
-def _date_after_generator(date):
-    return Q(datestamp__gte=parse_date(date))
+def _date_after_generator(query, date):
+    return query.filter(datestamp__gte=parse_date(date))
 
-def _date_between_generator(first, second):
-    return Q(datestamp__range=(parse_date(first), parse_date(second)))
+def _date_between_generator(query, first, second):
+    return query.filter(datestamp__range=(parse_date(first), parse_date(second)))
     
-def _committee_in_generator(*entities):    
-    return Q(committee_entity__in=entities)
+def _committee_in_generator(query, *entities):    
+    return query.filter(committee_entity__in=entities)
         
-def _contributor_in_generator(*entities):    
+def _contributor_in_generator(query, *entities):    
     #return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
-    return Q(contributor_entity__in=entities)
+    return query.filter(contributor_entity__in=entities)
     
-def _recipient_in_generator(*entities):
-    return Q(recipient_entity__in=entities) | Q(committee_entity__in=entities)    
+def _recipient_in_generator(query, *entities):
+    return query.filter(Q(recipient_entity__in=entities) | Q(committee_entity__in=entities))    
 
-def _organization_in_generator(*entities):
-    return Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
+def _organization_in_generator(query, *entities):
+    return query.filter(Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities))
 
-def _entity_in_generator(*entities):
-    return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities) | Q(recipient_entity__in=entities) | Q(committee_entity__in=entities)
+def _entity_in_generator(query, *entities):
+    return query.filter(Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities) | Q(recipient_entity__in=entities) | Q(committee_entity__in=entities))
 
-def _amount_less_than_generator(amount):
-    return Q(amount__lte=int(amount))
+def _amount_less_than_generator(query, amount):
+    return query.filter(amount__lte=int(amount))
 
-def _amount_greater_than_generator(amount):
-    return Q(amount__gte=int(amount))
+def _amount_greater_than_generator(query, amount):
+    return query.filter(amount__gte=int(amount))
 
-def _amount_between_generator(lower, upper):
-    return Q(amount__range=(int(lower), int(upper)))
+def _amount_between_generator(query, lower, upper):
+    return query.filter(amount__range=(int(lower), int(upper)))
 
-def _cycle_in_generator(*cycles):
-    return Q(cycle__in=[int(cycle) for cycle in cycles])
+def _cycle_in_generator(query, *cycles):
+    return query.filter(cycle__in=[int(cycle) for cycle in cycles])
 
-def _jurisdiction_in_generator(*jurisdiction):
-    return Q(transaction_namespace__in=jurisdiction)
+def _jurisdiction_in_generator(query, *jurisdiction):
+    return query.filter(transaction_namespace__in=jurisdiction)
 
     
 
@@ -113,4 +113,4 @@ CONTRIBUTION_SCHEMA = Schema(
 
 
 def filter_contributions(request):
-    return Contribution.objects.filter(*CONTRIBUTION_SCHEMA.extract_query(request)).order_by()
+    return CONTRIBUTION_SCHEMA.build_filter(Contribution.objects, request).order_by()
