@@ -14,52 +14,75 @@ from schema import Operator, Schema, InclusionField, OperatorField
 
 # Generator functions
 
-def _seat_in_generator(*seats):
-    return Q(seat__in=seats)
+def _seat_in_generator(query, *seats):
+    return query.filter(seat__in=seats)
 
-def _state_in_generator(*states):
-    return Q(contributor_state__in=states)
+def _state_in_generator(query, *states):
+    return query.filter(contributor_state__in=states)
 
-def _date_before_generator(date):
-    return Q(datestamp__lte=parse_date(date))
+def _date_before_generator(query, date):
+    return query.filter(datestamp__lte=parse_date(date))
 
-def _date_after_generator(date):
-    return Q(datestamp__gte=parse_date(date))
+def _date_after_generator(query, date):
+    return query.filter(datestamp__gte=parse_date(date))
 
-def _date_between_generator(first, second):
-    return Q(datestamp__range=(parse_date(first), parse_date(second)))
+def _date_between_generator(query, first, second):
+    return query.filter(datestamp__range=(parse_date(first), parse_date(second)))
     
-def _committee_in_generator(*entities):    
-    return Q(committee_entity__in=entities)
+def _committee_in_generator(query, *entities):    
+    return query.filter(committee_entity__in=entities)
         
-def _contributor_in_generator(*entities):    
+def _contributor_in_generator(query, *entities):    
     #return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
-    return Q(contributor_entity__in=entities)
+    return query.filter(contributor_entity__in=entities)
     
-def _recipient_in_generator(*entities):
-    return Q(recipient_entity__in=entities) | Q(committee_entity__in=entities)    
+def _recipient_in_generator(query, *entities):
+    return query.filter(Q(recipient_entity__in=entities) | Q(committee_entity__in=entities))    
 
-def _organization_in_generator(*entities):
-    return Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
+def _organization_in_generator(query, *entities):
+    return query.filter(Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities))
 
-def _entity_in_generator(*entities):
-    return _contributor_in_generator(*entities) | _recipient_in_generator(*entities)
+def _entity_in_generator(query, *entities):
+    return query.filter(Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities) | Q(recipient_entity__in=entities) | Q(committee_entity__in=entities))
 
-def _amount_less_than_generator(amount):
-    return Q(amount__lte=int(amount))
+def _amount_less_than_generator(query, amount):
+    return query.filter(amount__lte=int(amount))
 
-def _amount_greater_than_generator(amount):
-    return Q(amount__gte=int(amount))
+def _amount_greater_than_generator(query, amount):
+    return query.filter(amount__gte=int(amount))
 
-def _amount_between_generator(lower, upper):
-    return Q(amount__range=(int(lower), int(upper)))
+def _amount_between_generator(query, lower, upper):
+    return query.filter(amount__range=(int(lower), int(upper)))
 
-def _cycle_in_generator(*cycles):
-    return Q(cycle__in=[int(cycle) for cycle in cycles])
+def _cycle_in_generator(query, *cycles):
+    return query.filter(cycle__in=[int(cycle) for cycle in cycles])
 
-def _jurisdiction_in_generator(*jurisdiction):
-    return Q(transaction_namespace__in=jurisdiction)
+def _jurisdiction_in_generator(query, *jurisdiction):
+    return query.filter(transaction_namespace__in=jurisdiction)
 
+
+def _contributor_ft_generator(query, *searches):
+    return _ft_generator(query, 'contributor_name', *searches)
+
+def _organization_ft_generator(query, *searches):
+    terms = _ft_terms(*searches)
+    clause = "(%s or %s)" % (_ft_clause('organization_name'), _ft_clause('parent_organization_name'))
+    return query.extra(where=[clause], params=[terms, terms])
+
+def _committee_ft_generator(query, *searches):
+    return _ft_generator(query, 'committee_name', *searches)
+
+def _recipient_ft_generator(query, *searches):
+    return _ft_generator(query, 'recipient_name', *searches)
+
+def _ft_generator(query, column, *searches):
+    return query.extra(where=[_ft_clause(column)], params=[_ft_terms(*searches)])
+
+def _ft_terms(*searches):
+    return ' & '.join((' '.join(searches)).split(' '))
+
+def _ft_clause(column):
+    return "to_tsvector('simple', %s) @@ to_tsquery('simple', %%s)" % column
 
 # Strings used in the HTTP request syntax
 
@@ -79,6 +102,11 @@ AMOUNT_FIELD = 'amount'
 CYCLE_FIELD = 'cycle'
 JURISDICTION_FIELD = 'transaction_namespace'
 
+CONTRIBUTOR_FT_FIELD = 'contributor_ft'
+ORGANIZATION_FT_FIELD = 'organization_ft'
+COMMITTEE_FT_FIELD = 'committee_ft'
+RECIPIENT_FT_FIELD = 'recipient_ft'
+
 
 # the final search schema
 
@@ -92,6 +120,10 @@ CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(ENTITY_FIELD, _entity_in_generator),
                              InclusionField(JURISDICTION_FIELD, _jurisdiction_in_generator),
                              InclusionField(ORGANIZATION_FIELD, _organization_in_generator),
+                             InclusionField(CONTRIBUTOR_FT_FIELD, _contributor_ft_generator),
+                             InclusionField(ORGANIZATION_FT_FIELD, _organization_ft_generator),
+                             InclusionField(COMMITTEE_FT_FIELD, _committee_ft_generator),
+                             InclusionField(RECIPIENT_FT_FIELD, _recipient_ft_generator),
                              OperatorField(DATE_FIELD,
                                    Operator(LESS_THAN_OP, _date_before_generator),
                                    Operator(GREATER_THAN_OP, _date_after_generator),
@@ -103,4 +135,4 @@ CONTRIBUTION_SCHEMA = Schema(
 
 
 def filter_contributions(request):
-    return Contribution.objects.filter(*CONTRIBUTION_SCHEMA.extract_query(request)).order_by()
+    return CONTRIBUTION_SCHEMA.build_filter(Contribution.objects, request).order_by()
