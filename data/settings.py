@@ -49,6 +49,7 @@ MIDDLEWARE_CLASSES = (
     'piston.middleware.CommonMiddlewareCompatProxy',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'dc_web.urls'
@@ -59,6 +60,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'debug_toolbar',
     'mediasync',
     'registration',
     'matchbox',
@@ -79,6 +81,11 @@ AUTH_PROFILE_MODULE = 'public.UserProfile'
 PISTON_DISPLAY_ERRORS = True
 PISTON_EMAIL_ERRORS = False
 PISTON_STREAM_OUTPUT = True
+
+INTERNAL_IPS = ('127.0.0.1','209.190.229.199')
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+}
 
 try:
     from local_settings import *

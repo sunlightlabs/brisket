@@ -67,6 +67,10 @@ def data_entities(request, entity_type):
     
     return HttpResponse("%s,%s\n" % (e[0], e[1]) for e in result)
 
+def debug_contributions(request):
+    content = '\n'.join(data_contributions(request))
+    return render_to_response('debug.html', {'content': content})
+
 def data_contributions(request):
     request.GET = request.GET.copy()
     request.GET['limit'] = 30

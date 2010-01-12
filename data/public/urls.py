@@ -8,5 +8,6 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^data/contributions/$', 'data_contributions', name="data_contributions"),
     url(r'^data/contributions/download/$', 'data_contributions_download', name="data_contributions_download"),
     url(r'^data/entities/(?P<entity_type>contributor|recipient|organization|committee|quick)/$', 'data_entities', name="data_entities"),
+    url(r'^debug/contributions/$', 'debug_contributions', name="debug_contributions"),
     url(r'^$', 'index', name="index"),
 )
