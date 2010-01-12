@@ -4,7 +4,7 @@ from django.db.models import Q
 from piston.handler import BaseHandler
 from matchbox.models import Entity, Normalization
 from dcdata.contribution.models import Contribution
-from dc_web.search.contributions import CONTRIBUTION_SCHEMA
+from dc_web.search.contributions import filter_contributions
 from matchbox.queries import search_entities_by_name
 
 RESERVED_PARAMS = ('key','limit','format')
@@ -15,8 +15,7 @@ def load_contributions(params):
         if param in params:
             del params[param]
     unquoted_params = dict([(param, unquote_plus(quoted_value)) for (param, quoted_value) in params.iteritems()])
-    q = CONTRIBUTION_SCHEMA.extract_query(unquoted_params)
-    return Contribution.objects.filter(*q)[:limit]
+    return filter_contributions(unquoted_params)[:limit]
 
 #
 # contribution filter
