@@ -60,7 +60,29 @@ def _cycle_in_generator(query, *cycles):
 def _jurisdiction_in_generator(query, *jurisdiction):
     return query.filter(transaction_namespace__in=jurisdiction)
 
-    
+
+def _contributor_ft_generator(query, *searches):
+    return _ft_generator(query, 'contributor_name', *searches)
+
+def _organization_ft_generator(query, *searches):
+    terms = _ft_terms(*searches)
+    clause = "(%s or %s)" % (_ft_clause('organization_name'), _ft_clause('parent_organization_name'))
+    return query.extra(where=[clause], params=[terms, terms])
+
+def _committee_ft_generator(query, *searches):
+    return _ft_generator(query, 'committee_name', *searches)
+
+def _recipient_ft_generator(query, *searches):
+    return _ft_generator(query, 'recipient_name', *searches)
+
+def _ft_generator(query, column, *searches):
+    return query.extra(where=[_ft_clause(column)], params=[_ft_terms(*searches)])
+
+def _ft_terms(*searches):
+    return ' & '.join((' '.join(searches)).split(' '))
+
+def _ft_clause(column):
+    return "to_tsvector('simple', %s) @@ to_tsquery('simple', %%s)" % column
 
 # Strings used in the HTTP request syntax
 
@@ -98,10 +120,10 @@ CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(ENTITY_FIELD, _entity_in_generator),
                              InclusionField(JURISDICTION_FIELD, _jurisdiction_in_generator),
                              InclusionField(ORGANIZATION_FIELD, _organization_in_generator),
-#                             InclusionField(CONTRIBUTOR_FT_FIELD, _contributor_ft_generator),
-#                             InclusionField(ORGANIZATION_FT_FIELD, _organization_ft_generator),
-#                             InclusionField(COMMITTEE_FT_FIELD, _committee_ft_generator),
-#                             InclusionField(RECIPIENT_FT_FIELD, _recipient_ft_generator),
+                             InclusionField(CONTRIBUTOR_FT_FIELD, _contributor_ft_generator),
+                             InclusionField(ORGANIZATION_FT_FIELD, _organization_ft_generator),
+                             InclusionField(COMMITTEE_FT_FIELD, _committee_ft_generator),
+                             InclusionField(RECIPIENT_FT_FIELD, _recipient_ft_generator),
                              OperatorField(DATE_FIELD,
                                    Operator(LESS_THAN_OP, _date_before_generator),
                                    Operator(GREATER_THAN_OP, _date_after_generator),

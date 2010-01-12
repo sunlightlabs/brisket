@@ -109,6 +109,39 @@ class SimpleTest(TestCase):
         self.assert_num_results(1, {'state': "WA", 'amount': ">|500", 'entity': "1234"})
         self.assert_num_results(1, {'amount': ">|500", 'entity': "1234"})
         
+    def test_full_text(self):
+        self.create_contribution(contributor_name="Joe Smith")
+        
+        self.assert_num_results(0, {'contributor_ft': 'Bruce'})
+        self.assert_num_results(0, {'organization_ft': 'Smith'})
+        self.assert_num_results(0, {'contributor_ft': 'Bob Smith'})
+        self.assert_num_results(1, {'contributor_ft': 'Joe'})
+        self.assert_num_results(1, {'contributor_ft': 'Smith'})
+        self.assert_num_results(1, {'contributor_ft': 'Joe Smith'})
+        self.assert_num_results(1, {'contributor_ft': 'Smith Joe'})
+        self.assert_num_results(1, {'contributor_ft': 'joe smith'})
+        
+        self.create_contribution(recipient_name="John Adams")
+        self.create_contribution(recipient_name="Barry Adams")
+        
+        self.assert_num_results(2, {'recipient_ft': 'adams'})
+        self.assert_num_results(1, {'recipient_ft': 'john'})
+        self.assert_num_results(1, {'recipient_ft': 'barry'})
+        
+        self.create_contribution(committee_name='Committe to Commit')
+        
+        self.assert_num_results(1, {'committee_ft': 'to'})
+        self.assert_num_results(1, {'committee_ft': 'commit'})
+        
+        self.create_contribution(organization_name="Jason Q. Meany")
+        self.create_contribution(parent_organization_name="Jason Q. Meany Sr.")
+        
+        self.assert_num_results(2, {'organization_ft': 'Meany'})
+        self.assert_num_results(1, {'organization_ft': 'Meany Sr.'})
+
+        
+        
+        
         
 # not an actual test case because there are no Contribution records in the test database.
 # instead, copy this code to a Django shell and run it there.
