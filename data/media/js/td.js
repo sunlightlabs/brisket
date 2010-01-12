@@ -562,28 +562,54 @@ $().ready(function() {
         
         // entity fields
         
-        contributor: TD.DataFilter.EntityField({
-            label: 'Contributor',
-            name: 'contributor',
+        committee: TD.DataFilter.TextField({
+            label: 'Committee',
+            name: 'committee_ft',
             helper: 'Name of individual or PAC that made contribution'
         }),
-                
-        recipient: TD.DataFilter.EntityField({
-            label: 'Recipient',
-            name: 'recipient',
-            helper: 'Name of candidate or PAC that received contribution'
+        
+        contributor: TD.DataFilter.TextField({
+            label: 'Contributor',
+            name: 'contributor_ft',
+            helper: 'Name of individual or PAC that made contribution'
         }),
-
-        organization: TD.DataFilter.EntityField({
+        
+        organization: TD.DataFilter.TextField({
             label: 'Employer',
-            name: 'organization',
+            name: 'organization_ft',
             helper: 'Organization that employs the individual making the contribution'
         }),
         
-        committee: TD.DataFilter.EntityField({
-            label: 'Committee',
+        recipient: TD.DataFilter.TextField({
+            label: 'Recipient',
+            name: 'recipient_ft',
+            helper: 'Name of candidate or PAC that received contribution'
+        }),
+        
+        // old entity fields
+        
+        committee_entity: TD.DataFilter.EntityField({
+            label: 'Committee (entity)',
             name: 'committee',
             helper: 'Committee making contribution'
+        }),
+        
+        contributor_entity: TD.DataFilter.EntityField({
+            label: 'Contributor (entity)',
+            name: 'contributor',
+            helper: 'Name of individual or PAC that made contribution'
+        }),
+
+        organization_entity: TD.DataFilter.EntityField({
+            label: 'Employer (entity)',
+            name: 'organization',
+            helper: 'Organization that employs the individual making the contribution'
+        }),
+
+        recipient_entity: TD.DataFilter.EntityField({
+            label: 'Recipient (entity)',
+            name: 'recipient',
+            helper: 'Name of candidate or PAC that received contribution'
         })
         
     }
