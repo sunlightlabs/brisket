@@ -14,9 +14,9 @@ class Operator(object):
     def get_name(self):
         return self._param_name
     
-    def apply(self, *args):
-        """ Return a Django query """
-        return self._generator(*args)
+    def apply(self, query, *args):
+        """ Return a Django QuerySet """
+        return self._generator(query, *args)
 
 
 
@@ -33,7 +33,7 @@ class Field(object):
     def get_name(self):
         return self._name
 
-    def apply(self, args):
+    def apply(self, query, args):
         raise NotImplementedError
     
     
@@ -51,8 +51,8 @@ class OperatorField(Field):
         for op in [op for op in operators]:
             self._name_to_op[op.get_name()] = op
             
-    def apply(self, op_name, *args):
-        return self._name_to_op[op_name].apply(*args)
+    def apply(self, query, op_name, *args):
+        return self._name_to_op[op_name].apply(query, *args)
     
 class InclusionField(Field):
     """
@@ -65,8 +65,8 @@ class InclusionField(Field):
         super(InclusionField, self).__init__(name)
         self._inclusion_op = inclusion_op
       
-    def apply(self, *args):
-        return self._inclusion_op(*args)
+    def apply(self, query, *args):
+        return self._inclusion_op(query, *args)
         
         
 class Schema(object):
@@ -87,23 +87,27 @@ class Schema(object):
     
     def get_field(self, name):
         return self._name_to_field[name]
-    
-    def _apply(self, field_name, value):
+       
+    def _apply(self, field_name, value, query):
         args = value.split(Schema.VALUE_DELIMITER)
-        return self.get_field(field_name).apply(*args)
-    
-    def extract_query(self, request):
+        return self.get_field(field_name).apply(query, *args)
+        
+    def build_filter(self, initial_query_set, request):
         """
-        Construct a Django query from an HTTP request-like object.
+        Construct a Django QuerySet from an HTTP request-like object.
         
         The request should be a dictionary with field name keys (HTTP parameters)
         mapping to strings (HTTP parameter values.) The values should consist of an
         operator name followed by argument values, all separated by a pipe ('|').
+        The initial query set should be the objects field of the Django model, ie
+        Contribution.objects.
         """
         
-        return [self._apply(name, value) for (name, value) in request.iteritems()]
-        
-
+        compound_query = initial_query_set
+        for (name, value) in request.iteritems():
+            compound_query = self._apply(name, value, compound_query)
+            
+        return compound_query
 
 
 
