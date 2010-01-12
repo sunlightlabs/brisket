@@ -53,8 +53,8 @@ class SimpleTest(TestCase):
         self.create_entities()
         
         self.assert_num_results(0, {'contributor': "abcd"})
-        self.assert_num_results(2, {'contributor': "1234"})
-        self.assert_num_results(3, {'contributor': "1234|5678"})
+        self.assert_num_results(1, {'contributor': "1234"})
+        self.assert_num_results(1, {'contributor': "1234|5678"})
         
     def test_recipient(self):
         self.create_entities()

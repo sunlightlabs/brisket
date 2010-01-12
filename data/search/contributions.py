@@ -43,7 +43,7 @@ def _organization_in_generator(*entities):
     return Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
 
 def _entity_in_generator(*entities):
-    return _contributor_in_generator(*entities) | _recipient_in_generator(*entities)
+    return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities) | Q(recipient_entity__in=entities) | Q(committee_entity__in=entities)
 
 def _amount_less_than_generator(amount):
     return Q(amount__lte=int(amount))
@@ -60,6 +60,7 @@ def _cycle_in_generator(*cycles):
 def _jurisdiction_in_generator(*jurisdiction):
     return Q(transaction_namespace__in=jurisdiction)
 
+    
 
 # Strings used in the HTTP request syntax
 
@@ -79,6 +80,11 @@ AMOUNT_FIELD = 'amount'
 CYCLE_FIELD = 'cycle'
 JURISDICTION_FIELD = 'transaction_namespace'
 
+CONTRIBUTOR_FT_FIELD = 'contributor_ft'
+ORGANIZATION_FT_FIELD = 'organization_ft'
+COMMITTEE_FT_FIELD = 'committee_ft'
+RECIPIENT_FT_FIELD = 'recipient_ft'
+
 
 # the final search schema
 
@@ -92,6 +98,10 @@ CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(ENTITY_FIELD, _entity_in_generator),
                              InclusionField(JURISDICTION_FIELD, _jurisdiction_in_generator),
                              InclusionField(ORGANIZATION_FIELD, _organization_in_generator),
+#                             InclusionField(CONTRIBUTOR_FT_FIELD, _contributor_ft_generator),
+#                             InclusionField(ORGANIZATION_FT_FIELD, _organization_ft_generator),
+#                             InclusionField(COMMITTEE_FT_FIELD, _committee_ft_generator),
+#                             InclusionField(RECIPIENT_FT_FIELD, _recipient_ft_generator),
                              OperatorField(DATE_FIELD,
                                    Operator(LESS_THAN_OP, _date_before_generator),
                                    Operator(GREATER_THAN_OP, _date_after_generator),
