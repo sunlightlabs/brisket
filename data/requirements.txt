@@ -1,3 +1,4 @@
 Django
+django-debug-toolbar
 django-piston
 -e hg+http://bitbucket.org/ubernostrum/django-registration/#egg=registration
