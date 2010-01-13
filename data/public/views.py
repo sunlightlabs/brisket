@@ -1,3 +1,6 @@
+
+from time import time
+
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponse, HttpResponseRedirect
@@ -72,12 +75,20 @@ def debug_contributions(request):
     return render_to_response('debug.html', {'content': content})
 
 def data_contributions(request):
+    start_time = time()
+
     request.GET = request.GET.copy()
     request.GET['limit'] = 30
     request.GET['key'] = API_KEY
-    return contributionfilter_handler(request)
+    
+    response = contributionfilter_handler(request)
+    
+    print('Contribution request %s took %s seconds.' % (request, time() - start_time))
+    return response
     
 def data_contributions_download(request):
+    start_time = time()
+    
     request.GET = request.GET.copy()
     request.GET['key'] = API_KEY
     request.GET['limit'] = 1000000
@@ -85,4 +96,9 @@ def data_contributions_download(request):
     response = contributionfilter_handler(request)
     response['Content-Disposition'] = "attachment; filename=contributions.csv"
     response['Content-Type'] = "text/csv; charset=utf-8"
+    
+    print('Contribution request %s took %s seconds.' % (request, time() - start_time))
+    
     return response
+
+
