@@ -150,7 +150,33 @@ TD.DataFilter.DropDownField.value = function() {
     return $(selector).val();
 };
 
-// TD.DataFilter.OperatorField = Object.create(TD.DataFilter.Field);
+// operator field
+
+TD.DataFilter.OperatorField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.OperatorField.render = function() {
+    var operators = this.filter.config.operators || [
+        ['&gt;', 'greater than'],
+        ['&lt;', 'less than']
+    ];
+    var content = '';
+    content += '<li class="operator_field">';
+    content += '<select id="field' + this.id + '" name="' + this.filter.config.name + '_operator">';
+    for (var i = 0; i < operators.length; i++) {
+        var op = operators[i];
+        content += '<option value="' + op[0] + '">' + op[1] + '</option>';
+    }
+    content += '</select>';
+    content += '<input id="field' + this.id + '" type="text" name="' + this.filter.config.name + '"/>';
+    content += '</li>';
+    return $(content);
+};
+TD.DataFilter.OperatorField.value = function() {
+    var operator = this.node.find('select.operator').val();
+    var value = this.node.find('input').val();
+    return operator + "|" + value;
+};
+
+// basic text field
 
 TD.DataFilter.TextField = Object.create(TD.DataFilter.Field);
 TD.DataFilter.TextField.render = function() {    
@@ -248,12 +274,12 @@ $().ready(function() {
     
     TD.DataFilter.init();
 
-    // TD.DataFilter.registerFilter({
-    //     name: 'amount',
-    //     label: 'Amount',
-    //     help: 'This is the amount of the contribution',
-    //     field: TD.DataFilter.OperatorField
-    // });
+    TD.DataFilter.registerFilter({
+        name: 'amount',
+        label: 'Amount',
+        help: 'This is the amount of the contribution',
+        field: TD.DataFilter.OperatorField
+    });
     
     TD.DataFilter.registerFilter({
         name: 'cycle',
