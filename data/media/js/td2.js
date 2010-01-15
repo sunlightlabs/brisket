@@ -39,6 +39,7 @@ var TD = {
             if (filter != undefined) {
                 if (filter.enabled) {
                     filter.addField();
+                    TD.DataFilter.primaryFilter(filter);
                 } else {
                     $('#datafilter ul#filters').prepend(filter.render());
                     filter.enable();
@@ -152,7 +153,7 @@ TD.DataFilter.DropDownField.value = function() {
 // TD.DataFilter.OperatorField = Object.create(TD.DataFilter.Field);
 
 TD.DataFilter.TextField = Object.create(TD.DataFilter.Field);
-TD.DataFilter.DropDownField.render = function() {    
+TD.DataFilter.TextField.render = function() {    
     var content = '';
     content += '<li id="field_' + this.id + '" class="text_field">';
     content += '<input id="field' + this.id + '" type="text" name="' + this.filter.config.name + '"/>';
@@ -187,7 +188,6 @@ TD.DataFilter.Filter = {
         field.bind(elem);
         this.node.find('ul.fields').append(elem);
         this.fields[field.id] = field;
-        TD.DataFilter.primaryFilter(this);
         this.fieldCount++;
     },
     bind: function(node) {
