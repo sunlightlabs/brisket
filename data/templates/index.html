@@ -1,32 +1,33 @@
 {% extends "base.html" %}
 {% load media %}
 
-{% block content_container %}
-    <div class="module greenbox">
-    	<div id="welcome">
-    		<h2>Welcome To Transparency Data</h2>
-    	</div>
-    	<p class="introText">Onem untion explabo reribustiam is eostrum eum res seque nonsequi rest ullectur, odi tet re voles et aliquam fugit magnatem volupti onsequo dipsus adi ut quis el entorion nonsed modigenis voluptibusae conecto dem qui sime restinum et, sandio. Ferit, qui tem exeribus, utem velicatetur <a href="#">Read More ></a></p>
-    	<div class="clear"></div>
-    </div>
-    <div class="mainBody">
-    	<div class="module whiteboxLeft">
-    		<h2>Using Transparency Data</h2>
-    		<img class="searchModule" src="{% media_url %}/images/searchFeature-image.png" alt="searh feature"/>
-    		<p class="moduleText">Onem untion explabo reribustiam is eostrum eum res seque nonsequi rest ullectur, odi tet re voles et aliquam fugit magnatem volupti onsequo dipsus adi ut quis el entorion nonsed modigenis voluptibusae conecto dem qui sime restinum et, sandio. Ferit, qui tem exeribus, utem velicatetur</p>
-    	</div>
-    	<div class="module whiteboxRight">
-    		<h2>Filtering Data Sets</h2>
-    		<img class="searchModule" src="{% media_url %}/images/filterFeature-image.png" alt="searh feature"/>
-    		<p class="moduleText">Onem untion explabo reribustiam is eostrum eum res seque nonsequi rest ullectur, odi tet re voles et aliquam fugit magnatem volupti onsequo dipsus adi ut quis el entorion nonsed modigenis voluptibusae conecto dem qui sime restinum et, sandio. Ferit, qui tem exeribus, utem velicatetur</p>
-    		<a id="getStarted" href="#">Get Started</a>
-    	</div>
-    	<div class="clear"></div>
-    	<div class="module partner">
-    		<h2>Partnered With</h2>
-    		<a id="openSecrets" href="#"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
-    		<a id="nimsp" href="#"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
-    		<div class="clear"></div>
-    	</div>
-    </div>
+{% block sidebar %}
+	<h4>Welcome</h4> 
+	<h2>to Transparency Data</h2>
+	<p id="intro">
+	    Transparency Data is a central source for all <b>federal and state campaign contributions</b> made in the last twenty years.
+	    Here you can begin your search, find the information you need and then <b>download records of what an individual has given, what employees of a company have given, or what a candidate has received.</b>
+	</p>
+{% endblock %}
+
+{% block content %}
+    <div class="introbox">
+		<h4>Get Your Search Started</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific committee, recipient or date in mind? Add some filters below to search them</p>
+			<h3>Add A Filter</h3>
+			<div id="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a filter to add...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="previewData" href="#">Preview Data</a>
+		</div> <!-- end rightIntro -->
+	</div> <!-- end introbox -->
 {% endblock %}

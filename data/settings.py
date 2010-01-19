@@ -87,6 +87,10 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
 
+MEDIASYNC_JOINED = {
+    'transparencydata.js': ['js/td.js', 'js/td.fields.js', 'js/td.ready.js'],
+}
+
 try:
     from local_settings import *
 except ImportError:
