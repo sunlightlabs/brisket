@@ -6,12 +6,22 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,optgroup,button,p,blockquote,th,td{margin:0;padding:0;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}table{border-collapse:collapse;border-spacing:0;}caption,th{text-align:left;}ol,ul{list-style:none;}fieldset,img{border:0;}input,textarea,select,optgroup,option,button{font-family:inherit;font-size:100%;}button,input {width: auto;overflow: visible;}optgroup,address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym {border:0;}
 dl li{list-style: none;}
 
-a:link{outline: none; color: #046f8c;}
-a:visited{outline: none; color: #046f8c}
-a:hover{outline: none; color: #046f8c}
-a:active{outline: none; color: #046f8c}
+a:link{outline: none; color: #046f8c; text-decoration: none;}
+a:visited{outline: none; color: #046f8c; text-decoration: none;}
+a:hover{outline: none; color: #046f8c; text-decoration: none;}
+a:active{outline: none; color: #046f8c; text-decoration: none;}
 
 .clear{ clear: both;}
+
+/* self-clear floats */
+
+.group:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
 
 /*header area*/
 
@@ -24,11 +34,11 @@ body{
 }
 
 div#headerWrapper{
-	background: url(../images/brown-swatch.png) top left repeat-x;	
+	background: url(../images/brown-swatch125.png) top left repeat-x;	
 }
 
 div#headerContainer{
-	background: url(../images/nav-header-bg.png) top center no-repeat;
+	background: url(../images/nav-header-bg125.png) top center no-repeat;
 }
 
 body.filteredSearch div#columnWrapper {
@@ -80,22 +90,25 @@ div.whiteboxRight {
 	-webkit-border-radius: 5px;
 }
 
-div.greenbox {
-	background-color: #98CA42;
-	width: 800px;
-	margin: 0 auto;
+div.introbox {
+	background: #FFF url(../images/img-fade.png) top left repeat-x;
+	width: 620px;
 	padding: 20px 30px 20px 30px;
+	border: solid 2px #4A3905;
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
+	display: block;
+	float: left;
 }
 
-div.greenbox h2{
-	color: #FFF;
-	line-height: 120%;
-	width: 200px;
-	border-bottom: 0px;
-	margin-bottom: 0px;
-	padding-bottom: 0px;
+#leftIntro {
+	width: 258px;
+	float: left;
+}
+
+#rightIntro {
+	float: right;
+	width: 280px;
 }
 
 div#welcome {
@@ -137,6 +150,20 @@ h3 {
 	margin-bottom: 5px;
 }
 
+h4 {
+	font-size: 300%;
+	margin-bottom: 10px;
+}
+
+h5 {
+	background: url(../images/logo-sunlight-w.png) top left no-repeat;
+	display: block;
+	height: 92px;
+	width: 204px;
+	text-indent: -9999em;
+	float: left;
+}
+
 label, span.bulkResult {
 	font-size: 120%;
 }
@@ -158,7 +185,7 @@ input#searchBtn{
 	margin-right: 10px;
 	width: 235px;
 	border: 1px solid #CCC;
-	color: #666;
+	color: #CCC;
 	background: #FFF url(../images/spyglass-image.png) 6px 3px no-repeat;
 }
 
@@ -168,7 +195,7 @@ input {
 	padding: 3px;
 	width: 250px;
 	border: 1px solid #CCC;
-	color: #666;
+	color: #CCC;
 }
 
 button{
@@ -206,9 +233,8 @@ button.signIn:hover{
 
 div#nav{
 	background-color: #ECEBE6;
-	width: 956px;
 	height: 35px;
-	margin-top: 24px;
+	margin-top: -1px;
 	margin-bottom: 20px;
 	border-top: 2px solid #71CEF5;
 	border-left: 2px solid #71CEF5;
@@ -217,6 +243,7 @@ div#nav{
 	-moz-border-radius-topright: 5px;
 	-webkit-border-top-left-radius: 5px; 
 	-webkit-border-top-right-radius: 5px;
+	float: right;
 }
 
 div#nav li{
@@ -279,6 +306,17 @@ div.module {
 	margin-bottom: 30px;
 }
 
+li.filter{
+	border-top: 1px solid #98CA42;
+	margin-top: 15px;
+	padding-top: 15px;
+}
+
+#filterselect {
+	margin-bottom: 0px;
+	width: 258px;
+}
+
 /*single column*/
 
 div.mainBody {
@@ -322,6 +360,10 @@ div#leftColumnLarge {
 	margin-right: 15px;
 }
 
+.home #leftColumn {
+	width: 230px;
+}
+
 div#leftColumnLarge h2{
 	margin-bottom: 0px;
 }
@@ -360,7 +402,7 @@ a#id_refreshdata:hover{
 	background: url(../images/button-refresh.png) left -23px no-repeat;
 } 
 
-a.plus-button {
+li.filter>.add {
 	background: url(../images/plus-button.png) top left no-repeat;
 	display: block;
 	float: right;
@@ -369,36 +411,50 @@ a.plus-button {
 	height: 19px;
 }
 
-a.plus-button:hover{
+li.filter>.add:hover{
 	background: url(../images/plus-button.png) left -19px no-repeat;
 }
 
 
-a.minus-button {
+li.filter>.remove {
 	background: url(../images/minus-button.png) top left no-repeat;
 	display: block;
 	float: right;
 	text-indent: -9999em;
 	width: 19px;
 	height: 19px;
+	margin-left: 5px;
 }
 
-a.minus-button:hover{
+li.filter>.remove:hover{
 	background: url(../images/minus-button.png) left -19px no-repeat;
 }
 
-li.dateRangeField {
+li.filter ul.fields a {
+	background: url(../images/button-minus-small.png) top left no-repeat;
+	display: block;
+	float: right;
+	text-indent: -9999em;
+	width: 13px;
+	height: 13px;
+	margin-top: 3px;
+	margin-right: 2px;
+}
+
+li.filter ul.fields a:hover{
+	background: url(../images/button-minus-small.png) left -13px no-repeat;
+}
+
+li.daterangefield {
 	float: left;
 }
 
-li.dateRangeField input {
-	 width: 120px;
-	 float: left;
+li.daterange_field .date_start, li.daterange_field .date_end {
+	 width: 80px;
 }
 
-li.operatorField input {
-    margin-left: 5px;
-	width: 140px;
+li.operator_field input {
+	width: 125px;
 }
 
 div#leftColumnFields li {
@@ -428,12 +484,21 @@ div#leftColumnFields p {
 	font-weight: bold;
 }
 
-span.helper, p#why, div#leftColumnFields label[for="id_subscribed"], div#leftColumnFields .errorlist {
+p#why, div#leftColumnFields label[for="id_subscribed"], div#leftColumnFields .errorlist {
 	font-size: 90%;
 	color: #817450;
 	line-height: 15px;
 	margin-bottom: 5px;
 	display: block;
+}
+
+.helper, .help{
+	font-size: 90%;
+	font-style: italic;
+	color: #817450;
+	line-height: 15px;
+	margin-bottom: 5px;
+	display: block;	
 }
 
 span.newpass {
@@ -465,40 +530,35 @@ p.text {
 }
 
 p.moduleText {
-	font-size: 90%;
+	font-size: 100%;
 	color: #817450;
 	line-height: 15px;
 	margin-bottom: 5px;
 	display: block;
 }
 
-p.introText {
+.introText {
 	font-size: 90%;
-	color: #FFF;
+	color: #4A3905;
 	line-height: 15px;
 	margin-bottom: 5px;
 	display: block;
+	font-style: italic;
 }
 
-p.introText a{
-	text-decoration: none;
-	font-weight: bold;
-	color: #4B3905;
-}
-
-.dropDownField select {
-    width: 258px;
-}
-
-select#id_filter {
+#filterselect, {
 	width: 258px;
+}
+
+.dropdown_field [name="cycle"] {
+	width: 234px;
 }
 
 select.bulk_filter {
-	width: 258px;
+	width: 250px;
 }
 
-form#filterForm li{
+#datafilter {
 	border-bottom: 1px solid #98CA42;
 	padding-bottom: 15px;
 	margin-bottom: 15px;
@@ -550,6 +610,11 @@ a#nimsp {
 	height: 67px;
 }
 
+#intro {
+	font-size: 120%;
+	line-height: 175%;
+}
+
 /*right column body*/
 
 div#rightColumn {
@@ -574,18 +639,39 @@ body.filteredSearch div#rightColumn {
 	width: auto;
 }
 
-a#downloadDataSet{
-	background: url(../images/download-button.png) top left no-repeat;
-	width: 110px;
-	height: 23px;
+a#downloadData {
+    background: url(../images/button-downloadData.png) top left no-repeat;
+	width: 243px;
+	height: 61px;
 	display: block;
 	float:left;
 	text-indent: -9999em;
-	margin-right: 10px;
 }
 
-a#downloadDataSet:hover{
-	background: url(../images/download-button.png) left -23px no-repeat;
+a#downloadData.enabled{
+    background: url(../images/button-downloadData.png) left -61px no-repeat;
+}
+
+a#downloadData.enabled:hover{
+	background: url(../images/button-downloadData.png) left -122px no-repeat;
+}
+
+a#previewData {
+    background: url(../images/button-previewData.png) top left no-repeat;
+	width: 243px;
+	height: 61px;
+	display: block;
+	float:left;
+	text-indent: -9999em;
+	margin-right: 50px;
+}
+
+a#previewData.enabled{
+    background: url(../images/button-previewData.png) left -61px no-repeat;
+}
+
+a#previewData.enabled:hover{
+	background: url(../images/button-previewData.png) left -122px no-repeat;
 }
 
 a.downloadBulkData{
@@ -616,8 +702,8 @@ a#reportError:hover{
 }
 
 div.tableButtons {
-	margin-bottom: 10px;
-	height: 30px;
+	margin-bottom: 35px;
+	height: 60px;
 }
 
 div#tableMetadata {
@@ -719,13 +805,34 @@ span.newpass {
 	float: left;
 }
 
-#module_loading { display: none; }
-#module_transactions { display: none; }
+/* footer */
 
-input.loading {
-    background: #fff url(../images/ajax-loader.gif) center right no-repeat;
+div#footerWrapper {
+	border-top: 2px solid #71CEF5;
+	margin: 30px auto -150px;
+	
 }
 
-input#searchBtn.loading {
-    background: #fff url(../images/ajax-loader.gif) 6px 3px no-repeat;
+div#footerContainer{
+	background-color: #4A3905;
+	height: 150px;
+		
+}
+
+div#footer {
+	margin: 0 auto;
+	width: 960px;
+	padding-top: 30px;
+}
+
+p#bottomText {
+	color: #FFF;
+	font-size: 90%;
+	line-height: 150%;
+	text-align: justify;
+	display: block;
+	width: 675px;
+	float: left;
+	padding-top: 15px;
+	padding-left: 30px;
 }

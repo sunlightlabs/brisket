@@ -11,6 +11,7 @@ var TD = {
     DataFilter: {
         registry: {},
         init: function() {
+            
             $('#datafilter select#filterselect').bind('change', function() {
                 var filterName = this.value;
                 if (filterName) {
@@ -19,18 +20,39 @@ var TD = {
                 this.selectedIndex = 0;
                 return false;
             });
-            $('#datafilter a.test').bind('click', function() {
-                var values = TD.DataFilter.values();
-                var qs = _.reduce(values, '', function(memo, item, name) {
-                    if (memo) {
-                        memo += '&';
-                    }
-                    memo += name + '=' + item;
-                    return memo;
-                });
-                alert(qs);
+            
+            // $('#datafilter a.test').bind('click', function() {
+            //     var values = TD.DataFilter.values();
+            //     var qs = _.reduce(values, '', function(memo, item, name) {
+            //         if (memo) {
+            //             memo += '&';
+            //         }
+            //         memo += name + '=' + item;
+            //         return memo;
+            //     });
+            //     alert(qs);
+            //     return false;
+            // });
+            
+            $('a#previewData').bind('click', function() {
+                TD.DataFilter.value
                 return false;
             });
+            
+            $('a#previewData').bind('click', function() {
+                return false;
+            });
+            
+            var params = TD.Utils.parseAnchor();
+            // load data
+            
+        },
+        registerFilter: function(config) {
+            var filter = Object.create(TD.DataFilter.Filter);
+            filter.init(config);
+            TD.DataFilter.registry[config.name] = filter;
+            var option = $('<option value="' + config.name + '">' + config.label + '</option>');
+            $('#datafilter select#filterselect').append(option);
         },
         addFilter: function(filterName) {
             var filter = TD.DataFilter.registry[filterName];
@@ -71,6 +93,42 @@ var TD = {
     },
     
     Utils: {
+        getAnchor: function() {
+            var a = window.location.hash;
+            if (a.indexOf('#') == 0) {
+                if (a.length > 1) {
+                    a = a.substr(1);
+                } else {
+                    a = '';
+                }
+            }
+            return a;
+        },
+        parseAnchor: function() {
+            var params = {};
+            var qs = TD.Utils.getAnchor();
+            if (qs) {
+                var terms = qs.split('&');
+                for (var i = 0; i < terms.length; i++) {
+                    var parts = terms[i].split('=');
+                    params[parts[0]] = parts[1];
+                }
+            }
+            return params;
+        },
+        setAnchor: function(a) {
+            window.location.hash = a;
+        },
+        toQueryString: function(obj) {
+            var qs = ''
+            for (attr in obj) {
+                if (qs) {
+                    qs += '&';
+                }
+                qs += attr + '=' + encodeURIComponent(obj[attr]);
+            }
+            return qs
+        },
         ymdFormat: function(mdy) {
             var mdyParts = mdy.split('/');
             return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1]
@@ -301,8 +359,6 @@ TD.DataFilter.Filter = {
  */
  
 $().ready(function() {
-    
-    TD.DataFilter.init();
 
     TD.DataFilter.registerFilter({
         name: 'amount',
@@ -406,7 +462,7 @@ $().ready(function() {
             ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
         ]
     });
-    
-    TD.DataFilter.addFilter('date');
+
+    TD.DataFilter.init();
 
 });
