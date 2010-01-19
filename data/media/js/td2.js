@@ -9,7 +9,6 @@ if (typeof Object.create !== 'function') {
 var TD = {
     
     DataFilter: {
-        filters: {},
         registry: {},
         init: function() {
             $('#datafilter select#filterselect').bind('change', function() {
@@ -20,19 +19,18 @@ var TD = {
                 this.selectedIndex = 0;
                 return false;
             });
-        },
-        registerFilter: function(config) {
-            var filter = Object.create(TD.DataFilter.Filter);
-            filter.init(config);
-            TD.DataFilter.registry[config.name] = filter;
-            
-            var option = $('<option value="' + config.name + '">' + config.label + '</option>');
-            // control.find('a').bind('click', function() {
-            //     filter.enabled = true;
-            //     $('#datafilter form')
-            //     return false;
-            // });
-            $('#datafilter select#filterselect').append(option);
+            $('#datafilter a.test').bind('click', function() {
+                var values = TD.DataFilter.values();
+                var qs = _.reduce(values, '', function(memo, item, name) {
+                    if (memo) {
+                        memo += '&';
+                    }
+                    memo += name + '=' + item;
+                    return memo;
+                });
+                alert(qs);
+                return false;
+            });
         },
         addFilter: function(filterName) {
             var filter = TD.DataFilter.registry[filterName];
@@ -50,6 +48,26 @@ var TD = {
         primaryFilter: function(filter) {
             $('#datafilter ul#filters').prepend(filter.node);
         },
+        values: function() {
+            var params = {};
+            for (name in TD.DataFilter.registry) {
+                var filter = TD.DataFilter.registry[name];
+                if (filter.enabled) {
+                    var value = filter.value();
+                    if (value) {
+                        params[name] = value;
+                    }
+                }
+            }
+            return params;
+        },
+        registerFilter: function(config) {
+            var filter = Object.create(TD.DataFilter.Filter);
+            filter.init(config);
+            TD.DataFilter.registry[config.name] = filter;
+            var option = $('<option value="' + config.name + '">' + config.label + '</option>');
+            $('#datafilter select#filterselect').append(option);
+        }
     },
     
     Utils: {
@@ -68,7 +86,7 @@ var TD = {
 TD.DataFilter.Field = {
     bind: function(node) {
         var me = this;
-        me.node = node;
+        this.node = node;
         if (this.filter.allowMultipleFields) {
             node.find('a.remove').bind('click', function() {
                 me.filter.removeField(me);
@@ -84,18 +102,20 @@ TD.DataFilter.Field = {
 
 TD.DataFilter.DateRangeField = Object.create(TD.DataFilter.Field);
 TD.DataFilter.DateRangeField.value = function() {
-    var start = TD.Utils.ymdFormat(
-        this.filter.elem.find('input.date_start').datepicker('getDate'));
-    var end = TD.Utils.ymdFormat(
-        this.filter.elem.find('input.date_end').datepicker('getDate'));
-    return '><|' + start + '|' + end;
+    var start = $.datepicker.formatDate('yy-mm-dd', 
+        this.node.find('input.date_start').datepicker('getDate'));
+    var end = $.datepicker.formatDate('yy-mm-dd', 
+        this.node.find('input.date_end').datepicker('getDate'));
+    if (start && end) {
+        return '><|' + start + '|' + end;
+    }
 };
 TD.DataFilter.DateRangeField.render = function() {
     
     var content = '';
     content += '<li class="daterange_field">'
-    content += 'between <input type="text" class="date_start" name="' + this.filter.name + '_start"/>';
-    content += 'and <input type="text" class="date_end" name="' + this.filter.name + '_end"/>';
+    content += 'between <input type="text" class="date_start" name="' + this.filter.config.name + '_start"/>';
+    content += 'and <input type="text" class="date_end" name="' + this.filter.config.name + '_end"/>';
     content += '<a href="#" class="remove">-</a>';
     content += '</li>';
 
@@ -146,8 +166,7 @@ TD.DataFilter.DropDownField.render = function() {
     
 };
 TD.DataFilter.DropDownField.value = function() {
-    var selector = '#field' + this.id;
-    return $(selector).val();
+    return this.node.find('select').val();
 };
 
 // operator field
@@ -171,9 +190,11 @@ TD.DataFilter.OperatorField.render = function() {
     return $(content);
 };
 TD.DataFilter.OperatorField.value = function() {
-    var operator = this.node.find('select.operator').val();
     var value = this.node.find('input').val();
-    return operator + "|" + value;
+    if (value) {
+        var operator = this.node.find('select').val();
+        return operator + "|" + value;
+    }
 };
 
 // basic text field
@@ -262,7 +283,16 @@ TD.DataFilter.Filter = {
         return node;
     },
     value: function() {
-        return config;
+        return _.reduce(this.fields, '', function(memo, item) {
+            var value = item.value();
+            if (value) {
+                if (memo) {
+                    memo += '|';
+                }
+                memo += '' + value;
+            }
+            return memo;
+        });
     }
 };
 
@@ -376,5 +406,7 @@ $().ready(function() {
             ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
         ]
     });
+    
+    TD.DataFilter.addFilter('date');
 
 });
