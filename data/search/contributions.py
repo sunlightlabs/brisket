@@ -33,7 +33,6 @@ def _committee_in_generator(query, *entities):
     return query.filter(committee_entity__in=entities)
         
 def _contributor_in_generator(query, *entities):    
-    #return Q(contributor_entity__in=entities) | Q(organization_entity__in=entities) | Q(parent_organization_entity__in=entities)
     return query.filter(contributor_entity__in=entities)
     
 def _recipient_in_generator(query, *entities):
@@ -82,7 +81,7 @@ def _ft_terms(*searches):
     return ' & '.join((' '.join(searches)).split(' '))
 
 def _ft_clause(column):
-    return "to_tsvector('simple', %s) @@ to_tsquery('simple', %%s)" % column
+    return "to_tsvector('datacommons', %s) @@ to_tsquery('datacommons', %%s)" % column
 
 # Strings used in the HTTP request syntax
 
@@ -134,5 +133,5 @@ CONTRIBUTION_SCHEMA = Schema(
                                    Operator(BETWEEN_OP, _amount_between_generator)))
 
 
-def filter_contributions(request):
+def filter_contributions(request):    
     return CONTRIBUTION_SCHEMA.build_filter(Contribution.objects, request).order_by()
