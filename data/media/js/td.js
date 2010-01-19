@@ -86,7 +86,6 @@ var TD = {
                     filter.addField();
                 }
             }
-            TD.DataFilter.node.trigger('filterchange');
             return filter;
         },
         preview: function() {
