@@ -1,3 +1,5 @@
+from time import time
+import sys
 
 from urllib import unquote_plus
 from django.db.models import Q
@@ -10,12 +12,18 @@ from matchbox.queries import search_entities_by_name
 RESERVED_PARAMS = ('key','limit','format')
 
 def load_contributions(params):
+    start_time = time()
+
     limit = int(params.get('limit', 10))
     for param in RESERVED_PARAMS:
         if param in params:
             del params[param]
     unquoted_params = dict([(param, unquote_plus(quoted_value)) for (param, quoted_value) in params.iteritems()])
-    return filter_contributions(unquoted_params)[:limit]
+    result = filter_contributions(unquoted_params)[:limit]
+        
+    print("load_contributions(%s) returned %s results in %s seconds." % (unquoted_params, len(result), time() - start_time))
+          
+    return result
 
 #
 # contribution filter
