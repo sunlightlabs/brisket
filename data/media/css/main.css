@@ -13,6 +13,16 @@ a:active{outline: none; color: #046f8c}
 
 .clear{ clear: both;}
 
+/* self-clear floats */
+
+.group:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
 /*header area*/
 
 body{
