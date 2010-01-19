@@ -1,8 +1,8 @@
 
 from datetime import date
-import gc
 
 from django.test import TestCase
+from django.db import connection
 
 from dcdata.contribution.models import Contribution
 from dcdata.models import Import
@@ -37,6 +37,10 @@ class SimpleTest(TestCase):
         self.import_ = Import()
         self.import_.save()
         
+        cursor = connection.cursor()
+        for command in open( '/Users/ethanpg/dev/datacommons/dc_data/scripts/contribition_full_text_index.sql', 'r'):
+            if command.strip():
+                cursor.execute(command)
         
     def test_date(self):
         self.create_contribution(datestamp=date(1999,12,25))
@@ -139,8 +143,17 @@ class SimpleTest(TestCase):
         self.assert_num_results(2, {'organization_ft': 'Meany'})
         self.assert_num_results(1, {'organization_ft': 'Meany Sr.'})
 
-        
-        
+    def test_stop_words(self):
+        self.create_contribution(contributor_name='Apple Association Inc')
+
+        self.assert_num_results(0, {'contributor_ft': 'association'})
+        self.assert_num_results(0, {'contributor_ft': 'inc'})
+        self.assert_num_results(0, {'contributor_ft': 'assoc'})
+
+        self.assert_num_results(1, {'contributor_ft': 'apple'})
+        self.assert_num_results(1, {'contributor_ft': 'apple association inc'})
+        self.assert_num_results(1, {'contributor_ft': 'apple corp'})
+
         
         
 # not an actual test case because there are no Contribution records in the test database.
