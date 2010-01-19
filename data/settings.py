@@ -88,7 +88,7 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 MEDIASYNC_JOINED = {
-    'transparencydata.js': ['js/td.js','js/td.ready.js'],
+    'transparencydata.js': ['js/td.js', 'js/td.fields.js', 'js/td.ready.js'],
 }
 
 try:
