@@ -94,6 +94,8 @@ var TD = {
                 var qs = TD.Utils.toQueryString(params);
                 TD.Utils.setAnchor(qs);
                 $('a#previewData').removeClass('enabled');
+                $('div#tableScroll').hide();
+                $('div#loading').show();
                 $('#mainTable tbody').empty();
                 $.getJSON('/data/contributions/', params, function(data) {
                     for (var i = 0; i < data.length; i++) {
@@ -111,6 +113,8 @@ var TD = {
                         $('#mainTable tbody').append(content);
                     }
                     $('a#downloadData').addClass('enabled');
+                    $('div#tableScroll').show();
+                    $('div#loading').hide();
                 });
             }
         },

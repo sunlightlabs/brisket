@@ -719,6 +719,14 @@ div.perPage {
 	float: right;
 }
 
+div#loading {
+    background: url(../images/ajax-loader.gif) top left no-repeat;
+    display: none;
+    margin-bottom: 30px;
+    height: 16px;
+    width: 16px;
+}
+
 table#mainTable {
 	min-width: 54em;
 	width: 100%;
