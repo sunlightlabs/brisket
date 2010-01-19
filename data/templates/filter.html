@@ -4,6 +4,14 @@
 {% block bodyclass %}filteredSearch{% endblock %}
 
 {% block sidebar %}
+	<div id="datafilter">
+		<form>
+			<select id="filterselect">
+				<option value="">Select a filter to add...</option>
+			</select>
+			<ul id="filters"></ul>
+		</form>
+	</div>
     <div class="module">
         <h2>Filtered Search</h2>
             <a href="#" id="id_refreshdata">Refresh Data</a>
