@@ -445,6 +445,10 @@ li.filter ul.fields a {
 	margin-right: 2px;
 }
 
+ul.fields {
+	margin-bottom: 5px;
+}
+
 li.filter ul.fields a:hover{
 	background: url(images/button-minus-small.png) left -13px no-repeat;
 }
@@ -454,7 +458,8 @@ li.daterangefield {
 }
 
 li.daterange_field .date_start, li.daterange_field .date_end {
-	 width: 72px;
+	 width: 67px;
+	 margin: 0 3px;
 }
 
 li.operator_field [name="amount_operator"] {
@@ -570,6 +575,10 @@ p.moduleText {
 
 .dropdown_field [name="cycle"] {
 	width: 234px;
+}
+
+.dropdown_field {
+	margin-bottom: 5px;
 }
 
 select.bulk_filter {
