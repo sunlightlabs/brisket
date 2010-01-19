@@ -1,619 +1,580 @@
-var parseSuggest = function(res) {
-    var params = res.split(',');
-    var val = params[1];
-    for (var i = 2; i < params.length; i++) {
-        val += ',' + params[i];
-    }
-    return [params[0], val];
-};
+if (typeof Object.create !== 'function') {
+    Object.create = function(o) {
+        var F = function() {};
+        F.prototype = o;
+        return new F();
+    };
+}
 
-TD = { };
-
-TD.DataFilter = {
+var TD = {
     
-    fields: { },    // fields added to the filter
-    registry: { },  // registry of allowed fields
-    
-    init: function() {
-        
-        // populate field selection drop down
-        $.each(TD.DataFilter.registry, function(item) {
-            var fieldDef = TD.DataFilter.registry[item];
-            $('#id_filter').append('<option value="' + item + '">' + fieldDef.config.label + '</option>');
-        });
-        
-        // bind filter form to the submit button
-        $('#filterForm').bind('submit', function() {
-            return false;
-        });
-        
-        // bind button to add a new field based on field type selection
-        $('#filterForm #id_filter').bind('change', function() {
-            var fieldType = $('#filterForm #id_filter').val();
-            var fieldPrototype = TD.DataFilter.registry[fieldType];
-            if (fieldPrototype != undefined) {
-                TD.DataFilter.addField(fieldPrototype.instance());
-            }
-            $('#filterForm #id_filter')[0].selectedIndex = 0;
-            return false;
-        });
-        
-        // bind data refresh
-        $('#id_refreshdata').bind('click', function() {
-            var params = { };
-            var values = TD.DataFilter.values();
-            for (attr in values) {
-                params[attr] = _.reduce(values[attr], '', function(memo, item) {
-                    if (item && item != '') {
-                        if (memo) memo += '|';
-                        memo += item;
-                    }
-                    return memo;
-                });
-            }
-            $('#mainTable tbody').empty();
-            $.getJSON('/data/contributions/', params, function(data) {
-                for (var i = 0; i < data.length; i++) {
-                    var contrib = data[i];
-                    var className = (i % 2 == 0) ? 'even' : 'odd';
-                    var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
-                    var content = '<tr class="' + className + '">';
-                    content += '<td>' + jurisdiction + '</td>';
-                    content += '<td>' + (contrib.datestamp || '&nbsp;') + '</td>';
-                    content += '<td>$' + contrib.amount + '</td>';
-                    content += '<td>' + contrib.contributor_name + '</td>';
-                    content += '<td>' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
-                    content += '<td>' + contrib.recipient_name + '</td>';
-                    content += '</tr>';
-                    $('#mainTable tbody').append(content);
-                }    
-                $('#module_loading').hide();
-                $('#module_transactions').show();
+    DataFilter: {
+        registry: {},
+        init: function() {
+            
+            TD.DataFilter.node = $('#datafilter');
+            TD.DataFilter.node.bind('filterchange', function() {
+                $('a#downloadData').removeClass('enabled');
+                $('a#previewData').addClass('enabled');
             });
-            $('#module_directions').hide();
-            $('#module_transactions').hide();
-            $('#module_loading').show();
-            return false;
-        });
-        
-        // download data set
-        $('#downloadDataSet').bind('click', function() {
-            var qs = '';
-            var values = TD.DataFilter.values();
-            for (attr in values) {
-                if (qs) qs += '&';
-                var val = _.reduce(values[attr], '', function(memo, item) {
-                    if (item && item != '') {
-                        if (memo) memo += '|';
-                        memo += item;
-                    }
-                    return memo;
-                });
-                qs += attr + '=' + encodeURIComponent(val);
-            }
-            window.location.replace("/data/contributions/download/?" + qs);
-            return false;
-        });
-        
-    },
-    
-    addField: function(field) {
-        var node = field.render();              // create new DOM node
-        TD.DataFilter.fields[field.id] = field; // store reference to field
-        field.bind(node);                       // bind field object to DOM
-        node.appendTo('#filterForm > ul');      // append DOM node to filter list
-        return field;
-    },
-    
-    removeField: function(field) {
-        delete TD.DataFilter.fields[field.id];  // remove reference to field
-        $('#field_' + field.id).remove();       // remove field from DOM
-    },
-    
-    values: function() {
-        return _(TD.DataFilter.fields).chain()
-            .map(function(item) { return item.data(); })
-            .reduce({ }, function(memo, item) {
-                var key = item[0], value = item[1];
-                if (memo[key] === undefined) {
-                    memo[key] = [];
+            
+            $('#datafilter select#filterselect').bind('change', function() {
+                var filterName = this.value;
+                if (filterName) {
+                    TD.DataFilter.addFilter(filterName);
                 }
-                memo[key].push(value);
-                return memo;
-            }).value();
-    }
-    
-};
-
-/* create base Field object
-*/
-TD.DataFilter.Field = function() { };
-TD.DataFilter.Field.prototype.bind = function(node) {
-    // bind DOM node to the remove field method
-    var me = this;
-    node.find('a.minus-button').bind('click', function() {
-        TD.DataFilter.removeField(me);
-        return false;
-    });
-};
-TD.DataFilter.Field.prototype.instance = function() {
-    // create a new instance of this field
-    function F() { }
-    F.prototype = this;
-    var obj = new F();
-    obj.id = Math.floor(Math.random() * 90000) + 10000;
-    return obj;
-};
-
-/* TextField object has a single text input
-*/
-TD.DataFilter.TextField = function(config) {
-    
-    var that = new TD.DataFilter.Field();
-    that.config = config;
-    
-    that.render = function() {
-        var content = '';
-        content += '<li id="field_' + this.id + '" class="textField">';
-        content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
-        content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
-        content += '<span class="helper">' + config.helper + '</span>';
-        content += '<input id="field_' + this.id + '_' + config.name + '" type="text" name="' + config.name + '"/>';
-        content += '</li>';
-        return $(content);
-    };
-    
-    that.data = function() {
-        return [config.name,
-            $("#field_" + this.id + " input").val()];
-    };
-    
-    return that;
-    
-};
-
-/* DropDownField displays a select box of options.
-    - options -- list of [value, text] lists
-*/
-TD.DataFilter.DropDownField = function(config) {
-    
-    var that = new TD.DataFilter.Field();
-    that.config = config;
-    
-    that.render = function() {
-        var content = '';
-        content += '<li id="field_' + this.id + '" class="dropDownField">';
-        content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
-        content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
-        content += '<span class="helper">' + config.helper + '</span>';
-        content += '<select id="field_' + this.id + '_' + config.name + '" name="' + config.name + '">';
-        for (var i = 0; i < config.options.length; i++) {
-            content += '<option value="' + config.options[i][0] + '">' + config.options[i][1] + '</option>';
-        }
-        content += '</select>';
-        content += '</li>';
-        return $(content);
-    };
-    
-    that.data = function() {
-        return [config.name,
-            $("#field_" + this.id + " select").val()];
-    };
-    
-    return that;
-    
-};
-
-/* OperatorField displays a text input with an operation select box:
-   greater than, less than, equal to, not equal to
-*/
-TD.DataFilter.OperatorField = function(config) {
-    
-    var that = new TD.DataFilter.Field();
-    that.config = config;
-    
-    if (!config.operators) {
-        config.operators = [
-            ['&gt;', 'greater than'],
-            ['&lt;', 'less than'],
-            ['=', 'equal to']
-        ]
-    }
-    
-    that.render = function() {
-        var content = '';
-        content += '<li id="field_' + this.id + '" class="operatorField">';
-        content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
-        content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
-        content += '<span class="helper">' + config.helper + '</span>';
-        content += '<select id="field_' + this.id + '_' + config.name + '_operator" name="' + config.name + '_operator">';
-        for (var i = 0; i < config.operators.length; i++) {
-            var op = config.operators[i];
-            content += '<option value="' + op[0] + '">' + op[1] + '</option>';
-        }
-        content += '</select>';
-        content += '<input id="field_' + this.id + '_' + config.name + '" type="text" name="' + config.name + '"/>';
-        content += '</li>';
-        return $(content);
-    };
-    
-    that.data = function() {
-        var selector = "#field_" + this.id + "_" + config.name;
-        return [config.name,
-            $(selector + "_operator").val() + '|' + $(selector).val()];
-    };
-    
-    return that;
-};
-
-/* DateRangeField displays two text input widgets that specify the dates in the range.
-   DateRangeField depends on jquery-ui for the date picker widgets.
-*/
-TD.DataFilter.DateRangeField = function(config) {
-    
-    var ymdFormat = function(mdy) {
-        var mdyParts = mdy.split('/');
-        return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1]
-    };
-    
-    var that = new TD.DataFilter.Field();
-    that.config = config;
-    
-    that.render = function() {
-        
-        var content = '';
-        content += '<li id="field_' + this.id + '" class="dateRangeField">';
-        content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
-        content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
-        content += '<span class="helper">' + config.helper + '</span>';
-        content += '<input id="field_' + this.id + '_' + config.name + '_start" type="text" class="date_start" name="' + config.name + '_start"/>';
-        content += '<input id="field_' + this.id + '_' + config.name + '_end" type="text" class="date_end" name="' + config.name + '_end"/>';
-        content += '</li>';
-        
-        var elem = $(content);
-        
-        elem.find('input.date_start').datepicker({
-            changeMonth: true,
-            changeYear: true,
-            duration: '',
-            onSelect: function(dateText, inst) {
-                var endWidget = elem.find('input.date_end');
-                if (!endWidget.val()) {
-                    var now = elem.find('input.date_start').datepicker('getDate');
-                    endWidget.datepicker('setDate', now);
-                }
-            },
-            yearRange: '1990:2010'
-        });
-        elem.find('input.date_end').datepicker({
-            changeMonth: true,
-            changeYear: true,
-            duration: '',
-            yearRange: '1990:2010'
-        });
-        
-        return elem;
-        
-    };
-    
-    that.data = function() {
-        var inputs = $("#field_" + this.id + " input");
-        var start = ymdFormat(inputs[0].value);
-        var end = ymdFormat(inputs[1].value);
-        return [config.name, '><|' + start + '|' + end];
-    };
-    
-    return that;
-    
-};
-
-
-TD.DataFilter.EntityField = function(config) {
-    
-    var that = new TD.DataFilter.Field();
-    that.config = config;
-    
-    that.render = function() {
-        
-        var content = '';
-        content += '<li id="field_' + this.id + '" class="entityField" data-id="' + this.id + '">';
-        content += '<label for="field_' + this.id + '_' + config.name + '">' + config.label + '</label>';
-        content += '<a class="minus-button" href="#" title="Delete Filter">Delete Filter</a>';
-        content += '<span class="helper">' + config.helper + '</span>';
-        content += '<ul class="entity_values"></ul>';
-        content += '<input id="field_' + this.id + '_' + config.name + '" type="text" name="' + config.name + '"/>';
-        content += '</li>';
-        
-        var elem = $(content);
-        
-        var control = elem.find('input');
-        
-        var ac = control.autocomplete('/data/entities/' + config.name + '/', {
-            delay: 600000000,
-            max: 20,
-            minChars: 2,
-            mustMatch: true,
-            formatItem: function(row, position, count, terms) {
-                var params = parseSuggest(row[0]);
-                if (position == count) {
-                    control.removeClass('loading');
-                }
-                return '<span data-id="' + params[0] + '">' + params[1] + '</span>';
-            },
-            selectFirst: true
-        });
-
-        control.bind('result', function(ev) {
-            $(this).removeClass('loading');
-        });
-
-        control.bind('keydown', function(e) {
-            if (e.which == 13 && control.val() != '') {
-                $(this).addClass('loading');
-                $(this).trigger('suggest');
-            }
-        });
-    
-        control.result(function(ev, li) {
-            if (li && li[0]) {
-                var params = parseSuggest(li[0]);
-                var fieldId = elem.attr('data-id');
-                TD.DataFilter.fields[fieldId].addSelection(params[0], params[1]);
-            }
-        });
-        
-        return elem;
-        
-    };
-    
-    that.data = function() {
-        
-        var value = '';
-        
-        $("#field_" + this.id + " ul.entity_values li").each(function(i) {
-            var item = $(this).attr('data-id');
-            if (item) {
-                if (value) value += '|';
-                value += item;
-            }
-        });
-        
-        return [config.name, value];
-        
-    };
-    
-    that.addSelection = function(id, name) {
-        var s = $('<li data-id="' + id + '">' + name + '</li>');
-        s.appendTo("#field_" + this.id + " ul");
-        $("#field_" + this.id + " input").val('');
-    };
-    
-    return that;
-    
-};
-
-
-/* main search box functionality
-*/ 
-TD.SearchBox = {
-    
-    isValid: false,
-    
-    init: function() {
-        
-        // on focus, clear text if equal to title
-        // on blur, set value to title if no value is specified
-        // trigger blur to set value to title
-        $('#searchBtn').bind('focus', function() {
-            if (this.value === this.title) {
-                this.value = '';
-                TD.SearchBox.isValid = true;
-            }
-        }).bind('blur', function() {
-            if (!this.value) {
-                this.value = this.title;
-                TD.SearchBox.isValid = false;
-            }
-        }).trigger('blur');
-        
-        // do search
-        $('searchForm').bind('submit', function() {
-            var entityId = $('#searchEntityID').val();
-            if (TD.SearchBox.isValid && entityId) {
-                alert('ok!');
-            } else {
-                alert('not good');
-            }
-            return false;
-        });
-        
-        $('#searchBtn').autocomplete('/data/entities/quick/', {
-            delay: 600000000,
-            max: 20,
-            minChars: 2,
-            mustMatch: true,
-            formatItem: function(row, position, count, terms) {
-                var params = parseSuggest(row[0]);
-                if (position == count) {
-                    $(this).removeClass('loading');
-                }
-                return '<span data-id="' + params[0] + '">' + params[1] + '</span>';
-            },
-            formatResult: function(data, position, total) {
-                var params = parseSuggest(data[0]);
-                return params[1];
-            },
-            selectFirst: true
-        });
-
-        $('#searchBtn').bind('keydown', function(e) {
-            if (e.which == 13) {
-                if ($(this).val() != '') {
-                    $(this).addClass('loading');
-                    $(this).trigger('suggest');
+                this.selectedIndex = 0;
+                return false;
+            });
+            
+            $('a#previewData').bind('click', function() {
+                if ($('#mainTable').length == 0) {
+                    // no main table, forward to filter page
+                    var qs = TD.Utils.toQueryString(TD.DataFilter.values());
+                    window.location.replace("/filter/#" + qs);
+                } else {
+                    TD.DataFilter.preview();
                 }
                 return false;
+            });
+            
+            $('a#downloadData').bind('click', function() {
+                var qs = TD.Utils.toQueryString(TD.DataFilter.values());
+                window.location.replace("/data/contributions/download/?" + qs);
+                return false;
+            });
+            
+            var params = TD.Utils.parseAnchor();
+            for (attr in params) {
+                var filter = TD.DataFilter.addFilter(attr);
+                var values = filter.config.field.parseValues(params[attr]);
+                //alert(values);
+                for (var i = 0; i < values.length; i++) {
+                    var field = null;
+                    if (filter.fieldCount < i + 1) {
+                        field = filter.addField();
+                    } else {
+                        for (fid in filter.fields) {
+                            field = filter.fields[fid];
+                            break;
+                        }
+                    }
+                    field.loadValue(values[i]);
+                }
             }
-        }).bind('result', function(ev) {
-            $(this).removeClass('loading');
-        }).result(function(ev, li) {
-            if (li && li[0]) {
-                var params = parseSuggest(li[0]);
-                $('#searchEntityID').val(params[0]);
+            if (params) {
+                TD.DataFilter.preview();
             }
-        });
-        
-    }
-    
-};
-
-/* UI modifiers
-*/ 
-TD.UI = {
-    fluid: function() {
-        $('body').addClass('filteredSearch');
+            
+        },
+        registerFilter: function(config) {
+            var filter = Object.create(TD.DataFilter.Filter);
+            filter.init(config);
+            TD.DataFilter.registry[config.name] = filter;
+            var option = $('<option value="' + config.name + '">' + config.label + '</option>');
+            $('#datafilter select#filterselect').append(option);
+        },
+        addFilter: function(filterName) {
+            var filter = TD.DataFilter.registry[filterName];
+            if (filter != undefined) {
+                if (filter.enabled) {
+                    filter.addField();
+                    TD.DataFilter.primaryFilter(filter);
+                } else {
+                    $('#datafilter ul#filters').prepend(filter.render());
+                    filter.enable();
+                    filter.addField();
+                }
+            }
+            TD.DataFilter.node.trigger('filterchange');
+            return filter;
+        },
+        preview: function() {
+            if ($('#mainTable').length > 0) {
+                var params = TD.DataFilter.values();
+                var qs = TD.Utils.toQueryString(params);
+                TD.Utils.setAnchor(qs);
+                $('a#previewData').removeClass('enabled');
+                $('#mainTable tbody').empty();
+                $.getJSON('/data/contributions/', params, function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var contrib = data[i];
+                        var className = (i % 2 == 0) ? 'even' : 'odd';
+                        var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
+                        var content = '<tr class="' + className + '">';
+                        content += '<td>' + jurisdiction + '</td>';
+                        content += '<td>' + (contrib.datestamp || '&nbsp;') + '</td>';
+                        content += '<td>$' + contrib.amount + '</td>';
+                        content += '<td>' + contrib.contributor_name + '</td>';
+                        content += '<td>' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
+                        content += '<td>' + contrib.recipient_name + '</td>';
+                        content += '</tr>';
+                        $('#mainTable tbody').append(content);
+                    }
+                    $('a#downloadData').addClass('enabled');
+                });
+            }
+        },
+        primaryFilter: function(filter) {
+            $('#datafilter ul#filters').prepend(filter.node);
+        },
+        values: function() {
+            var params = {};
+            for (name in TD.DataFilter.registry) {
+                var filter = TD.DataFilter.registry[name];
+                if (filter.enabled) {
+                    var value = filter.value();
+                    if (value) {
+                        params[name] = value;
+                    }
+                }
+            }
+            return params;
+        },
+        registerFilter: function(config) {
+            var filter = Object.create(TD.DataFilter.Filter);
+            filter.init(config);
+            TD.DataFilter.registry[config.name] = filter;
+            var option = $('<option value="' + config.name + '">' + config.label + '</option>');
+            $('#datafilter select#filterselect').append(option);
+        }
     },
-    fixed: function() {
-        $('body').removeClass('filteredSearch');
+    
+    Utils: {
+        getAnchor: function() {
+            var a = window.location.hash;
+            if (a.indexOf('#') == 0) {
+                if (a.length > 1) {
+                    a = a.substr(1);
+                } else {
+                    a = '';
+                }
+            }
+            return decodeURIComponent(a);
+        },
+        parseAnchor: function() {
+            var params = {};
+            var qs = TD.Utils.getAnchor();
+            if (qs) {
+                var terms = qs.split('&');
+                for (var i = 0; i < terms.length; i++) {
+                    var parts = terms[i].split('=');
+                    params[parts[0]] = parts[1];
+                }
+            }
+            return params;
+        },
+        setAnchor: function(a) {
+            window.location.hash = encodeURIComponent(a);
+        },
+        toQueryString: function(obj) {
+            var qs = ''
+            for (attr in obj) {
+                if (qs) {
+                    qs += '&';
+                }
+                qs += attr + '=' + encodeURIComponent(obj[attr]);
+            }
+            return qs
+        },
+        ymdFormat: function(mdy) {
+            var mdyParts = mdy.split('/');
+            return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1]
+        }
+    }
+    
+};
+
+/**********************************************************
+ *  fields objects
+ */
+
+TD.DataFilter.Field = {
+    bind: function(node) {
+        var me = this;
+        this.node = node;
+        if (this.filter.allowMultipleFields) {
+            node.find('a.remove').bind('click', function() {
+                me.filter.removeField(me);
+                return false;
+            });
+        } else {
+            node.find('a.remove').remove();
+        }
     }
 };
 
-/* main ready function
-*/
-$().ready(function() {
-    
-    TD.SearchBox.init();
-    
-    TD.DataFilter.registry = {
-        
-        amount: TD.DataFilter.OperatorField({
-            label: 'Amount',
-            name: 'amount',
-            helper: 'Amount of contribution in dollars',
-            operators: [
-                ['&gt;', 'greater than'],
-                ['&lt;', 'less than'],
-                ['&gt;&lt;', 'between']
-            ]
-        }),
+// date range field
 
-        cycle: TD.DataFilter.DropDownField({
-            label: 'Cycle',
-            name: 'cycle',
-            helper: 'Federal election cycle',
-            options: [
-                ['1990','1990'], ['1992','1992'], ['1994','1994'], ['1996','1996'],
-                ['1998','1998'], ['2000','2000'], ['2002','2002'], ['2004','2004'],
-                ['2006','2006'], ['2008','2008'], ['2010','2010']
-            ]
-        }),
-
-        datestamp: TD.DataFilter.DateRangeField({
-            label: 'Date',
-            name: 'date',
-            helper: 'Date of contribution'
-        }),
-        
-        state: TD.DataFilter.DropDownField({
-            label: 'State',
-            name: 'state',
-            helper: 'State from which the contribution was made',
-            options: [
-                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
-                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
-                ['DC', 'District of Columbia'],
-                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
-                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
-                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
-                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
-                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
-                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
-                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
-                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
-                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
-                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
-                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
-            ]
-        }),
-
-        jurisdiction: TD.DataFilter.DropDownField({
-            label: 'Jurisdiction',
-            name: 'transaction_namespace',
-            helper: 'State or federal seat',
-            options: [
-                ['urn:fec:transaction','Federal'],
-                ['urn:nimsp:transaction','State']
-            ]
-        }),
-        
-        seat: TD.DataFilter.DropDownField({
-            label: 'Seat',
-            name: 'seat',
-            helper: 'Type of seat for which candidate is running',
-            options: [
-                ['federal:senate', 'US Senate'],
-                ['federal:house', 'US House of Representatives'],
-                ['federal:president', 'US President'],
-                ['state:upper', 'State Upper Chamber'],
-                ['state:lower', 'State Lower Chamber'],
-                ['state:governor', 'State Governor']
-            ]
-        }),
-        
-        // entity fields
-        
-        committee: TD.DataFilter.TextField({
-            label: 'Committee',
-            name: 'committee_ft',
-            helper: 'Name of individual or PAC that made contribution'
-        }),
-        
-        contributor: TD.DataFilter.TextField({
-            label: 'Contributor',
-            name: 'contributor_ft',
-            helper: 'Name of individual or PAC that made contribution'
-        }),
-        
-        organization: TD.DataFilter.TextField({
-            label: 'Employer',
-            name: 'organization_ft',
-            helper: 'Organization that employs the individual making the contribution'
-        }),
-        
-        recipient: TD.DataFilter.TextField({
-            label: 'Recipient',
-            name: 'recipient_ft',
-            helper: 'Name of candidate or PAC that received contribution'
-        }),
-        
-        // old entity fields
-        
-        committee_entity: TD.DataFilter.EntityField({
-            label: 'Committee (entity)',
-            name: 'committee',
-            helper: 'Committee making contribution'
-        }),
-        
-        contributor_entity: TD.DataFilter.EntityField({
-            label: 'Contributor (entity)',
-            name: 'contributor',
-            helper: 'Name of individual or PAC that made contribution'
-        }),
-
-        organization_entity: TD.DataFilter.EntityField({
-            label: 'Employer (entity)',
-            name: 'organization',
-            helper: 'Organization that employs the individual making the contribution'
-        }),
-
-        recipient_entity: TD.DataFilter.EntityField({
-            label: 'Recipient (entity)',
-            name: 'recipient',
-            helper: 'Name of candidate or PAC that received contribution'
-        })
-        
+TD.DataFilter.DateRangeField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.DateRangeField.value = function() {
+    var start = $.datepicker.formatDate('yy-mm-dd', 
+        this.node.find('input.date_start').datepicker('getDate'));
+    var end = $.datepicker.formatDate('yy-mm-dd', 
+        this.node.find('input.date_end').datepicker('getDate'));
+    if (start && end) {
+        return '><|' + start + '|' + end;
     }
+};
+TD.DataFilter.DateRangeField.parseValues = function(v) {
+    var values = [];
+    var parts = v.split('|');
+    for (var i = 0; i < parts.length - 2; i += 3) {
+        values.push([parts[i+1], parts[i+2]]);
+    }
+    return values;
+};
+TD.DataFilter.DateRangeField.loadValue = function(v) {
     
+};
+TD.DataFilter.DateRangeField.render = function() {
+    
+    var content = '';
+    content += '<li class="daterange_field">'
+    content += 'between <input type="text" class="date_start" name="' + this.filter.config.name + '_start"/>';
+    content += 'and <input type="text" class="date_end" name="' + this.filter.config.name + '_end"/>';
+    content += '<a href="#" class="remove">-</a>';
+    content += '</li>';
+
+    this.node = $(content);
+    var dstart = this.node.find('input.date_start');
+    var dend = this.node.find('input.date_end');
+
+    dstart.bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    }).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        duration: '',
+        yearRange: '1990:2010',
+        onSelect: function(dateText, inst) {
+            if (!dend.val()) {
+                dend.datepicker('setDate',
+                    dstart.datepicker('getDate'));
+            }
+        }
+    });
+
+    dend.bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    }).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        duration: '',
+        yearRange: '1990:2010'
+    });
+
+    return this.node;
+
+};
+
+// drop down field
+    
+TD.DataFilter.DropDownField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.DropDownField.render = function() {
+    
+    var content = '';
+    content += '<li class="dropdown_field">';
+    content += '<select id="field' + this.id + '" name="' + this.filter.config.name + '">';
+    var opts = this.filter.config.options;
+    for (var i = 0; i < opts.length; i++) {
+        content += '<option value="' + opts[i][0] + '">' + opts[i][1] + '</option>';
+    }
+    content += '</select>';
+    content += '<a href="#" class="remove">-</a>';
+    content += '</li>';
+    
+    var node = $(content);
+    node.find('select').bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    
+    return node;
+    
+};
+TD.DataFilter.DropDownField.value = function() {
+    return this.node.find('select').val();
+};
+TD.DataFilter.DropDownField.parseValues = function(v) {
+    return v.split('|');
+};
+TD.DataFilter.DropDownField.loadValue = function(v) {
+    this.node.find('select').val(v);
+};
+
+// operator field
+
+TD.DataFilter.OperatorField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.OperatorField.render = function() {
+    var operators = this.filter.config.operators || [
+        ['&gt;', 'greater than'],
+        ['&lt;', 'less than']
+    ];
+    var content = '';
+    content += '<li class="operator_field">';
+    content += '<select id="field' + this.id + '" name="' + this.filter.config.name + '_operator">';
+    for (var i = 0; i < operators.length; i++) {
+        var op = operators[i];
+        content += '<option value="' + op[0] + '">' + op[1] + '</option>';
+    }
+    content += '</select>';
+    content += '<input id="field' + this.id + '" type="text" name="' + this.filter.config.name + '"/>';
+    content += '</li>';
+    
+    var node = $(content);
+    node.find('input').bind('keypress', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    node.find('select').bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    
+    return node;
+};
+TD.DataFilter.OperatorField.value = function() {
+    var value = this.node.find('input').val();
+    if (value) {
+        var operator = this.node.find('select').val();
+        return operator + "|" + value;
+    }
+};
+TD.DataFilter.OperatorField.parseValues = function(v) {
+    var values = [];
+    var parts = v.split('|');
+    for (var i = 0; i < parts.length - 1; i += 2) {
+        values.push([parts[i], parts[i+1]]);
+    }
+    return values;
+};
+TD.DataFilter.OperatorField.loadValue = function(v) {
+    this.node.find('select').val(v[0]);
+    this.node.find('input').val(v[1]);
+};
+
+// basic text field
+
+TD.DataFilter.TextField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.TextField.render = function() {    
+    var content = '';
+    content += '<li id="field_' + this.id + '" class="text_field">';
+    content += '<input id="field' + this.id + '" type="text" name="' + this.filter.config.name + '"/>';
+    content += '<a href="#" class="remove">-</a>';
+    content += '</li>';
+    
+    var node = $(content);
+    node.find('input').bind('keypress', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    
+    return node;
+};
+TD.DataFilter.TextField.value = function() {
+    return this.node.find('input').val();
+};
+TD.DataFilter.TextField.parseValues = function(v) {
+    return v.split('|')
+};
+TD.DataFilter.TextField.loadValue = function(v) {
+    this.node.find('input').val(v);
+};
+
+/**********************************************************
+ *  filter objects
+ */
+
+TD.DataFilter.Filter = {
+    init: function(config) {
+        this.allowMultipleFields = config.allowMultipleFields || false;
+        this.enabled = false;
+        this.fields = {};
+        this.fieldCount = 0;
+        this.config = config;
+    },
+    addField: function() {
+        if (this.fieldCount > 0 && !this.allowMultipleFields) {
+            return;
+        }
+        var field = Object.create(this.config.field);
+        field.id = '' + Math.floor(Math.random() * 90000) + 10000;
+        field.filter = this;
+        var elem = field.render();
+        field.bind(elem);
+        this.node.find('ul.fields').append(elem);
+        this.fields[field.id] = field;
+        this.fieldCount++;
+        TD.DataFilter.node.trigger('filterchange');
+        return field;
+    },
+    bind: function(node) {
+        var me = this;
+        me.node = node;
+        node.find('a.remove').bind('click', function() {
+            me.disable();
+            return false;
+        });
+        node.find('a.add').bind('click', function() {
+            me.addField();
+            return false;
+        });
+    },
+    enable: function() {
+        this.enabled = true;
+    },
+    disable: function() {
+        this.enabled = false;
+        for (fieldId in this.fields) {
+            this.removeField(this.fields[fieldId]);
+        }
+        this.node.remove();
+        TD.DataFilter.node.trigger('filterchange');
+    },
+    removeField: function(field) {
+        delete this.fields[field.id];
+        this.fieldCount--;
+        field.node.remove();
+        if (this.fieldCount === 0) {
+            this.disable();
+        }
+        TD.DataFilter.node.trigger('filterchange');
+    },
+    render: function() {
+        var content = '';
+        content += '<li id="' + this.config.name + '_filter" class="filter">';
+        content += '<label>' + this.config.label + '</label>';
+        content += '<a href="#" class="remove">-</a>';
+        if (this.allowMultipleFields) {
+            content += '<a href="#" class="add">+</a>';
+        }
+        content += '<p class="help">' + this.config.help + '</p>';
+        content += '<ul class="fields"></ul>';
+        content += '</li>';
+        var node = $(content);
+        this.bind(node);
+        return node;
+    },
+    value: function() {
+        return _.reduce(this.fields, '', function(memo, item) {
+            var value = item.value();
+            if (value) {
+                if (memo) {
+                    memo += '|';
+                }
+                memo += '' + value;
+            }
+            return memo;
+        });
+    }
+};
+
+/**********************************************************
+ *  declaration of fields
+ */
+ 
+$().ready(function() {
+
+    TD.DataFilter.registerFilter({
+        name: 'amount',
+        label: 'Amount',
+        help: 'This is the amount of the contribution',
+        field: TD.DataFilter.OperatorField
+    });
+    
+    TD.DataFilter.registerFilter({
+        name: 'cycle',
+        label: 'Cycle',
+        help: 'Election cycles. Odd cycles have only state-level contributions',
+        field: TD.DataFilter.DropDownField,
+        allowMultipleFields: true,
+        options: [
+            ['1990','1990'], ['1991','1991'], ['1992','1992'],
+            ['1993','1993'], ['1994','1994'], ['1995','1995'],
+            ['1996','1996'], ['1997','1997'], ['1998','1998'],
+            ['1999','1999'], ['2000','2000'], ['2001','2001'],
+            ['2002','2002'], ['2003','2003'], ['2004','2004'],
+            ['2005','2005'], ['2006','2006'], ['2007','2007'],
+            ['2008','2008'], ['2009','2009'], ['2010','2010']
+        ]
+    });
+    
+    TD.DataFilter.registerFilter({
+        name: 'contributor_ft',
+        label: 'Contributor',
+        help: 'Name of individual or PAC that made contribution',
+        field: TD.DataFilter.TextField
+    });
+    
+    TD.DataFilter.registerFilter({
+        name: 'date',
+        label: 'Date',
+        help: 'This is the date of the contribution',
+        field: TD.DataFilter.DateRangeField
+    });
+    
+    TD.DataFilter.registerFilter({
+        name: 'transaction_namespace',
+        label: 'Federal/State',
+        help: 'State or federal office',
+        field: TD.DataFilter.DropDownField,
+        options: [
+            ['urn:fec:transaction','Federal'],
+            ['urn:nimsp:transaction','State']
+        ]
+    });
+    
+    TD.DataFilter.registerFilter({
+        label: 'Office',
+        name: 'seat',
+        help: 'Office for which candidate is running',
+        field: TD.DataFilter.DropDownField,
+        allowMultipleFields: true,
+        options: [
+            ['federal:senate', 'US Senate'],
+            ['federal:house', 'US House of Representatives'],
+            ['federal:president', 'US President'],
+            ['state:upper', 'State Upper Chamber'],
+            ['state:lower', 'State Lower Chamber'],
+            ['state:governor', 'State Governor']
+        ]
+    });
+    
+    TD.DataFilter.registerFilter({
+        name: 'organization_ft',
+        label: 'Employer',
+        help: 'Employer of individual that made contribution',
+        field: TD.DataFilter.TextField
+    });
+    
+    TD.DataFilter.registerFilter({
+        name: 'recipient_ft',
+        label: 'Recipient',
+        help: 'Name of candidate or PAC that received contribution',
+        field: TD.DataFilter.TextField
+    });
+    
+    TD.DataFilter.registerFilter({
+        name: 'state',
+        label: 'State',
+        help: 'State from which the contribution was made',
+        field: TD.DataFilter.DropDownField,
+        allowMultipleFields: true,
+        options: [
+            ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
+            ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
+            ['DC', 'District of Columbia'],
+            ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
+            ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
+            ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
+            ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
+            ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
+            ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
+            ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
+            ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
+            ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
+            ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
+            ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
+        ]
+    });
+
     TD.DataFilter.init();
-    
+
 });
