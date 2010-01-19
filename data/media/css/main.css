@@ -34,11 +34,11 @@ body{
 }
 
 div#headerWrapper{
-	background: url(images/brown-swatch125.png) top left repeat-x;	
+	background: url(../images/brown-swatch125.png) top left repeat-x;	
 }
 
 div#headerContainer{
-	background: url(images/nav-header-bg125.png) top center no-repeat;
+	background: url(../images/nav-header-bg125.png) top center no-repeat;
 }
 
 body.filteredSearch div#columnWrapper {
@@ -95,7 +95,7 @@ div.whiteboxRight {
 }
 
 div.introbox {
-	background: #FFF url(images/img-fade.png) top left repeat-x;
+	background: #FFF url(../images/img-fade.png) top left repeat-x;
 	width: 610px;
 	padding: 40px 35px 30px 35px;
 	border: solid 2px #A59C82;
@@ -133,7 +133,7 @@ h1{
 h1 a{
 	width: 341px;
 	height: 59px;
-	background: url(images/logo.png) top left no-repeat;
+	background: url(../images/logo.png) top left no-repeat;
 	display: block;
 	text-indent: -9999em;
 }
@@ -160,7 +160,7 @@ h4 {
 }
 
 h5 {
-	background: url(images/logo-sunlight-w.png) top left no-repeat;
+	background: url(../images/logo-sunlight-w.png) top left no-repeat;
 	display: block;
 	height: 92px;
 	width: 204px;
@@ -189,8 +189,8 @@ input#searchBtn{
 	margin-right: 10px;
 	width: 235px;
 	border: 1px solid #CCC;
-	color: #999;
-	background: #FFF url(images/spyglass-image.png) 6px 3px no-repeat;
+	color: #CCC;
+	background: #FFF url(../images/spyglass-image.png) 6px 3px no-repeat;
 }
 
 input {
@@ -209,28 +209,28 @@ button{
 }
 
 button.searchBtn{
-	background: url(images/search-button.png) top left no-repeat;
+	background: url(../images/search-button.png) top left no-repeat;
 	width: 60px;
 }
 
 button.bulkBtn{
-	background: url(images/search-button.png) top left no-repeat;
+	background: url(../images/search-button.png) top left no-repeat;
 	width: 60px;
 	float: right;
 }
 
 button.searchBtn:hover, button.bulkBtn:hover{
-	background: url(images/search-button.png) left -23px no-repeat;
+	background: url(../images/search-button.png) left -23px no-repeat;
 }
 
 button.signIn{
-	background: url(images/signin-button.png) top left no-repeat;
+	background: url(../images/signin-button.png) top left no-repeat;
 	width: 60px;
 	float: right;
 }
 
 button.signIn:hover{
-	background: url(images/signin-button.png) left -23px no-repeat;
+	background: url(../images/signin-button.png) left -23px no-repeat;
 }
 
 /*navigation bar*/
@@ -287,22 +287,22 @@ div#nav li#nav_logout {
 }
 
 li#nav_filtered a{
-	background: url(images/filter-icon.png) top left no-repeat;
+	background: url(../images/filter-icon.png) top left no-repeat;
 	padding: 2px 10px 0 24px;
 }
 
 li#nav_bulk a{
-	background: url(images/bulk-icon.png) top left no-repeat;
+	background: url(../images/bulk-icon.png) top left no-repeat;
 	padding: 2px 10px 0 30px;
 }
 
 li#nav_docs a{
-	background: url(images/doc-icon.png) top left no-repeat;
+	background: url(../images/doc-icon.png) top left no-repeat;
 	padding: 2px 10px 0 20px;
 }
 
 li#nav_api a{
-	background: url(images/api-icon.png) top left no-repeat;
+	background: url(../images/api-icon.png) top left no-repeat;
 	padding: 2px 10px 0 20px;
 }
 
@@ -334,7 +334,7 @@ img.searchModule {
 }
 
 a#getStarted{
-	background: url(images/getstarted-button.png) top left no-repeat;
+	background: url(../images/getstarted-button.png) top left no-repeat;
 	width: 110px;
 	height: 23px;
 	display: block;
@@ -343,7 +343,7 @@ a#getStarted{
 }
 
 a#getStarted:hover{
-	background: url(images/getstarted-button.png) left -23px no-repeat;
+	background: url(../images/getstarted-button.png) left -23px no-repeat;
 }
 
 
@@ -394,7 +394,7 @@ p#why {
 }
 
 a#id_refreshdata {
-	background: url(images/button-refresh.png) top left no-repeat;
+	background: url(../images/button-refresh.png) top left no-repeat;
 	display: block;
 	float: right;
 	text-indent: -9999em;
@@ -403,11 +403,11 @@ a#id_refreshdata {
 }
 
 a#id_refreshdata:hover{
-	background: url(images/button-refresh.png) left -23px no-repeat;
+	background: url(../images/button-refresh.png) left -23px no-repeat;
 } 
 
 li.filter>.add {
-	background: url(images/plus-button.png) top left no-repeat;
+	background: url(../images/plus-button.png) top left no-repeat;
 	display: block;
 	float: right;
 	text-indent: -9999em;
@@ -416,12 +416,12 @@ li.filter>.add {
 }
 
 li.filter>.add:hover{
-	background: url(images/plus-button.png) left -19px no-repeat;
+	background: url(../images/plus-button.png) left -19px no-repeat;
 }
 
 
 li.filter>.remove {
-	background: url(images/minus-button.png) top left no-repeat;
+	background: url(../images/minus-button.png) top left no-repeat;
 	display: block;
 	float: right;
 	text-indent: -9999em;
@@ -431,11 +431,11 @@ li.filter>.remove {
 }
 
 li.filter>.remove:hover{
-	background: url(images/minus-button.png) left -19px no-repeat;
+	background: url(../images/minus-button.png) left -19px no-repeat;
 }
 
 li.filter ul.fields a {
-	background: url(images/button-minus-small.png) top left no-repeat;
+	background: url(../images/button-minus-small.png) top left no-repeat;
 	display: block;
 	float: right;
 	text-indent: -9999em;
@@ -450,7 +450,7 @@ ul.fields {
 }
 
 li.filter ul.fields a:hover{
-	background: url(images/button-minus-small.png) left -13px no-repeat;
+	background: url(../images/button-minus-small.png) left -13px no-repeat;
 }
 
 li.daterangefield {
@@ -510,8 +510,8 @@ p#why, div#leftColumnFields label[for="id_subscribed"], div#leftColumnFields .er
 	font-style: italic;
 	color: #817450;
 	line-height: 15px;
-	margin-bottom: 8px;
 	margin-top: 5px;
+	margin-bottom: 8px;
 	display: block;	
 }
 
@@ -623,14 +623,14 @@ dd {
 }
 
 a#openSecrets {
-	background: url(images/logo_opensecrets_color.png) top left no-repeat;
+	background: url(../images/logo_opensecrets_color.png) top left no-repeat;
 	width: 138px;
 	height: 52px;
 	margin-right: 30px;
 }
 
 a#nimsp {
-	background: url(images/nimsp-logo.png) top left no-repeat;
+	background: url(../images/nimsp-logo.png) top left no-repeat;
 	width: 86px;
 	height: 67px;
 }
@@ -665,7 +665,7 @@ body.filteredSearch div#rightColumn {
 }
 
 a#downloadData {
-	background: url(images/button-downloadData.png) left -61px no-repeat;
+    background: url(../images/button-downloadData.png) top left no-repeat;
 	width: 243px;
 	height: 61px;
 	display: block;
@@ -673,16 +673,16 @@ a#downloadData {
 	text-indent: -9999em;
 }
 
-a#downloadData:disabled{
-	background: url(images/button-downloadData.png) top left no-repeat;
+a#downloadData.enabled{
+    background: url(../images/button-downloadData.png) left -61px no-repeat;
 }
 
-a#downloadData:hover{
-	background: url(images/button-downloadData.png) left -122px no-repeat;
+a#downloadData.enabled:hover{
+	background: url(../images/button-downloadData.png) left -122px no-repeat;
 }
 
 a#previewData {
-	background: url(images/button-previewData.png) left -61px no-repeat;
+    background: url(../images/button-previewData.png) top left no-repeat;
 	width: 243px;
 	height: 61px;
 	display: block;
@@ -691,16 +691,16 @@ a#previewData {
 	margin-right: 50px;
 }
 
-a#previewData:disabled{
-	background: url(images/button-previewData.png) top left no-repeat;
+a#previewData.enabled{
+    background: url(../images/button-previewData.png) left -61px no-repeat;
 }
 
-a#previewData:hover{
-	background: url(images/button-previewData.png) left -122px no-repeat;
+a#previewData.enabled:hover{
+	background: url(../images/button-previewData.png) left -122px no-repeat;
 }
 
 a.downloadBulkData{
-	background: url(images/download-button.png) top left no-repeat;
+	background: url(../images/download-button.png) top left no-repeat;
 	width: 110px;
 	height: 23px;
 	display: block;
@@ -710,11 +710,11 @@ a.downloadBulkData{
 }
 
 a.downloadBulkData:hover{
-	background: url(images/download-button.png) left -23px no-repeat;
+	background: url(../images/download-button.png) left -23px no-repeat;
 }
 
 a#reportError{
-	background: url(images/report-button.png) top left no-repeat;
+	background: url(../images/report-button.png) top left no-repeat;
 	width: 80px;
 	height: 23px;
 	display: block;
@@ -723,7 +723,7 @@ a#reportError{
 }
 
 a#reportError:hover{
-	background: url(images/report-button.png) left -23px no-repeat;
+	background: url(../images/report-button.png) left -23px no-repeat;
 }
 
 div.tableButtons {
@@ -742,6 +742,14 @@ div#matches {
 
 div.perPage {
 	float: right;
+}
+
+div#loading {
+    background: url(../images/ajax-loader.gif) top left no-repeat;
+    display: none;
+    margin-bottom: 30px;
+    height: 16px;
+    width: 16px;
 }
 
 table#mainTable {
@@ -780,7 +788,7 @@ tr.odd {
 	height: 100%;
 	width: 100%;
 	position: absolute;
-	background: #CCC url(images/img-newfiltermess.png) center no-repeat;
+	background: #CCC url(../images/img-newfiltermess.png) center no-repeat;
 	filter:alpha(opacity=60);
 	-moz-opacity:0.6;
 	-khtml-opacity: 0.6;
@@ -793,7 +801,7 @@ div.resultMetaData {
 }
 
 div.instruct1 {
- 	background: url(images/num-one-icon.png) top left no-repeat;
+ 	background: url(../images/num-one-icon.png) top left no-repeat;
 	display: block;
 	float: left;
 	padding-left: 25px;
@@ -801,7 +809,7 @@ div.instruct1 {
 }
 
 div.instruct2 {
- 	background: url(images/num-two-icon.png) top left no-repeat;
+ 	background: url(../images/num-two-icon.png) top left no-repeat;
 	display: block;
 	float: left;
 	padding-left: 25px;
@@ -809,7 +817,7 @@ div.instruct2 {
 }
 
 div.instruct3 {
- 	background: url(images/num-three-icon.png) top left no-repeat;
+ 	background: url(../images/num-three-icon.png) top left no-repeat;
 	display: block;
 	float: left;
 	padding-left: 25px;
@@ -876,4 +884,3 @@ p#bottomText {
 	padding-top: 15px;
 	padding-left: 30px;
 }
-
