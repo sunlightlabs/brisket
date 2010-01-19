@@ -15,7 +15,7 @@
         {% js "js/jquery-ui-1.7.2.custom.min.js" %}
         {% js "js/jquery.autocomplete.custom.js" %}
         {% js "js/underscore-min.js" %}
-        {% js "js/td.js" %}
+        {% js "js/td2.js" %}
         <script type="text/javascript" src="http://use.typekit.com/plg0bms.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     </head>
@@ -25,27 +25,20 @@
                 <div id="pageMain">
                     <div id="header">
                         <h1><a href="{% url index %}">Transparency Data</a></h1>
-                        {% if user.is_authenticated %}
-                            <a href="#">logout</a>
-                        {% endif %}
-                        <form id="searchForm" action="{% url filter %}" method="get">
-                            <input id="searchBtn" type="text" name="entityName" title="Search candidates or organizations"/>
-                            <input id="searchEntityID" type="hidden" name="entityId" />
-                            <button class="searchBtn" type="submit">
-                                <span>Search</span>
-                            </button>
-                        </form>
                         <div class="clear"></div>
                         <div id="nav">
                             <ul>
-                                <li id="nav_filtered"><a href="{% url filter %}">Filtered Search</a></li>
                                 <li id="nav_bulk"><a href="{% url bulk_index %}">Bulk Downloads</a></li>
                                 <li id="nav_docs"><a href="{% url doc_index %}">Documentation</a></li>
                                 <li id="nav_api"><a href="{% url api_index %}">API</a></li>
-                                <li><a href="http://ec2-174-129-44-3.compute-1.amazonaws.com/">Matchbox</a></li>
+                                {% if user.is_authenticated %}
+                                    <li id="nav_logout"><a href="{% url django.contrib.auth.views.logout %}">Logout</a></li>
+                                {% endif %}
                             </ul>
                         </div>
+                        <div class="clear"></div>
                     </div>
+                    
                     <div id="columnWrapper">
                         {% block content_container %}
                             <div id="leftColumn">
