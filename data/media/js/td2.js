@@ -12,6 +12,12 @@ var TD = {
         registry: {},
         init: function() {
             
+            TD.DataFilter.node = $('#datafilter');
+            TD.DataFilter.node.bind('filterchange', function() {
+                $('a#downloadData').removeClass('enabled');
+                $('a#previewData').addClass('enabled');
+            });
+            
             $('#datafilter select#filterselect').bind('change', function() {
                 var filterName = this.value;
                 if (filterName) {
@@ -21,30 +27,44 @@ var TD = {
                 return false;
             });
             
-            // $('#datafilter a.test').bind('click', function() {
-            //     var values = TD.DataFilter.values();
-            //     var qs = _.reduce(values, '', function(memo, item, name) {
-            //         if (memo) {
-            //             memo += '&';
-            //         }
-            //         memo += name + '=' + item;
-            //         return memo;
-            //     });
-            //     alert(qs);
-            //     return false;
-            // });
-            
             $('a#previewData').bind('click', function() {
-                TD.DataFilter.value
+                if ($('#mainTable').length == 0) {
+                    // no main table, forward to filter page
+                    var qs = TD.Utils.toQueryString(TD.DataFilter.values());
+                    window.location.replace("/filter/#" + qs);
+                } else {
+                    TD.DataFilter.preview();
+                }
                 return false;
             });
             
-            $('a#previewData').bind('click', function() {
+            $('a#downloadData').bind('click', function() {
+                var qs = TD.Utils.toQueryString(TD.DataFilter.values());
+                window.location.replace("/data/contributions/download/?" + qs);
                 return false;
             });
             
             var params = TD.Utils.parseAnchor();
-            // load data
+            for (attr in params) {
+                var filter = TD.DataFilter.addFilter(attr);
+                var values = filter.config.field.parseValues(params[attr]);
+                //alert(values);
+                for (var i = 0; i < values.length; i++) {
+                    var field = null;
+                    if (filter.fieldCount < i + 1) {
+                        field = filter.addField();
+                    } else {
+                        for (fid in filter.fields) {
+                            field = filter.fields[fid];
+                            break;
+                        }
+                    }
+                    field.loadValue(values[i]);
+                }
+            }
+            if (params) {
+                TD.DataFilter.preview();
+            }
             
         },
         registerFilter: function(config) {
@@ -65,6 +85,34 @@ var TD = {
                     filter.enable();
                     filter.addField();
                 }
+            }
+            TD.DataFilter.node.trigger('filterchange');
+            return filter;
+        },
+        preview: function() {
+            if ($('#mainTable').length > 0) {
+                var params = TD.DataFilter.values();
+                var qs = TD.Utils.toQueryString(params);
+                TD.Utils.setAnchor(qs);
+                $('a#previewData').removeClass('enabled');
+                $('#mainTable tbody').empty();
+                $.getJSON('/data/contributions/', params, function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var contrib = data[i];
+                        var className = (i % 2 == 0) ? 'even' : 'odd';
+                        var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
+                        var content = '<tr class="' + className + '">';
+                        content += '<td>' + jurisdiction + '</td>';
+                        content += '<td>' + (contrib.datestamp || '&nbsp;') + '</td>';
+                        content += '<td>$' + contrib.amount + '</td>';
+                        content += '<td>' + contrib.contributor_name + '</td>';
+                        content += '<td>' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
+                        content += '<td>' + contrib.recipient_name + '</td>';
+                        content += '</tr>';
+                        $('#mainTable tbody').append(content);
+                    }
+                    $('a#downloadData').addClass('enabled');
+                });
             }
         },
         primaryFilter: function(filter) {
@@ -102,7 +150,7 @@ var TD = {
                     a = '';
                 }
             }
-            return a;
+            return decodeURIComponent(a);
         },
         parseAnchor: function() {
             var params = {};
@@ -117,7 +165,7 @@ var TD = {
             return params;
         },
         setAnchor: function(a) {
-            window.location.hash = a;
+            window.location.hash = encodeURIComponent(a);
         },
         toQueryString: function(obj) {
             var qs = ''
@@ -168,6 +216,17 @@ TD.DataFilter.DateRangeField.value = function() {
         return '><|' + start + '|' + end;
     }
 };
+TD.DataFilter.DateRangeField.parseValues = function(v) {
+    var values = [];
+    var parts = v.split('|');
+    for (var i = 0; i < parts.length - 2; i += 3) {
+        values.push([parts[i+1], parts[i+2]]);
+    }
+    return values;
+};
+TD.DataFilter.DateRangeField.loadValue = function(v) {
+    
+};
 TD.DataFilter.DateRangeField.render = function() {
     
     var content = '';
@@ -181,7 +240,9 @@ TD.DataFilter.DateRangeField.render = function() {
     var dstart = this.node.find('input.date_start');
     var dend = this.node.find('input.date_end');
 
-    dstart.datepicker({
+    dstart.bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    }).datepicker({
         changeMonth: true,
         changeYear: true,
         duration: '',
@@ -194,7 +255,9 @@ TD.DataFilter.DateRangeField.render = function() {
         }
     });
 
-    dend.datepicker({
+    dend.bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    }).datepicker({
         changeMonth: true,
         changeYear: true,
         duration: '',
@@ -220,11 +283,23 @@ TD.DataFilter.DropDownField.render = function() {
     content += '</select>';
     content += '<a href="#" class="remove">-</a>';
     content += '</li>';
-    return $(content);
+    
+    var node = $(content);
+    node.find('select').bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    
+    return node;
     
 };
 TD.DataFilter.DropDownField.value = function() {
     return this.node.find('select').val();
+};
+TD.DataFilter.DropDownField.parseValues = function(v) {
+    return v.split('|');
+};
+TD.DataFilter.DropDownField.loadValue = function(v) {
+    this.node.find('select').val(v);
 };
 
 // operator field
@@ -245,7 +320,16 @@ TD.DataFilter.OperatorField.render = function() {
     content += '</select>';
     content += '<input id="field' + this.id + '" type="text" name="' + this.filter.config.name + '"/>';
     content += '</li>';
-    return $(content);
+    
+    var node = $(content);
+    node.find('input').bind('keypress', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    node.find('select').bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    
+    return node;
 };
 TD.DataFilter.OperatorField.value = function() {
     var value = this.node.find('input').val();
@@ -253,6 +337,18 @@ TD.DataFilter.OperatorField.value = function() {
         var operator = this.node.find('select').val();
         return operator + "|" + value;
     }
+};
+TD.DataFilter.OperatorField.parseValues = function(v) {
+    var values = [];
+    var parts = v.split('|');
+    for (var i = 0; i < parts.length - 1; i += 2) {
+        values.push([parts[i], parts[i+1]]);
+    }
+    return values;
+};
+TD.DataFilter.OperatorField.loadValue = function(v) {
+    this.node.find('select').val(v[0]);
+    this.node.find('input').val(v[1]);
 };
 
 // basic text field
@@ -264,10 +360,22 @@ TD.DataFilter.TextField.render = function() {
     content += '<input id="field' + this.id + '" type="text" name="' + this.filter.config.name + '"/>';
     content += '<a href="#" class="remove">-</a>';
     content += '</li>';
-    return $(content);
+    
+    var node = $(content);
+    node.find('input').bind('keypress', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    
+    return node;
 };
 TD.DataFilter.TextField.value = function() {
     return this.node.find('input').val();
+};
+TD.DataFilter.TextField.parseValues = function(v) {
+    return v.split('|')
+};
+TD.DataFilter.TextField.loadValue = function(v) {
+    this.node.find('input').val(v);
 };
 
 /**********************************************************
@@ -294,6 +402,8 @@ TD.DataFilter.Filter = {
         this.node.find('ul.fields').append(elem);
         this.fields[field.id] = field;
         this.fieldCount++;
+        TD.DataFilter.node.trigger('filterchange');
+        return field;
     },
     bind: function(node) {
         var me = this;
@@ -316,6 +426,7 @@ TD.DataFilter.Filter = {
             this.removeField(this.fields[fieldId]);
         }
         this.node.remove();
+        TD.DataFilter.node.trigger('filterchange');
     },
     removeField: function(field) {
         delete this.fields[field.id];
@@ -324,6 +435,7 @@ TD.DataFilter.Filter = {
         if (this.fieldCount === 0) {
             this.disable();
         }
+        TD.DataFilter.node.trigger('filterchange');
     },
     render: function() {
         var content = '';
