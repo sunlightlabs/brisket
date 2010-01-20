@@ -589,6 +589,10 @@ select.bulk_filter {
 	margin-bottom: 10px;
 }
 
+#datafilter li.text_field {
+	margin-bottom: 5px;
+}
+
 form#filterBulk li{
 	padding-bottom: 5px;
 	margin-bottom: 5px;
