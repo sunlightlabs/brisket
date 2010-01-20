@@ -46,6 +46,10 @@ body.filteredSearch div#columnWrapper {
 	position:relative;
 }
 
+div#columnWrapper {
+	margin-top: 20px;
+}
+
 div#header {
 	width: 960px;
 	margin: 0 auto;
@@ -92,9 +96,9 @@ div.whiteboxRight {
 
 div.introbox {
 	background: #FFF url(../images/img-fade.png) top left repeat-x;
-	width: 620px;
-	padding: 20px 30px 20px 30px;
-	border: solid 2px #4A3905;
+	width: 610px;
+	padding: 40px 35px 30px 35px;
+	border: solid 2px #A59C82;
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
 	display: block;
@@ -193,9 +197,9 @@ input {
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
 	padding: 3px;
-	width: 250px;
+	width: 227px;
 	border: 1px solid #CCC;
-	color: #CCC;
+	color: #999;
 }
 
 button{
@@ -308,8 +312,8 @@ div.module {
 
 li.filter{
 	border-top: 1px solid #98CA42;
-	margin-top: 15px;
-	padding-top: 15px;
+	margin-top: 20px;
+	padding-top: 20px;
 }
 
 #filterselect {
@@ -441,6 +445,10 @@ li.filter ul.fields a {
 	margin-right: 2px;
 }
 
+ul.fields {
+	margin-bottom: 5px;
+}
+
 li.filter ul.fields a:hover{
 	background: url(../images/button-minus-small.png) left -13px no-repeat;
 }
@@ -450,11 +458,16 @@ li.daterangefield {
 }
 
 li.daterange_field .date_start, li.daterange_field .date_end {
-	 width: 80px;
+	 width: 67px;
+	 margin: 0 3px;
+}
+
+li.operator_field [name="amount_operator"] {
+	margin-right: 5px;
 }
 
 li.operator_field input {
-	width: 125px;
+	width: 119px;
 }
 
 div#leftColumnFields li {
@@ -497,7 +510,8 @@ p#why, div#leftColumnFields label[for="id_subscribed"], div#leftColumnFields .er
 	font-style: italic;
 	color: #817450;
 	line-height: 15px;
-	margin-bottom: 5px;
+	margin-top: 5px;
+	margin-bottom: 8px;
 	display: block;	
 }
 
@@ -541,27 +555,38 @@ p.moduleText {
 	font-size: 90%;
 	color: #4A3905;
 	line-height: 15px;
-	margin-bottom: 5px;
+	margin-bottom: 15px;
+	margin-top: 10px;
 	display: block;
 	font-style: italic;
 }
 
-#filterselect, {
+#leftColumn #filterselect {
 	width: 258px;
+	padding: 0px;
+	font-size: 100%;
 }
 
-.dropdown_field [name="cycle"] {
+#leftIntro #filterselect {
+	padding: 5px;
+	width: 258px;
+	font-size: 120%;
+}
+
+.dropdown_field select {
 	width: 234px;
+}
+
+.dropdown_field {
+	margin-bottom: 5px;
 }
 
 select.bulk_filter {
 	width: 250px;
 }
 
-#datafilter {
-	border-bottom: 1px solid #98CA42;
-	padding-bottom: 15px;
-	margin-bottom: 15px;
+.filteredSearch #datafilter {
+	margin-bottom: 60px;
 }
 
 form#filterBulk li{
@@ -719,10 +744,17 @@ div.perPage {
 	float: right;
 }
 
+div#loading {
+    background: url(../images/ajax-loader.gif) top left no-repeat;
+    display: none;
+    margin-bottom: 30px;
+    height: 16px;
+    width: 16px;
+}
+
 table#mainTable {
 	min-width: 54em;
 	width: 100%;
-	margin-top: 5px;
 	margin-bottom: 10px;
 	border: solid 1px #000;
 }
@@ -746,6 +778,22 @@ tr.even {
 
 tr.odd {
 	background-color: #DBF3FC;
+}
+
+#tableScroll {
+	position: relative;
+}
+
+#greybox {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	background: #CCC url(../images/img-newfiltermess.png) center no-repeat;
+	filter:alpha(opacity=60);
+	-moz-opacity:0.6;
+	-khtml-opacity: 0.6;
+	opacity: 0.6;
+	z-index: 1;
 }
 
 div.resultMetaData {

@@ -28,7 +28,8 @@ $().ready(function() {
         name: 'contributor_ft',
         label: 'Contributor',
         help: 'Name of individual or PAC that made contribution',
-        field: TD.DataFilter.TextField
+        field: TD.DataFilter.TextField,
+        allowMultipleFields: true,
     });
     
     TD.DataFilter.registerFilter({
@@ -69,14 +70,16 @@ $().ready(function() {
         name: 'organization_ft',
         label: 'Employer',
         help: 'Employer of individual that made contribution',
-        field: TD.DataFilter.TextField
+        field: TD.DataFilter.TextField,
+        allowMultipleFields: true,
     });
     
     TD.DataFilter.registerFilter({
         name: 'recipient_ft',
         label: 'Recipient',
         help: 'Name of candidate or PAC that received contribution',
-        field: TD.DataFilter.TextField
+        field: TD.DataFilter.TextField,
+        allowMultipleFields: true,
     });
     
     TD.DataFilter.registerFilter({

@@ -6,7 +6,32 @@ if (typeof Object.create !== 'function') {
     };
 }
 
+if (typeof window.atob !== 'function') {
+    window.atob = function(s) {
+        return decodeURIComponent(s);
+    };
+}
+
+if (typeof window.btoa !== 'function') {
+    window.btoa = function(s) {
+        return encodeURIComponent(s);
+    };
+}
+
 var TD = {
+    
+    HashMonitor: {
+        hash: null,
+        enabled: true,
+        check: function(callback) {
+            if (TD.HashMonitor.enabled) {
+                if (window.location.hash !== TD.HashMonitor.hash) {
+                    callback(window.location.hash);
+                    TD.HashMonitor.hash = window.location.hash;
+                }
+            }
+        },
+    },
     
     DataFilter: {
         registry: {},
@@ -16,6 +41,13 @@ var TD = {
             TD.DataFilter.node.bind('filterchange', function() {
                 $('a#downloadData').removeClass('enabled');
                 $('a#previewData').addClass('enabled');
+            });
+            
+            $('#datafilter').bind('keypress', function(ev) {
+                if (ev.which == 13) {
+                    ev.stopPropagation();
+                    return false;
+                }
             });
             
             $('#datafilter select#filterselect').bind('change', function() {
@@ -31,7 +63,8 @@ var TD = {
                 if ($('#mainTable').length == 0) {
                     // no main table, forward to filter page
                     var qs = TD.Utils.toQueryString(TD.DataFilter.values());
-                    window.location.replace("/filter/#" + qs);
+                    var hash = window.btoa(qs);
+                    window.location.replace("/filter/#" + hash);
                 } else {
                     TD.DataFilter.preview();
                 }
@@ -44,28 +77,14 @@ var TD = {
                 return false;
             });
             
-            var params = TD.Utils.parseAnchor();
-            for (attr in params) {
-                var filter = TD.DataFilter.addFilter(attr);
-                var values = filter.config.field.parseValues(params[attr]);
-                //alert(values);
-                for (var i = 0; i < values.length; i++) {
-                    var field = null;
-                    if (filter.fieldCount < i + 1) {
-                        field = filter.addField();
-                    } else {
-                        for (fid in filter.fields) {
-                            field = filter.fields[fid];
-                            break;
-                        }
-                    }
-                    field.loadValue(values[i]);
+        },
+        reset: function() {
+            for (attr in TD.DataFilter.registry) {
+                var filter = TD.DataFilter.registry[attr];
+                if (filter.enabled) {
+                    filter.disable();
                 }
             }
-            if (params) {
-                TD.DataFilter.preview();
-            }
-            
         },
         registerFilter: function(config) {
             var filter = Object.create(TD.DataFilter.Filter);
@@ -88,12 +107,35 @@ var TD = {
             }
             return filter;
         },
+        loadHash: function() {
+            var params = TD.Utils.parseAnchor();
+            if (params) {
+                for (attr in params) {
+                    var filter = TD.DataFilter.addFilter(attr);
+                    var values = filter.config.field.parseValues(params[attr]);
+                    for (var i = 0; i < values.length; i++) {
+                        var field = null;
+                        if (filter.fieldCount < i + 1) {
+                            field = filter.addField();
+                        } else {
+                            for (fid in filter.fields) {
+                                field = filter.fields[fid];
+                                break;
+                            }
+                        }
+                        field.loadValue(values[i]);
+                    }
+                }
+            }
+        },
         preview: function() {
             if ($('#mainTable').length > 0) {
                 var params = TD.DataFilter.values();
                 var qs = TD.Utils.toQueryString(params);
                 TD.Utils.setAnchor(qs);
                 $('a#previewData').removeClass('enabled');
+                $('div#tableScroll').hide();
+                $('div#loading').show();
                 $('#mainTable tbody').empty();
                 $.getJSON('/data/contributions/', params, function(data) {
                     for (var i = 0; i < data.length; i++) {
@@ -111,6 +153,8 @@ var TD = {
                         $('#mainTable tbody').append(content);
                     }
                     $('a#downloadData').addClass('enabled');
+                    $('div#tableScroll').show();
+                    $('div#loading').hide();
                 });
             }
         },
@@ -141,15 +185,11 @@ var TD = {
     
     Utils: {
         getAnchor: function() {
-            var a = window.location.hash;
-            if (a.indexOf('#') == 0) {
-                if (a.length > 1) {
-                    a = a.substr(1);
-                } else {
-                    a = '';
-                }
+            var s = window.location.hash;
+            if (s.length > 1) {
+                s = s.substr(1);
+                return window.atob(s);
             }
-            return decodeURIComponent(a);
         },
         parseAnchor: function() {
             var params = {};
@@ -158,13 +198,17 @@ var TD = {
                 var terms = qs.split('&');
                 for (var i = 0; i < terms.length; i++) {
                     var parts = terms[i].split('=');
-                    params[parts[0]] = parts[1];
+                    params[parts[0]] = decodeURIComponent(parts[1]);
                 }
+                return params;
             }
-            return params;
         },
         setAnchor: function(a) {
-            window.location.hash = encodeURIComponent(a);
+            var hash = window.btoa(a);
+            TD.HashMonitor.enabled = false;
+            window.location.hash = hash;
+            TD.HashMonitor.hash = window.location.hash;
+            TD.HashMonitor.enabled = true;
         },
         toQueryString: function(obj) {
             var qs = ''
@@ -183,3 +227,13 @@ var TD = {
     }
     
 };
+
+setInterval(function() {
+        TD.HashMonitor.check(function(hash) {
+            if (hash) {
+                TD.DataFilter.reset();
+                TD.DataFilter.loadHash();
+                TD.DataFilter.preview();
+            }
+        });
+    }, 200);
