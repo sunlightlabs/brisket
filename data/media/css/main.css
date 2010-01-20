@@ -585,8 +585,8 @@ select.bulk_filter {
 	width: 250px;
 }
 
-#datafilter {
-	margin-bottom: 10px;
+.filteredSearch #datafilter {
+	margin-bottom: 60px;
 }
 
 form#filterBulk li{
