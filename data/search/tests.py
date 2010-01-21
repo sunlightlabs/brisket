@@ -38,8 +38,8 @@ class SimpleTest(TestCase):
         self.import_.save()
         
         cursor = connection.cursor()
-        for command in open( '/Users/ethanpg/dev/datacommons/dc_data/scripts/contribition_full_text_index.sql', 'r'):
-            if command.strip():
+        for command in open( '/Users/ethanpg/dev/datacommons/dc_data/scripts/contribution_name_indexes.sql', 'r'):
+            if command.strip() and not command.startswith('--'):
                 cursor.execute(command)
         
     def test_date(self):
