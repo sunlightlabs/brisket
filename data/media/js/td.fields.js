@@ -34,7 +34,10 @@ TD.DataFilter.DateRangeField.parseValues = function(v) {
     return values;
 };
 TD.DataFilter.DateRangeField.loadValue = function(v) {
-    
+    var start = $.datepicker.parseDate('yy-mm-dd', v[0]);
+    var end = $.datepicker.parseDate('yy-mm-dd', v[1]);
+    this.node.find('input.date_start').datepicker('setDate', start);
+    this.node.find('input.date_end').datepicker('setDate', end);
 };
 TD.DataFilter.DateRangeField.render = function() {
     
