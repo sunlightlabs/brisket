@@ -57,7 +57,8 @@ class EntityFilterHandler(BaseHandler):
     def read(self, request):
         qs = Entity.objects.all().select_related()
         if 'name' in request.GET:
-            print search_entities_by_name(request.GET['name'])
+            #print search_entities_by_name(request.GET['name'])
+            pass
         if 'type' in request.GET:
             qs = qs.filter(type=request.GET['type'])
         return qs[:100]
