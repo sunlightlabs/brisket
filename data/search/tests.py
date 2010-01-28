@@ -137,11 +137,13 @@ class SimpleTest(TestCase):
         self.assert_num_results(1, {'committee_ft': 'to'})
         self.assert_num_results(1, {'committee_ft': 'commit'})
         
+        self.create_contribution(contributor_employer='Meany & Sons')
         self.create_contribution(organization_name="Jason Q. Meany")
         self.create_contribution(parent_organization_name="Jason Q. Meany Sr.")
         
-        self.assert_num_results(2, {'organization_ft': 'Meany'})
+        self.assert_num_results(3, {'organization_ft': 'Meany'})
         self.assert_num_results(1, {'organization_ft': 'Meany Sr.'})
+        self.assert_num_results(1, {'organization_ft': 'Sons'})
 
     def test_stop_words(self):
         self.create_contribution(contributor_name='Apple Association Inc')
