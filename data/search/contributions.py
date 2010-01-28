@@ -65,7 +65,7 @@ def _contributor_ft_generator(query, *searches):
 
 def _organization_ft_generator(query, *searches):
     terms = _ft_terms(*searches)
-    clause = "(%s or %s)" % (_ft_clause('organization_name'), _ft_clause('parent_organization_name'))
+    clause = " or ".join(_ft_clause('organization_name'), _ft_clause('parent_organization_name'), _ft_clause('contributor_employer'))
     return query.extra(where=[clause], params=[terms, terms])
 
 def _committee_ft_generator(query, *searches):
