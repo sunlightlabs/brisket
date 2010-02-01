@@ -763,6 +763,10 @@ td {
 	padding: 3px 0px 3px 10px;
 }
 
+td.amount {
+    text-align: right;
+}
+
 tr.even {
 	background-color: #FFF;
 }
