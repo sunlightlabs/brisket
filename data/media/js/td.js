@@ -48,6 +48,7 @@ var TD = {
             $('#datafilter').bind('keypress', function(ev) {
                 if (ev.which == 13) {
                     ev.stopPropagation();
+                    $('a#previewData').trigger('click');
                     return false;
                 }
             });
