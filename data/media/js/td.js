@@ -154,12 +154,13 @@ var TD = {
                         var className = (i % 2 == 0) ? 'even' : 'odd';
                         var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
                         var content = '<tr class="' + className + '">';
-                        content += '<td>' + jurisdiction + '</td>';
-                        content += '<td>' + (contrib.datestamp || '&nbsp;') + '</td>';
-                        content += '<td>$' + contrib.amount + '</td>';
-                        content += '<td>' + contrib.contributor_name + '</td>';
-                        content += '<td>' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
-                        content += '<td>' + contrib.recipient_name + '</td>';
+                        content += '<td class="jurisdiction">' + jurisdiction + '</td>';
+                        content += '<td class="datestamp">' + (contrib.datestamp || '&nbsp;') + '</td>';
+                        content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
+                        content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
+                        content += '<td class="contributor_location">' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
+                        content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
+                        content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
                         content += '</tr>';
                         $('#mainTable tbody').append(content);
                     }
@@ -195,6 +196,9 @@ var TD = {
     },
     
     Utils: {
+        currencyFormat: function(s) {
+            return parseFloat(s).toFixed(2);
+        },
         getAnchor: function() {
             var s = window.location.hash;
             if (s.length > 1) {
