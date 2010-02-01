@@ -90,6 +90,14 @@ var TD = {
                 title: 'Downloading...'
             });
             
+            $('#nofilters').dialog({
+                autoOpen: false,
+                draggable: false,
+                modal: true,
+                resizable: false,
+                title: 'Add some filters'
+            });
+            
             var anchor = TD.Utils.getAnchor();
             if (anchor === undefined) {
                 TD.Utils.setAnchor('cycle=2010');
@@ -128,6 +136,15 @@ var TD = {
             }
             return filter;
         },
+        filterCount: function() {
+            var count = 0;
+            for (attr in TD.DataFilter.registry) {
+                if (TD.DataFilter.registry[attr].enabled) {
+                    count++;
+                }
+            }
+            return count;
+        },
         loadHash: function() {
             var params = TD.Utils.parseAnchor();
             if (params) {
@@ -151,6 +168,10 @@ var TD = {
         },
         preview: function() {
             if ($('#mainTable').length > 0) {
+                if (TD.DataFilter.filterCount() < 2) {
+                    $('#nofilters').dialog('open');
+                    return;
+                }
                 var params = TD.DataFilter.values();
                 var qs = TD.Utils.toQueryString(params);
                 TD.Utils.setAnchor(qs);
