@@ -87,7 +87,7 @@ var TD = {
                 draggable: false,
                 modal: true,
                 resizable: false,
-                title: 'Downloading'
+                title: 'Downloading...'
             });
             
             var anchor = TD.Utils.getAnchor();
@@ -156,26 +156,32 @@ var TD = {
                 TD.Utils.setAnchor(qs);
                 $('a#previewData').removeClass('enabled');
                 $('div#tableScroll').hide();
+                $('div#nodata').hide();
                 $('div#loading').show();
                 $('#mainTable tbody').empty();
                 $.getJSON('/data/contributions/', params, function(data) {
-                    for (var i = 0; i < data.length; i++) {
-                        var contrib = data[i];
-                        var className = (i % 2 == 0) ? 'even' : 'odd';
-                        var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
-                        var content = '<tr class="' + className + '">';
-                        content += '<td class="jurisdiction">' + jurisdiction + '</td>';
-                        content += '<td class="datestamp">' + (contrib.datestamp || '&nbsp;') + '</td>';
-                        content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
-                        content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
-                        content += '<td class="contributor_location">' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
-                        content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
-                        content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
-                        content += '</tr>';
-                        $('#mainTable tbody').append(content);
-                    }
-                    $('a#downloadData').addClass('enabled');
-                    $('div#tableScroll').show();
+                    if (data.length === 0) {
+                        $('div#nodata').show();
+                    } else {
+                        for (var i = 0; i < data.length; i++) {
+                            var contrib = data[i];
+                            var className = (i % 2 == 0) ? 'even' : 'odd';
+                            var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
+                            var content = '<tr class="' + className + '">';
+                            content += '<td class="jurisdiction">' + jurisdiction + '</td>';
+                            content += '<td class="datestamp">' + (contrib.datestamp || '&nbsp;') + '</td>';
+                            content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
+                            content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
+                            content += '<td class="contributor_location">' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
+                            content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
+                            content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
+                            content += '</tr>';
+                            $('#mainTable tbody').append(content);
+                        }
+                        $('a#downloadData').addClass('enabled');
+                        $('div#nodata').hide();
+                        $('div#tableScroll').show();
+                    }    
                     $('div#loading').hide();
                 });
             }

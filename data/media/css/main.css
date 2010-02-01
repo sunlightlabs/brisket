@@ -739,8 +739,16 @@ div#loading {
     background: url(../images/ajax-loader.gif) top left no-repeat;
     display: none;
     margin-bottom: 30px;
-    height: 16px;
-    width: 16px;
+    padding-left: 30px;
+    font-size: 140%;
+    font-weight: bold;
+}
+
+div#nodata {
+    display: none;
+    margin-bottom: 30px;
+    font-size: 140%;
+    font-weight: bold;
 }
 
 table#mainTable {
@@ -776,6 +784,7 @@ tr.odd {
 }
 
 #tableScroll {
+    display: none;
 	position: relative;
 }
 
