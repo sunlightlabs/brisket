@@ -75,9 +75,19 @@ var TD = {
             });
             
             $('a#downloadData').bind('click', function() {
+                $('a#downloadData').removeClass('enabled');
+                $('#downloading').dialog('open');
                 var qs = TD.Utils.toQueryString(TD.DataFilter.values());
                 window.location.replace("/data/contributions/download/?" + qs);
                 return false;
+            });
+            
+            $('#downloading').dialog({
+                autoOpen: false,
+                draggable: false,
+                modal: true,
+                resizable: false,
+                title: 'Downloading'
             });
             
             var anchor = TD.Utils.getAnchor();

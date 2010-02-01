@@ -879,3 +879,7 @@ p#bottomText {
 	padding-top: 15px;
 	padding-left: 30px;
 }
+
+#downloading {
+    display: none;
+}
