@@ -889,6 +889,10 @@ p#bottomText {
 	padding-left: 30px;
 }
 
-#downloading {
+.dialog#downloading {
+    display: none;
+}
+
+.dialog#nofilters {
     display: none;
 }
