@@ -197,7 +197,7 @@ var TD = {
     
     Utils: {
         currencyFormat: function(s) {
-            return parseFloat(s).toFixed(2);
+            return $.currency(parseFloat(s));
         },
         getAnchor: function() {
             var s = window.location.hash;
