@@ -24,7 +24,7 @@ var TD = {
     
     HashMonitor: {
         hash: null,
-        enabled: true,
+        enabled: false,
         check: function(callback) {
             if (TD.HashMonitor.enabled) {
                 if (window.location.hash !== TD.HashMonitor.hash) {
@@ -79,6 +79,14 @@ var TD = {
                 window.location.replace("/data/contributions/download/?" + qs);
                 return false;
             });
+            
+            var anchor = TD.Utils.getAnchor();
+            if (anchor === undefined) {
+                TD.Utils.setAnchor('cycle=2010');
+                TD.DataFilter.loadHash();
+            }
+            
+            TD.HashMonitor.enabled = true;
             
         },
         reset: function() {
