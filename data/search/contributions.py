@@ -21,13 +21,13 @@ def _state_in_generator(query, *states):
     return query.filter(contributor_state__in=states)
 
 def _date_before_generator(query, date):
-    return query.filter(datestamp__lte=parse_date(date))
+    return query.filter(date__lte=parse_date(date))
 
 def _date_after_generator(query, date):
-    return query.filter(datestamp__gte=parse_date(date))
+    return query.filter(date__gte=parse_date(date))
 
 def _date_between_generator(query, first, second):
-    return query.filter(datestamp__range=(parse_date(first), parse_date(second)))
+    return query.filter(date__range=(parse_date(first), parse_date(second)))
     
 def _committee_in_generator(query, *entities):    
     return query.filter(committee_entity__in=entities)

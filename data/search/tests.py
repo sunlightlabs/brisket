@@ -43,9 +43,9 @@ class SimpleTest(TestCase):
                 cursor.execute(command)
         
     def test_date(self):
-        self.create_contribution(datestamp=date(1999,12,25))
-        self.create_contribution(datestamp=date(1999,12,31))
-        self.create_contribution(datestamp=date(2000,1,1))
+        self.create_contribution(date=date(1999,12,25))
+        self.create_contribution(date=date(1999,12,31))
+        self.create_contribution(date=date(2000,1,1))
         
         self.assert_num_results(0, {'date': ">|2001-01-01"})
         self.assert_num_results(1, {'date': "><|1999-12-24|1999-12-26"})
