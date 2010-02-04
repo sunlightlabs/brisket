@@ -4,7 +4,8 @@ from datetime import date
 from django.test import TestCase
 from django.db import connection
 
-from dcdata.contribution.models import Contribution
+from dcdata.contribution.models import Contribution,\
+    UNITTEST_TRANSACTION_NAMESPACE
 from dcdata.models import Import
 from search.contributions import filter_contributions
  
@@ -25,7 +26,7 @@ class SimpleTest(TestCase):
         c = Contribution(**kwargs)
         if 'cycle' not in kwargs:
             c.cycle='09'
-        c.transaction_namespace='urn:unittest:transaction'
+        c.transaction_namespace=UNITTEST_TRANSACTION_NAMESPACE
         c.import_reference=self.import_
         c.save()
         
