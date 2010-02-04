@@ -66,13 +66,13 @@ $().ready(function() {
         ]
     });
     
-    TD.DataFilter.registerFilter({
-        name: 'organization_ft',
-        label: 'Employer',
-        help: 'Employer of individual that made contribution',
-        field: TD.DataFilter.TextField,
-        allowMultipleFields: true,
-    });
+    // TD.DataFilter.registerFilter({
+    //     name: 'organization_ft',
+    //     label: 'Employer',
+    //     help: 'Employer of individual that made contribution',
+    //     field: TD.DataFilter.TextField,
+    //     allowMultipleFields: true,
+    // });
     
     TD.DataFilter.registerFilter({
         name: 'recipient_ft',
