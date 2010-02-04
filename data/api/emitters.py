@@ -2,6 +2,8 @@ from django.core.serializers.json import DateTimeAwareJSONEncoder
 from django.utils import simplejson
 from piston.emitters import Emitter
 from dc_web.api.models import APIInvocation
+from dcdata.contribution.models import NIMSP_TRANSACTION_NAMESPACE,\
+    CRP_TRANSACTION_NAMESPACE
 import csv
 import datetime
 
@@ -48,8 +50,8 @@ class StreamingLoggingEmitter(Emitter):
             method=self.handler.__class__.__name__,
             query_string=request.META['QUERY_STRING'],
             total_records=stats.stats['total'],
-            crp_records=stats.stats.get('urn:fec:transaction', 0),
-            nimsp_records=stats.stats.get('urn:nimsp:transaction', 0),
+            crp_records=stats.stats.get(CRP_TRANSACTION_NAMESPACE, 0),
+            nimsp_records=stats.stats.get(NIMSP_TRANSACTION_NAMESPACE, 0),
             execution_time=0, # fill this out!!!
         )
         
