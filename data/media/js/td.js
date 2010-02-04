@@ -168,7 +168,7 @@ var TD = {
         },
         preview: function() {
             if ($('#mainTable').length > 0) {
-                if (TD.DataFilter.filterCount() < 2) {
+                if (TD.DataFilter.filterCount() < 1) {
                     $('#nofilters').dialog('open');
                     return;
                 }

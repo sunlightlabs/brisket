@@ -1,4 +1,4 @@
-Django
+-e svn+http://code.djangoproject.com/svn/django/trunk/#egg=django
 django-debug-toolbar
 django-piston
 -e hg+http://bitbucket.org/ubernostrum/django-registration/#egg=registration
