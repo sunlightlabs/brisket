@@ -1,7 +1,7 @@
 from django.core.serializers.json import DateTimeAwareJSONEncoder
 from django.utils import simplejson
 from piston.emitters import Emitter
-from dc_web.api.models import APIInvocation
+from dc_web.api.models import Invocation
 from dcdata.contribution.models import NIMSP_TRANSACTION_NAMESPACE,\
     CRP_TRANSACTION_NAMESPACE
 import csv
@@ -45,8 +45,8 @@ class StreamingLoggingEmitter(Emitter):
         for chunk in self.stream(request, fields, stats):
             yield chunk
             
-        APIInvocation.objects.create(
-            user=request.user,
+        Invocation.objects.create(
+            caller_key=request.user,
             method=self.handler.__class__.__name__,
             query_string=request.META['QUERY_STRING'],
             total_records=stats.stats['total'],
