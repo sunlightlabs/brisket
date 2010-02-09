@@ -2,8 +2,8 @@ from django.conf.urls.defaults import *
 from piston.emitters import Emitter
 from piston.resource import Resource
 from dc_web.api.handlers import ContributionFilterHandler, EntityHandler, EntityFilterHandler
-from dc_web.api.auth import KeyAuthentication
 from dc_web.api.emitters import StreamingLoggingCSVEmitter, StreamingLoggingJSONEmitter
+from locksmith.auth.authentication import PistonKeyAuthentication
 
 Emitter.register('csv', StreamingLoggingCSVEmitter, 'text/csv')
 Emitter.register('json', StreamingLoggingJSONEmitter, 'application/json')
@@ -12,7 +12,7 @@ Emitter.unregister('pickle')
 Emitter.unregister('xml')
 Emitter.unregister('yaml')
 
-ad = { 'authentication': KeyAuthentication() }
+ad = { 'authentication': PistonKeyAuthentication() }
 
 contributionfilter_handler = Resource(ContributionFilterHandler, **ad)
 entity_handler = Resource(EntityHandler, **ad)
