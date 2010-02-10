@@ -9,7 +9,7 @@ from dcdata.contribution.models import Contribution
 from dc_web.search.contributions import filter_contributions
 from matchbox.queries import search_entities_by_name
 
-RESERVED_PARAMS = ('key','limit','format')
+RESERVED_PARAMS = ('apikey','limit','format')
 
 def load_contributions(params):
     start_time = time()

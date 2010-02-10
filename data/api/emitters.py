@@ -46,7 +46,7 @@ class StreamingLoggingEmitter(Emitter):
             yield chunk
             
         Invocation.objects.create(
-            caller_key=request.user,
+            caller_key=request.apikey.key,
             method=self.handler.__class__.__name__,
             query_string=request.META['QUERY_STRING'],
             total_records=stats.stats['total'],

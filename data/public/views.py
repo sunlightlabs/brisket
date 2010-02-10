@@ -15,6 +15,7 @@ from dc_web.api.urls import contributionfilter_handler
 from matchbox.models import Entity, Normalization
 from matchbox.queries import search_entities_by_name
 from strings.normalizer import basic_normalizer
+from locksmith.auth.models import ApiKey
 
 entity_type_map = {
     'quick': ('politician','organization'),
@@ -79,7 +80,7 @@ def data_contributions(request):
 
     request.GET = request.GET.copy()
     request.GET['limit'] = 30
-    request.GET['key'] = API_KEY
+    request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
     
     response = contributionfilter_handler(request)
     
@@ -90,7 +91,7 @@ def data_contributions_download(request):
     start_time = time()
     
     request.GET = request.GET.copy()
-    request.GET['key'] = API_KEY
+    request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
     request.GET['limit'] = 1000000
     request.GET['format'] = 'csv'
     response = contributionfilter_handler(request)
