@@ -4,5 +4,5 @@ from django.contrib.auth.models import User
 from dc_web.api.models import Invocation
 
 class InvocationAdmin(admin.ModelAdmin):
-    list_display = ('user','total_records','crp_records','nimsp_records','query_string','timestamp')
+    list_display = ('caller_key','total_records','crp_records','nimsp_records','query_string','timestamp')
 admin.site.register(Invocation, InvocationAdmin)
