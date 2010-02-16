@@ -4,6 +4,7 @@ from piston.emitters import Emitter
 from dc_web.api.models import Invocation
 from dcdata.contribution.models import NIMSP_TRANSACTION_NAMESPACE,\
     CRP_TRANSACTION_NAMESPACE
+from time import time
 import csv
 import datetime
 
@@ -42,8 +43,12 @@ class StreamingLoggingEmitter(Emitter):
                 for field in self.handler.exclude:
                     fields.remove(field)
         
+        start_time = time()
+        
         for chunk in self.stream(request, fields, stats):
             yield chunk
+
+        print("emitter returned %s results in %s seconds." % (stats.stats['total'], time() - start_time))
             
         Invocation.objects.create(
             caller_key=request.apikey.key,

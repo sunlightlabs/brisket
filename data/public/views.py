@@ -79,7 +79,7 @@ def data_contributions(request):
     start_time = time()
 
     request.GET = request.GET.copy()
-    request.GET['limit'] = 30
+    request.GET['per_page'] = 30
     request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
     
     response = contributionfilter_handler(request)
@@ -92,7 +92,7 @@ def data_contributions_download(request):
     
     request.GET = request.GET.copy()
     request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
-    request.GET['limit'] = 1000000
+    request.GET['per_page'] = 1000000
     request.GET['format'] = 'csv'
     response = contributionfilter_handler(request)
     response['Content-Disposition'] = "attachment; filename=contributions.csv"
