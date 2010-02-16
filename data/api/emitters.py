@@ -22,7 +22,8 @@ class StatsLogger(object):
     def __init__(self):
         self.stats = { 'total': 0 }
     def log(self, record):
-        ns = record['transaction_namespace']
+        #ns = record['transaction_namespace']
+        ns = record.get('transaction_namespace', 'unknown')
         self.stats[ns] = self.stats.get(ns, 0) + 1
         self.stats['total'] += 1
 
@@ -81,3 +82,5 @@ class StreamingLoggingCSVEmitter(StreamingLoggingEmitter):
             stats.log(record)
             writer.writerow(record)
             yield f.read()
+            
+            
