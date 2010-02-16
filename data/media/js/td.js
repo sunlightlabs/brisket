@@ -190,7 +190,7 @@ var TD = {
                             var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
                             var content = '<tr class="' + className + '">';
                             content += '<td class="jurisdiction">' + jurisdiction + '</td>';
-                            content += '<td class="datestamp">' + (contrib.datestamp || '&nbsp;') + '</td>';
+                            content += '<td class="datestamp">' + (contrib.date || '&nbsp;') + '</td>';
                             content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
                             content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
                             content += '<td class="contributor_location">' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';

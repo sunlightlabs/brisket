@@ -59,7 +59,7 @@ TD.DataFilter = {
                     var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
                     var content = '<tr class="' + className + '">';
                     content += '<td>' + jurisdiction + '</td>';
-                    content += '<td>' + (contrib.datestamp || '&nbsp;') + '</td>';
+                    content += '<td>' + (contrib.date || '&nbsp;') + '</td>';
                     content += '<td>$' + contrib.amount + '</td>';
                     content += '<td>' + contrib.contributor_name + '</td>';
                     content += '<td>' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
