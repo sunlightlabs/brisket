@@ -52,11 +52,14 @@ TD.DataFilter.DateRangeField.render = function() {
     var dstart = this.node.find('input.date_start');
     var dend = this.node.find('input.date_end');
 
+    var today = new Date();
+    
     dstart.bind('change', function() {
         TD.DataFilter.node.trigger('filterchange');
-    }).datepicker({
+    }).val('01/01/2009').datepicker({
         changeMonth: true,
         changeYear: true,
+        defaultDate: new Date(2009, 0, 1),
         duration: '',
         yearRange: '1990:2010',
         onSelect: function(dateText, inst) {
@@ -69,9 +72,10 @@ TD.DataFilter.DateRangeField.render = function() {
 
     dend.bind('change', function() {
         TD.DataFilter.node.trigger('filterchange');
-    }).datepicker({
+    }).val($.datepicker.formatDate('mm/dd/yy', today)).datepicker({
         changeMonth: true,
         changeYear: true,
+        defaultDate: null,
         duration: '',
         yearRange: '1990:2010'
     });
