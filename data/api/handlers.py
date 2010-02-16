@@ -9,17 +9,26 @@ from dcdata.contribution.models import Contribution
 from dc_web.search.contributions import filter_contributions
 from matchbox.queries import search_entities_by_name
 
-RESERVED_PARAMS = ('apikey','limit','format')
+RESERVED_PARAMS = ('apikey','limit','format','page','per_page')
+DEFAULT_PER_PAGE = 1000
+MAX_PER_PAGE = 100000
 
 def load_contributions(params):
+    
     start_time = time()
 
-    limit = int(params.get('limit', 10))
+    per_page = min(int(params.get('per_page', DEFAULT_PER_PAGE)), MAX_PER_PAGE)
+    page = int(params.get('page', 1)) - 1
+    
+    offset = page * per_page
+    limit = offset + per_page
+    
     for param in RESERVED_PARAMS:
         if param in params:
             del params[param]
+            
     unquoted_params = dict([(param, unquote_plus(quoted_value)) for (param, quoted_value) in params.iteritems()])
-    result = filter_contributions(unquoted_params)[:limit]
+    result = filter_contributions(unquoted_params)[offset:limit]
         
     print("load_contributions(%s) returned %s results in %s seconds." % (unquoted_params, len(result), time() - start_time))
           
