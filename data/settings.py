@@ -51,6 +51,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'locksmith.auth.middleware.APIKeyMiddleware',
+    'dc_web.api.middleware.APIMiddleware',
 )
 
 ROOT_URLCONF = 'dc_web.urls'

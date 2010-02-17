@@ -9,7 +9,7 @@ from dcdata.contribution.models import Contribution
 from dc_web.search.contributions import filter_contributions
 from matchbox.queries import search_entities_by_name
 
-RESERVED_PARAMS = ('apikey','limit','format','page','per_page')
+RESERVED_PARAMS = ('apikey','limit','format','page','per_page','return_entities')
 DEFAULT_PER_PAGE = 1000
 MAX_PER_PAGE = 100000
 
