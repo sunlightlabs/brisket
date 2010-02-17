@@ -86,6 +86,11 @@ def data_contributions(request):
     
     print('Contribution request %s took %s seconds.' % (request.GET, time() - start_time))
     return response
+
+def data_contributions_count(request):    
+    params = request.GET.copy()
+    c = load_contributions(params, nolimit=True).count()
+    return HttpResponse("%i" % c, content_type='text/plain')
     
 def data_contributions_download(request):
     start_time = time()

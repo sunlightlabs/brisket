@@ -180,6 +180,8 @@ var TD = {
                 $('div#nodata').hide();
                 $('div#loading').show();
                 $('#mainTable tbody').empty();
+                $('span#previewCount').html('...');
+                $('span#recordCount').html('...');
                 $.getJSON('/data/contributions/', params, function(data) {
                     if (data.length === 0) {
                         $('div#nodata').show();
@@ -199,11 +201,19 @@ var TD = {
                             content += '</tr>';
                             $('#mainTable tbody').append(content);
                         }
+                        $('span#previewCount').html(data.length);
                         $('a#downloadData').addClass('enabled');
                         $('div#nodata').hide();
                         $('div#tableScroll').show();
                     }    
                     $('div#loading').hide();
+                    if (data.length < 30) {
+                        $('span#recordCount').html(data.length);
+                    } else {
+                        $.get('/data/contributions/count/', params, function(data) {
+                            $('span#recordCount').html(data);
+                        });
+                    }
                 });
             }
         },
