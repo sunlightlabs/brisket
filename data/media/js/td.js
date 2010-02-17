@@ -195,7 +195,7 @@ var TD = {
                             content += '<td class="datestamp">' + (contrib.date || '&nbsp;') + '</td>';
                             content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
                             content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
-                            content += '<td class="contributor_location">' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
+                            content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(contrib.contributor_city, contrib.contributor_state) + '</td>';
                             content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
                             content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
                             content += '</tr>';
@@ -243,6 +243,16 @@ var TD = {
     },
     
     Utils: {
+        cityStateFormat: function(city, state) {
+            if (state != undefined && state != '') {
+                var fmt = state;
+                if (city != undefined && city != '') {
+                    fmt = city + ', ' + fmt;
+                }
+                return fmt;
+            }
+            return '';
+        },
         currencyFormat: function(s) {
             return $.currency(parseFloat(s));
         },
