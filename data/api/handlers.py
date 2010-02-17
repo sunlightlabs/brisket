@@ -22,7 +22,7 @@ CONTRIBUTION_FIELDS = ['cycle', 'transaction_namespace', 'transaction_id', 'tran
               'committee_name', 'committee_ext_id', 'committee_party', 'election_type', 'district', 'seat', 'seat_status',
               'seat_result']
 
-def load_contributions(params):
+def load_contributions(params, nolimit=False):
     
     start_time = time()
 
@@ -37,7 +37,10 @@ def load_contributions(params):
             del params[param]
             
     unquoted_params = dict([(param, unquote_plus(quoted_value)) for (param, quoted_value) in params.iteritems()])
-    result = filter_contributions(unquoted_params)[offset:limit]
+    if nolimit:
+        result = filter_contributions(unquoted_params)
+    else:
+        result = filter_contributions(unquoted_params)[offset:limit]
         
     print("load_contributions(%s) returned %s results in %s seconds." % (unquoted_params, len(result), time() - start_time))
           
