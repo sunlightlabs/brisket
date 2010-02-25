@@ -157,6 +157,14 @@ class SimpleTest(TestCase):
         self.assert_num_results(1, {'contributor_ft': 'apple association inc'})
         self.assert_num_results(1, {'contributor_ft': 'apple corp'})
 
+    def test_contributor_search(self):
+        self.create_contribution(contributor_name='apple')
+        self.create_contribution(contributor_employer='apple')
+        self.create_contribution(organization_name='apple')
+        self.create_contribution(parent_organization_name='apple')
+        
+        self.assert_num_results(4, {'contributor_ft': 'apple'})
+        self.assert_num_results(3, {'organization_ft': 'apple'})
         
         
 # not an actual test case because there are no Contribution records in the test database.

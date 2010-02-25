@@ -61,7 +61,9 @@ def _jurisdiction_in_generator(query, *jurisdiction):
 
 
 def _contributor_ft_generator(query, *searches):
-    return _ft_generator(query, 'contributor_name', *searches)
+    terms = _ft_terms(*searches)
+    clause = " or ".join([_ft_clause('organization_name'), _ft_clause('parent_organization_name'), _ft_clause('contributor_employer'), _ft_clause('contributor_name')])
+    return query.extra(where=[clause], params=[terms, terms, terms, terms])
 
 def _organization_ft_generator(query, *searches):
     terms = _ft_terms(*searches)
