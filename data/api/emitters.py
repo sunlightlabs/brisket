@@ -1,7 +1,9 @@
 from django.core.serializers.json import DateTimeAwareJSONEncoder
 from django.utils import simplejson
 from piston.emitters import Emitter
+from dc_web.api.middleware import RETURN_ENTITIES_KEY
 from dc_web.api.models import Invocation
+from matchbox.models import entityref_cache
 from dcdata.contribution.models import NIMSP_TRANSACTION_NAMESPACE,\
     CRP_TRANSACTION_NAMESPACE
 from time import time
@@ -22,7 +24,8 @@ class StatsLogger(object):
     def __init__(self):
         self.stats = { 'total': 0 }
     def log(self, record):
-        ns = record['transaction_namespace']
+        #ns = record['transaction_namespace']
+        ns = record.get('transaction_namespace', 'unknown')
         self.stats[ns] = self.stats.get(ns, 0) + 1
         self.stats['total'] += 1
 
@@ -43,9 +46,15 @@ class StreamingLoggingEmitter(Emitter):
                 for field in self.handler.exclude:
                     fields.remove(field)
         
+        if request.session.get(RETURN_ENTITIES_KEY, False):
+            entity_fields = entityref_cache.get(self.handler.model, [])
+            final_fields = fields + entity_fields
+        else:
+            final_fields = fields
+        
         start_time = time()
         
-        for chunk in self.stream(request, fields, stats):
+        for chunk in self.stream(request, final_fields, stats):
             yield chunk
 
         print("emitter returned %s results in %s seconds." % (stats.stats['total'], time() - start_time))
@@ -66,8 +75,11 @@ class StreamingLoggingJSONEmitter(StreamingLoggingEmitter):
     def stream(self, request, fields, stats):
         yield "["
         for record in self.data.values():
-            stats.log(record)
-            seria = simplejson.dumps(record, cls=DateTimeAwareJSONEncoder, ensure_ascii=False, indent=4)
+            out_record = { }
+            for f in fields:
+                out_record[f] = record[f]
+            stats.log(out_record)
+            seria = simplejson.dumps(out_record, cls=DateTimeAwareJSONEncoder, ensure_ascii=False, indent=4)
             yield seria + ","
         yield "]"
 
@@ -81,3 +93,5 @@ class StreamingLoggingCSVEmitter(StreamingLoggingEmitter):
             stats.log(record)
             writer.writerow(record)
             yield f.read()
+            
+            
