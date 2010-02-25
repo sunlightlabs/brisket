@@ -168,6 +168,8 @@ h5 {
 	float: left;
 }
 
+em { font-weight: bold; }
+
 label, span.bulkResult {
 	font-size: 120%;
 }
