@@ -6,27 +6,78 @@
 		<ul>
 			<li>
 				<div class="api-docs">
-					<h3>Subject Heading</h3>
-					<span class="apiTitle">Subject Title</span>
-					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
-					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
+					<h3>Authentication</h3>
+					<p>
+						An API key is required to access the Transparency Data API.
+						<a href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.
+					</p>
+					<span class="apiTitle">Key Usage</span>
+					<p>
+						All calls to the API must include either a <em>apikey</em> query string parameter or an <em>X-APIKEY</em> HTTP header.</p>
+					</p>
 				</div>
-			</li>
-			<li>
+				
 				<div class="api-docs">
-					<h3>Subject Heading</h3>
-					<span class="apiTitle">Subject Title</span>
-					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
-					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
+				
+					<h3>Contributions</h3>
+					
+					<span class="apiTitle">Endpoint</span>
+					<p>http://transparencydata.org/api/1.0/contributions.json</p>
+					
+					<span class="apiTitle">Available Parameters</span>
+					<dl>
+						
+						<dt>cycle</dt>
+						<dd>a YYYY formatted year, 1990 - 2010. supports multiple pipe-separated values: 2006|2008</dd>
+						
+						<dt>contributor</dt>
+						<dd>full-text search on name of individual, PAC, organization, or employer</dd>
+						
+						<dt>contributor_state</dt>
+						<dd>two-letter abbreviation of state from which the contribution was made</dd>
+						
+						<dt>recipient</dt>
+						<dd>full-text search on name of PAC or candidate receiving the contribution</dd>
+						
+						<dt>recipient_state</dt>
+						<dd>two-letter abbreviation of state in which the candidate receiving the contribution is running</dd>
+						
+						<dt>seat</dt>
+						<dd>
+							type of office being sought
+							<ul>
+								<li>federal:senate</li>
+								<li>federal:house</li>
+								<li>federal:president</li>
+								<li>state:upper</li>
+								<li>state:lower</li>
+								<li>state:governor</li>
+							</ul>
+						</dd>
+						
+						<dt>amount</dt>
+						<dd>
+							<p>the amount of the contribution in US dollars in one of the following formats</p>
+							<ul>
+								<li>500 - exactly 500 dollars</li>
+								<li>&gt;|500 - greater than or equal to 500</li>
+								<li>&lt;|500 - less than or equal to 500</li>
+							</ul>
+						</dd>
+						
+						<dt></dt>
+						<dd></dd>
+						
+						<dt></dt>
+						<dd></dd>
+						
+						<dt></dt>
+						<dd></dd>
+						
+					</dl>
+					
 				</div>
-			</li>
-			<li>
-				<div class="api-docs">
-					<h3>Subject Heading</h3>
-					<span class="apiTitle">Subject Title</span>
-					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
-					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
-				</div>
+				
 			</li>
 		</ul>
 		<div class="clear"></div>
@@ -35,43 +86,21 @@
 
 {% block sidebar %}
 
-    {% if user.is_authenticated %}
-    
-        {% with user.api_keys.all|first as key %}
-            <h2>Your API Key</h2>
-            <p>{{ key }}</p>
-        {% endwith %}
-        
-    {% else %}
-    
-        <div class="module login">
-    		<h2>Log In</h2>
-		    <form method="post" action="{% url django.contrib.auth.views.login %}">
-    			<ul class="login">
-    				<li>
-    					<label id="userName">User Name:</label>
-    					<input id="userNameField" type="text" name="username"/>
-    				</li>
-    				<li>
-    					<label id="loginPass">Password:</label>
-    					<input id="loginPassField" type="password" name="password"/>
-    				</li>
-    				<li>
-    					<span class="newpass">
-    						<a href="{% url registration_register %}">New User</a><!-- / <a href="#">Password Help?</a> -->
-    					</span>	
-    				</li>	
-    				<li>
-    					<button class="signIn" type="submit">
-    						<span>Sign In</span>
-    					</button>
-    				</li>	
-    			</ul>
-			</form>
-			<div class="clear"></div>
-    	</div>
-    	
-    {% endif %}
+    <div class="module">
+		<h2>API Key</h2>
+		<p>
+			Register for an API key at <a href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a>.
+			This key can be used to access all of the <a href="http://sunlightlabs.com">Sunlight Labs</a> data APIs.
+		</p>
+	</div>
+	
+    <div class="module">
+		<h2>Client Libraries</h2>
+		<ul>
+			<li><a href="#">Python</a></li>
+			<li><a href="#">Ruby</a></li>
+		</ul>
+	</div>
     
 	<div class="module partner">
 		<h2>Partnered With</h2>
