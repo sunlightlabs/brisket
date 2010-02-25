@@ -180,6 +180,8 @@ var TD = {
                 $('div#nodata').hide();
                 $('div#loading').show();
                 $('#mainTable tbody').empty();
+                $('span#previewCount').html('...');
+                $('span#recordCount').html('...');
                 $.getJSON('/data/contributions/', params, function(data) {
                     if (data.length === 0) {
                         $('div#nodata').show();
@@ -193,17 +195,25 @@ var TD = {
                             content += '<td class="datestamp">' + (contrib.date || '&nbsp;') + '</td>';
                             content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
                             content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
-                            content += '<td class="contributor_location">' + contrib.contributor_city + ', ' + contrib.contributor_state + '</td>';
+                            content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(contrib.contributor_city, contrib.contributor_state) + '</td>';
                             content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
                             content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
                             content += '</tr>';
                             $('#mainTable tbody').append(content);
                         }
+                        $('span#previewCount').html(data.length);
                         $('a#downloadData').addClass('enabled');
                         $('div#nodata').hide();
                         $('div#tableScroll').show();
                     }    
                     $('div#loading').hide();
+                    if (data.length < 30) {
+                        $('span#recordCount').html(data.length);
+                    } else {
+                        $.get('/data/contributions/count/', params, function(data) {
+                            $('span#recordCount').html(data);
+                        });
+                    }
                 });
             }
         },
@@ -233,6 +243,16 @@ var TD = {
     },
     
     Utils: {
+        cityStateFormat: function(city, state) {
+            if (state != undefined && state != '') {
+                var fmt = state;
+                if (city != undefined && city != '') {
+                    fmt = city + ', ' + fmt;
+                }
+                return fmt;
+            }
+            return '';
+        },
         currencyFormat: function(s) {
             return $.currency(parseFloat(s));
         },
