@@ -17,7 +17,7 @@ from schema import Operator, Schema, InclusionField, OperatorField
 def _seat_in_generator(query, *seats):
     return query.filter(seat__in=seats)
 
-def _state_in_generator(query, *states):
+def _contributor_state_in_generator(query, *states):
     return query.filter(contributor_state__in=states)
 
 def _date_before_generator(query, date):
@@ -65,6 +65,11 @@ def _contributor_ft_generator(query, *searches):
     clause = " or ".join([_ft_clause('organization_name'), _ft_clause('parent_organization_name'), _ft_clause('contributor_employer'), _ft_clause('contributor_name')])
     return query.extra(where=[clause], params=[terms, terms, terms, terms])
 
+def _employer_ft_generator(query, *searches):
+    terms = _ft_terms(*searches)
+    clause = " or ".join([_ft_clause('organization_name'), _ft_clause('parent_organization_name'), _ft_clause('contributor_employer')])
+    return query.extra(where=[clause], params=[terms, terms, terms])
+        
 def _organization_ft_generator(query, *searches):
     terms = _ft_terms(*searches)
     clause = " or ".join([_ft_clause('organization_name'), _ft_clause('parent_organization_name'), _ft_clause('contributor_employer')])
@@ -92,7 +97,7 @@ GREATER_THAN_OP = '>'
 BETWEEN_OP = '><'
 
 SEAT_FIELD = 'seat'
-STATE_FIELD = 'state'
+CONTRIBUTOR_STATE_FIELD = 'contributor_state'
 DATE_FIELD = 'date'
 ORGANIZATION_FIELD ='organization'
 COMMITTEE_FIELD ='committee'
@@ -107,13 +112,14 @@ CONTRIBUTOR_FT_FIELD = 'contributor_ft'
 ORGANIZATION_FT_FIELD = 'organization_ft'
 COMMITTEE_FT_FIELD = 'committee_ft'
 RECIPIENT_FT_FIELD = 'recipient_ft'
+EMPLOYER_FT_FIELD = 'employer_ft'
 
 
 # the final search schema
 
 CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(SEAT_FIELD, _seat_in_generator),
-                             InclusionField(STATE_FIELD, _state_in_generator),
+                             InclusionField(CONTRIBUTOR_STATE_FIELD, _contributor_state_in_generator),
                              InclusionField(CYCLE_FIELD, _cycle_in_generator),
                              InclusionField(COMMITTEE_FIELD, _committee_in_generator),
                              InclusionField(CONTRIBUTOR_FIELD, _contributor_in_generator),
@@ -125,6 +131,7 @@ CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(ORGANIZATION_FT_FIELD, _organization_ft_generator),
                              InclusionField(COMMITTEE_FT_FIELD, _committee_ft_generator),
                              InclusionField(RECIPIENT_FT_FIELD, _recipient_ft_generator),
+                             InclusionField(EMPLOYER_FT_FIELD, _employer_ft_generator),
                              OperatorField(DATE_FIELD,
                                    Operator(LESS_THAN_OP, _date_before_generator),
                                    Operator(GREATER_THAN_OP, _date_after_generator),
