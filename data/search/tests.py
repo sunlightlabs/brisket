@@ -102,17 +102,21 @@ class SimpleTest(TestCase):
         self.create_contribution(contributor_state='OR')
         self.create_contribution(contributor_state='OR')
         
-        self.assert_num_results(0, {'state': "WA"})
-        self.assert_num_results(1, {'state': "CA"})
-        self.assert_num_results(2, {'state': "OR"})
+        self.assert_num_results(0, {'contributor_state': "WA"})
+        self.assert_num_results(1, {'contributor_state': "CA"})
+        self.assert_num_results(2, {'contributor_state': "OR"})
         
     def test_conjunctions(self):
-        self.create_contribution(contributor_state="WA", amount=1000, contributor_entity="1234")
-        self.create_contribution(contributor_state="WA", amount=100, contributor_entity="1234")
+        self.create_contribution(contributor_name='apple', contributor_state="WA", amount=1000, contributor_entity="1234")
+        self.create_contribution(contributor_name='apple sauce', contributor_state="WA", amount=100, contributor_entity="1234")
         
-        self.assert_num_results(0, {'state': "CA", 'amount': ">|500", 'entity': "1234"})
-        self.assert_num_results(1, {'state': "WA", 'amount': ">|500", 'entity': "1234"})
+        self.assert_num_results(0, {'contributor_state': "CA", 'amount': ">|500", 'entity': "1234"})
+        self.assert_num_results(1, {'contributor_state': "WA", 'amount': ">|500", 'entity': "1234"})
         self.assert_num_results(1, {'amount': ">|500", 'entity': "1234"})
+        
+        self.assert_num_results(2, {'contributor_ft': 'apple'})
+        self.assert_num_results(1, {'contributor_ft': 'apple', 'amount': '>|500'})
+        self.assert_num_results(0, {'contributor_ft': 'sauce', 'amount': '>|500'})
         
     def test_full_text(self):
         self.create_contribution(contributor_name="Joe Smith")
