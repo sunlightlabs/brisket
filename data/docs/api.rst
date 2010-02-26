@@ -26,7 +26,7 @@ The API key *must* be as either an ``apikey`` query string parameter or as a ``X
     http://transparencydata.com/api/1.0/contributions.csv?apikey=<key>&...
 
 Parameters
-----------------
+----------
 
 Meta
 ....
@@ -122,4 +122,12 @@ transaction_namespace
     ``urn:fec:transaction``    federal contributions
     ``urn:nimsp:transaction``  state contributions
     =========================  =====================
-    
+
+Examples
+--------
+
+Contributions from the states of Maryland and Virginia to Barbara Mikulski during the 2008 campaign cycle as JSON::
+
+    /api/1.0/contributions.json?apikey=<key>&contributor_state=md|va&recipient_ft=mikulski&cycle=2008
+
+Contributions from Alaskans to upper and lower state legislature candidates in 2002::
