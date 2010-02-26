@@ -2,15 +2,49 @@
  Transparency Data API
 =======================
 
-----------------
- Authentication
+Contributions
+=============
+
+End Point
+---------
+
+JSON response format::
+
+    http://transparencydata.com/api/1.0/contributions.json
+
+CSV response format::
+
+    http://transparencydata.com/api/1.0/contributions.csv
+
+Authentication
+--------------
+
+An API key is required to access the Transparency Data API. `Registration is easy <http://services.sunlightlabs.com/accounts/register/>`_ and if you already have a `Sunlight Data Services <http://services.sunlightlabs.com/accounts/register/>`_ key you can use it here.
+
+The API key *must* be as either an ``apikey`` query string parameter or as a ``X-APIKEY`` HTTP request parameter. Example::
+
+    http://transparencydata.com/api/1.0/contributions.csv?apikey=<key>&...
+
+Parameters
 ----------------
 
-An API key is required to access the Transparency Data API.
-<a href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.
+Meta
+....
+
+apikey
+    Required if the ``X-APIKEY`` HTTP header is not used.
+
+page
+    The page of results to return; defaults to 1.
+
+per_page
+    The number of results to return per page, defaults to 1,000. The maximum number of records per page is 100,000.
+
+Querying
+........
 
 amount
-    the amount of the contribution in US dollars in one of the following formats
+    The amount of the contribution in US dollars in one of the following formats:
     
     =======  ============================
     Example  Description
@@ -21,13 +55,13 @@ amount
     =======  ============================
 
 contributor_ft
-    full-text search on name of individual, PAC, organization, or employer
+    Full-text search on name of individual, PAC, organization, or employer.
 
 contributor_state
-    two-letter abbreviation of state from which the contribution was made
+    Two-letter abbreviation of state from which the contribution was made.
 
 cycle
-    a YYYY formatted year, 1990 - 2010
+    A YYYY formatted year, 1990 - 2010.
     
     =========  ==================
     Example    Description
