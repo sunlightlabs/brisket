@@ -18,7 +18,7 @@ def _seat_in_generator(query, *seats):
     return query.filter(seat__in=seats)
 
 def _contributor_state_in_generator(query, *states):
-    return query.filter(contributor_state__in=states)
+    return query.filter(contributor_state__in=[state.upper() for state in states])
 
 def _date_before_generator(query, date):
     return query.filter(date__lte=parse_date(date))
