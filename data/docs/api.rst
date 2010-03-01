@@ -130,4 +130,6 @@ Contributions from the states of Maryland and Virginia to Barbara Mikulski durin
 
     /api/1.0/contributions.json?apikey=<key>&contributor_state=md|va&recipient_ft=mikulski&cycle=2008
 
-Contributions from Alaskans to upper and lower state legislature candidates in 2002::
+Contributions from Alaskans to upper and lower state legislature candidates in 2002 as CSV::
+
+    /api/1.0/contributions.csv?apikey=<key>&contributor_state=ak&date=><|2002-01-01|2002-12-31&seat=state:upper|state:lower
