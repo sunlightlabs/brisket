@@ -74,13 +74,18 @@ class StreamingLoggingJSONEmitter(StreamingLoggingEmitter):
     
     def stream(self, request, fields, stats):
         yield "["
+        count = 0
         for record in self.data.values():
             out_record = { }
             for f in fields:
                 out_record[f] = record[f]
             stats.log(out_record)
             seria = simplejson.dumps(out_record, cls=DateTimeAwareJSONEncoder, ensure_ascii=False, indent=4)
-            yield seria + ","
+            if count == 0:
+                yield seria
+            else:
+                yield "," + seria
+            count += 1
         yield "]"
 
 class StreamingLoggingCSVEmitter(StreamingLoggingEmitter):

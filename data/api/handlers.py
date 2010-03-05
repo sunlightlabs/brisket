@@ -44,7 +44,7 @@ def load_contributions(params, nolimit=False, ordering=True):
     if not nolimit:
         result = result[offset:limit]
         
-    print("load_contributions(%s) returned %s results in %s seconds." % (unquoted_params, len(result), time() - start_time))
+    #print("load_contributions(%s) returned %s results in %s seconds." % (unquoted_params, len(result), time() - start_time))
           
     return result
 
