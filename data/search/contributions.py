@@ -85,7 +85,7 @@ def _ft_generator(query, column, *searches):
     return query.extra(where=[_ft_clause(column)], params=[_ft_terms(*searches)])
 
 def _ft_terms(*searches):
-    return ' & '.join((' '.join(searches)).split())
+    return ' | '.join("(%s)" % ' & '.join(search.split()) for search in searches)
 
 def _ft_clause(column):
     return "to_tsvector('datacommons', %s) @@ to_tsquery('datacommons', %%s)" % column

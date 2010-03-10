@@ -170,6 +170,21 @@ class SimpleTest(TestCase):
         self.assert_num_results(4, {'contributor_ft': 'apple'})
         self.assert_num_results(3, {'organization_ft': 'apple'})
         
+    def test_multiple_ft(self):
+        """ See ticket #196. """
+        
+        self.create_contribution(contributor_name='Billy Bob')
+        self.create_contribution(contributor_name='Marry Sue')
+        
+        self.assert_num_results(1, {'contributor_ft': 'billy bob'})
+        self.assert_num_results(1, {'contributor_ft': 'marry sue'})
+        
+        self.assert_num_results(0, {'contributor_ft': 'billy lee'})
+        self.assert_num_results(0, {'contributor_ft': 'billy lee|marry sue lee'})
+        self.assert_num_results(1, {'contributor_ft': 'billy lee|marry sue'})
+        self.assert_num_results(2, {'contributor_ft': 'billy|marry'})
+        self.assert_num_results(2, {'contributor_ft': 'billy bob|marry'})
+        self.assert_num_results(2, {'contributor_ft': 'billy bob|marry sue'})
         
 # not an actual test case because there are no Contribution records in the test database.
 # instead, copy this code to a Django shell and run it there.
