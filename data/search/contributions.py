@@ -10,6 +10,7 @@ from django.db.models.query_utils import Q
 from dcdata.utils.sql import parse_date
 from dcdata.contribution.models import Contribution
 from schema import Operator, Schema, InclusionField, OperatorField
+from strings.transformers import build_remove_substrings
 
 
 # Generator functions
@@ -84,8 +85,11 @@ def _recipient_ft_generator(query, *searches):
 def _ft_generator(query, column, *searches):
     return query.extra(where=[_ft_clause(column)], params=[_ft_terms(*searches)])
 
+_strip_postgres_ft_operators = build_remove_substrings("&|!():*")
+
 def _ft_terms(*searches):
-    return ' | '.join("(%s)" % ' & '.join(search.split()) for search in searches)
+    cleaned_searches = map(_strip_postgres_ft_operators, searches)
+    return ' | '.join("(%s)" % ' & '.join(search.split()) for search in cleaned_searches)
 
 def _ft_clause(column):
     return "to_tsvector('datacommons', %s) @@ to_tsquery('datacommons', %%s)" % column
