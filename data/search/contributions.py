@@ -15,8 +15,20 @@ from strings.transformers import build_remove_substrings
 
 # Generator functions
 
+def _for_against_generator(query, for_against):
+    print for_against
+    print type(for_against)
+    if for_against == 'for':
+        query = query.exclude(transaction_type__in=('24a','24n'))
+    elif for_against == 'against':
+        query = query.filter(transaction_type__in=('24a','24n'))
+    return query
+
 def _seat_in_generator(query, *seats):
     return query.filter(seat__in=seats)
+    
+def _transaction_type_in_generator(query, *transaction_types):
+    return query.filter(transaction_type__in=transaction_types)
 
 def _contributor_state_in_generator(query, *states):
     return query.filter(contributor_state__in=[state.upper() for state in states])
@@ -111,6 +123,8 @@ ENTITY_FIELD = 'entity'
 AMOUNT_FIELD = 'amount'
 CYCLE_FIELD = 'cycle'
 JURISDICTION_FIELD = 'transaction_namespace'
+TRANSACTION_TYPE_FIELD = 'transaction_type'
+FOR_AGAINST_FIELD = 'for_against'
 
 CONTRIBUTOR_FT_FIELD = 'contributor_ft'
 ORGANIZATION_FT_FIELD = 'organization_ft'
@@ -136,6 +150,8 @@ CONTRIBUTION_SCHEMA = Schema(
                              InclusionField(COMMITTEE_FT_FIELD, _committee_ft_generator),
                              InclusionField(RECIPIENT_FT_FIELD, _recipient_ft_generator),
                              InclusionField(EMPLOYER_FT_FIELD, _employer_ft_generator),
+                             InclusionField(TRANSACTION_TYPE_FIELD, _transaction_type_in_generator),
+                             InclusionField(FOR_AGAINST_FIELD, _for_against_generator),
                              OperatorField(DATE_FIELD,
                                    Operator(LESS_THAN_OP, _date_before_generator),
                                    Operator(GREATER_THAN_OP, _date_after_generator),
