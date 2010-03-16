@@ -118,6 +118,61 @@ TD.DataFilter.DropDownField.loadValue = function(v) {
     this.node.find('select').val(v);
 };
 
+// dual drop down field
+
+TD.DataFilter.DualDropDownField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.DualDropDownField.render = function() {
+    
+    var content = '';
+    content += '<li class="dualdropdown_field">';
+    content += '<select id="field' + this.id + '_first" name="' + this.filter.config.name + '_first" class="first">';
+    var opts = this.filter.config.options;
+    for (var i = 0; i < opts.length; i++) {
+        content += '<option value="' + opts[i][0] + '">' + opts[i][1] + '</option>';
+    }
+    content += '</select>';
+    content += '<select id="field' + this.id + '_second" name="' + this.filter.config.name + '_second" class="second"></select>';
+    content += '<a href="#" class="remove">-</a>';
+    content += '</li>';
+    
+    var node = $(content);
+    node.find('select').bind('change', function() {
+        TD.DataFilter.node.trigger('filterchange');
+    });
+    node.find('select.first').bind('change', function() {
+        for (var i = 0; i < opts.length; i++) {
+            if (opts[i][0] == node.find('select.first').val()) {
+                var content = '<option value="">All</option>';
+                var opts2 = opts[i][2];
+                for (var j = 0; j < opts2.length; j++) {
+                    content += '<option value="' + opts2[j][0] + '">' + opts2[j][1] + '</option>';
+                }
+                node.find('select.second').empty().append($(content))[0].selectedIndex = 0;
+                if (opts2.length == 1) {
+                    node.find('select.second').hide();
+                } else {
+                    node.find('select.second').show();
+                }
+                break;
+            }
+        }
+    }).trigger('change');
+    
+    return node;
+    
+};
+TD.DataFilter.DualDropDownField.value = function() {
+    return this.node.find('select.first').val() + ',' + this.node.find('select.second').val(); 
+};
+TD.DataFilter.DualDropDownField.parseValues = function(v) {
+    return v.split('|');
+};
+TD.DataFilter.DualDropDownField.loadValue = function(v) {
+    var values = v.split(',');
+    this.node.find('select.first').val(values[0]);
+    this.node.find('select.second').val(values[1]);
+};
+
 // operator field
 
 TD.DataFilter.OperatorField = Object.create(TD.DataFilter.Field);
