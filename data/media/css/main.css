@@ -570,8 +570,13 @@ p.moduleText {
 	font-size: 120%;
 }
 
-.dropdown_field select {
+.dropdown_field select,
+.dualdropdown_field select {
 	width: 234px;
+}
+
+.dualdropdown_field select.second {
+	margin-bottom: 15px;
 }
 
 select.bulk_filter {
