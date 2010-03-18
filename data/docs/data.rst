@@ -67,10 +67,10 @@ contributor_zipcode
 	The self-reported ZIPCode of the contributor.
 
 contributor_category
-	The five character industry category code of the contributor assigned by CRP or NIMSP.
+	The five character industry category code of the contributor assigned by CRP or NIMSP. A full listing of categories and category orders can be found in catcodes.csv.
 
 contributor_category_order
-	The three character industry code of the contributor assigned by CRP or NIMSP.
+	The three character industry code of the contributor assigned by CRP or NIMSP. A full listing of categories and category orders can be found in catcodes.csv.
 
 organization_name
 	The name of the organization related to the contributor (employee, owner, spouse of owner, etc.). CRP or NIMSP standardized name.
@@ -97,10 +97,10 @@ recipient_type
 	``C`` for committees, ``O`` for organizations, ``P`` for politicians.
 
 recipient_category
-	The five character industry category code of the recipient assigned by CRP or NIMSP.
+	The five character industry category code of the recipient assigned by CRP or NIMSP. A full listing of categories and category orders can be found in catcodes.csv.
 
 recipient_category_order
-	The three character industry code of the recipient assigned by CRP or NIMSP.
+	The three character industry code of the recipient assigned by CRP or NIMSP. A full listing of categories and category orders can be found in catcodes.csv.
 
 committee_name
 	The name of the committee associated with the recipient of the contribution. This may be a parent committee or the election committee for the candidate.
