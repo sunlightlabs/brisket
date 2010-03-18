@@ -598,6 +598,13 @@ div.partner a{
 	float: left;
 }
 
+p.partner a {
+    text-indent: -9999em;
+    display: block;
+    float: left;
+    margin-top: 20px;
+}
+
 ul#bulkResult li{
 	border-bottom: 1px solid #98CA42;
 	padding-bottom: 15px;
