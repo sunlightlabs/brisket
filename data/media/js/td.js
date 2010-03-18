@@ -100,7 +100,7 @@ var TD = {
             
             var anchor = TD.Utils.getAnchor();
             if (anchor === undefined) {
-                TD.Utils.setAnchor('cycle=2010&for_against=for');
+                TD.Utils.setAnchor('for_against=for&cycle=2010');
                 TD.DataFilter.loadHash();
             }
             
