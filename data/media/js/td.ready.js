@@ -87,7 +87,7 @@ $().ready(function() {
         help: 'Contributions can be made in support of or against a candidate',
         field: TD.DataFilter.DropDownField,
         options: [
-            ['for','For the candidate'],
+            ['for','In support of the candidate'],
             ['against','Against the candidate']
         ]
     });
