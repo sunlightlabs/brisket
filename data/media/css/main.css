@@ -138,12 +138,46 @@ h1 a{
 	text-indent: -9999em;
 }
 
-h2 {
+h2, h1.title, .section h1{
 	font-family: "sorts-mill-goudy-1";
 	font-size: 200%;
 	border-bottom: 2px solid #98CA42;
 	padding-bottom: 10px;
 	margin-bottom: 10px;
+	float: none;
+	height: auto;
+	width: auto;
+	padding-top: 0px;
+	margin-left: 0px;
+}
+
+.section h1 {
+	font-size: 140%;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+	padding-top: 5px;
+}
+
+.section h2 {
+	font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",sans-serif;
+	border-bottom: none;
+	float: none;
+	width: auto;
+	height: auto;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-left: 0px;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+h2#contributions {
+	border-bottom: none;
+	font-size: 150%;
+	font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",sans-serif;
+	color: #71CEF5;
+	font-weight: bold;
+	padding-bottom: 5px;
 }
 
 h3 {
@@ -620,15 +654,42 @@ div.definitions {
 }
 
 
-dt.term {
+dt.term, .docutils dt {
 	font-weight: bold;
 	float: left;
 	display: block;
 	margin-right: .25em;
+	text-transform: capitalize;
 }
 
 dd {
 	display: block;
+	margin-bottom: 5px;
+}
+
+.docutils table {
+	margin: 10px 0px 10px 20px;
+	width: 95%;
+}
+
+.docutils tt, .section tt {
+	font-size: 150%;
+}
+
+span.pre {
+	font-size: 90%;
+}
+
+pre {
+	font-size: 120%;
+	width: 540px;
+	overflow: auto;
+}
+
+.docutils th.head {
+	padding-left: 10px;
+	font-weight: bold;
+	color: #FFF;
 }
 
 a#openSecrets {
