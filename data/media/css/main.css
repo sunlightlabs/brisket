@@ -168,6 +168,8 @@ h5 {
 	float: left;
 }
 
+em { font-weight: bold; }
+
 label, span.bulkResult {
 	font-size: 120%;
 }
@@ -445,10 +447,6 @@ li.filter ul.fields a {
 	margin-right: 2px;
 }
 
-ul.fields {
-	margin-bottom: 5px;
-}
-
 li.filter ul.fields a:hover{
 	background: url(../images/button-minus-small.png) left -13px no-repeat;
 }
@@ -458,8 +456,7 @@ li.daterangefield {
 }
 
 li.daterange_field .date_start, li.daterange_field .date_end {
-	 width: 67px;
-	 margin: 0 3px;
+	 width: 72px;
 }
 
 li.operator_field [name="amount_operator"] {
@@ -573,20 +570,21 @@ p.moduleText {
 	font-size: 120%;
 }
 
-.dropdown_field select {
+.dropdown_field select,
+.dualdropdown_field select {
 	width: 234px;
 }
 
-.dropdown_field {
-	margin-bottom: 5px;
+.dualdropdown_field select.second {
+	margin-bottom: 15px;
 }
 
 select.bulk_filter {
 	width: 250px;
 }
 
-#datafilter {
-	margin-bottom: 10px;
+.filteredSearch #datafilter {
+	margin-bottom: 60px;
 }
 
 #datafilter li.text_field {
@@ -602,6 +600,13 @@ div.partner a{
 	text-indent: -9999em;
 	display: block;
 	float: left;
+}
+
+p.partner a {
+    text-indent: -9999em;
+    display: block;
+    float: left;
+    margin-top: 20px;
 }
 
 ul#bulkResult li{
@@ -752,8 +757,16 @@ div#loading {
     background: url(../images/ajax-loader.gif) top left no-repeat;
     display: none;
     margin-bottom: 30px;
-    height: 16px;
-    width: 16px;
+    padding-left: 30px;
+    font-size: 140%;
+    font-weight: bold;
+}
+
+div#nodata {
+    display: none;
+    margin-bottom: 30px;
+    font-size: 140%;
+    font-weight: bold;
 }
 
 table#mainTable {
@@ -776,6 +789,10 @@ td {
 	padding: 3px 0px 3px 10px;
 }
 
+td.amount {
+    text-align: right;
+}
+
 tr.even {
 	background-color: #FFF;
 }
@@ -785,6 +802,7 @@ tr.odd {
 }
 
 #tableScroll {
+    display: none;
 	position: relative;
 }
 
@@ -887,4 +905,12 @@ p#bottomText {
 	float: left;
 	padding-top: 15px;
 	padding-left: 30px;
+}
+
+.dialog#downloading {
+    display: none;
+}
+
+.dialog#nofilters {
+    display: none;
 }

@@ -4,7 +4,8 @@ from datetime import date
 from django.test import TestCase
 from django.db import connection
 
-from dcdata.contribution.models import Contribution
+from dcdata.contribution.models import Contribution,\
+    UNITTEST_TRANSACTION_NAMESPACE
 from dcdata.models import Import
 from search.contributions import filter_contributions
  
@@ -25,7 +26,7 @@ class SimpleTest(TestCase):
         c = Contribution(**kwargs)
         if 'cycle' not in kwargs:
             c.cycle='09'
-        c.transaction_namespace='urn:unittest:transaction'
+        c.transaction_namespace=UNITTEST_TRANSACTION_NAMESPACE
         c.import_reference=self.import_
         c.save()
         
@@ -38,14 +39,14 @@ class SimpleTest(TestCase):
         self.import_.save()
         
         cursor = connection.cursor()
-        for command in open( '/Users/ethanpg/dev/datacommons/dc_data/scripts/contribition_full_text_index.sql', 'r'):
-            if command.strip():
+        for command in open( '../dc_data/scripts/contribution_name_indexes.sql', 'r'):
+            if command.strip() and not command.startswith('--'):
                 cursor.execute(command)
         
     def test_date(self):
-        self.create_contribution(datestamp=date(1999,12,25))
-        self.create_contribution(datestamp=date(1999,12,31))
-        self.create_contribution(datestamp=date(2000,1,1))
+        self.create_contribution(date=date(1999,12,25))
+        self.create_contribution(date=date(1999,12,31))
+        self.create_contribution(date=date(2000,1,1))
         
         self.assert_num_results(0, {'date': ">|2001-01-01"})
         self.assert_num_results(1, {'date': "><|1999-12-24|1999-12-26"})
@@ -57,8 +58,8 @@ class SimpleTest(TestCase):
         self.create_entities()
         
         self.assert_num_results(0, {'contributor': "abcd"})
-        self.assert_num_results(1, {'contributor': "1234"})
-        self.assert_num_results(1, {'contributor': "1234|5678"})
+        self.assert_num_results(2, {'contributor': "1234"})
+        self.assert_num_results(3, {'contributor': "1234|5678"})
         
     def test_recipient(self):
         self.create_entities()
@@ -101,17 +102,21 @@ class SimpleTest(TestCase):
         self.create_contribution(contributor_state='OR')
         self.create_contribution(contributor_state='OR')
         
-        self.assert_num_results(0, {'state': "WA"})
-        self.assert_num_results(1, {'state': "CA"})
-        self.assert_num_results(2, {'state': "OR"})
+        self.assert_num_results(0, {'contributor_state': "WA"})
+        self.assert_num_results(1, {'contributor_state': "CA"})
+        self.assert_num_results(2, {'contributor_state': "OR"})
         
     def test_conjunctions(self):
-        self.create_contribution(contributor_state="WA", amount=1000, contributor_entity="1234")
-        self.create_contribution(contributor_state="WA", amount=100, contributor_entity="1234")
+        self.create_contribution(contributor_name='apple', contributor_state="WA", amount=1000, contributor_entity="1234")
+        self.create_contribution(contributor_name='apple sauce', contributor_state="WA", amount=100, contributor_entity="1234")
         
-        self.assert_num_results(0, {'state': "CA", 'amount': ">|500", 'entity': "1234"})
-        self.assert_num_results(1, {'state': "WA", 'amount': ">|500", 'entity': "1234"})
+        self.assert_num_results(0, {'contributor_state': "CA", 'amount': ">|500", 'entity': "1234"})
+        self.assert_num_results(1, {'contributor_state': "WA", 'amount': ">|500", 'entity': "1234"})
         self.assert_num_results(1, {'amount': ">|500", 'entity': "1234"})
+        
+        self.assert_num_results(2, {'contributor_ft': 'apple'})
+        self.assert_num_results(1, {'contributor_ft': 'apple', 'amount': '>|500'})
+        self.assert_num_results(0, {'contributor_ft': 'sauce', 'amount': '>|500'})
         
     def test_full_text(self):
         self.create_contribution(contributor_name="Joe Smith")
@@ -137,11 +142,13 @@ class SimpleTest(TestCase):
         self.assert_num_results(1, {'committee_ft': 'to'})
         self.assert_num_results(1, {'committee_ft': 'commit'})
         
+        self.create_contribution(contributor_employer='Meany & Sons')
         self.create_contribution(organization_name="Jason Q. Meany")
         self.create_contribution(parent_organization_name="Jason Q. Meany Sr.")
         
-        self.assert_num_results(2, {'organization_ft': 'Meany'})
+        self.assert_num_results(3, {'organization_ft': 'Meany'})
         self.assert_num_results(1, {'organization_ft': 'Meany Sr.'})
+        self.assert_num_results(1, {'organization_ft': 'Sons'})
 
     def test_stop_words(self):
         self.create_contribution(contributor_name='Apple Association Inc')
@@ -154,7 +161,30 @@ class SimpleTest(TestCase):
         self.assert_num_results(1, {'contributor_ft': 'apple association inc'})
         self.assert_num_results(1, {'contributor_ft': 'apple corp'})
 
+    def test_contributor_search(self):
+        self.create_contribution(contributor_name='apple')
+        self.create_contribution(contributor_employer='apple')
+        self.create_contribution(organization_name='apple')
+        self.create_contribution(parent_organization_name='apple')
         
+        self.assert_num_results(4, {'contributor_ft': 'apple'})
+        self.assert_num_results(3, {'organization_ft': 'apple'})
+        
+    def test_multiple_ft(self):
+        """ See ticket #196. """
+        
+        self.create_contribution(contributor_name='Billy Bob')
+        self.create_contribution(contributor_name='Marry Sue')
+        
+        self.assert_num_results(1, {'contributor_ft': 'billy bob'})
+        self.assert_num_results(1, {'contributor_ft': 'marry sue'})
+        
+        self.assert_num_results(0, {'contributor_ft': 'billy lee'})
+        self.assert_num_results(0, {'contributor_ft': 'billy lee|marry sue lee'})
+        self.assert_num_results(1, {'contributor_ft': 'billy lee|marry sue'})
+        self.assert_num_results(2, {'contributor_ft': 'billy|marry'})
+        self.assert_num_results(2, {'contributor_ft': 'billy bob|marry'})
+        self.assert_num_results(2, {'contributor_ft': 'billy bob|marry sue'})
         
 # not an actual test case because there are no Contribution records in the test database.
 # instead, copy this code to a Django shell and run it there.
