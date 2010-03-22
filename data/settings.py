@@ -50,6 +50,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'locksmith.auth.middleware.APIKeyMiddleware',
+    'dc_web.api.middleware.APIMiddleware',
 )
 
 ROOT_URLCONF = 'dc_web.urls'
@@ -63,6 +65,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'mediasync',
     'registration',
+    'locksmith.auth',
     'matchbox',
     'dcdata.contribution',
     'dc_web.api',
@@ -76,11 +79,12 @@ INSTALLED_APPS = (
 ACCOUNT_ACTIVATION_DAYS = 2
 LOGIN_REDIRECT_URL = '/'
 
-AUTH_PROFILE_MODULE = 'public.UserProfile'
-
 PISTON_DISPLAY_ERRORS = True
 PISTON_EMAIL_ERRORS = False
 PISTON_STREAM_OUTPUT = True
+
+LOCKSMITH_STATS_APP = "api"
+LOCKSMITH_STATS_MODEL = "Invocation"
 
 INTERNAL_IPS = ('127.0.0.1','209.190.229.199')
 DEBUG_TOOLBAR_CONFIG = {

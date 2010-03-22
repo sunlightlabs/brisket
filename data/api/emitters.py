@@ -1,7 +1,12 @@
 from django.core.serializers.json import DateTimeAwareJSONEncoder
 from django.utils import simplejson
 from piston.emitters import Emitter
-from dc_web.api.models import APIInvocation
+from dc_web.api.middleware import RETURN_ENTITIES_KEY
+from dc_web.api.models import Invocation
+from matchbox.models import entityref_cache
+from dcdata.contribution.models import NIMSP_TRANSACTION_NAMESPACE,\
+    CRP_TRANSACTION_NAMESPACE
+from time import time
 import csv
 import datetime
 
@@ -19,7 +24,8 @@ class StatsLogger(object):
     def __init__(self):
         self.stats = { 'total': 0 }
     def log(self, record):
-        ns = record['transaction_namespace']
+        #ns = record['transaction_namespace']
+        ns = record.get('transaction_namespace', 'unknown')
         self.stats[ns] = self.stats.get(ns, 0) + 1
         self.stats['total'] += 1
 
@@ -40,16 +46,26 @@ class StreamingLoggingEmitter(Emitter):
                 for field in self.handler.exclude:
                     fields.remove(field)
         
-        for chunk in self.stream(request, fields, stats):
+        if request.session.get(RETURN_ENTITIES_KEY, False):
+            entity_fields = entityref_cache.get(self.handler.model, [])
+            final_fields = fields + entity_fields
+        else:
+            final_fields = fields
+        
+        start_time = time()
+        
+        for chunk in self.stream(request, final_fields, stats):
             yield chunk
+
+        print("emitter returned %s results in %s seconds." % (stats.stats['total'], time() - start_time))
             
-        APIInvocation.objects.create(
-            user=request.user,
+        Invocation.objects.create(
+            caller_key=request.apikey.key,
             method=self.handler.__class__.__name__,
             query_string=request.META['QUERY_STRING'],
             total_records=stats.stats['total'],
-            crp_records=stats.stats.get('urn:fec:transaction', 0),
-            nimsp_records=stats.stats.get('urn:nimsp:transaction', 0),
+            crp_records=stats.stats.get(CRP_TRANSACTION_NAMESPACE, 0),
+            nimsp_records=stats.stats.get(NIMSP_TRANSACTION_NAMESPACE, 0),
             execution_time=0, # fill this out!!!
         )
         
@@ -58,10 +74,18 @@ class StreamingLoggingJSONEmitter(StreamingLoggingEmitter):
     
     def stream(self, request, fields, stats):
         yield "["
+        count = 0
         for record in self.data.values():
-            stats.log(record)
-            seria = simplejson.dumps(record, cls=DateTimeAwareJSONEncoder, ensure_ascii=False, indent=4)
-            yield seria + ","
+            out_record = { }
+            for f in fields:
+                out_record[f] = record[f]
+            stats.log(out_record)
+            seria = simplejson.dumps(out_record, cls=DateTimeAwareJSONEncoder, ensure_ascii=False, indent=4)
+            if count == 0:
+                yield seria
+            else:
+                yield "," + seria
+            count += 1
         yield "]"
 
 class StreamingLoggingCSVEmitter(StreamingLoggingEmitter):
@@ -74,3 +98,5 @@ class StreamingLoggingCSVEmitter(StreamingLoggingEmitter):
             stats.log(record)
             writer.writerow(record)
             yield f.read()
+            
+            

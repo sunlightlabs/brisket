@@ -2,76 +2,232 @@
 
 {% block content %}
     <div class="module whitebox">
-		<h2>Transparency Data API</h2>
-		<ul>
-			<li>
-				<div class="api-docs">
-					<h3>Subject Heading</h3>
-					<span class="apiTitle">Subject Title</span>
-					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
-					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
-				</div>
-			</li>
-			<li>
-				<div class="api-docs">
-					<h3>Subject Heading</h3>
-					<span class="apiTitle">Subject Title</span>
-					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
-					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
-				</div>
-			</li>
-			<li>
-				<div class="api-docs">
-					<h3>Subject Heading</h3>
-					<span class="apiTitle">Subject Title</span>
-					<span class="description">Format: Lorem ipsum dolor sit amet.</span>
-					<span class="description">Example: Lorem ipsum dolor sit amet.</span>
-				</div>
-			</li>
-		</ul>
-		<div class="clear"></div>
+		<h1 class="title">Transparency Data API</h1>
+		<h2 class="subtitle" id="contributions">Contributions</h2>
+		<div class="section" id="end-point">
+		<h1>End Point</h1>
+		<p>JSON response format:</p>
+		<pre class="literal-block">
+		http://transparencydata.com/api/1.0/contributions.json
+		</pre>
+		<p>CSV response format:</p>
+		<pre class="literal-block">
+		http://transparencydata.com/api/1.0/contributions.csv
+		</pre>
+		</div>
+		<div class="section" id="authentication">
+		<h1>Authentication</h1>
+		<p>An API key is required to access the Transparency Data API. <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.</p>
+		<p>The API key <em>must</em> be as either an <tt class="docutils literal">apikey</tt> query string parameter or as a <tt class="docutils literal"><span class="pre">X-APIKEY</span></tt> HTTP request parameter. Example:</p>
+		<pre class="literal-block">
+		http://transparencydata.com/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;...
+		</pre>
+		</div>
+		<div class="section" id="parameters">
+		<h1>Parameters</h1>
+		<div class="section" id="meta">
+		<h2>Meta</h2>
+		<dl class="docutils">
+		<dt>apikey</dt>
+		<dd>Required if the <tt class="docutils literal"><span class="pre">X-APIKEY</span></tt> HTTP header is not used.</dd>
+		<dt>page</dt>
+		<dd>The page of results to return; defaults to 1.</dd>
+		<dt>per_page</dt>
+		<dd>The number of results to return per page, defaults to 1,000. The maximum number of records per page is 100,000.</dd>
+		</dl>
+		</div>
+		<div class="section" id="querying">
+		<h2>Querying</h2>
+		<dl class="docutils">
+		<dt>amount</dt>
+		<dd><p class="first">The amount of the contribution in US dollars in one of the following formats:</p>
+		<table border="1" class="last docutils">
+		<colgroup>
+		<col width="20%" />
+		<col width="80%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Example</th>
+		<th class="head">Description</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td>500</td>
+		<td>exactly 500 dollars</td>
+		</tr>
+		<tr><td>&gt;|500</td>
+		<td>greater than or equal to 500</td>
+		</tr>
+		<tr><td>&lt;|500</td>
+		<td>less than or equal to 500</td>
+		</tr>
+		</tbody>
+		</table>
+		</dd>
+		<dt>contributor_ft</dt>
+		<dd>Full-text search on name of individual, PAC, organization, or employer.</dd>
+		<dt>contributor_state</dt>
+		<dd>Two-letter abbreviation of state from which the contribution was made.</dd>
+		<dt>cycle</dt>
+		<dd><p class="first">A YYYY formatted year, 1990 - 2010.</p>
+		<table border="1" class="last docutils">
+		<colgroup>
+		<col width="33%" />
+		<col width="67%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Example</th>
+		<th class="head">Description</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td>2006</td>
+		<td>the 2006 cycle</td>
+		</tr>
+		<tr><td>2006|2008</td>
+		<td>2006 OR 2008 cycle</td>
+		</tr>
+		</tbody>
+		</table>
+		</dd>
+		<dt>date</dt>
+		<dd><p class="first">date of the contribution in ISO date format</p>
+		<table border="1" class="last docutils">
+		<colgroup>
+		<col width="38%" />
+		<col width="63%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Example</th>
+		<th class="head">Description</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td>2006-08-06</td>
+		<td>exactly on August 6, 2006</td>
+		</tr>
+		<tr><td>&gt;&lt;|2006-08-06|2006-09-12</td>
+		<td>between August 6, 2006 and September 12, 2006</td>
+		</tr>
+		</tbody>
+		</table>
+		</dd>
+		<dt>employer_ft</dt>
+		<dd>full-text search on name of an individual's employer</dd>
+		<dt>recipient_ft</dt>
+		<dd>full-text search on name of PAC or candidate receiving the contribution</dd>
+		<dt>recipient_state</dt>
+		<dd>two-letter abbreviation of state in which the candidate receiving the contribution is running</dd>
+		<dt>seat</dt>
+		<dd><p class="first">type of office being sought</p>
+		<table border="1" class="docutils">
+		<colgroup>
+		<col width="35%" />
+		<col width="65%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Options</th>
+		<th class="head">Description</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td>federal:senate</td>
+		<td>US Senate</td>
+		</tr>
+		<tr><td>federal:house</td>
+		<td>US House of Representatives</td>
+		</tr>
+		<tr><td>federal:president</td>
+		<td>US President</td>
+		</tr>
+		<tr><td>state:upper</td>
+		<td>upper chamber of state legislature</td>
+		</tr>
+		<tr><td>state:lower</td>
+		<td>lower chamber of state legislature</td>
+		</tr>
+		<tr><td>state:governor</td>
+		<td>state governor</td>
+		</tr>
+		</tbody>
+		</table>
+		<p>Multiple values must be separated by a pipe character.</p>
+		<table border="1" class="last docutils">
+		<colgroup>
+		<col width="57%" />
+		<col width="43%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Example</th>
+		<th class="head">Description</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td>federal:senate</td>
+		<td>only the US Senate</td>
+		</tr>
+		<tr><td>federal:senate|federal:house</td>
+		<td>US Senate OR US House</td>
+		</tr>
+		</tbody>
+		</table>
+		</dd>
+		<dt>transaction_namespace</dt>
+		<dd><p class="first">filters on federal or state contributions</p>
+		<table border="1" class="last docutils">
+		<colgroup>
+		<col width="54%" />
+		<col width="46%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Options</th>
+		<th class="head">Description</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td><tt class="docutils literal">urn:fec:transaction</tt></td>
+		<td>federal contributions</td>
+		</tr>
+		<tr><td><tt class="docutils literal">urn:nimsp:transaction</tt></td>
+		<td>state contributions</td>
+		</tr>
+		</tbody>
+		</table>
+		</dd>
+		</dl>
+		</div>
+		</div>
+		<div class="section" id="examples">
+		<h1>Examples</h1>
+		<p>Contributions from the states of Maryland and Virginia to Barbara Mikulski during the 2008 campaign cycle as JSON:</p>
+		<pre class="literal-block">
+		/api/1.0/contributions.json?apikey=&lt;key&gt;&amp;contributor_state=md|va&amp;recipient_ft=mikulski&amp;cycle=2008
+		</pre>
+		<p>Contributions from Alaskans to upper and lower state legislature candidates in 2002 as CSV:</p>
+		<pre class="literal-block">
+		/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;contributor_state=ak&amp;date=&gt;&lt;|2002-01-01|2002-12-31&amp;seat=state:upper|state:lower
+		</pre>
+		</div>
 	</div>
 {% endblock %}
 
 {% block sidebar %}
 
-    {% if user.is_authenticated %}
-    
-        {% with user.api_keys.all|first as key %}
-            <h2>Your API Key</h2>
-            <p>{{ key }}</p>
-        {% endwith %}
-        
-    {% else %}
-    
-        <div class="module login">
-    		<h2>Log In</h2>
-		    <form method="post" action="{% url django.contrib.auth.views.login %}">
-    			<ul class="login">
-    				<li>
-    					<label id="userName">User Name:</label>
-    					<input id="userNameField" type="text" name="username"/>
-    				</li>
-    				<li>
-    					<label id="loginPass">Password:</label>
-    					<input id="loginPassField" type="password" name="password"/>
-    				</li>
-    				<li>
-    					<span class="newpass">
-    						<a href="{% url registration_register %}">New User</a><!-- / <a href="#">Password Help?</a> -->
-    					</span>	
-    				</li>	
-    				<li>
-    					<button class="signIn" type="submit">
-    						<span>Sign In</span>
-    					</button>
-    				</li>	
-    			</ul>
-			</form>
-			<div class="clear"></div>
-    	</div>
-    	
-    {% endif %}
+    <div class="module">
+		<h2>API Key</h2>
+		<p>
+			Register for an API key at <a href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a>.
+			This key can be used to access all of the <a href="http://sunlightlabs.com">Sunlight Labs</a> data APIs.
+		</p>
+	</div>
+	
+    <div class="module">
+		<h2>Client Libraries</h2>
+		<ul>
+			<li><a href="#">Python</a></li>
+			<li><a href="#">Ruby</a></li>
+		</ul>
+	</div>
     
 	<div class="module partner">
 		<h2>Partnered With</h2>

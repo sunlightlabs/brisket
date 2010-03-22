@@ -6,7 +6,7 @@
 	<h2>to Transparency Data</h2>
 	<p id="intro">
 	    Transparency Data is a central source for all <b>federal and state campaign contributions</b> made in the last twenty years.
-	    Here you can begin your search, find the information you need and then <b>download records of what an individual has given, what employees of a company have given, or what a candidate has received.</b>
+	    Here you can begin your search, find the information you need and then download records of what a <b>candidate</b> has received, what an <b>individual</b> has given, and how much <b>companies and their employees</b> have given.
 	</p>
 {% endblock %}
 
@@ -15,11 +15,11 @@
 		<h4>Get Your Search Started</h4>
 		<div id="leftIntro">
 			<p class="introText">Have a specific committee, recipient or date in mind? Add some filters below to search them</p>
-			<h3>Add A Filter</h3>
+			<h3>Search for</h3>
 			<div id="datafilter">
 				<form>
 					<select id="filterselect">
-						<option value="">Select a filter to add...</option>
+						<option value="">Select a field to search...</option>
 					</select>
 					<ul id="filters"></ul> <!-- end filters -->
 				</form>
@@ -28,6 +28,12 @@
 		<div id="rightIntro">
 			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
 			<a id="previewData" href="#">Preview Data</a>
+			
+		    <p class="partner">
+		        <a id="openSecrets" href="http://opensecrets.org"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
+		        <a id="nimsp" href="http://followthemoney.org"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
+		        <div class="clear"></div>
+		    </p>
 		</div> <!-- end rightIntro -->
 	</div> <!-- end introbox -->
 {% endblock %}
