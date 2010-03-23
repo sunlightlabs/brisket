@@ -8,9 +8,9 @@ Defines the syntax of HTTP requests and how the requests are mapped into Django 
 from django.db.models.query_utils import Q
 
 from dcdata.utils.sql import parse_date
+from dcdata.utils.strings.transformers import build_remove_substrings
 from dcdata.contribution.models import Contribution
 from schema import Operator, Schema, InclusionField, OperatorField
-from strings.transformers import build_remove_substrings
 
 
 # Generator functions
