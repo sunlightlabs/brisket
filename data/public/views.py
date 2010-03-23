@@ -14,7 +14,7 @@ from dcapi.handlers import load_contributions, ContributionFilterHandler
 from dcapi.urls import contributionfilter_handler
 from matchbox.models import Entity, Normalization
 from matchbox.queries import search_entities_by_name
-from strings.normalizer import basic_normalizer
+from dcdata.utils.strings.normalizer import basic_normalizer
 from locksmith.auth.models import ApiKey
 
 entity_type_map = {
