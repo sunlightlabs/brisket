@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.template import RequestContext
-from dc_web.api.handlers import load_contributions, ContributionFilterHandler
-from dc_web.api.urls import contributionfilter_handler
+from dcapi.handlers import load_contributions, ContributionFilterHandler
+from dcapi.urls import contributionfilter_handler
 from matchbox.models import Entity, Normalization
 from matchbox.queries import search_entities_by_name
 from strings.normalizer import basic_normalizer

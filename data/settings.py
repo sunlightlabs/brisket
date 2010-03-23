@@ -51,7 +51,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'locksmith.auth.middleware.APIKeyMiddleware',
-    'dc_web.api.middleware.APIMiddleware',
+    'dcapi.middleware.APIMiddleware',
 )
 
 ROOT_URLCONF = 'dc_web.urls'
@@ -68,7 +68,7 @@ INSTALLED_APPS = (
     'locksmith.auth',
     'matchbox',
     'dcdata.contribution',
-    'dc_web.api',
+    'dcapi',
     'dc_web.public',
 )
 
