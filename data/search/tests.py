@@ -7,7 +7,7 @@ from django.db import connection
 from dcdata.contribution.models import Contribution,\
     UNITTEST_TRANSACTION_NAMESPACE
 from dcdata.models import Import
-from search.contributions import filter_contributions
+from dc_web.search.contributions import filter_contributions
  
 
 class SimpleTest(TestCase):
@@ -39,7 +39,7 @@ class SimpleTest(TestCase):
         self.import_.save()
         
         cursor = connection.cursor()
-        for command in open( '../dc_data/scripts/contribution_name_indexes.sql', 'r'):
+        for command in open( '../dcdata/scripts/contribution_name_indexes.sql', 'r'):
             if command.strip() and not command.startswith('--'):
                 cursor.execute(command)
         
