@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/1.0/', include('dc_web.api.urls')),
+    url(r'^api/1.0/', include('dcapi.urls')),
     url(r'^api/locksmith/', include('locksmith.auth.urls')),
     url(r'^accounts/', include('registration.urls')),
     url(r'^', include('dc_web.public.urls')),
