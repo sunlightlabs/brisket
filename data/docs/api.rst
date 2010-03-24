@@ -25,7 +25,7 @@ The API key *must* be as either an ``apikey`` query string parameter or as a ``X
 
     http://transparencydata.com/api/1.0/contributions.csv?apikey=<key>&...
 
-Parameters
+oParameters
 ----------
 
 Meta
