@@ -69,6 +69,7 @@ INSTALLED_APPS = (
     'matchbox',
     'dcdata.contribution',
     'dcapi',
+    'dcapi.aggregates', 
     'dc_web.public',
 )
 
