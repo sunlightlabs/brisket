@@ -12,8 +12,8 @@ from django.db import IntegrityError
 from django.template import RequestContext
 from dcapi.handlers import load_contributions, ContributionFilterHandler
 from dcapi.urls import contributionfilter_handler
-from matchbox.models import Entity, Normalization
-from matchbox.queries import search_entities_by_name
+from dcentity.models import Entity, Normalization
+from dcentity.queries import search_entities_by_name
 from dcdata.utils.strings.normalizer import basic_normalizer
 from locksmith.auth.models import ApiKey
 
