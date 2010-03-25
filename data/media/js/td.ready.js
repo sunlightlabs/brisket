@@ -10,17 +10,14 @@ $().ready(function() {
     TD.DataFilter.registerFilter({
         name: 'cycle',
         label: 'Cycle',
-        help: 'Election cycles. Odd cycles have only state-level contributions',
+        help: 'The two-year span in which the contributions were reported',
         field: TD.DataFilter.DropDownField,
         allowMultipleFields: true,
         options: [
-            ['1990','1990'], ['1991','1991'], ['1992','1992'],
-            ['1993','1993'], ['1994','1994'], ['1995','1995'],
-            ['1996','1996'], ['1997','1997'], ['1998','1998'],
-            ['1999','1999'], ['2000','2000'], ['2001','2001'],
-            ['2002','2002'], ['2003','2003'], ['2004','2004'],
-            ['2005','2005'], ['2006','2006'], ['2007','2007'],
-            ['2008','2008'], ['2009','2009'], ['2010','2010']
+            ['1990','1989-1990'], ['1992','1991-1992'], ['1994','1993-1994'],
+            ['1996','1995-1996'], ['1998','1997-1998'], ['2000','1999-2000'],
+            ['2002','2001-2002'], ['2004','2003-2004'], ['2006','2005-2006'],
+            ['2008','2007-2008'], ['2010','2009-2010']
         ]
     });
     
@@ -86,6 +83,7 @@ $().ready(function() {
         label: 'For/against candidate',
         help: 'Contributions can be made in support of or against a candidate',
         field: TD.DataFilter.DropDownField,
+        required: true,
         options: [
             ['for','In support of the candidate'],
             ['against','Against the candidate']

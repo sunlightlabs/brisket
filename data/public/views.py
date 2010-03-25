@@ -89,7 +89,7 @@ def data_contributions(request):
 
 def data_contributions_count(request):    
     params = request.GET.copy()
-    c = load_contributions(params, nolimit=True).count()
+    c = load_contributions(params, nolimit=True).order_by().count()
     return HttpResponse("%i" % c, content_type='text/plain')
     
 def data_contributions_download(request):
