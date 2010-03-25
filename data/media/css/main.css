@@ -662,13 +662,19 @@ dt.term, .docutils dt {
 	text-transform: capitalize;
 }
 
+.docs dt {
+    display: block;
+    float: none;
+    margin-top: 1em;
+}
+
 dd {
-	display: block;
-	margin-bottom: 5px;
+    display: block;
+    margin: 0 0 1.3em 3em;
 }
 
 .docutils table {
-	margin: 10px 0px 10px 20px;
+	margin: 10px 0px 10px 0;
 	width: 95%;
 }
 
@@ -685,7 +691,10 @@ pre {
 	width: 540px;
 	overflow: auto;
 }
-
+pre.literal-block {
+    color: #000;
+    padding: 1em;
+}
 .docutils th.head {
 	padding-left: 10px;
 	font-weight: bold;
