@@ -1,27 +1,21 @@
 {% extends "base_large.html" %}
 
 {% block content %}
-    <div class="module whitebox">
+    <div class="module whitebox docs">
 		<h1 class="title">Transparency Data API</h1>
 		<h2 class="subtitle" id="contributions">Contributions</h2>
 		<div class="section" id="end-point">
 		<h1>End Point</h1>
 		<p>JSON response format:</p>
-		<pre class="literal-block">
-		http://transparencydata.com/api/1.0/contributions.json
-		</pre>
+		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.json</pre>
 		<p>CSV response format:</p>
-		<pre class="literal-block">
-		http://transparencydata.com/api/1.0/contributions.csv
-		</pre>
+		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.csv</pre>
 		</div>
 		<div class="section" id="authentication">
 		<h1>Authentication</h1>
 		<p>An API key is required to access the Transparency Data API. <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.</p>
 		<p>The API key <em>must</em> be as either an <tt class="docutils literal">apikey</tt> query string parameter or as a <tt class="docutils literal"><span class="pre">X-APIKEY</span></tt> HTTP request parameter. Example:</p>
-		<pre class="literal-block">
-		http://transparencydata.com/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;...
-		</pre>
+		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;...</pre>
 		</div>
 		<div class="section" id="parameters">
 		<h1>Parameters</h1>
@@ -200,13 +194,9 @@
 		<div class="section" id="examples">
 		<h1>Examples</h1>
 		<p>Contributions from the states of Maryland and Virginia to Barbara Mikulski during the 2008 campaign cycle as JSON:</p>
-		<pre class="literal-block">
-		/api/1.0/contributions.json?apikey=&lt;key&gt;&amp;contributor_state=md|va&amp;recipient_ft=mikulski&amp;cycle=2008
-		</pre>
+		<pre class="literal-block">/api/1.0/contributions.json?apikey=&lt;key&gt;&amp;contributor_state=md|va&amp;recipient_ft=mikulski&amp;cycle=2008</pre>
 		<p>Contributions from Alaskans to upper and lower state legislature candidates in 2002 as CSV:</p>
-		<pre class="literal-block">
-		/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;contributor_state=ak&amp;date=&gt;&lt;|2002-01-01|2002-12-31&amp;seat=state:upper|state:lower
-		</pre>
+		<pre class="literal-block">/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;contributor_state=ak&amp;date=&gt;&lt;|2002-01-01|2002-12-31&amp;seat=state:upper|state:lower</pre>
 		</div>
 	</div>
 {% endblock %}
