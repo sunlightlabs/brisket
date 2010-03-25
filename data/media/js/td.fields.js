@@ -256,6 +256,7 @@ TD.DataFilter.TextField.loadValue = function(v) {
 TD.DataFilter.Filter = {
     init: function(config) {
         this.allowMultipleFields = config.allowMultipleFields || false;
+        this.required = config.required || false;
         this.enabled = false;
         this.fields = {};
         this.fieldCount = 0;
@@ -312,7 +313,9 @@ TD.DataFilter.Filter = {
         var content = '';
         content += '<li id="' + this.config.name + '_filter" class="filter">';
         content += '<label>' + this.config.label + '</label>';
-        content += '<a href="#" class="remove">-</a>';
+        if (!this.required) {
+            content += '<a href="#" class="remove">-</a>';
+        }
         if (this.allowMultipleFields) {
             content += '<a href="#" class="add">+</a>';
         }
