@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h2>Results</h2>
+{% for result in results %}
+<div class="result">
+  <p><a href="">{{ result.name }}</a> was involved in {{ result.count }} transactions
+  involving ${{ result.total_given }} given and
+  ${{result.total_received }} received</p>
+</div>
+{% endfor %}
+
+{% endblock %}
