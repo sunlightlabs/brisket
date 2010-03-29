@@ -34,3 +34,18 @@ class AggregatesAPI(object):
                     })
         return results_annotated
 
+
+    def top_contributors(self, entity_id):
+        arguments = 'aggregates/entity/%s/contributors.json?apikey=%s' % (entity_id, settings.API_KEY)
+        api_call = self.base_url.strip('/')+'/'+arguments        
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return results
+
+    def top_recipients(self, entity_id):
+        arguments = 'aggregates/entity/%s/recipients.json?apikey=%s' % (entity_id, settings.API_KEY)
+        api_call = self.base_url.strip('/')+'/'+arguments        
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return results
+

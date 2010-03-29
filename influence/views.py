@@ -32,5 +32,15 @@ def search(request):
         form = SearchForm(request.GET)
         return HttpResponseRedirect('/')
 
+def organization_entity(request, entity_id):
+    api = AggregatesAPI()    
+    top_contributors = api.top_contributors(entity_id)
+    top_recipients = api.top_recipients(entity_id)
+    return render_to_response('organization.html', {'entity_id': entity_id, 
+                                                    'top_contributors': top_contributors, 
+                                                    'top_recipients': top_recipients })
+
+def politician_entity(request, entity_id):
+    return render_to_response('politician.html', {'entity_id': entity_id})
         
     
