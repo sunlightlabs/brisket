@@ -84,6 +84,7 @@ var TD = {
             
             $('#downloading').dialog({
                 autoOpen: false,
+                buttons: { "Ok": function() { $(this).dialog("close"); } },
                 draggable: false,
                 modal: true,
                 resizable: false,

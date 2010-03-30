@@ -243,6 +243,7 @@ button{
 	text-indent: -9999em;
 	border: none;
 }
+.ui-dialog-buttonpane button { text-indent: 0; }
 
 button.searchBtn{
 	background: url(../images/search-button.png) top left no-repeat;
