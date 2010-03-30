@@ -68,17 +68,19 @@ var TD = {
                     var qs = TD.Utils.toQueryString(TD.DataFilter.values());
                     var hash = window.btoa(qs);
                     window.location.replace("/filter/#" + hash);
-                } else {
+                } else if ($(this).hasClass('enabled')) {
                     TD.DataFilter.preview();
                 }
                 return false;
             });
             
             $('a#downloadData').bind('click', function() {
-                $('a#downloadData').removeClass('enabled');
-                $('#downloading').dialog('open');
-                var qs = TD.Utils.toQueryString(TD.DataFilter.values());
-                window.location.replace("/data/contributions/download/?" + qs);
+                if ($(this).hasClass('enabled')) {
+                    $('a#downloadData').removeClass('enabled');
+                    $('#downloading').dialog('open');
+                    var qs = TD.Utils.toQueryString(TD.DataFilter.values());
+                    window.location.replace("/data/contributions/download/?" + qs);
+                }
                 return false;
             });
             
