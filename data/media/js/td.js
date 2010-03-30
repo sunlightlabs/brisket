@@ -300,13 +300,3 @@ var TD = {
     }
     
 };
-
-setInterval(function() {
-        TD.HashMonitor.check(function(hash) {
-            if (hash) {
-                TD.DataFilter.reset();
-                TD.DataFilter.loadHash();
-                TD.DataFilter.preview();
-            }
-        });
-    }, 200);
