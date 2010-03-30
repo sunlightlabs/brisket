@@ -76,16 +76,10 @@ def debug_contributions(request):
     return render_to_response('debug.html', {'content': content})
 
 def data_contributions(request):
-    start_time = time()
-
     request.GET = request.GET.copy()
     request.GET['per_page'] = 30
     request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
-    
-    response = contributionfilter_handler(request)
-    
-    print('Contribution request %s took %s seconds.' % (request.GET, time() - start_time))
-    return response
+    return contributionfilter_handler(request)
 
 def data_contributions_count(request):    
     params = request.GET.copy()
@@ -93,8 +87,6 @@ def data_contributions_count(request):
     return HttpResponse("%i" % c, content_type='text/plain')
     
 def data_contributions_download(request):
-    start_time = time()
-    
     request.GET = request.GET.copy()
     request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
     request.GET['per_page'] = 1000000
@@ -102,9 +94,6 @@ def data_contributions_download(request):
     response = contributionfilter_handler(request)
     response['Content-Disposition'] = "attachment; filename=contributions.csv"
     response['Content-Type'] = "text/csv; charset=utf-8"
-    
-    print('Contribution request %s took %s seconds.' % (request.GET, time() - start_time))
-    
     return response
 
 
