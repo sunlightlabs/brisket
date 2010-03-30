@@ -660,7 +660,6 @@ dt.term, .docutils dt {
 	float: left;
 	display: block;
 	margin-right: .25em;
-	text-transform: capitalize;
 }
 
 .docs dt {
