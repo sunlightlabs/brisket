@@ -93,7 +93,7 @@ $().ready(function() {
         });
     
         TD.DataFilter.registerFilter({
-            name: 'industry',
+            name: 'contributor_industry',
             label: 'Industry',
             help: 'The industry in which the person or organization making the contribution is involved',
             field: TD.DataFilter.DualDropDownField,
