@@ -1,5 +1,64 @@
 #block_header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    background: #d3a5ac;
+}
 
+#main_search {
+    align: right;
+    width: 200px;
+}
+
+#biographical {
+    min-height: 150px;
+}
+
+#politician_metadata {
+    margin-left: 110px;
+    width: 400px;
+    float: left;
+}
+
+#cycle_filter {
+}
+
+
+#politician_picture {
+    width: 100px;
+}
+
+#politician_picture_frame {
+    width: 100px;
+    float: left;
+}
+
+#charts {
+    min-height: 160px;
+    background: #93a8b0;
+}
+
+#piechart_instate {
+
+}
+
+#piechart_source {
+
+}
+
+#top_contributors {
+    float: left;
+}
+
+#industry_barchart {
+    width: 400px;
+    height: 150px;
+    float: left;
+    background: #93abd0;
+}
+
+.piechart {
+    float: right;
 }
 
 #block_nav {

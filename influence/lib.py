@@ -23,29 +23,36 @@ class AggregatesAPI(object):
         print api_call
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
-        results_annotated = []
-        for (id_, name, count, total_given, total_received) in results:
-            results_annotated.append({
-                    'id': id_,
-                    'name': name,
-                    'count': count,
-                    'total_given': float(total_given),
-                    'total_received': float(total_received)
-                    })
-        return results_annotated
+        return results
 
 
-    def top_contributors(self, entity_id):
-        arguments = 'aggregates/entity/%s/contributors.json?apikey=%s' % (entity_id, settings.API_KEY)
+    def top_contributors(self, entity_id, entity_types=None):
+        # entity_types can be one or more of individual, pac (and
+        # eventually industry and employer). do some type checking:
+        if entity_types:
+            arguments = ('aggregates/entity/%s/contributors.json?type=%s&apikey=%s' % 
+                         (entity_id, _type, settings.API_KEY))
+        else:
+            arguments = ('aggregates/entity/%s/contributors.json?apikey=%s' % 
+                         (entity_id, settings.API_KEY))            
         api_call = self.base_url.strip('/')+'/'+arguments        
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
         return results
 
-    def top_recipients(self, entity_id):
+    def top_recipients(self, entity_id, entity_types=None):
         arguments = 'aggregates/entity/%s/recipients.json?apikey=%s' % (entity_id, settings.API_KEY)
         api_call = self.base_url.strip('/')+'/'+arguments        
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
         return results
 
+
+    def entity_metadata(self, entity_id):
+        arguments = 'entities/%s.json?apikey=%s' % (entity_id, settings.API_KEY)
+        api_call = self.base_url.strip('/')+'/'+arguments        
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return results
+        
+        

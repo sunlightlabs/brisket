@@ -13,6 +13,12 @@
   <body>
     {% block header %}
     <div id="block_header">
+      <div id="main_search">
+      <form action="/search" method="get">
+	{{ form.as_p }}
+	<input type="submit" value="Search Entities" />
+      </form>
+      </div>
     </div>
     {% endblock %}
 

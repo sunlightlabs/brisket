@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h1>{{ entity_info.name }}</h1>
+
+<h2>Top Contributors to {{ entity_info.name }}</h2>
+
+<div id="biographical">
+  <div id="politician_picture_frame">
+    <img src="/media/images/Sandlin_300px_2007.jpg" id="politician_picture">
+  </div>
+  <div id="politician_metadata">
+    <h3>{{ entity_info.name }}</h3>
+    [[ Party ]] - [[ State ]]<br>
+    First Elected: [[ YYYY ]] Next Election: [[ YYYY ]]<br>
+  </div>
+  <div id="cycle_filter">
+    <h3>View Other Selection Cycles</h3>
+    <p>Select another election cycle to change the charts below</p>
+  </div>
+</div>
+
+<div id="charts">
+  <div id="industry_barchart">
+    <img src="{{ contributions_barchart }}">
+  </div>
+
+  <div class="piechart">
+    <div id="piechart_instate">      
+      <img src ="{{ pie_chart_instate }}">
+    </div>
+  </div>
+
+  <div class="piechart">
+    <div id="piechart_source">
+      <img src ="{{ pie_chart_source }}">
+    </div>
+  </div>
+</div>
+
+
+<div id="top_contributors">
+  <table>
+    <thead>
+      <td>Name</td>
+      <td>Type</td>
+      <td>Total Amount</td>
+    </thead>
+    <tbody>
+      {% for row in top_contributors %}
+      <tr>
+	<td>{{ row.name }}</td>
+	<td>{{ row.type }} </td>
+	<td>{{ row.amount }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

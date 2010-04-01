@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h1>{{ entity_info.name }}</h1>
+
+<h2>Top Contributors to {{ entity_info.name }}</h2>
+
+{{ top_contributors|length }}<br>
+{{ top_contributors }}
+
+{% if contributions_barchart %}
+<img src ="{{ contributions_barchart }}">
+{% endif %}
+
+<h2>Top Recipients from {{ entity_info.name }}</h2>
+
+{{ top_recipients|length }}<br>
+{{ top_recipients }}
+
+{% if recipients_barchart %}
+<img src ="{{ recipients_barchart }}">
+{% endif %}
+
+
+<h2> Breakdown (Fake Data) </h2>
+
+<img src ="{{ pie_chart }}">
+
+
+{% endblock %}
