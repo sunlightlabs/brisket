@@ -148,7 +148,7 @@ Parameters
 ----------
 
 amount
-    The amount of the contribution in US dollars in one of the following formats:
+    The amount spent on lobbying in US dollars in one of the following formats:
     
     =======  ============================
     Example  Description
@@ -187,7 +187,7 @@ filing_type
 	
 
 lobbyist_ft
-	Full-text search on the name of the lobbyist involved in the lobbying registration.
+	Full-text search on the name of the lobbyist involved in the lobbying activity.
 
 registrant_ft
 	Full-text search on the name of the person or organization filing the lobbyist registration. This is typically the firm that employs the lobbyists. Use the registrant_is_firm field to filter on firms v. individuals.
@@ -200,4 +200,11 @@ transaction_type
 	http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv
 
 year
-	The year in which the lobbying activity occurred.
+	The year in which the registration was filed. A YYYY formatted year, 1998 - 2010.
+    
+    =========  ============
+    Example    Description
+    =========  ============
+    2006       2006
+    2006|2008  2006 OR 2008
+    =========  ============
