@@ -2,7 +2,13 @@
     padding-top: 20px;
     padding-bottom: 20px;
     margin-bottom: 30px;
-    background: #d3a5ac;
+    background: #grey;
+}
+
+#total_received_section {
+    background: #grey;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #main_search {
@@ -21,6 +27,8 @@
 }
 
 #cycle_filter {
+    margin-left: 520px;
+
 }
 
 

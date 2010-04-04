@@ -18,7 +18,22 @@
   <div id="cycle_filter">
     <h3>View Other Selection Cycles</h3>
     <p>Select another election cycle to change the charts below</p>
+    <form action="/search" method="get">
+      {{ cycle_form.as_p }}
+      <input type="submit" value="Update Cycles" />
+    </form>
   </div>
+</div>
+
+<div id="total_received_section">
+  <span id="amount_received">
+    ${{entity_info.contribution_total_received }} Received as of 
+    [[ date ]]
+  </span>
+  <span id="sparkline_received">
+    <img src="{{ sparkline }}">
+  </span>
+  <a href="details">View Details</a>
 </div>
 
 <div id="charts">
