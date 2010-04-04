@@ -1,0 +1,11 @@
+# API/data needs
+* Metadata: 
+  Politician: party, state, first elected, next election
+* ability to filter results by cycle
+* breakdown API calls
+* top contributors from industry
+* entity type in entity search results
+* 
+
+# to decide
+* charting solution-- google charts aren't clickable. 
