@@ -3,24 +3,17 @@
 {% block content %}
     <div class="module whitebox docs">
 		<h1 class="title">Transparency Data API</h1>
-		<h2 class="subtitle" id="contributions">Contributions</h2>
-		<div class="section" id="end-point">
-		<h1>End Point</h1>
-		<p>JSON response format:</p>
-		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.json</pre>
-		<p>CSV response format:</p>
-		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.csv</pre>
-		</div>
+
 		<div class="section" id="authentication">
 		<h1>Authentication</h1>
 		<p>An API key is required to access the Transparency Data API. <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.</p>
 		<p>The API key <em>must</em> be as either an <tt class="docutils literal">apikey</tt> query string parameter or as a <tt class="docutils literal"><span class="pre">X-APIKEY</span></tt> HTTP request parameter. Example:</p>
-		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;...</pre>
+		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;...
+		</pre>
 		</div>
-		<div class="section" id="parameters">
-		<h1>Parameters</h1>
-		<div class="section" id="meta">
-		<h2>Meta</h2>
+		<div class="section" id="common-parameters">
+		<h1>Common Parameters</h1>
+		<p>These parameters are common to all API methods.</p>
 		<dl class="docutils">
 		<dt>apikey</dt>
 		<dd>Required if the <tt class="docutils literal"><span class="pre">X-APIKEY</span></tt> HTTP header is not used.</dd>
@@ -30,8 +23,19 @@
 		<dd>The number of results to return per page, defaults to 1,000. The maximum number of records per page is 100,000.</dd>
 		</dl>
 		</div>
-		<div class="section" id="querying">
-		<h2>Querying</h2>
+		<div class="section" id="contributions">
+		<h1>Contributions</h1>
+		<div class="section" id="end-point">
+		<h2>End Point</h2>
+		<p>JSON response format:</p>
+		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.json
+		</pre>
+		<p>CSV response format:</p>
+		<pre class="literal-block">http://transparencydata.com/api/1.0/contributions.csv
+		</pre>
+		</div>
+		<div class="section" id="parameters">
+		<h2>Parameters</h2>
 		<dl class="docutils">
 		<dt>amount</dt>
 		<dd><p class="first">The amount of the contribution in US dollars in one of the following formats:</p>
@@ -190,13 +194,117 @@
 		</dd>
 		</dl>
 		</div>
-		</div>
 		<div class="section" id="examples">
-		<h1>Examples</h1>
+		<h2>Examples</h2>
 		<p>Contributions from the states of Maryland and Virginia to Barbara Mikulski during the 2008 campaign cycle as JSON:</p>
-		<pre class="literal-block">/api/1.0/contributions.json?apikey=&lt;key&gt;&amp;contributor_state=md|va&amp;recipient_ft=mikulski&amp;cycle=2008</pre>
+		<pre class="literal-block">/api/1.0/contributions.json?apikey=&lt;key&gt;&amp;contributor_state=md|va&amp;recipient_ft=mikulski&amp;cycle=2008
+		</pre>
 		<p>Contributions from Alaskans to upper and lower state legislature candidates in 2002 as CSV:</p>
-		<pre class="literal-block">/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;contributor_state=ak&amp;date=&gt;&lt;|2002-01-01|2002-12-31&amp;seat=state:upper|state:lower</pre>
+		<pre class="literal-block">/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;contributor_state=ak&amp;date=&gt;&lt;|2002-01-01|2002-12-31&amp;seat=state:upper|state:lower
+		</pre>
+		</div>
+		</div>
+		<div class="section" id="lobbying">
+		<h1>Lobbying</h1>
+		<div class="section" id="id1">
+		<h2>End Point</h2>
+		<p>Lobbying data is available only in JSON format since its nested structure does not lend itself to CSV. JSON response format:</p>
+		<pre class="literal-block">http://transparencydata.com/api/1.0/lobbying.json
+		</pre>
+		</div>
+		<div class="section" id="id2">
+		<h2>Parameters</h2>
+		<dl class="docutils">
+		<dt>amount</dt>
+		<dd><p class="first">The amount of the contribution in US dollars in one of the following formats:</p>
+		<table border="1" class="last docutils">
+		<colgroup>
+		<col width="20%" />
+		<col width="80%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Example</th>
+		<th class="head">Description</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td>500</td>
+		<td>exactly 500 dollars</td>
+		</tr>
+		<tr><td>&gt;|500</td>
+		<td>greater than or equal to 500</td>
+		</tr>
+		<tr><td>&lt;|500</td>
+		<td>less than or equal to 500</td>
+		</tr>
+		</tbody>
+		</table>
+		</dd>
+		<dt>client_ft</dt>
+		<dd>Full-text search on the name of the client for which the lobbyist is working.</dd>
+		<dt>client_parent_ft</dt>
+		<dd>Full-text search on the name of the parent organization of the client.</dd>
+		<dt>filing_type</dt>
+		<dd><p class="first">Type of filing as identified by CRP. CRP recommends the following rules be used:</p>
+		<ul class="simple">
+		<li>Do not total e records unless they are larger than the associated s record.</li>
+		<li>Count c records in both total and industry when filing_included_nsfs is <tt class="docutils literal">n</tt>. Don't count it in total or industry when filing_included_nsfs is <tt class="docutils literal">y</tt>.</li>
+		<li>Count b records in both total and industry when filing_included_nsfs is <tt class="docutils literal">n</tt>. Exclude from total and include in industry but subtract it from the total of the parent when filing_included_nsfs <tt class="docutils literal">y</tt>.</li>
+		</ul>
+		<table border="1" class="last docutils">
+		<colgroup>
+		<col width="5%" />
+		<col width="95%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Code</th>
+		<th class="head">Meaning</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td>n</td>
+		<td>non self filer parent</td>
+		</tr>
+		<tr><td>m</td>
+		<td>non self filer subsidiary for a non self filer parent</td>
+		</tr>
+		<tr><td>x</td>
+		<td>self filer subsidiary for a non self filer parent</td>
+		</tr>
+		<tr><td>p</td>
+		<td>self filer parent</td>
+		</tr>
+		<tr><td>i</td>
+		<td>non self filer for a self filer parent that has same catorder as the parent</td>
+		</tr>
+		<tr><td>s</td>
+		<td>self filer subsidiary for a self filer parent</td>
+		</tr>
+		<tr><td>e</td>
+		<td>non self filer subsidiary for a self file subsidiary</td>
+		</tr>
+		<tr><td>c</td>
+		<td>non self filer subsidiary for a self filer parent with same catorder</td>
+		</tr>
+		<tr><td>b</td>
+		<td>non self filer subsidiary for a self filer parent that has different catorder</td>
+		</tr>
+		</tbody>
+		</table>
+		</dd>
+		<dt>lobbyist_ft</dt>
+		<dd>Full-text search on the name of the lobbyist involved in the lobbying registration.</dd>
+		<dt>registrant_ft</dt>
+		<dd>Full-text search on the name of the person or organization filing the lobbyist registration. This is typically the firm that employs the lobbyists. Use the registrant_is_firm field to filter on firms v. individuals.</dd>
+		<dt>transaction_id</dt>
+		<dd>Report ID given by the Senate Office of Public Records.</dd>
+		<dt>transaction_type</dt>
+		<dd>The type of filing as reported by the Senate Office of Public Records.
+		<a class="reference external" href="http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv">http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv</a></dd>
+		<dt>year</dt>
+		<dd>The year in which the lobbying activity occurred.</dd>
+		</dl>
+		</div>
 		</div>
 	</div>
 {% endblock %}
@@ -210,13 +318,24 @@
 			This key can be used to access all of the <a href="http://sunlightlabs.com">Sunlight Labs</a> data APIs.
 		</p>
 	</div>
+
+    <div class="module">
+		<h2>Methods</h2>
+		<ul>
+			<li><a href="#contributions">Contributions</a></li>
+			<li><a href="#lobbying">Lobbying</a></li>
+		</ul>
+	</div>
 	
     <div class="module">
 		<h2>Client Libraries</h2>
+		<p>Python and Ruby libraries will be released soon.</p>
+		<!--
 		<ul>
-			<li><a href="#">Python</a></li>
-			<li><a href="#">Ruby</a></li>
+			<li>Python</li>
+			<li>Ruby</li>
 		</ul>
+		-->
 	</div>
     
 	<div class="module partner">
@@ -225,4 +344,5 @@
 		<a id="nimsp" href="#"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
 		<div class="clear"></div>
 	</div>
+	
 {% endblock %}
