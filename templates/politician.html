@@ -4,8 +4,6 @@
 
 <h1>{{ entity_info.name }}</h1>
 
-<h2>Top Contributors to {{ entity_info.name }}</h2>
-
 <div id="biographical">
   <div id="politician_picture_frame">
     <img src="/media/images/Sandlin_300px_2007.jpg" id="politician_picture">
@@ -25,20 +23,29 @@
   </div>
 </div>
 
-<div id="total_received_section">
+<div id="totals_section">
   <span id="amount_received">
     ${{entity_info.contribution_total_received }} Received as of 
     [[ date ]]
   </span>
   <span id="sparkline_received">
+    {% if sparkline %} 
     <img src="{{ sparkline }}">
+    {% else %}
+    <b>Sparkline: No Data</b>
+    {% endif %}
   </span>
-  <a href="details">View Details</a>
+  <a href="{{ entity_id }}/details">View Details</a>
 </div>
 
 <div id="charts">
   <div id="industry_barchart">
-    <img src="{{ contributions_barchart }}">
+    {% if contributors_barchart %} 
+    <img src="{{ contributors_barchart }}">
+    {% else %}
+    <b>Barchart: No Data</b>
+    {% endif %}
+
   </div>
 
   <div class="piechart">
@@ -54,13 +61,12 @@
   </div>
 </div>
 
-
 <div id="top_contributors">
   <table>
     <thead>
-      <td>Name</td>
-      <td>Type</td>
-      <td>Total Amount</td>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Total Amount</th>
     </thead>
     <tbody>
       {% for row in top_contributors %}
