@@ -1,4 +1,5 @@
 # API/data needs
+* searches with spaces
 * Metadata: Politician: picture, party, state, first elected, next election...
 * Ability to filter results for all API calls by cycle
 * top contributors from industry
