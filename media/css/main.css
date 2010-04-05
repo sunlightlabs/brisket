@@ -1,14 +1,16 @@
 #block_header {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     margin-bottom: 30px;
-    background: #grey;
+    background: #DDDDDD;
 }
 
-#total_received_section {
-    background: #grey;
+#totals_section {
+    background: #DDDDDD;
     margin-top: 20px;
     margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 #main_search {
@@ -20,7 +22,7 @@
     min-height: 150px;
 }
 
-#politician_metadata {
+#politician_metadata, #organization_metadata {
     margin-left: 110px;
     width: 400px;
     float: left;
@@ -31,38 +33,46 @@
 
 }
 
-
-#politician_picture {
+#politician_picture, #organization_logo {
     width: 100px;
 }
 
-#politician_picture_frame {
+#politician_picture_frame, #organization_picture_frame {
     width: 100px;
     float: left;
 }
 
 #charts {
-    min-height: 160px;
-    background: #93a8b0;
+    min-height: 150px;
 }
 
-#piechart_instate {
-
-}
-
-#piechart_source {
-
-}
-
-#top_contributors {
-    float: left;
-}
-
-#industry_barchart {
+#industry_barchart, #candidates_barchart {
     width: 400px;
     height: 150px;
     float: left;
-    background: #93abd0;
+    padding-left: 20px;
+}
+
+#piechart_instate {
+}
+
+#piechart_source {
+}
+
+#piecechart_party {
+}
+
+#piecechart_level {
+}
+
+#amount_given, #amount_received {    
+}
+
+#sparkline_received, #sparkline_given {
+}
+
+#top_contributors {
+    margin-top: 20px;
 }
 
 .piechart {
@@ -78,5 +88,9 @@
 }
 
 #block_footer {
-
+    margin-top: 40px;
+    padding-top: 20px;
+    min-height: 100px;
+    background: #DDDDDD;
+    text-align: center;
 }

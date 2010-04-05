@@ -4,28 +4,61 @@
 
 <h1>{{ entity_info.name }}</h1>
 
-<h2>Top Contributors to {{ entity_info.name }}</h2>
+<div id="biographical">
+  <div id="organization_picture_frame">
+    <img src="/media/images/placeholder_483px.png" id="organization_logo">
+  </div>
+  <div id="organization_metadata">
+    <h3>{{ entity_info.name }}</h3>
+    <p>Description description description chicken description bbq
+    description sauce description sautee description stirfry
+    description vegetables description tofu description.</p>
+  </div>
+  <div id="cycle_filter">
+    <h3>View Other Selection Cycles</h3>
+    <p>Select another election cycle to change the charts below</p>
+    <form action="/search" method="get">
+      {{ cycle_form.as_p }}
+      <input type="submit" value="Update Cycles" />
+    </form>
+  </div>
+</div>
 
-{{ top_contributors|length }}<br>
-{{ top_contributors }}
+<div id="totals_section">
+  <span id="amount_given">
+    ${{entity_info.contribution_total_received }} Received as of 
+    [[ date ]]
+  </span>
+  <span id="sparkline_given">
+    {% if sparkline %} 
+    <img src="{{ sparkline }}">
+    {% else %}
+    <b>Sparkline: No Data</b>
+    {% endif %}
+  </span>
+  <a href="{{ entity_id }}/details">View Details</a>
+</div>
 
-{% if contributions_barchart %}
-<img src ="{{ contributions_barchart }}">
-{% endif %}
+<div id="charts">
+  <div id="candidates_barchart">
+    {% if recipients_barchart %} 
+    <img src="{{ recipients_barchart }}">
+    {% else %}
+    <b>Barchart: No Data</b>
+    {% endif %}
+  </div>
 
-<h2>Top Recipients from {{ entity_info.name }}</h2>
+  <div class="piechart">
+    <div id="piechart_party">      
+      <img src ="{{ pie_chart_party }}">
+    </div>
+  </div>
 
-{{ top_recipients|length }}<br>
-{{ top_recipients }}
-
-{% if recipients_barchart %}
-<img src ="{{ recipients_barchart }}">
-{% endif %}
-
-
-<h2> Breakdown (Fake Data) </h2>
-
-<img src ="{{ pie_chart }}">
-
+  <div class="piechart">
+    <div id="piechart_level">
+      <img src ="{{ pie_chart_level }}">
+    </div>
+  </div>
+</div>
 
 {% endblock %}
