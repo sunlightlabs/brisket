@@ -1,10 +1,16 @@
 # API/data needs
-* Metadata: 
-  Politician: party, state, first elected, next election
-* ability to filter results by cycle
-* breakdown API calls
+* Metadata: Politician: picture, party, state, first elected, next election...
+* Ability to filter results for all API calls by cycle
 * top contributors from industry
-* entity type in entity search results
+* remaining types for top contributors and recipients
+* breakdown, timeline calls
+* entity_type in entity search results
+* the entity_metadata call DOES return type, does NOT return ID. the entity_search returns ID and does NOT return type. 
+*
+
+general todo
+* if we stick with google charts, properly urlencode all chart urls.
+* clean up layout. 
 * 
 
 # to decide
