@@ -34,8 +34,16 @@ def search(request):
     if submitted_form.is_valid():        
         api = AggregatesAPI()
         results = api.entity_search(submitted_form.cleaned_data['query'])
+
+        # limit the results to only those entities with an ID. 
         entity_results = [result for result in results if result['id']]
-        return render_to_response('results.html', {'results': entity_results}, 
+
+        sorted_results = {'organization': [], 'politician': [], 'individual': []}
+        for result in entity_results:
+            sorted_results[result['type']].append(result)
+        print entity_results
+        print sorted_results
+        return render_to_response('results.html', {'sorted_results': sorted_results}, 
                                   brisket_context(request))
     else: 
         form = SearchForm(request.GET)

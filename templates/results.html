@@ -3,12 +3,39 @@
 {% block main %}
 
 <h2>Results</h2>
-{% for result in results %}
-<div class="result">
-  <p><a href="/politician/{{ result.id }}">{{ result.name }}</a> was involved in {{ result.count }} transactions
-  involving ${{ result.total_given }} given and
-  ${{result.total_received }} received</p>
+
+<div class="all_results">
+{% if sorted_results.organization %}
+      <h3>Organizations</h3>
+   {% for result in sorted_results.organization %}
+      <p><a href="/{{ result.type }}/{{ result.id }}">
+	  {{result.name}}</a> was involved in {{ result.count }}
+	transactions involving ${{ result.total_given }} given and
+	${{result.total_received }} received</p>
+   {% endfor %}
+{% endif %}
+
+{% if sorted_results.politician %}
+      <h3>Politicians</h3>
+   {% for result in sorted_results.politician %}
+      <p><a href="/{{ result.type }}/{{ result.id }}">
+	  {{result.name}}</a> was involved in {{ result.count }}
+	transactions involving ${{ result.total_given }} given and
+	${{result.total_received }} received</p>
+   {% endfor %}
+{% endif %}
+
+{% if sorted_results.individual %}
+      <h3>Individuals</h3>
+   {% for result in sorted_results.individual %}
+      <p><a href="/{{ result.type }}/{{ result.id }}">
+	  {{result.name}}</a> was involved in {{ result.count }}
+	transactions involving ${{ result.total_given }} given and
+	${{result.total_received }} received</p>
+   {% endfor %}
+{% endif %}
+
 </div>
-{% endfor %}
+
 
 {% endblock %}
