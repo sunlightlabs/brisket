@@ -682,6 +682,12 @@ dd {
 	font-size: 150%;
 }
 
+.download-list {
+    float: left;
+    width: 33%;
+}
+p.download { display: block; margin: 1em 0; }
+
 span.pre {
 	font-size: 90%;
 }

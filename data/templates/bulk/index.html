@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "base_large.html" %}
 
 {% block sidebar %}
+	<!--
     <div class="module">
     	<h2>Bulk Downloads</h2>
     	<span class="helper">Precomputed data downloads for your convience just select the State, Government Level, and Cycle in which you are seeking</span>
@@ -31,53 +32,156 @@
     				</select>
     			</li>
     			<li>
-    			<!--
     			<button class="bulkBtn" type="submit" disabled="disabled">
     			    <span>Search</span>
     			</button>
-    			-->
     			</li>
     		</ul>
     	</form>
     	<div class="clear"></div>
     </div>
+	-->
+	
+    <div class="module">
+    	<h2>Available Downloads</h2>	
+		<ul>
+			<li><a href="#all">All</a></li>
+			<li><a href="#state">State</a></li>
+			<li><a href="#federal">Federal</a></li>
+		</ul>
+    </div>
+
+    <div class="module">
+    	<h2>License</h2>
+		<p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license. By downloading data, you are agreeing to the terms of the license.</p> 
+		<p>Federal records must be attributed to <a href="http://opensecrets.org">OpenSecrets.org</a>.</p> 
+		<p>State records must be attributed to <a href="http://followthemoney.org">FollowTheMoney.org</a>.</p
+    </div>
+
     <div class="module partner">
     	<h2>Partnered With</h2>
     	<a id="openSecrets" href="#"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
     	<a id="nimsp" href="#"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
     	<div class="clear"></div>
     </div>
+
 {% endblock %}
 
 
 {% block content %}
-    <div class="module whitebox">
-        
-        <h2>State and Federal</h2>
 
-		<h3>By cycle</h3>
+    <div class="module whitebox group">
+	
+        <h2 id="all">State and Federal</h2>
+		<p class="download"><a href="#">All Transparency Data campaign contribution records</a> 1GB, 10000 records</p>
 		
-        
-        <!--
-		<ul id="bulkResult">
-			<li>
-				<div class="resultMetaData">
-					<span class="bulkResult">State - Government Level - Cycle Searched</span>
-					<span class="helper">size of download &amp; format</span>
-				</div>
-				<a class="downloadBulkData" href="#">Download Bulk Data</a>
-				<div class="clear"></div>
-			</li>
-			<li>
-				<div class="resultMetaData">
-					<span class="bulkResult">State - Government Level - Cycle Searched</span>
-					<span class="helper">size of download &amp; format</span>
-				</div>
-				<a class="downloadBulkData" href="#">Download Bulk Data</a>
-				<div class="clear"></div>
-			</li>
-		</ul>
-		-->
+		<h3 id="all-year">By contribution year</h3>
+		<ol class="download-list">
+			<li><a href="#">1990</a> 1GB, 10000 records</li>
+			<li><a href="#">1991</a> 1GB, 10000 records</li>
+			<li><a href="#">1992</a> 1GB, 10000 records</li>
+			<li><a href="#">1993</a> 1GB, 10000 records</li>
+			<li><a href="#">1994</a> 1GB, 10000 records</li>
+			<li><a href="#">1995</a> 1GB, 10000 records</li>
+			<li><a href="#">1996</a> 1GB, 10000 records</li>
+			<li><a href="#">1997</a> 1GB, 10000 records</li>
+			<li><a href="#">1998</a> 1GB, 10000 records</li>
+			<li><a href="#">1999</a> 1GB, 10000 records</li>
+		</ol>
+		<ol class="download-list">
+			<li><a href="#">2000</a> 1GB, 10000 records</li>
+			<li><a href="#">2001</a> 1GB, 10000 records</li>
+			<li><a href="#">2002</a> 1GB, 10000 records</li>
+			<li><a href="#">2003</a> 1GB, 10000 records</li>
+			<li><a href="#">2004</a> 1GB, 10000 records</li>
+			<li><a href="#">2005</a> 1GB, 10000 records</li>
+			<li><a href="#">2006</a> 1GB, 10000 records</li>
+			<li><a href="#">2007</a> 1GB, 10000 records</li>
+			<li><a href="#">2008</a> 1GB, 10000 records</li>
+			<li><a href="#">2009</a> 1GB, 10000 records</li>
+		</ol>
+		<ol class="download-list">
+			<li><a href="#">2010</a> 1GB, 10000 records</li>
+		</ol>
 		
 	</div>
+		
+	<div class="module whitebox group">
+		
+        <h2 id="state">State</h2>
+	
+		<p>State records provided by <a href="http://followthemoney.org">FollowTheMoney.org</a>.</p>
+		
+		<p class="download"><a href="#">State Transparency Data campaign contribution records</a> 1GB, 10000 records</p>
+		
+		<h3 id="state-year">By contribution year</h3>
+		<ol class="download-list">
+			<li><a href="#">1990</a> 1GB, 10000 records</li>
+			<li><a href="#">1991</a> 1GB, 10000 records</li>
+			<li><a href="#">1992</a> 1GB, 10000 records</li>
+			<li><a href="#">1993</a> 1GB, 10000 records</li>
+			<li><a href="#">1994</a> 1GB, 10000 records</li>
+			<li><a href="#">1995</a> 1GB, 10000 records</li>
+			<li><a href="#">1996</a> 1GB, 10000 records</li>
+			<li><a href="#">1997</a> 1GB, 10000 records</li>
+			<li><a href="#">1998</a> 1GB, 10000 records</li>
+			<li><a href="#">1999</a> 1GB, 10000 records</li>
+		</ol>
+		<ol class="download-list">
+			<li><a href="#">2000</a> 1GB, 10000 records</li>
+			<li><a href="#">2001</a> 1GB, 10000 records</li>
+			<li><a href="#">2002</a> 1GB, 10000 records</li>
+			<li><a href="#">2003</a> 1GB, 10000 records</li>
+			<li><a href="#">2004</a> 1GB, 10000 records</li>
+			<li><a href="#">2005</a> 1GB, 10000 records</li>
+			<li><a href="#">2006</a> 1GB, 10000 records</li>
+			<li><a href="#">2007</a> 1GB, 10000 records</li>
+			<li><a href="#">2008</a> 1GB, 10000 records</li>
+			<li><a href="#">2009</a> 1GB, 10000 records</li>
+		</ol>
+		<ol class="download-list">
+			<li><a href="#">2010</a> 1GB, 10000 records</li>
+		</ol>
+		
+	</div>
+	
+	<div class="module whitebox group">
+		
+        <h2 id="federal">Federal</h2>
+	
+		<p>Federal records provided by <a href="http://opensecrets.org">OpenSecrets.org</a>.</p>
+		
+		<p class="download"><a href="#">Federal Transparency Data campaign contribution records</a> 1GB, 10000 records</p>
+		
+		<h3 id="federal-year">By contribution year</h3>
+		<ol class="download-list">
+			<li><a href="#">1990</a> 1GB, 10000 records</li>
+			<li><a href="#">1991</a> 1GB, 10000 records</li>
+			<li><a href="#">1992</a> 1GB, 10000 records</li>
+			<li><a href="#">1993</a> 1GB, 10000 records</li>
+			<li><a href="#">1994</a> 1GB, 10000 records</li>
+			<li><a href="#">1995</a> 1GB, 10000 records</li>
+			<li><a href="#">1996</a> 1GB, 10000 records</li>
+			<li><a href="#">1997</a> 1GB, 10000 records</li>
+			<li><a href="#">1998</a> 1GB, 10000 records</li>
+			<li><a href="#">1999</a> 1GB, 10000 records</li>
+		</ol>
+		<ol class="download-list">
+			<li><a href="#">2000</a> 1GB, 10000 records</li>
+			<li><a href="#">2001</a> 1GB, 10000 records</li>
+			<li><a href="#">2002</a> 1GB, 10000 records</li>
+			<li><a href="#">2003</a> 1GB, 10000 records</li>
+			<li><a href="#">2004</a> 1GB, 10000 records</li>
+			<li><a href="#">2005</a> 1GB, 10000 records</li>
+			<li><a href="#">2006</a> 1GB, 10000 records</li>
+			<li><a href="#">2007</a> 1GB, 10000 records</li>
+			<li><a href="#">2008</a> 1GB, 10000 records</li>
+			<li><a href="#">2009</a> 1GB, 10000 records</li>
+		</ol>
+		<ol class="download-list">
+			<li><a href="#">2010</a> 1GB, 10000 records</li>
+		</ol>
+		
+	</div>
+	
 {% endblock %}
