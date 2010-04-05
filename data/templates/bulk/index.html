@@ -1,46 +1,6 @@
 {% extends "base_large.html" %}
 
 {% block sidebar %}
-	<!--
-    <div class="module">
-    	<h2>Bulk Downloads</h2>
-    	<span class="helper">Precomputed data downloads for your convience just select the State, Government Level, and Cycle in which you are seeking</span>
-    	<form id="filterBulk" action="." method="get">
-    		<ul>
-    			<li>
-    				<select class="bulk_filter" name="filter" disabled="disabled">
-    					<option value="all">State</option>
-    					<option value="1">filter</option>
-    					<option value="2">filter</option>
-    					<option value="3">filter</option>
-    				</select>
-    			</li>
-    			<li>
-    				<select class="bulk_filter" name="filter" disabled="disabled">
-    					<option value="all">Government Level</option>
-    					<option value="1">filter</option>
-    					<option value="2">filter</option>
-    					<option value="3">filter</option>
-    				</select>
-    			</li>
-    			<li>
-    				<select class="bulk_filter" name="filter" disabled="disabled">
-    					<option value="all">Cycle</option>
-    					<option value="1">filter</option>
-    					<option value="2">filter</option>
-    					<option value="3">filter</option>
-    				</select>
-    			</li>
-    			<li>
-    			<button class="bulkBtn" type="submit" disabled="disabled">
-    			    <span>Search</span>
-    			</button>
-    			</li>
-    		</ul>
-    	</form>
-    	<div class="clear"></div>
-    </div>
-	-->
 	
     <div class="module">
     	<h2>Available Downloads</h2>	
@@ -69,6 +29,11 @@
 
 
 {% block content %}
+
+	<div class="module whitebox">
+		<h2>Bulk Downloads</h2>
+		<p>See the <a href="/docs/">data format documentation</a> for a description of the fields in both the bulk downloads and the API. Fields not listed in the documentation may be returned, but they are experimental and may change.</p>
+	</div>
 
     <div class="module whitebox group">
 	
