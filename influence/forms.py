@@ -12,4 +12,5 @@ class ElectionCycle(forms.Form):
                        ('2005', '2005'), ('2006', '2006'), ('2007', '2007'),
                        ('2008', '2008'), ('2009', '2009'), ('2010', '2010'),
                        ]
-    cycle = forms.ChoiceField(choices=ELECTION_CYCLES)
+    ELECTION_CYCLES.reverse()
+    cycle = forms.ChoiceField(choices=ELECTION_CYCLES, initial='2010')

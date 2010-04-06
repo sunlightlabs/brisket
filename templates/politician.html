@@ -16,8 +16,9 @@
   <div id="cycle_filter">
     <h3>View Other Selection Cycles</h3>
     <p>Select another election cycle to change the charts below</p>
-    <form action="/search" method="get">
-      {{ cycle_form.as_p }}
+    <form action="" method="get">
+      {{ cycle_form.as_p }}      
+      
       <input type="submit" value="Update Cycles" />
     </form>
   </div>
@@ -41,6 +42,7 @@
 <div id="charts">
   <div id="industry_barchart">
     {% if contributors_barchart %} 
+    <b>Industry Sectors</b>
     <img src="{{ contributors_barchart }}">
     {% else %}
     <b>Barchart: No Data</b>
@@ -66,12 +68,16 @@
     <thead>
       <th>Name</th>
       <th>Type</th>
-      <th>Total Amount</th>
+      <th>Total Given</th>
     </thead>
     <tbody>
       {% for row in top_contributors %}
       <tr>
-	<td>{{ row.name }}</td>
+	{% if row.id %}
+	<td><a href="/{{ row.type }}/{{ row.id }}">{{ row.name }}</a></td>
+	{% else %}
+	<td>{{ row.name }}</a></td>
+        {% endif %} 
 	<td>{{ row.type }} </td>
 	<td>{{ row.amount }}</td>
       </tr>

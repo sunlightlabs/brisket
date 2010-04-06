@@ -18,9 +18,17 @@ def brisket_context(request):
                                     })
 
 def entity_context(request): 
-    return RequestContext(request, {'search_form': SearchForm(), 
-                                    'cycle_form': ElectionCycle(), 
-                                    })
+    context_variables = {}    
+
+    if request.GET.get('query', None):
+        context_variables['search_form'] = SearchForm(request.GET)
+    else:
+        context_variables['search_form'] = SearchForm() 
+    if request.GET.get('cycle', None):
+        context_variables['cycle_form'] = ElectionCycle(request.GET)
+    else:
+        context_variables['cycle_form'] = ElectionCycle()
+    return RequestContext(request, context_variables)
 
 def index(request):    
     return render_to_response('index.html', brisket_context(request))
@@ -28,7 +36,7 @@ def index(request):
 def search(request):
     if not request.GET.get('query', None):
         print 'Form Error'
-        self.HttpResponseRedirect('/')
+        HttpResponseRedirect('/')
     
     submitted_form = SearchForm(request.GET)
     if submitted_form.is_valid():        
@@ -50,17 +58,22 @@ def search(request):
         return HttpResponseRedirect('/')
 
 def organization_entity(request, entity_id):
+
+    cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
     # organizations both give and receive contributions
-    top_contributors = api.top_contributors(entity_id)
-    top_recipients = api.top_recipients(entity_id)
-    pie_chart_party = breakdown_piechart(api.breakdown('recipients', 'party'), 
+    top_contributors = api.top_contributors(entity_id, cycle=cycle)
+    top_recipients = api.top_recipients(entity_id, cycle=cycle)
+    top_recipients_candidates = api.top_recipients(entity_id, cycle=cycle, 
+                                                   entity_types='politician')
+    pie_chart_party = breakdown_piechart(api.breakdown('recipients', 'party', cycle), 
                                          "Republicans vs. Democrats")
-    pie_chart_level = breakdown_piechart(api.breakdown('recipients', 'level'),
+    pie_chart_level = breakdown_piechart(api.breakdown('recipients', 'level', cycle),
                                          "State vs. Federal")
 
-    candidates_barchart = topn_barchart(top_recipients)
+    candidates_barchart = topn_barchart(top_recipients_candidates, 
+                                        label_key='name', data_key='amount')
     amounts = [str(recipient['amount']) for recipient in top_recipients]
     sparkline = timeline_sparkline(amounts)
 
@@ -77,18 +90,19 @@ def organization_entity(request, entity_id):
                               entity_context(request))
 
 def politician_entity(request, entity_id):
+
+    #check to see if a specific election cycle was specified, using 2010 as default if not. 
+    cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
-    # politicians only receive contributions
-    top_contributors = api.top_contributors(entity_id)
-    pie_chart_instate = breakdown_piechart(api.breakdown('contributors', 'instate'),
+    top_contributors = api.top_contributors(entity_id, cycle=cycle)
+    top_industries = api.top_industries(entity_id, cycle=cycle)
+    pie_chart_instate = breakdown_piechart(api.breakdown('contributors', 'instate', cycle),
                                            "In State vs. Out of State")
-    fake_piechart_source = {
-        'Individuals' : str(17.7),
-        'PACs' : str(100.0-17.7)
-        }
-    pie_chart_source = breakdown_piechart(fake_piechart_source, "Individuals vs. PACs")
-    contributors_barchart = topn_barchart(top_contributors)
+    pie_chart_source = breakdown_piechart(api.breakdown('contributors', 'source', cycle),
+                                          "Individuals vs. PACs")
+    contributors_barchart = topn_barchart(top_industries, label_key='category_name', 
+                                          data_key='amount')
     amounts = [str(contributor['amount']) for contributor in top_contributors]
     sparkline = timeline_sparkline(amounts)
     return render_to_response('politician.html', 
@@ -107,11 +121,17 @@ def individual_entity(request, entity_id):
     return render_to_response('individual.html', {'entity_id': entity_id},
                               entity_context(request))
 
-def topn_barchart(data_list):
-    ''' generates a horizontal bargraph of aggregate contribution data. '''
+def topn_barchart(data_list, label_key, data_key, n=5):
+    ''' generates a horizontal bargraph of aggregate contribution data
+    for the top n items in the list, where each item is a
+    dict. label_key specifies the key to be used for the labels, and
+    data_key for the data. '''
     if not data_list:
         return None
-    max_value = max([float(item['amount']) for item in data_list])
+    max_value = max([float(item[data_key]) for item in data_list])
+
+    # 
+    data_list = data_list[0:n]
 
     # compile the query parameters as tuples which will be urlencoded
     # before being appended to the chart url.
@@ -120,10 +140,10 @@ def topn_barchart(data_list):
     bar_size = ("chbh", "a")
     scaling = ("chds", "0,%f" % max_value)
     marker_axis = ("chxt", "y")
-    marker_text = ("chxl", "0:|%s" % '|'.join([item['name'] for item in data_list]))
+    marker_text = ("chxl", "0:|%s" % '|'.join([item[label_key] for item in data_list]))
     marker_style = ("chm", "N*cUSD*,000000,0,-1,11,0")
-    label_style = ("chxs", "0,000000,8")
-    data = ("chd","t:%s" % ','.join([str(item['amount']) for item in data_list]))
+    label_style = ("chxs", "0,000000,11")
+    data = ("chd","t:%s" % ','.join([str(item[data_key]) for item in data_list]))
     base_url = "http://chart.apis.google.com/chart?"
     query_params = (chart_type, chart_size, bar_size, scaling, marker_axis, marker_text,
                     marker_style, label_style, data)

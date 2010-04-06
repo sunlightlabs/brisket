@@ -17,7 +17,7 @@
   <div id="cycle_filter">
     <h3>View Other Selection Cycles</h3>
     <p>Select another election cycle to change the charts below</p>
-    <form action="/search" method="get">
+    <form action="" method="get">
       {{ cycle_form.as_p }}
       <input type="submit" value="Update Cycles" />
     </form>
@@ -42,6 +42,7 @@
 <div id="charts">
   <div id="candidates_barchart">
     {% if recipients_barchart %} 
+    <b>Top Recipients</b>
     <img src="{{ recipients_barchart }}">
     {% else %}
     <b>Barchart: No Data</b>
