@@ -16,7 +16,9 @@ class AggregatesAPI(object):
     ''' A thin wrapper around aggregates API calls. Not sure we'll
     keep this as a class, that might be overkill.'''
     def __init__(self):
-        self.base_url = settings.API_BASE_URL
+        # grab the base url from settings and make sure it ends with a
+        # trailing slash.
+        self.base_url = settings.API_BASE_URL.strip('/')+'/'
 
     def entity_search(self, query):
         arguments = 'entities.json?search=%s&apikey=%s' % (query, settings.API_KEY)
@@ -26,27 +28,48 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
 
+    def top_contributors(self, entity_id, **kwargs):
+        valid_params = ['cycle', 'entity_types', 'limit']        
+        for key in kwargs.keys():
+            if key not in valid_params:
+                raise Exception, "Invalid parameters to API call"
 
-    def top_contributors(self, entity_id, entity_types=None):
-        # entity_types can be one or more of individual, pac (and
-        # eventually industry and employer). do some type checking:
-        if entity_types:
-            arguments = ('aggregates/entity/%s/contributors.json?type=%s&apikey=%s' % 
-                         (entity_id, _type, settings.API_KEY))
-        else:
-            arguments = ('aggregates/entity/%s/contributors.json?apikey=%s' % 
-                         (entity_id, settings.API_KEY))            
-        api_call = self.base_url.strip('/')+'/'+arguments        
+        kwargs['apikey'] = settings.API_KEY
+        arguments = urllib.urlencode(kwargs)
+        url = self.base_url + 'aggregates/entity/%s/contributors.json?' % entity_id
+        api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
         return results
 
-    def top_recipients(self, entity_id, entity_types=None):
-        arguments = 'aggregates/entity/%s/recipients.json?apikey=%s' % (entity_id, settings.API_KEY)
-        api_call = self.base_url.strip('/')+'/'+arguments        
+    def top_recipients(self, entity_id, **kwargs):
+        valid_params = ['cycle', 'entity_types', 'limit']
+        for key in kwargs.keys():
+            if key not in valid_params:
+                raise Exception, "Invalid parameters to API call"
+
+        kwargs['apikey'] = settings.API_KEY
+        arguments = urllib.urlencode(kwargs)
+        url = self.base_url + 'aggregates/entity/%s/recipients.json?' % entity_id
+        api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
         return results
+
+    def top_industries(self, entity_id, **kwargs):
+        valid_params = ['cycle', 'limit']
+        for key in kwargs.keys():
+            if key not in valid_params:
+                raise Exception, "Invalid parameters to API call"
+
+        kwargs['apikey'] = settings.API_KEY
+        arguments = urllib.urlencode(kwargs)
+        url = self.base_url + 'aggregates/entity/%s/contributors/industries.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return results
+        
 
     def entity_metadata(self, entity_id):
         arguments = 'entities/%s.json?apikey=%s' % (entity_id, settings.API_KEY)
@@ -55,7 +78,7 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
         
-    def breakdown(self, direction, _type):
+    def breakdown(self, direction, _type, cycle=None):
         ''' direction is either 'contributors' or 'recipients'. type
         can be one of party, instate, level, or source.'''
         if _type == 'party':
@@ -72,7 +95,7 @@ class AggregatesAPI(object):
             label2 = 'PACs'
         else: 
             print '_type argument to API.breakdown() function is invalid.'
-            raise Exception
+            raise Exception, "Invalid 'type' argument to API call 'breakdown'"
         value1 = random.randint(0,100)
         fake_data = {
             label1 : str(value1),
