@@ -30,71 +30,10 @@ $().ready(function() {
             field: TD.DataFilter.TextField,
             allowMultipleFields: true,
         });
-
-        TD.DataFilter.registerFilter({
-            name: 'contributor_state',
-            label: 'Contributor State',
-            help: 'State from which the contribution was made',
-            field: TD.DataFilter.DropDownField,
-            allowMultipleFields: true,
-            options: [
-                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
-                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
-                ['DC', 'District of Columbia'],
-                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
-                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
-                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
-                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
-                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
-                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
-                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
-                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
-                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
-                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
-                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
-            ]
-        });
-    
-        TD.DataFilter.registerFilter({
-            name: 'date',
-            label: 'Date',
-            help: 'This is the date of the contribution',
-            field: TD.DataFilter.DateRangeField
-        });
-    
-        TD.DataFilter.registerFilter({
-            name: 'employer_ft',
-            label: 'Employer',
-            help: 'Name of employer or organization associated with contribution',
-            field: TD.DataFilter.TextField,
-        });
-    
-        TD.DataFilter.registerFilter({
-            name: 'transaction_namespace',
-            label: 'Federal/State',
-            help: 'State or federal office',
-            field: TD.DataFilter.DropDownField,
-            options: [
-                ['urn:fec:transaction','Federal'],
-                ['urn:nimsp:transaction','State']
-            ]
-        });
-
-        TD.DataFilter.registerFilter({
-            name: 'for_against',
-            label: 'For/against candidate',
-            help: 'Contributions can be made in support of or against a candidate',
-            field: TD.DataFilter.DropDownField,
-            //required: true,
-            options: [
-                ['for','In support of the candidate'],
-                ['against','Against the candidate']
-            ]
-        });
     
         TD.DataFilter.registerFilter({
             name: 'contributor_industry',
-            label: 'Industry',
+            label: 'Contributor Industry',
             help: 'The industry in which the person or organization making the contribution is involved',
             field: TD.DataFilter.DualDropDownField,
             allowMultipleFields: true,
@@ -408,6 +347,67 @@ $().ready(function() {
                 ['Z09', 'Non-contribution', [
                 	['Z9500', 'TRANSFER FROM INTERMEDIARY ( TYPE 24I OR 24T)'], ['Z9600', 'NON-CONTRIBUTION, MISCELLANEOUS'], ['Z9700', 'UNITEMIZED (SMALL) CONTRIBUTIONS'], ['Z9999', 'INTERNAL TRANSFER AND OTHER NON-CONTRIBUTIONS']
                 ]]
+            ]
+        });
+
+        TD.DataFilter.registerFilter({
+            name: 'contributor_state',
+            label: 'Contributor State',
+            help: 'State from which the contribution was made',
+            field: TD.DataFilter.DropDownField,
+            allowMultipleFields: true,
+            options: [
+                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
+                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
+                ['DC', 'District of Columbia'],
+                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
+                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
+                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
+                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
+                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
+                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
+                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
+                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
+                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
+                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
+                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
+            ]
+        });
+
+        TD.DataFilter.registerFilter({
+            name: 'date',
+            label: 'Date',
+            help: 'This is the date of the contribution',
+            field: TD.DataFilter.DateRangeField
+        });
+
+        TD.DataFilter.registerFilter({
+            name: 'employer_ft',
+            label: 'Employer',
+            help: 'Name of employer or organization associated with contribution',
+            field: TD.DataFilter.TextField,
+        });
+
+        TD.DataFilter.registerFilter({
+            name: 'transaction_namespace',
+            label: 'Federal/State',
+            help: 'State or federal office',
+            field: TD.DataFilter.DropDownField,
+            options: [
+                ['urn:fec:transaction','Federal'],
+                ['urn:nimsp:transaction','State']
+            ]
+        });
+
+        TD.DataFilter.registerFilter({
+            name: 'for_against',
+            label: 'For/against candidate',
+            help: 'Contributions can be made in support of or against a candidate',
+            field: TD.DataFilter.DropDownField,
+            //required: true,
+            options: [
+                ['for','In support of the candidate'],
+                ['against','Against the candidate']
             ]
         });
         
