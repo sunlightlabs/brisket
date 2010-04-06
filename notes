@@ -1,18 +1,18 @@
-# API/data needs
 * searches with spaces
+* individuals page
+* integrate industry sector API calls
+* make sure limit keyword works with top contrib/recipient calls
+* details page with subsectors
+* organizations page with top candidates they contributed to. 
+* test organizations page
+* the cycle argument should persist when you follow a link from a page
+  already displaying a specific cycle.
+* pac pages?
+
 * Metadata: Politician: picture, party, state, first elected, next election...
-* Ability to filter results for all API calls by cycle
-* top contributors from industry
 * remaining types for top contributors and recipients
 * breakdown, timeline calls
-* entity_type in entity search results
-* the entity_metadata call DOES return type, does NOT return ID. the entity_search returns ID and does NOT return type. 
-*
+* are available cycles added manually or automated?
+* add support for all/multiple election cycles?
 
-general todo
-* if we stick with google charts, properly urlencode all chart urls.
-* clean up layout. 
-* 
 
-# to decide
-* charting solution-- google charts aren't clickable. 
