@@ -229,7 +229,7 @@ input#searchBtn{
 	background: #FFF url(../images/spyglass-image.png) 6px 3px no-repeat;
 }
 
-input {
+#headerWrapper input {
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
 	padding: 3px;
@@ -238,7 +238,7 @@ input {
 	color: #999;
 }
 
-button{
+#headerWrapper button{
 	height: 23px;
 	text-indent: -9999em;
 	border: none;
