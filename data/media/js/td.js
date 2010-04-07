@@ -77,28 +77,31 @@ var TD = {
             $('a#downloadData').bind('click', function() {
                 if ($(this).hasClass('enabled')) {
                     $('a#downloadData').removeClass('enabled');
-                    $('#downloading').dialog('open');
-                    var qs = TD.Utils.toQueryString(TD.DataFilter.values());
-                    window.location.replace("/data/contributions/download/?" + qs);
+                    if (!TD.DataFilter.shouldUseBulk()) {
+                        $('#downloading').dialog('open');
+                        var qs = TD.Utils.toQueryString(TD.DataFilter.values());
+                        window.location.replace("/data/contributions/download/?" + qs);
+                    }
                 }
                 return false;
             });
             
             $('#downloading').dialog({
                 autoOpen: false,
-                buttons: { "Ok": function() { $(this).dialog("close"); } },
+                buttons: { "OK": function() { $(this).dialog("close"); } },
                 draggable: false,
                 modal: true,
                 resizable: false,
                 title: 'Downloading...'
             });
             
-            $('#nofilters').dialog({
+            $('#suggestbulk').dialog({
                 autoOpen: false,
+                buttons: { "OK": function() { $(this).dialog("close"); } },
                 draggable: false,
                 modal: true,
                 resizable: false,
-                title: 'Add some filters'
+                title: 'Bulk Downloads'
             });
             
             var anchor = TD.Utils.getAnchor();
@@ -169,55 +172,62 @@ var TD = {
                 }
             }
         },
+        shouldUseBulk: function() {
+            var useBulk = false;
+            var values = _.keys(TD.DataFilter.values());
+            values = _.without(values, 'for_against', 'cycle', 'transaction_namespace');
+            if (values.length == 0) {
+                $('#suggestbulk').dialog('open');    
+            }
+            return values.length == 0;
+        },
         preview: function() {
             if ($('#mainTable').length > 0) {
-                if (TD.DataFilter.filterCount() < 1) {
-                    $('#nofilters').dialog('open');
-                    return;
-                }
-                var params = TD.DataFilter.values();
-                var qs = TD.Utils.toQueryString(params);
-                TD.Utils.setAnchor(qs);
-                $('a#previewData').removeClass('enabled');
-                $('div#tableScroll').hide();
-                $('div#nodata').hide();
-                $('div#loading').show();
-                $('#mainTable tbody').empty();
-                $('span#previewCount').html('...');
-                $('span#recordCount').html('...');
-                $.getJSON('/data/contributions/', params, function(data) {
-                    if (data.length === 0) {
-                        $('div#nodata').show();
-                    } else {
-                        for (var i = 0; i < data.length; i++) {
-                            var contrib = data[i];
-                            var className = (i % 2 == 0) ? 'even' : 'odd';
-                            var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
-                            var content = '<tr class="' + className + '">';
-                            content += '<td class="jurisdiction">' + jurisdiction + '</td>';
-                            content += '<td class="datestamp">' + (contrib.date || '&nbsp;') + '</td>';
-                            content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
-                            content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
-                            content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(contrib.contributor_city, contrib.contributor_state) + '</td>';
-                            content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
-                            content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
-                            content += '</tr>';
-                            $('#mainTable tbody').append(content);
+                if (!TD.DataFilter.shouldUseBulk()) {
+                    var params = TD.DataFilter.values();
+                    var qs = TD.Utils.toQueryString(params);
+                    TD.Utils.setAnchor(qs);
+                    $('a#previewData').removeClass('enabled');
+                    $('div#tableScroll').hide();
+                    $('div#nodata').hide();
+                    $('div#loading').show();
+                    $('#mainTable tbody').empty();
+                    $('span#previewCount').html('...');
+                    $('span#recordCount').html('...');
+                    $.getJSON('/data/contributions/', params, function(data) {
+                        if (data.length === 0) {
+                            $('div#nodata').show();
+                        } else {
+                            for (var i = 0; i < data.length; i++) {
+                                var contrib = data[i];
+                                var className = (i % 2 == 0) ? 'even' : 'odd';
+                                var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
+                                var content = '<tr class="' + className + '">';
+                                content += '<td class="jurisdiction">' + jurisdiction + '</td>';
+                                content += '<td class="datestamp">' + (contrib.date || '&nbsp;') + '</td>';
+                                content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
+                                content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
+                                content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(contrib.contributor_city, contrib.contributor_state) + '</td>';
+                                content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
+                                content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
+                                content += '</tr>';
+                                $('#mainTable tbody').append(content);
+                            }
+                            $('span#previewCount').html(data.length);
+                            $('a#downloadData').addClass('enabled');
+                            $('div#nodata').hide();
+                            $('div#tableScroll').show();
+                        }    
+                        $('div#loading').hide();
+                        if (data.length < 30) {
+                            $('span#recordCount').html(data.length);
+                        } else {
+                            $.get('/data/contributions/count/', params, function(data) {
+                                $('span#recordCount').html(data);
+                            });
                         }
-                        $('span#previewCount').html(data.length);
-                        $('a#downloadData').addClass('enabled');
-                        $('div#nodata').hide();
-                        $('div#tableScroll').show();
-                    }    
-                    $('div#loading').hide();
-                    if (data.length < 30) {
-                        $('span#recordCount').html(data.length);
-                    } else {
-                        $.get('/data/contributions/count/', params, function(data) {
-                            $('span#recordCount').html(data);
-                        });
-                    }
-                });
+                    });
+                }
             }
         },
         primaryFilter: function(filter) {
