@@ -21,8 +21,10 @@ class AggregatesAPI(object):
         self.base_url = settings.API_BASE_URL.strip('/')+'/'
 
     def entity_search(self, query):
-        arguments = 'entities.json?search=%s&apikey=%s' % (query, settings.API_KEY)
-        api_call = self.base_url.strip('/')+'/'+arguments
+        #make sure the query is properly encoded
+        query_params = urllib.urlencode({'search': query})        
+        url = self.base_url + 'entities.json?apikey=%s&' % settings.API_KEY
+        api_call = url + query_params
         print api_call
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
