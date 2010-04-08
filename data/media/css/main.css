@@ -990,3 +990,7 @@ p#bottomText {
 .dialog#suggestbulk {
     display: none;
 }
+
+.license p {
+    margin: 1em 0;
+}
