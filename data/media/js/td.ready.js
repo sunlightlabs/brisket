@@ -382,13 +382,6 @@ $().ready(function() {
         });
 
         TD.DataFilter.registerFilter({
-            name: 'employer_ft',
-            label: 'Employer',
-            help: 'Name of employer or organization associated with contribution',
-            field: TD.DataFilter.TextField,
-        });
-
-        TD.DataFilter.registerFilter({
             name: 'transaction_namespace',
             label: 'Federal/State',
             help: 'State or federal office',
@@ -425,6 +418,13 @@ $().ready(function() {
                 ['state:lower', 'State Lower Chamber'],
                 ['state:governor', 'State Governor']
             ]
+        });
+
+        TD.DataFilter.registerFilter({
+            name: 'employer_ft',
+            label: 'Organization',
+            help: 'Name of employer or pass-through organization associated with contribution',
+            field: TD.DataFilter.TextField,
         });
     
         // TD.DataFilter.registerFilter({
