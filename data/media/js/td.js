@@ -32,7 +32,7 @@ var TD = {
                     TD.HashMonitor.hash = window.location.hash;
                 }
             }
-        },
+        }
     },
     
     DataFilter: {

@@ -24,7 +24,6 @@
         {% comment %}{% js "js/jquery.autocomplete.custom.js" %}{% endcomment %}
         {% js "js/jquery.currency.js" %}
         {% js "js/underscore-min.js" %}
-        {% js "transparencydata.js" %}
 		<script src="http://services.sunlightlabs.com/brandingbar/hat_js/transparencydata/" type="text/javascript"></script> 
     </head>
     <body class="{% block bodyclass %}{% endblock %}">
@@ -61,6 +60,7 @@
                 </div>
             </div>
         </div>
+        {% js "transparencydata.js" %}
 		<script type="text/javascript">
 			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
