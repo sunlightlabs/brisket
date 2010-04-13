@@ -1,0 +1,5 @@
+the patched version of the barchart file, g.bar.patched.js, is based on the following ticket:
+http://github.com/DmitryBaranovskiy/g.raphael/issues#issue/11
+
+which was fixed by and downloaded from this fork:
+http://github.com/iamwilhelm/g.raphael

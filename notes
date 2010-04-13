@@ -1,13 +1,17 @@
-* searches with spaces
 * individuals page
-* integrate industry sector API calls
-* make sure limit keyword works with top contrib/recipient calls
 * details page with subsectors
 * organizations page with top candidates they contributed to. 
 * test organizations page
 * the cycle argument should persist when you follow a link from a page
   already displaying a specific cycle.
 * pac pages?
+* make sure limit keyword works with top contrib/recipient calls
+* sort search results by decreasing contrib. 
+
+* add db tables to resolve industry and sector IDs to names
+* brisket API wrapper needs to reflect new API calls. 
+  eg. recipients_candidates could now either be from an individual or pac. 
+
 
 * Metadata: Politician: picture, party, state, first elected, next election...
 * remaining types for top contributors and recipients

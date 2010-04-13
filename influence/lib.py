@@ -30,7 +30,7 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
 
-    def top_contributors(self, entity_id, **kwargs):
+    def individuals_contributors(self, entity_id, **kwargs):
         valid_params = ['cycle', 'entity_types', 'limit']        
         for key in kwargs.keys():
             if key not in valid_params:
@@ -58,6 +58,19 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
 
+    def recipients_candidates(self, entity_id, **kwargs):
+        valid_params = ['cycle', 'recipient_types', 'limit']
+        for key in kwargs.keys():
+            if key not in valid_params:
+                raise Exception, "Invalid parameters to API call"
+        kwargs['apikey'] = settings.API_KEY
+        arguments = urllib.urlencode(kwargs)
+        url = self.base_url + 'aggregates/org/%s/recipients.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return results
+
     def top_industries(self, entity_id, **kwargs):
         valid_params = ['cycle', 'limit']
         for key in kwargs.keys():
@@ -72,6 +85,14 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
         
+
+    def contributions_by_sector(self, entity_id, industry_id):
+        arguments = urllib.urlencode({'apikey': settings.API_KEY})
+        url = self.base_url + 'aggregates/entity/%s/contributors/industry/%s/sectors.json?' % (entity_id, industry_id)
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return results        
 
     def entity_metadata(self, entity_id):
         arguments = 'entities/%s.json?apikey=%s' % (entity_id, settings.API_KEY)

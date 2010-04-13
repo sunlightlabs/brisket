@@ -26,7 +26,7 @@
 
 <div id="totals_section">
   <span id="amount_given">
-    ${{entity_info.contribution_total_received }} Received as of 
+    ${{entity_info.contribution_total_given }} Given as of 
     [[ date ]]
   </span>
   <span id="sparkline_given">
@@ -42,7 +42,7 @@
 <div id="charts">
   <div id="candidates_barchart">
     {% if recipients_barchart %} 
-    <b>Top Recipients</b>
+    <b>Top Recipients</b><br>
     <img src="{{ recipients_barchart }}">
     {% else %}
     <b>Barchart: No Data</b>

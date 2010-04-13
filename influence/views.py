@@ -63,28 +63,22 @@ def organization_entity(request, entity_id):
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
     # organizations both give and receive contributions
-    top_contributors = api.top_contributors(entity_id, cycle=cycle)
-    top_recipients = api.top_recipients(entity_id, cycle=cycle)
-    top_recipients_candidates = api.top_recipients(entity_id, cycle=cycle, 
-                                                   entity_types='politician')
+    recipients_candidates = api.recipients_candidates(entity_id, cycle=cycle, 
+                                                         recipient_types='politician')
     pie_chart_party = breakdown_piechart(api.breakdown('recipients', 'party', cycle), 
                                          "Republicans vs. Democrats")
     pie_chart_level = breakdown_piechart(api.breakdown('recipients', 'level', cycle),
                                          "State vs. Federal")
-
-    candidates_barchart = topn_barchart(top_recipients_candidates, 
+    recipients_barchart = topn_barchart(recipients_candidates, 
                                         label_key='name', data_key='amount')
-    amounts = [str(recipient['amount']) for recipient in top_recipients]
+    amounts = [str(recipient['amount']) for recipient in recipients_candidates]
     sparkline = timeline_sparkline(amounts)
-
     return render_to_response('organization.html', 
                               {'entity_id': entity_id, 
                                'entity_info': entity_info,
-                               'top_contributors': top_contributors, 
-                               'top_recipients': top_recipients, 
                                'pie_chart_level' : pie_chart_level,
                                'pie_chart_party' : pie_chart_party,
-                               'candidates_barchart': candidates_barchart,
+                               'recipients_barchart': recipients_barchart,
                                'sparkline': sparkline,
                                },
                               entity_context(request))
@@ -95,7 +89,7 @@ def politician_entity(request, entity_id):
     cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
-    top_contributors = api.top_contributors(entity_id, cycle=cycle)
+    top_contributors = api.individuals_contributors(entity_id, cycle=cycle)
     top_industries = api.top_industries(entity_id, cycle=cycle)
     pie_chart_instate = breakdown_piechart(api.breakdown('contributors', 'instate', cycle),
                                            "In State vs. Out of State")
@@ -118,8 +112,53 @@ def politician_entity(request, entity_id):
         
 def individual_entity(request, entity_id):    
     # individuals only give contributions
-    return render_to_response('individual.html', {'entity_id': entity_id},
+    entity_info = api.entity_metadata(entity_id)    
+    cycle = request.GET.get("cycle", 2010)
+
+    api = AggregatesAPI()    
+    top_recipients = api.top_recipients(entity_id, cycle=cycle)
+    top_recipients_candidates = api.top_recipients(entity_id, cycle=cycle, 
+                                                   entity_types='politician')
+    top_recipients_pacs = api.top_recipients(entity_id, cycle=cycle, 
+                                             entity_types='pac')
+    candidates_barchart = topn_barchart(top_recipients_candidates, 
+                                        label_key = 'name', data_key = 'amount')
+    pacs_barchart = topn_barchart(top_recipients_pacs, 
+                                  label_key = 'name', data_key = 'amount')    
+    pie_chart_party = breakdown_piechart(api.breakdown('recipients', 'party', cycle), 
+                                         "Republicans vs. Democrats")
+    amounts = [str(contributor['amount']) for contributor in top_recipients]
+    sparkline = timeline_sparkline(amounts)
+
+    return render_to_response('individual.html', 
+                              {'entity_id': entity_id,
+                               'entity_info': entity_info,
+                               'candidates_barchart': candidates_barchart,
+                               'pacs_barchart': pacs_barchart,
+                               'pie_chart_party' : pie_chart_party, 
+                               'sparkline': sparkline,                               
+                               },
                               entity_context(request))
+
+def industry_detail(request, entity_id):
+    cycle = request.GET.get("cycle", 2010)    
+    api = AggregatesAPI()    
+    entity_info = api.entity_metadata(entity_id)    
+    top_industries = api.top_industries(entity_id, cycle=cycle)
+
+    sectors = {}
+    for industry in top_industries:
+        industry_id = industry['category_name']        
+        results = api.contributions_by_sector(entity_id, industry_id)
+        sectors[industry_id] = (results)
+
+    return render_to_response('industry_detail.html',
+                              {'entity_id': entity_id,
+                               'entity_info': entity_info,
+                               'sectors': sectors,
+                               },
+                              entity_context(request))
+
 
 def topn_barchart(data_list, label_key, data_key, n=5):
     ''' generates a horizontal bargraph of aggregate contribution data
@@ -175,3 +214,23 @@ def timeline_sparkline(data_list):
     data = "&chd=t:%s" % ','.join(data_list)
     url = "http://chart.apis.google.com/chart?cht=ls&chs=100x30"+data+scaling
     return url
+
+def raphael_demo(request):
+    entity_id = "72dff1d2eacd4bf59283051f36ac4b61"
+    api = AggregatesAPI()
+    fake_data = api.breakdown('contributors', 'party')
+    top_industries = api.top_industries(entity_id, cycle='2008')
+
+    # Convert fake data back to integers (this should be done in
+    # the API call instead if we decide to go with this solution). 
+    for k in fake_data.keys():
+        fake_data[k] = int(fake_data[k])
+    return render_to_response('chart_demo.html',
+                              {'data': fake_data,
+                               'bar_data': top_industries,
+                               },
+                              entity_context(request))
+
+def highcharts_demo(request):
+    pass
+
