@@ -3,7 +3,7 @@ from time import time
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -38,16 +38,13 @@ def index(request):
     return render_to_response('index.html', context_instance=RequestContext(request))
 
 def filter(request):
-    data = { }
-    entity_id = request.GET.get('entityId', None)
-    if entity_id:
-        e = Entity.objects.get(pk=entity_id)
-        data['entity'] = {
-            'id': e.id,
-            'name': e.name,
-            'role': role_map[e.type],
-        }
-    return render_to_response('filter.html', data, context_instance=RequestContext(request))
+    return HttpResponsePermanentRedirect('/contributions/')
+
+def filter_contributions(request):
+    return render_to_response('filter_contributions.html', context_instance=RequestContext(request))
+
+def filter_lobbying(request):
+    return filter_contributions(request)
         
 def api_index(request):
     return render_to_response('api/index.html', context_instance=RequestContext(request))
