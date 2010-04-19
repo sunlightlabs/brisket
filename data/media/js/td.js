@@ -67,7 +67,7 @@ var TD = {
                     // no main table, forward to filter page
                     var qs = TD.Utils.toQueryString(TD.DataFilter.values());
                     var hash = window.btoa(qs);
-                    window.location.replace("/filter/#" + hash);
+                    window.location.replace("/contributions/#" + hash);
                 } else if ($(this).hasClass('enabled')) {
                     TD.DataFilter.preview();
                 }
