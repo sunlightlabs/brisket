@@ -9,7 +9,7 @@
           type="text/javascript" charset="utf-8"></script> 
   <script src="/media/js/g.pie-min.js" type="text/javascript"
           charset="utf-8"></script> 
-  <script src="/media/js/g.bar.patched.js" type="text/javascript"
+  <script src="/media/js/g.bar.jeremi.js" type="text/javascript"
           charset="utf-8"></script> 
   <script type="text/javascript" charset="utf-8"> 
     window.onload = function () {
@@ -60,7 +60,7 @@
 
     labels = [];
     {% for x in bar_data %}
-    labels.push("{{ x.category_name }}");
+    labels.push("<a href=''>{{ x.category_name }}{{ x.category_name }}{{ x.category_name }}{{ x.category_name }}{{ x.category_name }}{{ x.category_name }}</a>");
     {% endfor %}
 
     var data = [
@@ -71,11 +71,27 @@
 
     opts = {
     "type": "soft",
-    "stacked": true
+    "stacked": false
     };
 
-    barchart = b.g.hbarchart(10,10, 250, 200, data, opts);
-    barchart.label(labels);    
+    /* data array must be passed inside another array-- barchart fn 
+       supports multiple data series so expects an array of arrays, 
+       even for just one data series. Else it will treat each data
+       point as one series. */
+    barchart = b.g.hbarchart(10,10, 250, 200, [data], opts);
+    // pass in labels NOT inside another array
+    barchart.label([labels], false);    
+
+    /* figure out the longest label text and move the chart over by
+    that amount. */
+    var far_right = 0;
+    for (var i = 0; i < labels.length; i++) {
+	bb = barchart.labels[i].getBBox();
+        if (bb.x + bb.width > far_right) {
+            far_right = bb.x + bb.width;
+        }
+    }
+    barchart.translate(far_right);
 
     // end window.onload();
     };
