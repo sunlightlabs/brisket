@@ -416,7 +416,8 @@ $().ready(function() {
                 ['federal:president', 'US President'],
                 ['state:upper', 'State Upper Chamber'],
                 ['state:lower', 'State Lower Chamber'],
-                ['state:governor', 'State Governor']
+                ['state:governor', 'State Governor'],
+                ['state:judicial', 'State Judicial']
             ]
         });
 
