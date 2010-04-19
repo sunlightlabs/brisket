@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block bodyclass %}filteredSearch{% endblock %}
+
+{% block sidebar %}
+    <div id="datafilter" class="module">
+		<h2>Search for</h2>
+		<span class="helper">Add additional fields to refine your search.</span>
+		<form>
+			<select id="filterselect">
+				<option value="">Select a filter to add...</option>
+		    </select>
+			<ul id="filters"></ul>
+		</form>
+	</div>
+    <div class="module partner">
+        <h2>Partnered With</h2>
+        <a id="openSecrets" href="http://opensecrets.org"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
+        <a id="nimsp" href="http://followthemoney.org"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
+        <div class="clear"></div>
+    </div>
+{% endblock %}
+
+{% block content %}
+	<div class="module tableButtons">
+	    <a id="previewData" href="#">Preview Data</a>
+	    <a id="downloadData" href="#">Download </a>
+    </div>
+{% endblock %}
