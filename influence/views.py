@@ -62,22 +62,29 @@ def organization_entity(request, entity_id):
     cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
-    # organizations both give and receive contributions
-    recipients_candidates = api.recipients_candidates(entity_id, cycle=cycle, 
-                                                         recipient_types='politician')
-    pie_chart_party = breakdown_piechart(api.breakdown('recipients', 'party', cycle), 
-                                         "Republicans vs. Democrats")
-    pie_chart_level = breakdown_piechart(api.breakdown('recipients', 'level', cycle),
-                                         "State vs. Federal")
-    recipients_barchart = topn_barchart(recipients_candidates, 
-                                        label_key='name', data_key='amount')
-    amounts = [str(recipient['amount']) for recipient in recipients_candidates]
+    candidate_recipients = api.candidate_recipients(entity_id, cycle=cycle)
+
+    party_breakdown = api.org_breakdown(entity_id, 'party', cycle)
+    for party, values in party_breakdown.iteritems():
+        party_breakdown[party] = values[1]
+    piechart_party = piechart(party_breakdown, "Republicans vs. Democrats ($)")
+
+    level_breakdown = api.org_breakdown(entity_id, 'level', cycle)
+    for party, values in level_breakdown.iteritems():
+        level_breakdown[party] = values[1]    
+    piechart_level = piechart(level_breakdown,"State vs. Federal ($)")
+
+    recipients_barchart = topn_barchart(candidate_recipients, 
+                                        label_key='name', data_key='total_amount')
+
+    # fake us some sparkline data
+    amounts = [str(recipient['total_amount']) for recipient in candidate_recipients]
     sparkline = timeline_sparkline(amounts)
     return render_to_response('organization.html', 
                               {'entity_id': entity_id, 
                                'entity_info': entity_info,
-                               'pie_chart_level' : pie_chart_level,
-                               'pie_chart_party' : pie_chart_party,
+                               'pie_chart_level' : piechart_level,
+                               'pie_chart_party' : piechart_party,
                                'recipients_barchart': recipients_barchart,
                                'sparkline': sparkline,
                                },
@@ -91,9 +98,9 @@ def politician_entity(request, entity_id):
     entity_info = api.entity_metadata(entity_id)
     top_contributors = api.individuals_contributors(entity_id, cycle=cycle)
     top_industries = api.top_industries(entity_id, cycle=cycle)
-    pie_chart_instate = breakdown_piechart(api.breakdown('contributors', 'instate', cycle),
+    pie_chart_instate = piechart(api.breakdown('contributors', 'instate', cycle),
                                            "In State vs. Out of State")
-    pie_chart_source = breakdown_piechart(api.breakdown('contributors', 'source', cycle),
+    pie_chart_source = piechart(api.breakdown('contributors', 'source', cycle),
                                           "Individuals vs. PACs")
     contributors_barchart = topn_barchart(top_industries, label_key='category_name', 
                                           data_key='amount')
@@ -125,7 +132,7 @@ def individual_entity(request, entity_id):
                                         label_key = 'name', data_key = 'amount')
     pacs_barchart = topn_barchart(top_recipients_pacs, 
                                   label_key = 'name', data_key = 'amount')    
-    pie_chart_party = breakdown_piechart(api.breakdown('recipients', 'party', cycle), 
+    pie_chart_party = piechart(api.breakdown('recipients', 'party', cycle), 
                                          "Republicans vs. Democrats")
     amounts = [str(contributor['amount']) for contributor in top_recipients]
     sparkline = timeline_sparkline(amounts)
@@ -189,14 +196,28 @@ def topn_barchart(data_list, label_key, data_key, n=5):
     url = base_url + urllib.urlencode(query_params)
     return url
 
-def breakdown_piechart(data_dict, title=None):
+def piechart(data_dict, title=None):
     ''' produces a pie chart showing breakdown by category from either
     contributions or recipients information. the value contained in
     data_dict are expected to be STRINGS, representing percents
     (eg. between 0 and 100) '''
 
-    legend = "&chdl=%s" % '|'.join(data_dict.keys())
-    data = "&chd=t:%s" % ','.join(data_dict.values())
+    for k,v in data_dict.iteritems():
+        data_dict[k] = float(v)        
+    # calculate each value as a percent of all values, and then
+    # convert it to a string for url formatting.
+    chart_data = [str(val/sum(data_dict.values())) for val in data_dict.values()]
+
+    legend_text = []
+    for i in xrange(len(data_dict)):
+        # build a legend item for each slice in the pie, showing
+        # titles and the values as percents, rounding to the nearest
+        # whole percent.
+        legend_text.append("%s (%s%%)" % (data_dict.keys()[i], int(round(float(chart_data[i])*100))))
+
+
+    legend = "&chdl=%s" % '|'.join(legend_text)
+    data = "&chd=t:%s" % ','.join(chart_data)
     url = "http://chart.apis.google.com/chart?cht=p&chs=250x150"+data+legend
     if title:
         chart_title = "&chtt=%s" % title
@@ -231,6 +252,6 @@ def raphael_demo(request):
                                },
                               entity_context(request))
 
-def highcharts_demo(request):
-    pass
+def rtest(request):
+    return render_to_response('rtest.html')
 

@@ -58,7 +58,7 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
 
-    def recipients_candidates(self, entity_id, **kwargs):
+    def candidate_recipients(self, entity_id, **kwargs):
         valid_params = ['cycle', 'recipient_types', 'limit']
         for key in kwargs.keys():
             if key not in valid_params:
@@ -101,28 +101,14 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
         
-    def breakdown(self, direction, _type, cycle=None):
-        ''' direction is either 'contributors' or 'recipients'. type
-        can be one of party, instate, level, or source.'''
-        if _type == 'party':
-            label1 = 'Democrats'
-            label2 = 'Republicans'
-        elif _type == 'instate':
-            label1 = 'In State'
-            label2 = 'Out of State'
-        elif _type == 'level':
-            label1 = 'Federal'
-            label2 = 'State'
-        elif _type == 'source':
-            label1 = 'Individuals'
-            label2 = 'PACs'
-        else: 
-            print '_type argument to API.breakdown() function is invalid.'
-            raise Exception, "Invalid 'type' argument to API call 'breakdown'"
-        value1 = random.randint(0,100)
-        fake_data = {
-            label1 : str(value1),
-            label2 : str(100 - value1)
-            }
-        return fake_data
+    def org_breakdown(self, entity_id, breakdown_type, cycle='2010'):
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'type': breakdown_type,
+                                      'cycle': cycle})
+        url = self.base_url + 'aggregates/org/%s/recipients/breakdown.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return results
+        
         
