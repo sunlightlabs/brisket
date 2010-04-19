@@ -20,8 +20,8 @@ urlpatterns = patterns('',
     # chart demos
     url(r'^charts/raphael', 'influence.views.raphael_demo', 
         name='raphael_demo'),   
-    url(r'^charts/highcharts', 'influence.views.highcharts_demo', 
-        name='highcharts_demo'),   
+    url(r'^charts/rtest', 'influence.views.rtest', 
+        name='rtest.html'),   
 
 
     # make sure this goes after the more specific urls or it will
