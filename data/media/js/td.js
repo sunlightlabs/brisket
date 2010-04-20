@@ -22,6 +22,8 @@ if (typeof window.btoa !== 'function') {
 
 var TD = {
     
+    DataSet: null,
+    
     HashMonitor: {
         hash: null,
         enabled: false,
@@ -37,8 +39,9 @@ var TD = {
     
     DataFilter: {
         registry: {},
-        init: function() {
+        init: function(dataset, callback) {
             
+            TD.DataSet = dataset;
             TD.DataFilter.node = $('#datafilter');
             TD.DataFilter.node.bind('filterchange', function() {
                 $('a#downloadData').removeClass('enabled');
@@ -67,9 +70,9 @@ var TD = {
                     // no main table, forward to filter page
                     var qs = TD.Utils.toQueryString(TD.DataFilter.values());
                     var hash = window.btoa(qs);
-                    window.location.replace("/contributions/#" + hash);
+                    window.location.replace(TD.DataSet.previewPath + "#" + hash);
                 } else if ($(this).hasClass('enabled')) {
-                    TD.DataFilter.preview();
+                    TD.DataSet.preview();
                 }
                 return false;
             });
@@ -77,10 +80,10 @@ var TD = {
             $('a#downloadData').bind('click', function() {
                 if ($(this).hasClass('enabled')) {
                     $('a#downloadData').removeClass('enabled');
-                    if (!TD.DataFilter.shouldUseBulk()) {
+                    if (!TD.DataSet.shouldUseBulk()) {
                         $('#downloading').dialog('open');
                         var qs = TD.Utils.toQueryString(TD.DataFilter.values());
-                        window.location.replace("/data/contributions/download/?" + qs);
+                        window.location.replace(TD.DataSet.downloadPath + "?" + qs);
                     }
                 }
                 return false;
@@ -104,13 +107,21 @@ var TD = {
                 title: 'Bulk Downloads'
             });
             
-            var anchor = TD.Utils.getAnchor();
-            if (anchor === undefined) {
-                TD.Utils.setAnchor('for_against=for&cycle=2010');
-                TD.DataFilter.loadHash();
+            if (callback) {
+                callback();
             }
             
             TD.HashMonitor.enabled = true;
+
+            setInterval(function() {
+                    TD.HashMonitor.check(function(hash) {
+                        if (hash) {
+                            TD.DataFilter.reset();
+                            TD.DataFilter.loadHash();
+                            TD.DataSet.preview();
+                        }
+                    });
+                }, 200);
             
         },
         reset: function() {
@@ -169,64 +180,6 @@ var TD = {
                         }
                         field.loadValue(values[i]);
                     }
-                }
-            }
-        },
-        shouldUseBulk: function() {
-            var useBulk = false;
-            var values = _.keys(TD.DataFilter.values());
-            values = _.without(values, 'for_against', 'cycle', 'transaction_namespace');
-            if (values.length == 0) {
-                $('#suggestbulk').dialog('open');    
-            }
-            return values.length == 0;
-        },
-        preview: function() {
-            if ($('#mainTable').length > 0) {
-                if (!TD.DataFilter.shouldUseBulk()) {
-                    var params = TD.DataFilter.values();
-                    var qs = TD.Utils.toQueryString(params);
-                    TD.Utils.setAnchor(qs);
-                    $('a#previewData').removeClass('enabled');
-                    $('div#tableScroll').hide();
-                    $('div#nodata').hide();
-                    $('div#loading').show();
-                    $('#mainTable tbody').empty();
-                    $('span#previewCount').html('...');
-                    $('span#recordCount').html('...');
-                    $.getJSON('/data/contributions/', params, function(data) {
-                        if (data.length === 0) {
-                            $('div#nodata').show();
-                        } else {
-                            for (var i = 0; i < data.length; i++) {
-                                var contrib = data[i];
-                                var className = (i % 2 == 0) ? 'even' : 'odd';
-                                var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
-                                var content = '<tr class="' + className + '">';
-                                content += '<td class="jurisdiction">' + jurisdiction + '</td>';
-                                content += '<td class="datestamp">' + (contrib.date || '&nbsp;') + '</td>';
-                                content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
-                                content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
-                                content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(contrib.contributor_city, contrib.contributor_state) + '</td>';
-                                content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
-                                content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
-                                content += '</tr>';
-                                $('#mainTable tbody').append(content);
-                            }
-                            $('span#previewCount').html(data.length);
-                            $('a#downloadData').addClass('enabled');
-                            $('div#nodata').hide();
-                            $('div#tableScroll').show();
-                        }    
-                        $('div#loading').hide();
-                        if (data.length < 30) {
-                            $('span#recordCount').html(data.length);
-                        } else {
-                            $.get('/data/contributions/count/', params, function(data) {
-                                $('span#recordCount').html(data);
-                            });
-                        }
-                    });
                 }
             }
         },

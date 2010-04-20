@@ -499,7 +499,7 @@ li.operator_field [name="amount_operator"] {
 	margin-right: 5px;
 }
 
-li.operator_field input {
+#headerWrapper li.operator_field input {
 	width: 119px;
 }
 
@@ -864,6 +864,7 @@ tr#titles th{
 
 td {
 	padding: 3px 0px 3px 10px;
+	vertical-align: top;
 }
 
 td.amount {
