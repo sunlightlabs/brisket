@@ -30,15 +30,11 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
 
-    def individuals_contributors(self, entity_id, **kwargs):
-        valid_params = ['cycle', 'entity_types', 'limit']        
-        for key in kwargs.keys():
-            if key not in valid_params:
-                raise Exception, "Invalid parameters to API call"
-
-        kwargs['apikey'] = settings.API_KEY
-        arguments = urllib.urlencode(kwargs)
-        url = self.base_url + 'aggregates/entity/%s/contributors.json?' % entity_id
+    def pol_contributors(self, entity_id, contributor_type, cycle='2010'):
+        arguments = urllib.urlencode({'type': contributor_type,
+                                      'cycle': cycle,
+                                      'apikey': settings.API_KEY})
+        url = self.base_url + 'aggregates/pol/%s/contributors.json?' % entity_id
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
@@ -71,7 +67,7 @@ class AggregatesAPI(object):
         results = json.loads(fp.read())
         return results
 
-    def top_industries(self, entity_id, **kwargs):
+    def top_sectors(self, entity_id, **kwargs):
         valid_params = ['cycle', 'limit']
         for key in kwargs.keys():
             if key not in valid_params:
@@ -79,16 +75,16 @@ class AggregatesAPI(object):
 
         kwargs['apikey'] = settings.API_KEY
         arguments = urllib.urlencode(kwargs)
-        url = self.base_url + 'aggregates/entity/%s/contributors/industries.json?' % entity_id
+        url = self.base_url + 'aggregates/pol/%s/contributors/sectors.json?' % entity_id
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
         return results
         
 
-    def contributions_by_sector(self, entity_id, industry_id):
+    def contributions_by_sector(self, entity_id, sector_id):
         arguments = urllib.urlencode({'apikey': settings.API_KEY})
-        url = self.base_url + 'aggregates/entity/%s/contributors/industry/%s/sectors.json?' % (entity_id, industry_id)
+        url = self.base_url + 'aggregates/pol/%s/contributors/sectors/%s/industries.json?' % (entity_id, industry_id)
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
@@ -106,6 +102,16 @@ class AggregatesAPI(object):
                                       'type': breakdown_type,
                                       'cycle': cycle})
         url = self.base_url + 'aggregates/org/%s/recipients/breakdown.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return results
+
+    def pol_breakdown(self, entity_id, breakdown_type, cycle='2010'):
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'type': breakdown_type,
+                                      'cycle': cycle})
+        url = self.base_url + 'aggregates/pol/%s/contributors/breakdown.json?' % entity_id
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())

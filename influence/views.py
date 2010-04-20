@@ -92,27 +92,38 @@ def organization_entity(request, entity_id):
 
 def politician_entity(request, entity_id):
 
-    #check to see if a specific election cycle was specified, using 2010 as default if not. 
+    #check to see if a specific election cycle was specified, using
+    #2010 as default if not.
     cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
-    top_contributors = api.individuals_contributors(entity_id, cycle=cycle)
-    top_industries = api.top_industries(entity_id, cycle=cycle)
-    pie_chart_instate = piechart(api.breakdown('contributors', 'instate', cycle),
-                                           "In State vs. Out of State")
-    pie_chart_source = piechart(api.breakdown('contributors', 'source', cycle),
-                                          "Individuals vs. PACs")
-    contributors_barchart = topn_barchart(top_industries, label_key='category_name', 
-                                          data_key='amount')
+
+    top_contributors = api.pol_contributors(entity_id, 'org, indiv', cycle=cycle)
+    top_sectors = api.top_sectors(entity_id, cycle=cycle)
+
+    local_breakdown = api.pol_breakdown(entity_id, 'local', cycle)
+    for key, values in local_breakdown.iteritems():
+        local_breakdown[key] = values[1]    
+    piechart_local = piechart(local_breakdown,"In State vs. Out of State ($)")
+
+    entity_breakdown = api.pol_breakdown(entity_id, 'entity', cycle)
+    for key, values in entity_breakdown.iteritems():
+        entity_breakdown[key] = values[1]    
+    piechart_entity = piechart(entity_breakdown,"Individuals vs. PACs ($)")
+
+    sectors_barchart = topn_barchart(top_sectors, label_key='category_name', 
+                                     data_key='amount')
+
+    # fake sparkline data
     amounts = [str(contributor['amount']) for contributor in top_contributors]
     sparkline = timeline_sparkline(amounts)
     return render_to_response('politician.html', 
                               {'entity_id': entity_id,
                                'entity_info': entity_info,
                                'top_contributors': top_contributors,
-                               'pie_chart_instate' : pie_chart_instate,
-                               'pie_chart_source' : pie_chart_source,
-                               'contributors_barchart': contributors_barchart,
+                               'pie_chart_instate' : piechart_local,
+                               'pie_chart_source' : piechart_entity,
+                               'sectors_barchart': sectors_barchart,
                                'sparkline': sparkline,
                                },
                               entity_context(request))
