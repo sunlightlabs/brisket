@@ -1,4 +1,5 @@
 {% extends "filter.html" %}
+{% load media %}
 
 {% block content %}
 	{{ block.super }}
@@ -47,4 +48,5 @@
 		</div>
         <div class="clear"></div>
 	</div>
+    {% js "contributions.js" %}
 {% endblock %}
