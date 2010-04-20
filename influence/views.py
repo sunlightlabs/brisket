@@ -111,8 +111,10 @@ def politician_entity(request, entity_id):
         entity_breakdown[key] = values[1]    
     piechart_entity = piechart(entity_breakdown,"Individuals vs. PACs ($)")
 
-    sectors_barchart = topn_barchart(top_sectors, label_key='category_name', 
+    sectors_barchart = topn_barchart(top_sectors, label_key='sector_code', 
                                      data_key='amount')
+
+    print sectors_barchart
 
     # fake sparkline data
     amounts = [str(contributor['amount']) for contributor in top_contributors]
@@ -130,10 +132,10 @@ def politician_entity(request, entity_id):
         
 def individual_entity(request, entity_id):    
     # individuals only give contributions
+    api = AggregatesAPI() 
     entity_info = api.entity_metadata(entity_id)    
     cycle = request.GET.get("cycle", 2010)
 
-    api = AggregatesAPI()    
     top_recipients = api.top_recipients(entity_id, cycle=cycle)
     top_recipients_candidates = api.top_recipients(entity_id, cycle=cycle, 
                                                    entity_types='politician')
