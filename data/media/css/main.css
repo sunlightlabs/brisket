@@ -433,6 +433,10 @@ body.filteredSearch .inactiveTab {
 	border-bottom: 2px solid #A59C82;
 }
 
+#dataTabs li#contracting {
+	display: none;
+}
+
 
 
 /*single column-------------------------------------------------*/
