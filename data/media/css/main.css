@@ -232,7 +232,7 @@ input#searchBtn{
 	background: #FFF url(../images/spyglass-image.png) 6px 3px no-repeat;
 }
 
-#headerWrapper input {
+.datafilter input {
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
 	padding: 3px;
@@ -371,7 +371,6 @@ li.filter{
 #dataTabs li {
 	display: block;
 	float: left;
-	background-color: #FFF;
 	border-top: 2px solid #A59C82;
 	border-left: 2px solid #A59C82;
 	border-right: 2px solid #A59C82;
@@ -382,23 +381,41 @@ li.filter{
 }
 
 #dataTabs li a {
+    background-color: #DBD7CD;
+	border-bottom: 2px solid #A59C82;
 	padding: 10px;
 }
 
-#dataTabs a.inactiveTab:hover {
+#dataTabs li a:hover {
 	background-color: #FFF;
 }
 
-#contribution {
+body#contributions #dataTabs li#contributionsTab a {
+    background-color: #ECEBE6;
+    border-bottom: 2px solid #ECEBE6;
+}
+
+body#lobbying #dataTabs li#lobbyingTab a {
+    background-color: #ECEBE6;
+    border-bottom: 2px solid #ECEBE6;
+}
+
+body#contributions.index #dataTabs li#contributionsTab a {
+    background-color: #FFF;
+    border-bottom: 2px solid #FFF;
+}
+
+body#lobbying.index #dataTabs li#lobbyingTab a {
+    background-color: #FFF;
+    border-bottom: 2px solid #FFF;
+}
+
+#contributionsTab {
 	margin-left: 10px;
 }
 
-.activeTab {
-	border-bottom: 2px solid #FFF;
-}
-
-.inactiveTab {
-	background-color: #DBD7CD;
+#dataTabs li#contractingTab {
+	display: none;
 }
 
 body.filteredSearch #dataTabs {
@@ -418,22 +435,8 @@ body.filteredSearch #contribution {
 	margin-left: 25px;
 }
 
-body.filteredSearch .activeTab {
-	background-color: #ECEBE6;
-	border-bottom: 2px solid #ECEBE6;
-	position: relative;
-	z-index: 1;
-}
-
-body.filteredSearch a.activeTab:hover {
-	background-color: #ECEBE6;
-}
-
-body.filteredSearch .inactiveTab {
-	border-bottom: 2px solid #A59C82;
-}
-
-
+body#contributions #intro-lobbying { display: none; }
+body#lobbying #intro-contributions { display: none; }
 
 /*single column-------------------------------------------------*/
 
@@ -694,11 +697,11 @@ select.bulk_filter {
 	width: 250px;
 }
 
-.filteredSearch #datafilter {
+.filteredSearch .datafilter {
 	margin-bottom: 60px;
 }
 
-#datafilter li.text_field {
+.datafilter li.text_field {
 	margin-bottom: 5px;
 }
 
@@ -826,7 +829,7 @@ body.filteredSearch div#rightColumn {
 	width: auto;
 }
 
-a#downloadData {
+a.downloadButton {
     background: url(../images/button-downloadData.png) top left no-repeat;
 	width: 243px;
 	height: 61px;
@@ -835,15 +838,15 @@ a#downloadData {
 	text-indent: -9999em;
 }
 
-a#downloadData.enabled{
+a.downloadButton.enabled{
     background: url(../images/button-downloadData.png) left -61px no-repeat;
 }
 
-a#downloadData.enabled:hover{
+a.downloadButton.enabled:hover{
 	background: url(../images/button-downloadData.png) left -122px no-repeat;
 }
 
-a#previewData {
+a.previewButton {
     background: url(../images/button-previewData.png) top left no-repeat;
 	width: 243px;
 	height: 61px;
@@ -853,11 +856,11 @@ a#previewData {
 	margin-right: 50px;
 }
 
-a#previewData.enabled{
+a.previewButton.enabled{
     background: url(../images/button-previewData.png) left -61px no-repeat;
 }
 
-a#previewData.enabled:hover{
+a.previewButton.enabled:hover{
 	background: url(../images/button-previewData.png) left -122px no-repeat;
 }
 

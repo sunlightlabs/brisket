@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% load media %}
 
+{% block bodyid %}contributions{% endblock %}
+{% block bodyclass %}index{% endblock %}
+
 {% block sidebar %}
 	<h4>Welcome</h4> 
 	<h2>to Transparency Data</h2>
 	<object width="275" height="180" id="screencast">
-			<param name="movie" value="http://www.youtube.com/v/pf0kRYHiwi0&hl=en_US&fs=1&rel=0"></param>
+			<param name="movie" value="http://www.youtube.com/v/pf0kRYHiwi0&amp;hl=en_US&amp;fs=1&amp;rel=0"></param>
 			<param name="allowFullScreen" value="true"></param>
 			<param name="allowscriptaccess" value="always"></param>
-			<embed src="http://www.youtube.com/v/pf0kRYHiwi0&hl=en_US&fs=1&rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="275" height="180"></embed>
+			<embed src="http://www.youtube.com/v/pf0kRYHiwi0&amp;hl=en_US&amp;fs=1&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="275" height="180"></embed>
 		</object>
 	<p id="intro">
 	    Transparency Data is a central source for all <b>federal and state campaign contributions</b> made in the last twenty years.
@@ -19,17 +22,17 @@
 {% block content %}
 	<div id="dataTabs">
 		<ul>
-			<li id="contribution"><a href="#" class="activeTab">Contribution Data</a></li>
-			<li id="lobbying"><a href="#" class="inactiveTab">Lobbying Data</a></li>
-			<li id="contracting"><a href="#" class="inactiveTab">Contracting Data</a></li>
+			<li id="contributionsTab"><a href="/contributions/" class="contributions">Contribution Data</a></li>
+			<li id="lobbyingTab"><a href="/lobbying/" class="lobbying">Lobbying Data</a></li>
+			<li id="contractingTab"><a href="/contracts/" class="contracts">Contracting Data</a></li>
 		</ul>
 	</div>
-	<div class="introbox">
+	<div class="introbox" id="intro-contributions">
 		<h4>Search Contribution Data</h4>
 		<div id="leftIntro">
 			<p class="introText">Have a specific committee, recipient or date in mind? Add some filters below to search them</p>
 			<h3>Search for</h3>
-			<div id="datafilter">
+			<div id="contributionDataFilter" class="datafilter">
 				<form>
 					<select id="filterselect">
 						<option value="">Select a field to search...</option>
@@ -40,11 +43,62 @@
 		</div>
 		<div id="rightIntro">
 			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
-			<a id="previewData" href="#">Preview Data</a>
+			<a id="contributionPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+	
+	<div class="introbox" id="intro-lobbying">
+		<h4>Search Lobbying Records</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific committee, recipient or date in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="lobbyingDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="lobbyingPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+	
+	
+    {% js "index.js" %}
+	<script type="text/javascript">
+	
+		$().ready(function() {
+			$('#dataTabs li a').bind('click', function() {
+				var df = $(this).attr('class');
+				$('body').attr('id', df);
+				TD.Utils.setAnchor('');
+				if (df == 'contributions') {
+					TD.ContributionFilter.loadHash();
+				} else if (df == 'lobbying') {
+					TD.LobbyingFilter.loadHash();
+				}
+				return false;
+			});
+
+			TD.LobbyingFilter.bindDataFilter('#lobbyingDataFilter');
+			TD.LobbyingFilter.bindPreview('#lobbyingPreviewButton');
+		    TD.LobbyingFilter.init();
+		
+			TD.Utils.setAnchor('');
+
+			TD.ContributionFilter.bindDataFilter('#contributionDataFilter');
+			TD.ContributionFilter.bindPreview('#contributionPreviewButton');
+		    TD.ContributionFilter.init();
 			
-		    
-			
-		</div> <!-- end rightIntro -->
-	</div> <!-- end introbox -->
-    {% js "contributions.js" %}
+		    TD.activeFilter = TD.ContributionFilter;
+		
+			TD.init();
+			TD.Utils.setAnchor(null);
+		});
+		
+	</script>
 {% endblock %}
