@@ -51,7 +51,7 @@ class AggregatesAPI(object):
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
-        return results
+        return self.remove_unicode(results)
 
 
     def org_recipients(self, entity_id, **kwargs):
@@ -65,8 +65,6 @@ class AggregatesAPI(object):
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
-        print 'before cleaning'
-        print results
         return self.remove_unicode(results)
 
     def top_sectors(self, entity_id, **kwargs):
@@ -90,7 +88,7 @@ class AggregatesAPI(object):
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
-        return results        
+        return self.remove_unicode(results)
 
     def entity_metadata(self, entity_id):
         arguments = 'entities/%s.json?apikey=%s' % (entity_id, settings.API_KEY)

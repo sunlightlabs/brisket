@@ -1,8 +1,5 @@
-* colours are not working for single valued piecharts
 * make label links underlined/styled differently on barchart
-* add raphael to individuals' page
 * add labels to barchart
-* add individuals and pac totals to top org table on pol page. 
 
 * the cycle argument should persist when you follow a link from a page
   already displaying a specific cycle.

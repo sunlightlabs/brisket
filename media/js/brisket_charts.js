@@ -1,26 +1,32 @@
 function piechart(div, data, chart_title) {
-    // data is expected as a dict. 
+    // data is expected as a dict.
 
     var r = Raphael(div);
-    r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";    
+    r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
     r.g.text(150, 10, chart_title).attr({"font-size": 15});
 
-    data_values = [];
+    var data_values = [];
     for (k in data) {
 	data_values.push(data[k]);
     }
 
-    data_labels = [];
+  var values_total = 0;
+  for (v in data_values) {
+    values_total += data_values[v];
+  }
+
+    var data_labels = [];
     for (k in data) {
-	data_labels.push(k);
+      var percent = Math.round((data[k]/values_total)*100);
+      data_labels.push(k+' ('+percent+'%)');
     }
 
-    pie = r.g.piechart(150, 100, 60, data_values, { legend: data_labels, legendpos: "east", 
+    pie = r.g.piechart(150, 100, 60, data_values, { legend: data_labels, legendpos: "east",
 						    colors: ["#FFCC33","#FF9900"] });
 
     pie.hover(function () {
     this.sector.stop();
-    // first two args to scale() are the scaled size. 
+    // first two args to scale() are the scaled size.
     this.sector.scale(1.04, 1.04, this.cx, this.cy);
     if (this.label) {
     this.label[0].stop();
@@ -35,14 +41,14 @@ function piechart(div, data, chart_title) {
     "bounce");
     this.label[1].attr({"font-weight": 400});
     }
-    });    
+    });
 }
 
 function barchart(div, data, chart_title) {
     // expects data to be a list of dicts each with keys called key,
     // value, and link.
     b = Raphael(div);
-    b.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";    
+    b.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
     b.g.text(150, 10, chart_title).attr({"font-size": 15});
 
     var fin = function () {
@@ -52,7 +58,7 @@ function barchart(div, data, chart_title) {
     var fout = function () {
     this.flag.animate({opacity: 0}, 300, function () { this.remove();});
     };
-    
+
     data_values = [];
     for (i in data) {
 	data_values.push(data[i]['value']);
@@ -82,7 +88,7 @@ function barchart(div, data, chart_title) {
     var barchart = b.g.hbarchart(10,20, 250, 150, [data_values], opts);
 
     // pass in labels array inside another array
-    barchart.label([data_labels], false);    
+    barchart.label([data_labels], false);
 
     // add links to the labels
     for (var i=0; i< barchart.labels.length; i++) {
@@ -91,16 +97,16 @@ function barchart(div, data, chart_title) {
 
     /* add text markers (which unfortunately uses a method called
        'label' just to confuse you) */
-    b.g.txtattr.font = "30px 'Fontin Sans', Fontin-Sans, sans-serif";
+    b.g.txtattr.font = "10px 'Fontin Sans', Fontin-Sans, sans-serif";
     s = b.set();
-    for (var i=0; i< barchart.bars.length; i++) {
-	x = barchart.bars[i].x;
-	y = barchart.bars[i].y;
-	text = barchart.bars[i].value;
+    for (var i=0; i< barchart.bars[0].length; i++) {
+	x = barchart.bars[0][i].x;
+	y = barchart.bars[0][i].y;
+	text = barchart.bars[0][i].value;
 	marker = b.g.label(x,y,text);
 	s.push(marker);
     };
-    s.attr({fill: "#000", stroke: "#c00", translation: "200 100"});
+    s.attr({fill: "#ccc", stroke: "#000", translation: "150"});
     //alert(s.length);
 
     /* figure out the longest label text and move the chart over by
