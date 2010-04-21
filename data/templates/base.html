@@ -28,37 +28,48 @@
     <body class="{% block bodyclass %}{% endblock %}">
         <div id="headerWrapper">
             <div id="headerContainer">
-                <div id="pageMain">
-                    <div id="header">
-                        <h1><a href="{% url index %}">Transparency Data</a></h1>
-                        <div class="clear"></div>
-                        <div id="nav">
-                            <ul>
-                                <li id="nav_bulk"><a href="{% url bulk_index %}">Bulk Downloads</a></li>
-                                <li id="nav_docs"><a href="{% url doc_index %}">Documentation</a></li>
-                                <li id="nav_api"><a href="{% url api_index %}">API</a></li>
-                                {% if user.is_authenticated %}
-                                    <li id="nav_logout"><a href="{% url django.contrib.auth.views.logout %}">Logout</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
+                <div id="header">
+                    <h1><a href="{% url index %}">Transparency Data</a></h1>
+                    <div class="clear"></div>
+                    <div id="nav">
+                        <ul>
+                            <li id="nav_bulk"><a href="{% url bulk_index %}">Bulk Downloads</a></li>
+                            <li id="nav_docs"><a href="{% url doc_index %}">Documentation</a></li>
+                            <li id="nav_api"><a href="{% url api_index %}">API</a></li>
+                            {% if user.is_authenticated %}
+                                <li id="nav_logout"><a href="{% url django.contrib.auth.views.logout %}">Logout</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div> <!-- end header -->
+			</div> <!-- end headerContainer --> 
+		</div> <!-- end headerWrapper -->                 
+		<div id="pageMain">
+            <div id="columnWrapper">
+                {% block content_container %}
+                    <div id="leftColumn">
+                        {% block sidebar %}{% endblock %}
+                    </div>
+                    <div id="rightColumn">
+                        {% block content %}{% endblock %}
                         <div class="clear"></div>
                     </div>
-                    
-                    <div id="columnWrapper">
-                        {% block content_container %}
-                            <div id="leftColumn">
-                                {% block sidebar %}{% endblock %}
-                            </div>
-                            <div id="rightColumn">
-                                {% block content %}{% endblock %}
-                                <div class="clear"></div>
-                            </div>
-                        {% endblock %}
-                    </div>
-                </div>
-            </div>
-        </div>
+                {% endblock %}
+			</div> <!-- end columnWrapper -->
+        </div> <!-- end pageMain -->
+        <div class="clear"></div>
+        <div id="footerContainer">
+			<div id="footer">
+				<h5>Sunlight Foundation</h5>
+				<p class="partner">
+			        <a id="openSecrets" href="http://opensecrets.org"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
+			        <a id="nimsp" href="http://followthemoney.org"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
+			    </p>
+			    <p id="footerText">Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://www.sunlightfoundation.com" target="_blank">SunlightFoundation.com</a> to learn more.</p>
+			    <div class="clear"></div>
+			</div> <!-- end footer -->
+		</div> <!-- end footerContainer -->
 		<script type="text/javascript">
 			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
