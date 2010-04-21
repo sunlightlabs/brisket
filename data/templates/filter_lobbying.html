@@ -1,6 +1,21 @@
 {% extends "filter.html" %}
 {% load media %}
 
+{% block bodyid %}lobbying{% endblock %}
+
+{% block sidebar %}
+	<div id="datafilter" class="module datafilter">
+		<h2>Search Lobbying for</h2>
+		<span class="helper">Add additional fields to refine your search.</span>
+		<form>
+			<select id="filterselect">
+				<option value="">Select a filter to add...</option>
+		    </select>
+			<ul id="filters"></ul>
+		</form>
+	</div>
+{% endblock %}
+
 {% block content %}
 	{{ block.super }}
     <div class="module">
@@ -46,4 +61,16 @@
         <div class="clear"></div>
 	</div>
     {% js "lobbying.js" %}
+	<script type="text/javascript">
+		$().ready(function() {
+			TD.LobbyingFilter.bindDataFilter('#datafilter');
+			TD.LobbyingFilter.bindPreview('#previewButton');
+			TD.LobbyingFilter.bindDownload('#downloadButton');
+		    TD.LobbyingFilter.init();
+			
+		    TD.activeFilter = TD.LobbyingFilter;
+		
+			TD.init();
+		});
+	</script>
 {% endblock %}

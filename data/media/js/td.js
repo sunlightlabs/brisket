@@ -23,6 +23,37 @@ if (typeof window.btoa !== 'function') {
 
 var TD = {
     activeFilter: null,
+    init: function() {
+        $('#downloading').dialog({
+            autoOpen: false,
+            buttons: { "OK": function() { $(this).dialog("close"); } },
+            draggable: false,
+            modal: true,
+            resizable: false,
+            title: 'Downloading...'
+        });
+
+        $('#suggestbulk').dialog({
+            autoOpen: false,
+            buttons: { "OK": function() { $(this).dialog("close"); } },
+            draggable: false,
+            modal: true,
+            resizable: false,
+            title: 'Bulk Downloads'
+        });
+
+        TD.HashMonitor.enabled = true;
+
+        TD.HashMonitor.interval = setInterval(function() {
+            TD.HashMonitor.check(function(hash) {
+                if (hash) {
+                    TD.activeFilter.reset();
+                    TD.activeFilter.loadHash();
+                    TD.activeFilter.preview();
+                }
+            });
+        }, 200);
+    },
     HashMonitor: {
         hash: null,
         enabled: false,
@@ -91,39 +122,16 @@ var TD = {
     }
 }
 
-TD.DataFilter = function(nodeSel, previewSel, downloadSel, callback) {
-    
+TD.DataFilter = function() {
     var that = this;
     this.registry = {};
-    
-    this.downloadNode = $(downloadSel);
-    this.downloadNode.bind('click', function() {
-        var node = $(this);
-        if (node.hasClass('enabled')) {
-            node.removeClass('enabled');
-            if (!that.shouldUseBulk()) {
-                $('#downloading').dialog('open');
-                var qs = TD.Utils.toQueryString(TD.activeFilter.values());
-                window.location.replace(that.downloadPath + "?" + qs);
-            }
-        }
-        return false;
-    });
-    
-    this.previewNode = $(previewSel);
-    this.previewNode.bind('click', function() {
-        if ($('#mainTable').length == 0) {
-            // no main table, forward to filter page
-            var qs = TD.Utils.toQueryString(TD.activeFilter.values());
-            var hash = window.btoa(qs);
-            window.location.replace(that.previewPath + "#" + hash);
-        } else if ($(this).hasClass('enabled')) {
-            that.preview();
-        }
-        return false;
-    });
-    
-    this.node = $(nodeSel);
+    this.node = $();
+    this.downloadNode = $();
+    this.previewNode = $();
+};
+TD.DataFilter.prototype.bindDataFilter = function(sel) {
+    var that = this;
+    this.node = $(sel);
     this.node.bind('keypress', function(ev) {
         if (ev.which == 13) {
             ev.stopPropagation();
@@ -134,18 +142,41 @@ TD.DataFilter = function(nodeSel, previewSel, downloadSel, callback) {
         that.downloadNode.removeClass('enabled');
         that.previewNode.addClass('enabled');
     }).find('select#filterselect').bind('change', function() {
-        var filterName = this.value;
-        if (filterName) {
-            that.addFilter(filterName);
-        }
+        that.addFilter(this.value);
         this.selectedIndex = 0;
         return false;
     });
-    
-    if (callback) {
-        callback();
-    }
-    
+};
+TD.DataFilter.prototype.bindPreview = function(sel) {
+    var that = this;
+    this.previewNode = $(sel);
+    this.previewNode.bind('click', function() {
+        if ($('#mainTable').length == 0) {
+            // no main table, forward to filter page
+            var qs = TD.Utils.toQueryString(that.values());
+            var hash = window.btoa(qs);
+            window.location.replace(that.previewPath + "#" + hash);
+        } else if ($(this).hasClass('enabled')) {
+            that.preview();
+        }
+        return false;
+    });
+};
+TD.DataFilter.prototype.bindDownload = function(sel) {
+    var that = this;
+    this.downloadNode = $(sel);
+    this.downloadNode.bind('click', function() {
+        var node = $(this);
+        if (node.hasClass('enabled')) {
+            node.removeClass('enabled');
+            if (!that.shouldUseBulk()) {
+                $('#downloading').dialog('open');
+                var qs = TD.Utils.toQueryString(that.values());
+                window.location.replace(that.downloadPath + "?" + qs);
+            }
+        }
+        return false;
+    });
 };
 TD.DataFilter.prototype.reset = function() {
     for (attr in this.registry) {
@@ -206,260 +237,21 @@ TD.DataFilter.prototype.loadHash = function() {
     if (params) {
         for (attr in params) {
             var filter = this.addFilter(attr);
-            var values = filter.config.field.parseValues(params[attr]);
-            for (var i = 0; i < values.length; i++) {
-                var field = null;
-                if (filter.fieldCount < i + 1) {
-                    field = filter.addField();
-                } else {
-                    for (fid in filter.fields) {
-                        field = filter.fields[fid];
-                        break;
+            if (filter) {
+                var values = filter.config.field.parseValues(params[attr]);
+                for (var i = 0; i < values.length; i++) {
+                    var field = null;
+                    if (filter.fieldCount < i + 1) {
+                        field = filter.addField();
+                    } else {
+                        for (fid in filter.fields) {
+                            field = filter.fields[fid];
+                            break;
+                        }
                     }
+                    field.loadValue(values[i]);
                 }
-                field.loadValue(values[i]);
             }
         }
     }
-};
-
-
-$().ready(function() {
-
-    $('#downloading').dialog({
-        autoOpen: false,
-        buttons: { "OK": function() { $(this).dialog("close"); } },
-        draggable: false,
-        modal: true,
-        resizable: false,
-        title: 'Downloading...'
-    });
-
-    $('#suggestbulk').dialog({
-        autoOpen: false,
-        buttons: { "OK": function() { $(this).dialog("close"); } },
-        draggable: false,
-        modal: true,
-        resizable: false,
-        title: 'Bulk Downloads'
-    });
-        
-    TD.HashMonitor.enabled = true;
-
-    TD.HashMonitor.interval = setInterval(function() {
-        TD.HashMonitor.check(function(hash) {
-            if (hash) {
-                TD.activeFilter.reset();
-                TD.activeFilter.loadHash();
-                TD.activeFilter.preview();
-            }
-        });
-    }, 200);
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var TDX = {
-    
-    DataSet: null,
-    
-    HashMonitor: {
-        hash: null,
-        enabled: false,
-        check: function(callback) {
-            if (TD.HashMonitor.enabled) {
-                if (window.location.hash !== TD.HashMonitor.hash) {
-                    callback(window.location.hash);
-                    TD.HashMonitor.hash = window.location.hash;
-                }
-            }
-        }
-    },
-    
-    DataFilter: {
-        registry: {},
-        init: function(dataset, callback) {
-            
-            TD.dataSet = dataset;
-            TD.DataFilter.node = $('#datafilter');
-            TD.DataFilter.node.bind('filterchange', function() {
-                $('a#downloadData').removeClass('enabled');
-                $('a#previewData').addClass('enabled');
-            });
-            
-            $('#datafilter').bind('keypress', function(ev) {
-                if (ev.which == 13) {
-                    ev.stopPropagation();
-                    $('a#previewData').trigger('click');
-                    return false;
-                }
-            });
-            
-            $('#datafilter select#filterselect').bind('change', function() {
-                var filterName = this.value;
-                if (filterName) {
-                    TD.DataFilter.addFilter(filterName);
-                }
-                this.selectedIndex = 0;
-                return false;
-            });
-            
-            $('a#previewData').bind('click', function() {
-                if ($('#mainTable').length == 0) {
-                    // no main table, forward to filter page
-                    var qs = TD.Utils.toQueryString(TD.DataFilter.values());
-                    var hash = window.btoa(qs);
-                    window.location.replace(TD.dataSet.previewPath + "#" + hash);
-                } else if ($(this).hasClass('enabled')) {
-                    TD.dataSet.preview();
-                }
-                return false;
-            });
-            
-            $('a#downloadData').bind('click', function() {
-                if ($(this).hasClass('enabled')) {
-                    $('a#downloadData').removeClass('enabled');
-                    if (!TD.dataSet.shouldUseBulk()) {
-                        $('#downloading').dialog('open');
-                        var qs = TD.Utils.toQueryString(TD.DataFilter.values());
-                        window.location.replace(TD.dataSet.downloadPath + "?" + qs);
-                    }
-                }
-                return false;
-            });
-            
-            $('#downloading').dialog({
-                autoOpen: false,
-                buttons: { "OK": function() { $(this).dialog("close"); } },
-                draggable: false,
-                modal: true,
-                resizable: false,
-                title: 'Downloading...'
-            });
-            
-            $('#suggestbulk').dialog({
-                autoOpen: false,
-                buttons: { "OK": function() { $(this).dialog("close"); } },
-                draggable: false,
-                modal: true,
-                resizable: false,
-                title: 'Bulk Downloads'
-            });
-            
-            if (callback) {
-                callback();
-            }
-            
-            TD.HashMonitor.enabled = true;
-
-            setInterval(function() {
-                    TD.HashMonitor.check(function(hash) {
-                        if (hash) {
-                            TD.DataFilter.reset();
-                            TD.DataFilter.loadHash();
-                            TD.dataSet.preview();
-                        }
-                    });
-                }, 200);
-            
-        },
-        reset: function() {
-            for (attr in TD.DataFilter.registry) {
-                var filter = TD.DataFilter.registry[attr];
-                if (filter.enabled) {
-                    filter.disable();
-                }
-            }
-        },
-        registerFilter: function(config) {
-            var filter = Object.create(TD.DataFilter.Filter);
-            filter.init(config);
-            TD.DataFilter.registry[config.name] = filter;
-            var option = $('<option value="' + config.name + '">' + config.label + '</option>');
-            $('#datafilter select#filterselect').append(option);
-        },
-        addFilter: function(filterName) {
-            var filter = TD.DataFilter.registry[filterName];
-            if (filter != undefined) {
-                if (filter.enabled) {
-                    filter.addField();
-                    TD.DataFilter.primaryFilter(filter);
-                } else {
-                    $('#datafilter ul#filters').prepend(filter.render());
-                    filter.enable();
-                    filter.addField();
-                }
-            }
-            return filter;
-        },
-        filterCount: function() {
-            var count = 0;
-            for (attr in TD.DataFilter.registry) {
-                if (TD.DataFilter.registry[attr].enabled) {
-                    count++;
-                }
-            }
-            return count;
-        },
-        loadHash: function() {
-            var params = TD.Utils.parseAnchor();
-            if (params) {
-                for (attr in params) {
-                    var filter = TD.DataFilter.addFilter(attr);
-                    var values = filter.config.field.parseValues(params[attr]);
-                    for (var i = 0; i < values.length; i++) {
-                        var field = null;
-                        if (filter.fieldCount < i + 1) {
-                            field = filter.addField();
-                        } else {
-                            for (fid in filter.fields) {
-                                field = filter.fields[fid];
-                                break;
-                            }
-                        }
-                        field.loadValue(values[i]);
-                    }
-                }
-            }
-        },
-        primaryFilter: function(filter) {
-            $('#datafilter ul#filters').prepend(filter.node);
-        },
-        values: function() {
-            var params = {};
-            for (name in TD.DataFilter.registry) {
-                var filter = TD.DataFilter.registry[name];
-                if (filter.enabled) {
-                    var value = filter.value();
-                    if (value) {
-                        params[name] = value;
-                    }
-                }
-            }
-            return params;
-        },
-        registerFilter: function(config) {
-            var filter = Object.create(TD.DataFilter.Filter);
-            filter.init(config);
-            TD.DataFilter.registry[config.name] = filter;
-            var option = $('<option value="' + config.name + '">' + config.label + '</option>');
-            $('#datafilter select#filterselect').append(option);
-        }
-    }
-    
 };

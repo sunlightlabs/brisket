@@ -274,7 +274,9 @@ TD.Filter = {
         this.node.find('ul.fields').append(elem);
         this.fields[field.id] = field;
         this.fieldCount++;
-        TD.activeFilter.node.trigger('filterchange');
+        if (TD.activeFilter) {
+            TD.activeFilter.node.trigger('filterchange');
+        }
         return field;
     },
     bind: function(node) {

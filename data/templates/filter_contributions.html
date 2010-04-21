@@ -1,6 +1,21 @@
 {% extends "filter.html" %}
 {% load media %}
 
+{% block bodyid %}contributions{% endblock %}
+
+{% block sidebar %}
+	<div id="datafilter" class="module datafilter">
+		<h2>Search Contributions for</h2>
+		<span class="helper">Add additional fields to refine your search.</span>
+		<form>
+			<select id="filterselect">
+				<option value="">Select a filter to add...</option>
+		    </select>
+			<ul id="filters"></ul>
+		</form>
+	</div>
+{% endblock %}
+
 {% block content %}
 	{{ block.super }}
     <div class="module">
@@ -49,4 +64,16 @@
         <div class="clear"></div>
 	</div>
     {% js "contributions.js" %}
+	<script type="text/javascript">
+		$().ready(function() {
+			TD.ContributionFilter.bindDataFilter('#datafilter');
+			TD.ContributionFilter.bindPreview('#previewButton');
+			TD.ContributionFilter.bindDownload('#downloadButton');
+		    TD.ContributionFilter.init();
+			
+		    TD.activeFilter = TD.ContributionFilter;
+		
+			TD.init();
+		});
+	</script>
 {% endblock %}
