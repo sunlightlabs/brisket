@@ -1,22 +1,35 @@
 TD.Lobbying = {
-    downloadPath: "/lobbying/download/",
-    previewPath: "/lobbying/",
-    shouldUseBulk: function() {
-        var useBulk = false;
-        var values = _.keys(TD.DataFilter.values());
+    
+}
+
+$().ready(function() {
+
+    var lobbyingFilter = new TD.DataFilter('#datafilter', 'a#previewData', 'a#downloadData', function() {
+        var anchor = TD.Utils.getAnchor();
+        if (anchor === undefined) {
+            TD.Utils.setAnchor('year=2010');
+            TD.DataFilter.loadHash();
+        }
+    });
+    
+    lobbyingFilter.downloadPath = "/lobbying/download/";
+    lobbyingFilter.previewPath = "/lobbying/";
+    lobbyingFilter.shouldUseBulk = function() {
+        var values = _.keys(this.values());
         values = _.without(values, 'year');
-        if (values.length == 0) {
+        var useBulk = values.length == 0;
+        if (useBulk) {
             $('#suggestbulk').dialog('open');    
         }
-        return values.length == 0;
-    },
-    preview: function() {
+        return useBulk;
+    };
+    lobbyingFilter.preview = function() {
         if ($('#mainTable').length > 0) {
-            if (!TD.DataSet.shouldUseBulk()) {
-                var params = TD.DataFilter.values();
+            if (!this.shouldUseBulk()) {
+                var params = this.values();
                 var qs = TD.Utils.toQueryString(params);
                 TD.Utils.setAnchor(qs);
-                $('a#previewData').removeClass('enabled');
+                this.previewNode.removeClass('enabled');
                 $('div#tableScroll').hide();
                 $('div#nodata').hide();
                 $('div#loading').show();
@@ -47,7 +60,7 @@ TD.Lobbying = {
                             $('#mainTable tbody').append(content);
                         }
                         $('span#previewCount').html(data.length);
-                        $('a#downloadData').addClass('enabled');
+                        lobbyingFilter.downloadNode.addClass('enabled');
                         $('div#nodata').hide();
                         $('div#tableScroll').show();
                     }    
@@ -62,85 +75,70 @@ TD.Lobbying = {
                 });
             }
         }
-    }
-}
+    };
 
-$().ready(function() {
+    lobbyingFilter.registerFilter({
+        name: 'amount',
+        label: 'Amount',
+        help: 'This is the amount of the contribution',
+        field: TD.DataFilter.OperatorField
+    });
 
-    if ($('#datafilter').length > 0) {
+    lobbyingFilter.registerFilter({
+        name: 'client_ft',
+        label: 'Client',
+        help: 'Name of organization that hired or employed the lobbyist.',
+        field: TD.DataFilter.TextField,
+        allowMultipleFields: true
+    });
 
-        TD.DataFilter.registerFilter({
-            name: 'amount',
-            label: 'Amount',
-            help: 'This is the amount of the contribution',
-            field: TD.DataFilter.OperatorField
-        });
+    lobbyingFilter.registerFilter({
+        name: 'client_parent_ft',
+        label: 'Client Parent',
+        help: 'Name of organization that owns the client.',
+        field: TD.DataFilter.TextField,
+        allowMultipleFields: true
+    });
 
-        TD.DataFilter.registerFilter({
-            name: 'client_ft',
-            label: 'Client',
-            help: 'Name of organization that hired or employed the lobbyist.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
+    lobbyingFilter.registerFilter({
+        name: 'lobbyist_ft',
+        label: 'Lobbyist',
+        help: 'Name of lobbyist.',
+        field: TD.DataFilter.TextField,
+        allowMultipleFields: true
+    });
 
-        TD.DataFilter.registerFilter({
-            name: 'client_parent_ft',
-            label: 'Client Parent',
-            help: 'Name of organization that owns the client.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
+    lobbyingFilter.registerFilter({
+        name: 'registrant_ft',
+        label: 'Registrant',
+        help: 'The name of the person or organization that filed the lobbying registration.',
+        field: TD.DataFilter.TextField,
+        allowMultipleFields: true
+    });
 
-        TD.DataFilter.registerFilter({
-            name: 'lobbyist_ft',
-            label: 'Lobbyist',
-            help: 'Name of lobbyist.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
+    lobbyingFilter.registerFilter({
+        name: 'transaction_id',
+        label: 'Registration ID',
+        help: 'The ID of the lobbying registration record.',
+        field: TD.DataFilter.TextField,
+        allowMultipleFields: true
+    });
 
-        TD.DataFilter.registerFilter({
-            name: 'registrant_ft',
-            label: 'Registrant',
-            help: 'The name of the person or organization that filed the lobbying registration.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
-
-        TD.DataFilter.registerFilter({
-            name: 'transaction_id',
-            label: 'Registration ID',
-            help: 'The ID of the lobbying registration record.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
-
-        TD.DataFilter.registerFilter({
-            name: 'year',
-            label: 'Year',
-            help: 'The year in which the registration was filed.',
-            field: TD.DataFilter.DropDownField,
-            allowMultipleFields: true,
-            options: [
-                ['1998','1998'], ['1999','1999'],
-                ['2000','2000'], ['2001','2001'],
-                ['2002','2002'], ['2003','2003'],
-                ['2004','2004'], ['2005','2005'],
-                ['2006','2006'], ['2007','2007'],
-                ['2008','2008'], ['2009','2009'],
-                ['2010','2010']
-            ]
-        });
-        
-        TD.DataFilter.init(TD.Lobbying, function() {
-            var anchor = TD.Utils.getAnchor();
-            if (anchor === undefined) {
-                TD.Utils.setAnchor('year=2010');
-                TD.DataFilter.loadHash();
-            }
-        });
-            
-    }
+    lobbyingFilter.registerFilter({
+        name: 'year',
+        label: 'Year',
+        help: 'The year in which the registration was filed.',
+        field: TD.DataFilter.DropDownField,
+        allowMultipleFields: true,
+        options: [
+            ['1998','1998'], ['1999','1999'],
+            ['2000','2000'], ['2001','2001'],
+            ['2002','2002'], ['2003','2003'],
+            ['2004','2004'], ['2005','2005'],
+            ['2006','2006'], ['2007','2007'],
+            ['2008','2008'], ['2009','2009'],
+            ['2010','2010']
+        ]
+    });
 
 });

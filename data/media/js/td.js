@@ -20,7 +20,261 @@ if (typeof window.btoa !== 'function') {
     };
 }
 
+
 var TD = {
+    activeFilter: null,
+    HashMonitor: {
+        hash: null,
+        enabled: false,
+        interval: null,
+        check: function(callback) {
+            if (TD.HashMonitor.enabled) {
+                if (window.location.hash !== TD.HashMonitor.hash) {
+                    callback(window.location.hash);
+                    TD.HashMonitor.hash = window.location.hash;
+                }
+            }
+        }
+    },
+    Utils: {
+        cityStateFormat: function(city, state) {
+            if (state != undefined && state != '') {
+                var fmt = state;
+                if (city != undefined && city != '') {
+                    fmt = city + ', ' + fmt;
+                }
+                return fmt;
+            }
+            return '';
+        },
+        currencyFormat: function(s) {
+            return $.currency(parseFloat(s));
+        },
+        getAnchor: function() {
+            var s = window.location.hash;
+            if (s.length > 1) {
+                s = s.substr(1);
+                return window.atob(s);
+            }
+        },
+        parseAnchor: function() {
+            var params = {};
+            var qs = TD.Utils.getAnchor();
+            if (qs) {
+                var terms = qs.split('&');
+                for (var i = 0; i < terms.length; i++) {
+                    var parts = terms[i].split('=');
+                    params[parts[0]] = decodeURIComponent(parts[1]);
+                }
+                return params;
+            }
+        },
+        setAnchor: function(a) {
+            var hash = window.btoa(a);
+            TD.HashMonitor.enabled = false;
+            window.location.hash = hash;
+            TD.HashMonitor.hash = window.location.hash;
+            TD.HashMonitor.enabled = true;
+        },
+        toQueryString: function(obj) {
+            var qs = ''
+            for (attr in obj) {
+                if (qs) qs += '&';
+                qs += attr + '=' + encodeURIComponent(obj[attr]);
+            }
+            return qs
+        },
+        ymdFormat: function(mdy) {
+            var mdyParts = mdy.split('/');
+            return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1]
+        }
+    }
+}
+
+TD.DataFilter = function(nodeSel, previewSel, downloadSel, callback) {
+    
+    var that = this;
+    this.registry = {};
+    
+    this.downloadNode = $(downloadSel);
+    this.downloadNode.bind('click', function() {
+        var node = $(this);
+        if (node.hasClass('enabled')) {
+            node.removeClass('enabled');
+            if (!that.shouldUseBulk()) {
+                $('#downloading').dialog('open');
+                var qs = TD.Utils.toQueryString(TD.activeFilter.values());
+                window.location.replace(that.downloadPath + "?" + qs);
+            }
+        }
+        return false;
+    });
+    
+    this.previewNode = $(previewSel);
+    this.previewNode.bind('click', function() {
+        if ($('#mainTable').length == 0) {
+            // no main table, forward to filter page
+            var qs = TD.Utils.toQueryString(TD.activeFilter.values());
+            var hash = window.btoa(qs);
+            window.location.replace(that.previewPath + "#" + hash);
+        } else if ($(this).hasClass('enabled')) {
+            that.preview();
+        }
+        return false;
+    });
+    
+    this.node = $(nodeSel);
+    this.node.bind('keypress', function(ev) {
+        if (ev.which == 13) {
+            ev.stopPropagation();
+            that.previewNode.trigger('click');
+            return false;
+        }
+    }).bind('filterchange', function() {
+        that.downloadNode.removeClass('enabled');
+        that.previewNode.addClass('enabled');
+    }).find('select#filterselect').bind('change', function() {
+        var filterName = this.value;
+        if (filterName) {
+            that.addFilter(filterName);
+        }
+        this.selectedIndex = 0;
+        return false;
+    });
+    
+    if (callback) {
+        callback();
+    }
+    
+};
+TD.DataFilter.prototype.reset = function() {
+    for (attr in this.registry) {
+        var filter = this.registry[attr];
+        if (filter.enabled) {
+            filter.disable();
+        }
+    }
+};
+TD.DataFilter.prototype.registerFilter = function(config) {
+    var filter = Object.create(TD.Filter);
+    filter.init(config);
+    this.registry[config.name] = filter;
+    var option = $('<option value="' + config.name + '">' + config.label + '</option>');
+    this.node.find('select#filterselect').append(option);
+};
+TD.DataFilter.prototype.addFilter = function(filterName) {
+    var filter = this.registry[filterName];
+    if (filter != undefined) {
+        if (filter.enabled) {
+            filter.addField();
+            this.primaryFilter(filter);
+        } else {
+            this.node.find('ul#filters').prepend(filter.render());
+            filter.enable();
+            filter.addField();
+        }
+    }
+    return filter;
+};
+TD.DataFilter.prototype.filterCount = function() {
+    var count = 0;
+    for (attr in this.registry) {
+        if (this.registry[attr].enabled) {
+            count++;
+        }
+    }
+    return count;
+};
+TD.DataFilter.prototype.primaryFilter = function(filter) {
+    this.node.find('ul#filters').prepend(filter.node);
+};
+TD.DataFilter.prototype.values = function() {
+    var params = {};
+    for (name in this.registry) {
+        var filter = this.registry[name];
+        if (filter.enabled) {
+            var value = filter.value();
+            if (value) {
+                params[name] = value;
+            }
+        }
+    }
+    return params;
+};
+TD.DataFilter.prototype.loadHash = function() {
+    var params = TD.Utils.parseAnchor();
+    if (params) {
+        for (attr in params) {
+            var filter = this.addFilter(attr);
+            var values = filter.config.field.parseValues(params[attr]);
+            for (var i = 0; i < values.length; i++) {
+                var field = null;
+                if (filter.fieldCount < i + 1) {
+                    field = filter.addField();
+                } else {
+                    for (fid in filter.fields) {
+                        field = filter.fields[fid];
+                        break;
+                    }
+                }
+                field.loadValue(values[i]);
+            }
+        }
+    }
+};
+
+
+$().ready(function() {
+
+    $('#downloading').dialog({
+        autoOpen: false,
+        buttons: { "OK": function() { $(this).dialog("close"); } },
+        draggable: false,
+        modal: true,
+        resizable: false,
+        title: 'Downloading...'
+    });
+
+    $('#suggestbulk').dialog({
+        autoOpen: false,
+        buttons: { "OK": function() { $(this).dialog("close"); } },
+        draggable: false,
+        modal: true,
+        resizable: false,
+        title: 'Bulk Downloads'
+    });
+        
+    TD.HashMonitor.enabled = true;
+
+    TD.HashMonitor.interval = setInterval(function() {
+        TD.HashMonitor.check(function(hash) {
+            if (hash) {
+                TD.activeFilter.reset();
+                TD.activeFilter.loadHash();
+                TD.activeFilter.preview();
+            }
+        });
+    }, 200);
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var TDX = {
     
     DataSet: null,
     
@@ -41,7 +295,7 @@ var TD = {
         registry: {},
         init: function(dataset, callback) {
             
-            TD.DataSet = dataset;
+            TD.dataSet = dataset;
             TD.DataFilter.node = $('#datafilter');
             TD.DataFilter.node.bind('filterchange', function() {
                 $('a#downloadData').removeClass('enabled');
@@ -70,9 +324,9 @@ var TD = {
                     // no main table, forward to filter page
                     var qs = TD.Utils.toQueryString(TD.DataFilter.values());
                     var hash = window.btoa(qs);
-                    window.location.replace(TD.DataSet.previewPath + "#" + hash);
+                    window.location.replace(TD.dataSet.previewPath + "#" + hash);
                 } else if ($(this).hasClass('enabled')) {
-                    TD.DataSet.preview();
+                    TD.dataSet.preview();
                 }
                 return false;
             });
@@ -80,10 +334,10 @@ var TD = {
             $('a#downloadData').bind('click', function() {
                 if ($(this).hasClass('enabled')) {
                     $('a#downloadData').removeClass('enabled');
-                    if (!TD.DataSet.shouldUseBulk()) {
+                    if (!TD.dataSet.shouldUseBulk()) {
                         $('#downloading').dialog('open');
                         var qs = TD.Utils.toQueryString(TD.DataFilter.values());
-                        window.location.replace(TD.DataSet.downloadPath + "?" + qs);
+                        window.location.replace(TD.dataSet.downloadPath + "?" + qs);
                     }
                 }
                 return false;
@@ -118,7 +372,7 @@ var TD = {
                         if (hash) {
                             TD.DataFilter.reset();
                             TD.DataFilter.loadHash();
-                            TD.DataSet.preview();
+                            TD.dataSet.preview();
                         }
                     });
                 }, 200);
@@ -205,62 +459,6 @@ var TD = {
             TD.DataFilter.registry[config.name] = filter;
             var option = $('<option value="' + config.name + '">' + config.label + '</option>');
             $('#datafilter select#filterselect').append(option);
-        }
-    },
-    
-    Utils: {
-        cityStateFormat: function(city, state) {
-            if (state != undefined && state != '') {
-                var fmt = state;
-                if (city != undefined && city != '') {
-                    fmt = city + ', ' + fmt;
-                }
-                return fmt;
-            }
-            return '';
-        },
-        currencyFormat: function(s) {
-            return $.currency(parseFloat(s));
-        },
-        getAnchor: function() {
-            var s = window.location.hash;
-            if (s.length > 1) {
-                s = s.substr(1);
-                return window.atob(s);
-            }
-        },
-        parseAnchor: function() {
-            var params = {};
-            var qs = TD.Utils.getAnchor();
-            if (qs) {
-                var terms = qs.split('&');
-                for (var i = 0; i < terms.length; i++) {
-                    var parts = terms[i].split('=');
-                    params[parts[0]] = decodeURIComponent(parts[1]);
-                }
-                return params;
-            }
-        },
-        setAnchor: function(a) {
-            var hash = window.btoa(a);
-            TD.HashMonitor.enabled = false;
-            window.location.hash = hash;
-            TD.HashMonitor.hash = window.location.hash;
-            TD.HashMonitor.enabled = true;
-        },
-        toQueryString: function(obj) {
-            var qs = ''
-            for (attr in obj) {
-                if (qs) {
-                    qs += '&';
-                }
-                qs += attr + '=' + encodeURIComponent(obj[attr]);
-            }
-            return qs
-        },
-        ymdFormat: function(mdy) {
-            var mdyParts = mdy.split('/');
-            return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1]
         }
     }
     

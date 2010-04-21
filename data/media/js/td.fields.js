@@ -1,4 +1,4 @@
-TD.DataFilter.Field = {
+TD.Field = {
     bind: function(node) {
         var me = this;
         this.node = node;
@@ -15,7 +15,7 @@ TD.DataFilter.Field = {
 
 // date range field
 
-TD.DataFilter.DateRangeField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.DateRangeField = Object.create(TD.Field);
 TD.DataFilter.DateRangeField.value = function() {
     var start = $.datepicker.formatDate('yy-mm-dd', 
         this.node.find('input.date_start').datepicker('getDate'));
@@ -55,7 +55,7 @@ TD.DataFilter.DateRangeField.render = function() {
     var today = new Date();
     
     dstart.bind('change', function() {
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     }).val('01/01/2009').datepicker({
         changeMonth: true,
         changeYear: true,
@@ -71,7 +71,7 @@ TD.DataFilter.DateRangeField.render = function() {
     });
 
     dend.bind('change', function() {
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     }).val($.datepicker.formatDate('mm/dd/yy', today)).datepicker({
         changeMonth: true,
         changeYear: true,
@@ -86,7 +86,7 @@ TD.DataFilter.DateRangeField.render = function() {
 
 // drop down field
     
-TD.DataFilter.DropDownField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.DropDownField = Object.create(TD.Field);
 TD.DataFilter.DropDownField.render = function() {
     
     var content = '';
@@ -102,7 +102,7 @@ TD.DataFilter.DropDownField.render = function() {
     
     var node = $(content);
     node.find('select').bind('change', function() {
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     });
     
     return node;
@@ -120,7 +120,7 @@ TD.DataFilter.DropDownField.loadValue = function(v) {
 
 // dual drop down field
 
-TD.DataFilter.DualDropDownField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.DualDropDownField = Object.create(TD.Field);
 TD.DataFilter.DualDropDownField.render = function() {
     
     var content = '';
@@ -137,7 +137,7 @@ TD.DataFilter.DualDropDownField.render = function() {
     
     var node = $(content);
     node.find('select').bind('change', function() {
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     });
     node.find('select.first').bind('change', function() {
         for (var i = 0; i < opts.length; i++) {
@@ -175,7 +175,7 @@ TD.DataFilter.DualDropDownField.loadValue = function(v) {
 
 // operator field
 
-TD.DataFilter.OperatorField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.OperatorField = Object.create(TD.Field);
 TD.DataFilter.OperatorField.render = function() {
     var operators = this.filter.config.operators || [
         ['&gt;', 'greater than'],
@@ -194,10 +194,10 @@ TD.DataFilter.OperatorField.render = function() {
     
     var node = $(content);
     node.find('input').bind('keypress', function() {
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     });
     node.find('select').bind('change', function() {
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     });
     
     return node;
@@ -224,7 +224,7 @@ TD.DataFilter.OperatorField.loadValue = function(v) {
 
 // basic text field
 
-TD.DataFilter.TextField = Object.create(TD.DataFilter.Field);
+TD.DataFilter.TextField = Object.create(TD.Field);
 TD.DataFilter.TextField.render = function() {    
     var content = '';
     content += '<li id="field_' + this.id + '" class="text_field">';
@@ -234,7 +234,7 @@ TD.DataFilter.TextField.render = function() {
     
     var node = $(content);
     node.find('input').bind('keypress', function() {
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     });
     
     return node;
@@ -253,7 +253,7 @@ TD.DataFilter.TextField.loadValue = function(v) {
  *  filter objects
  */
 
-TD.DataFilter.Filter = {
+TD.Filter = {
     init: function(config) {
         this.allowMultipleFields = config.allowMultipleFields || false;
         this.required = config.required || false;
@@ -274,7 +274,7 @@ TD.DataFilter.Filter = {
         this.node.find('ul.fields').append(elem);
         this.fields[field.id] = field;
         this.fieldCount++;
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
         return field;
     },
     bind: function(node) {
@@ -298,7 +298,7 @@ TD.DataFilter.Filter = {
             this.removeField(this.fields[fieldId]);
         }
         this.node.remove();
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     },
     removeField: function(field) {
         delete this.fields[field.id];
@@ -307,7 +307,7 @@ TD.DataFilter.Filter = {
         if (this.fieldCount === 0) {
             this.disable();
         }
-        TD.DataFilter.node.trigger('filterchange');
+        TD.activeFilter.node.trigger('filterchange');
     },
     render: function() {
         var content = '';
