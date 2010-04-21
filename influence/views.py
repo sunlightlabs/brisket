@@ -62,30 +62,38 @@ def organization_entity(request, entity_id):
     cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
-    candidate_recipients = api.candidate_recipients(entity_id, cycle=cycle)
+    org_recipients = api.org_recipients(entity_id, cycle=cycle)
+    #print org_recipients
+    recipients_barchart_data = []
+    for record in org_recipients:        
+        recipients_barchart_data.append({
+                'key': record['name'],
+                'value' : record['total_amount'],
+                # currently we only display politician recipients from
+                # orgs. this should be changed if we start returning
+                # org-to-org data.
+                'href' : "/politician/%s" % record['id'],
+                })
 
     party_breakdown = api.org_breakdown(entity_id, 'party', cycle)
-    for party, values in party_breakdown.iteritems():
-        party_breakdown[party] = values[1]
-    piechart_party = piechart(party_breakdown, "Republicans vs. Democrats ($)")
-
+    print party_breakdown
+    for key, values in party_breakdown.iteritems():
+        party_breakdown[key] = float(values[1])
     level_breakdown = api.org_breakdown(entity_id, 'level', cycle)
-    for party, values in level_breakdown.iteritems():
-        level_breakdown[party] = values[1]    
-    piechart_level = piechart(level_breakdown,"State vs. Federal ($)")
-
-    recipients_barchart = topn_barchart(candidate_recipients, 
-                                        label_key='name', data_key='total_amount')
+    print 'here!'
+    print level_breakdown
+    for key, values in level_breakdown.iteritems():
+        level_breakdown[key] = float(values[1])
 
     # fake us some sparkline data
-    amounts = [str(recipient['total_amount']) for recipient in candidate_recipients]
+    amounts = [str(recipient['total_amount']) for recipient in org_recipients]
     sparkline = timeline_sparkline(amounts)
     return render_to_response('organization.html', 
                               {'entity_id': entity_id, 
                                'entity_info': entity_info,
-                               'pie_chart_level' : piechart_level,
-                               'pie_chart_party' : piechart_party,
-                               'recipients_barchart': recipients_barchart,
+                               'level_breakdown' : level_breakdown,
+                               'party_breakdown' : party_breakdown,
+                               'recipients_barchart_data': recipients_barchart_data,
                                'sparkline': sparkline,
                                },
                               entity_context(request))
@@ -97,35 +105,39 @@ def politician_entity(request, entity_id):
     cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
-
     top_contributors = api.pol_contributors(entity_id, 'org, indiv', cycle=cycle)
+
+    # top sectors is already sorted
     top_sectors = api.top_sectors(entity_id, cycle=cycle)
+    sectors_barchart_data = []
+    for record in top_sectors:        
+        sectors_barchart_data.append({
+                'key': record['sector_code'],
+                'value' : record['amount'],
+                'href' : "/industry/%s" % record['sector_code'],
+                })
 
     local_breakdown = api.pol_breakdown(entity_id, 'local', cycle)
     for key, values in local_breakdown.iteritems():
-        local_breakdown[key] = values[1]    
-    piechart_local = piechart(local_breakdown,"In State vs. Out of State ($)")
+        # values is a list of [count, amount]
+        local_breakdown[key] = float(values[1])
 
     entity_breakdown = api.pol_breakdown(entity_id, 'entity', cycle)
     for key, values in entity_breakdown.iteritems():
-        entity_breakdown[key] = values[1]    
-    piechart_entity = piechart(entity_breakdown,"Individuals vs. PACs ($)")
-
-    sectors_barchart = topn_barchart(top_sectors, label_key='sector_code', 
-                                     data_key='amount')
-
-    print sectors_barchart
+        # values is a list of [count, amount]
+        entity_breakdown[key] = float(values[1])    
 
     # fake sparkline data
     amounts = [str(contributor['amount']) for contributor in top_contributors]
     sparkline = timeline_sparkline(amounts)
+
     return render_to_response('politician.html', 
                               {'entity_id': entity_id,
                                'entity_info': entity_info,
                                'top_contributors': top_contributors,
-                               'pie_chart_instate' : piechart_local,
-                               'pie_chart_source' : piechart_entity,
-                               'sectors_barchart': sectors_barchart,
+                               'local_breakdown' : local_breakdown,
+                               'entity_breakdown' : entity_breakdown,
+                               'sectors_barchart_data': sectors_barchart_data,
                                'sparkline': sparkline,
                                },
                               entity_context(request))
@@ -136,26 +148,26 @@ def individual_entity(request, entity_id):
     entity_info = api.entity_metadata(entity_id)    
     cycle = request.GET.get("cycle", 2010)
 
-    top_recipients = api.top_recipients(entity_id, cycle=cycle)
-    top_recipients_candidates = api.top_recipients(entity_id, cycle=cycle, 
-                                                   entity_types='politician')
-    top_recipients_pacs = api.top_recipients(entity_id, cycle=cycle, 
-                                             entity_types='pac')
-    candidates_barchart = topn_barchart(top_recipients_candidates, 
-                                        label_key = 'name', data_key = 'amount')
-    pacs_barchart = topn_barchart(top_recipients_pacs, 
-                                  label_key = 'name', data_key = 'amount')    
-    pie_chart_party = piechart(api.breakdown('recipients', 'party', cycle), 
-                                         "Republicans vs. Democrats")
-    amounts = [str(contributor['amount']) for contributor in top_recipients]
+    recipient_candidates = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='pol')
+    recipient_orgs = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='org')
+    candidates_barchart = topn_barchart(recipient_candidates, label_key = 'name', data_key = 'amount')
+    orgs_barchart = topn_barchart(recipient_orgs, label_key = 'name', data_key = 'amount')    
+    party_breakdown = api.indiv_breakdown(entity_id, 'party', cycle)
+    for key, values in party_breakdown.iteritems():
+        # values is a list of [count, amount]
+        party_breakdown[key] = values[1]    
+    piechart_party = piechart(party_breakdown, "Republicans vs. Democrats")
+
+    # fake sparkline data
+    amounts = [str(contributor['amount']) for contributor in recipient_candidates]
     sparkline = timeline_sparkline(amounts)
 
     return render_to_response('individual.html', 
                               {'entity_id': entity_id,
                                'entity_info': entity_info,
                                'candidates_barchart': candidates_barchart,
-                               'pacs_barchart': pacs_barchart,
-                               'pie_chart_party' : pie_chart_party, 
+                               'orgs_barchart': orgs_barchart,
+                               'pie_chart_party' : piechart_party, 
                                'sparkline': sparkline,                               
                                },
                               entity_context(request))
@@ -243,6 +255,8 @@ def timeline_sparkline(data_list):
     the time period represented by the '''
     if not len(data_list):
         return None
+    print 'sparkline data'
+    print data_list
     max_value = max([float(item) for item in data_list])
     scaling = "&chds=0,%f" % max_value
     data = "&chd=t:%s" % ','.join(data_list)
@@ -252,13 +266,8 @@ def timeline_sparkline(data_list):
 def raphael_demo(request):
     entity_id = "72dff1d2eacd4bf59283051f36ac4b61"
     api = AggregatesAPI()
-    fake_data = api.breakdown('contributors', 'party')
-    top_industries = api.top_industries(entity_id, cycle='2008')
-
-    # Convert fake data back to integers (this should be done in
-    # the API call instead if we decide to go with this solution). 
-    for k in fake_data.keys():
-        fake_data[k] = int(fake_data[k])
+    top_industries = api.top_sectors(entity_id, cycle='2008')
+    fake_data = {'label1': 77, 'label2': 23}
     return render_to_response('chart_demo.html',
                               {'data': fake_data,
                                'bar_data': top_industries,
