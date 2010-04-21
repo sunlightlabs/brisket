@@ -8,12 +8,12 @@ dl li{list-style: none;}
 
 a:link{outline: none; color: #046f8c; text-decoration: none;}
 a:visited{outline: none; color: #046f8c; text-decoration: none;}
-a:hover{outline: none; color: #046f8c; text-decoration: none;}
+a:hover{outline: none; color: #4B3905; text-decoration: none;}
 a:active{outline: none; color: #046f8c; text-decoration: none;}
 
-.clear{ clear: both;}
+/* self-clear floats ------------------------------------------*/
 
-/* self-clear floats */
+.clear{ clear: both;}
 
 .group:after {
 	content: ".";
@@ -23,7 +23,7 @@ a:active{outline: none; color: #046f8c; text-decoration: none;}
 	visibility: hidden;
 }
 
-/*header area*/
+/*header area----------------------------------------------------*/
 
 body{
 	color:#4B3905;
@@ -96,15 +96,16 @@ div.whiteboxRight {
 
 div.introbox {
 	background: #FFF url(../images/img-fade.png) top left repeat-x;
-	width: 610px;
-	padding: 40px 35px 30px 35px;
+	width: 580px;
+	padding: 30px;
 	border: solid 2px #A59C82;
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
 	display: block;
 	float: left;
+	margin-top: -2px;
 }
-div.introbox h4 { margin-top: 1em; }
+div.introbox h4 { margin-top: 10px; }
 
 #leftIntro {
 	width: 258px;
@@ -113,7 +114,7 @@ div.introbox h4 { margin-top: 1em; }
 
 #rightIntro {
 	float: right;
-	width: 280px;
+	width: 242px;
 }
 
 div#welcome {
@@ -140,8 +141,8 @@ h1 a{
 }
 
 h2, h1.title, .section h1{
-	font-family: "sorts-mill-goudy-1";
-	font-size: 200%;
+	font-family: "sorts-mill-goudy-1","sorts-mill-goudy-2",serif;
+	font-size: 180%;
 	border-bottom: 2px solid #98CA42;
 	padding-bottom: 10px;
 	margin-bottom: 10px;
@@ -195,12 +196,13 @@ h4 {
 }
 
 h5 {
-	background: url(../images/logo-sunlight-w.png) top left no-repeat;
+	background: url(../images/logo-sunlight.png) top left no-repeat;
 	display: block;
-	height: 92px;
-	width: 204px;
+	height: 52px;
+	width: 115px;
 	text-indent: -9999em;
 	float: left;
+	margin-right: 79px;
 }
 
 em { font-weight: bold; }
@@ -271,7 +273,7 @@ button.signIn:hover{
 	background: url(../images/signin-button.png) left -23px no-repeat;
 }
 
-/*navigation bar*/
+/*navigation bar----------------------------------------------*/
 
 div#nav{
 	background-color: #ECEBE6;
@@ -294,8 +296,8 @@ div#nav li{
 	padding: 5px 5px 8px 10px;
 }
 
-div#nav li a{
-	font-family:"ff-meta-web-pro-2";
+div#nav li a, #dataTabs li a{
+	font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",sans-serif;
 	display: block;
 	color: #4B3905;
 	font-weight: bold;
@@ -359,7 +361,81 @@ li.filter{
 	width: 258px;
 }
 
-/*single column*/
+/* dataTabs ---------------------------------------------------*/
+
+#dataTabs {
+	position: relative;
+	z-index: 1;
+}
+
+#dataTabs li {
+	display: block;
+	float: left;
+	background-color: #FFF;
+	border-top: 2px solid #A59C82;
+	border-left: 2px solid #A59C82;
+	border-right: 2px solid #A59C82;
+	-moz-border-radius-topleft: 5px; 
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-left-radius: 5px; 
+	-webkit-border-top-right-radius: 5px;
+}
+
+#dataTabs li a {
+	padding: 10px;
+}
+
+#dataTabs a.inactiveTab:hover {
+	background-color: #FFF;
+}
+
+#contribution {
+	margin-left: 10px;
+}
+
+.activeTab {
+	border-bottom: 2px solid #FFF;
+}
+
+.inactiveTab {
+	background-color: #DBD7CD;
+}
+
+body.filteredSearch #dataTabs {
+	position: static;
+	z-index: 0;
+	width: auto;
+	border-bottom: 2px solid #A59C82;
+	height: 42px;
+	margin-top: 20px;
+}
+
+body.filteredSearch #dataTabs li {
+	margin-bottom: 30px;
+}
+
+body.filteredSearch #contribution {
+	margin-left: 25px;
+}
+
+body.filteredSearch .activeTab {
+	background-color: #ECEBE6;
+	border-bottom: 2px solid #ECEBE6;
+	position: relative;
+	z-index: 1;
+}
+
+body.filteredSearch a.activeTab:hover {
+	background-color: #ECEBE6;
+}
+
+body.filteredSearch .inactiveTab {
+	border-bottom: 2px solid #A59C82;
+}
+
+
+
+/*single column-------------------------------------------------*/
 
 div.mainBody {
 	width: 860px;
@@ -385,13 +461,12 @@ a#getStarted:hover{
 }
 
 
-/*left column body*/
+/*left column body-----------------------------------------------*/
 
 div#leftColumn, div#leftColumnFields {
-	width: 258px;
+	width: 275px;
 	float: left;
 	margin-left: 15px;
-	margin-right: 15px;
 }
 
 div#leftColumnLarge {
@@ -642,7 +717,7 @@ p.partner a {
     text-indent: -9999em;
     display: block;
     float: left;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 ul#bulkResult li{
@@ -712,27 +787,28 @@ a#openSecrets {
 	background: url(../images/logo_opensecrets_color.png) top left no-repeat;
 	width: 138px;
 	height: 52px;
-	margin-right: 30px;
+	margin-right: 78px;
 }
 
 a#nimsp {
 	background: url(../images/nimsp-logo.png) top left no-repeat;
 	width: 86px;
 	height: 67px;
+	margin-right: 78px;
 }
 
 #intro {
 	font-size: 120%;
 	line-height: 175%;
+	margin-top: 10px;
 }
 
-/*right column body*/
+/*right column body---------------------------------------*/
 
 div#rightColumn {
-	width:647px;
+	width:640px;
 	float: left;
-	margin-left: 15px;
-	padding-right: 10px;
+	margin-left: 25px;
 }
 
 div#rightColumnSmall {
@@ -745,7 +821,7 @@ div#rightColumnSmall {
 
 body.filteredSearch div#rightColumn {
 	float: none;
-	margin-left: 300px;
+	margin-left: 330px;
 	min-width: 54em;
 	width: auto;
 }
@@ -953,36 +1029,36 @@ span.newpass {
 	float: left;
 }
 
-/* footer */
+/* footer ------------------------------------------------------*/
 
-div#footerWrapper {
+#footerContainer{
 	border-top: 2px solid #71CEF5;
-	margin: 30px auto -150px;
-	
-}
-
-div#footerContainer{
-	background-color: #4A3905;
-	height: 150px;
+	background-color: #C9C4B4;
+	height: 125px;
+	margin-top: 30px;
 		
 }
 
-div#footer {
+#footer {
 	margin: 0 auto;
 	width: 960px;
+	padding-left: 15px;
 	padding-top: 30px;
 }
 
-p#bottomText {
-	color: #FFF;
-	font-size: 90%;
+p#footerText {
+	font-size: 95%;
 	line-height: 150%;
+	color: #4B3905;
 	text-align: justify;
 	display: block;
-	width: 675px;
+	width: 380px;
 	float: left;
-	padding-top: 15px;
-	padding-left: 30px;
+}
+
+#footerText a {
+	font-style: italic;
+	font-weight: bold;
 }
 
 .dialog#downloading {
