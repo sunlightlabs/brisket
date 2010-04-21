@@ -1,4 +1,5 @@
 * colours are not working for single valued piecharts
+* add percent values back into pie chart labels
 * make label links underlined/styled differently on barchart
 * add raphael to individuals' page
 * add labels to barchart

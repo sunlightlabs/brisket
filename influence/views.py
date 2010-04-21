@@ -149,14 +149,27 @@ def individual_entity(request, entity_id):
     cycle = request.GET.get("cycle", 2010)
 
     recipient_candidates = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='pol')
+    candidates_barchart_data = []
+    for record in recipient_candidates:        
+        candidates_barchart_data.append({
+                'key': record['name'],
+                'value' : record['amount'],
+                'href' : "/politician/%s" % record['id'],
+                })
+
     recipient_orgs = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='org')
-    candidates_barchart = topn_barchart(recipient_candidates, label_key = 'name', data_key = 'amount')
-    orgs_barchart = topn_barchart(recipient_orgs, label_key = 'name', data_key = 'amount')    
+    orgs_barchart_data = []
+    for record in recipient_orgs:        
+        orgs_barchart_data.append({
+                'key': record['name'],
+                'value' : record['amount'],
+                'href' : "/organization/%s" % record['id'],
+                })
+
     party_breakdown = api.indiv_breakdown(entity_id, 'party', cycle)
     for key, values in party_breakdown.iteritems():
         # values is a list of [count, amount]
         party_breakdown[key] = values[1]    
-    piechart_party = piechart(party_breakdown, "Republicans vs. Democrats")
 
     # fake sparkline data
     amounts = [str(contributor['amount']) for contributor in recipient_candidates]
@@ -165,9 +178,9 @@ def individual_entity(request, entity_id):
     return render_to_response('individual.html', 
                               {'entity_id': entity_id,
                                'entity_info': entity_info,
-                               'candidates_barchart': candidates_barchart,
-                               'orgs_barchart': orgs_barchart,
-                               'pie_chart_party' : piechart_party, 
+                               'candidates_barchart_data': candidates_barchart_data,
+                               'orgs_barchart_data': orgs_barchart_data,
+                               'party_breakdown' : party_breakdown, 
                                'sparkline': sparkline,                               
                                },
                               entity_context(request))
@@ -190,65 +203,6 @@ def industry_detail(request, entity_id):
                                'sectors': sectors,
                                },
                               entity_context(request))
-
-
-def topn_barchart(data_list, label_key, data_key, n=5):
-    ''' generates a horizontal bargraph of aggregate contribution data
-    for the top n items in the list, where each item is a
-    dict. label_key specifies the key to be used for the labels, and
-    data_key for the data. '''
-    if not data_list:
-        return None
-    max_value = max([float(item[data_key]) for item in data_list])
-
-    # 
-    data_list = data_list[0:n]
-
-    # compile the query parameters as tuples which will be urlencoded
-    # before being appended to the chart url.
-    chart_type = ("cht", "bhs")
-    chart_size = ("chs", "250x150")
-    bar_size = ("chbh", "a")
-    scaling = ("chds", "0,%f" % max_value)
-    marker_axis = ("chxt", "y")
-    marker_text = ("chxl", "0:|%s" % '|'.join([item[label_key] for item in data_list]))
-    marker_style = ("chm", "N*cUSD*,000000,0,-1,11,0")
-    label_style = ("chxs", "0,000000,11")
-    data = ("chd","t:%s" % ','.join([str(item[data_key]) for item in data_list]))
-    base_url = "http://chart.apis.google.com/chart?"
-    query_params = (chart_type, chart_size, bar_size, scaling, marker_axis, marker_text,
-                    marker_style, label_style, data)
-    url = base_url + urllib.urlencode(query_params)
-    return url
-
-def piechart(data_dict, title=None):
-    ''' produces a pie chart showing breakdown by category from either
-    contributions or recipients information. the value contained in
-    data_dict are expected to be STRINGS, representing percents
-    (eg. between 0 and 100) '''
-
-    for k,v in data_dict.iteritems():
-        data_dict[k] = float(v)        
-    # calculate each value as a percent of all values, and then
-    # convert it to a string for url formatting.
-    chart_data = [str(val/sum(data_dict.values())) for val in data_dict.values()]
-
-    legend_text = []
-    for i in xrange(len(data_dict)):
-        # build a legend item for each slice in the pie, showing
-        # titles and the values as percents, rounding to the nearest
-        # whole percent.
-        legend_text.append("%s (%s%%)" % (data_dict.keys()[i], int(round(float(chart_data[i])*100))))
-
-
-    legend = "&chdl=%s" % '|'.join(legend_text)
-    data = "&chd=t:%s" % ','.join(chart_data)
-    url = "http://chart.apis.google.com/chart?cht=p&chs=250x150"+data+legend
-    if title:
-        chart_title = "&chtt=%s" % title
-        url = url+chart_title
-    return url
-
 
 def timeline_sparkline(data_list):
     ''' generates a sparkline of contributions given or received over
