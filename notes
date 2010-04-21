@@ -1,12 +1,16 @@
-* individuals page
-* details page with subsectors
-* organizations page with top candidates they contributed to. 
-* test organizations page
+* colours are not working for single valued piecharts
+* make label links underlined/styled differently on barchart
+* add raphael to individuals' page
+* add labels to barchart
+* add individuals and pac totals to top org table on pol page. 
+
 * the cycle argument should persist when you follow a link from a page
   already displaying a specific cycle.
-* pac pages?
+* details page
 * make sure limit keyword works with top contrib/recipient calls
 * sort search results by decreasing contrib. 
+* decide on what to do for pages that have empty result sets for specific calls. 
+* make barcharts display top 5 and then "other"
 
 * add db tables to resolve industry and sector IDs to names
 * brisket API wrapper needs to reflect new API calls. 

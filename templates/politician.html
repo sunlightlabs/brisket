@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
+{% block extrajs %}
+<script type="text/javascript" charset="utf-8"> 
+  window.onload = function () {
+  piechart("piechart_local", {{ local_breakdown|safe }}, "In State vs. Out of State");
+  piechart("piechart_entity", {{ entity_breakdown|safe }}, "Individuals vs. PACs");  
+  barchart("sectors_barchart", {{ sectors_barchart_data|safe }}, "Industry Sectors");  
+  }
+
+</script>
+
+{% endblock %}
+
 {% block main %}
 
 <h1>{{ entity_info.name }}</h1>
@@ -40,25 +52,19 @@
 </div>
 
 <div id="charts">
-  <div id="industry_barchart">
-    {% if contributors_barchart %} 
-    <b>Industry Sectors</b>
-    <img src="{{ contributors_barchart }}">
-    {% else %}
-    <b>Barchart: No Data</b>
-    {% endif %}
-
+  <div id="sectors_barchart">
+      <!-- raphael charts -->
   </div>
 
   <div class="piechart">
-    <div id="piechart_instate">      
-      <img src ="{{ pie_chart_instate }}">
+    <div id="piechart_local">            
+      <!-- raphael charts -->
     </div>
   </div>
 
   <div class="piechart">
-    <div id="piechart_source">
-      <img src ="{{ pie_chart_source }}">
+    <div id="piechart_entity">
+      <!-- raphael charts -->
     </div>
   </div>
 </div>
@@ -66,9 +72,11 @@
 <div id="top_contributors">
   <table>
     <thead>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Total Given</th>
+      <tr>
+	<th>Name</th>
+	<th>Type</th>
+	<th>Total Given</th>
+      </tr>
     </thead>
     <tbody>
       {% for row in top_contributors %}
@@ -76,7 +84,7 @@
 	{% if row.id %}
 	<td><a href="/{{ row.type }}/{{ row.id }}">{{ row.name }}</a></td>
 	{% else %}
-	<td>{{ row.name }}</a></td>
+	<td>{{ row.name }}</td>
         {% endif %} 
 	<td>{{ row.type }} </td>
 	<td>{{ row.amount }}</td>

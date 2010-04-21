@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
+{% block extrajs %}
+<script type="text/javascript" charset="utf-8"> 
+  window.onload = function () {
+  piechart("piechart_level", {{ level_breakdown|safe }}, "State vs. Federal");
+  piechart("piechart_party", {{ party_breakdown|safe }}, "Republicans vs. Democrats");  
+  barchart("recipients_barchart", {{ recipients_barchart_data|safe }}, "Top Recipients");  
+  }
+
+</script>
+
+{% endblock %}
+
+
 {% block main %}
 
 <h1>{{ entity_info.name }}</h1>
@@ -40,24 +53,19 @@
 </div>
 
 <div id="charts">
-  <div id="candidates_barchart">
-    {% if recipients_barchart %} 
-    <b>Top Recipients</b><br>
-    <img src="{{ recipients_barchart }}">
-    {% else %}
-    <b>Barchart: No Data</b>
-    {% endif %}
+  <div id="recipients_barchart">
+    <!-- raphael charts here -->
   </div>
 
   <div class="piechart">
     <div id="piechart_party">      
-      <img src ="{{ pie_chart_party }}">
+      <!-- raphael charts here -->
     </div>
   </div>
 
   <div class="piechart">
     <div id="piechart_level">
-      <img src ="{{ pie_chart_level }}">
+      <!-- raphael charts here -->
     </div>
   </div>
 </div>

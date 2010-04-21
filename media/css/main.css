@@ -46,23 +46,23 @@
     min-height: 200px;
 }
 
-#industry_barchart, #candidates_barchart {
+#sectors_barchart, #recipients_barchart {
     width: 400px;
-    height: 150px;
+    height: 200px;
     float: left;
     padding-left: 20px;
 }
 
-#piechart_instate {
+#piechart_local {
 }
 
-#piechart_source {
+#piechart_entity {    
 }
 
-#piecechart_party {
+#piechart_party {
 }
 
-#piecechart_level {
+#piechart_level {
 }
 
 #amount_given, #amount_received {    
@@ -77,6 +77,8 @@
 
 .piechart {
     float: right;
+    height: 150px;
+    width: 350px;
 }
 
 #block_nav {

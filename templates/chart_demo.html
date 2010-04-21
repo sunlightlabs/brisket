@@ -23,7 +23,7 @@
     "{{ label }} (%%)",
     {% endfor %}
     ],
-    legendpos: "west", 
+    legendpos: "east", 
     href: ["/", "/"]
     });
 
@@ -46,6 +46,8 @@
     }
     });    
 
+    ///////////////////////////////////////
+
     var b = Raphael("bar-chart");
     b.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";    
     b.g.text(320, 100, "Brisket Bar Chart").attr({"font-size": 20});
@@ -60,7 +62,7 @@
 
     labels = [];
     {% for x in bar_data %}
-    labels.push("<a href=''>{{ x.category_name }}{{ x.category_name }}{{ x.category_name }}{{ x.category_name }}{{ x.category_name }}{{ x.category_name }}</a>");
+    labels.push("{{ x.sector_code }}{{ x.sector_code }}{{ x.sector_code }}");
     {% endfor %}
 
     var data = [
@@ -82,8 +84,14 @@
     // pass in labels NOT inside another array
     barchart.label([labels], false);    
 
+    // add links to the labels
+    for (var i=0; i< barchart.labels.length; i++) {
+      barchart.labels[i].attr({'href': 'http://www.google.com'})
+    }
+
     /* figure out the longest label text and move the chart over by
-    that amount. */
+    that amount. so the labels are beside and not on top of the
+    chart. */
     var far_right = 0;
     for (var i = 0; i < labels.length; i++) {
 	bb = barchart.labels[i].getBBox();
