@@ -4,6 +4,12 @@
 {% block sidebar %}
 	<h4>Welcome</h4> 
 	<h2>to Transparency Data</h2>
+	<object width="275" height="180" id="screencast">
+			<param name="movie" value="http://www.youtube.com/v/pf0kRYHiwi0&hl=en_US&fs=1&rel=0"></param>
+			<param name="allowFullScreen" value="true"></param>
+			<param name="allowscriptaccess" value="always"></param>
+			<embed src="http://www.youtube.com/v/pf0kRYHiwi0&hl=en_US&fs=1&rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="275" height="180"></embed>
+		</object>
 	<p id="intro">
 	    Transparency Data is a central source for all <b>federal and state campaign contributions</b> made in the last twenty years.
 	    Here you can begin your search, find the information you need and then download records of what a <b>candidate</b> has received, what an <b>individual</b> has given, and how much <b>companies and their employees</b> have given.
@@ -11,16 +17,15 @@
 {% endblock %}
 
 {% block content %}
-    <div class="introbox">
-		
-		<object width="560" height="340" id="screencast">
-			<param name="movie" value="http://www.youtube.com/v/pf0kRYHiwi0&hl=en_US&fs=1&rel=0"></param>
-			<param name="allowFullScreen" value="true"></param>
-			<param name="allowscriptaccess" value="always"></param>
-			<embed src="http://www.youtube.com/v/pf0kRYHiwi0&hl=en_US&fs=1&rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="560" height="340"></embed>
-		</object>
-		
-		<h4>Get Your Search Started</h4>
+	<div id="dataTabs">
+		<ul>
+			<li id="contribution"><a href="#" class="activeTab">Contribution Data</a></li>
+			<li id="lobbying"><a href="#" class="inactiveTab">Lobbying Data</a></li>
+			<li id="contracting"><a href="#" class="inactiveTab">Contracting Data</a></li>
+		</ul>
+	</div>
+	<div class="introbox">
+		<h4>Search Contribution Data</h4>
 		<div id="leftIntro">
 			<p class="introText">Have a specific committee, recipient or date in mind? Add some filters below to search them</p>
 			<h3>Search for</h3>
@@ -37,11 +42,7 @@
 			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
 			<a id="previewData" href="#">Preview Data</a>
 			
-		    <p class="partner">
-		        <a id="openSecrets" href="http://opensecrets.org"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
-		        <a id="nimsp" href="http://followthemoney.org"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
-		        <div class="clear"></div>
-		    </p>
+		    
 			
 		</div> <!-- end rightIntro -->
 	</div> <!-- end introbox -->

@@ -2,9 +2,22 @@
 
 {% block bodyclass %}filteredSearch{% endblock %}
 
+{% block content_container %}
+	<div id="dataTabs">
+		<ul>
+			<li id="contribution"><a href="#" class="activeTab">Contribution Data</a></li>
+			<li id="lobbying"><a href="#" class="inactiveTab">Lobbying Data</a></li>
+			<li id="contracting"><a href="#" class="inactiveTab">Contracting Data</a></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+	{{ block.super }}
+{% endblock %}
+
 {% block sidebar %}
-    <div id="datafilter" class="module">
-		<h2>Search for</h2>
+	
+	<div id="datafilter" class="module">
+		<h2>Search Contribution Data for</h2>
 		<span class="helper">Add additional fields to refine your search.</span>
 		<form>
 			<select id="filterselect">
@@ -13,12 +26,7 @@
 			<ul id="filters"></ul>
 		</form>
 	</div>
-    <div class="module partner">
-        <h2>Partnered With</h2>
-        <a id="openSecrets" href="http://opensecrets.org"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a>
-        <a id="nimsp" href="http://followthemoney.org"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a>
-        <div class="clear"></div>
-    </div>
+    
 {% endblock %}
 
 {% block content %}
