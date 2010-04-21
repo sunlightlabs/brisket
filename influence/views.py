@@ -105,7 +105,7 @@ def politician_entity(request, entity_id):
     cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
-    top_contributors = api.pol_contributors(entity_id, 'org, indiv', cycle=cycle)
+    top_contributors = api.pol_contributors(entity_id, 'org', cycle=cycle)
 
     # top sectors is already sorted
     top_sectors = api.top_sectors(entity_id, cycle=cycle)
@@ -128,7 +128,7 @@ def politician_entity(request, entity_id):
         entity_breakdown[key] = float(values[1])    
 
     # fake sparkline data
-    amounts = [str(contributor['amount']) for contributor in top_contributors]
+    amounts = [str(contributor['total_amount']) for contributor in top_contributors]
     sparkline = timeline_sparkline(amounts)
 
     return render_to_response('politician.html', 

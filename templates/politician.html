@@ -74,20 +74,22 @@
     <thead>
       <tr>
 	<th>Name</th>
-	<th>Type</th>
-	<th>Total Given</th>
+	<th>Direct Contributions</th>
+	<th>Employee Contributions</th>
+	<th>Total</th>
       </tr>
     </thead>
     <tbody>
       {% for row in top_contributors %}
       <tr>
 	{% if row.id %}
-	<td><a href="/{{ row.type }}/{{ row.id }}">{{ row.name }}</a></td>
+	<td><a href="/organization/{{ row.id }}">{{ row.name }}</a></td>
 	{% else %}
 	<td>{{ row.name }}</td>
         {% endif %} 
-	<td>{{ row.type }} </td>
-	<td>{{ row.amount }}</td>
+	<td>{{ row.direct_amount }} </td>
+	<td>{{ row.employee_amount }}</td>
+	<td>{{ row.total_amount }}</td>
       </tr>
       {% endfor %}
     </tbody>
