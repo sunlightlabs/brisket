@@ -1,6 +1,3 @@
-* make label links underlined/styled differently on barchart
-* add labels to barchart
-
 * the cycle argument should persist when you follow a link from a page
   already displaying a specific cycle.
 * details page
