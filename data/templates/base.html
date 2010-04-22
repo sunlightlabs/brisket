@@ -26,6 +26,17 @@
 		<script src="http://services.sunlightlabs.com/brandingbar/hat_js/transparencydata/" type="text/javascript"></script> 
     </head>
     <body id="{% block bodyid %}transparencydata{% endblock %}" class="{% block bodyclass %}{% endblock %}">
+		<script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+			try {
+				var pageTracker = _gat._getTracker("UA-1265484-52");
+				pageTracker._setDomainName(".transparencydata.com");
+				pageTracker._trackPageview();
+			} catch(err) {}
+		</script>
         <div id="headerWrapper">
             <div id="headerContainer">
                 <div id="header">
@@ -70,22 +81,13 @@
 			    <div class="clear"></div>
 			</div> <!-- end footer -->
 		</div> <!-- end footerContainer -->
-		<script type="text/javascript">
-			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		<script type="text/javascript">
-			try {
-				var pageTracker = _gat._getTracker("UA-1265484-52");
-				pageTracker._setDomainName(".transparencydata.com");
-				pageTracker._trackPageview();
-			} catch(err) {}</script>
         <script type="text/javascript" src="http://use.typekit.com/plg0bms.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		<!--
 		<script type="text/javascript" charset="utf-8">
-		  var is_ssl = ("https:" == document.location.protocol);
-		  var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-		  document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+			var is_ssl = ("https:" == document.location.protocol);
+		  	var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
 		</script>
 		<script type="text/javascript" charset="utf-8">
 			var feedback_widget_options = {};
@@ -95,5 +97,6 @@
 			feedback_widget_options.color = "#222";
 			feedback_widget_options.style = "question";var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 		</script>
+		-->
     </body>
 </html>

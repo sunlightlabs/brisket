@@ -19,9 +19,10 @@ $().ready(function() {
     TD.ContributionFilter.preview = function() {
         if ($('#mainTable').length > 0) {
             if (!this.shouldUseBulk()) {
+                var that = this;
                 var params = this.values();
                 var qs = TD.Utils.toQueryString(params);
-                TD.Utils.setAnchor(qs);
+                TD.HashMonitor.setAnchor(qs);
                 this.previewNode.removeClass('enabled');
                 $('div#tableScroll').hide();
                 $('div#nodata').hide();
@@ -57,7 +58,7 @@ $().ready(function() {
                     if (data.length < 30) {
                         $('span#recordCount').html(data.length);
                     } else {
-                        $.get(this.countPath, params, function(data) {
+                        $.get(that.countPath, params, function(data) {
                             $('span#recordCount').html(data);
                         });
                     }
@@ -560,9 +561,9 @@ $().ready(function() {
             ]
         });
         
-        var anchor = TD.Utils.getAnchor();
+        var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.Utils.setAnchor('for_against=for&cycle=2010');
+            TD.HashMonitor.setAnchor('for_against=for&cycle=2010');
             this.loadHash();
         }
         
