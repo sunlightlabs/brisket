@@ -1,5 +1,6 @@
 * the cycle argument should persist when you follow a link from a page
   already displaying a specific cycle.
+* change links to include human readable entity name [1]
 * details page
 * make sure limit keyword works with top contrib/recipient calls
 * sort search results by decreasing contrib. 
@@ -18,3 +19,14 @@
 * add support for all/multiple election cycles?
 
 
+[1] ----------------------------------------
+Clay requested that the name of the entity be visible in the
+URL. Jeremy suggested that this would be easy to do by redirecting
+from the standard http://brisket.com/politician/abcd1234.... to
+http://brisket.com/politician/Al_Franken/abcd1234...
+
+As long as the entity ID is there, the name wouldn't be meaningful to
+the server--it's just there for the user. And if the entity ID isn't
+on the end, then we can treat the name simply as a search. If there's
+only one result, then we can go straight to that page.
+ ----------------------------------------

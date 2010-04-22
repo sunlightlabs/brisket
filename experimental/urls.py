@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 
-urlpatterns = patterns('brisket.influence.views',
+urlpatterns = patterns('brisket.experimental.views',
     url(r'^search', 'search', name='search'),                       
 
     # detail pages                       

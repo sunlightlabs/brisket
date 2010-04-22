@@ -81,7 +81,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'brisket.influence',
+    'brisket.experimental'
 )
+
+# use file-backed sessions while in development. the default location
+# for file-backed sessions is tempfile.gettempdir(), most likely /tmp.
+# this can be customized with the SESSION_FILE_PATH variable either
+# here or in local_settings.py.
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 
 try:
     from local_settings import *
