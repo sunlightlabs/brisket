@@ -46,7 +46,7 @@
     min-height: 200px;
 }
 
-#sectors_barchart, #recipients_barchart {
+#sectors_barchart, #recipients_barchart, #orgs_barchart {
     width: 400px;
     height: 200px;
     float: left;

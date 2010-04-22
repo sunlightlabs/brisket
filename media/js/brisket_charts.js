@@ -32,6 +32,10 @@ function piechart(div, data, chart_title) {
     this.label[0].stop();
     this.label[0].scale(1.5);
     this.label[1].attr({"font-weight": 800});
+//    this.sector.flag
+//    this.tag = this.tag || r.g.tag(this.x, this.y, this.value, 0, this.r + 2).insertBefore(this);
+//   this.tag.show();
+
     }
     }, function () {
     this.sector.animate({scale: [1, 1, this.cx,
@@ -39,25 +43,33 @@ function piechart(div, data, chart_title) {
     if (this.label) {
     this.label[0].animate({scale: 1}, 500,
     "bounce");
-    this.label[1].attr({"font-weight": 400});
+//    this.label[1].attr({"font-weight": 400});
+//    this.tag && this.tag.hide();
     }
     });
 }
 
-function barchart(div, data, chart_title) {
+function barchart(div, data, chart_title, limit) {
     // expects data to be a list of dicts each with keys called key,
     // value, and link.
     b = Raphael(div);
     b.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
     b.g.text(150, 10, chart_title).attr({"font-size": 15});
 
+  /*
     var fin = function () {
-    this.flag = r.g.popup(this.bar.x, this.bar.y,this.bar.value || "0").insertBefore(this);
+    this.flag = b.g.label(this.bar.x, this.bar.y,this.bar.value || "0").insertBefore(this);
     };
 
     var fout = function () {
     this.flag.animate({opacity: 0}, 300, function () { this.remove();});
     };
+
+*/
+
+  if (limit && limit < data.length) {
+    data= data.slice(0,limit);
+  }
 
     data_values = [];
     for (i in data) {
@@ -85,7 +97,7 @@ function barchart(div, data, chart_title) {
        supports multiple data series so expects an array of arrays,
        even for just one data series. Else it will treat each data
        point as one series. */
-    var barchart = b.g.hbarchart(10,20, 250, 150, [data_values], opts);
+  var barchart = b.g.hbarchart(10,20, 250, 150, [data_values], opts);
 
     // pass in labels array inside another array
     barchart.label([data_labels], false);
@@ -94,6 +106,7 @@ function barchart(div, data, chart_title) {
     for (var i=0; i< barchart.labels.length; i++) {
       barchart.labels[i].attr({'href': data_hrefs[i] })
     }
+    barchart.labels.attr({stroke: "#666", 'font-weight': 1000});
 
     /* add text markers (which unfortunately uses a method called
        'label' just to confuse you) */
@@ -102,12 +115,12 @@ function barchart(div, data, chart_title) {
     for (var i=0; i< barchart.bars[0].length; i++) {
 	x = barchart.bars[0][i].x;
 	y = barchart.bars[0][i].y;
-	text = barchart.bars[0][i].value;
-	marker = b.g.label(x,y,text);
+	text = '$'+barchart.bars[0][i].value;
+	marker = b.g.text(x,y,text);
 	s.push(marker);
     };
-    s.attr({fill: "#ccc", stroke: "#000", translation: "150"});
-    //alert(s.length);
+    s.attr({stroke: "#333", translation: "140,0"});
+
 
     /* figure out the longest label text and move the chart over by
     that amount. so the labels are beside and not on top of the
