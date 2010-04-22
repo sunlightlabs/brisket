@@ -20,7 +20,7 @@ $().ready(function() {
             if (!this.shouldUseBulk()) {
                 var params = this.values();
                 var qs = TD.Utils.toQueryString(params);
-                TD.Utils.setAnchor(qs);
+                TD.HashMonitor.setAnchor(qs);
                 this.previewNode.removeClass('enabled');
                 $('div#tableScroll').hide();
                 $('div#nodata').hide();
@@ -135,9 +135,9 @@ $().ready(function() {
             ]
         });
 
-        var anchor = TD.Utils.getAnchor();
+        var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.Utils.setAnchor('year=2010');
+            TD.HashMonitor.setAnchor('year=2010');
             this.loadHash();
         }
         

@@ -75,10 +75,12 @@
 			$('#dataTabs li a').bind('click', function() {
 				var df = $(this).attr('class');
 				$('body').attr('id', df);
-				TD.Utils.setAnchor('');
+				TD.HashMonitor.setAnchor('');
 				if (df == 'contributions') {
+					TD.activeFilter = TD.ContributionFilter;
 					TD.ContributionFilter.loadHash();
 				} else if (df == 'lobbying') {
+					TD.activeFilter = TD.LobbyingFilter;
 					TD.LobbyingFilter.loadHash();
 				}
 				return false;
@@ -88,7 +90,7 @@
 			TD.LobbyingFilter.bindPreview('#lobbyingPreviewButton');
 		    TD.LobbyingFilter.init();
 		
-			TD.Utils.setAnchor('');
+			TD.HashMonitor.setAnchor('');
 
 			TD.ContributionFilter.bindDataFilter('#contributionDataFilter');
 			TD.ContributionFilter.bindPreview('#contributionPreviewButton');
@@ -97,7 +99,7 @@
 		    TD.activeFilter = TD.ContributionFilter;
 		
 			TD.init();
-			TD.Utils.setAnchor(null);
+			TD.HashMonitor.setAnchor(null);
 		});
 		
 	</script>
