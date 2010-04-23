@@ -18,8 +18,8 @@
     <script src="/media/js/g.bar.jeremi.js" type="text/javascript"
             charset="utf-8"></script> 
     <script src="/media/js/brisket_charts.js" type="text/javascript"
-            charset="utf-8"></script>     
-    <script src="/media/js/experimental.js" type="text/javascript"
+            charset="utf-8"></script>
+    <script src="/media/js/network_graph.js" type="text/javascript"
             charset="utf-8"></script> 
     <title>{% block pagetitle %}Trail Blazer{% endblock %}</title>
 
@@ -40,7 +40,7 @@
     {% block header %}
     <div id="block_header">
       <div id="main_search">
-      <form action="/experimental/search" method="get">
+      <form action="/search" method="get">
 	{{ search_form.as_p }}
 	<input type="submit" value="Search Entities" />
       </form>

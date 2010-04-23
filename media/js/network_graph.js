@@ -19,8 +19,8 @@ function network_graph(div, network) {
       x = x + spacing*radius;
       var x_start = x;
       var y_start = y;
-      r.circle(x_start, y_start, radius).attr({"fill": "#ff9900"});
-      r.text(x_start,y_start, start_node);
+      r.circle(x_start, y_start, radius).attr({"fill": "#ff9900"}).mouseover(function() { this.animate({"fill": "#ff6600"}, 200)}).mouseout(function() { this.animate({"fill": "#ff9900"}, 200)});
+      r.text(x_start,y_start-1.5*radius, start_node);
       drawn[start_node] = [x_start, y_start];
       new_start = true;
     }
@@ -34,8 +34,8 @@ function network_graph(div, network) {
       x = x + spacing*radius;
       var x_end = x;
       var y_end = y;
-      r.circle(x_end, y_end, radius).attr({"fill": "#ff9900"});
-      r.text(x_end, y_end, end_node);
+      r.circle(x_end, y_end, radius).attr({"fill": "#ff9900"}).mouseover(function() { this.animate({"fill": "#ff6600"}, 200)}).mouseout(function() { this.animate({"fill": "#ff9900"}, 200)});
+      r.text(x_end, y_end-1.5*radius, end_node);
       drawn[end_node] = [x_end, y_end];
       new_end = true;
     }
@@ -46,13 +46,7 @@ function network_graph(div, network) {
 
     x_control = (x_end+x_start)/2;
     y_control = y+60;
-    r.path("M"+x_start+','+y_start+' S'+x_control+','+y_control+' '+x_end+','+y_end);
-
-    // update x position
-//    if (new_start && new_end) {
-//      alert ("increasing spacing");
-//      x = x_end + spacing*radius;
-//    }
+    r.path("M"+x_start+','+y_start+' S'+x_control+','+y_control+' '+x_end+','+y_end).toBack();
 
   }
 }

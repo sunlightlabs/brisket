@@ -19,8 +19,19 @@
             charset="utf-8"></script> 
     <script src="/media/js/brisket_charts.js" type="text/javascript"
             charset="utf-8"></script> 
+    <script src="/media/js/network_graph.js" type="text/javascript"
+            charset="utf-8"></script> 
+
     <title>{% block pagetitle %}Trail Blazer{% endblock %}</title>
     
+    <script type="text/javascript" charset="utf-8">
+      {% if network %} 
+      window.onload = function() {
+        network_graph("network_diagram", {{network|safe}});
+      }
+      {% endif %}
+    </script>
+
     {% block extrajs %}
     {% endblock %}
 
@@ -40,6 +51,11 @@
 
     {% block nav %}
     <div id="block_nav">
+    </div>
+    {% endblock %}
+
+    {% block network %}
+    <div id="network_diagram">
     </div>
     {% endblock %}
 

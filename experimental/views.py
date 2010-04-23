@@ -22,9 +22,9 @@ except:
 # FOR EXPERIMENTAL ONLY! anything served via a view from this file
 # will look here for it's template files, without having to manually
 # change the urls for every template file.
-settings.TEMPLATE_DIRS = (
-    os.path.join(settings.PROJECT_ROOT, 'templates/experimental'),
-)
+#settings.TEMPLATE_DIRS = (
+#    os.path.join(settings.PROJECT_ROOT, 'templates/experimental'),
+#)
 
 
 class InfluenceNetwork(object):
@@ -32,7 +32,7 @@ class InfluenceNetwork(object):
         self.network = nx.DiGraph()
         self.current_entity = None
 
-    def add(self, entity_id):
+    def add(self, entity_id, weight=None):
         # add a node for this entty, and an edge between this entity
         # and the previous (current) entity. then mark this entity as
         # the current entity. 
@@ -42,7 +42,7 @@ class InfluenceNetwork(object):
             return
         self.network.add_node(str(entity_id))
         if self.current_entity:
-            self.network.add_edge(str(self.current_entity), str(entity_id))
+            self.network.add_edge(str(self.current_entity), str(entity_id), weight)            
         self.current_entity = str(entity_id)        
         # eventually use an actual entity object that stores more info
         # about each entity.
@@ -90,8 +90,9 @@ def graph_test(request):
         print 'new_entity'
         # add the new entity to the Influence Network
         new_id = request.GET.get('id')
+        weight = request.GET.get('weight')
         inf = request.session.get('influence_network', InfluenceNetwork())
-        inf.add(new_id)
+        inf.add(new_id, weight)
         print inf
         request.session['influence_network'] = inf
     return render_to_response('graph.html', entity_context(request))

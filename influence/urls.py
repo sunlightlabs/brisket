@@ -18,6 +18,9 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^individual/(?P<entity_id>.+)', 'individual_entity', 
         name='politician_entity'),                       
 
+    # utility
+    url(r'^reset$', 'clear_network', name='clear_network'),                       
+
     # make sure this goes after the more specific urls or it will
     # match before the others get hit.
     url(r'^', 'index', name='index'),                       

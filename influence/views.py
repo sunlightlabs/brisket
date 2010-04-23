@@ -10,7 +10,8 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.template import RequestContext
 from brisket.influence.forms import SearchForm, ElectionCycle
-from lib import AggregatesAPI, InfluenceNetworkBuilder
+from api import AggregatesAPI
+from network import InfluenceNetwork
 import urllib
 
 def brisket_context(request): 
@@ -19,7 +20,6 @@ def brisket_context(request):
 
 def entity_context(request): 
     context_variables = {}    
-
     if request.GET.get('query', None):
         context_variables['search_form'] = SearchForm(request.GET)
     else:
@@ -28,6 +28,10 @@ def entity_context(request):
         context_variables['cycle_form'] = ElectionCycle(request.GET)
     else:
         context_variables['cycle_form'] = ElectionCycle()
+    if request.session.has_key('influence_network'):
+        inf = request.session['influence_network']
+        print inf.as_json()
+        context_variables['network'] = inf.as_json()
     return RequestContext(request, context_variables)
 
 def index(request):    
@@ -49,8 +53,6 @@ def search(request):
         sorted_results = {'organization': [], 'politician': [], 'individual': []}
         for result in entity_results:
             sorted_results[result['type']].append(result)
-        print entity_results
-        print sorted_results
         return render_to_response('results.html', {'sorted_results': sorted_results}, 
                                   brisket_context(request))
     else: 
@@ -58,12 +60,11 @@ def search(request):
         return HttpResponseRedirect('/')
 
 def organization_entity(request, entity_id):
-
+    update_network(request, entity_id)
     cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
-    #print org_recipients
     recipients_barchart_data = []
     for record in org_recipients:        
         recipients_barchart_data.append({
@@ -80,8 +81,6 @@ def organization_entity(request, entity_id):
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
     level_breakdown = api.org_breakdown(entity_id, 'level', cycle)
-    print 'here!'
-    print level_breakdown
     for key, values in level_breakdown.iteritems():
         level_breakdown[key] = float(values[1])
 
@@ -99,6 +98,7 @@ def organization_entity(request, entity_id):
                               entity_context(request))
 
 def politician_entity(request, entity_id):
+    update_network(request, entity_id)
 
     #check to see if a specific election cycle was specified, using
     #2010 as default if not.
@@ -143,6 +143,8 @@ def politician_entity(request, entity_id):
                               entity_context(request))
         
 def individual_entity(request, entity_id):    
+    update_network(request, entity_id)
+
     # individuals only give contributions
     api = AggregatesAPI() 
     entity_info = api.entity_metadata(entity_id)    
@@ -209,25 +211,24 @@ def timeline_sparkline(data_list):
     the time period represented by the '''
     if not len(data_list):
         return None
-    print 'sparkline data'
-    print data_list
     max_value = max([float(item) for item in data_list])
     scaling = "&chds=0,%f" % max_value
     data = "&chd=t:%s" % ','.join(data_list)
     url = "http://chart.apis.google.com/chart?cht=ls&chs=100x30"+data+scaling
     return url
 
-def raphael_demo(request):
-    entity_id = "72dff1d2eacd4bf59283051f36ac4b61"
-    api = AggregatesAPI()
-    top_industries = api.top_sectors(entity_id, cycle='2008')
-    fake_data = {'label1': 77, 'label2': 23}
-    return render_to_response('chart_demo.html',
-                              {'data': fake_data,
-                               'bar_data': top_industries,
-                               },
-                              entity_context(request))
 
-def rtest(request):
-    return render_to_response('rtest.html')
+def update_network(request, entity_id):
+    ''' Add the new entity to the Influence Network'''
+    new_id = entity_id
+    #weight = request.GET.get('weight')
+    inf = request.session.get('influence_network', InfluenceNetwork())
+    inf.add(new_id)
+    request.session['influence_network'] = inf
+    return 
 
+
+def clear_network(request):
+    if request.session.has_key('influence_network'):
+        del request.session['influence_network']
+    return HttpResponseRedirect('/')

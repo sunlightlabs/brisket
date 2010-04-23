@@ -6,18 +6,12 @@ try:
 except:
     import simplejson as json
 
-class InfluenceNetworkBuilder(object):
-    ''' Track a user's explorations through the data and maintain a
-    graph-like structure with relationships between the entities of
-    the various search results and clickthroughs.'''
-    pass
-
 class AggregatesAPI(object):
     ''' A thin wrapper around aggregates API calls. Not sure we'll
     keep this as a class, that might be overkill.'''
     def __init__(self):
-        # grab the base url from settings and make sure it ends with a
-        # trailing slash.
+        # grab the base url from settings file and make sure it ends
+        # with a trailing slash (since it's a user-specified value).
         self.base_url = settings.API_BASE_URL.strip('/')+'/'
 
     def entity_search(self, query):
