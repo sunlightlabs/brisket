@@ -24,9 +24,11 @@
     <title>{% block pagetitle %}Trail Blazer{% endblock %}</title>
 
     <script type="text/javascript" charset="utf-8">
+      {% if network %} 
       window.onload = function() {
-      network("network_diagram", {{influence_network}});
+        network_graph("network_diagram", {{network|safe}});
       }
+      {% endif %}
     </script>
 
     {% block extrajs %}

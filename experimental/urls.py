@@ -3,6 +3,8 @@ from django.conf import settings
 
 urlpatterns = patterns('brisket.experimental.views',
     url(r'^search', 'search', name='search'),                       
+    url(r'^graph$', 'graph_test', name='graph_test'),                       
+    url(r'^graph/clear', 'graph_clear', name='graph_clear'),                       
 
     # detail pages                       
     url(r'^politician/(?P<entity_id>.+)/details', 'industry_detail', 

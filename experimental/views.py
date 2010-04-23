@@ -12,6 +12,12 @@ from django.template import RequestContext
 from brisket.influence.forms import SearchForm, ElectionCycle
 from lib import AggregatesAPI, InfluenceNetworkBuilder
 import urllib, os
+import networkx as nx
+try:
+    import json
+except:
+    import simplejson as json
+
 
 # FOR EXPERIMENTAL ONLY! anything served via a view from this file
 # will look here for it's template files, without having to manually
@@ -20,10 +26,37 @@ settings.TEMPLATE_DIRS = (
     os.path.join(settings.PROJECT_ROOT, 'templates/experimental'),
 )
 
+
+class InfluenceNetwork(object):
+    def __init__(self):
+        self.network = nx.DiGraph()
+        self.current_entity = None
+
+    def add(self, entity_id):
+        # add a node for this entty, and an edge between this entity
+        # and the previous (current) entity. then mark this entity as
+        # the current entity. 
+        
+        # don't allow paths from the entity to itself
+        if self.current_entity == entity_id:
+            return
+        self.network.add_node(str(entity_id))
+        if self.current_entity:
+            self.network.add_edge(str(self.current_entity), str(entity_id))
+        self.current_entity = str(entity_id)        
+        # eventually use an actual entity object that stores more info
+        # about each entity.
+
+    def as_json(self):
+        ''' dumps node and edge names to json'''
+        js = {}
+        js['nodes'] = self.network.nodes()
+        js['edges'] = self.network.edges()
+        return json.dumps(js)
+
 def brisket_context(request): 
     return RequestContext(request, {'search_form': SearchForm(), 
                                     })
-
 def entity_context(request): 
     context_variables = {}    
     if request.GET.get('query', None):
@@ -36,11 +69,33 @@ def entity_context(request):
         context_variables['cycle_form'] = ElectionCycle()
     # does this need to be passed in manually or are session variables
     # available to the templates by default? (doesn't seem so). 
-    context_variables['influence_network'] = request.session.get('influence_network', None)
+    print 'checking now...'
+    if request.session.has_key('influence_network'):
+        inf = request.session['influence_network']
+        print inf.as_json()
+        context_variables['network'] = inf.as_json()
+    else: print 'no network found'    
     return RequestContext(request, context_variables)
 
 def index(request):    
     return render_to_response('index.html', brisket_context(request))
+
+def graph_clear(request):
+    if request.session.has_key('influence_network'):
+        del request.session['influence_network']
+    return HttpResponseRedirect('/experimental/graph')
+
+def graph_test(request):    
+    if request.GET.has_key('new_entity'):
+        print 'new_entity'
+        # add the new entity to the Influence Network
+        new_id = request.GET.get('id')
+        inf = request.session.get('influence_network', InfluenceNetwork())
+        inf.add(new_id)
+        print inf
+        request.session['influence_network'] = inf
+    return render_to_response('graph.html', entity_context(request))
+
 
 def search(request):
     print 'experimental search'
