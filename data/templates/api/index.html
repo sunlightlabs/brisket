@@ -4,6 +4,13 @@
     <div class="module whitebox docs">
 		<h1 class="title">Transparency Data API</h1>
 
+		<div class="section" id="license">
+		<h1>License</h1>
+		<p>Data returned by this service is subject to the use restrictions set by the Federal Election Commission. By accessing this data, you understand that you are using the data subject to all applicable local, state and federal law, including FEC restrictions.</p>
+		<p>All data licensed under the Creative Commons BY-NC-SA license. By downloading data and accessing the API you are agreeing to the terms of the license.</p>
+		<p>Federal campaign contribution and lobbying records must be attributed to OpenSecrets.org.</p>
+		<p>State campaign contribution records must be attributed to FollowTheMoney.org.</p>
+		</div>
 		<div class="section" id="authentication">
 		<h1>Authentication</h1>
 		<p>An API key is required to access the Transparency Data API. <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.</p>
@@ -216,7 +223,7 @@
 		<h2>Parameters</h2>
 		<dl class="docutils">
 		<dt>amount</dt>
-		<dd><p class="first">The amount of the contribution in US dollars in one of the following formats:</p>
+		<dd><p class="first">The amount spent on lobbying in US dollars in one of the following formats:</p>
 		<table border="1" class="last docutils">
 		<colgroup>
 		<col width="20%" />
@@ -293,7 +300,7 @@
 		</table>
 		</dd>
 		<dt>lobbyist_ft</dt>
-		<dd>Full-text search on the name of the lobbyist involved in the lobbying registration.</dd>
+		<dd>Full-text search on the name of the lobbyist involved in the lobbying activity.</dd>
 		<dt>registrant_ft</dt>
 		<dd>Full-text search on the name of the person or organization filing the lobbyist registration. This is typically the firm that employs the lobbyists. Use the registrant_is_firm field to filter on firms v. individuals.</dd>
 		<dt>transaction_id</dt>
@@ -302,7 +309,27 @@
 		<dd>The type of filing as reported by the Senate Office of Public Records.
 		<a class="reference external" href="http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv">http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv</a></dd>
 		<dt>year</dt>
-		<dd>The year in which the lobbying activity occurred.</dd>
+		<dd><blockquote class="first">The year in which the registration was filed. A YYYY formatted year, 1998 - 2010.</blockquote>
+		<table border="1" class="last docutils">
+		<colgroup>
+		<col width="43%" />
+		<col width="57%" />
+		</colgroup>
+		<thead valign="bottom">
+		<tr><th class="head">Example</th>
+		<th class="head">Description</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr><td>2006</td>
+		<td>2006</td>
+		</tr>
+		<tr><td>2006|2008</td>
+		<td>2006 OR 2008</td>
+		</tr>
+		</tbody>
+		</table>
+		</dd>
 		</dl>
 		</div>
 		</div>

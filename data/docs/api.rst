@@ -2,6 +2,17 @@
  Transparency Data API
 =======================	
 
+License
+=======
+
+Data returned by this service is subject to the use restrictions set by the Federal Election Commission. By accessing this data, you understand that you are using the data subject to all applicable local, state and federal law, including FEC restrictions.
+
+All data licensed under the Creative Commons BY-NC-SA license. By downloading data and accessing the API you are agreeing to the terms of the license.
+
+Federal campaign contribution and lobbying records must be attributed to OpenSecrets.org.
+
+State campaign contribution records must be attributed to FollowTheMoney.org.
+
 Authentication
 ==============
 
