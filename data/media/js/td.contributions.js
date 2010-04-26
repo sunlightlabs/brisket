@@ -489,19 +489,12 @@ $().ready(function() {
         });
 
         TD.ContributionFilter.registerFilter({
-            name: 'employer_ft',
+            name: 'organization_ft',
             label: 'Organization',
             help: 'Name of employer or pass-through organization associated with contribution',
-            field: TD.DataFilter.TextField
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true
         });
-
-        // TD.ContributionFilter.registerFilter({
-        //     name: 'organization_ft',
-        //     label: 'Employer',
-        //     help: 'Employer of individual that made contribution',
-        //     field: TD.DataFilter.TextField,
-        //     allowMultipleFields: true,
-        // });
 
         TD.ContributionFilter.registerFilter({
             name: 'recipient_ft',
