@@ -6,13 +6,34 @@ try:
 except:
     import simplejson as json
 
-class AggregatesAPI(object):
+class APIUtil(object):
+    def remove_unicode(self, data):
+        ''' converts a dictionary or list of dictionaries with unicode
+        keys or values to plain string keys'''
+        if isinstance(data, dict):
+            plain = {}
+            for k,v in data.iteritems():
+                k = self.remove_unicode(k)
+                v = self.remove_unicode(v)
+                plain[k] = v
+            return plain
+        if isinstance(data, list):
+            plain = []
+            for record in data:
+                plain.append(self.remove_unicode(record))
+            return plain
+        if isinstance(data,unicode):
+            return str(data)
+        else: return data
+    
+
+class AggregatesAPI(APIUtil):
     ''' A thin wrapper around aggregates API calls. Not sure we'll
     keep this as a class, that might be overkill.'''
     def __init__(self):
         # grab the base url from settings file and make sure it ends
         # with a trailing slash (since it's a user-specified value).
-        self.base_url = settings.API_BASE_URL.strip('/')+'/'
+        self.base_url = settings.AGGREGATES_API_BASE_URL.strip('/')+'/'
 
     def entity_search(self, query):
         #make sure the query is properly encoded
@@ -120,23 +141,67 @@ class AggregatesAPI(object):
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
         return self.remove_unicode(results)
-        
-        
-    def remove_unicode(self, data):
-        ''' converts a dictionary or list of dictionaries with unicode
-        keys or values to plain string keys'''
-        if isinstance(data, dict):
-            plain = {}
-            for k,v in data.iteritems():
-                k = self.remove_unicode(k)
-                v = self.remove_unicode(v)
-                plain[k] = v
-            return plain
-        if isinstance(data, list):
-            plain = []
-            for record in data:
-                plain.append(self.remove_unicode(record))
-            return plain
-        if isinstance(data,unicode):
-            return str(data)
-        else: return data
+            
+
+class LobbyingAPI(APIUtil):
+    ''' A thin wrapper around aggregates API calls. Not sure we'll
+    keep this as a class, that might be overkill.'''
+    def __init__(self):
+        # grab the base url from settings file and make sure it ends
+        # with a trailing slash (since it's a user-specified value).
+        self.base_url = settings.LOBBYING_API_BASE_URL.strip('/')+'/'
+
+
+    def by_client(self, org_name, cycle):
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'client_ft': org_name,
+                                      'year': cycle,
+                                      })
+        url = self.base_url + 'lobbying.json?'
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return self.remove_unicode(results)
+
+
+def get_bioguide_id(full_name):
+    arguments = urllib.urlencode({'apikey': settings.SUNLIGHT_API_KEY, 
+                                  'name': full_name,
+                                  'all_legislators': 1,
+                                  })    
+    url = "http://services.sunlightlabs.com/api/legislators.search.json?"
+    api_call = url + arguments
+    print api_call
+    fp = urllib2.urlopen(api_call)
+    js = json.loads(fp.read())    
+    try:
+        bioguide_id = js['response']['results'][0]['result']['legislator']['bioguide_id']
+    except:
+        bioguide_id = None
+    print bioguide_id
+    return bioguide_id
+
+def get_capitol_words(full_name, cycle, limit):
+    # get bioguide
+    if full_name.rfind('(D)') > -1:
+        full_name = full_name.strip('(D)').strip()
+    elif full_name.rfind('(R)') > -1:
+        full_name = full_name.strip('(R)').strip()
+    bioguide_id = get_bioguide_id(full_name)
+
+    if not bioguide_id:
+        print 'No bioguide_id found for legislator %s' % full_name
+        return None
+    
+    url = "http://capitolwords.org/api/lawmaker/%s/%s/top%d.json" % (bioguide_id, cycle, limit)
+    try:
+        fp = urllib2.urlopen(url)
+        results = json.loads(fp.read())
+        print results #list
+        # may want to remove unicode here eventually, too. 
+        return results
+    except Exception, e:
+        print 'Error retrieving capitol words'
+        print url
+        print e
+        return None

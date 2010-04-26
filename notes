@@ -1,7 +1,13 @@
 * the cycle argument should persist when you follow a link from a page
   already displaying a specific cycle.
 * change links to include human readable entity name [1]
+* lobbying for organizations, politicians, [2]
+* capitol words [3]
+* lookup table for industry sector codes
+* 
+
 * details page
+* sparklines
 * make sure limit keyword works with top contrib/recipient calls
 * sort search results by decreasing contrib. 
 * decide on what to do for pages that have empty result sets for specific calls. 
@@ -30,3 +36,15 @@ the server--it's just there for the user. And if the entity ID isn't
 on the end, then we can treat the name simply as a search. If there's
 only one result, then we can go straight to that page.
  ----------------------------------------
+
+[2]
+
+for organizations:
+http://transparencydata.com/api/1.0/lobbying.json?apikey=189e964ebd52406f8af9f1ecff87c93e&client_ft=monsanto
+
+for politicians:
+by issue area
+
+for individuals: check if they are lobbyist. 
+
+[3] for politicians page. 

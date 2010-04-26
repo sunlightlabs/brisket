@@ -3,10 +3,11 @@ function network_graph(div, network) {
     return;
   }
 
-  var r = Raphael(div, 600, 200);
+  var r = Raphael(div, 600, 120);
+  r.text(100,10, "Your Influence Graph").attr({'font-size': '20px'});
   var nodes = network['nodes'];
   var edges = network['edges'];
-  var x = 0, y = 50, radius = 15, spacing=7;
+  var x = 0, y = 60, radius = 15, spacing=7;
   var drawn = {};
   for (var i in edges) {
 

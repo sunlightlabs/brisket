@@ -10,7 +10,8 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.template import RequestContext
 from brisket.influence.forms import SearchForm, ElectionCycle
-from api import AggregatesAPI
+from api import *
+from brisket.util import catcodes
 from network import InfluenceNetwork
 import urllib
 
@@ -84,6 +85,26 @@ def organization_entity(request, entity_id):
     for key, values in level_breakdown.iteritems():
         level_breakdown[key] = float(values[1])
 
+    # get lobbying info
+    lobbying = LobbyingAPI()
+    lobbying_data = lobbying.by_client(entity_info['name'], cycle)
+    if lobbying_data:
+        lobbying_totals_by_firm = lobbying_by_firm(lobbying_data)
+        lobbying_totals_by_sector = lobbying_by_sector(lobbying_data)
+        # compile the summary statement for lobbying (easier here than in
+        # the template)
+        items = []
+        for t in lobbying_totals_by_sector:
+            items.append("$"+str(t[1])+" on <a href=''>"+
+                         catcodes.industry_area[t[0]][1].title()
+                         +"</a> (<a href=''>"+catcodes.industry_area[t[0]][0].title()+"</a>) ")
+        if len(items) > 1:
+            last = items.pop()
+            lobbying_summary_stmt = entity_info['name'] + ' spent ' + ', '.join(items)+' and '+last+'.'
+        else:
+            lobbying_summary_stmt = entity_info['name'] + ' spent '+items[0]+'.'
+    else: lobbying_summary_stmt = lobbying_totals_by_firm = None
+
     # fake us some sparkline data
     amounts = [str(recipient['total_amount']) for recipient in org_recipients]
     sparkline = timeline_sparkline(amounts)
@@ -93,6 +114,8 @@ def organization_entity(request, entity_id):
                                'level_breakdown' : level_breakdown,
                                'party_breakdown' : party_breakdown,
                                'recipients_barchart_data': recipients_barchart_data,
+                               'lobbying_summary_stmt': lobbying_summary_stmt,
+                               'lobbying_by_firm': lobbying_totals_by_firm,
                                'sparkline': sparkline,
                                },
                               entity_context(request))
@@ -112,7 +135,8 @@ def politician_entity(request, entity_id):
     sectors_barchart_data = []
     for record in top_sectors:        
         sectors_barchart_data.append({
-                'key': record['sector_code'],
+                'key': catcodes.sector[record['sector_code']],
+                #'key': record['sector_code'],
                 'value' : record['amount'],
                 'href' : "/industry/%s" % record['sector_code'],
                 })
@@ -127,6 +151,9 @@ def politician_entity(request, entity_id):
         # values is a list of [count, amount]
         entity_breakdown[key] = float(values[1])    
 
+    # get top words spoken in congress by this legislator for this cycle
+    capitol_words = get_capitol_words(entity_info['name'], cycle, 50)
+
     # fake sparkline data
     amounts = [str(contributor['total_amount']) for contributor in top_contributors]
     sparkline = timeline_sparkline(amounts)
@@ -137,6 +164,7 @@ def politician_entity(request, entity_id):
                                'top_contributors': top_contributors,
                                'local_breakdown' : local_breakdown,
                                'entity_breakdown' : entity_breakdown,
+                               'capitol_words': capitol_words,
                                'sectors_barchart_data': sectors_barchart_data,
                                'sparkline': sparkline,
                                },
@@ -217,6 +245,44 @@ def timeline_sparkline(data_list):
     url = "http://chart.apis.google.com/chart?cht=ls&chs=100x30"+data+scaling
     return url
 
+
+# lobbying
+
+def lobbying_by_sector(lobbying_data):
+    amt_by_sector = {}
+    for transaction in lobbying_data:
+        sector = transaction['client_category']
+        amount = transaction['amount']
+        amt_by_sector[sector] = amt_by_sector.get(sector, 0) + int(float(amount))
+    # sort and return as list of (firm, amt) tuples
+    z = zip(amt_by_sector.keys(), amt_by_sector.values())
+    z.sort(_tuple_cmp, reverse=True) # stupid in place sorting
+    return z
+
+def lobbying_by_firm(lobbying_data):
+    amt_by_firm = {}
+    for transaction in lobbying_data:
+        if not transaction['registrant_is_firm']:
+            continue
+        firm = transaction['registrant_name']
+        amount = transaction['amount']
+        amt_by_firm[firm] = amt_by_firm.get(firm, 0) + int(float(amount))
+    # sort and return as list of (firm, amt) tuples
+    z = zip(amt_by_firm.keys(), amt_by_firm.values())
+    z.sort(_tuple_cmp, reverse=True) # stupid in place sorting
+    return z
+
+def _tuple_cmp(t1, t2):
+    ''' a cmp function for sort(), to sort tuples by increasing value
+    of the tuple's 2nd item (index 1)'''
+    if t1[1] < t2[1]:
+        return -1
+    if t1[1] > t2[1]:
+        return 1
+    else: return 0
+
+
+# influence network functions
 
 def update_network(request, entity_id):
     ''' Add the new entity to the Influence Network'''

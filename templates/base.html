@@ -25,11 +25,30 @@
     <title>{% block pagetitle %}Trail Blazer{% endblock %}</title>
     
     <script type="text/javascript" charset="utf-8">
-      {% if network %} 
+      function addLoadEvent(func, args) {
+      // args must be a list      
+      var numargs = args.length;
+      var oldonload = window.onload;
+      if (typeof window.onload != 'function') {
+      window.onload = func;
+      }
+      else {
       window.onload = function() {
+      oldonload();
+      func();
+      }
+      }
+      }
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+/*
+      {% if network %} 
+      window.onload = function () {
         network_graph("network_diagram", {{network|safe}});
       }
       {% endif %}
+*/
     </script>
 
     {% block extrajs %}
