@@ -2,12 +2,11 @@
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
-  window.onload = function () {
+  window.onload = function() {
   piechart("piechart_local", {{ local_breakdown|safe }}, "In State vs. Out of State");
-  piechart("piechart_entity", {{ entity_breakdown|safe }}, "Individuals vs. PACs");  
-  barchart("sectors_barchart", {{ sectors_barchart_data|safe }}, "Industry Sectors");  
+  piechart("piechart_entity", {{ entity_breakdown|safe }}, "Individuals vs. PACs");
+  barchart("sectors_barchart", {{ sectors_barchart_data|safe }}, "Industry Sectors");
   }
-
 </script>
 
 {% endblock %}
@@ -70,12 +69,13 @@
 </div>
 
 <div id="top_contributors">
+  <h2>Top Contributors to {{ entity_info.name }}</h2>
   <table>
     <thead>
       <tr>
 	<th>Name</th>
-	<th>Direct Contributions</th>
-	<th>Employee Contributions</th>
+	<th>Direct<br>Contributions</th>
+	<th>Employee<br>Contributions</th>
 	<th>Total</th>
       </tr>
     </thead>
@@ -94,6 +94,12 @@
       {% endfor %}
     </tbody>
   </table>
+</div>
+
+<div id="capitol_words">
+  {% for item in capitol_words %}
+  <b>{{item.word}}: </b>{{item.word_count}}<br>
+  {% endfor %}
 </div>
 
 {% endblock %}

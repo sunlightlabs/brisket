@@ -81,7 +81,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'brisket.influence',
-    'brisket.experimental'
+    'brisket.experimental',
+    'brisket.util'
 )
 
 # use file-backed sessions while in development. the default location

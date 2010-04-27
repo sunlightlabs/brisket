@@ -43,7 +43,7 @@ function piechart(div, data, chart_title) {
     if (this.label) {
     this.label[0].animate({scale: 1}, 500,
     "bounce");
-//    this.label[1].attr({"font-weight": 400});
+    this.label[1].attr({"font-weight": 400});
 //    this.tag && this.tag.hide();
     }
     });
