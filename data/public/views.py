@@ -1,20 +1,14 @@
 
-from time import time
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from django.db import IntegrityError
 from django.template import RequestContext
-from dcapi.contributions.handlers import load_contributions, ContributionFilterHandler
+from dcapi.contributions.handlers import load_contributions
 from dcapi.contributions.urls import contributionfilter_handler
-from dcentity.models import Entity, Normalization
+from dcentity.models import Entity
 from dcentity.queries import search_entities_by_name
-from dcdata.utils.strings.normalizer import basic_normalizer
 from locksmith.auth.models import ApiKey
 
 entity_type_map = {
