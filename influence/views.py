@@ -11,7 +11,7 @@ from django.db import IntegrityError
 from django.template import RequestContext
 from brisket.influence.forms import SearchForm, ElectionCycle
 from api import AggregatesAPI
-from network import InfluenceNetwork
+#from network import InfluenceNetwork
 import urllib
 
 def brisket_context(request): 
@@ -60,7 +60,7 @@ def search(request):
         return HttpResponseRedirect('/')
 
 def organization_entity(request, entity_id):
-    update_network(request, entity_id)
+    #update_network(request, entity_id)
     cycle = request.GET.get("cycle", 2010)
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
@@ -98,7 +98,7 @@ def organization_entity(request, entity_id):
                               entity_context(request))
 
 def politician_entity(request, entity_id):
-    update_network(request, entity_id)
+    #update_network(request, entity_id)
 
     #check to see if a specific election cycle was specified, using
     #2010 as default if not.
@@ -143,7 +143,7 @@ def politician_entity(request, entity_id):
                               entity_context(request))
         
 def individual_entity(request, entity_id):    
-    update_network(request, entity_id)
+    #update_network(request, entity_id)
 
     # individuals only give contributions
     api = AggregatesAPI() 

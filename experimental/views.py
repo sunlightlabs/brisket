@@ -12,7 +12,7 @@ from django.template import RequestContext
 from brisket.influence.forms import SearchForm, ElectionCycle
 from lib import AggregatesAPI, InfluenceNetworkBuilder
 import urllib, os
-import networkx as nx
+#import networkx as nx
 try:
     import json
 except:
