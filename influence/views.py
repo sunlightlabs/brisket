@@ -112,7 +112,6 @@ def organization_entity(request, entity_id):
     lobbying_as_registrant = lobbying.as_registrant(entity_info['name'], cycle)
     lobbying_totals_by_customer = lobbying_by_customer(lobbying_as_registrant)
     lobbying_hired_for_by_industry = lobbying_by_industry(lobbying_as_registrant)
-    
 
     # fake us some sparkline data
     amounts = [str(recipient['total_amount']) for recipient in org_recipients]
@@ -137,14 +136,21 @@ def politician_entity(request, entity_id):
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
     request.session['cycle'] = cycle
     api = AggregatesAPI()    
+
+    # metadata
     entity_info = api.entity_metadata(entity_id)
+    metadata = politician_meta(entity_info['name'])
+
     top_contributors = api.pol_contributors(entity_id, 'org', cycle=cycle)
 
     # top sectors is already sorted
     top_sectors = api.top_sectors(entity_id, cycle=cycle)
     sectors_barchart_data = []
     for record in top_sectors:        
-        sector_name = catcodes.sector[record['sector_code']]
+        try:
+            sector_name = catcodes.sector[record['sector_code']]
+        except:
+            sector_name = '???'
         sectors_barchart_data.append({                
                 'key': sector_name,
                 #'key': record['sector_code'],
@@ -176,6 +182,7 @@ def politician_entity(request, entity_id):
                                'local_breakdown' : local_breakdown,
                                'entity_breakdown' : entity_breakdown,
     #                           'capitol_words': capitol_words,
+                               'metadata': metadata,
                                'sectors_barchart_data': sectors_barchart_data,
                                'sparkline': sparkline,
                                },
