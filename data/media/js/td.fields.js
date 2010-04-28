@@ -13,6 +13,22 @@ TD.Field = {
     }
 };
 
+// boolean field
+
+TD.DataFilter.BooleanField = Object.create(TD.Field);
+TD.DataFilter.BooleanField.value = function() {
+    return "true"
+};
+TD.DataFilter.BooleanField.parseValues = function(v) { return true; }
+TD.DataFilter.BooleanField.loadValues = function(v) { }
+TD.DataFilter.BooleanField.render = function() {    
+    var content = '';
+    content += '<li id="field_' + this.id + '" class="boolean_field">';
+    content += '<a href="#" class="remove">-</a>';
+    content += '</li>';
+    return $(content);
+};
+
 // date range field
 
 TD.DataFilter.DateRangeField = Object.create(TD.Field);
