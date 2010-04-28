@@ -1,4 +1,5 @@
 from django.conf import settings
+from BeautifulSoup import BeautifulSoup
 import urllib2, urllib
 import random
 try:
@@ -152,7 +153,9 @@ class LobbyingAPI(APIUtil):
         self.base_url = settings.LOBBYING_API_BASE_URL.strip('/')+'/'
 
 
-    def by_client(self, org_name, cycle):
+    def as_client(self, org_name, cycle):
+        ''' check to see if org_name hired (was the client of) any
+        lobbyists'''
         arguments = urllib.urlencode({'apikey': settings.API_KEY, 
                                       'client_ft': org_name,
                                       'year': cycle,
@@ -163,10 +166,35 @@ class LobbyingAPI(APIUtil):
         results = json.loads(fp.read())
         return self.remove_unicode(results)
 
+    def as_registrant(self, org_name, cycle):
+        ''' check to see if org_name hired (was the client of) any
+        lobbyists'''
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'registrant_ft': org_name,
+                                      'year': cycle,
+                                      })
+        url = self.base_url + 'lobbying.json?'
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return self.remove_unicode(results)
+
 
 def get_bioguide_id(full_name):
+    ''' attempt to determine the bioguide_id of this legislastor, or
+    return None. removes some basic formatting and trailing party
+    designators'''
+    # do some basic sanity checking on the name passed in
+    if full_name.rfind('(D)') > -1:
+        full_name = full_name.strip('(D)').strip()
+    elif full_name.rfind('(R)') > -1:
+        full_name = full_name.strip('(R)').strip()
+
+    # gracefully handle slug-formatted strings
+    name = full_name.replace('-',' ')
+
     arguments = urllib.urlencode({'apikey': settings.SUNLIGHT_API_KEY, 
-                                  'name': full_name,
+                                  'name': name,
                                   'all_legislators': 1,
                                   })    
     url = "http://services.sunlightlabs.com/api/legislators.search.json?"
@@ -175,6 +203,9 @@ def get_bioguide_id(full_name):
     fp = urllib2.urlopen(api_call)
     js = json.loads(fp.read())    
     try:
+        #legislators.search method returns a set of results, sorted by
+        #decreasing 'quality' of the result. take here the best
+        #match-- the first one.
         bioguide_id = js['response']['results'][0]['result']['legislator']['bioguide_id']
     except:
         bioguide_id = None
@@ -183,12 +214,7 @@ def get_bioguide_id(full_name):
 
 def get_capitol_words(full_name, cycle, limit):
     # get bioguide
-    if full_name.rfind('(D)') > -1:
-        full_name = full_name.strip('(D)').strip()
-    elif full_name.rfind('(R)') > -1:
-        full_name = full_name.strip('(R)').strip()
     bioguide_id = get_bioguide_id(full_name)
-
     if not bioguide_id:
         print 'No bioguide_id found for legislator %s' % full_name
         return None
@@ -205,3 +231,48 @@ def get_capitol_words(full_name, cycle, limit):
         print url
         print e
         return None
+
+
+def politician_picture_url(full_name):
+    ''' we aren't using this directly right now, but might in the
+    future so will leave it in for now.'''
+    bioguide_id = get_bioguide_id(full_name)    
+    if not bioguide_id:
+        print 'No bioguide_id found for legislator %s' % full_name
+        return None
+    print 'bioguide_id for %s: %s' % (full_name, bioguide_id)
+    return "http://assets.sunlightfoundation.com/moc/100x125/%s.jpg" % bioguide_id
+
+def politician_meta(full_name):
+    bioguide_id = get_bioguide_id(full_name)
+    
+    if not bioguide_id:
+        return None
+
+    photo_url = "http://assets.sunlightfoundation.com/moc/100x125/%s.jpg" % bioguide_id
+    
+    # scrape congress's bioguide site for years of service and official bio
+    html = urllib2.urlopen("http://bioguide.congress.gov/scripts/biodisplay.pl?index=%s" % bioguide_id)
+    soup = BeautifulSoup(html, convertEntities=BeautifulSoup.HTML_ENTITIES)
+    yrs_of_service = soup.findAll('table')[1].find('tr').findAll('td')[1].findAll('font')[2].next.next.next.strip()
+    biography = soup.findAll('table')[1].find('tr').findAll('td')[1].find('p').text
+
+    # other metadata - from sunlightlabs services
+    arguments = urllib.urlencode({'apikey': settings.SUNLIGHT_API_KEY, 
+                                  'bioguide_id': bioguide_id,
+                                  'all_legislators': 1,
+                                  })    
+    url = "http://services.sunlightlabs.com/api/legislators.get.json?"
+    api_call = url + arguments
+    print api_call
+    fp = urllib2.urlopen(api_call)
+    js = json.loads(fp.read())    
+    meta = js['response']['legislator']
+    
+    # append additional info and return
+    meta['photo_url'] = photo_url
+    meta['yrs_of_service'] = yrs_of_service
+    meta['biography'] = biography
+    return meta
+
+

@@ -14,15 +14,23 @@
 {% block main %}
 
 <h1>{{ entity_info.name }}</h1>
+    {% if metadata.party == 'D' %}
+       Democratic Party:     
+    {% else %} 
+       {% if metadata.party == 'R' %}    
+          Republican Party:
+       {% else %}
+          {{ metadata.party }}
+       {% endif %}
+    {% endif %}
+    {{ metadata.state }}
 
 <div id="biographical">
   <div id="politician_picture_frame">
-    <img src="/media/images/Sandlin_300px_2007.jpg" id="politician_picture">
+    <img src="{{ metadata.photo_url }}" id="politician_picture">
   </div>
-  <div id="politician_metadata">
-    <h3>{{ entity_info.name }}</h3>
-    [[ Party ]] - [[ State ]]<br>
-    First Elected: [[ YYYY ]] Next Election: [[ YYYY ]]<br>
+  <div id="politician_metadata">   
+    {{ metadata.biography }}
   </div>
   <div id="cycle_filter">
     <h3>View Other Selection Cycles</h3>
@@ -47,7 +55,7 @@
     <b>Sparkline: No Data</b>
     {% endif %}
   </span>
-  <a href="{{ entity_id }}/details">View Details</a>
+  <a href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">View Details</a>
 </div>
 
 <div id="charts">
@@ -83,7 +91,7 @@
       {% for row in top_contributors %}
       <tr>
 	{% if row.id %}
-	<td><a href="/organization/{{ row.id }}">{{ row.name }}</a></td>
+	<td><a href="/organization/{{ row.name|slugify }}/{{ row.id }}">{{ row.name }}</a></td>
 	{% else %}
 	<td>{{ row.name }}</td>
         {% endif %} 
