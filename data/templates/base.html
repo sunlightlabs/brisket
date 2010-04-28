@@ -47,9 +47,6 @@
                             <li id="nav_bulk"><a href="{% url bulk_index %}">Bulk Downloads</a></li>
                             <li id="nav_docs"><a href="{% url doc_index %}">Documentation</a></li>
                             <li id="nav_api"><a href="{% url api_index %}">API</a></li>
-                            {% if user.is_authenticated %}
-                                <li id="nav_logout"><a href="{% url django.contrib.auth.views.logout %}">Logout</a></li>
-                            {% endif %}
                         </ul>
                     </div>
                     <div class="clear"></div>
