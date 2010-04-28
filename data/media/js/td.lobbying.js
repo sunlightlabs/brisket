@@ -153,6 +153,13 @@ $().ready(function() {
         });
 
         TD.LobbyingFilter.registerFilter({
+            name: 'lobbyist_is_rep',
+            label: 'Member of Congress',
+            help: 'Find lobbyists that served as members of Congress',
+            field: TD.DataFilter.BooleanField
+        });
+
+        TD.LobbyingFilter.registerFilter({
             name: 'registrant_ft',
             label: 'Registrant',
             help: 'The name of the person or organization that filed the lobbying registration.',
