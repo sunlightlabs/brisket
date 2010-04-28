@@ -2,13 +2,18 @@
 
 {% block main %}
 
+{% if not sorted_results %}
+<h2>No results for that search</h2>
+
+{% else %}
+
 <h2>Results</h2>
 
 <div class="all_results">
 {% if sorted_results.organization %}
       <h3>Organizations</h3>
    {% for result in sorted_results.organization %}
-      <p><a href="/{{ result.type }}/{{ result.id }}">
+      <p><a href="/{{ result.type }}/{{result.name|slugify }}/{{ result.id }}">
 	  {{result.name}}</a> was involved in {{ result.count }}
 	transactions involving ${{ result.total_given }} given and
 	${{result.total_received }} received</p>
@@ -18,7 +23,7 @@
 {% if sorted_results.politician %}
       <h3>Politicians</h3>
    {% for result in sorted_results.politician %}
-      <p><a href="/{{ result.type }}/{{ result.id }}">
+      <p><a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}">
 	  {{result.name}}</a> was involved in {{ result.count }}
 	transactions involving ${{ result.total_given }} given and
 	${{result.total_received }} received</p>
@@ -28,7 +33,7 @@
 {% if sorted_results.individual %}
       <h3>Individuals</h3>
    {% for result in sorted_results.individual %}
-      <p><a href="/{{ result.type }}/{{ result.id }}">
+      <p><a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}">
 	  {{result.name}}</a> was involved in {{ result.count }}
 	transactions involving ${{ result.total_given }} given and
 	${{result.total_received }} received</p>
@@ -37,5 +42,6 @@
 
 </div>
 
+{% endif %}
 
 {% endblock %}

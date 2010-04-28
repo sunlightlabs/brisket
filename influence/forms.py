@@ -1,3 +1,4 @@
+from django.core.context_processors import request
 from django import forms
 
 class SearchForm(forms.Form):
@@ -13,4 +14,9 @@ class ElectionCycle(forms.Form):
                        ('2008', '2008'), ('2009', '2009'), ('2010', '2010'),
                        ]
     ELECTION_CYCLES.reverse()
+#    cycle = forms.ChoiceField(choices=ELECTION_CYCLES, initial=request.session.get('cycle', '2010'))
     cycle = forms.ChoiceField(choices=ELECTION_CYCLES, initial='2010')
+
+    def __init__(self, cycle='2010'):
+        self.cycle=cycle
+        super(forms.Form, self).__init__(self.cycle)

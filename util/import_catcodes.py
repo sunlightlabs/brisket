@@ -22,9 +22,9 @@ if __name__ == '__main__':
     industry = {}
     industry_area = {}
     for line in lines:
-        source, code, name, ind, order = line
-        industry[order] = (ind, name)
-        industry_area[code] = (ind, name)
+        source, code, sub_industry, ind, order = line
+        industry[order] = (ind, sub_industry)
+        industry_area[code] = (ind, sub_industry)
 
     sectors = {
         'F': 'Finance/Insurance/Real Estate',

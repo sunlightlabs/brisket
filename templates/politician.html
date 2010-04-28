@@ -47,7 +47,7 @@
     <b>Sparkline: No Data</b>
     {% endif %}
   </span>
-  <a href="{{ entity_id }}/details">View Details</a>
+  <a href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">View Details</a>
 </div>
 
 <div id="charts">
@@ -83,7 +83,7 @@
       {% for row in top_contributors %}
       <tr>
 	{% if row.id %}
-	<td><a href="/organization/{{ row.id }}">{{ row.name }}</a></td>
+	<td><a href="/organization/{{ row.name|slugify }}/{{ row.id }}">{{ row.name }}</a></td>
 	{% else %}
 	<td>{{ row.name }}</td>
         {% endif %} 

@@ -152,9 +152,24 @@ class LobbyingAPI(APIUtil):
         self.base_url = settings.LOBBYING_API_BASE_URL.strip('/')+'/'
 
 
-    def by_client(self, org_name, cycle):
+    def as_client(self, org_name, cycle):
+        ''' check to see if org_name hired (was the client of) any
+        lobbyists'''
         arguments = urllib.urlencode({'apikey': settings.API_KEY, 
                                       'client_ft': org_name,
+                                      'year': cycle,
+                                      })
+        url = self.base_url + 'lobbying.json?'
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return self.remove_unicode(results)
+
+    def as_registrant(self, org_name, cycle):
+        ''' check to see if org_name hired (was the client of) any
+        lobbyists'''
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'registrant_ft': org_name,
                                       'year': cycle,
                                       })
         url = self.base_url + 'lobbying.json?'

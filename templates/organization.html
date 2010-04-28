@@ -48,7 +48,7 @@
     <b>Sparkline: No Data</b>
     {% endif %}
   </span>
-  <a href="{{ entity_id }}/details">View Details</a>
+  <a href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">View Details</a>
 </div>
 
 <div id="charts">
@@ -70,9 +70,17 @@
 </div>
 
 <div class="lobbying_data">
-  {% if lobbying_summary_stmt %}
+  {% if lobbying_spent_by_industry %}
   <h2>Lobbying</h2>
-  <div id="lobbying_statement">{{ lobbying_summary_stmt }}</div>
+  <!-- tuples contain (industry_code, industry_name, --
+    -- industry_area, amt) -->
+  <div id="lobbying_summary">
+    {{ entity_info.name }} spent
+    {% for industry in lobbying_spent_by_industry %}
+    ${{ industry.3 }} on lobbyists in <a href="/lobby/{{industry.0}}">{{ industry.2|title }}</a> 
+    (<a href="">{{ industry.1|title }}</a>). 
+    {% endfor %}
+  </div>
   <div id="lobbying_table">
     <table>
       <thead>
@@ -90,12 +98,45 @@
 	{% endfor %}
       </tbody>
     </table>
-  </div>
-  
-
+  </div>  
 
   {% else %}
-  <em>No Lobbying Data for {{ entity_info.name }} for this cycle</em>
+  <em>There is no record of {{ entity_info.name }} hiring lobbyists during {{ cycle }}.</em><br>
+  {% endif %}
+
+
+
+  {% if lobbying_hired_for_by_industry %}
+  <!-- tuples contain (industry_code, industry_name, --
+    -- industry_area, amt) -->
+  <div id="lobbying_summary">
+    {{ entity_info.name }} received
+    {% for industry in lobbying_hired_for_by_industry %}
+    ${{ industry.3 }} to lobby for <a href="/lobby/{{industry.0}}">{{ industry.2|title }}</a> 
+    (<a href="">{{ industry.1|title }}</a>). 
+    {% endfor %}
+  </div>
+  <div id="lobbying_table">
+    <table>
+      <thead>
+	<tr>
+	  <th>Customer</th>
+	  <th>Amount</th>
+	</tr>
+      </thead>
+      <tbody>
+	{% for row in lobbying_by_customer %}
+	<tr>
+	  <td><a href="/search?query={{ row.0|urlencode }}">{{ row.0 }}</a></td>
+	  <td>${{ row.1 }}</td>
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+  </div>  
+
+  {% else %}
+  <em>There is no record of {{ entity_info.name }} being hired as a lobbyist during {{ cycle }}.</em><br>
   {% endif %}
 
   

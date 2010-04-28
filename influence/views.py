@@ -13,7 +13,7 @@ from brisket.influence.forms import SearchForm, ElectionCycle
 from api import *
 from brisket.util import catcodes
 from network import InfluenceNetwork
-import urllib
+import urllib, re
 
 def brisket_context(request): 
     return RequestContext(request, {'search_form': SearchForm(), 
@@ -28,7 +28,8 @@ def entity_context(request):
     if request.GET.get('cycle', None):
         context_variables['cycle_form'] = ElectionCycle(request.GET)
     else:
-        context_variables['cycle_form'] = ElectionCycle()
+        context_variables['cycle_form'] = ElectionCycle({'cycle':request.session.get('cycle', '2010')})
+
     if request.session.has_key('influence_network'):
         inf = request.session['influence_network']
         print inf.as_json()
@@ -46,14 +47,29 @@ def search(request):
     submitted_form = SearchForm(request.GET)
     if submitted_form.is_valid():        
         api = AggregatesAPI()
-        results = api.entity_search(submitted_form.cleaned_data['query'])
+        query = urllib.unquote(submitted_form.cleaned_data['query'])
+        query = query.replace('-', ' ')
+        print 'now searching for "%s"...' % query
+        results = api.entity_search(query)
 
         # limit the results to only those entities with an ID. 
         entity_results = [result for result in results if result['id']]
 
-        sorted_results = {'organization': [], 'politician': [], 'individual': []}
-        for result in entity_results:
-            sorted_results[result['type']].append(result)
+        # if there's just one results, redirect to that entity's page
+        if len(entity_results) == 1:
+            result_type = entity_results[0]['type']
+            name = slugify(entity_results[0]['name'])
+            _id = entity_results[0]['id']
+            return HttpResponseRedirect('/%s/%s/%s' % (result_type, name, _id))
+
+        print 'entity_results'
+        print entity_results
+        if len(entity_results) == 0:
+            sorted_results = None
+        else:
+            sorted_results = {'organization': [], 'politician': [], 'individual': []}
+            for result in entity_results:
+                sorted_results[result['type']].append(result)
         return render_to_response('results.html', {'sorted_results': sorted_results}, 
                                   brisket_context(request))
     else: 
@@ -62,7 +78,8 @@ def search(request):
 
 def organization_entity(request, entity_id):
     update_network(request, entity_id)
-    cycle = request.GET.get("cycle", 2010)
+    cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
+    request.session['cycle'] = cycle
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
@@ -74,7 +91,7 @@ def organization_entity(request, entity_id):
                 # currently we only display politician recipients from
                 # orgs. this should be changed if we start returning
                 # org-to-org data.
-                'href' : "/politician/%s" % record['id'],
+                'href' : "/politician/%s/%s" % (slugify(record['name']), record['id']),
                 })
 
     party_breakdown = api.org_breakdown(entity_id, 'party', cycle)
@@ -87,23 +104,15 @@ def organization_entity(request, entity_id):
 
     # get lobbying info
     lobbying = LobbyingAPI()
-    lobbying_data = lobbying.by_client(entity_info['name'], cycle)
-    if lobbying_data:
-        lobbying_totals_by_firm = lobbying_by_firm(lobbying_data)
-        lobbying_totals_by_sector = lobbying_by_sector(lobbying_data)
-        # compile the summary statement for lobbying (easier here than in
-        # the template)
-        items = []
-        for t in lobbying_totals_by_sector:
-            items.append("$"+str(t[1])+" on <a href=''>"+
-                         catcodes.industry_area[t[0]][1].title()
-                         +"</a> (<a href=''>"+catcodes.industry_area[t[0]][0].title()+"</a>) ")
-        if len(items) > 1:
-            last = items.pop()
-            lobbying_summary_stmt = entity_info['name'] + ' spent ' + ', '.join(items)+' and '+last+'.'
-        else:
-            lobbying_summary_stmt = entity_info['name'] + ' spent '+items[0]+'.'
-    else: lobbying_summary_stmt = lobbying_totals_by_firm = None
+
+    lobbying_as_client = lobbying.as_client(entity_info['name'], cycle)
+    lobbying_totals_by_firm = lobbying_by_firm(lobbying_as_client)
+    lobbying_spent_by_industry = lobbying_by_industry(lobbying_as_client)
+
+    lobbying_as_registrant = lobbying.as_registrant(entity_info['name'], cycle)
+    lobbying_totals_by_customer = lobbying_by_customer(lobbying_as_registrant)
+    lobbying_hired_for_by_industry = lobbying_by_industry(lobbying_as_registrant)
+    
 
     # fake us some sparkline data
     amounts = [str(recipient['total_amount']) for recipient in org_recipients]
@@ -114,18 +123,19 @@ def organization_entity(request, entity_id):
                                'level_breakdown' : level_breakdown,
                                'party_breakdown' : party_breakdown,
                                'recipients_barchart_data': recipients_barchart_data,
-                               'lobbying_summary_stmt': lobbying_summary_stmt,
+                               'lobbying_spent_by_industry': lobbying_spent_by_industry,
                                'lobbying_by_firm': lobbying_totals_by_firm,
+                               'lobbying_hired_for_by_industry': lobbying_hired_for_by_industry,
+                               'lobbying_by_customer': lobbying_totals_by_customer,
                                'sparkline': sparkline,
+                               'cycle': cycle,
                                },
                               entity_context(request))
 
 def politician_entity(request, entity_id):
     update_network(request, entity_id)
-
-    #check to see if a specific election cycle was specified, using
-    #2010 as default if not.
-    cycle = request.GET.get("cycle", 2010)
+    cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
+    request.session['cycle'] = cycle
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
     top_contributors = api.pol_contributors(entity_id, 'org', cycle=cycle)
@@ -134,11 +144,12 @@ def politician_entity(request, entity_id):
     top_sectors = api.top_sectors(entity_id, cycle=cycle)
     sectors_barchart_data = []
     for record in top_sectors:        
-        sectors_barchart_data.append({
-                'key': catcodes.sector[record['sector_code']],
+        sector_name = catcodes.sector[record['sector_code']]
+        sectors_barchart_data.append({                
+                'key': sector_name,
                 #'key': record['sector_code'],
                 'value' : record['amount'],
-                'href' : "/industry/%s" % record['sector_code'],
+                'href' : "/sector/%s/%s" % (slugify(sector_name), record['sector_code']),
                 })
 
     local_breakdown = api.pol_breakdown(entity_id, 'local', cycle)
@@ -152,19 +163,19 @@ def politician_entity(request, entity_id):
         entity_breakdown[key] = float(values[1])    
 
     # get top words spoken in congress by this legislator for this cycle
-    capitol_words = get_capitol_words(entity_info['name'], cycle, 50)
+    # capitol_words = get_capitol_words(entity_info['name'], cycle, 50)
 
     # fake sparkline data
     amounts = [str(contributor['total_amount']) for contributor in top_contributors]
     sparkline = timeline_sparkline(amounts)
-
+    print 'current session cycle: %s' % request.session.get('cycle', 'None set')
     return render_to_response('politician.html', 
                               {'entity_id': entity_id,
                                'entity_info': entity_info,
                                'top_contributors': top_contributors,
                                'local_breakdown' : local_breakdown,
                                'entity_breakdown' : entity_breakdown,
-                               'capitol_words': capitol_words,
+    #                           'capitol_words': capitol_words,
                                'sectors_barchart_data': sectors_barchart_data,
                                'sparkline': sparkline,
                                },
@@ -172,19 +183,17 @@ def politician_entity(request, entity_id):
         
 def individual_entity(request, entity_id):    
     update_network(request, entity_id)
-
-    # individuals only give contributions
     api = AggregatesAPI() 
     entity_info = api.entity_metadata(entity_id)    
-    cycle = request.GET.get("cycle", 2010)
-
+    cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
+    request.session['cycle'] = cycle
     recipient_candidates = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='pol')
     candidates_barchart_data = []
     for record in recipient_candidates:        
         candidates_barchart_data.append({
                 'key': record['name'],
                 'value' : record['amount'],
-                'href' : "/politician/%s" % record['id'],
+                'href' : "/politician/%s/%s" % (slugify(record['name']), record['id']),
                 })
 
     recipient_orgs = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='org')
@@ -193,7 +202,7 @@ def individual_entity(request, entity_id):
         orgs_barchart_data.append({
                 'key': record['name'],
                 'value' : record['amount'],
-                'href' : "/organization/%s" % record['id'],
+                'href' : "/organization/%s/%s" % (slugify(record['name']), record['id']),
                 })
 
     party_breakdown = api.indiv_breakdown(entity_id, 'party', cycle)
@@ -248,22 +257,46 @@ def timeline_sparkline(data_list):
 
 # lobbying
 
-def lobbying_by_sector(lobbying_data):
-    amt_by_sector = {}
+def lobbying_by_industry(lobbying_data):
+    ''' aggregates lobbying spending by industry'''
+    amt_by_industry = {}
     for transaction in lobbying_data:
-        sector = transaction['client_category']
+        industry = transaction['client_category']
         amount = transaction['amount']
-        amt_by_sector[sector] = amt_by_sector.get(sector, 0) + int(float(amount))
+        amt_by_industry[industry] = amt_by_industry.get(industry, 0) + int(float(amount))
+    # sort into a list of (sector_code, amt) tuples
+    z = zip(amt_by_industry.keys(), amt_by_industry.values())
+    z.sort(_tuple_cmp, reverse=True)
+    # add in the industry and area names
+    # return tuples now contain (industry_code, industry_name, industry_area, amt)
+    annotated = []
+    for item in z:
+        code = item[0]
+        industry = catcodes.industry_area[item[0].upper()][0]
+        sub_industry = catcodes.industry_area[item[0].upper()][1] 
+        amount = item[1]
+        annotated.append((code, industry, sub_industry, amount))
+    return annotated
+
+def lobbying_by_customer(lobbying_data):
+    amt_by_customer = {}
+    for transaction in lobbying_data:
+        #if not transaction['registrant_is_firm']:
+        #    continue
+        customer = transaction['client_name']
+        amount = transaction['amount']
+        amt_by_customer[customer] = amt_by_customer.get(customer, 0) + int(float(amount))
     # sort and return as list of (firm, amt) tuples
-    z = zip(amt_by_sector.keys(), amt_by_sector.values())
-    z.sort(_tuple_cmp, reverse=True) # stupid in place sorting
+    z = zip(amt_by_customer.keys(), amt_by_customer.values())
+    z.sort(_tuple_cmp, reverse=True) 
     return z
+
 
 def lobbying_by_firm(lobbying_data):
     amt_by_firm = {}
     for transaction in lobbying_data:
-        if not transaction['registrant_is_firm']:
-            continue
+        #if not transaction['registrant_is_firm']:
+        #    continue
         firm = transaction['registrant_name']
         amount = transaction['amount']
         amt_by_firm[firm] = amt_by_firm.get(firm, 0) + int(float(amount))
@@ -282,6 +315,13 @@ def _tuple_cmp(t1, t2):
     else: return 0
 
 
+def slugify(string):
+    ''' like the django template tag, converts to lowercase, removes
+    all non-alphanumeric characters and replaces spaces with
+    hyphens. '''
+    return re.sub(" ", "-", re.sub("[^a-zA-Z0-9 ]+", "", string)).lower()
+
+
 # influence network functions
 
 def update_network(request, entity_id):
@@ -292,7 +332,6 @@ def update_network(request, entity_id):
     inf.add(new_id)
     request.session['influence_network'] = inf
     return 
-
 
 def clear_network(request):
     if request.session.has_key('influence_network'):
