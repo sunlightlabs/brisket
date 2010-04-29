@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'piston.middleware.CommonMiddlewareCompatProxy',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'locksmith.auth.middleware.APIKeyMiddleware',
     'dcapi.middleware.APIMiddleware',
 )
@@ -97,9 +97,33 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 MEDIASYNC_JOINED = {
-    'contributions.js': ['js/td.js', 'js/td.fields.js', 'js/td.contributions.js'],
-    'lobbying.js': ['js/td.js', 'js/td.fields.js', 'js/td.lobbying.js'],
-    'index.js': ['js/td.js', 'js/td.fields.js', 'js/td.lobbying.js', 'js/td.contributions.js'],
+    'css/all.css': [
+        'css/ui-lightness/jquery-ui-1.7.2.custom.css',
+        'css/jquery.autocomplete.css',
+        'css/main.css'
+    ],
+    '3rdparty.js': [
+        'js/jquery-1.4.2.min.js',
+        'js/jquery-ui-1.7.2.custom.min.js',
+        'js/jquery.currency.js',
+        'js/underscore-min.js'
+    ],
+    'contributions.js': [
+        'js/td.js',
+        'js/td.fields.js',
+        'js/td.contributions.js'
+    ],
+    'lobbying.js': [
+        'js/td.js',
+        'js/td.fields.js',
+        'js/td.lobbying.js'
+    ],
+    'index.js': [
+        'js/td.js',
+        'js/td.fields.js',
+        'js/td.lobbying.js',
+        'js/td.contributions.js'
+    ],
 }
 
 try:
