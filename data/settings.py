@@ -76,13 +76,6 @@ INSTALLED_APPS = (
     'dc_web.public',
 )
 
-# LOGIN_URL = '/auth/login/'
-# LOGIN_REDIRECT_URL = '/'
-# LOGOUT_URL = '/auth/logout/'
-
-ACCOUNT_ACTIVATION_DAYS = 2
-LOGIN_REDIRECT_URL = '/'
-
 PISTON_DISPLAY_ERRORS = True
 PISTON_EMAIL_ERRORS = False
 PISTON_STREAM_OUTPUT = True
