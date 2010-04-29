@@ -64,7 +64,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'debug_toolbar',
     'mediasync',
-    'registration',
     'locksmith.auth',
     'matchbox',
     'dcdata',
