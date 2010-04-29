@@ -95,7 +95,7 @@ div.whiteboxRight {
 }
 
 div.introbox {
-	background: #FFF url(../images/img-fade.png) top left repeat-x;
+	background-color: #FFF;
 	width: 580px;
 	padding: 30px;
 	border: solid 2px #A59C82;

@@ -6,23 +6,13 @@
         <meta name="description" content="Transparency Data is a central source for all federal and state campaign contributions made in the last twenty years. Here you can begin your search, find the information you need and then download records of what a candidate has received, what an individual has given, and how much companies and their employees have given." />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>{% block title %}Search State and Federal Campaign Contribution Data{% endblock %} - TransparencyData.com</title>
-
 		<!-- icons --> 
-	    <link rel="shortcut icon" href="http://assets.transparencydata.org.s3.amazonaws.com/1.0/images/favicon.ico" type="image/x-icon"> 
-	    <link rel="icon" href="http://assets.transparencydata.org.s3.amazonaws.com/1.0/images/favicon.ico" type="image/x-icon">
-				
+	    <link rel="shortcut icon" href="http://assets.transparencydata.org.s3.amazonaws.com/1.1/images/favicon.ico" type="image/x-icon"> 
+	    <link rel="icon" href="http://assets.transparencydata.org.s3.amazonaws.com/1.1/images/favicon.ico" type="image/x-icon">
 		<!-- stylesheets -->
-        {% css "css/ui-lightness/jquery-ui-1.7.2.custom.css" %}
-        {% css "css/jquery.autocomplete.css" %}
-        {% css "css/main.css" %}
-        <!--[if IE 6]>{% css "css/buggy.css" %}<![endif]-->
-        <!--[if IE 7]>{% css "css/buggy7.css" %}<![endif]-->
-
+		{% css "css/all.css" %}
 		<!-- scripts -->
-        {% js "js/jquery-1.4.2.min.js" %}
-        {% js "js/jquery-ui-1.7.2.custom.min.js" %}
-        {% js "js/jquery.currency.js" %}
-        {% js "js/underscore-min.js" %}
+		{% js "3rdparty.js" %}
 		<script src="http://services.sunlightlabs.com/brandingbar/hat_js/transparencydata/" type="text/javascript"></script> 
     </head>
     <body id="{% block bodyid %}transparencydata{% endblock %}" class="{% block bodyclass %}{% endblock %}">

@@ -44,10 +44,12 @@ def debug_contributions(request):
 
 def data_contributions(request, count=False):
     if count:
+        print "count"
         params = request.GET.copy()
         c = load_contributions(params, nolimit=True).order_by().count()
         return HttpResponse("%i" % c, content_type='text/plain')
     else:
+        print "no count"
         request.GET = request.GET.copy()
         request.GET['per_page'] = 30
         request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
