@@ -252,10 +252,12 @@ def politician_meta(full_name):
     photo_url = "http://assets.sunlightfoundation.com/moc/100x125/%s.jpg" % bioguide_id
     
     # scrape congress's bioguide site for years of service and official bio
-    html = urllib2.urlopen("http://bioguide.congress.gov/scripts/biodisplay.pl?index=%s" % bioguide_id)
+    html = urllib2.urlopen("http://bioguide.congress.gov/scripts/biodisplay.pl?index=%s" % bioguide_id).read()
     soup = BeautifulSoup(html, convertEntities=BeautifulSoup.HTML_ENTITIES)
     yrs_of_service = soup.findAll('table')[1].find('tr').findAll('td')[1].findAll('font')[2].next.next.next.strip()
-    biography = soup.findAll('table')[1].find('tr').findAll('td')[1].find('p').text
+    bio_a = soup.findAll('table')[1].find('tr').findAll('td')[1].find('p').find('font').extract().renderContents()
+    bio_b = soup.findAll('table')[1].find('tr').findAll('td')[1].find('p').renderContents()
+    biography = bio_a.strip()+' '+bio_b.strip()
 
     # other metadata - from sunlightlabs services
     arguments = urllib.urlencode({'apikey': settings.SUNLIGHT_API_KEY, 
