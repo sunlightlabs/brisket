@@ -34,13 +34,13 @@ urlpatterns = patterns('brisket.influence.views',
 urlpatterns += patterns('django.views.generic.simple',
     # treat urls without the entity_id as search strings                           
 
-    url(r'^organization/(?P<query_string>[a-z\-]+)', 'redirect_to', 
+    url(r'^organization/(?P<query_string>[\w\-]+)', 'redirect_to', 
         {'url': '/search?query=%(query_string)s'}),                       
 
-    url(r'^politician/(?P<query_string>[a-z\-]+)', 'redirect_to', 
+    url(r'^politician/(?P<query_string>[\w\-]+)', 'redirect_to', 
         {'url': '/search?query=%(query_string)s'}),                       
 
-    url(r'^individual/(?P<query_string>[a-z\-]+)', 'redirect_to', 
+    url(r'^individual/(?P<query_string>[\w\-]+)', 'redirect_to', 
         {'url': '/search?query=%(query_string)s'}),                       
 
 )
