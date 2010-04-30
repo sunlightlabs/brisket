@@ -33,6 +33,7 @@
       <div id="main_search">
       <form action="/search" method="get">
 	{{ search_form.as_p }}
+	<input type="hidden" name="from_form" value="1">
 	<input type="submit" value="Search Entities" />
       </form>
       </div>

@@ -43,7 +43,14 @@ def search(request):
     if submitted_form.is_valid():        
         api = AggregatesAPI()
         query = urllib.unquote(submitted_form.cleaned_data['query'])
-        query = query.replace('-', ' ')
+        print 'form value: %s' % query
+
+        # if a user submitted the search value from the form, then
+        # treat the hyphens as intentional. if it was from a url, then
+        # the name has probably been slug-ized and we need to remove
+        # any single occurences of hyphens. 
+        if not request.GET.get('from_form', None):            
+            query = query.replace('-', ' ')
         print 'now searching for "%s"...' % query
         results = api.entity_search(query)
 
@@ -57,8 +64,6 @@ def search(request):
             _id = entity_results[0]['id']
             return HttpResponseRedirect('/%s/%s/%s' % (result_type, name, _id))
 
-        print 'entity_results'
-        print entity_results
         if len(entity_results) == 0:
             sorted_results = None
         else:
@@ -318,4 +323,4 @@ def slugify(string):
     ''' like the django template tag, converts to lowercase, removes
     all non-alphanumeric characters and replaces spaces with
     hyphens. '''
-    return re.sub(" ", "-", re.sub("[^a-zA-Z0-9 ]+", "", string)).lower()
+    return re.sub(" ", "-", re.sub("[^a-zA-Z0-9 -]+", "", string)).lower()
