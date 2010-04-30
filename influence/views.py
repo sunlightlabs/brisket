@@ -12,7 +12,7 @@ from django.template import RequestContext
 from brisket.influence.forms import SearchForm, ElectionCycle
 from api import *
 from brisket.util import catcodes
-from network import InfluenceNetwork
+#from network import InfluenceNetwork
 import urllib, re
 
 def brisket_context(request): 
@@ -29,11 +29,6 @@ def entity_context(request):
         context_variables['cycle_form'] = ElectionCycle(request.GET)
     else:
         context_variables['cycle_form'] = ElectionCycle({'cycle':request.session.get('cycle', '2010')})
-
-    if request.session.has_key('influence_network'):
-        inf = request.session['influence_network']
-        print inf.as_json()
-        context_variables['network'] = inf.as_json()
     return RequestContext(request, context_variables)
 
 def index(request):    
@@ -77,7 +72,6 @@ def search(request):
         return HttpResponseRedirect('/')
 
 def organization_entity(request, entity_id):
-    update_network(request, entity_id)
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
     request.session['cycle'] = cycle
     api = AggregatesAPI()    
@@ -132,7 +126,6 @@ def organization_entity(request, entity_id):
                               entity_context(request))
 
 def politician_entity(request, entity_id):
-    update_network(request, entity_id)
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
     request.session['cycle'] = cycle
     api = AggregatesAPI()    
@@ -189,7 +182,6 @@ def politician_entity(request, entity_id):
                               entity_context(request))
         
 def individual_entity(request, entity_id):    
-    update_network(request, entity_id)
     api = AggregatesAPI() 
     entity_info = api.entity_metadata(entity_id)    
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
@@ -328,19 +320,3 @@ def slugify(string):
     hyphens. '''
     return re.sub(" ", "-", re.sub("[^a-zA-Z0-9 ]+", "", string)).lower()
 
-
-# influence network functions
-
-def update_network(request, entity_id):
-    ''' Add the new entity to the Influence Network'''
-    new_id = entity_id
-    #weight = request.GET.get('weight')
-    inf = request.session.get('influence_network', InfluenceNetwork())
-    inf.add(new_id)
-    request.session['influence_network'] = inf
-    return 
-
-def clear_network(request):
-    if request.session.has_key('influence_network'):
-        del request.session['influence_network']
-    return HttpResponseRedirect('/')
