@@ -10,10 +10,9 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.template import RequestContext
 from brisket.influence.forms import SearchForm, ElectionCycle
-#from network import InfluenceNetwork
 from api import *
 from brisket.util import catcodes
-from network import InfluenceNetwork
+#from network import InfluenceNetwork
 import urllib, re
 
 def brisket_context(request): 
@@ -31,10 +30,10 @@ def entity_context(request):
     else:
         context_variables['cycle_form'] = ElectionCycle({'cycle':request.session.get('cycle', '2010')})
 
-    if request.session.has_key('influence_network'):
-        inf = request.session['influence_network']
-        print inf.as_json()
-        context_variables['network'] = inf.as_json()
+#    if request.session.has_key('influence_network'):
+#        inf = request.session['influence_network']
+#        print inf.as_json()
+#        context_variables['network'] = inf.as_json()
     return RequestContext(request, context_variables)
 
 def index(request):    
@@ -78,14 +77,9 @@ def search(request):
         return HttpResponseRedirect('/')
 
 def organization_entity(request, entity_id):
-<<<<<<< HEAD
-    #update_network(request, entity_id)
-    cycle = request.GET.get("cycle", 2010)
-=======
-    update_network(request, entity_id)
+#    update_network(request, entity_id)
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
     request.session['cycle'] = cycle
->>>>>>> 12f5b5421c4c51dfaea4270ac18b09eb57c83d91
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id)
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
@@ -138,17 +132,9 @@ def organization_entity(request, entity_id):
                               entity_context(request))
 
 def politician_entity(request, entity_id):
-<<<<<<< HEAD
-    #update_network(request, entity_id)
-
-    #check to see if a specific election cycle was specified, using
-    #2010 as default if not.
-    cycle = request.GET.get("cycle", 2010)
-=======
-    update_network(request, entity_id)
+#    update_network(request, entity_id)
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
     request.session['cycle'] = cycle
->>>>>>> 12f5b5421c4c51dfaea4270ac18b09eb57c83d91
     api = AggregatesAPI()    
 
     # metadata
@@ -203,13 +189,7 @@ def politician_entity(request, entity_id):
                               entity_context(request))
         
 def individual_entity(request, entity_id):    
-<<<<<<< HEAD
-    #update_network(request, entity_id)
-
-    # individuals only give contributions
-=======
-    update_network(request, entity_id)
->>>>>>> 12f5b5421c4c51dfaea4270ac18b09eb57c83d91
+#    update_network(request, entity_id)
     api = AggregatesAPI() 
     entity_info = api.entity_metadata(entity_id)    
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
@@ -351,16 +331,16 @@ def slugify(string):
 
 # influence network functions
 
-def update_network(request, entity_id):
-    ''' Add the new entity to the Influence Network'''
-    new_id = entity_id
-    #weight = request.GET.get('weight')
-    inf = request.session.get('influence_network', InfluenceNetwork())
-    inf.add(new_id)
-    request.session['influence_network'] = inf
-    return 
-
-def clear_network(request):
-    if request.session.has_key('influence_network'):
-        del request.session['influence_network']
-    return HttpResponseRedirect('/')
+#def update_network(request, entity_id):
+#    ''' Add the new entity to the Influence Network'''
+#    new_id = entity_id
+#    #weight = request.GET.get('weight')
+#    inf = request.session.get('influence_network', InfluenceNetwork())
+#    inf.add(new_id)
+#    request.session['influence_network'] = inf
+#    return 
+#
+#def clear_network(request):
+#    if request.session.has_key('influence_network'):
+#        del request.session['influence_network']
+#    return HttpResponseRedirect('/')
