@@ -1,44 +1,129 @@
-{% extends "base.html" %}
+{% extends "search_base.html" %}
 
 {% block main %}
 
-{% if not sorted_results %}
-<h2>No results for that search</h2>
+<div id="contentHeader">
+  {% if not sorted_results %}
+  <h2>No results for that search</h2>
+  {% else %}
+  <h2>Results for "{{ query|title }}"</h2>
+</div>
 
-{% else %}
+<div class="chartModule">
+  
+  {% if num_orgs %}
+  <div class="searchBox">
+    <h3>Matching Organizations</h3>
+    <span class="results">{{ num_orgs }} Results</span>
+    {% for result_pair in sorted_results.organization %}
+    <dl>
 
-<h2>Results</h2>
+      <dt>
+	<a href="/{{ result_pair.0.type }}/{{result_pair.0.name|slugify }}/{{ result_pair.0.id }}">
+	  {{result_pair.0.name}}
+	</a> 
+	<span title="Results">({{ result_pair.0.count_given }} transactions)</span>
+      </dt>
+      <dd class="even">
+	${{ result_pair.0.total_given }} given.
+      </dd>
 
-<div class="all_results">
-{% if sorted_results.organization %}
-      <h3>Organizations</h3>
-   {% for result in sorted_results.organization %}
-      <p><a href="/{{ result.type }}/{{result.name|slugify }}/{{ result.id }}">
-	  {{result.name}}</a> was involved in {{ result.count }}
-	transactions involving ${{ result.total_given }} given and
-	${{result.total_received }} received</p>
-   {% endfor %}
-{% endif %}
+      {% if result_pair.1 %}
+      <dt>
+	<a href="/{{ result_pair.1.type }}/{{result_pair.1.name|slugify }}/{{ result_pair.1.id }}">
+	  {{result_pair.1.name}}
+	</a> 
+	<span title="Results">({{ result_pair.1.count_given }} transactions)</span>
+      </dt>
+      <dd class="odd">
+	${{ result_pair.1.total_given }} given.
+      </dd>
+      {% endif %}
+    </dl>
+    <div class="clear"></div>
+    {% endfor %}
+  </div>
+  {% endif %}
 
-{% if sorted_results.politician %}
-      <h3>Politicians</h3>
-   {% for result in sorted_results.politician %}
-      <p><a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}">
-	  {{result.name}}</a> was involved in {{ result.count }}
-	transactions involving ${{ result.total_given }} given and
-	${{result.total_received }} received</p>
-   {% endfor %}
-{% endif %}
 
-{% if sorted_results.individual %}
-      <h3>Individuals</h3>
-   {% for result in sorted_results.individual %}
-      <p><a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}">
-	  {{result.name}}</a> was involved in {{ result.count }}
-	transactions involving ${{ result.total_given }} given and
-	${{result.total_received }} received</p>
-   {% endfor %}
-{% endif %}
+  {% if num_indivs %}
+  <div class="searchBox clear">    
+    <h3>Matching People</h3>
+    <span class="results">{{ num_indivs }} Results</span>    
+    {% for result_pair in sorted_results.individual %}
+    <dl>
+      <dt>
+	<a href="/{{ result_pair.0.type }}/{{ result_pair.0.name|slugify }}/{{ result_pair.0.id }}">
+	  {{result_pair.0.name}}
+	</a>
+	<span title="Results">({{ result_pair.0.count_given }} transactions)</span>
+      </dt>
+      <dd class="even">
+	${{ result_pair.0.total_given }} given
+      </dd>
+
+      {% if result_pair.1 %}
+      <dt>
+	<a href="/{{ result_pair.1.type }}/{{ result_pair.1.name|slugify }}/{{ result_pair.1.id }}">
+	  {{result_pair.1.name}}
+	</a>
+	<span title="Results">({{ result_pair.1.count_given }} transactions)</span>
+      </dt>
+      <dd class="odd">
+	${{ result_pair.1.total_given }} given
+      </dd>
+      {% endif %}
+
+    </dl>
+    <div class="clear"></div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+
+  {% if num_pols %}
+  <div class="clear">
+    <h3>Matching Politicians</h3>
+    <span class="results">{{ num_pols }} Results</span>    
+
+    <table class="threeColumn clear">
+      <thead>
+        <tr id="titles">
+          <th class="left">Incumbant</th>
+          <th class="center">Politician</th>
+          <th class="center">State</th>
+          <th class="center">Position</th>
+          <th class="center">Office</th>
+          <th class="center">Party</th>
+          <th class="center">Total Received</th>
+          <th class="right">Records</th>
+        </tr>
+      </thead>
+      <tbody>	
+	{% for result in sorted_results.politician %}
+	<tr class="even">
+	  <td title="Not An Incumbant" class="incumbant_check incumbant_no">Not An Incumbant</td>
+          <td class="center">
+	    <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}">
+	      {{result.name}}
+	    </a> 
+          </td>
+          <td class="center">XX</td>
+          <td class="center">XX</td>
+          <td class="center">??????</td>
+          <td class="center">???</td>
+          <td class="center">${{result.total_received }}</td>
+          <td class="right">{{ result.count_received }}</td>	  
+	  {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+  </div>  
+  <div class="twoColumn chartWrapper">  
+    <div class="clear">
+    </div>
+  </div>
+  {% endif %}
 
 </div>
 

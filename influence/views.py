@@ -67,10 +67,31 @@ def search(request):
         if len(entity_results) == 0:
             sorted_results = None
         else:
+            # sort the results by type
             sorted_results = {'organization': [], 'politician': [], 'individual': []}
             for result in entity_results:
                 sorted_results[result['type']].append(result)
-        return render_to_response('results.html', {'sorted_results': sorted_results}, 
+
+            # keep track of how many there are of each type of result
+            num_orgs = len(sorted_results['organization'])
+            num_pols = len(sorted_results['politician'])
+            num_indivs = len(sorted_results['individual'])
+
+            # organize the results for organizationa and individuals
+            # into pairs to facilitate display in the template
+            for k in ['organization', 'individual']:
+                l = sorted_results[k]
+                pairs = []
+                for i in xrange(0, len(l), 2):
+                    pairs.append(l[i:i+2])
+                sorted_results[k] = pairs
+
+        return render_to_response('results.html', 
+                                  {'sorted_results': sorted_results, 
+                                   'num_orgs': num_orgs,
+                                   'num_pols': num_pols,
+                                   'num_indivs': num_indivs,
+                                   'query': query}, 
                                   brisket_context(request))
     else: 
         form = SearchForm(request.GET)

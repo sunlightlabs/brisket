@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
-{% block main %}
-<div class="module" id="featureBox">
-  <h2>Start Your Search Below</h2>
-  <p>Type in the name of a <span>company</span>, your <span>lawmaker</span>, or your <span>friends</span>, and see how they're influencing the political system.</p>
+{% block search %}
+
+<div id="search">
   <form id="searchForm" action="/search" method="get">
     {{ search_form.query }}
     <input type="hidden" name="from_form" value="1">
@@ -12,5 +11,8 @@
     </button>
   </form>
   <div class="clear"></div>
+  <span class="tip">Enter a politician, company or individual donor</span>
 </div>
+
 {% endblock %}
+

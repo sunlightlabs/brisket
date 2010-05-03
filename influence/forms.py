@@ -2,7 +2,7 @@ from django.core.context_processors import request
 from django import forms
 
 class SearchForm(forms.Form):
-    query = forms.CharField(max_length=200)
+    query = forms.CharField(max_length=200, initial='SEARCH')
 
 class ElectionCycle(forms.Form):    
     ELECTION_CYCLES = [('1990', '1990'), ('1991', '1991'), ('1992', '1992'),
