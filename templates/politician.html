@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "entity_base.html" %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
@@ -11,103 +11,113 @@
 
 {% endblock %}
 
-{% block main %}
+{% block contentHeader %}
 
-<h1>{{ entity_info.name }}</h1>
-    {% if metadata.party == 'D' %}
-       Democratic Party:     
-    {% else %} 
-       {% if metadata.party == 'R' %}    
-          Republican Party:
-       {% else %}
-          {{ metadata.party }}
-       {% endif %}
-    {% endif %}
-    {{ metadata.state }}
+{% if metadata.photo_url %}
+<img alt="political photo" src="{{ metadata.photo_url }}"/>
+{% endif %}
 
-<div id="biographical">
-  <div id="politician_picture_frame">
-    <img src="{{ metadata.photo_url }}" id="politician_picture">
-  </div>
-  <div id="politician_metadata">   
-    {{ metadata.biography }}
-  </div>
-  <div id="cycle_filter">
-    <h3>View Other Selection Cycles</h3>
-    <p>Select another election cycle to change the charts below</p>
-    <form action="" method="get">
-      {{ cycle_form.as_p }}      
-      
-      <input type="submit" value="Update Cycles" />
-    </form>
-  </div>
+<h2>{{ entity_info.name }}</h2>
+<dl>
+  <dt class="noshow">Party</dt>
+
+  {% if metadata.party == 'D' %}
+  <dd>Democrat</dd>
+  {% else %} 
+  {% if metadata.party == 'R' %}    
+  <dd>Republican</dd>
+  {% else %}
+  <dd>{{ metadata.party }}</dd>
+  {% endif %}
+  {% endif %}
+    
+  <dt class="noshow">State</dt>
+  <dd>{{metadata.state}}</dd>
+  
+  {% if metadata.yrs_of_service %}
+  <dt>Years of Service:</dt>
+  <dd>{{metadata.yrs_of_service}}</dd>    
+  {% endif %}
+</dl>  
+<div class="clear"></div>
+{% endblock %}
+
+{% if metadata.biography %}
+{% block description %}
+{{ metadata.biography }}
+{% endblock %}
+{% endif %}
+
+{% block overview_amount %}
+${{entity_info.contribution_total_received }} Received
+{% endblock %}
+{% block details_link %}
+<a class="detailsLink" href="{{ entity_info.name|slugify }}/{{entity_id }}/details">
+  View Timeline Details
+</a>
+{% endblock %}
+
+{% block chart1 %}
+<h4>Industry Sectors</h4>
+<div class="graph" id="sectors_barchart">
+  <!-- raphael charts -->
 </div>
+{% endblock %}
+{% block chart1_details %}
+<a class="detailsLink" href="#">View All Results</a>
+{% endblock %}
 
-<div id="totals_section">
-  <span id="amount_received">
-    ${{entity_info.contribution_total_received }} Received as of 
-    [[ date ]]
-  </span>
-  <span id="sparkline_received">
-    {% if sparkline %} 
-    <img src="{{ sparkline }}">
-    {% else %}
-    <b>Sparkline: No Data</b>
-    {% endif %}
-  </span>
-  <a href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">View Details</a>
+{% block chart2 %}
+<h4 class="withTip">In State vs. Out of State</h4>
+<span class="tip">in dollars</span>
+<div class="graph" id="piechart_local">
+  <!-- raphael charts -->
 </div>
+{% endblock %}
+{% block chart2_details %}
+<a class="detailsLink" href="#">View Full Details</a>
+{% endblock %}
 
-<div id="charts">
-  <div id="sectors_barchart">
-      <!-- raphael charts -->
-  </div>
-
-  <div class="piechart">
-    <div id="piechart_local">            
-      <!-- raphael charts -->
-    </div>
-  </div>
-
-  <div class="piechart">
-    <div id="piechart_entity">
-      <!-- raphael charts -->
-    </div>
-  </div>
+{% block chart3 %}
+<h4 class="withTip">Individuals vs. PACs</h4>
+<span class="tip">in dollars</span>
+<div class="graph" id="piechart_entity">
+  <!-- raphael charts -->
 </div>
+{% endblock %}
+{% block chart3_details %}
+<a class="detailsLink" href="#">View Full Details</a>
+{% endblock %}
 
-<div id="top_contributors">
-  <h2>Top Contributors to {{ entity_info.name }}</h2>
-  <table>
+{% block table %}
+<div class="twoColumn chartWrapper">
+  <h4>Top Contributors to {{ entity_info.name }}</h4>
+  <table class="twoColumn">
     <thead>
-      <tr>
-	<th>Name</th>
-	<th>Direct<br>Contributions</th>
-	<th>Employee<br>Contributions</th>
-	<th>Total</th>
+      <tr id="titles">
+        <th class="left">Name</th>
+        <th class="center">Employee Contributions</th>
+        <th class="center">Direct Contributions</th>
+        <th class="right">Total</th>
       </tr>
     </thead>
     <tbody>
       {% for row in top_contributors %}
-      <tr>
-	{% if row.id %}
-	<td><a href="/organization/{{ row.name|slugify }}/{{ row.id }}">{{ row.name }}</a></td>
-	{% else %}
-	<td>{{ row.name }}</td>
-        {% endif %} 
-	<td>{{ row.direct_amount }} </td>
-	<td>{{ row.employee_amount }}</td>
-	<td>{{ row.total_amount }}</td>
+      <tr class="even">
+        <td>	    
+	  {% if row.id %}
+	  <a href="/organization/{{ row.name|slugify }}/{{ row.id }}">{{ row.name }}</a>
+	  {% else %}
+	  {{ row.name }}
+          {% endif %} 
+        </td>
+        <td class="center">${{ row.direct_amount }}</td>
+        <td class="center">${{ row.employee_amount }}</td>
+        <td class="right">${{ row.total_amount }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-</div>
-
-<div id="capitol_words">
-  {% for item in capitol_words %}
-  <b>{{item.word}}: </b>{{item.word_count}}<br>
-  {% endfor %}
 </div>
 
 {% endblock %}

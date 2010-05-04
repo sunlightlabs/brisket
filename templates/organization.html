@@ -1,4 +1,4 @@
-{% extends "search_base.html" %}
+{% extends "entity_base.html" %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
@@ -10,153 +10,50 @@
 </script>
 {% endblock %}
 
-{% block main %}
-
-<div id="contentHeader">
-  <h2>{{ entity_info.name }}</h2>
-</div>
-
-
-<div class="module" id="timeSpan">
-  <div id="currentDates">
-    <span>???? </span>to
-    <span> ????</span>
-  </div>
-  <div id="changeDates">
-    <label>View Other Election Cycles</label>
-    <form action="" method="get">
-      {{ cycle_form.as_p }}
-      <input type="submit" value="Update Cycles" />
-    </form>
-  </div>
-  <div class="clear"></div>
-</div>
-
-
-<p id="description" class="module clear">Short description of company,
-maybe how long they’ve been donating money to candidate?</p>
-
-<div id="overviewBar">
-  <h3>Contributions</h3>
-  <span>${{entity_info.contribution_total_given }} Given</span>
-  <div id="sparklines">                
-  </div>
-  <a class="detailsLink" href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">
-    View Timeline Details
-  </a>
-</div>
-
-
-<div class="chartModule">
-
-
-  <div class="oneColumn chartWrapper">
-    <div class="chart">
-      <h4>Top Candidates</h4>
-      <div class="graph" id="recipients_barchart"></div>
-      <!-- raphael charts here -->
-    </div>
-    <a class="detailsLink" href="#">View All Candidates</a>
-  </div>
-
-  <div class="oneColumn chartWrapper">
-    <div class="chart">
-      <h4 class="withTip">Republications vs. Democrats</h4>
-      <span class="tip">in dollars</span>
-      <div class="graph" id="piechart_party">
-	<!-- raphael charts here -->
-      </div>
-    </div>
-    <a class="detailsLink" href="#">View Full Details</a>
-  </div>
-
-
-  <div class="oneColumn chartWrapper">
-    <div class="chart">
-      <h4 class="withTip">State vs. Federal</h4>
-      <span class="tip">in dollars</span>
-      <div class="graph" id="piechart_level">
-	<!-- raphael charts here -->
-      </div>
-    </div>
-    <a class="detailsLink" href="#">View Full Details</a>
-  </div>
-  
-  <div class="clear"></div>
-</div><!-- end chartModule -->
-
-
-<div class="lobbying_data">
-  {% if lobbying_spent_by_industry %}
-  <h2>Lobbying</h2>
-  <!-- tuples contain (industry_code, industry_name, --
-    -- industry_area, amt) -->
-  <div id="lobbying_summary">
-    {{ entity_info.name }} spent
-    {% for industry in lobbying_spent_by_industry %}
-    ${{ industry.3 }} on lobbyists in <a href="/lobby/{{industry.0}}">{{ industry.2|title }}</a> 
-    (<a href="">{{ industry.1|title }}</a>). 
-    {% endfor %}
-  </div>
-  <div id="lobbying_table">
-    <table>
-      <thead>
-	<tr>
-	  <th>Firm</th>
-	  <th>Amount</th>
-	</tr>
-      </thead>
-      <tbody>
-	{% for row in lobbying_by_firm %}
-	<tr>
-	  <td><a href="/search?query={{ row.0|urlencode }}">{{ row.0 }}</a></td>
-	  <td>${{ row.1 }}</td>
-	</tr>
-	{% endfor %}
-      </tbody>
-    </table>
-  </div>  
-
-  {% else %}
-  <em>There is no record of {{ entity_info.name }} hiring lobbyists during {{ cycle }}.</em><br>
-  {% endif %}
-
-
-
-  {% if lobbying_hired_for_by_industry %}
-  <!-- tuples contain (industry_code, industry_name, --
-    -- industry_area, amt) -->
-  <div id="lobbying_summary">
-    {{ entity_info.name }} received
-    {% for industry in lobbying_hired_for_by_industry %}
-    ${{ industry.3 }} to lobby for <a href="/lobby/{{industry.0}}">{{ industry.2|title }}</a> 
-    (<a href="">{{ industry.1|title }}</a>). 
-    {% endfor %}
-  </div>
-  <div id="lobbying_table">
-    <table>
-      <thead>
-	<tr>
-	  <th>Customer</th>
-	  <th>Amount</th>
-	</tr>
-      </thead>
-      <tbody>
-	{% for row in lobbying_by_customer %}
-	<tr>
-	  <td><a href="/search?query={{ row.0|urlencode }}">{{ row.0 }}</a></td>
-	  <td>${{ row.1 }}</td>
-	</tr>
-	{% endfor %}
-      </tbody>
-    </table>
-  </div>  
-
-  {% else %}
-  <em>There is no record of {{ entity_info.name }} being hired as a lobbyist during {{ cycle }}.</em><br>
-  {% endif %}
-
-  
-</div>
-
+{% block contentHeader %}
+<h2>{{ entity_info.name }}</h2>
 {% endblock %}
+
+{% block overview_amount %}
+${{entity_info.contribution_total_given }} Given
+{% endblock %}
+{% block details_link %}
+<a class="detailsLink" href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">
+  View Timeline Details
+</a>
+{% endblock %}
+
+{% block chart1 %}
+<h4>Top Candidates</h4>
+<div class="graph" id="recipients_barchart">
+  <!-- raphael charts here -->
+</div>
+{% endblock %}
+{% block chart1_details %}
+<a class="detailsLink" href="#">View All Recipients</a>
+{% endblock %}
+
+
+{% block chart2 %}
+<h4 class="withTip">Republications vs. Democrats</h4>
+<span class="tip">in dollars</span>
+<div class="graph" id="piechart_party">
+  <!-- raphael charts here -->
+</div>
+{% endblock %}
+{% block chart2_details %}
+<a class="detailsLink" href="#">View Full Details</a>
+{% endblock %}
+
+{% block chart3 %}
+<h4 class="withTip">State vs. Federal</h4>
+<span class="tip">in dollars</span>
+<div class="graph" id="piechart_level">
+  <!-- raphael charts here -->
+</div>
+{% endblock %}
+{% block chart3_details %}
+    <a class="detailsLink" href="#">View Full Details</a>
+{% endblock %}
+
+

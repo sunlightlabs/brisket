@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "entity_base.html" %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
@@ -9,64 +9,50 @@
   }
 
 </script>
+{% endblock %}
 
+{% block contentHeader %}
+<h2>{{ entity_info.name }}</h2>
+{% endblock %}
+
+{% block overview_amount %}
+${{entity_info.contribution_total_given }} Given
+{% endblock %}
+{% block details_link %}
+<a class="detailsLink" href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">
+  View Timeline Details
+</a>
+{% endblock %}
+
+{% block chart1 %}
+<h4>Top Candidates</h4>
+<div class="graph" id="recipients_barchart">
+  <!-- raphael charts here -->
+</div>
+{% endblock %}
+{% block chart1_details %}
+<a class="detailsLink" href="#">View All Recipients</a>
+{% endblock %}
+
+{% block chart2 %}
+<h4 class="withTip">Republications vs. Democrats</h4>
+<span class="tip">in dollars</span>
+<div class="graph" id="orgs_barchart">
+  <!-- raphael charts here -->
+</div>
+{% endblock %}
+{% block chart2_details %}
+<a class="detailsLink" href="#">View Full Details</a>
 {% endblock %}
 
 
-{% block main %}
-
-<h1>{{ entity_info.name }}</h1>
-
-<div id="biographical">
-  <div id="organization_picture_frame">
-    <img src="/media/images/placeholder_483px.png" id="organization_logo">
-  </div>
-  <div id="organization_metadata">
-    <h3>{{ entity_info.name }}</h3>
-    <p>Description description description chicken description bbq
-    description sauce description sautee description stirfry
-    description vegetables description tofu description.</p>
-  </div>
-  <div id="cycle_filter">
-    <h3>View Other Selection Cycles</h3>
-    <p>Select another election cycle to change the charts below</p>
-    <form action="" method="get">
-      {{ cycle_form.as_p }}
-      <input type="submit" value="Update Cycles" />
-    </form>
-  </div>
+{% block chart3 %}
+<h4 class="withTip">State vs. Federal</h4>
+<span class="tip">in dollars</span>
+<div class="graph" id="piechart_party">
+  <!-- raphael charts here -->
 </div>
-
-<div id="totals_section">
-  <span id="amount_given">
-    ${{entity_info.contribution_total_given }} Given as of 
-    [[ date ]]
-  </span>
-  <span id="sparkline_given">
-    {% if sparkline %} 
-    <img src="{{ sparkline }}">
-    {% else %}
-    <b>Sparkline: No Data</b>
-    {% endif %}
-  </span>
-  <a href="{{ entity_id }}/details">View Details</a>
-</div>
-
-<div id="charts">
-  <div id="recipients_barchart">
-      <!-- raphael chart here -->
-  </div>
-
-  <div id="orgs_barchart">
-      <!-- raphael chart here -->
-  </div>
-
-  <div class="piechart">
-    <div id="piechart_party">      
-      <!-- raphael chart here -->
-    </div>
-  </div>
-
-</div>
-
+{% endblock %}
+{% block chart3_details %}
+    <a class="detailsLink" href="#">View Full Details</a>
 {% endblock %}

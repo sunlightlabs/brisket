@@ -28,7 +28,6 @@ def entity_context(request):
         context_variables['cycle_form'] = ElectionCycle(request.GET)
     else:
         context_variables['cycle_form'] = ElectionCycle({'cycle':request.session.get('cycle', '2010')})
-
     return RequestContext(request, context_variables)
 
 def index(request):    
@@ -41,6 +40,7 @@ def search(request):
     
     submitted_form = SearchForm(request.GET)
     if submitted_form.is_valid():        
+        kwargs = {}
         api = AggregatesAPI()
         query = urllib.unquote(submitted_form.cleaned_data['query'])
         print 'form value: %s' % query
@@ -65,7 +65,7 @@ def search(request):
             return HttpResponseRedirect('/%s/%s/%s' % (result_type, name, _id))
 
         if len(entity_results) == 0:
-            sorted_results = None
+            kwargs['sorted_results'] = None
         else:
             # sort the results by type
             sorted_results = {'organization': [], 'politician': [], 'individual': []}
@@ -73,9 +73,9 @@ def search(request):
                 sorted_results[result['type']].append(result)
 
             # keep track of how many there are of each type of result
-            num_orgs = len(sorted_results['organization'])
-            num_pols = len(sorted_results['politician'])
-            num_indivs = len(sorted_results['individual'])
+            kwargs['num_orgs'] = len(sorted_results['organization'])
+            kwargs['num_pols'] = len(sorted_results['politician'])
+            kwargs['num_indivs'] = len(sorted_results['individual'])
 
             # organize the results for organizationa and individuals
             # into pairs to facilitate display in the template
@@ -85,14 +85,9 @@ def search(request):
                 for i in xrange(0, len(l), 2):
                     pairs.append(l[i:i+2])
                 sorted_results[k] = pairs
-
-        return render_to_response('results.html', 
-                                  {'sorted_results': sorted_results, 
-                                   'num_orgs': num_orgs,
-                                   'num_pols': num_pols,
-                                   'num_indivs': num_indivs,
-                                   'query': query}, 
-                                  brisket_context(request))
+            kwargs['query'] = query
+            kwargs['sorted_results'] = sorted_results
+        return render_to_response('results.html', kwargs, brisket_context(request))
     else: 
         form = SearchForm(request.GET)
         return HttpResponseRedirect('/')
@@ -200,10 +195,10 @@ def politician_entity(request, entity_id):
                                'top_contributors': top_contributors,
                                'local_breakdown' : local_breakdown,
                                'entity_breakdown' : entity_breakdown,
-    #                           'capitol_words': capitol_words,
                                'metadata': metadata,
                                'sectors_barchart_data': sectors_barchart_data,
                                'sparkline': sparkline,
+                               'cycle': cycle,
                                },
                               entity_context(request))
         
@@ -246,6 +241,7 @@ def individual_entity(request, entity_id):
                                'orgs_barchart_data': orgs_barchart_data,
                                'party_breakdown' : party_breakdown, 
                                'sparkline': sparkline,                               
+                               'cycle': cycle,
                                },
                               entity_context(request))
 

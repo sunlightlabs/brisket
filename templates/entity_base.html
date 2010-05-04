@@ -1,0 +1,87 @@
+{% extends "search_base.html" %}
+
+{% block extrajs %}
+{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+{% block contentHeader %}
+{% endblock %}
+</div>
+
+
+<div class="module" id="timeSpan">
+  <div id="currentDates">
+    <span>{{cycle}} </span>to
+    <span> {{cycle}}</span>
+  </div>
+  <div id="changeDates">
+    <label>View Other Election Cycles</label>
+    <form action="" method="get">
+      {{ cycle_form.cycle }}
+      <br><input type="submit" value="Update Cycles" />
+    </form>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<!-- if there's a description for the entity, override this -->
+<p id="description" class="module clear">
+  {% block description %}
+  No description available
+  {% endblock %}
+</p>
+
+<div id="overviewBar">
+  <h3>Contributions</h3>
+  <span>
+    {% block overview_amount %}
+    {% endblock %}
+  </span>
+  <div id="sparklines">                
+    {% block sparkline %}
+    {% endblock %}
+  </div>  
+  {% block details_link %}
+  {% endblock %}
+</div>
+
+
+<div class="chartModule">
+
+  <div class="oneColumn chartWrapper">
+    <div class="chart">
+      {% block chart1 %}
+      {% endblock %}
+    </div>
+    {% block chart1_details %}
+    {% endblock %}
+  </div>
+
+  <div class="oneColumn chartWrapper">
+    <div class="chart">
+      {% block chart2 %}
+      {% endblock %}
+    </div>
+    {% block chart2_details %}
+    {% endblock %}
+  </div>
+
+
+  <div class="oneColumn chartWrapper">
+    <div class="chart">
+      {% block chart3 %}
+      {% endblock %}
+    </div>
+    {% block chart3_details %}
+    {% endblock %}
+  </div>
+  
+  {% block table %}
+  {% endblock %}
+
+  <div class="clear"></div>
+</div><!-- end chartModule -->
+
+{% endblock %}
