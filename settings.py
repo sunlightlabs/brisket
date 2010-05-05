@@ -82,7 +82,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates 
     'brisket.influence',
-    'brisket.experimental',
     'brisket.util'
 )
 
