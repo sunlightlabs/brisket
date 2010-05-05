@@ -96,7 +96,7 @@ def organization_entity(request, entity_id):
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
     request.session['cycle'] = cycle
     api = AggregatesAPI()    
-    entity_info = api.entity_metadata(entity_id)
+    entity_info = api.entity_metadata(entity_id, cycle)
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
     recipients_barchart_data = []
     for record in org_recipients:        
@@ -152,7 +152,7 @@ def politician_entity(request, entity_id):
     api = AggregatesAPI()    
 
     # metadata
-    entity_info = api.entity_metadata(entity_id)
+    entity_info = api.entity_metadata(entity_id, cycle)
     metadata = politician_meta(entity_info['name'])
 
     top_contributors = api.pol_contributors(entity_id, 'org', cycle=cycle)
@@ -203,10 +203,10 @@ def politician_entity(request, entity_id):
                               entity_context(request))
         
 def individual_entity(request, entity_id):    
-    api = AggregatesAPI() 
-    entity_info = api.entity_metadata(entity_id)    
     cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
     request.session['cycle'] = cycle
+    api = AggregatesAPI() 
+    entity_info = api.entity_metadata(entity_id, cycle)    
     recipient_candidates = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='pol')
     candidates_barchart_data = []
     for record in recipient_candidates:        
@@ -248,7 +248,7 @@ def individual_entity(request, entity_id):
 def industry_detail(request, entity_id):
     cycle = request.GET.get("cycle", 2010)    
     api = AggregatesAPI()    
-    entity_info = api.entity_metadata(entity_id)    
+    entity_info = api.entity_metadata(entity_id, cycle)    
     top_industries = api.top_industries(entity_id, cycle=cycle)
 
     sectors = {}

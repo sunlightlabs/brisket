@@ -106,8 +106,8 @@ class AggregatesAPI(APIUtil):
         results = json.loads(fp.read())
         return self.remove_unicode(results)
 
-    def entity_metadata(self, entity_id):
-        arguments = 'entities/%s.json?apikey=%s' % (entity_id, settings.API_KEY)
+    def entity_metadata(self, entity_id, cycle):
+        arguments = 'entities/%s.json?apikey=%s&cycle=%s' % (entity_id, settings.API_KEY, cycle)
         api_call = self.base_url.strip('/')+'/'+arguments        
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
