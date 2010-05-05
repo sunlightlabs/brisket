@@ -49,7 +49,7 @@
 {% endif %}
 
 {% block overview_amount %}
-${{entity_info.contribution_total_received }} Received
+${{entity_info.contributions.recipient_amount }} Received
 {% endblock %}
 {% block details_link %}
 <a class="detailsLink" href="{{ entity_info.name|slugify }}/{{entity_id }}/details">

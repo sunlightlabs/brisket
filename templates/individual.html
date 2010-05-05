@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block overview_amount %}
-${{entity_info.contribution_total_given }} Given
+${{entity_info.contributions.contributor_amount }} Given
 {% endblock %}
 {% block details_link %}
 <a class="detailsLink" href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">
