@@ -81,7 +81,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'brisket.influence',
-    'brisket.experimental',
     'brisket.util'
 )
 
