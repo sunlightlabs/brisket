@@ -1,4 +1,5 @@
 {% extends "search_base.html" %}
+{% load humanize %}
 
 {% block main %}
 
@@ -15,33 +16,33 @@
   <div class="searchBox">
     <h3>Matching Organizations</h3>
     <span class="results">{{ num_orgs }} Results</span>
-    {% for result_pair in sorted_results.organization %}
     <dl>
-
+      {% for result_pair in sorted_results.organization %}
       <dt>
-	<a href="/{{ result_pair.0.type }}/{{result_pair.0.name|slugify }}/{{ result_pair.0.id }}">
+	<a href="/{{ result_pair.0.type }}/{{result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">
 	  {{result_pair.0.name}}
 	</a> 
 	<span title="Results">({{ result_pair.0.count_given }} transactions)</span>
       </dt>
       <dd class="even">
-	${{ result_pair.0.total_given }} given.
+	${{ result_pair.0.total_given|intcomma }} given.
       </dd>
 
       {% if result_pair.1 %}
       <dt>
-	<a href="/{{ result_pair.1.type }}/{{result_pair.1.name|slugify }}/{{ result_pair.1.id }}">
+	<a href="/{{ result_pair.1.type }}/{{result_pair.1.name|slugify }}/{{ result_pair.1.id }}?cycle={{cycle}}">
 	  {{result_pair.1.name}}
 	</a> 
 	<span title="Results">({{ result_pair.1.count_given }} transactions)</span>
       </dt>
       <dd class="odd">
-	${{ result_pair.1.total_given }} given.
+	${{ result_pair.1.total_given|intcomma }} given.
       </dd>
       {% endif %}
+    {% endfor %}
     </dl>
     <div class="clear"></div>
-    {% endfor %}
+
   </div>
   {% endif %}
 
@@ -53,24 +54,24 @@
     {% for result_pair in sorted_results.individual %}
     <dl>
       <dt>
-	<a href="/{{ result_pair.0.type }}/{{ result_pair.0.name|slugify }}/{{ result_pair.0.id }}">
+	<a href="/{{ result_pair.0.type }}/{{ result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">
 	  {{result_pair.0.name}}
 	</a>
 	<span title="Results">({{ result_pair.0.count_given }} transactions)</span>
       </dt>
       <dd class="even">
-	${{ result_pair.0.total_given }} given
+	${{ result_pair.0.total_given|intcomma }} given
       </dd>
 
       {% if result_pair.1 %}
       <dt>
-	<a href="/{{ result_pair.1.type }}/{{ result_pair.1.name|slugify }}/{{ result_pair.1.id }}">
+	<a href="/{{ result_pair.1.type }}/{{ result_pair.1.name|slugify }}/{{ result_pair.1.id }}?cycle={{cycle}}">
 	  {{result_pair.1.name}}
 	</a>
 	<span title="Results">({{ result_pair.1.count_given }} transactions)</span>
       </dt>
       <dd class="odd">
-	${{ result_pair.1.total_given }} given
+	${{ result_pair.1.total_given|intcomma }} given
       </dd>
       {% endif %}
 
@@ -104,7 +105,7 @@
 	<tr class="even">
 	  <td title="Not An Incumbant" class="incumbant_check incumbant_no">Not An Incumbant</td>
           <td class="center">
-	    <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}">
+	    <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">
 	      {{result.name}}
 	    </a> 
           </td>
@@ -112,7 +113,7 @@
           <td class="center">XX</td>
           <td class="center">??????</td>
           <td class="center">???</td>
-          <td class="center">${{result.total_received }}</td>
+          <td class="center">${{result.total_received|intcomma }}</td>
           <td class="right">{{ result.count_received }}</td>	  
 	  {% endfor %}
         </tr>

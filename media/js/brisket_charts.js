@@ -3,7 +3,7 @@ function piechart(div, data, chart_title) {
 
     var r = Raphael(div);
     r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
-    r.g.text(150, 10, chart_title).attr({"font-size": 15});
+    //r.g.text(150, 10, chart_title).attr({"font-size": 15});
 
     var data_values = [];
     for (k in data) {
@@ -21,8 +21,8 @@ function piechart(div, data, chart_title) {
       data_labels.push(k+' ('+percent+'%)');
     }
 
-    pie = r.g.piechart(150, 100, 60, data_values, { legend: data_labels, legendpos: "east",
-						    colors: ["#FFCC33","#FF9900"] });
+    pie = r.g.piechart(70, 70, 60, data_values, { legend: data_labels, legendpos: "east",
+						    colors: ["#EFCC01","#F2E388"] });
 
     pie.hover(function () {
     this.sector.stop();
@@ -54,7 +54,7 @@ function barchart(div, data, chart_title, limit) {
     // value, and link.
     b = Raphael(div);
     b.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
-    b.g.text(150, 10, chart_title).attr({"font-size": 15});
+    //b.g.text(150, 10, chart_title).attr({"font-size": 15});
 
   /*
     var fin = function () {
@@ -90,14 +90,14 @@ function barchart(div, data, chart_title, limit) {
     "type": "soft",
     "gutter": 30, //space between bars, as fn of bar width/height
     "stacked": false,
-    "colors" : ["#FF9900"]
+    "colors" : ["#EFCC01"]
     };
 
     /* data array must be passed inside another array-- barchart fn
        supports multiple data series so expects an array of arrays,
        even for just one data series. Else it will treat each data
        point as one series. */
-  var barchart = b.g.hbarchart(10,20, 250, 150, [data_values], opts);
+  var barchart = b.g.hbarchart(10,10, 250, 150, [data_values], opts);
 
     // pass in labels array inside another array
     barchart.label([data_labels], false);
@@ -106,11 +106,12 @@ function barchart(div, data, chart_title, limit) {
     for (var i=0; i< barchart.labels.length; i++) {
       barchart.labels[i].attr({'href': data_hrefs[i] })
     }
-    barchart.labels.attr({stroke: "#666", 'font-weight': 1000});
+    barchart.labels.attr({stroke: "#666"});
 
     /* add text markers (which unfortunately uses a method called
        'label' just to confuse you) */
-    b.g.txtattr.font = "10px 'Fontin Sans', Fontin-Sans, sans-serif";
+    //b.g.txtattr.font = "10px 'Fontin Sans', Fontin-Sans, sans-serif";
+    b.g.txtattr.font = "10px 'Times New Roman', Times, serif";
     s = b.set();
     for (var i=0; i< barchart.bars[0].length; i++) {
 	x = barchart.bars[0][i].x;
@@ -119,7 +120,8 @@ function barchart(div, data, chart_title, limit) {
 	marker = b.g.text(x,y,text);
 	s.push(marker);
     };
-    s.attr({stroke: "#333", translation: "140,0"});
+    s.attr({stroke: "#333", translation: "140,0",
+	    font : "10px 'Times New Roman', Times, serif"});
 
 
     /* figure out the longest label text and move the chart over by

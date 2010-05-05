@@ -1,4 +1,5 @@
 {% extends "entity_base.html" %}
+{% load humanize %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
@@ -15,16 +16,16 @@
 {% endblock %}
 
 {% block overview_amount %}
-${{entity_info.contributions.contributor_amount }} Given
+${{entity_info.contributions.contributor_amount|intcomma }} Given
 {% endblock %}
 {% block details_link %}
-<a class="detailsLink" href="{{ entity_info.name|slugify }}/{{ entity_id }}/details">
+<a class="detailsLink" href="#">
   View Timeline Details
 </a>
 {% endblock %}
 
 {% block chart1 %}
-<h4>Top Candidates</h4>
+<h4>Top Recipients</h4>
 <div class="graph" id="recipients_barchart">
   <!-- raphael charts here -->
 </div>
@@ -57,3 +58,63 @@ ${{entity_info.contributions.contributor_amount }} Given
 {% endblock %}
 
 
+{% block table %}
+{% if lobbying_for_org %}
+<div class="twoColumn chartWrapper">
+  <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
+  <table class="twoColumn">
+    <thead>
+      <tr id="titles">
+        <th class="left">Firm</th>
+        <th class="right">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in lobbying_for_org %}
+      <tr class="{% cycle 'even' 'odd' %}">
+        <td>	    
+	  {% if row.registrant_entity %}
+	  <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}?cycle={{cycle}}">{{ row.registrant_name }}</a>
+	  {% else %}
+	  {{ row.registrant_name }}
+          {% endif %} 
+        </td>
+        <td class="right">${{ row.amount|intcomma }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if issues_lobbied_for %}
+  <p id="description" class="clear">
+    Issues Lobbied:     
+    {{ issues_lobbied_for|join:", " }}
+  </p>
+  {% endif %}
+</div>
+{% endif %}
+
+{% if customers_lobbied_for %}
+<div class="twoColumn chartWrapper">
+  <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
+  <table class="twoColumn">
+    <thead>
+      <tr id="titles">
+        <th class="left">Customer</th>
+        <th class="right">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in customers_lobbied_for %}
+      <tr class="{% cycle 'even' 'odd' %}">
+        <td>	    
+	  <a href="/search?query={{ row.0|urlencode }}&cycle={{cycle}}">{{ row.0 }}</a>
+        </td>
+        <td class="right">${{ row.1|intcomma }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% endblock %}

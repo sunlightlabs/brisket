@@ -144,6 +144,30 @@ class AggregatesAPI(APIUtil):
         return self.remove_unicode(results)
             
 
+    def lobbying_for_org(self, entity_id, cycle):
+        ''' check to see if the entity hired any lobbyists'''
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'cycle': cycle,
+                                      })
+        url = self.base_url + 'aggregates/org/%s/registrants.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return self.remove_unicode(results)
+
+    def issues_lobbied_for(self, entity_id, cycle):
+        ''' get the top issues that a lobbying firm reported lobbying on'''
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'year': cycle,
+                                      })
+        url = self.base_url + 'aggregates/org/%s/issues.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return self.remove_unicode(results)
+        
+
+
 class LobbyingAPI(APIUtil):
     ''' A thin wrapper around aggregates API calls. Not sure we'll
     keep this as a class, that might be overkill.'''
@@ -166,7 +190,7 @@ class LobbyingAPI(APIUtil):
         results = json.loads(fp.read())
         return self.remove_unicode(results)
 
-    def as_registrant(self, org_name, cycle):
+    def lobbying_by_org(self, org_name, cycle):
         ''' check to see if org_name hired (was the client of) any
         lobbyists'''
         arguments = urllib.urlencode({'apikey': settings.API_KEY, 

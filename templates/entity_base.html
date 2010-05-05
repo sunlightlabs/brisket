@@ -10,15 +10,14 @@
 {% endblock %}
 </div>
 
-
 <div class="module" id="timeSpan">
   <div id="currentDates">
     <span>{{cycle}} </span>to
     <span> {{cycle}}</span>
   </div>
   <div id="changeDates">
-    <label>View Other Election Cycles</label>
     <form action="" method="get">
+      <label>View Other Election Cycles</label>
       {{ cycle_form.cycle }}
       <br><input type="submit" value="Update Cycles" />
     </form>

@@ -5,12 +5,6 @@ from django.conf import settings
 urlpatterns = patterns('brisket.influence.views',
     url(r'^search', 'search', name='search'),                       
 
-    # detail pages                       
-    url(r'^politician/[\w\-]+/(?P<entity_id>\w+)/details', 'industry_detail', 
-        name='industry_detail'),                       
-    url(r'^organization/[\w\-]+/(?P<entity_id>\w+)/details', 'industry_detail', 
-        name='industry_detail'),                 
-
     # industry                       
     url(r'^sector/[\w\-]+/(?P<entity_id>\w+)', 'sector_detail', 
         name='sector_detail'),                       
@@ -35,12 +29,12 @@ urlpatterns += patterns('django.views.generic.simple',
     # treat urls without the entity_id as search strings                           
 
     url(r'^organization/(?P<query_string>[\w\-]+)', 'redirect_to', 
-        {'url': '/search?query=%(query_string)s'}),                       
+        {'url': '/search?query=%(query_string)s&cycle=%(cycle)s'}),                       
 
     url(r'^politician/(?P<query_string>[\w\-]+)', 'redirect_to', 
-        {'url': '/search?query=%(query_string)s'}),                       
+        {'url': '/search?query=%(query_string)s&cycle=%(cycle)s'}),                       
 
     url(r'^individual/(?P<query_string>[\w\-]+)', 'redirect_to', 
-        {'url': '/search?query=%(query_string)s'}),                       
+        {'url': '/search?query=%(query_string)s&cycle=%(cycle)s'}),                       
 
 )

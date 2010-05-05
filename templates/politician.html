@@ -1,4 +1,5 @@
 {% extends "entity_base.html" %}
+{% load humanize %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
@@ -49,10 +50,10 @@
 {% endif %}
 
 {% block overview_amount %}
-${{entity_info.contributions.recipient_amount }} Received
+${{entity_info.contributions.recipient_amount|intcomma }} Received
 {% endblock %}
 {% block details_link %}
-<a class="detailsLink" href="{{ entity_info.name|slugify }}/{{entity_id }}/details">
+<a class="detailsLink" href="#">
   View Timeline Details
 </a>
 {% endblock %}
@@ -103,17 +104,29 @@ ${{entity_info.contributions.recipient_amount }} Received
     </thead>
     <tbody>
       {% for row in top_contributors %}
-      <tr class="even">
+      <tr class="{% cycle 'even' 'odd' %}">
         <td>	    
 	  {% if row.id %}
-	  <a href="/organization/{{ row.name|slugify }}/{{ row.id }}">{{ row.name }}</a>
+	  <a href="/organization/{{ row.name|slugify }}/{{ row.id }}?cycle={{cycle}}">{{ row.name }}</a>
 	  {% else %}
 	  {{ row.name }}
           {% endif %} 
         </td>
-        <td class="center">${{ row.direct_amount }}</td>
-        <td class="center">${{ row.employee_amount }}</td>
-        <td class="right">${{ row.total_amount }}</td>
+        <td class="center"> 
+	  {% if row.employee_amount != "0" %} 
+	  ${{row.employee_amount|intcomma }} 
+	  {% else %}
+	  --
+	  {% endif %}
+	</td>
+        <td class="center"> 
+	  {% if row.direct_amount != "0" %} 
+	  ${{row.direct_amount|intcomma }}
+	  {% else %} 
+	  -- 
+	  {% endif %}
+	</td>
+        <td class="right">${{ row.total_amount|intcomma }}</td>
       </tr>
       {% endfor %}
     </tbody>

@@ -15,10 +15,9 @@ from brisket.util import catcodes
 import urllib, re
 
 def brisket_context(request): 
-    return RequestContext(request, {'search_form': SearchForm(), 
-                                    })
+    return RequestContext(request, {'search_form': SearchForm()})
 
-def entity_context(request): 
+def entity_context(request, cycle): 
     context_variables = {}    
     if request.GET.get('query', None):
         context_variables['search_form'] = SearchForm(request.GET)
@@ -27,7 +26,7 @@ def entity_context(request):
     if request.GET.get('cycle', None):
         context_variables['cycle_form'] = ElectionCycle(request.GET)
     else:
-        context_variables['cycle_form'] = ElectionCycle({'cycle':request.session.get('cycle', '2010')})
+        context_variables['cycle_form'] = ElectionCycle({'cycle': cycle})
     return RequestContext(request, context_variables)
 
 def index(request):    
@@ -43,6 +42,7 @@ def search(request):
         kwargs = {}
         api = AggregatesAPI()
         query = urllib.unquote(submitted_form.cleaned_data['query'])
+        cycle = request.GET.get('cycle', '2010')
         print 'form value: %s' % query
 
         # if a user submitted the search value from the form, then
@@ -62,7 +62,7 @@ def search(request):
             result_type = entity_results[0]['type']
             name = slugify(entity_results[0]['name'])
             _id = entity_results[0]['id']
-            return HttpResponseRedirect('/%s/%s/%s' % (result_type, name, _id))
+            return HttpResponseRedirect('/%s/%s/%s?cycle=%s' % (result_type, name, _id, cycle))
 
         if len(entity_results) == 0:
             kwargs['sorted_results'] = None
@@ -86,6 +86,7 @@ def search(request):
                     pairs.append(l[i:i+2])
                 sorted_results[k] = pairs
             kwargs['query'] = query
+            kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results
         return render_to_response('results.html', kwargs, brisket_context(request))
     else: 
@@ -93,8 +94,7 @@ def search(request):
         return HttpResponseRedirect('/')
 
 def organization_entity(request, entity_id):
-    cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
-    request.session['cycle'] = cycle
+    cycle = request.GET.get('cycle', '2010')
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id, cycle)
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
@@ -106,7 +106,7 @@ def organization_entity(request, entity_id):
                 # currently we only display politician recipients from
                 # orgs. this should be changed if we start returning
                 # org-to-org data.
-                'href' : "/politician/%s/%s" % (slugify(record['name']), record['id']),
+                'href' : str("/politician/%s/%s?cycle=%s" % (slugify(record['name']), record['id'], cycle)),
                 })
 
     party_breakdown = api.org_breakdown(entity_id, 'party', cycle)
@@ -118,37 +118,29 @@ def organization_entity(request, entity_id):
         level_breakdown[key] = float(values[1])
 
     # get lobbying info
+    lobbying_for_org = api.lobbying_for_org(entity_id, cycle)
+    issues_lobbied_for =  [item['issue'] for item in api.issues_lobbied_for(entity_id, cycle)]
     lobbying = LobbyingAPI()
-
-    lobbying_as_client = lobbying.as_client(entity_info['name'], cycle)
-    lobbying_totals_by_firm = lobbying_by_firm(lobbying_as_client)
-    lobbying_spent_by_industry = lobbying_by_industry(lobbying_as_client)
-
-    lobbying_as_registrant = lobbying.as_registrant(entity_info['name'], cycle)
-    lobbying_totals_by_customer = lobbying_by_customer(lobbying_as_registrant)
-    lobbying_hired_for_by_industry = lobbying_by_industry(lobbying_as_registrant)
-
-    # fake us some sparkline data
-    amounts = [str(recipient['total_amount']) for recipient in org_recipients]
-    sparkline = timeline_sparkline(amounts)
+    lobbying_by_org = lobbying.lobbying_by_org(entity_info['name'], cycle)
+    # temporary function call until this is implemented in aggregates api
+    customers_lobbied_for = lobbying_by_customer(lobbying_by_org)
+    print 'lobbying done by this organization'
+    print customers_lobbied_for
     return render_to_response('organization.html', 
                               {'entity_id': entity_id, 
                                'entity_info': entity_info,
                                'level_breakdown' : level_breakdown,
                                'party_breakdown' : party_breakdown,
                                'recipients_barchart_data': recipients_barchart_data,
-                               'lobbying_spent_by_industry': lobbying_spent_by_industry,
-                               'lobbying_by_firm': lobbying_totals_by_firm,
-                               'lobbying_hired_for_by_industry': lobbying_hired_for_by_industry,
-                               'lobbying_by_customer': lobbying_totals_by_customer,
-                               'sparkline': sparkline,
+                               'lobbying_for_org': lobbying_for_org,
+                               'customers_lobbied_for': customers_lobbied_for,
+                               'issues_lobbied_for': issues_lobbied_for,
                                'cycle': cycle,
                                },
-                              entity_context(request))
+                              entity_context(request, cycle))
 
 def politician_entity(request, entity_id):
-    cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
-    request.session['cycle'] = cycle
+    cycle = request.GET.get('cycle', '2010')
     api = AggregatesAPI()    
 
     # metadata
@@ -167,9 +159,8 @@ def politician_entity(request, entity_id):
             sector_name = '???'
         sectors_barchart_data.append({                
                 'key': sector_name,
-                #'key': record['sector_code'],
                 'value' : record['amount'],
-                'href' : "/sector/%s/%s" % (slugify(sector_name), record['sector_code']),
+                'href' : str("/sector/%s/%s?cycle=%s" % (slugify(sector_name), record['sector_code'], cycle)),
                 })
 
     local_breakdown = api.pol_breakdown(entity_id, 'local', cycle)
@@ -185,10 +176,6 @@ def politician_entity(request, entity_id):
     # get top words spoken in congress by this legislator for this cycle
     # capitol_words = get_capitol_words(entity_info['name'], cycle, 50)
 
-    # fake sparkline data
-    amounts = [str(contributor['total_amount']) for contributor in top_contributors]
-    sparkline = timeline_sparkline(amounts)
-    print 'current session cycle: %s' % request.session.get('cycle', 'None set')
     return render_to_response('politician.html', 
                               {'entity_id': entity_id,
                                'entity_info': entity_info,
@@ -197,14 +184,12 @@ def politician_entity(request, entity_id):
                                'entity_breakdown' : entity_breakdown,
                                'metadata': metadata,
                                'sectors_barchart_data': sectors_barchart_data,
-                               'sparkline': sparkline,
                                'cycle': cycle,
                                },
-                              entity_context(request))
+                              entity_context(request, cycle))
         
 def individual_entity(request, entity_id):    
-    cycle = request.GET.get("cycle", request.session.get('cycle', '2010'))
-    request.session['cycle'] = cycle
+    cycle = request.GET.get('cycle', '2010')
     api = AggregatesAPI() 
     entity_info = api.entity_metadata(entity_id, cycle)    
     recipient_candidates = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='pol')
@@ -213,7 +198,7 @@ def individual_entity(request, entity_id):
         candidates_barchart_data.append({
                 'key': record['name'],
                 'value' : record['amount'],
-                'href' : "/politician/%s/%s" % (slugify(record['name']), record['id']),
+                'href' : str("/politician/%s/%s?cycle=%s" % (slugify(record['name']), record['id'], cycle)),
                 })
 
     recipient_orgs = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='org')
@@ -222,7 +207,7 @@ def individual_entity(request, entity_id):
         orgs_barchart_data.append({
                 'key': record['name'],
                 'value' : record['amount'],
-                'href' : "/organization/%s/%s" % (slugify(record['name']), record['id']),
+                'href' : str("/organization/%s/%s?cycle=%s" % (slugify(record['name']), record['id'], cycle)),
                 })
 
     party_breakdown = api.indiv_breakdown(entity_id, 'party', cycle)
@@ -230,20 +215,15 @@ def individual_entity(request, entity_id):
         # values is a list of [count, amount]
         party_breakdown[key] = values[1]    
 
-    # fake sparkline data
-    amounts = [str(contributor['amount']) for contributor in recipient_candidates]
-    sparkline = timeline_sparkline(amounts)
-
     return render_to_response('individual.html', 
                               {'entity_id': entity_id,
                                'entity_info': entity_info,
                                'candidates_barchart_data': candidates_barchart_data,
                                'orgs_barchart_data': orgs_barchart_data,
                                'party_breakdown' : party_breakdown, 
-                               'sparkline': sparkline,                               
                                'cycle': cycle,
                                },
-                              entity_context(request))
+                              entity_context(request, cycle))
 
 def industry_detail(request, entity_id):
     cycle = request.GET.get("cycle", 2010)    
@@ -262,19 +242,7 @@ def industry_detail(request, entity_id):
                                'entity_info': entity_info,
                                'sectors': sectors,
                                },
-                              entity_context(request))
-
-def timeline_sparkline(data_list):
-    ''' generates a sparkline of contributions given or received over
-    the time period represented by the '''
-    if not len(data_list):
-        return None
-    max_value = max([float(item) for item in data_list])
-    scaling = "&chds=0,%f" % max_value
-    data = "&chd=t:%s" % ','.join(data_list)
-    url = "http://chart.apis.google.com/chart?cht=ls&chs=100x30"+data+scaling
-    return url
-
+                              entity_context(request, cycle))
 
 # lobbying
 
