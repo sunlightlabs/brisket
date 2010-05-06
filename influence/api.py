@@ -1,7 +1,8 @@
-from django.conf import settings
 from BeautifulSoup import BeautifulSoup
-import urllib2, urllib
+from django.conf import settings
 import random
+import urllib2
+import urllib
 try:
     import json
 except:
@@ -69,6 +70,29 @@ class AggregatesAPI(APIUtil):
         results = json.loads(fp.read())
         return self.remove_unicode(results)
 
+    def indiv_org_recipients(self, entity_id, cycle='2010', limit=10):
+        ''' recipients from a single individual'''
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'cycle': cycle,
+                                      'limit': limit})
+
+        url = self.base_url + 'aggregates/indiv/%s/recipient_orgs.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return self.remove_unicode(results)
+    
+    def indiv_pol_recipients(self, entity_id, cycle='2010', limit=10):
+        ''' recipients from a single individual'''
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'cycle': cycle,
+                                      'limit': limit})
+
+        url = self.base_url + 'aggregates/indiv/%s/recipient_pols.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return self.remove_unicode(results)    
 
     def org_recipients(self, entity_id, **kwargs):
         valid_params = ['cycle', 'recipient_types', 'limit']
@@ -100,7 +124,7 @@ class AggregatesAPI(APIUtil):
 
     def contributions_by_sector(self, entity_id, sector_id):
         arguments = urllib.urlencode({'apikey': settings.API_KEY})
-        url = self.base_url + 'aggregates/pol/%s/contributors/sectors/%s/industries.json?' % (entity_id, industry_id)
+        url = self.base_url + 'aggregates/pol/%s/contributors/sector/%s/industries.json?' % (entity_id, sector_id)
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())

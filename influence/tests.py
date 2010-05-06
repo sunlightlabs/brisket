@@ -29,11 +29,12 @@ class ContributionsAPITests(TestCase):
         results = api.pol_breakdown(PELOSI, 'entity', CYCLE)
         self.assertEqual(2, len(results))
 
-    def test_indiv_recipients(self):
-        results = api.indiv_recipients(PICKENS, 'org', CYCLE)
+    def test_indiv_org_recipients(self):
+        results = api.indiv_org_recipients(PICKENS, CYCLE)
         self.assertEqual(6, len(results))
         
-        results = api.indiv_recipients(PICKENS, 'pol', CYCLE)
+    def test_indiv_pol_recipients(self):
+        results = api.indiv_pol_recipients(PICKENS, CYCLE)
         self.assertEqual(10, len(results))
         
     def test_indiv_breakdown(self):
