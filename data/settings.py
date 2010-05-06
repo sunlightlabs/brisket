@@ -71,7 +71,6 @@ INSTALLED_APPS = (
     'dcdata.lobbying',
     'dcapi',
     'dcapi.aggregates', 
-    'dcapi.entities', 
     'dcapi.contributions', 
     'dc_web.public',
 )
