@@ -1,6 +1,5 @@
 from BeautifulSoup import BeautifulSoup
 from django.conf import settings
-import random
 import urllib2
 import urllib
 try:
@@ -47,9 +46,8 @@ class AggregatesAPI(APIUtil):
         results = json.loads(fp.read())
         return results
 
-    def pol_contributors(self, entity_id, contributor_type, cycle='2010'):
-        arguments = urllib.urlencode({'type': contributor_type,
-                                      'cycle': cycle,
+    def pol_contributors(self, entity_id, cycle='2010'):
+        arguments = urllib.urlencode({'cycle': cycle,
                                       'apikey': settings.API_KEY})
         url = self.base_url + 'aggregates/pol/%s/contributors.json?' % entity_id
         api_call = url + arguments
@@ -57,18 +55,6 @@ class AggregatesAPI(APIUtil):
         results = json.loads(fp.read())
         return self.remove_unicode(results)
 
-    def indiv_recipients(self, entity_id, recipient_types, cycle='2010', limit=10):
-        ''' recipients from a single individual'''
-        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                      'type': recipient_types,
-                                      'cycle': cycle,
-                                      'limit': limit})
-
-        url = self.base_url + 'aggregates/indiv/%s/recipients.json?' % entity_id
-        api_call = url + arguments
-        fp = urllib2.urlopen(api_call)
-        results = json.loads(fp.read())
-        return self.remove_unicode(results)
 
     def indiv_org_recipients(self, entity_id, cycle='2010', limit=10):
         ''' recipients from a single individual'''
@@ -137,21 +123,37 @@ class AggregatesAPI(APIUtil):
         results = json.loads(fp.read())
         return results
         
-    def org_breakdown(self, entity_id, breakdown_type, cycle='2010'):
+    def org_party_breakdown(self, entity_id, cycle='2010'):
         arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                      'type': breakdown_type,
                                       'cycle': cycle})
-        url = self.base_url + 'aggregates/org/%s/recipients/breakdown.json?' % entity_id
+        url = self.base_url + 'aggregates/org/%s/recipients/party_breakdown.json?' % entity_id
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())
         return self.remove_unicode(results)
 
-    def pol_breakdown(self, entity_id, breakdown_type, cycle='2010'):
+    def org_level_breakdown(self, entity_id, cycle='2010'):
         arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                      'type': breakdown_type,
                                       'cycle': cycle})
-        url = self.base_url + 'aggregates/pol/%s/contributors/breakdown.json?' % entity_id
+        url = self.base_url + 'aggregates/org/%s/recipients/level_breakdown.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())
+        return self.remove_unicode(results)
+
+    def pol_local_breakdown(self, entity_id, cycle='2010'):
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'cycle': cycle})
+        url = self.base_url + 'aggregates/pol/%s/contributors/local_breakdown.json?' % entity_id
+        api_call = url + arguments
+        fp = urllib2.urlopen(api_call)
+        results = json.loads(fp.read())        
+        return self.remove_unicode(results)
+
+    def pol_contributor_type_breakdown(self, entity_id, cycle='2010'):
+        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+                                      'cycle': cycle})
+        url = self.base_url + 'aggregates/pol/%s/contributors/type_breakdown.json?' % entity_id
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())        
@@ -161,7 +163,7 @@ class AggregatesAPI(APIUtil):
         arguments = urllib.urlencode({'apikey': settings.API_KEY, 
                                       'type': breakdown_type,
                                       'cycle': cycle})
-        url = self.base_url + 'aggregates/indiv/%s/recipients/breakdown.json?' % entity_id
+        url = self.base_url + 'aggregates/indiv/%s/recipients/party_breakdown.json?' % entity_id
         api_call = url + arguments
         fp = urllib2.urlopen(api_call)
         results = json.loads(fp.read())

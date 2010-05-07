@@ -109,11 +109,11 @@ def organization_entity(request, entity_id):
                 'href' : str("/politician/%s/%s?cycle=%s" % (slugify(record['name']), record['id'], cycle)),
                 })
 
-    party_breakdown = api.org_breakdown(entity_id, 'party', cycle)
+    party_breakdown = api.org_party_breakdown(entity_id, cycle)
     print party_breakdown
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
-    level_breakdown = api.org_breakdown(entity_id, 'level', cycle)
+    level_breakdown = api.org_level_breakdown(entity_id, cycle)
     for key, values in level_breakdown.iteritems():
         level_breakdown[key] = float(values[1])
 
@@ -147,28 +147,28 @@ def politician_entity(request, entity_id):
     entity_info = api.entity_metadata(entity_id, cycle)
     metadata = politician_meta(entity_info['name'])
 
-    top_contributors = api.pol_contributors(entity_id, 'org', cycle=cycle)
+    top_contributors = api.pol_contributors(entity_id, cycle)
 
     # top sectors is already sorted
     top_sectors = api.top_sectors(entity_id, cycle=cycle)
     sectors_barchart_data = []
     for record in top_sectors:        
         try:
-            sector_name = catcodes.sector[record['sector_code']]
+            sector_name = catcodes.sector[record['sector']]
         except:
             sector_name = '???'
         sectors_barchart_data.append({                
                 'key': sector_name,
                 'value' : record['amount'],
-                'href' : str("/sector/%s/%s?cycle=%s" % (slugify(sector_name), record['sector_code'], cycle)),
+                'href' : str("/sector/%s/%s?cycle=%s" % (slugify(sector_name), record['sector'], cycle)),
                 })
 
-    local_breakdown = api.pol_breakdown(entity_id, 'local', cycle)
+    local_breakdown = api.pol_local_breakdown(entity_id, cycle)
     for key, values in local_breakdown.iteritems():
         # values is a list of [count, amount]
         local_breakdown[key] = float(values[1])
 
-    entity_breakdown = api.pol_breakdown(entity_id, 'entity', cycle)
+    entity_breakdown = api.pol_contributor_type_breakdown(entity_id, cycle)
     for key, values in entity_breakdown.iteritems():
         # values is a list of [count, amount]
         entity_breakdown[key] = float(values[1])    
@@ -192,22 +192,22 @@ def individual_entity(request, entity_id):
     cycle = request.GET.get('cycle', '2010')
     api = AggregatesAPI() 
     entity_info = api.entity_metadata(entity_id, cycle)    
-    recipient_candidates = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='pol')
+    recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
     candidates_barchart_data = []
     for record in recipient_candidates:        
         candidates_barchart_data.append({
-                'key': record['name'],
+                'key': record['recipient_name'],
                 'value' : record['amount'],
-                'href' : str("/politician/%s/%s?cycle=%s" % (slugify(record['name']), record['id'], cycle)),
+                'href' : str("/politician/%s/%s?cycle=%s" % (slugify(record['recipient_name']), record['recipient_entity'], cycle)),
                 })
 
-    recipient_orgs = api.indiv_recipients(entity_id, cycle=cycle, recipient_types='org')
+    recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
     orgs_barchart_data = []
     for record in recipient_orgs:        
         orgs_barchart_data.append({
-                'key': record['name'],
+                'key': record['recipient_name'],
                 'value' : record['amount'],
-                'href' : str("/organization/%s/%s?cycle=%s" % (slugify(record['name']), record['id'], cycle)),
+                'href' : str("/organization/%s/%s?cycle=%s" % (slugify(record['recipient_name']), record['recipient_entity'], cycle)),
                 })
 
     party_breakdown = api.indiv_breakdown(entity_id, 'party', cycle)
@@ -229,7 +229,7 @@ def industry_detail(request, entity_id):
     cycle = request.GET.get("cycle", 2010)    
     api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id, cycle)    
-    top_industries = api.top_industries(entity_id, cycle=cycle)
+    top_industries = api.top_industries(entity_id, cycle)
 
     sectors = {}
     for industry in top_industries:

@@ -14,19 +14,19 @@ LIMIT = 10
 
 
 # todo: inconsistent use of cycle and limit parameters.
-# todo: remove all 'type' parameters
 # todo: remove keyword args, or at least use them consistently
 class ContributionsAPITests(TestCase):
 
     def test_pol_contributors(self):
-        results = api.pol_contributors(PELOSI, 'unused field?', CYCLE)
+        results = api.pol_contributors(PELOSI, CYCLE)
         self.assertEqual(10, len(results))
         
-    def test_pol_breakdown(self):
-        results = api.pol_breakdown(PELOSI, 'local', CYCLE)
+    def test_pol_local_breakdown(self):
+        results = api.pol_local_breakdown(PELOSI, CYCLE)
         self.assertEqual(2, len(results))
 
-        results = api.pol_breakdown(PELOSI, 'entity', CYCLE)
+    def test_pol_contributor_type_breakdown(self):
+        results = api.pol_contributor_type_breakdown(PELOSI, CYCLE)
         self.assertEqual(2, len(results))
 
     def test_indiv_org_recipients(self):
@@ -38,18 +38,19 @@ class ContributionsAPITests(TestCase):
         self.assertEqual(10, len(results))
         
     def test_indiv_breakdown(self):
-        results = api.indiv_breakdown(PICKENS, 'party', CYCLE)
-        self.assertEqual(1, len(results))
+        results = api.indiv_breakdown(PICKENS, CYCLE)
+        self.assertEqual(2, len(results))
         
     def test_org_recipients(self):
         results = api.org_recipients(BANKERS, cycle=CYCLE, limit=LIMIT)
         self.assertEqual(10, len(results))
         
-    def test_org_breakdown(self):
-        results = api.org_breakdown(BANKERS, 'party', CYCLE)
-        self.assertEqual(2, len(results))
+    def test_org_party_breakdown(self):
+        results = api.org_party_breakdown(BANKERS, CYCLE)
+        self.assertEqual(3, len(results))
         
-        results = api.org_breakdown(BANKERS, 'level', CYCLE)
+    def test_org_level_breakdown(self):
+        results = api.org_level_breakdown(BANKERS, CYCLE)
         self.assertEqual(1, len(results))
         
     # todo: rename to have org/pol/indiv prefix
@@ -58,9 +59,9 @@ class ContributionsAPITests(TestCase):
         self.assertEqual(10, len(results))
         
     # todo: rename
-    # todo: seems completely broken
     def test_contributions_by_sector(self):
         results = api.contributions_by_sector(PELOSI, 'H')
+        self.assertEqual(5, len(results))
         
 
 class EntityAPITests(TestCase):
