@@ -50,8 +50,7 @@ def get_top(url, cycle, limit):
     if limit:
         params.update({'limit': limit})
         
-    return api_json_get(url, params)
-    
+    return api_json_get(url, params)  
     
 
 def entity_search(query):
@@ -71,116 +70,51 @@ def indiv_pol_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' recipients from a single individual'''
     return get_top('aggregates/indiv/%s/recipient_pols.json' % entity_id, cycle, limit)
 
-def org_recipients(entity_id, **kwargs):
-    valid_params = ['cycle', 'recipient_types', 'limit']
-    for key in kwargs.keys():
-        if key not in valid_params:
-            raise Exception, "Invalid parameters to API call"
-    kwargs['apikey'] = settings.API_KEY
-    arguments = urllib.urlencode(kwargs)
-    url = API_BASE_URL + 'aggregates/org/%s/recipients.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return remove_unicode(results)
 
-def top_sectors(entity_id, **kwargs):
-    valid_params = ['cycle', 'limit']
-    for key in kwargs.keys():
-        if key not in valid_params:
-            raise Exception, "Invalid parameters to API call"
+def org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/org/%s/recipients.json' % entity_id, cycle, limit)
 
-    kwargs['apikey'] = settings.API_KEY
-    arguments = urllib.urlencode(kwargs)
-    url = API_BASE_URL + 'aggregates/pol/%s/contributors/sectors.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return remove_unicode(results)
+
+def top_sectors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/pol/%s/contributors/sectors.json' % entity_id, cycle, limit)
     
 
-def contributions_by_sector(entity_id, sector_id):
-    arguments = urllib.urlencode({'apikey': settings.API_KEY})
-    url = API_BASE_URL + 'aggregates/pol/%s/contributors/sector/%s/industries.json?' % (entity_id, sector_id)
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return remove_unicode(results)
+def contributions_by_sector(entity_id, sector_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/pol/%s/contributors/sector/%s/industries.json' % (entity_id, sector_id), cycle, limit)
 
-def entity_metadata(entity_id, cycle):
-    arguments = 'entities/%s.json?apikey=%s&cycle=%s' % (entity_id, settings.API_KEY, cycle)
-    api_call = API_BASE_URL.strip('/')+'/'+arguments        
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return results
+
+def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
+    return get_top('entities/%s.json' % entity_id, cycle, None)
+    
     
 def org_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                  'cycle': cycle})
-    url = API_BASE_URL + 'aggregates/org/%s/recipients/party_breakdown.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return remove_unicode(results)
+    return get_top('aggregates/org/%s/recipients/party_breakdown.json' % entity_id, cycle, None)
+
 
 def org_level_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                  'cycle': cycle})
-    url = API_BASE_URL + 'aggregates/org/%s/recipients/level_breakdown.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return remove_unicode(results)
+    return get_top('aggregates/org/%s/recipients/level_breakdown.json' % entity_id, cycle, None)
+
 
 def pol_local_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                  'cycle': cycle})
-    url = API_BASE_URL + 'aggregates/pol/%s/contributors/local_breakdown.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())        
-    return remove_unicode(results)
+    return get_top('aggregates/pol/%s/contributors/local_breakdown.json' % entity_id, cycle, None)
+
 
 def pol_contributor_type_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                  'cycle': cycle})
-    url = API_BASE_URL + 'aggregates/pol/%s/contributors/type_breakdown.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())        
-    return remove_unicode(results)
+    return get_top('aggregates/pol/%s/contributors/type_breakdown.json' % entity_id, cycle, None)
+
 
 def indiv_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                  'cycle': cycle})
-    url = API_BASE_URL + 'aggregates/indiv/%s/recipients/party_breakdown.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return remove_unicode(results)
+    return get_top('aggregates/indiv/%s/recipients/party_breakdown.json' % entity_id, cycle, None)
         
 
-def lobbying_for_org(entity_id, cycle):
+def lobbying_for_org(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' check to see if the entity hired any lobbyists'''
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                  'cycle': cycle,
-                                  })
-    url = API_BASE_URL + 'aggregates/org/%s/registrants.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return remove_unicode(results)
+    return get_top('aggregates/org/%s/registrants.json' % entity_id, cycle, limit)
 
-def issues_lobbied_for(entity_id, cycle):
+
+def issues_lobbied_for(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' get the top issues that a lobbying firm reported lobbying on'''
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                  'year': cycle,
-                                  })
-    url = API_BASE_URL + 'aggregates/org/%s/issues.json?' % entity_id
-    api_call = url + arguments
-    fp = urllib2.urlopen(api_call)
-    results = json.loads(fp.read())
-    return remove_unicode(results)
+    return get_top('aggregates/org/%s/issues.json' % entity_id, cycle, limit)
     
 
 
