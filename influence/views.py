@@ -1,18 +1,13 @@
 # Create your views here.
 
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from django.db import IntegrityError
 from django.template import RequestContext
-from brisket.influence.forms import SearchForm, ElectionCycle
-from api import *
-from brisket.util import catcodes
 import urllib, re
+
+from influence.forms import SearchForm, ElectionCycle
+from util import catcodes
+import api
 
 def brisket_context(request): 
     return RequestContext(request, {'search_form': SearchForm()})
@@ -40,7 +35,6 @@ def search(request):
     submitted_form = SearchForm(request.GET)
     if submitted_form.is_valid():        
         kwargs = {}
-        api = AggregatesAPI()
         query = urllib.unquote(submitted_form.cleaned_data['query'])
         cycle = request.GET.get('cycle', '2010')
         print 'form value: %s' % query
@@ -95,7 +89,6 @@ def search(request):
 
 def organization_entity(request, entity_id):
     cycle = request.GET.get('cycle', '2010')
-    api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id, cycle)
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
     recipients_barchart_data = []
@@ -120,7 +113,7 @@ def organization_entity(request, entity_id):
     # get lobbying info
     lobbying_for_org = api.lobbying_for_org(entity_id, cycle)
     issues_lobbied_for =  [item['issue'] for item in api.issues_lobbied_for(entity_id, cycle)]
-    lobbying = LobbyingAPI()
+    lobbying = api.LobbyingAPI()
     lobbying_by_org = lobbying.lobbying_by_org(entity_info['name'], cycle)
     # temporary function call until this is implemented in aggregates api
     customers_lobbied_for = lobbying_by_customer(lobbying_by_org)
@@ -141,11 +134,10 @@ def organization_entity(request, entity_id):
 
 def politician_entity(request, entity_id):
     cycle = request.GET.get('cycle', '2010')
-    api = AggregatesAPI()    
 
     # metadata
     entity_info = api.entity_metadata(entity_id, cycle)
-    metadata = politician_meta(entity_info['name'])
+    metadata = api.politician_meta(entity_info['name'])
 
     top_contributors = api.pol_contributors(entity_id, cycle)
 
@@ -190,7 +182,6 @@ def politician_entity(request, entity_id):
         
 def individual_entity(request, entity_id):    
     cycle = request.GET.get('cycle', '2010')
-    api = AggregatesAPI() 
     entity_info = api.entity_metadata(entity_id, cycle)    
     recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
     candidates_barchart_data = []
@@ -210,7 +201,7 @@ def individual_entity(request, entity_id):
                 'href' : str("/organization/%s/%s?cycle=%s" % (slugify(record['recipient_name']), record['recipient_entity'], cycle)),
                 })
 
-    party_breakdown = api.indiv_breakdown(entity_id, 'party', cycle)
+    party_breakdown = api.indiv_breakdown(entity_id, cycle)
     for key, values in party_breakdown.iteritems():
         # values is a list of [count, amount]
         party_breakdown[key] = values[1]    
@@ -227,9 +218,8 @@ def individual_entity(request, entity_id):
 
 def industry_detail(request, entity_id):
     cycle = request.GET.get("cycle", 2010)    
-    api = AggregatesAPI()    
     entity_info = api.entity_metadata(entity_id, cycle)    
-    top_industries = api.top_industries(entity_id, cycle)
+    top_industries = api.top_sectors(entity_id, cycle)
 
     sectors = {}
     for industry in top_industries:
