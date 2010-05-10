@@ -84,7 +84,6 @@ def search(request):
             kwargs['sorted_results'] = sorted_results
         return render_to_response('results.html', kwargs, brisket_context(request))
     else: 
-        form = SearchForm(request.GET)
         return HttpResponseRedirect('/')
 
 def organization_entity(request, entity_id):
