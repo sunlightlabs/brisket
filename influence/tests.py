@@ -2,10 +2,9 @@
 
 from django.test import TestCase
 
-from influence.api import AggregatesAPI
+from influence import api
 
 
-api = AggregatesAPI()
 PELOSI = 'ff96aa62d48f48e5a1e284efe74a0ba8'
 PICKENS = '945bcd0635bc434eacb7abcdcd38abea'
 BANKERS = 'c039e8a46406458fbd3d48fd174554fd'
@@ -38,8 +37,8 @@ class ContributionsAPITests(TestCase):
         self.assertEqual(10, len(results))
         
     def test_indiv_breakdown(self):
-        results = api.indiv_breakdown(PICKENS, CYCLE)
-        self.assertEqual(2, len(results))
+        results = api.indiv_breakdown(PICKENS, cycle=CYCLE)
+        self.assertEqual(1, len(results))
         
     def test_org_recipients(self):
         results = api.org_recipients(BANKERS, cycle=CYCLE, limit=LIMIT)
