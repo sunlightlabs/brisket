@@ -12,7 +12,7 @@ API_BASE_URL = settings.AGGREGATES_API_BASE_URL.strip('/')+'/'
 
 # defaults of None don't mean that there is not default or no limit--
 # it means that no parameter will be sent to the server, and the server
-# will use its default.
+# will use its own default.
 DEFAULT_CYCLE = None
 DEFAULT_LIMIT = None
 
@@ -38,12 +38,15 @@ def remove_unicode(data):
     
     
 def api_json_get(path, params):
+    """ Low level call that just adds the API key, retrieves the URL and parses the JSON. """
     params.update({'apikey': settings.API_KEY})
     fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
     results = json.loads(fp.read())
     return remove_unicode(results)
 
 def get_top(url, cycle, limit):
+    """ Parses the cycle and limit parameters, if given, then makes the call. """
+    
     params = {}
     if cycle:
         params.update({'cycle': cycle})
