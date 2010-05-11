@@ -27,6 +27,9 @@ def filter_lobbying(request):
         
 def api_index(request):
     return render_to_response('api/index.html', context_instance=RequestContext(request))
+
+def api_aggregate_contributions(request):
+    return render_to_response('api/aggregates_contributions.html', context_instance=RequestContext(request))
     
 def bulk_index(request):
     return render_to_response('bulk/index.html', context_instance=RequestContext(request))

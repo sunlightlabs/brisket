@@ -2,6 +2,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('dc_web.public.views',
     url(r'^api/$', 'api_index', name="api_index"),
+    url(r'^api/aggregates/contributions/$', 'api_aggregate_contributions', name="api_aggregate_contributions"),
     url(r'^bulk/$', 'bulk_index', name="bulk_index"),
     url(r'^docs/$', 'doc_index', name="doc_index"),
     
