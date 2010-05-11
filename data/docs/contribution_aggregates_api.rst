@@ -121,7 +121,7 @@ http://transparencydata.com/api/1.0/entities/id_lookup.json?apikey=<your-key>&na
 Entity Overview
 ---------------
 
-Returns general information about a particular entity.
+Return general information about a particular entity.
 
 End Point
 ~~~~~~~~~
@@ -154,12 +154,12 @@ http://transparencydata.com/api/1.0/entities/ff96aa62d48f48e5a1e284efe74a0ba8.js
 Politician Methods
 ==================
 
-These methods all return information about a particular politician, specified by entity ID.
+These methods return information about a particular politician, specified by entity ID.
 
 Top Contributors
 ----------------
 
-Returns the top contributoring organizations, ranked by total dollars given. An organization's giving is broken down into money given directly (by the organization's PAC) versus money given by individuals employed by or associated with the organization.
+Return the top contributoring organizations, ranked by total dollars given. An organization's giving is broken down into money given directly (by the organization's PAC) versus money given by individuals employed by or associated with the organization.
 
 End Point
 ~~~~~~~~~
@@ -201,7 +201,7 @@ http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0
 Top Sectors
 -----------
 
-Returns what each sector gave to the politician.
+Return what each sector gave to the politician.
 
 End Point
 ~~~~~~~~~
@@ -251,7 +251,7 @@ http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0
 Top Industries within Sector
 ----------------------------
 
-Returns the top contributing industries within a particular sector. Industries are identified by the three character category code assigned by CRP or NIMSP. See http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv.
+Return the top contributing industries within a particular sector. Industries are identified by the three character category code assigned by CRP or NIMSP. See http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv.
 
 End Point
 ~~~~~~~~~
@@ -282,15 +282,187 @@ http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/loca
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/local_breakdown.json?apikey=<your-key>&limit=3
+http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/local_breakdown.json?apikey=<your-key>
 
 ::
 
     {"in-state": [3852, "3672843.00"], "out-of-state": [5048, "7712269.00"]}
 
+
+Contributor Type Breakdown
+--------------------------
+
+Return a breakdown of how much of the money raised was came from individuals versus organizations (PACs).
+
+End Point
+~~~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/type_breakdown.json
+
+Example
+~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/type_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce
+
+::
+
+    {"Individuals": [5533, "5240057.00"], "PACs": [3367, "6145055.00"]}
+    
+  
+
+Individual Methods
+==================  
+
+These methods return information about a particular individual, specified by entity ID.
+
+
+Top Recipient Organizations
+---------------------------
+
+Return the top organizations to which this individual has given money.
+
+End Point
+~~~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipient_orgs.json
+
+Example
+~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipient_orgs.json?apikey=<your-key>&limit=3
+
+::
+
+    [{"count": 6, "recipient_entity": "", "amount": "83500.00", "recipient_name": "Republican National Cmte"},
+     {"count": 7, "recipient_entity": "", "amount": "49250.00", "recipient_name": "National Republican Congressional Cmte"},
+     {"count": 8, "recipient_entity": "a092ecc6cfcf4dfeb55cddbd45425afb", "amount": "36901.00", "recipient_name": "National Republican Senatorial Cmte"}]
+
+Top Recipient Politicians
+-------------------------
+
+Return the top politicians to which this individual has given money.
+
+End Point
+~~~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipient_pols.json
+
+Example
+~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipient_pols.json?apikey=<your-key>&limit=3
+
+::
+
+    [{"count": 16, "recipient_entity": "928936734d2a458ebcbbfefd0fceb0ff", "amount": "14850.00", "recipient_name": "Sam Johnson (R)"},
+     {"count": 16, "recipient_entity": "5c8f2544e5ec42688cb684de7999f734", "amount": "13000.00", "recipient_name": "Joe Barton (R)"},
+     {"count": 10, "recipient_entity": "233629a413cd4bd189440884f3ad3f03", "amount": "9250.00", "recipient_name": "Pete Sessions (R)"}]
+
+Party Breakdown
+---------------
+
+Return how much this individual gave to each party.
+
+End Point
+~~~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipients/party_breakdown.json
+
+Example
+~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipients/party_breakdown.json?apikey=<your-key>
+
+::
+
+    {"R": [271, "253400.00"], "D": [24, "21300.00"]}
+
+
 Organization Methods
 ====================
 
+These methods return information about an organization's giving. "Organization" is an intentionally vague designation covering corportations, PACs, unions, trade groups, and other groups.
 
-Individual Methods
-==================
+Top Recipients
+--------------
+
+Return the top recipients of money from this organization.
+
+End Point
+~~~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients.json
+
+Example
+~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients.json?apikey=<your-key>&limit=3
+
+::
+
+    [{"employee_amount": "57658.00", 
+      "total_amount": "57658.00", 
+      "total_count": 57, 
+      "name": "Barack Obama (D)", 
+      "direct_count": 0, 
+      "employee_count": 57, 
+      "id": "4cc67d4c54214b858a4b72d97b3905ea", 
+      "direct_amount": "0"},
+     {"employee_amount": "21400.00", 
+      "total_amount": "21400.00", 
+      "total_count": 24, 
+      "name": "Hillary Clinton (D)", 
+      "direct_count": 0, 
+      "employee_count": 24, 
+      "id": "48253d1b86f446c8b584f9d6a31450c1", 
+      "direct_amount": "0"},
+     {"employee_amount": "17500.00", 
+      "total_amount": "17500.00", 
+      "total_count": 7, 
+      "name": "Harold E Ford Jr (D)", 
+      "direct_count": 0, 
+      "employee_count": 7, 
+      "id": "3b3c79d8f4264fd19999409bd97bd161", 
+      "direct_amount": "0"}]
+      
+Party Breakdown
+---------------
+
+Return the portion of giving that went to each party.
+
+End Point
+~~~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients/party_breakdown.json      
+      
+Example
+~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients/party_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce&limit=3
+
+::
+
+    {"3": [1, "500.00"], "Republicans": [3, "1500.00"], "Democrats": [463, "391247.00"]}
+    
+    
+State/Federal Breakdown
+-----------------------
+
+Return the portion of giving that went to state versus federal candidates.
+
+End Point
+~~~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients/level_breakdown.json
+
+Example
+~~~~~~~
+
+http://transparencydata.com/api/1.0/aggregates/org/73c18c499c1b4a71b2b042663530e9b7/recipients/level_breakdown.json?apikey=<your-key>
+
+::
+
+    {"Federal": [3789, "4832720.00"], "State": [154, "74659.96"]}
+
+
+
