@@ -37,7 +37,6 @@ def search(request):
         kwargs = {}
         query = urllib.unquote(submitted_form.cleaned_data['query'])
         cycle = request.GET.get('cycle', '2010')
-        print 'form value: %s' % query
 
         # if a user submitted the search value from the form, then
         # treat the hyphens as intentional. if it was from a url, then
@@ -45,7 +44,6 @@ def search(request):
         # any single occurences of hyphens. 
         if not request.GET.get('from_form', None):            
             query = query.replace('-', ' ')
-        print 'now searching for "%s"...' % query
         results = api.entity_search(query)
 
         # limit the results to only those entities with an ID. 
@@ -102,7 +100,6 @@ def organization_entity(request, entity_id):
                 })
 
     party_breakdown = api.org_party_breakdown(entity_id, cycle)
-    print party_breakdown
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
     level_breakdown = api.org_level_breakdown(entity_id, cycle)
@@ -116,8 +113,6 @@ def organization_entity(request, entity_id):
     lobbying_by_org = lobbying.lobbying_by_org(entity_info['name'], cycle)
     # temporary function call until this is implemented in aggregates api
     customers_lobbied_for = lobbying_by_customer(lobbying_by_org)
-    print 'lobbying done by this organization'
-    print customers_lobbied_for
     return render_to_response('organization.html', 
                               {'entity_id': entity_id, 
                                'entity_info': entity_info,
