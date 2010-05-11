@@ -78,11 +78,11 @@ def org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_top('aggregates/org/%s/recipients.json' % entity_id, cycle, limit)
 
 
-def top_sectors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+def pol_sectors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_top('aggregates/pol/%s/contributors/sectors.json' % entity_id, cycle, limit)
     
 
-def contributions_by_sector(entity_id, sector_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+def org_industries_for_sector(entity_id, sector_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_top('aggregates/pol/%s/contributors/sector/%s/industries.json' % (entity_id, sector_id), cycle, limit)
 
 
@@ -106,20 +106,31 @@ def pol_contributor_type_breakdown(entity_id, cycle=DEFAULT_CYCLE):
     return get_top('aggregates/pol/%s/contributors/type_breakdown.json' % entity_id, cycle, None)
 
 
-def indiv_breakdown(entity_id, cycle=DEFAULT_CYCLE):
+def indiv_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
     return get_top('aggregates/indiv/%s/recipients/party_breakdown.json' % entity_id, cycle, None)
         
 
-def lobbying_for_org(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+def org_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' check to see if the entity hired any lobbyists'''
     return get_top('aggregates/org/%s/registrants.json' % entity_id, cycle, limit)
 
-
-def issues_lobbied_for(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+def org_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' get the top issues that a lobbying firm reported lobbying on'''
     return get_top('aggregates/org/%s/issues.json' % entity_id, cycle, limit)
     
+def org_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit)
 
+def indiv_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/indiv/%s/registrants.json' % entity_id, cycle, limit)
+
+def indiv_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/indiv/%s/issues.json' % entity_id, cycle, limit)
+
+def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit)
+    
+    
 
 class LobbyingAPI(object):
     ''' A thin wrapper around aggregates API calls. Not sure we'll

@@ -8,12 +8,11 @@ from influence import api
 PELOSI = 'ff96aa62d48f48e5a1e284efe74a0ba8'
 PICKENS = '945bcd0635bc434eacb7abcdcd38abea'
 BANKERS = 'c039e8a46406458fbd3d48fd174554fd'
+VAN_SCOYOC = '51d4f9790a27496682df37f1636240c1'
 CYCLE = 2008
 LIMIT = 10
 
 
-# todo: inconsistent use of cycle and limit parameters.
-# todo: remove keyword args, or at least use them consistently
 class ContributionsAPITests(TestCase):
 
     def test_pol_contributors(self):
@@ -36,12 +35,12 @@ class ContributionsAPITests(TestCase):
         results = api.indiv_pol_recipients(PICKENS, CYCLE)
         self.assertEqual(10, len(results))
         
-    def test_indiv_breakdown(self):
-        results = api.indiv_breakdown(PICKENS, cycle=CYCLE)
+    def test_indiv_party_breakdown(self):
+        results = api.indiv_party_breakdown(PICKENS, CYCLE)
         self.assertEqual(1, len(results))
         
     def test_org_recipients(self):
-        results = api.org_recipients(BANKERS, cycle=CYCLE, limit=LIMIT)
+        results = api.org_recipients(BANKERS, CYCLE)
         self.assertEqual(10, len(results))
         
     def test_org_party_breakdown(self):
@@ -52,17 +51,15 @@ class ContributionsAPITests(TestCase):
         results = api.org_level_breakdown(BANKERS, CYCLE)
         self.assertEqual(1, len(results))
         
-    # todo: rename to have org/pol/indiv prefix
-    def test_top_sectors(self):
-        results = api.top_sectors(PELOSI, cycle=CYCLE, limit=LIMIT)
+    def test_pol_sectors(self):
+        results = api.pol_sectors(PELOSI, CYCLE)
         self.assertEqual(10, len(results))
         
-    # todo: rename
-    def test_contributions_by_sector(self):
-        results = api.contributions_by_sector(PELOSI, 'H')
+    def test_org_industries_for_sector(self):
+        results = api.org_industries_for_sector(PELOSI, 'H', CYCLE)
         self.assertEqual(5, len(results))
         
-
+# todo: test ID lookup
 class EntityAPITests(TestCase):
     
     def test_entity_search(self):
@@ -73,16 +70,32 @@ class EntityAPITests(TestCase):
         results = api.entity_metadata(PELOSI, CYCLE)
         self.assertEqual(5, len(results))    
 
-# rename to consistent scheme
+
 class LobbyingAPITests(TestCase):
     
-    def test_lobbying_for_org(self):
-        results = api.lobbying_for_org(BANKERS, CYCLE)
+    def test_org_registrants(self):
+        results = api.org_registrants(BANKERS, CYCLE)
         self.assertEqual(10, len(results))
 
-    def test_issues_lobbied_for(self):
-        results = api.issues_lobbied_for(BANKERS, CYCLE)
+    def test_org_issues(self):
+        results = api.org_issues(BANKERS, CYCLE)
         self.assertEqual(10, len(results))
         
+    def test_org_lobbyists(self):
+        results = api.org_lobbyists(BANKERS, CYCLE)
+        self.assertEqual(10, len(results))
         
+    def test_indiv_registrants(self):
+        results = api.indiv_registrants(VAN_SCOYOC, CYCLE)
+        self.assertEqual(2, len(results))
+        
+    def test_indiv_issues(self):
+        results = api.indiv_issues(VAN_SCOYOC, CYCLE)
+        self.assertEqual(10, len(results))
+        
+    def test_indiv_clients(self):
+        results = api.indiv_clients(VAN_SCOYOC, CYCLE)
+        self.assertEqual(10, len(results))
+        
+
         

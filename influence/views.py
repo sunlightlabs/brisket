@@ -107,8 +107,8 @@ def organization_entity(request, entity_id):
         level_breakdown[key] = float(values[1])
 
     # get lobbying info
-    lobbying_for_org = api.lobbying_for_org(entity_id, cycle)
-    issues_lobbied_for =  [item['issue'] for item in api.issues_lobbied_for(entity_id, cycle)]
+    lobbying_for_org = api.org_registrants(entity_id, cycle)
+    issues_lobbied_for =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
     lobbying = api.LobbyingAPI()
     lobbying_by_org = lobbying.lobbying_by_org(entity_info['name'], cycle)
     # temporary function call until this is implemented in aggregates api
@@ -136,7 +136,7 @@ def politician_entity(request, entity_id):
     top_contributors = api.pol_contributors(entity_id, cycle)
 
     # top sectors is already sorted
-    top_sectors = api.top_sectors(entity_id, cycle=cycle)
+    top_sectors = api.pol_sectors(entity_id, cycle=cycle)
     sectors_barchart_data = []
     for record in top_sectors:        
         try:
@@ -195,7 +195,7 @@ def individual_entity(request, entity_id):
                 'href' : str("/organization/%s/%s?cycle=%s" % (slugify(record['recipient_name']), record['recipient_entity'], cycle)),
                 })
 
-    party_breakdown = api.indiv_breakdown(entity_id, cycle)
+    party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
     for key, values in party_breakdown.iteritems():
         # values is a list of [count, amount]
         party_breakdown[key] = values[1]    
@@ -213,12 +213,12 @@ def individual_entity(request, entity_id):
 def industry_detail(request, entity_id):
     cycle = request.GET.get("cycle", 2010)    
     entity_info = api.entity_metadata(entity_id, cycle)    
-    top_industries = api.top_sectors(entity_id, cycle)
+    top_industries = api.pol_sectors(entity_id, cycle)
 
     sectors = {}
     for industry in top_industries:
         industry_id = industry['category_name']        
-        results = api.contributions_by_sector(entity_id, industry_id)
+        results = api.org_industries_for_sector(entity_id, industry_id)
         sectors[industry_id] = (results)
 
     return render_to_response('industry_detail.html',
