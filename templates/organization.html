@@ -59,6 +59,7 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
 
 
 {% block table %}
+
 {% if lobbying_for_org %}
 <div class="twoColumn chartWrapper">
   <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
@@ -93,9 +94,22 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
 </div>
 {% endif %}
 
-{% if customers_lobbied_for %}
 <div class="twoColumn chartWrapper">
   <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
+
+  {% if lobbyists_employed %}
+  <b>Lobbyists Employed</b>:
+  {% for row in lobbyists_employed %}
+  <a href="/search?query={{ row.lobbyist_name|urlencode }}&cycle={{cycle}}"> 
+    {{ row.lobbyist_name }}
+  </a> 
+  {% if not forloop.last %}
+  , 
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  {% if customers_lobbied_for %}
   <table class="twoColumn">
     <thead>
       <tr id="titles">
@@ -114,7 +128,7 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
       {% endfor %}
     </tbody>
   </table>
+  {% endif %}
 </div>
-{% endif %}
 
 {% endblock %}

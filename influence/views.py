@@ -111,6 +111,8 @@ def organization_entity(request, entity_id):
     issues_lobbied_for =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
     lobbying = api.LobbyingAPI()
     lobbying_by_org = lobbying.lobbying_by_org(entity_info['name'], cycle)
+    lobbyists_employed = api.org_lobbyists(entity_id, cycle)
+
     # temporary function call until this is implemented in aggregates api
     customers_lobbied_for = lobbying_by_customer(lobbying_by_org)
     return render_to_response('organization.html', 
@@ -122,6 +124,7 @@ def organization_entity(request, entity_id):
                                'lobbying_for_org': lobbying_for_org,
                                'customers_lobbied_for': customers_lobbied_for,
                                'issues_lobbied_for': issues_lobbied_for,
+                               'lobbyists_employed': lobbyists_employed,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle))
@@ -200,12 +203,21 @@ def individual_entity(request, entity_id):
         # values is a list of [count, amount]
         party_breakdown[key] = values[1]    
 
+    # get lobbying info
+    lobbying_with_firm = api.indiv_registrants(entity_id, cycle)
+    issues_lobbied_for =  [item['issue'] for item in api.indiv_issues(entity_id, cycle)]
+    lobbying_for_clients = api.indiv_clients(entity_id, cycle)
+    
+
     return render_to_response('individual.html', 
                               {'entity_id': entity_id,
                                'entity_info': entity_info,
                                'candidates_barchart_data': candidates_barchart_data,
                                'orgs_barchart_data': orgs_barchart_data,
                                'party_breakdown' : party_breakdown, 
+                               'lobbying_with_firm': lobbying_with_firm,
+                               'issues_lobbied_for': issues_lobbied_for,
+                               'lobbying_for_clients': lobbying_for_clients,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle))
