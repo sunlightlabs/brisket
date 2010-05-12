@@ -121,12 +121,15 @@ def org_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 def org_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_top('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit)
 
+# which lobbying firms did this indiv work for
 def indiv_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_top('aggregates/indiv/%s/registrants.json' % entity_id, cycle, limit)
 
+# issues this individual lobbied on
 def indiv_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_top('aggregates/indiv/%s/issues.json' % entity_id, cycle, limit)
 
+# who were the clients of the firms this indiv worked for
 def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_top('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit)
     
