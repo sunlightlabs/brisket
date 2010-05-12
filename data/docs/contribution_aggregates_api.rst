@@ -45,7 +45,7 @@ Search for entities--that is, politicians, individuals, or organizations--with t
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/entities.json
+``http://transparencydata.com/api/1.0/entities.json``
 
 
 Parameters
@@ -58,7 +58,7 @@ search
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/entities.json?apikey=<your-key>&search=nancy+pelosi
+``http://transparencydata.com/api/1.0/entities.json?apikey=<your-key>&search=nancy+pelosi``
 
 ::
 
@@ -85,7 +85,7 @@ Look up the entity ID based on an ID from a different data set. Currently we pro
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/entities/id_lookup.json
+``http://transparencydata.com/api/1.0/entities/id_lookup.json``
 
 Parameters
 ~~~~~~~~~~
@@ -111,7 +111,7 @@ id
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/entities/id_lookup.json?apikey=<your-key>&namespace=urn:crp:recipient&id=N00007360
+``http://transparencydata.com/api/1.0/entities/id_lookup.json?apikey=<your-key>&namespace=urn:crp:recipient&id=N00007360``
 
 ::
 
@@ -126,7 +126,7 @@ Return general information about a particular entity.
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/entities/<entity ID>.json
+``http://transparencydata.com/api/1.0/entities/<entity ID>.json``
 
 Parameters
 ~~~~~~~~~~
@@ -137,7 +137,7 @@ cycle
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/entities/ff96aa62d48f48e5a1e284efe74a0ba8.json?apikey=<your-key>
+``http://transparencydata.com/api/1.0/entities/ff96aa62d48f48e5a1e284efe74a0ba8.json?apikey=<your-key>``
 
 ::
 
@@ -164,12 +164,12 @@ Return the top contributoring organizations, ranked by total dollars given. An o
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors.json
+``http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors.json?apikey=<you-key>&limit=3
+``http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors.json?apikey=<you-key>&limit=3``
 
 ::
 
@@ -206,7 +206,7 @@ Return what each sector gave to the politician.
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/sectors.json
+``http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/sectors.json``
 
 The sectors are identified by a single-letter code, as coded by CRP. The sector codes are:
 
@@ -233,7 +233,7 @@ The sectors are identified by a single-letter code, as coded by CRP. The sector 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/sectors.json?apikey=<your-key>
+``http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/sectors.json?apikey=<your-key>``
 
 ::
 
@@ -256,12 +256,12 @@ Return the top contributing industries within a particular sector. Industries ar
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/sector/<sector>/industries.json
+``http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/sector/<sector>/industries.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/sector/F/industries.json?apikey=<your-key>&limit=3
+``http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/sector/F/industries.json?apikey=<your-key>&limit=3``
 
 ::
 
@@ -277,12 +277,12 @@ Return a breakdown of how much of the money raised was from contributors in the 
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/local_breakdown.json
+``http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/local_breakdown.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/local_breakdown.json?apikey=<your-key>
+``http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/local_breakdown.json?apikey=<your-key>``
 
 ::
 
@@ -297,12 +297,12 @@ Return a breakdown of how much of the money raised was came from individuals ver
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/type_breakdown.json
+``http://transparencydata.com/api/1.0/aggregates/pol/<entity ID>/contributors/type_breakdown.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/type_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce
+``http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/type_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce``
 
 ::
 
@@ -324,12 +324,12 @@ Return the top organizations to which this individual has given money.
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipient_orgs.json
+``http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipient_orgs.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipient_orgs.json?apikey=<your-key>&limit=3
+``http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipient_orgs.json?apikey=<your-key>&limit=3``
 
 ::
 
@@ -345,12 +345,12 @@ Return the top politicians to which this individual has given money.
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipient_pols.json
+``http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipient_pols.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipient_pols.json?apikey=<your-key>&limit=3
+``http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipient_pols.json?apikey=<your-key>&limit=3``
 
 ::
 
@@ -366,12 +366,12 @@ Return how much this individual gave to each party.
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipients/party_breakdown.json
+``http://transparencydata.com/api/1.0/aggregates/indiv/<entity ID>/recipients/party_breakdown.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipients/party_breakdown.json?apikey=<your-key>
+``http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipients/party_breakdown.json?apikey=<your-key>``
 
 ::
 
@@ -391,12 +391,12 @@ Return the top recipients of money from this organization.
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients.json
+``http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients.json?apikey=<your-key>&limit=3
+``http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients.json?apikey=<your-key>&limit=3``
 
 ::
 
@@ -433,12 +433,12 @@ Return the portion of giving that went to each party.
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients/party_breakdown.json      
+``http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients/party_breakdown.json``     
       
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients/party_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce&limit=3
+``http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients/party_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce&limit=3``
 
 ::
 
@@ -453,12 +453,12 @@ Return the portion of giving that went to state versus federal candidates.
 End Point
 ~~~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients/level_breakdown.json
+``http://transparencydata.com/api/1.0/aggregates/org/<entity ID>/recipients/level_breakdown.json``
 
 Example
 ~~~~~~~
 
-http://transparencydata.com/api/1.0/aggregates/org/73c18c499c1b4a71b2b042663530e9b7/recipients/level_breakdown.json?apikey=<your-key>
+``http://transparencydata.com/api/1.0/aggregates/org/73c18c499c1b4a71b2b042663530e9b7/recipients/level_breakdown.json?apikey=<your-key>``
 
 ::
 
