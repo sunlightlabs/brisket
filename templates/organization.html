@@ -100,9 +100,14 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
   {% if lobbyists_employed %}
   <b>Lobbyists Employed</b>:
   {% for row in lobbyists_employed %}
+  {% if row.lobbyist_entity %}
   <a href="/search?query={{ row.lobbyist_name|urlencode }}&cycle={{cycle}}"> 
     {{ row.lobbyist_name }}
   </a> 
+  {% else %}
+  {{ row.lobbyist_name }}
+  {% endif %}
+
   {% if not forloop.last %}
   , 
   {% endif %}
