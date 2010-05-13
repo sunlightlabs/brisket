@@ -5,7 +5,8 @@
     <meta name="description" content="" /> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
     <link rel="stylesheet" href="/media/css/main.css" type="text/css"> 
-
+	<script src="/media/js/jquery-1.4.2.min.js"
+            type="text/javascript" charset="utf-8"></script>
     <script src="/media/js/raphael-min.js"
             type="text/javascript" charset="utf-8"></script> 
     <script src="/media/js/g.raphael-min.js"
@@ -76,6 +77,23 @@
     </div><!-- end footer -->
 
     </div><!-- end pageMain -->
-
+	<script type="text/javascript">
+		$().ready(function() {
+			$('#cycle_submit').hide();
+			$('#id_cycle').bind('change', function() {
+				$('#cycle_form').submit();
+				return false;
+			});
+			$('#id_query').bind('focus', function() {
+				if (this.value.toUpperCase() == 'SEARCH') {
+					this.value = '';
+				}
+			}).bind('blur', function() {
+				if (!this.value) {
+					this.value = 'SEARCH';
+				}
+			});
+		});
+	</script>
   </body>
 </html>

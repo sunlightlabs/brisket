@@ -3,6 +3,8 @@
 {% block extrajs %}
 {% endblock %}
 
+{% block body_class %}entity{% endblock %}
+
 {% block main %}
 
 <div id="contentHeader">
@@ -16,10 +18,10 @@
     <span> {{cycle}}</span>
   </div>
   <div id="changeDates">
-    <form action="" method="get">
+    <form action="" method="get" id="cycle_form">
       <label>View Other Election Cycles</label>
       {{ cycle_form.cycle }}
-      <input type="submit" value="Update Cycles" />
+      <input type="submit" value="Update Cycles" id="cycle_submit" />
     </form>
   </div>
   <div class="clear"></div>
