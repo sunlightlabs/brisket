@@ -37,110 +37,109 @@ def remove_unicode(data):
     else: return data
     
     
-def api_json_get(path, params):
+def get_url_json(path, cycle=None, limit=None, **params):
     """ Low level call that just adds the API key, retrieves the URL and parses the JSON. """
-    params.update({'apikey': settings.API_KEY})
-    fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
-    results = json.loads(fp.read())
-    return remove_unicode(results)
-
-def get_top(url, cycle, limit):
-    """ Parses the cycle and limit parameters, if given, then makes the call. """
     
-    params = {}
     if cycle:
         params.update({'cycle': cycle})
     if limit:
         params.update({'limit': limit})
-        
-    return api_json_get(url, params)  
+    params.update({'apikey': settings.API_KEY})
     
+    fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
+    results = json.loads(fp.read())
+    return remove_unicode(results)
+
 
 def entity_search(query):
-    return api_json_get('entities.json', {'search': query})
+    return get_url_json('entities.json', search=query)
 
+
+def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
+    return get_url_json('entities/%s.json' % entity_id, cycle)
+
+
+def entity_id_lookup(namespace, id):
+    return get_url_json('entities/id_lookup.json', namespace=namespace, id=id)
+ 
 
 def pol_contributors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/pol/%s/contributors.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/pol/%s/contributors.json' % entity_id, cycle, limit)
 
 
 def indiv_org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' recipients from a single individual'''
-    return get_top('aggregates/indiv/%s/recipient_orgs.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/indiv/%s/recipient_orgs.json' % entity_id, cycle, limit)
 
 
 def indiv_pol_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' recipients from a single individual'''
-    return get_top('aggregates/indiv/%s/recipient_pols.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/indiv/%s/recipient_pols.json' % entity_id, cycle, limit)
 
 
 def org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/org/%s/recipients.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/org/%s/recipients.json' % entity_id, cycle, limit)
 
 
 def pol_sectors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/pol/%s/contributors/sectors.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/pol/%s/contributors/sectors.json' % entity_id, cycle, limit)
     
 
 def org_industries_for_sector(entity_id, sector_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/pol/%s/contributors/sector/%s/industries.json' % (entity_id, sector_id), cycle, limit)
-
-
-def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
-    return get_top('entities/%s.json' % entity_id, cycle, None)
-    
+    return get_url_json('aggregates/pol/%s/contributors/sector/%s/industries.json' % (entity_id, sector_id), cycle, limit)
+   
     
 def org_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_top('aggregates/org/%s/recipients/party_breakdown.json' % entity_id, cycle, None)
+    return get_url_json('aggregates/org/%s/recipients/party_breakdown.json' % entity_id, cycle)
 
 
 def org_level_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_top('aggregates/org/%s/recipients/level_breakdown.json' % entity_id, cycle, None)
+    return get_url_json('aggregates/org/%s/recipients/level_breakdown.json' % entity_id, cycle)
 
 
 def pol_local_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_top('aggregates/pol/%s/contributors/local_breakdown.json' % entity_id, cycle, None)
+    return get_url_json('aggregates/pol/%s/contributors/local_breakdown.json' % entity_id, cycle)
 
 
 def pol_contributor_type_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_top('aggregates/pol/%s/contributors/type_breakdown.json' % entity_id, cycle, None)
+    return get_url_json('aggregates/pol/%s/contributors/type_breakdown.json' % entity_id, cycle)
 
 
 def indiv_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_top('aggregates/indiv/%s/recipients/party_breakdown.json' % entity_id, cycle, None)
+    return get_url_json('aggregates/indiv/%s/recipients/party_breakdown.json' % entity_id, cycle)
         
 
 def org_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' check to see if the entity hired any lobbyists'''
-    return get_top('aggregates/org/%s/registrants.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/org/%s/registrants.json' % entity_id, cycle, limit)
 
 def org_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' get the top issues that a lobbying firm reported lobbying on'''
-    return get_top('aggregates/org/%s/issues.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/org/%s/issues.json' % entity_id, cycle, limit)
     
 def org_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit)
 
 # which lobbying firms did this indiv work for
 def indiv_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/indiv/%s/registrants.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/indiv/%s/registrants.json' % entity_id, cycle, limit)
 
 # issues this individual lobbied on
 def indiv_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/indiv/%s/issues.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/indiv/%s/issues.json' % entity_id, cycle, limit)
 
 # who were the clients of the firms this indiv worked for
 def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit)
     
 def org_registrant_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/org/%s/registrant/issues.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/org/%s/registrant/issues.json' % entity_id, cycle, limit)
 
 def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit)
     
 def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_top('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
 
 
     
