@@ -9,6 +9,7 @@ PELOSI = 'ff96aa62d48f48e5a1e284efe74a0ba8'
 PICKENS = '945bcd0635bc434eacb7abcdcd38abea'
 BANKERS = 'c039e8a46406458fbd3d48fd174554fd'
 VAN_SCOYOC = '51d4f9790a27496682df37f1636240c1'
+NICKLES = 'b361f45dc45444928a247f920c1ba35c'
 CYCLE = 2008
 LIMIT = 10
 
@@ -97,5 +98,16 @@ class LobbyingAPITests(TestCase):
         results = api.indiv_clients(VAN_SCOYOC, CYCLE)
         self.assertEqual(10, len(results))
         
+    def test_reg_clients(self):
+        results = api.org_registrant_clients(NICKLES, CYCLE)
+        self.assertEqual(10, len(results))
+        
+    def test_reg_lobbyists(self):
+        results = api.org_registrant_lobbyists(NICKLES, CYCLE)
+        self.assertEqual(9, len(results))
+        
+    def test_reg_issues(self):
+        results = api.org_registrant_issues(NICKLES, CYCLE)
+        self.assertEqual(10, len(results))
 
         

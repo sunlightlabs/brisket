@@ -133,6 +133,16 @@ def indiv_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_top('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit)
     
+def org_registrant_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/org/%s/registrant/issues.json' % entity_id, cycle, limit)
+
+def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit)
+    
+def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_top('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
+
+
     
 
 class LobbyingAPI(object):
