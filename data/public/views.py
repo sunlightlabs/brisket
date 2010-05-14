@@ -62,10 +62,10 @@ def data_contributions_download(request):
     request.GET = request.GET.copy()
     request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
     request.GET['per_page'] = 1000000
-    request.GET['format'] = 'csv'
+    request.GET['format'] = 'xls'
     response = contributionfilter_handler(request)
-    response['Content-Disposition'] = "attachment; filename=contributions.csv"
-    response['Content-Type'] = "text/csv; charset=utf-8"
+    response['Content-Disposition'] = "attachment; filename=contributions.xls"
+    response['Content-Type'] = "application/vnd.ms-excel; charset=utf-8"
     return response
 
 #
@@ -91,8 +91,8 @@ def data_lobbying_download(request):
     request.GET = request.GET.copy()
     request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
     request.GET['per_page'] = 1000000
-    request.GET['format'] = 'json'
+    request.GET['format'] = 'xls'
     response = lobbyingfilter_handler(request)
-    response['Content-Disposition'] = "attachment; filename=lobbying.json"
-    response['Content-Type'] = "application/json; charset=utf-8"
+    response['Content-Disposition'] = "attachment; filename=lobbying.xls"
+    response['Content-Type'] = "application/vnd.ms-excel; charset=utf-8"
     return response
