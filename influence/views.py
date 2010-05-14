@@ -176,7 +176,15 @@ def politician_entity(request, entity_id):
                                'cycle': cycle,
                                },
                               entity_context(request, cycle))
-        
+
+def _barchart_href(record, cycle):
+    if record['recipient_entity']:
+        href = str("/politician/%s/%s?cycle=%s" % (slugify(record['recipient_name']), 
+                                                   record['recipient_entity'], cycle))
+    else:
+        href = str("/search?query=%s&cycle=%s" % (record['recipient_name'], cycle))
+    return href
+ 
 def individual_entity(request, entity_id):    
     cycle = request.GET.get('cycle', '2010')
     entity_info = api.entity_metadata(entity_id, cycle)    
@@ -186,7 +194,7 @@ def individual_entity(request, entity_id):
         candidates_barchart_data.append({
                 'key': record['recipient_name'],
                 'value' : record['amount'],
-                'href' : str("/politician/%s/%s?cycle=%s" % (slugify(record['recipient_name']), record['recipient_entity'], cycle)),
+                'href' : _barchart_href(record, cycle),
                 })
 
     recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
@@ -195,7 +203,7 @@ def individual_entity(request, entity_id):
         orgs_barchart_data.append({
                 'key': record['recipient_name'],
                 'value' : record['amount'],
-                'href' : str("/organization/%s/%s?cycle=%s" % (slugify(record['recipient_name']), record['recipient_entity'], cycle)),
+                'href' : _barchart_href(record, cycle),
                 })
 
     party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
