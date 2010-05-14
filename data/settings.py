@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'matchbox',
     'dcdata',
     'dcdata.contribution',
+    'dcdata.grants',
     'dcdata.lobbying',
     'dcapi',
     'dcapi.aggregates', 
