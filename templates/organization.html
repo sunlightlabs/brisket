@@ -15,10 +15,10 @@
 <h2>{{ entity_info.name }}</h2>
 {% endblock %}
 
-{% block overview_amount %}
+{% block contrib_overview_amount %}
 ${{entity_info.contributions.contributor_amount|intcomma }} Given
 {% endblock %}
-{% block details_link %}
+{% block contrib_details_link %}
 <a class="detailsLink" href="#">
   View Timeline Details
 </a>
@@ -57,8 +57,20 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
     <a class="detailsLink" href="#">View Full Details</a>
 {% endblock %}
 
+{% block lobbying_hired_amount %}
+{% if total_lobbying_hired %} 
+    ${{ total_lobbying_hired|intcomma }} hired
+{% endif %}
+{% endblock %}
 
-{% block table %}
+{% block lobbying_executed_amount %}
+{% if total_lobbying_done %} 
+    ${{ total_lobbying_done|intcomma }} executed
+{% endif %}
+{% endblock %}
+
+
+{% block lobbying_tables %}
 
 {% if lobbying_for_org %}
 <div class="twoColumn chartWrapper">

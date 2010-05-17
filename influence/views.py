@@ -113,6 +113,11 @@ def organization_entity(request, entity_id):
     lobbying_by_org = lobbying.lobbying_by_org(entity_info['name'], cycle)
     lobbyists_employed = api.org_lobbyists(entity_id, cycle)
 
+    # calculate lobbying totals
+    total_lobbying_hired = sum([float(row['amount']) for row in lobbying_for_org])
+    total_lobbying_done = sum([float(row['amount']) for row in lobbying_by_org])
+    print 'total lobbying hired'
+
     # temporary function call until this is implemented in aggregates api
     customers_lobbied_for = lobbying_by_customer(lobbying_by_org)
     return render_to_response('organization.html', 
@@ -125,6 +130,8 @@ def organization_entity(request, entity_id):
                                'customers_lobbied_for': customers_lobbied_for,
                                'issues_lobbied_for': issues_lobbied_for,
                                'lobbyists_employed': lobbyists_employed,
+                               'total_lobbying_hired': total_lobbying_hired,
+                               'total_lobbying_done': total_lobbying_done,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle))
