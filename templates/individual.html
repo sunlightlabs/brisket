@@ -58,7 +58,8 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
     <a class="detailsLink" href="#">View Full Details</a>
 {% endblock %}
 
-{% block table %}
+
+{% block lobbying_tables %}
 
 {% if lobbying_with_firm %}
 <div class="twoColumn chartWrapper">
@@ -105,7 +106,11 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
       {% for row in lobbying_for_clients %}
       <tr class="{% cycle 'even' 'odd' %}">
         <td>	    
-	  <a href="/search?query={{ row.client_name|urlencode }}&cycle={{cycle}}">{{ row.client_name }}</a>
+	  {% if row.client_entity %}
+	  <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
+	  {% else %}
+	  {{ row.client_name }}
+          {% endif %} 
         </td>
       </tr>
 
