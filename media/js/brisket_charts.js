@@ -66,18 +66,6 @@ function barchart(div, data, chart_title, limit) {
     // value, and link.
     b = Raphael(div);
     b.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
-    //b.g.text(150, 10, chart_title).attr({"font-size": 15});
-
-  /*
-    var fin = function () {
-    this.flag = b.g.label(this.bar.x, this.bar.y,this.bar.value || "0").insertBefore(this);
-    };
-
-    var fout = function () {
-    this.flag.animate({opacity: 0}, 300, function () { this.remove();});
-    };
-
-*/
 
   if (limit && limit < data.length) {
     data= data.slice(0,limit);
@@ -118,22 +106,32 @@ function barchart(div, data, chart_title, limit) {
     for (var i=0; i< barchart.labels.length; i++) {
       barchart.labels[i].attr({'href': data_hrefs[i] })
     }
-    barchart.labels.attr({stroke: "#666"});
+    // this is the desired link colour, but it also seems to make
+    //the font bold, which is undesireable!
+    //barchart.labels.attr({stroke: "#0A6E92"});
 
     /* add text markers (which unfortunately uses a method called
        'label' just to confuse you) */
-    //b.g.txtattr.font = "10px 'Fontin Sans', Fontin-Sans, sans-serif";
-    b.g.txtattr.font = "10px 'Times New Roman', Times, serif";
     s = b.set();
     for (var i=0; i< barchart.bars[0].length; i++) {
 	x = barchart.bars[0][i].x;
 	y = barchart.bars[0][i].y;
 	text = '$'+barchart.bars[0][i].value;
 	marker = b.g.text(x,y,text);
+
+    marker.mouseover(function() {
+      window.alert("i");
+      console.log(console.dir(this));
+      if (this.label) {
+	this.label[1].attr({"font-weight": 800});
+      }}).mouseout(function() {
+      if (this.label) {
+	this.label[0].scale(1.0);
+      }});
+
 	s.push(marker);
     };
-    s.attr({stroke: "#333", translation: "140,0",
-	    font : "10px 'Times New Roman', Times, serif"});
+    s.attr({translation: "140,0"});
 
 
     /* figure out the longest label text and move the chart over by
