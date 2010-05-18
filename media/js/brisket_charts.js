@@ -3,7 +3,6 @@ function piechart(div, data, chart_title) {
 
     var r = Raphael(div);
     r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
-    //r.g.text(150, 10, chart_title).attr({"font-size": 15});
 
     var data_values = [];
     for (k in data) {
@@ -15,10 +14,12 @@ function piechart(div, data, chart_title) {
     values_total += data_values[v];
   }
 
-    var data_labels = [];
+  var data_labels = [];
     for (k in data) {
+      //capitalize the labels
+      kk = k[0].toUpperCase()+k.substring(1,k.length);
       var percent = Math.round((data[k]/values_total)*100);
-      data_labels.push(k+' ('+percent+'%)');
+      data_labels.push(kk+' ('+percent+'%)');
     }
 
     pie = r.g.piechart(70, 70, 60, data_values, { legend: data_labels, legendpos: "east",
@@ -32,22 +33,33 @@ function piechart(div, data, chart_title) {
     this.label[0].stop();
     this.label[0].scale(1.5);
     this.label[1].attr({"font-weight": 800});
-//    this.sector.flag
-//    this.tag = this.tag || r.g.tag(this.x, this.y, this.value, 0, this.r + 2).insertBefore(this);
-//   this.tag.show();
-
-    }
-    }, function () {
+    lbl = r.text(70, 70, dollar(this.value.value));
+    lbl.attr({"font-weight": 800, "font-size": "13px"});
+    lbl.show();
+    }}, function () {
     this.sector.animate({scale: [1, 1, this.cx,
     this.cy]}, 500, "bounce");
     if (this.label) {
     this.label[0].animate({scale: 1}, 500,
     "bounce");
     this.label[1].attr({"font-weight": 400});
-//    this.tag && this.tag.hide();
+    lbl.hide();
     }
     });
 }
+
+function dollar(str) {
+  str += '';
+  x = str.split('.');
+  x1 = x[0];
+  x2 = x.length > 1 ? '.' + x[1] : '';
+  var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+  return "$"+ x1 + x2;
+}
+
 
 function barchart(div, data, chart_title, limit) {
     // expects data to be a list of dicts each with keys called key,
