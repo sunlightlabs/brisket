@@ -108,15 +108,16 @@ def pol_contributor_type_breakdown(entity_id, cycle=DEFAULT_CYCLE):
 def indiv_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
     return get_url_json('aggregates/indiv/%s/recipients/party_breakdown.json' % entity_id, cycle)
         
-
+# lobbying firms hired by this org
 def org_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' check to see if the entity hired any lobbyists'''
     return get_url_json('aggregates/org/%s/registrants.json' % entity_id, cycle, limit)
 
+# issues this org hired lobbying for
 def org_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    ''' get the top issues that a lobbying firm reported lobbying on'''
     return get_url_json('aggregates/org/%s/issues.json' % entity_id, cycle, limit)
-    
+
+# lobbyists who lobbied for this org (?)    
 def org_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit)
 
@@ -132,12 +133,15 @@ def indiv_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit)
     
+# issues this org was hired to lobby for
 def org_registrant_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/registrant/issues.json' % entity_id, cycle, limit)
 
+# clients of the org as a registrant
 def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit)
     
+# lobbyists who work for this registrant (?)
 def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
 

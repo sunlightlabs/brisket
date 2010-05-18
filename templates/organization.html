@@ -69,16 +69,31 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
 {% endif %}
 {% endblock %}
 
-
 {% block lobbying_tables %}
 
 {% if lobbying_for_org %}
 <div class="twoColumn chartWrapper">
   <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
+  {% if lobbyists_on_behalf_of_org %}
+  <b>Lobbied for this organization's issues</b>:
+  <p id="description" class="clear">
+  {% for row in lobbyists_on_behalf_of_org %}
+  {% if row.lobbyist_entity %}
+  <a href="/individual/{{ row.lobbyist_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}"> 
+    {{ row.lobbyist_name }}
+  </a>
+  {% else %}
+  {{ row.lobbyist_name }}
+  {% endif %}
+  {% if not forloop.last %}, {% endif %}
+  {% endfor %}
+  </p>
+  {% endif %}
+
   <table class="twoColumn">
     <thead>
       <tr id="titles">
-        <th class="left">Firm</th>
+        <th class="left">Firm Hired</th>
         <th class="right">Amount</th>
       </tr>
     </thead>
@@ -106,27 +121,27 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
 </div>
 {% endif %}
 
+{% if lobbying_by_org %}
 <div class="twoColumn chartWrapper">
   <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
+  {% if lobbyists_as_employees_of_org %}
+  <div>
+    <b>Lobbyists Employed by this Organization:</b>
+    <p id="description" class="clear">
+      {% for row in lobbyists_as_employees_of_org %}
+      {% if row.lobbyist_entity %}
+      <a href="/individual/{{ row.lobbyist_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}"> 
+	{{ row.lobbyist_name }}
+      </a>
+      {% else %}
+      {{ row.lobbyist_name }}
+      {% endif %}
+      {% if not forloop.last %}, {% endif %}
+      {% endfor %}
+    </p>
+    {% endif %}
+  </div>
 
-  {% if lobbyists_employed %}
-  <b>Lobbyists Employed</b>:
-  {% for row in lobbyists_employed %}
-  {% if row.lobbyist_entity %}
-  <a href="/search?query={{ row.lobbyist_name|urlencode }}&cycle={{cycle}}"> 
-    {{ row.lobbyist_name }}
-  </a> 
-  {% else %}
-  {{ row.lobbyist_name }}
-  {% endif %}
-
-  {% if not forloop.last %}
-  , 
-  {% endif %}
-  {% endfor %}
-  {% endif %}
-
-  {% if customers_lobbied_for %}
   <table class="twoColumn">
     <thead>
       <tr id="titles">
@@ -135,17 +150,27 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
       </tr>
     </thead>
     <tbody>
-      {% for row in customers_lobbied_for %}
+      {% for row in lobbying_by_org %}
       <tr class="{% cycle 'even' 'odd' %}">
         <td>	    
-	  <a href="/search?query={{ row.0|urlencode }}&cycle={{cycle}}">{{ row.0 }}</a>
+	  {% if row.client_entity %}
+	  <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
+	  {% else %}
+	  {{ row.client_name }}
+          {% endif %} 
         </td>
-        <td class="right">${{ row.1|intcomma }}</td>
+        <td class="right">${{ row.amount|intcomma }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+  {% if issues_lobbied_by %}
+  <p id="description" class="clear">
+    Issues Lobbied:     
+    {{ issues_lobbied_by|join:", " }}
+  </p>
   {% endif %}
 </div>
+{% endif %}
 
 {% endblock %}

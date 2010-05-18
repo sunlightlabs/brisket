@@ -108,18 +108,17 @@ def organization_entity(request, entity_id):
 
     # get lobbying info
     lobbying_for_org = api.org_registrants(entity_id, cycle)
+    lobbyists_on_behalf_of_org = api.org_lobbyists(entity_id, cycle)
     issues_lobbied_for =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
-    lobbying = api.LobbyingAPI()
-    lobbying_by_org = lobbying.lobbying_by_org(entity_info['name'], cycle)
-    lobbyists_employed = api.org_lobbyists(entity_id, cycle)
+
+    lobbying_by_org = api.org_registrant_clients(entity_id, cycle)
+    lobbyists_as_employees_of_org = api.org_registrant_lobbyists(entity_id, cycle)
+    issues_lobbied_by =  [item['issue'] for item in api.org_registrant_issues(entity_id, cycle)]
 
     # calculate lobbying totals
     total_lobbying_hired = sum([float(row['amount']) for row in lobbying_for_org])
     total_lobbying_done = sum([float(row['amount']) for row in lobbying_by_org])
-    print 'total lobbying hired'
 
-    # temporary function call until this is implemented in aggregates api
-    customers_lobbied_for = lobbying_by_customer(lobbying_by_org)
     return render_to_response('organization.html', 
                               {'entity_id': entity_id, 
                                'entity_info': entity_info,
@@ -127,9 +126,11 @@ def organization_entity(request, entity_id):
                                'party_breakdown' : party_breakdown,
                                'recipients_barchart_data': recipients_barchart_data,
                                'lobbying_for_org': lobbying_for_org,
-                               'customers_lobbied_for': customers_lobbied_for,
+                               'lobbyists_on_behalf_of_org': lobbyists_on_behalf_of_org,
                                'issues_lobbied_for': issues_lobbied_for,
-                               'lobbyists_employed': lobbyists_employed,
+                               'lobbying_by_org': lobbying_by_org,
+                               'lobbyists_as_employees_of_org': lobbyists_as_employees_of_org,
+                               'issues_lobbied_by': issues_lobbied_by,
                                'total_lobbying_hired': total_lobbying_hired,
                                'total_lobbying_done': total_lobbying_done,
                                'cycle': cycle,

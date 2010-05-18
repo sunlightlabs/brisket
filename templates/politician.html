@@ -90,7 +90,7 @@ ${{entity_info.contributions.recipient_amount|intcomma }} Received
 <a class="detailsLink" href="#">View Full Details</a>
 {% endblock %}
 
-{% block table %}
+{% block contributions_tables %}
 <div class="twoColumn chartWrapper">
   <h4>Top Contributors to {{ entity_info.name }}</h4>
   <table class="twoColumn">
@@ -134,3 +134,7 @@ ${{entity_info.contributions.recipient_amount|intcomma }} Received
 </div>
 
 {% endblock %}
+
+{% block lobbying %}
+{% endblock %}
+
