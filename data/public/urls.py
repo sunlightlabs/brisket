@@ -16,6 +16,13 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^data/contributions/count/$', 'data_contributions', {'count': True}, name="data_contributions_count"),
     url(r'^debug/contributions/$', 'debug_contributions', name="debug_contributions"),
     
+    # grants
+    url(r'^grants/$', 'filter_grants', name="filter_grants"),
+    url(r'^grants/download/$', 'data_grants_download', name="data_grants_download"),
+    url(r'^data/grants/$', 'data_grants', name="data_grants"),
+    url(r'^data/grants/count/$', 'data_grants', {'count': True}, name="data_grants_count"),
+    url(r'^debug/grants/$', 'debug_grants', name="debug_grants"),
+    
     # lobbying
     url(r'^lobbying/$', 'filter_lobbying', name="filter_lobbying"),
     url(r'^lobbying/download/$', 'data_lobbying_download', name="data_lobbying_download"),

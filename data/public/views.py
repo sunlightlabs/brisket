@@ -5,6 +5,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from dcapi.contributions.handlers import load_contributions
 from dcapi.contributions.urls import contributionfilter_handler
+from dcapi.grants.handlers import load_grants
+from dcapi.grants.urls import grantsfilter_handler
 from dcapi.lobbying.handlers import load_lobbying
 from dcapi.lobbying.urls import lobbyingfilter_handler
 from locksmith.auth.models import ApiKey
@@ -21,6 +23,9 @@ def filter(request):
 
 def filter_contributions(request):
     return render_to_response('filter_contributions.html', context_instance=RequestContext(request))
+
+def filter_grants(request):
+    return render_to_response('filter_grants.html', context_instance=RequestContext(request))
 
 def filter_lobbying(request):
     return render_to_response('filter_lobbying.html', context_instance=RequestContext(request))
@@ -68,6 +73,35 @@ def data_contributions_download(request):
     response['Content-Type'] = "application/vnd.ms-excel; charset=utf-8"
     return response
 
+#
+# ajaxy grants stuff
+#
+
+def debug_grants(request):
+    content = '\n'.join(data_grants(request))
+    return render_to_response('debug.html', {'content': content})
+
+def data_grants(request, count=False):
+    if count:
+        params = request.GET.copy()
+        c = load_grants(params, nolimit=True).order_by().count()
+        return HttpResponse("%i" % c, content_type='text/plain')
+    else:
+        request.GET = request.GET.copy()
+        request.GET['per_page'] = 30
+        request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
+        return grantsfilter_handler(request)
+
+def data_grants_download(request):
+    request.GET = request.GET.copy()
+    request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
+    request.GET['per_page'] = 1000000
+    request.GET['format'] = 'xls'
+    response = grantsfilter_handler(request)
+    response['Content-Disposition'] = "attachment; filename=grants.xls"
+    response['Content-Type'] = "application/vnd.ms-excel; charset=utf-8"
+    return response
+    
 #
 # ajaxy lobbying stuff
 #
