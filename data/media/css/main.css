@@ -395,14 +395,24 @@ body#contributions #dataTabs li#contributionsTab a {
     border-bottom: 2px solid #ECEBE6;
 }
 
-body#lobbying #dataTabs li#lobbyingTab a {
+body#contributions.index #dataTabs li#contributionsTab a {
+    background-color: #FFF;
+    border-bottom: 2px solid #FFF;
+}
+
+body#grants #dataTabs li#grantsTab a {
     background-color: #ECEBE6;
     border-bottom: 2px solid #ECEBE6;
 }
 
-body#contributions.index #dataTabs li#contributionsTab a {
+body#grants.index #dataTabs li#grantsTab a {
     background-color: #FFF;
     border-bottom: 2px solid #FFF;
+}
+
+body#lobbying #dataTabs li#lobbyingTab a {
+    background-color: #ECEBE6;
+    border-bottom: 2px solid #ECEBE6;
 }
 
 body#lobbying.index #dataTabs li#lobbyingTab a {
@@ -435,8 +445,12 @@ body.filteredSearch #contribution {
 	margin-left: 25px;
 }
 
+body#contributions #intro-grants { display: none; }
 body#contributions #intro-lobbying { display: none; }
 body#lobbying #intro-contributions { display: none; }
+body#lobbying #intro-grants { display: none; }
+body#grants #intro-contributions { display: none; }
+body#grants #intro-lobbying { display: none; }
 
 /*single column-------------------------------------------------*/
 

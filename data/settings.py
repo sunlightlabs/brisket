@@ -71,9 +71,7 @@ INSTALLED_APPS = (
     'dcdata.grants',
     'dcdata.lobbying',
     'dcapi',
-    'dcapi.aggregates', 
-    'dcapi.contributions', 
-    'dcapi.rapportive',
+    'dcapi.aggregates',
     'dc_web.public',
 )
 
@@ -107,6 +105,11 @@ MEDIASYNC_JOINED = {
         'js/td.fields.js',
         'js/td.contributions.js'
     ],
+    'grants.js': [
+        'js/td.js',
+        'js/td.fields.js',
+        'js/td.grants.js'
+    ],
     'lobbying.js': [
         'js/td.js',
         'js/td.fields.js',
@@ -115,6 +118,7 @@ MEDIASYNC_JOINED = {
     'index.js': [
         'js/td.js',
         'js/td.fields.js',
+        'js/td.grants.js',
         'js/td.lobbying.js',
         'js/td.contributions.js'
     ],

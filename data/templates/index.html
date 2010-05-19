@@ -24,6 +24,7 @@
 		<ul>
 			<li id="contributionsTab"><a href="/contributions/" class="contributions">Contribution Data</a></li>
 			<li id="lobbyingTab"><a href="/lobbying/" class="lobbying">Lobbying Data</a></li>
+			<li id="grantsTab"><a href="/grants/" class="grants">Grant Data</a></li>
 			<li id="contractingTab"><a href="/contracts/" class="contracts">Contracting Data</a></li>
 		</ul>
 	</div>
@@ -66,6 +67,26 @@
 			<a id="lobbyingPreviewButton" class="previewButton" href="#">Preview Data</a>
 		</div>
 	</div>
+
+	<div class="introbox" id="intro-grants">
+		<h4>Search Federal Grant Records</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific organization or agency in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="grantsDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="grantsPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
 	
 	
     {% js "index.js" %}
@@ -95,8 +116,14 @@
 			TD.ContributionFilter.bindDataFilter('#contributionDataFilter');
 			TD.ContributionFilter.bindPreview('#contributionPreviewButton');
 		    TD.ContributionFilter.init();
+		
+			TD.HashMonitor.setAnchor('');
+
+			TD.GrantsFilter.bindDataFilter('#grantsDataFilter');
+			TD.GrantsFilter.bindPreview('#grantsPreviewButton');
+		    TD.GrantsFilter.init();
 			
-		    TD.activeFilter = TD.ContributionFilter;
+		    TD.activeFilter = TD.GrantsFilter;
 		
 			TD.init();
 			TD.HashMonitor.setAnchor(null);
