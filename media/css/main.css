@@ -28,7 +28,7 @@ h1 a#logo { color: #000; text-decoration: none; font-size: 630%; text-transform:
 
 h2 { color: #000000; font-size: 380%; line-height: 40px;}
 h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px;}
-h4 { text-transform: uppercase; color: #3b3130; font-size: 135%; margin-bottom: 25px;}
+h4 { text-transform: uppercase; color: #3b3130; font-size: 125%; margin-bottom: 25px;}
 h4.withTip { margin-bottom: 5px; }
 
 div#featureBox { background: url(../images/feature_bg.jpg) top left no-repeat; height: 278px; padding-top: 40px;}
@@ -95,6 +95,7 @@ div.oneColumn { width: 270px; }
 .threeColumn { width: 880px; }
 
 div.chart { height: 200px;}
+div.chartDoubleHeight { height: 400px;}
 div.chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
 
