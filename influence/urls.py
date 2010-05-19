@@ -29,12 +29,12 @@ urlpatterns += patterns('django.views.generic.simple',
     # treat urls without the entity_id as search strings                           
 
     url(r'^organization/(?P<query_string>[\w\-]+)', 'redirect_to', 
-        {'url': '/search?query=%(query_string)s&cycle=%(cycle)s'}),                       
+        {'url': '/search?query=%(query_string)s'}),                       
 
     url(r'^politician/(?P<query_string>[\w\-]+)', 'redirect_to', 
-        {'url': '/search?query=%(query_string)s&cycle=%(cycle)s'}),                       
+        {'url': '/search?query=%(query_string)s'}),                       
 
     url(r'^individual/(?P<query_string>[\w\-]+)', 'redirect_to', 
-        {'url': '/search?query=%(query_string)s&cycle=%(cycle)s'}),                       
+        {'url': '/search?query=%(query_string)s'}),                       
 
 )
