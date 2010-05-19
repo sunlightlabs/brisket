@@ -8,6 +8,7 @@ import urllib, re
 from influence.forms import SearchForm, ElectionCycle
 from util import catcodes
 import api
+from api import DEFAULT_CYCLE
 
 def brisket_context(request): 
     return RequestContext(request, {'search_form': SearchForm()})
@@ -36,7 +37,7 @@ def search(request):
     if submitted_form.is_valid():        
         kwargs = {}
         query = urllib.unquote(submitted_form.cleaned_data['query'])
-        cycle = request.GET.get('cycle', '2010')
+        cycle = request.GET.get('cycle', DEFAULT_CYCLE)
 
         # if a user submitted the search value from the form, then
         # treat the hyphens as intentional. if it was from a url, then
@@ -85,7 +86,7 @@ def search(request):
         return HttpResponseRedirect('/')
 
 def organization_entity(request, entity_id):
-    cycle = request.GET.get('cycle', '2010')
+    cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     entity_info = api.entity_metadata(entity_id, cycle)
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
     recipients_barchart_data = []
@@ -138,7 +139,7 @@ def organization_entity(request, entity_id):
                               entity_context(request, cycle))
 
 def politician_entity(request, entity_id):
-    cycle = request.GET.get('cycle', '2010')
+    cycle = request.GET.get('cycle', DEFAULT_CYCLE)
 
     # metadata
     entity_info = api.entity_metadata(entity_id, cycle)
@@ -194,7 +195,7 @@ def _barchart_href(record, cycle):
     return href
  
 def individual_entity(request, entity_id):    
-    cycle = request.GET.get('cycle', '2010')
+    cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     entity_info = api.entity_metadata(entity_id, cycle)    
     recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
     candidates_barchart_data = []
@@ -239,7 +240,7 @@ def individual_entity(request, entity_id):
                               entity_context(request, cycle))
 
 def industry_detail(request, entity_id):
-    cycle = request.GET.get("cycle", 2010)    
+    cycle = request.GET.get("cycle", DEFAULT_CYCLE)    
     entity_info = api.entity_metadata(entity_id, cycle)    
     top_industries = api.pol_sectors(entity_id, cycle)
 

@@ -12,11 +12,11 @@ class ElectionCycle(forms.Form):
                        ('2002', '2002'), ('2003', '2003'), ('2004', '2004'),
                        ('2005', '2005'), ('2006', '2006'), ('2007', '2007'),
                        ('2008', '2008'), ('2009', '2009'), ('2010', '2010'),
-                       ]
-    ELECTION_CYCLES.reverse()
-#    cycle = forms.ChoiceField(choices=ELECTION_CYCLES, initial=request.session.get('cycle', '2010'))
-    cycle = forms.ChoiceField(choices=ELECTION_CYCLES, initial='2010')
+                       (-1, 'Career')]
 
-    def __init__(self, cycle='2010'):
-        self.cycle=cycle
-        super(forms.Form, self).__init__(self.cycle)
+    ELECTION_CYCLES.reverse()
+    cycle = forms.ChoiceField(choices=ELECTION_CYCLES, initial='Career')
+
+#    def __init__(self, cycle='2010'):
+#        self.cycle=cycle
+#        super(forms.Form, self).__init__(self.cycle)

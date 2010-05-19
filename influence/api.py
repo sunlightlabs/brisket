@@ -13,7 +13,7 @@ API_BASE_URL = settings.AGGREGATES_API_BASE_URL.strip('/')+'/'
 # defaults of None don't mean that there is not default or no limit--
 # it means that no parameter will be sent to the server, and the server
 # will use its own default.
-DEFAULT_CYCLE = None
+DEFAULT_CYCLE = -1 # -1 will return career totals. 
 DEFAULT_LIMIT = None
 
 
