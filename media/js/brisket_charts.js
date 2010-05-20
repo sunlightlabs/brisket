@@ -1,13 +1,28 @@
-function piechart(div, data, chart_title) {
-    // data is expected as a dict.
+function piechart(div, data, type) {
+  // data is expected as a dict.
 
-    var r = Raphael(div);
-    r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
+  var r = Raphael(div);
+  r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 
-    var data_values = [];
-    for (k in data) {
-	data_values.push(data[k]);
-    }
+  party_colors = ["#E60002", "#186581"]; //Rep, Dem
+  other_colors = ["#EFCC01","#F2E388"];
+
+  if (type && type == "party") {
+    use_colors = party_colors;
+  }
+  else {
+    use_colors = other_colors;
+  }
+
+  /* If there's data for democrats, then put that first and make it
+   * the first color. If there's not, then if there's data for
+   * republicans, then put that data first and make IT the first
+   * color, etc.  */
+
+  var data_values = [];
+  for (k in data) {
+    data_values.push(data[k]);
+  }
 
   var values_total = 0;
   for (v in data_values) {
@@ -17,13 +32,19 @@ function piechart(div, data, chart_title) {
   var data_labels = [];
     for (k in data) {
       //capitalize the labels
-      kk = k[0].toUpperCase()+k.substring(1,k.length);
+      if (k) {
+	kk = k[0].toUpperCase()+k.substring(1,k.length);
+      }
+      else {
+	window.alert(typeof(k));
+	kk = k;
+      }
       var percent = Math.round((data[k]/values_total)*100);
       data_labels.push(kk+' ('+percent+'%)');
     }
 
     pie = r.g.piechart(70, 70, 60, data_values, { legend: data_labels, legendpos: "east",
-						    colors: ["#EFCC01","#F2E388"] });
+						  colors: use_colors });
 
     pie.hover(function () {
     this.sector.stop();
@@ -61,7 +82,7 @@ function dollar(str) {
 }
 
 
-function barchart(div, data, chart_title, limit) {
+function barchart(div, data, limit) {
     // expects data to be a list of dicts each with keys called key,
     // value, and link.
     b = Raphael(div);
@@ -106,6 +127,7 @@ function barchart(div, data, chart_title, limit) {
     for (var i=0; i< barchart.labels.length; i++) {
       barchart.labels[i].attr({'href': data_hrefs[i] })
     }
+
     // this is the desired link colour, but it also seems to make
     //the font bold, which is undesireable!
     //barchart.labels.attr({stroke: "#0A6E92"});
@@ -114,29 +136,18 @@ function barchart(div, data, chart_title, limit) {
        'label' just to confuse you) */
     s = b.set();
     for (var i=0; i< barchart.bars[0].length; i++) {
-	x = barchart.bars[0][i].x;
+        x = barchart.bars[0][i].x;
 	y = barchart.bars[0][i].y;
 	text = '$'+barchart.bars[0][i].value;
 	marker = b.g.text(x,y,text);
-
-    marker.mouseover(function() {
-      window.alert("i");
-      console.log(console.dir(this));
-      if (this.label) {
-	this.label[1].attr({"font-weight": 800});
-      }}).mouseout(function() {
-      if (this.label) {
-	this.label[0].scale(1.0);
-      }});
-
 	s.push(marker);
     };
-    s.attr({translation: "140,0"});
+    //s.attr({translation: "140,0"});
 
 
     /* figure out the longest label text and move the chart over by
     that amount. so the labels are beside and not on top of the
-    chart. */
+    chart.
     var far_right = 0;
     for (var i = 0; i < data_labels.length; i++) {
 	bb = barchart.labels[i].getBBox();
@@ -145,4 +156,5 @@ function barchart(div, data, chart_title, limit) {
         }
     }
     barchart.translate(far_right);
+     */
 }

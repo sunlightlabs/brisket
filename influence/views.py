@@ -13,16 +13,16 @@ from api import DEFAULT_CYCLE
 def brisket_context(request): 
     return RequestContext(request, {'search_form': SearchForm()})
 
-def entity_context(request, cycle): 
+def entity_context(request, cycle, available_cycles): 
     context_variables = {}    
     if request.GET.get('query', None):
-        context_variables['search_form'] = SearchForm(request.GET)
+        context_variables['search_form'] = SearchForm(request.GET, cycle)
     else:
         context_variables['search_form'] = SearchForm() 
     if request.GET.get('cycle', None):
-        context_variables['cycle_form'] = ElectionCycle(request.GET)
+        context_variables['cycle_form'] = ElectionCycle(available_cycles, request.GET)
     else:
-        context_variables['cycle_form'] = ElectionCycle({'cycle': cycle})
+        context_variables['cycle_form'] = ElectionCycle(available_cycles)
     return RequestContext(request, context_variables)
 
 def index(request):    
@@ -88,6 +88,10 @@ def search(request):
 def organization_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     entity_info = api.entity_metadata(entity_id, cycle)
+    available_cycles = entity_info['contributions'].keys()
+    # discard the info from cycles that are not the current one
+    entity_info['contributions'] = entity_info['contributions'][cycle]
+
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
     recipients_barchart_data = []
     for record in org_recipients:        
@@ -136,13 +140,17 @@ def organization_entity(request, entity_id):
                                'total_lobbying_done': total_lobbying_done,
                                'cycle': cycle,
                                },
-                              entity_context(request, cycle))
+                              entity_context(request, cycle, available_cycles))
 
 def politician_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
 
     # metadata
     entity_info = api.entity_metadata(entity_id, cycle)
+    available_cycles = entity_info['contributions'].keys()
+    # discard the info from cycles that are not the current one
+    entity_info['contributions'] = entity_info['contributions'][cycle]
+
     metadata = api.politician_meta(entity_info['name'])
 
     top_contributors = api.pol_contributors(entity_id, cycle)
@@ -184,7 +192,7 @@ def politician_entity(request, entity_id):
                                'sectors_barchart_data': sectors_barchart_data,
                                'cycle': cycle,
                                },
-                              entity_context(request, cycle))
+                              entity_context(request, cycle, available_cycles))
 
 def _barchart_href(record, cycle):
     if record['recipient_entity']:
@@ -197,6 +205,10 @@ def _barchart_href(record, cycle):
 def individual_entity(request, entity_id):    
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     entity_info = api.entity_metadata(entity_id, cycle)    
+    available_cycles = entity_info['contributions'].keys()
+    # discard the info from cycles that are not the current one
+    entity_info['contributions'] = entity_info['contributions'][cycle]
+
     recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
     candidates_barchart_data = []
     for record in recipient_candidates:        
@@ -237,7 +249,7 @@ def individual_entity(request, entity_id):
                                'lobbying_for_clients': lobbying_for_clients,
                                'cycle': cycle,
                                },
-                              entity_context(request, cycle))
+                              entity_context(request, cycle, available_cycles))
 
 def industry_detail(request, entity_id):
     cycle = request.GET.get("cycle", DEFAULT_CYCLE)    

@@ -4,9 +4,9 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
   window.onload = function () {
-  piechart("piechart_level", {{ level_breakdown|safe }}, "State vs. Federal");
-  piechart("piechart_party", {{ party_breakdown|safe }}, "Republicans vs. Democrats");  
-  barchart("recipients_barchart", {{ recipients_barchart_data|safe }}, "Top Recipients");  
+  piechart("piechart_level", {{ level_breakdown|safe }});
+  piechart("piechart_party", {{ party_breakdown|safe }}, type="party" );  
+  barchart("recipients_barchart", {{ recipients_barchart_data|safe }} );  
   }
 </script>
 {% endblock %}

@@ -14,8 +14,11 @@
 
 <div class="module" id="timeSpan">
   <div id="currentDates">
-    <span>{{cycle}} </span>to
-    <span> {{cycle}}</span>
+    Timeframe: 
+    <span>
+      {% ifequal cycle "-1" %} Career {% else %}  
+      {{cycle}} {% endifequal %}
+    </span>
   </div>
   <div id="changeDates">
     <form action="" method="get" id="cycle_form">
@@ -50,8 +53,11 @@
 
 <div class="chartModule">
 
-  <div class="oneColumn chartWrapper">
-    <div class="chart">
+  <div class="twoColumn chartWrapper"> 
+    <div class="chartDoubleHeight"> 
+
+<!--  <div class="oneColumn chartWrapper"> 
+    <div class="chart"> -->
       {% block chart1 %}
       {% endblock %}
     </div>

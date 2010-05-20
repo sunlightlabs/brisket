@@ -17,6 +17,9 @@ class ElectionCycle(forms.Form):
     ELECTION_CYCLES.reverse()
     cycle = forms.ChoiceField(choices=ELECTION_CYCLES, initial='Career')
 
-#    def __init__(self, cycle='2010'):
-#        self.cycle=cycle
-#        super(forms.Form, self).__init__(self.cycle)
+    def __init__(self, cycles=None, *args, **kwargs):       
+        # call to super() must go before customizing the cycle field
+        super(ElectionCycle, self).__init__(*args, **kwargs)
+        if cycles:
+            self.fields['cycle'].choices = [(cycle, cycle) for cycle in cycles 
+                                            if cycle != "-1"] + [(-1, "Career")]
