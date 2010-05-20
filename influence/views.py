@@ -96,11 +96,8 @@ def organization_entity(request, entity_id):
     recipients_barchart_data = []
     for record in org_recipients:        
         recipients_barchart_data.append({
-                'key': record['name'],
+                'key': _generate_label(record['name']),
                 'value' : record['total_amount'],
-                # currently we only display politician recipients from
-                # orgs. this should be changed if we start returning
-                # org-to-org data.
                 'href' : str("/politician/%s/%s?cycle=%s" % (slugify(record['name']), record['id'], cycle)),
                 })
 
@@ -158,9 +155,10 @@ def politician_entity(request, entity_id):
         except:
             sector_name = '???'
         sectors_barchart_data.append({                
-                'key': sector_name,
+                'key': _generate_label(sector_name),
                 'value' : record['amount'],
-                'href' : str("/sector/%s/%s?cycle=%s" % (slugify(sector_name), record['sector'], cycle)),
+                'href' : str("/sector/%s/%s?cycle=%s" % (slugify(sector_name), 
+                                                         record['sector'], cycle)),
                 })
 
     local_breakdown = api.pol_local_breakdown(entity_id, cycle)
@@ -196,6 +194,11 @@ def _barchart_href(record, cycle):
         href = str("/search?query=%s&cycle=%s" % (record['recipient_name'], cycle))
     return href
  
+def _generate_label(string):
+    max_length = 20
+    return string[:max_length] + (lambda x, l: (len(x)>l and "...") 
+                                  or "")(string, max_length)
+
 def individual_entity(request, entity_id):    
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     entity_info = api.entity_metadata(entity_id, cycle)    
@@ -207,7 +210,7 @@ def individual_entity(request, entity_id):
     candidates_barchart_data = []
     for record in recipient_candidates:        
         candidates_barchart_data.append({
-                'key': record['recipient_name'],
+                'key': _generate_label(record['recipient_name']),
                 'value' : record['amount'],
                 'href' : _barchart_href(record, cycle),
                 })
@@ -216,7 +219,7 @@ def individual_entity(request, entity_id):
     orgs_barchart_data = []
     for record in recipient_orgs:        
         orgs_barchart_data.append({
-                'key': record['recipient_name'],
+                'key': _generate_label(record['recipient_name']),
                 'value' : record['amount'],
                 'href' : _barchart_href(record, cycle),
                 })
