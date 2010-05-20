@@ -228,9 +228,10 @@ def individual_entity(request, entity_id):
                 })
 
     party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
+    print 'party breakdown'
+    print party_breakdown
     for key, values in party_breakdown.iteritems():
-        # values is a list of [count, amount]
-        party_breakdown[key] = values[1]    
+        party_breakdown[key] = float(values[1])
 
     # get lobbying info
     lobbying_with_firm = api.indiv_registrants(entity_id, cycle)

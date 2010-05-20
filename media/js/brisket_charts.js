@@ -14,11 +14,6 @@ function piechart(div, data, type) {
     use_colors = other_colors;
   }
 
-  /* If there's data for democrats, then put that first and make it
-   * the first color. If there's not, then if there's data for
-   * republicans, then put that data first and make IT the first
-   * color, etc.  */
-
   var data_values = [];
   for (k in data) {
     data_values.push(data[k]);
@@ -118,7 +113,7 @@ function barchart(div, data, limit) {
        supports multiple data series so expects an array of arrays,
        even for just one data series. Else it will treat each data
        point as one series. */
-  var barchart = b.g.hbarchart(10,10, 250, 150, [data_values], opts);
+  var barchart = b.g.hbarchart(10,10, 350, 150, [data_values], opts);
 
     // pass in labels array inside another array
     barchart.label([data_labels], false);
@@ -129,25 +124,13 @@ function barchart(div, data, limit) {
     }
 
     // this is the desired link colour, but it also seems to make
-    //the font bold, which is undesireable!
-    //barchart.labels.attr({stroke: "#0A6E92"});
-
-    /* add text markers (which unfortunately uses a method called
-       'label' just to confuse you) */
-    s = b.set();
-    for (var i=0; i< barchart.bars[0].length; i++) {
-        x = barchart.bars[0][i].x;
-	y = barchart.bars[0][i].y;
-	text = '$'+barchart.bars[0][i].value;
-	marker = b.g.text(x,y,text);
-	s.push(marker);
-    };
-    //s.attr({translation: "140,0"});
-
+    //the font bold, which is undesireable :/
+    barchart.labels.hover(function() {this.attr({stroke: "#0A6E92"})},
+			  function() {this.attr({stroke: ""})});
 
     /* figure out the longest label text and move the chart over by
     that amount. so the labels are beside and not on top of the
-    chart.
+    chart.     */
     var far_right = 0;
     for (var i = 0; i < data_labels.length; i++) {
 	bb = barchart.labels[i].getBBox();
@@ -156,5 +139,17 @@ function barchart(div, data, limit) {
         }
     }
     barchart.translate(far_right);
-     */
+
+      /* add text markers for the amounts (which unfortunately uses a
+       method called 'label' just to confuse you) */
+    s = b.set();
+    for (var i=0; i< barchart.bars[0].length; i++) {
+        x = barchart.bars[0][i].x;
+	y = barchart.bars[0][i].y;
+	text = '$'+barchart.bars[0][i].value;
+	marker = b.g.text(x,y,text);
+	s.push(marker);
+    };
+    s.attr({translation: far_right+20});
+
 }

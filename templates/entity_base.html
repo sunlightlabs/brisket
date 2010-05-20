@@ -52,42 +52,12 @@
 </div>
 
 <div class="chartModule">
+  {% block charts %}   
 
-  <div class="twoColumn chartWrapper"> 
-    <div class="chartDoubleHeight"> 
-
-<!--  <div class="oneColumn chartWrapper"> 
-    <div class="chart"> -->
-      {% block chart1 %}
-      {% endblock %}
-    </div>
-    {% block chart1_details %}
-    {% endblock %}
-  </div>
-
-  <div class="oneColumn chartWrapper">
-    <div class="chart">
-      {% block chart2 %}
-      {% endblock %}
-    </div>
-    {% block chart2_details %}
-    {% endblock %}
-  </div>
-
-
-  <div class="oneColumn chartWrapper">
-    <div class="chart">
-      {% block chart3 %}
-      {% endblock %}
-    </div>
-    {% block chart3_details %}
-    {% endblock %}
-  </div>
-  
   {% block contributions_tables %}
   {% endblock %}
 
-
+  {% endblock %} <!-- end chart block -->
   <div class="clear"></div>
 </div><!-- end chartModule -->
 
