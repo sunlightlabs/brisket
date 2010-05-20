@@ -16,7 +16,9 @@
 {% endblock %}
 
 {% block contrib_overview_amount %}
-${{entity_info.contributions.contributor_amount|intcomma }} Given
+{% if entity_info.totals.contributor_amount %}
+${{entity_info.totals.contributor_amount|intcomma }} Given
+{% endif %}
 {% endblock %}
 {% block contrib_details_link %}
 <a class="detailsLink" href="#">
@@ -58,14 +60,14 @@ ${{entity_info.contributions.contributor_amount|intcomma }} Given
 {% endblock %}
 
 {% block lobbying_hired_amount %}
-{% if total_lobbying_hired %} 
-    ${{ total_lobbying_hired|intcomma }} hired
+{% if entity_info.totals.client_amount %} 
+    ${{ entity_info.totals.client_amount|intcomma }} hired
 {% endif %}
 {% endblock %}
 
 {% block lobbying_executed_amount %}
-{% if total_lobbying_done %} 
-    ${{ total_lobbying_done|intcomma }} executed
+{% if entity_info.totals.registrant_amount %} 
+    ${{ entity_info.totals.registrant_amount|intcomma }} executed
 {% endif %}
 {% endblock %}
 
