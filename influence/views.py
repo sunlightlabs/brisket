@@ -88,9 +88,9 @@ def search(request):
 def organization_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     entity_info = api.entity_metadata(entity_id, cycle)
-    available_cycles = entity_info['contributions'].keys()
+    available_cycles = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
-    entity_info['contributions'] = entity_info['contributions'][cycle]
+    entity_info['totals'] = entity_info['totals'][cycle]
 
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
     recipients_barchart_data = []
@@ -120,10 +120,6 @@ def organization_entity(request, entity_id):
     lobbyists_as_employees_of_org = api.org_registrant_lobbyists(entity_id, cycle)
     issues_lobbied_by =  [item['issue'] for item in api.org_registrant_issues(entity_id, cycle)]
 
-    # calculate lobbying totals
-    total_lobbying_hired = sum([float(row['amount']) for row in lobbying_for_org])
-    total_lobbying_done = sum([float(row['amount']) for row in lobbying_by_org])
-
     return render_to_response('organization.html', 
                               {'entity_id': entity_id, 
                                'entity_info': entity_info,
@@ -136,8 +132,6 @@ def organization_entity(request, entity_id):
                                'lobbying_by_org': lobbying_by_org,
                                'lobbyists_as_employees_of_org': lobbyists_as_employees_of_org,
                                'issues_lobbied_by': issues_lobbied_by,
-                               'total_lobbying_hired': total_lobbying_hired,
-                               'total_lobbying_done': total_lobbying_done,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle, available_cycles))
@@ -147,9 +141,9 @@ def politician_entity(request, entity_id):
 
     # metadata
     entity_info = api.entity_metadata(entity_id, cycle)
-    available_cycles = entity_info['contributions'].keys()
+    available_cycles = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
-    entity_info['contributions'] = entity_info['contributions'][cycle]
+    entity_info['totals'] = entity_info['totals'][cycle]
 
     metadata = api.politician_meta(entity_info['name'])
 
@@ -205,9 +199,9 @@ def _barchart_href(record, cycle):
 def individual_entity(request, entity_id):    
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     entity_info = api.entity_metadata(entity_id, cycle)    
-    available_cycles = entity_info['contributions'].keys()
+    available_cycles = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
-    entity_info['contributions'] = entity_info['contributions'][cycle]
+    entity_info['totals'] = entity_info['totals'][cycle]
 
     recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
     candidates_barchart_data = []
