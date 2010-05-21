@@ -1,6 +1,5 @@
 function piechart(div, data, type) {
   // data is expected as a dict.
-
   var r = Raphael(div);
   r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 
@@ -26,14 +25,14 @@ function piechart(div, data, type) {
 
   var data_labels = [];
     for (k in data) {
-      //capitalize the labels
+      //capitalize the labels (making sure the label is at least length 1).
       if (k) {
 	kk = k[0].toUpperCase()+k.substring(1,k.length);
       }
       else {
-	window.alert(typeof(k));
 	kk = k;
       }
+
       var percent = Math.round((data[k]/values_total)*100);
       data_labels.push(kk+' ('+percent+'%)');
     }
@@ -128,9 +127,10 @@ function barchart(div, data, limit) {
     barchart.labels.hover(function() {this.attr({stroke: "#0A6E92"})},
 			  function() {this.attr({stroke: ""})});
 
+
     /* figure out the longest label text and move the chart over by
-    that amount. so the labels are beside and not on top of the
-    chart.     */
+     that amount, so that the labels are beside and not on top of the
+     chart. */
     var far_right = 0;
     for (var i = 0; i < data_labels.length; i++) {
 	bb = barchart.labels[i].getBBox();
@@ -140,8 +140,8 @@ function barchart(div, data, limit) {
     }
     barchart.translate(far_right);
 
-      /* add text markers for the amounts (which unfortunately uses a
-       method called 'label' just to confuse you) */
+    /* add text markers for the amounts (which unfortunately uses a
+     method called 'label' just to confuse you) */
     s = b.set();
     for (var i=0; i< barchart.bars[0].length; i++) {
         x = barchart.bars[0][i].x;
@@ -150,6 +150,7 @@ function barchart(div, data, limit) {
 	marker = b.g.text(x,y,text);
 	s.push(marker);
     };
-    s.attr({translation: far_right+20});
+    var spacing = 10; // spacing between bars and text markers
+    s.attr({translation: far_right+spacing, 'text-anchor': 'start'});
 
 }
