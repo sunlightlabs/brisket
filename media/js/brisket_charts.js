@@ -3,39 +3,39 @@ function piechart(div, data, type) {
   var r = Raphael(div);
   r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 
-  party_colors = ["#E60002", "#186581"]; //Rep, Dem
+  party_colors = {"Republicans": "#E60002", "Democrats": "#186581", "Other" : "#666666"};
   other_colors = ["#EFCC01","#F2E388"];
 
-  if (type && type == "party") {
-    use_colors = party_colors;
-  }
-  else {
-    use_colors = other_colors;
+  var values_total = 0;
+  for (k in data) {
+    values_total += data[k];
   }
 
   var data_values = [];
-  for (k in data) {
-    data_values.push(data[k]);
-  }
-
-  var values_total = 0;
-  for (v in data_values) {
-    values_total += data_values[v];
-  }
-
+  var use_colors = [];
   var data_labels = [];
     for (k in data) {
       //capitalize the labels (making sure the label is at least length 1).
-      if (k) {
-	kk = k[0].toUpperCase()+k.substring(1,k.length);
-      }
-      else {
-	kk = k;
-      }
-
+      if (k) { kk = k[0].toUpperCase()+k.substring(1,k.length);}
+      else { kk = k; }
       var percent = Math.round((data[k]/values_total)*100);
       data_labels.push(kk+' ('+percent+'%)');
+      data_values.push(data[k]);
+      if (type && type == "party") {
+	console.log("psst");
+	console.log(k);
+	console.log(party_colors[k]);
+  	use_colors.push(party_colors[k]);
+	//console.log(use_colors);
+      }
     }
+    if (!type || type != "party") {
+      use_colors = other_colors;
+    }
+
+    console.log(use_colors);
+    console.log(data_labels);
+    console.log(data_values);
 
     pie = r.g.piechart(70, 70, 60, data_values, { legend: data_labels, legendpos: "east",
 						  colors: use_colors });
