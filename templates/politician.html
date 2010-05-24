@@ -3,11 +3,11 @@
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
-  window.onload = function() {
+$(document).ready(function() {
   piechart("piechart_local", {{ local_breakdown|safe }}, "In State vs. Out of State");
   piechart("piechart_entity", {{ entity_breakdown|safe }}, "Individuals vs. PACs");
   barchart("sectors_barchart", {{ sectors_barchart_data|safe }}, "Industry Sectors");
-  }
+});
 </script>
 
 {% endblock %}
@@ -95,7 +95,7 @@ ${{entity_info.totals.recipient_amount|intcomma }} Received
       <tr id="titles">
         <th class="left">Name</th>
         <th class="center">Employee Contributions</th>
-        <th class="center">Direct Contributions</th>
+        <th class="center">PAC Contributions</th>
         <th class="right">Total</th>
       </tr>
     </thead>

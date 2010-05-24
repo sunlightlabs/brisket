@@ -1,6 +1,23 @@
 {% extends "search_base.html" %}
 
+{% block js %}
 {% block extrajs %}
+<!-- extrajs is where the charts are loaded and must go *before* the --
+  -- div is hidden -->
+{% endblock %}
+<script type="text/javascript" charset="utf=8">
+$(document).ready(function() {
+  $('.chartModule').hide();
+  $('.overviewBar').toggle(
+    function() {
+      $(this).next('.chartModule').slideToggle('slow');
+    }, 
+    function() {
+      $(this).next('.chartModule').slideToggle('slow');
+    }
+  );
+});
+</script>
 {% endblock %}
 
 {% block body_class %}entity{% endblock %}
@@ -37,7 +54,8 @@
   {% endblock %}
 </p>
 
-<div id="overviewBar">
+<div class="overviewBar">
+  <span class="toggle">(Toggle)</span>
   <h3>Contributions</h3>
   <span>
     {% block contrib_overview_amount %}
@@ -63,7 +81,8 @@
 
 {% block lobbying %}
   
-<div id="overviewBar">
+<div class="overviewBar">
+  <span class="toggle">(Toggle)</span>
   <h3>Lobbying</h3>
   <span>
     {% block lobbying_hired_amount %}

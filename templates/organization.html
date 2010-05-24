@@ -3,11 +3,11 @@
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
-  window.onload = function () {
+$(document).ready(function() {
   piechart("piechart_level", {{ level_breakdown|safe }});
   piechart("piechart_party", {{ party_breakdown|safe }}, type="party" );  
-  barchart("recipients_barchart", {{ recipients_barchart_data|safe }} );  
-  }
+  barchart("recipients_barchart", {{ recipients_barchart_data|safe }});  
+});
 </script>
 {% endblock %}
 
