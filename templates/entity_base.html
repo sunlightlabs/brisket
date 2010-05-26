@@ -33,8 +33,11 @@ $(document).ready(function() {
   <div id="currentDates">
     Timeframe: 
     <span>
-      {% ifequal cycle "-1" %} Career {% else %}  
-      {{cycle}} {% endifequal %}
+      {% ifequal cycle "-1" %} 
+        {{entity_info.career.start}} to {{entity_info.career.end}}
+      {% else %}  
+        {{cycle|add:-1}} - {{cycle}} 
+      {% endifequal %}
     </span>
   </div>
   <div id="changeDates">

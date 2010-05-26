@@ -91,7 +91,6 @@ def organization_entity(request, entity_id):
     available_cycles = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
     entity_info['totals'] = entity_info['totals'][cycle]
-
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
     recipients_barchart_data = []
     for record in org_recipients:        

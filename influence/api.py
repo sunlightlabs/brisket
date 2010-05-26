@@ -56,7 +56,12 @@ def entity_search(query):
 
 
 def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
-    return get_url_json('entities/%s.json' % entity_id, cycle)
+    results = get_url_json('entities/%s.json' % entity_id, cycle)
+    career = results['totals'].keys()
+    career.sort()
+    # start at index 1 to skip over the -1 for 'all cycles'
+    results['career'] = {'start': career[1], 'end': career[-1]}
+    return results
 
 
 def entity_id_lookup(namespace, id):
