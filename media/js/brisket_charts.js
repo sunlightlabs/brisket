@@ -21,12 +21,9 @@ function piechart(div, data, type) {
       var percent = Math.round((data[k]/values_total)*100);
       data_labels.push(kk+' ('+percent+'%)');
       data_values.push(data[k]);
+      console.log(data[k]);
       if (type && type == "party") {
-	console.log("psst");
-	console.log(k);
-	console.log(party_colors[k]);
   	use_colors.push(party_colors[k]);
-	//console.log(use_colors);
       }
     }
     if (!type || type != "party") {
@@ -152,5 +149,19 @@ function barchart(div, data, limit) {
     };
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: far_right+spacing, 'text-anchor': 'start'});
+
+}
+
+function sparkline(div, data) {
+  console.log('generating sparkline...');
+  r = Raphael(div, 100, 30);
+  var x = [], y = [];
+  for (var i=0; i<data.length; i++) {
+    x[i] = data[i]['step'];
+    y[i] = data[i]['amount'];
+  }
+  console.log(x);
+  console.log(y);
+  r.g.linechart(0, 10, 100, 30, x, y);
 
 }

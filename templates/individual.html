@@ -7,6 +7,7 @@ $(document).ready(function() {
   piechart("piechart_party", {{ party_breakdown|safe }}, type="party");
   barchart("recipients_barchart", {{ candidates_barchart_data|safe }});  
   barchart("orgs_barchart", {{ orgs_barchart_data|safe }});  
+  sparkline("sparklines", {{ sparkline_data|safe }});
 });
 
 </script>
@@ -17,7 +18,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contrib_overview_amount %}
-${{entity_info.totals.contributor_amount|intcomma }} Given
+${{entity_info.totals.contributor_amount|floatformat:-1|intcomma }} Given
 {% endblock %}
 {% block details_link %}
 <a class="detailsLink" href="#">

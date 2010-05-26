@@ -4,9 +4,10 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
-  piechart("piechart_local", {{ local_breakdown|safe }}, "In State vs. Out of State");
-  piechart("piechart_entity", {{ entity_breakdown|safe }}, "Individuals vs. PACs");
-  barchart("sectors_barchart", {{ sectors_barchart_data|safe }}, "Industry Sectors");
+  piechart("piechart_local", {{ local_breakdown|safe }});
+  piechart("piechart_entity", {{ entity_breakdown|safe }});
+  barchart("sectors_barchart", {{ sectors_barchart_data|safe }});
+  sparkline("sparklines", {{ sparkline_data|safe }});
 });
 </script>
 
@@ -50,7 +51,7 @@ $(document).ready(function() {
 {% endif %}
 
 {% block contrib_overview_amount %}
-${{entity_info.totals.recipient_amount|intcomma }} Received
+${{entity_info.totals.recipient_amount|floatformat:-1|intcomma }} Received
 {% endblock %}
 
 
@@ -111,19 +112,19 @@ ${{entity_info.totals.recipient_amount|intcomma }} Received
         </td>
         <td class="center"> 
 	  {% if row.employee_amount != "0" %} 
-	  ${{row.employee_amount|intcomma }} 
+	  ${{row.employee_amount|floatformat:-1|intcomma }} 
 	  {% else %}
 	  --
 	  {% endif %}
 	</td>
         <td class="center"> 
 	  {% if row.direct_amount != "0" %} 
-	  ${{row.direct_amount|intcomma }}
+	  ${{row.direct_amount|floatformat:-1|intcomma }}
 	  {% else %} 
 	  -- 
 	  {% endif %}
 	</td>
-        <td class="right">${{ row.total_amount|intcomma }}</td>
+        <td class="right">${{ row.total_amount|floatformat:-1|intcomma }}</td>
       </tr>
       {% endfor %}
     </tbody>

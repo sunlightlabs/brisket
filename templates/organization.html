@@ -7,6 +7,7 @@ $(document).ready(function() {
   piechart("piechart_level", {{ level_breakdown|safe }});
   piechart("piechart_party", {{ party_breakdown|safe }}, type="party" );  
   barchart("recipients_barchart", {{ recipients_barchart_data|safe }});  
+  sparkline("sparklines", {{ sparkline_data|safe }});
 });
 </script>
 {% endblock %}
@@ -17,7 +18,7 @@ $(document).ready(function() {
 
 {% block contrib_overview_amount %}
 {% if entity_info.totals.contributor_amount %}
-${{entity_info.totals.contributor_amount|intcomma }} Given
+${{entity_info.totals.contributor_amount|floatformat:-1|intcomma }} Given
 {% endif %}
 {% endblock %}
 
@@ -59,13 +60,13 @@ ${{entity_info.totals.contributor_amount|intcomma }} Given
 
 {% block lobbying_hired_amount %}
 {% if entity_info.totals.client_amount %} 
-    ${{ entity_info.totals.client_amount|intcomma }} hired
+    ${{ entity_info.totals.client_amount|floatformat:-1|intcomma }} hired
 {% endif %}
 {% endblock %}
 
 {% block lobbying_executed_amount %}
 {% if entity_info.totals.registrant_amount %} 
-    ${{ entity_info.totals.registrant_amount|intcomma }} executed
+    ${{ entity_info.totals.registrant_amount|floatformat:-1|intcomma }} executed
 {% endif %}
 {% endblock %}
 
@@ -107,7 +108,7 @@ ${{entity_info.totals.contributor_amount|intcomma }} Given
 	  {{ row.registrant_name }}
           {% endif %} 
         </td>
-        <td class="right">${{ row.amount|intcomma }}</td>
+        <td class="right">${{ row.amount|floatformat:-1|intcomma }}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -159,7 +160,7 @@ ${{entity_info.totals.contributor_amount|intcomma }} Given
 	  {{ row.client_name }}
           {% endif %} 
         </td>
-        <td class="right">${{ row.amount|intcomma }}</td>
+        <td class="right">${{ row.amount|floatformat:-1|intcomma }}</td>
       </tr>
       {% endfor %}
     </tbody>

@@ -108,6 +108,10 @@ def organization_entity(request, entity_id):
     for key, values in level_breakdown.iteritems():
         level_breakdown[key] = float(values[1])
 
+    # sparkline data
+    sparkline_data = api.org_sparkline(entity_id, cycle)
+    print sparkline_data
+
     # get lobbying info
     lobbying_for_org = api.org_registrants(entity_id, cycle)
     lobbyists_on_behalf_of_org = api.org_lobbyists(entity_id, cycle)
@@ -129,6 +133,7 @@ def organization_entity(request, entity_id):
                                'lobbying_by_org': lobbying_by_org,
                                'lobbyists_as_employees_of_org': lobbyists_as_employees_of_org,
                                'issues_lobbied_by': issues_lobbied_by,
+                               'sparkline_data': sparkline_data,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle, available_cycles))
@@ -171,6 +176,10 @@ def politician_entity(request, entity_id):
         # values is a list of [count, amount]
         entity_breakdown[key] = float(values[1])    
 
+    # sparkline data
+    sparkline_data = api.pol_sparkline(entity_id, cycle)
+    print sparkline_data
+
     # get top words spoken in congress by this legislator for this cycle
     # capitol_words = get_capitol_words(entity_info['name'], cycle, 50)
 
@@ -182,6 +191,7 @@ def politician_entity(request, entity_id):
                                'entity_breakdown' : entity_breakdown,
                                'metadata': metadata,
                                'sectors_barchart_data': sectors_barchart_data,
+                               'sparkline_data': sparkline_data,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle, available_cycles))
@@ -230,6 +240,11 @@ def individual_entity(request, entity_id):
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
 
+    # sparkline data
+    sparkline_data = api.indiv_sparkline(entity_id, cycle)
+    print sparkline_data
+
+
     # get lobbying info
     lobbying_with_firm = api.indiv_registrants(entity_id, cycle)
     issues_lobbied_for =  [item['issue'] for item in api.indiv_issues(entity_id, cycle)]
@@ -245,6 +260,7 @@ def individual_entity(request, entity_id):
                                'lobbying_with_firm': lobbying_with_firm,
                                'issues_lobbied_for': issues_lobbied_for,
                                'lobbying_for_clients': lobbying_for_clients,
+                               'sparkline_data': sparkline_data,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle, available_cycles))

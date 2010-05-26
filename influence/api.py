@@ -145,43 +145,41 @@ def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
 
+def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
+    # temporary fix for null 'step's, which actually shouldn't appear
+    # in the results.
+    results = get_url_json('aggregates/org/%s/sparkline.json' % entity_id, cycle)
+    remove = []
+    for i, row in enumerate(results):
+        if row['step'] == None:
+            remove.append(i)
+    for i in remove:
+        results.pop(i)
+    return results
 
-    
+def pol_sparkline(entity_id, cycle=DEFAULT_CYCLE):
+    # temporary fix for null 'step's, which actually shouldn't appear
+    # in the results.
+    results = get_url_json('aggregates/pol/%s/sparkline.json' % entity_id, cycle)
+    remove = []
+    for i, row in enumerate(results):
+        if row['step'] == None:
+            remove.append(i)
+    for i in remove:
+        results.pop(i)
+    return results
 
-class LobbyingAPI(object):
-    ''' A thin wrapper around aggregates API calls. Not sure we'll
-    keep this as a class, that might be overkill.'''
-    def __init__(self):
-        # grab the base url from settings file and make sure it ends
-        # with a trailing slash (since it's a user-specified value).
-        API_BASE_URL = settings.LOBBYING_API_BASE_URL.strip('/')+'/'
-
-
-    def as_client(self, org_name, cycle):
-        ''' check to see if org_name hired (was the client of) any
-        lobbyists'''
-        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                      'client_ft': org_name,
-                                      'year': cycle,
-                                      })
-        url = API_BASE_URL + 'lobbying.json?'
-        api_call = url + arguments
-        fp = urllib2.urlopen(api_call)
-        results = json.loads(fp.read())
-        return remove_unicode(results)
-
-    def lobbying_by_org(self, org_name, cycle):
-        ''' check to see if org_name hired (was the client of) any
-        lobbyists'''
-        arguments = urllib.urlencode({'apikey': settings.API_KEY, 
-                                      'registrant_ft': org_name,
-                                      'year': cycle,
-                                      })
-        url = API_BASE_URL + 'lobbying.json?'
-        api_call = url + arguments
-        fp = urllib2.urlopen(api_call)
-        results = json.loads(fp.read())
-        return remove_unicode(results)
+def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
+    # temporary fix for null 'step's, which actually shouldn't appear
+    # in the results.
+    results = get_url_json('aggregates/indiv/%s/sparkline.json' % entity_id, cycle)
+    remove = []
+    for i, row in enumerate(results):
+        if row['step'] == None:
+            remove.append(i)
+    for i in remove:
+        results.pop(i)
+    return results
 
 
 def get_bioguide_id(full_name):
