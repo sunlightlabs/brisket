@@ -76,6 +76,10 @@ select { color: #58595b;}
 
 p#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 510px; }
 
+p.external { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 120%; }
+div.external { float: right; margin-right: 40px; }
+a.external { padding-left: 5px; }
+
 .overviewBar { background: url(../images/overviewBar.png) top left no-repeat; padding: 27px 40px; height: 16px; margin: 30px 0 40px;}
 .overviewBar span { float: left; font-weight: bold; color: #797070; text-transform: uppercase; font-size: 160%; margin-right: 25px;}
 div#sparklines { float: left;}

@@ -63,6 +63,14 @@ ${{entity_info.totals.contributor_amount|floatformat:-1|intcomma }} Given
 
 {% endblock %}
 
+{% block external_contrib_links %}  
+{% if external_links %}
+Get more contributions information: 
+{% for link in external_links %}
+<a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
+{% endfor %}
+{% endif %}
+{% endblock %}
 
 {% block lobbying_tables %}
 

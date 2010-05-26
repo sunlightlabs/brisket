@@ -79,6 +79,16 @@ $(document).ready(function() {
   {% endblock %}
 
   {% endblock %} <!-- end chart block -->
+
+  <div class="clear"></div>
+
+  <div class="external">
+    <p class="external">
+      {% block external_contrib_links %}  
+      {% endblock %}
+    </p>
+  </div>
+  
   <div class="clear"></div>
 </div><!-- end chartModule -->
 
@@ -106,6 +116,15 @@ $(document).ready(function() {
 <div class="chartModule">  
   {% block lobbying_tables %}
   {% endblock %}
+  <div class="clear"></div>
+
+  <div class="external">
+    <p class="external">
+      {% block external_lobby_links %}  
+      {% endblock %}
+    </p>
+  </div>  
+  
   <div class="clear"></div>
 </div>
 

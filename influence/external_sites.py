@@ -5,7 +5,7 @@ link_templates = {'urn:crp:individual': None,
                         {'label': "View in OpenSecrets.org",
                          'main': "http://www.opensecrets.org/orgs/summary.php?id=%s",
                          'cycle': "http://www.opensecrets.org/orgs/toprecips.php?id=%s&cycle=%s"},
-                   'urn:crp:politician': 
+                   'urn:crp:recipient': 
                         {'label': 'View in OpenSecrets.org',
                          'main': "http://www.opensecrets.org/politicians/summary.php?cid=%s", 
                          'cycle': "http://www.opensecrets.org/politicians/summary.php?cid=%s&cycle=%s"},
@@ -14,7 +14,7 @@ link_templates = {'urn:crp:individual': None,
                         {'label': "View in FollowTheMoney.org",
                          'main': "http://www.followthemoney.org/database/topcontributor.phtml?u=%s", 
                          'cycle':"http://www.followthemoney.org/database/topcontributor.phtml?u=%s&y=%s"},
-                   'urn:nimsp:politician': 
+                   'urn:nimsp:recipient': 
                         {'label': "View in FollowTheMoney.org",
                          'main': "http://www.followthemoney.org/database/uniquecandidate.phtml?uc=%s",}}
 
@@ -31,7 +31,7 @@ def get_direct_link(namespace, id, cycle=None):
     
     
 def get_links(entity_info, cycle=None):
-    """ Return a list of (label, url) pairs. Expects as an argument the structure returned by api.entity_info. """
+    """ Return a list of (label, url) pairs. Expects as an argument the structure returned by api.entity_metadata(). """
     
     links = []
     for (namespace, id) in [(ext['namespace'], ext['id']) for ext in entity_info['external_ids']]:

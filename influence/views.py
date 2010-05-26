@@ -7,7 +7,7 @@ import urllib, re
 
 from influence.forms import SearchForm, ElectionCycle
 from util import catcodes
-import api
+import api, external_sites
 from api import DEFAULT_CYCLE
 
 def brisket_context(request): 
@@ -91,6 +91,8 @@ def organization_entity(request, entity_id):
     available_cycles = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
     entity_info['totals'] = entity_info['totals'][cycle]
+    external_links = external_sites.get_links(entity_info)
+
     org_recipients = api.org_recipients(entity_id, cycle=cycle)
     recipients_barchart_data = []
     for record in org_recipients:        
@@ -133,6 +135,7 @@ def organization_entity(request, entity_id):
                                'lobbyists_as_employees_of_org': lobbyists_as_employees_of_org,
                                'issues_lobbied_by': issues_lobbied_by,
                                'sparkline_data': sparkline_data,
+                               'external_links': external_links,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle, available_cycles))
@@ -145,6 +148,7 @@ def politician_entity(request, entity_id):
     available_cycles = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
     entity_info['totals'] = entity_info['totals'][cycle]
+    external_links = external_sites.get_links(entity_info)
 
     metadata = api.politician_meta(entity_info['name'])
 
@@ -191,6 +195,7 @@ def politician_entity(request, entity_id):
                                'metadata': metadata,
                                'sectors_barchart_data': sectors_barchart_data,
                                'sparkline_data': sparkline_data,
+                               'external_links': external_links,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle, available_cycles))
@@ -214,6 +219,9 @@ def individual_entity(request, entity_id):
     available_cycles = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
     entity_info['totals'] = entity_info['totals'][cycle]
+    external_links = external_sites.get_links(entity_info)
+    print 'external links'
+    print external_links
 
     recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
     candidates_barchart_data = []
@@ -260,6 +268,7 @@ def individual_entity(request, entity_id):
                                'issues_lobbied_for': issues_lobbied_for,
                                'lobbying_for_clients': lobbying_for_clients,
                                'sparkline_data': sparkline_data,
+                               'external_links': external_links,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle, available_cycles))
