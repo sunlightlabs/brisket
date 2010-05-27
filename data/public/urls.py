@@ -1,8 +1,6 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('dc_web.public.views',
-    url(r'^api/$', 'api_index', name="api_index"),
-    url(r'^api/aggregates/contributions/$', 'api_aggregate_contributions', name="api_aggregate_contributions"),
     url(r'^bulk/$', 'bulk_index', name="bulk_index"),
     
     # old filter redirect to contributions
@@ -33,6 +31,11 @@ urlpatterns = patterns('dc_web.public.views',
 )
 
 urlpatterns += patterns('django.views.generic.simple',
+    url(r'^api/$', 'direct_to_template', {'template': 'api/index.html'}, name="api_index"),
+    url(r'^api/contributions/$', 'direct_to_template', {'template': 'api/contributions.html'}, name="api_contributions"),
+    url(r'^api/grants/$', 'direct_to_template', {'template': 'api/grants.html'}, name="api_grants"),
+    url(r'^api/lobbying/$', 'direct_to_template', {'template': 'api/lobbying.html'}, name="api_lobbying"),
+    url(r'^api/aggregates/contributions/$', 'direct_to_template', {'template': 'api/aggregates_contributions.html'}, name="api_aggregate_contributions"),
     url(r'^docs/$', 'direct_to_template', {'template': 'docs/index.html'}, name="doc_index"),
     url(r'^docs/contributions/$', 'direct_to_template', {'template': 'docs/contributions.html'}, name="doc_contributions"),
     url(r'^docs/grants/$', 'direct_to_template', {'template': 'docs/grants.html'}, name="doc_grants"),
