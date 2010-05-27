@@ -4,7 +4,6 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^api/$', 'api_index', name="api_index"),
     url(r'^api/aggregates/contributions/$', 'api_aggregate_contributions', name="api_aggregate_contributions"),
     url(r'^bulk/$', 'bulk_index', name="bulk_index"),
-    url(r'^docs/$', 'doc_index', name="doc_index"),
     
     # old filter redirect to contributions
     url(r'^filter/$', 'filter', name="filter"),
@@ -31,4 +30,11 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^debug/lobbying/$', 'debug_lobbying', name="debug_lobbying"),
     
     url(r'^$', 'index', name="index"),
+)
+
+urlpatterns += patterns('django.views.generic.simple',
+    url(r'^docs/$', 'direct_to_template', {'template': 'docs/index.html'}, name="doc_index"),
+    url(r'^docs/contributions/$', 'direct_to_template', {'template': 'docs/contributions.html'}, name="doc_contributions"),
+    url(r'^docs/grants/$', 'direct_to_template', {'template': 'docs/grants.html'}, name="doc_grants"),
+    url(r'^docs/lobbying/$', 'direct_to_template', {'template': 'docs/lobbying.html'}, name="doc_lobbying"),
 )

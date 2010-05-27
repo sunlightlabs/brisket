@@ -14,7 +14,7 @@
 			<embed src="http://www.youtube.com/v/pf0kRYHiwi0&amp;hl=en_US&amp;fs=1&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="275" height="180"></embed>
 		</object>
 	<p id="intro">
-	    Transparency Data is a central source for <b>federal lobbyist registrations</b> and <b>federal and state campaign contributions</b>.
+	    Transparency Data is a central source for <b>federal lobbyist registrations</b>, <b>federal grants</b>, and <b>federal and state campaign contributions</b>.
 	    Here you can begin your search, find the information you need, and then download records of what a <b>candidate</b> has received, what an <b>individual</b> has given, how much an <b>organization</b> has spent on lobbying, and many other queries.
 	</p>
 {% endblock %}
@@ -29,7 +29,7 @@
 		</ul>
 	</div>
 	<div class="introbox" id="intro-contributions">
-		<h4>Search Contribution Data</h4>
+		<h4>Search Campaign Contributions</h4>
 		<div id="leftIntro">
 			<p class="introText">Have a specific committee, recipient or date in mind? Add some filters below to search them</p>
 			<h3>Search for</h3>
@@ -49,7 +49,7 @@
 	</div>
 	
 	<div class="introbox" id="intro-lobbying">
-		<h4>Search Lobbying Records</h4>
+		<h4>Search Federal Lobbying</h4>
 		<div id="leftIntro">
 			<p class="introText">Have a specific organization or issue in mind? Add some filters below to search them</p>
 			<h3>Search for</h3>
@@ -69,7 +69,7 @@
 	</div>
 
 	<div class="introbox" id="intro-grants">
-		<h4>Search Federal Grant Records</h4>
+		<h4>Search Federal Grants</h4>
 		<div id="leftIntro">
 			<p class="introText">Have a specific organization or agency in mind? Add some filters below to search them</p>
 			<h3>Search for</h3>
@@ -103,6 +103,9 @@
 				} else if (df == 'lobbying') {
 					TD.activeFilter = TD.LobbyingFilter;
 					TD.LobbyingFilter.loadHash();
+				} else if (df == 'grants') {
+					TD.activeFilter = TD.GrantsFilter;
+					TD.GrantsFilter.loadHash();
 				}
 				return false;
 			});
@@ -113,17 +116,17 @@
 		
 			TD.HashMonitor.setAnchor('');
 
-			TD.ContributionFilter.bindDataFilter('#contributionDataFilter');
-			TD.ContributionFilter.bindPreview('#contributionPreviewButton');
-		    TD.ContributionFilter.init();
-		
-			TD.HashMonitor.setAnchor('');
-
 			TD.GrantsFilter.bindDataFilter('#grantsDataFilter');
 			TD.GrantsFilter.bindPreview('#grantsPreviewButton');
 		    TD.GrantsFilter.init();
+		
+			TD.HashMonitor.setAnchor('');
+
+			TD.ContributionFilter.bindDataFilter('#contributionDataFilter');
+			TD.ContributionFilter.bindPreview('#contributionPreviewButton');
+		    TD.ContributionFilter.init();
 			
-		    TD.activeFilter = TD.GrantsFilter;
+		    TD.activeFilter = TD.ContributionFilter;
 		
 			TD.init();
 			TD.HashMonitor.setAnchor(null);
