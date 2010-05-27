@@ -3,6 +3,8 @@
 {% block docs %}
 <h1 class="title">Federal Lobbying Data Schema</h1>
 
+<div class="section" id="lobbying">
+<h1>Lobbying</h1>
 <dl class="docutils">
 <dt>transaction_id</dt>
 <dd>The registration ID assigned by the Senate Office of Public Records.</dd>
@@ -76,6 +78,11 @@
 <dd>CRP ID of the client if one exists.</dd>
 <dt>client_parent_name</dt>
 <dd>Name of the parent organization of the client.</dd>
+</dl>
+</div>
+<div class="section" id="lobbyists">
+<h1>Lobbyists</h1>
+<dl class="docutils">
 <dt>lobbyists.lobbyist_name</dt>
 <dd>Name of the lobbyist involved in the lobbying activity.</dd>
 <dt>lobbyists.lobbyist_ext_id</dt>
@@ -87,4 +94,27 @@
 <dt>lobbyists.member_of_congress</dt>
 <dd><tt class="docutils literal">true</tt> if the lobbyist was ever a member of Congress.</dd>
 </dl>
+</div>
+<div class="section" id="issues">
+<h1>Issues</h1>
+<dl class="docutils">
+<dt>issues.year</dt>
+<dd>The year in which the registration was filed. Valid years are 1998-2009.</dd>
+<dt>issues.general_issue_code</dt>
+<dd>The code that represents the issue on which the lobbying was conducted.</dd>
+<dt>issues.general_issue</dt>
+<dd>The name of the issue on which the lobbying was conducted.</dd>
+<dt>issues.specific_issue</dt>
+<dd>A description of the specific lobbying.</dd>
+</dl>
+</div>
+<div class="section" id="agencies">
+<h1>Agencies</h1>
+<dl class="docutils">
+<dt>agencies.agency_name</dt>
+<dd>The name of the federal agency that was lobbied.</dd>
+<dt>agencies.agency_ext_id</dt>
+<dd>The CRP ID of the agency that was lobbied.</dd>
+</dl>
+</div>
 {% endblock %}

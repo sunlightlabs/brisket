@@ -2,6 +2,9 @@
  Federal Lobbying Data Schema 
 ==============================
 
+Lobbying
+========
+
 transaction_id
 	The registration ID assigned by the Senate Office of Public Records.
 
@@ -58,6 +61,9 @@ client_ext_id
 client_parent_name
 	Name of the parent organization of the client.
 
+Lobbyists
+=========
+
 lobbyists.lobbyist_name
 	Name of the lobbyist involved in the lobbying activity.
 
@@ -72,3 +78,27 @@ lobbyists.government_position
 
 lobbyists.member_of_congress
 	``true`` if the lobbyist was ever a member of Congress.
+
+Issues
+======
+
+issues.year
+	The year in which the registration was filed. Valid years are 1998-2009.
+
+issues.general_issue_code
+	The code that represents the issue on which the lobbying was conducted.
+	
+issues.general_issue
+	The name of the issue on which the lobbying was conducted.
+	
+issues.specific_issue
+	A description of the specific lobbying.
+
+Agencies
+========
+
+agencies.agency_name
+	The name of the federal agency that was lobbied.
+
+agencies.agency_ext_id
+	The CRP ID of the agency that was lobbied.
