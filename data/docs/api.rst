@@ -91,7 +91,7 @@ date
     ===========================  =============================================
 
 employer_ft
-    full-text search on name of an individual's employer
+    *DEPRECATED* please use organization_ft
 
 for_against
     When organizations run ads against a candidate, they are counted as independent expenditures with the candidate as the recipient. This parameter can be used to filter contributions meant for the candidate and those meant to be against the candidate.
@@ -102,6 +102,9 @@ for_against
     for      contributions made in support of the candidate
     against  contributions made against the candidate
     =======  ==============================================
+
+organization_ft
+	full-text search on employer, organization, and parent organization
 
 recipient_ft
     full-text search on name of PAC or candidate receiving the contribution
@@ -205,7 +208,7 @@ filing_type
 	c    non self filer subsidiary for a self filer parent with same catorder
 	b    non self filer subsidiary for a self filer parent that has different catorder
 	==== =============================================================================
-	
+
 
 lobbyist_ft
 	Full-text search on the name of the lobbyist involved in the lobbying activity.
