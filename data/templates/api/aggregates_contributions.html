@@ -1,35 +1,8 @@
 {% extends "api/index.html" %}
 
-{% block content %}
-	<div class="module whitebox docs">
+{% block docs %}
 <h1 class="title">Contribution Aggregates API</h1>
 
-<div class="section" id="license">
-<h1>License</h1>
-<p>Data returned by this service is subject to the use restrictions set by the Federal Election Commission. By accessing this data, you understand that you are using the data subject to all applicable local, state and federal law, including FEC restrictions.</p>
-<p>All data licensed under the Creative Commons BY-NC-SA license. By downloading data and accessing the API you are agreeing to the terms of the license.</p>
-<p>Federal campaign contribution and lobbying records must be attributed to OpenSecrets.org.</p>
-<p>State campaign contribution records must be attributed to FollowTheMoney.org.</p>
-</div>
-<div class="section" id="authentication">
-<h1>Authentication</h1>
-<p>An API key is required to access the Transparency Data API. <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a class="reference external" href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.</p>
-<p>The API key <em>must</em> be as either an <tt class="docutils literal">apikey</tt> query string parameter or as a <tt class="docutils literal"><span class="pre">X-APIKEY</span></tt> HTTP request parameter. Example:</p>
-<pre class="literal-block">
-http://transparencydata.com/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;...
-</pre>
-</div>
-<div class="section" id="common-parameters">
-<h1>Common Parameters</h1>
-<dl class="docutils">
-<dt>apikey</dt>
-<dd>Required if the <tt class="docutils literal"><span class="pre">X-APIKEY</span></tt> HTTP header is not used.</dd>
-<dt>cycle</dt>
-<dd>Applicable to all methods that return data for a particular entity. Restricts the data to that two-year election cycle. Use only even four-digit integers. If no cycle is given then data return is an aggregate over all years for which there is data.</dd>
-<dt>limit</dt>
-<dd>Applicable to all methods that return a 'Top N' list. Determines the maximum number of results returned. Default is 10.</dd>
-</dl>
-</div>
 <div class="section" id="search-methods">
 <h1>Search Methods</h1>
 <div class="section" id="search-by-name">
@@ -449,5 +422,4 @@ http://transparencydata.com/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;...
 </div>
 </div>
 </div>
-	</div>
 {% endblock %}
