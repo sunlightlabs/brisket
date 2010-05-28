@@ -2,5 +2,294 @@
 
 {% block docs %}
 <h1 class="title">Federal Grants Data Schema</h1>
-<p>Schema documentation is in the works.</p>
+
+<dl class="docutils">
+<dt>fiscal_year</dt>
+<dd>The fiscal year in which the grant was awarded.</dd>
+</dl>
+<p>record_type</p>
+<p>record_flag</p>
+<dl class="docutils">
+<dt>cfda_program_number</dt>
+<dd>Catalog of Federal Domestic Assistance identifier.</dd>
+<dt>cfda_program_title</dt>
+<dd>Name of Catalog of Federal Domestic Assistance program under which the grant was awarded.</dd>
+<dt>state_application_id</dt>
+<dd>A number assigned by state (as opposed to federal) review agencies to the award during the grant application process.</dd>
+</dl>
+<p>recipient_id</p>
+<dl class="docutils">
+<dt>recipient_name</dt>
+<dd>The reported name of the grant recipient.</dd>
+<dt>recipient_city</dt>
+<dd>The city of the grant recipient.</dd>
+<dt>recipient_city_code</dt>
+<dd>The FIPS code of the grant recipient's city.</dd>
+<dt>recipient_county</dt>
+<dd>The county of the grant recipient.</dd>
+<dt>recipient_county_code</dt>
+<dd>The FIPS code of the grant recipient's county.</dd>
+<dt>recipient_state</dt>
+<dd>The state of the grant recipient.</dd>
+<dt>recipient_state_code</dt>
+<dd>The FIPS code of the grant recipient's state.</dd>
+<dt>recipient_zipcode</dt>
+<dd>The zipcode of the grant recipient.</dd>
+<dt>recipient_country_code</dt>
+<dd>The FIPS code of the grant recipient's country.</dd>
+<dt>recipient_district</dt>
+<dd>The congressional district in which the grant was awarded.</dd>
+<dt>recipient_type</dt>
+<dd><p class="first">The recipient type.</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Code</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>00</td>
+<td>State government</td>
+</tr>
+<tr><td>01</td>
+<td>County government</td>
+</tr>
+<tr><td>02</td>
+<td>City or township government</td>
+</tr>
+<tr><td>04</td>
+<td>Special district government</td>
+</tr>
+<tr><td>05</td>
+<td>Independent school district</td>
+</tr>
+<tr><td>06</td>
+<td>State controlled institution of higher education</td>
+</tr>
+<tr><td>11</td>
+<td>Indian tribe</td>
+</tr>
+<tr><td>12</td>
+<td>Other nonprofit</td>
+</tr>
+<tr><td>20</td>
+<td>Private higher education</td>
+</tr>
+<tr><td>21</td>
+<td>individual</td>
+</tr>
+<tr><td>22</td>
+<td>Profit organization</td>
+</tr>
+<tr><td>23</td>
+<td>Small business</td>
+</tr>
+<tr><td>25</td>
+<td>Other</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>recipient_category</dt>
+<dd><p class="first">A broad category added by USASpending.gov</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Code</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>f</td>
+<td>For Profit</td>
+</tr>
+<tr><td>g</td>
+<td>Government</td>
+</tr>
+<tr><td>h</td>
+<td>Higher Education</td>
+</tr>
+<tr><td>i</td>
+<td>Individual</td>
+</tr>
+<tr><td>n</td>
+<td>Nonprofit</td>
+</tr>
+<tr><td>o</td>
+<td>Other</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>recipient_address1, recipient_address2, recipient_address3</dt>
+<dd>The grant recipients street address.</dd>
+<dt>recipient_duns</dt>
+<dd>The Dun and Bradstreet number of the grant recipient.</dd>
+<dt>recipient_parent_duns</dt>
+<dd>The Dun and Bradstreet number of the grant recipient's parent organization.</dd>
+<dt>action_date</dt>
+<dd>The data on which the grant was awarded.</dd>
+<dt>action_type</dt>
+<dd><p class="first">The type of action for the record: whether it is a new assistance action, a continuation, a revision, or a funding adjustment.</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Code</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>A</td>
+<td>New assistance action</td>
+</tr>
+<tr><td>B</td>
+<td>Continuation</td>
+</tr>
+<tr><td>C</td>
+<td>Revision</td>
+</tr>
+<tr><td>D</td>
+<td>Funding adjustment to completed project</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>agency_name</dt>
+<dd>The name of the federal agency that awarded the grant.</dd>
+<dt>agency_code</dt>
+<dd>The code of the federal agency that awarded the grant.</dd>
+</dl>
+<p>agency_category</p>
+<p>award_id</p>
+<dl class="docutils">
+<dt>federal_award_id</dt>
+<dd>An agency-specific unique ID number for each individual assistance award. There may be more than one action record per assistance award, because of continuations, revisions, funding adjustments, corrections, etc.</dd>
+<dt>federal_award_mod</dt>
+<dd>A modification number used to indicate action records that modify a previous action record with the same federal award ID.</dd>
+<dt>amount_federal</dt>
+<dd>Grant amount from federal funds in US dollars.</dd>
+<dt>amount_nonfederal</dt>
+<dd>Grant amount from non-federal funds in US dollars.</dd>
+<dt>amount_total</dt>
+<dd>Total of federal and non-federal grant amount in US dollars.</dd>
+<dt>amount_loan</dt>
+<dd>The face value of the direct loan or loan guarantee.</dd>
+<dt>amount_subsidy_cost</dt>
+<dd>The original subsidy cost of the direct loan or loan guarantee.</dd>
+<dt>assistance_type</dt>
+<dd><p class="first">The type of assistance provided by the award.</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Code</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>02</td>
+<td>Block grant</td>
+</tr>
+<tr><td>03</td>
+<td>Formula grant</td>
+</tr>
+<tr><td>04</td>
+<td>Project grant</td>
+</tr>
+<tr><td>05</td>
+<td>Cooperative agreement</td>
+</tr>
+<tr><td>06</td>
+<td>Direct payment, as a subsidy or other non-reimbursable direct financial aid</td>
+</tr>
+<tr><td>07</td>
+<td>Direct loan</td>
+</tr>
+<tr><td>08</td>
+<td>Guaranteed/insured loan</td>
+</tr>
+<tr><td>09</td>
+<td>Insurance</td>
+</tr>
+<tr><td>10</td>
+<td>Direct payment with unrestricted use</td>
+</tr>
+<tr><td>11</td>
+<td>Other reimbursable, contingent, intangible or indirect financial assistance</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>assistance_category</dt>
+<dd><p class="first">The original Federal Assistance Awards Data System assistance type code, modified by USAspending.gov into a set of broader categories.</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Code</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>d</td>
+<td>Direct Payments</td>
+</tr>
+<tr><td>g</td>
+<td>Grants and Cooperative Agreements</td>
+</tr>
+<tr><td>i</td>
+<td>Insurance</td>
+</tr>
+<tr><td>l</td>
+<td>Loans</td>
+</tr>
+<tr><td>o</td>
+<td>Other</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>correction</dt>
+<dd>Indicates that the action record is either a correction of a record from a previous quarter or a late reported record from a previous quarter.</dd>
+<dt>place_code</dt>
+<dd>A code for the principal place of performance for the award. The first two digits are the state FIPS code, the next five the county FIPS (three digits followed by **) or city FIPS code. 00***** = multi-state, 00FORGN = foreign country.</dd>
+<dt>place_state</dt>
+<dd>The state in which the activity funded by the grant is performed.</dd>
+<dt>place_state_code</dt>
+<dd>The FIPS code for the state in which the activity funded by the grant is performed.</dd>
+<dt>place_city</dt>
+<dd>The city in which the activity funded by the grant is performed.</dd>
+<dt>place_zipcode</dt>
+<dd>The zipcode in which the activity funded by the grant is performed.</dd>
+<dt>place_district</dt>
+<dd>The congressional district in which the activity funded by the grant is performed.</dd>
+<dt>place_country_code</dt>
+<dd>The FIPS code for the country in which the activity funded by the grant is performed.</dd>
+<dt>project_description</dt>
+<dd>Description of the project that was funded.</dd>
+<dt>psta_agency_code</dt>
+<dd>Agency Code part (First 2 characters) of Treasury Account Symbol (9 characters) assigned by U.S. Department of Treasury.</dd>
+<dt>psta_account_code</dt>
+<dd>Account Code part (3rd to 6th characters) of Treasury Account Symbol (9 characters) assigned by U.S. Department of Treasury.</dd>
+<dt>psta_subaccount_code</dt>
+<dd>Sub-Account Code part (7th to 9th characters) of Treasury Account Symbol (9 characters) assigned by U.S. Department of Treasury.</dd>
+<dt>bfi</dt>
+<dd>Distinguisher for different fund types, such as the funding provided by the Recovery Act.</dd>
+<dt>uri</dt>
+<dd>An agency defined identifier that is unique for every reported action.</dd>
+</dl>
 {% endblock %}
