@@ -14,27 +14,35 @@ function piechart(div, data, type) {
   var data_values = [];
   var use_colors = [];
   var data_labels = [];
-    for (k in data) {
-      //capitalize the labels (making sure the label is at least length 1).
-      if (k) { kk = k[0].toUpperCase()+k.substring(1,k.length);}
-      else { kk = k; }
-      var percent = Math.round((data[k]/values_total)*100);
-      data_labels.push(kk+' ('+percent+'%)');
-      data_values.push(data[k]);
-      console.log(data[k]);
-      if (type && type == "party") {
-  	use_colors.push(party_colors[k]);
-      }
+  //for (k in data) {
+  for (var k in data) {
+    //capitalize the labels (making sure the label is at least length 1).
+    if (k) { kk = k[0].toUpperCase()+k.substring(1,k.length);}
+    else { kk = k; }
+    var percent = Math.round((data[k]/values_total)*100);
+    data_labels.push(kk+' ('+percent+'%)');
+    data_values.push(data[k]);
+    //console.log(k+':'+data[k]);
+    if (type && type == "party") {
+      use_colors.push(party_colors[k]);
+      //console.log('pushing '+ party_colors[k]);
     }
-    if (!type || type != "party") {
-      use_colors = other_colors;
-    }
+  }
+  if (!type || type != "party") {
+    use_colors = other_colors;
+  }
 
-    console.log(use_colors);
-    console.log(data_labels);
-    console.log(data_values);
-
-    pie = r.g.piechart(70, 70, 60, data_values, { legend: data_labels, legendpos: "east",
+  var data_values_fixed = [];
+  for (var i=0; i<data_values.length; i++) {
+    data_values_fixed[i] = data_values[i];
+  }
+  /*
+  console.log(use_colors);
+  console.log(data_labels);
+  console.log(data_values);
+  console.log(data_values_fixed);
+   */
+  pie = r.g.piechart(70, 70, 60, data_values, { legend: data_labels, legendpos: "east",
 						  colors: use_colors });
 
     pie.hover(function () {
@@ -153,15 +161,12 @@ function barchart(div, data, limit) {
 }
 
 function sparkline(div, data) {
-  console.log('generating sparkline...');
   r = Raphael(div, 100, 30);
   var x = [], y = [];
   for (var i=0; i<data.length; i++) {
     x[i] = data[i]['step'];
     y[i] = data[i]['amount'];
   }
-  console.log(x);
-  console.log(y);
   r.g.linechart(0, 10, 100, 30, x, y);
 
 }
