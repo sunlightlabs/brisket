@@ -7,7 +7,7 @@
   {% if not sorted_results %}
   <h2>No results for that search</h2>
   {% else %}
-  <h2>Results for "{{ query|title }}"</h2>
+  <h2>Results for &#8220;{{ query|title }}&#8221;</h2>
 </div>
 
 <div class="chartModule">
@@ -25,7 +25,7 @@
 	<span title="Results">({{ result_pair.0.count_given }} transactions)</span>
       </dt>
       <dd class="even">
-	${{ result_pair.0.total_given|intcomma }} given.
+	${{ result_pair.0.total_given|intcomma }} given
       </dd>
 
       {% if result_pair.1 %}
@@ -36,7 +36,7 @@
 	<span title="Results">({{ result_pair.1.count_given }} transactions)</span>
       </dt>
       <dd class="odd">
-	${{ result_pair.1.total_given|intcomma }} given.
+	${{ result_pair.1.total_given|intcomma }} given
       </dd>
       {% endif %}
     {% endfor %}
@@ -83,7 +83,7 @@
 
 
   {% if num_pols %}
-  <div class="clear">
+  <div class="searchBox clear">
     <h3>Matching Politicians</h3>
     <span class="results">{{ num_pols }} Results</span>    
 

@@ -43,7 +43,7 @@ div#featureBox p span { color: #666666; font-size: 160%; text-transform: upperca
 dl { margin-top: 15px;}
 dt.noshow { display: none;}
 dt { float: left; margin-right: 5px; font-weight: bold;}
-dd { float: left; margin-right: 30px;}
+dd { float: left; margin-right: 15px;}
 
 div#search { float: right; padding-top: 20px;}
 div#search .tip { text-align: right; display: block; margin-right: 90px;}
@@ -52,11 +52,11 @@ div#nav li { float: left; }
 div#nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
 div#nav li a { text-indent: -9999em; display: block; height: 61px;}
 li#people a { background: url(../images/nav_people.png) left 1px no-repeat; width: 115px; }
-li#people a:hover { background: url(../images/nav_people.png) left -60px no-repeat; }
+li#people a:hover, body.people li#people a { background: url(../images/nav_people.png) left -60px no-repeat; }
 li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 172px;}
-li#orgs a:hover { background: url(../images/nav_orgs.png) left -60px no-repeat; }
+li#orgs a:hover, body.organizations li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
 li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
-li#politicians a:hover { background: url(../images/nav_politicians.png) left -60px no-repeat; }
+li#politicians a:hover, body.politicians li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 358px; height: 38px; margin-right: 10px; padding: 10px; border: none; float: left; font-size: 270%; text-transform: uppercase;}
 
@@ -74,18 +74,19 @@ div#timeSpan label {color: #0a6e92; margin-right: 10px; }
 
 select { color: #58595b;}
 
-p#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 510px; }
+p#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; }
 
-p.external { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 120%; }
-div.external { float: right; margin-right: 40px; }
+div.external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
 a.external { padding-left: 5px; }
 
-.overviewBar { background: url(../images/overviewBar.png) top left no-repeat; padding: 27px 40px; height: 16px; margin: 30px 0 40px;}
+.overviewBar { background: url(../images/overviewBar.png) top left no-repeat; padding: 0 20px; height: 70px; margin: 30px 0 40px;}
 .overviewBar span { float: left; font-weight: bold; color: #797070; text-transform: uppercase; font-size: 160%; margin-right: 25px;}
 div#sparklines { float: left;}
 .overviewBar a { float: right;}
+.insideBar { padding: 27px 0; }
 
-span.toggle {float: left; text-transform: none; font-size: 75%; }
+.overviewBar.active .toggle { background: url(../images/toggle.png) top left no-repeat;}
+.overviewBar .toggle { float: left; font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 27px;}
 
 div#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px; text-align: center; margin: 2px 10px 60px; }
 div#footerLinks a { text-transform: uppercase; text-decoration: none; font-size: 120%; }
@@ -116,9 +117,10 @@ th.right { padding-right: 10px;}
 body.search #contentHeader { margin-bottom: 40px;}
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
 body.search h3 { font-size: 135%;}
-body.search dt { width: 280px;}
-body.search dd.even { margin-right: 100px;}
-body.search dd { width: 90px;}
+body.search dt a { margin-right: 10px;}
+body.search dt { width: 600px; margin-right: 20px; }
+body.search dt span { font-weight: normal;}
+body.search dd { text-align: right; width: 260px; margin-right: 0;}
 body.search table { margin-top: 15px;}
 
 .incumbant_check { text-indent: -9999em; display: block;}

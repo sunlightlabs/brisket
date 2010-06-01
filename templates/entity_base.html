@@ -11,9 +11,11 @@ $(document).ready(function() {
   $('.overviewBar').toggle(
     function() {
       $(this).next('.chartModule').slideToggle('slow');
+      $(this).addClass("active");
     }, 
     function() {
       $(this).next('.chartModule').slideToggle('slow');
+      $(this).removeClass("active");
     }
   );
 });
@@ -58,9 +60,9 @@ $(document).ready(function() {
 </p>
 
 <div class="overviewBar">
-  <span class="toggle">(Toggle)</span>
-  <h3>Contributions</h3>
-  <span>
+  <a class="toggle">Toggle</a>
+  <h3 class="insideBar">Contributions</h3>
+  <span class="insideBar">
     {% block contrib_overview_amount %}
     {% endblock %}
   </span>
@@ -83,10 +85,8 @@ $(document).ready(function() {
   <div class="clear"></div>
 
   <div class="external">
-    <p class="external">
       {% block external_contrib_links %}  
       {% endblock %}
-    </p>
   </div>
   
   <div class="clear"></div>
@@ -95,13 +95,13 @@ $(document).ready(function() {
 {% block lobbying %}
   
 <div class="overviewBar">
-  <span class="toggle">(Toggle)</span>
-  <h3>Lobbying</h3>
-  <span>
+  <a class="toggle">Toggle</a>
+  <h3 class="insideBar">Lobbying</h3>
+  <span class="insideBar">
     {% block lobbying_hired_amount %}
     {% endblock %}
   </span>
-  <span>
+  <span class="insideBar">
     {% block lobbying_executed_amount %}
     {% endblock %}
   </span>
@@ -119,10 +119,8 @@ $(document).ready(function() {
   <div class="clear"></div>
 
   <div class="external">
-    <p class="external">
       {% block external_lobby_links %}  
       {% endblock %}
-    </p>
   </div>  
   
   <div class="clear"></div>
