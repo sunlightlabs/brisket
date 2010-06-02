@@ -27,8 +27,8 @@ h1 { float: left; padding-top: 55px; margin-bottom: 50px;}
 h1 a#logo { color: #000; text-decoration: none; font-size: 630%; text-transform: uppercase; line-height: 70px; }
 
 h2 { color: #000000; font-size: 380%; line-height: 40px;}
-h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px;}
-h4 { text-transform: uppercase; color: #3b3130; font-size: 125%; margin-bottom: 25px;}
+h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px; line-height: 25px;}
+h4 { text-transform: uppercase; color: #3b3130; font-size: 135%; margin-bottom: 25px;}
 h4.withTip { margin-bottom: 5px; }
 
 div#featureBox { background: url(../images/feature_bg.jpg) top left no-repeat; height: 278px; padding-top: 40px;}
@@ -58,11 +58,11 @@ div#nav li { float: left; }
 div#nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
 div#nav li a { text-indent: -9999em; display: block; height: 61px;}
 li#people a { background: url(../images/nav_people.png) left 1px no-repeat; width: 115px; }
-li#people a:hover, body.people li#people a { background: url(../images/nav_people.png) left -60px no-repeat; }
+li#people a:hover, body.individual li#people a { background: url(../images/nav_people.png) left -60px no-repeat; }
 li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 172px;}
-li#orgs a:hover, body.organizations li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
+li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
 li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
-li#politicians a:hover, body.politicians li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
+li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 358px; height: 38px; margin-right: 10px; padding: 10px; border: none; float: left; font-size: 270%; text-transform: uppercase;}
 
@@ -86,7 +86,7 @@ div.external { float: right; margin-right: 40px; font-family: Georgia, Times New
 a.external { padding-left: 5px; }
 
 .overviewBar { background: url(../images/overviewBar.png) top left no-repeat; padding: 0 20px; height: 70px; margin: 30px 0 40px;}
-.overviewBar span { float: left; font-weight: bold; color: #797070; text-transform: uppercase; font-size: 160%; margin-right: 25px;}
+.overviewBar span { float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px;}
 div#sparklines { float: left;}
 .overviewBar a { float: right;}
 .insideBar { padding: 27px 0; }
@@ -102,15 +102,19 @@ a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style:
 .module { padding: 0 40px;}
 .chartModule { padding: 0 5px 0 40px; }
 
-div.chartWrapper {  float: left; margin-right: 35px; margin-bottom: 55px;}
-div.oneColumn { width: 270px; }
-.twoColumn { width: 575px; }
+div.chartWrapper {   margin-right: 35px; margin-bottom: 55px;}
+div.oneColumn { width: 270px; float: left;}
+.twoColumn { width: 575px; float: right;}
 .threeColumn { width: 880px; }
 
 div.chart { height: 200px;}
 div.chartDoubleHeight { height: 400px;}
 div.chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
+
+.secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
+.lobbyistsOrgs li { float: left; margin-right: 10px;}
+.lobbyistsOrgs { margin-bottom: 30px;}
 
 table .even, li.even { background-color: #f5f4f4;}
 td { padding: 10px;}
