@@ -40,6 +40,12 @@ div#featureBox p span { color: #666666; font-size: 160%; text-transform: upperca
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
 
+div.searchBox ul { margin-top: 15px; }
+div.searchBox li { padding: 10px;}
+div.searchBox a { float: left; margin-right: 10px;}
+span.amountGiven { display: block; float: right;}
+span.transactions { float: left; font-style: oblique; color: #827D7D; font-family: Georgia, Times New Roman, Times, serif;}
+
 dl { margin-top: 15px;}
 dt.noshow { display: none;}
 dt { float: left; margin-right: 5px; font-weight: bold;}
@@ -106,7 +112,7 @@ div.chartDoubleHeight { height: 400px;}
 div.chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
 
-table .even { background-color: #f5f4f4;}
+table .even, li.even { background-color: #f5f4f4;}
 td { padding: 10px;}
 th { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; }
 th.left { padding-left: 10px;}
@@ -127,9 +133,16 @@ body.search table { margin-top: 15px;}
 .incumbant { background: url(../images/icon_check.png) 40px 10px no-repeat; height: 16px;}
 .incumbant_no { background: url(../images/icon_cross.png) 40px 10px no-repeat; height: 16px;}
 
-button { text-indent: -9999em; display: block; border: none;}
+button { text-indent: -9999em; display: block; border: none; cursor: pointer;}
 
 button.searchBtn { background: url(../images/btn_go.png) left 4px no-repeat; width: 75px; height: 60px; float: left; }
+button.submitBtn { background: url(../images/btn_submit.png) left top no-repeat; width: 106px; height: 46px; margin-left: 120px; }
+
+form#contact { margin-top: 45px;}
+form#contact label { color:#0A6E92; width: 120px; display: block; float: left;}
+form#contact input, form#contact textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
+form#contact li { margin-bottom: 15px;}
+
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 

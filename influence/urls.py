@@ -35,6 +35,8 @@ urlpatterns += patterns('django.views.generic.simple',
         {'url': '/search?query=%(query_string)s'}),                       
 
     url(r'^individual/(?P<query_string>[\w\-]+)', 'redirect_to', 
-        {'url': '/search?query=%(query_string)s'}),                       
-
+        {'url': '/search?query=%(query_string)s'}),  
+                             
+    url(r'^contact/$', 'direct_to_template', 
+        {'template': 'contact.html'}),
 )

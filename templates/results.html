@@ -10,39 +10,22 @@
   <h2>Results for &#8220;{{ query|title }}&#8221;</h2>
 </div>
 
-<div class="chartModule">
+<div class="module">
   
   {% if num_orgs %}
   <div class="searchBox">
     <h3>Matching Organizations</h3>
     <span class="results">{{ num_orgs }} Results</span>
-    <dl>
+    <ul>
       {% for result_pair in sorted_results.organization %}
-      <dt>
-	<a href="/{{ result_pair.0.type }}/{{result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">
-	  {{result_pair.0.name}}
-	</a> 
-	<span title="Results">({{ result_pair.0.count_given }} transactions)</span>
-      </dt>
-      <dd class="even">
-	${{ result_pair.0.total_given|intcomma }} given
-      </dd>
-
-      {% if result_pair.1 %}
-      <dt>
-	<a href="/{{ result_pair.1.type }}/{{result_pair.1.name|slugify }}/{{ result_pair.1.id }}?cycle={{cycle}}">
-	  {{result_pair.1.name}}
-	</a> 
-	<span title="Results">({{ result_pair.1.count_given }} transactions)</span>
-      </dt>
-      <dd class="odd">
-	${{ result_pair.1.total_given|intcomma }} given
-      </dd>
-      {% endif %}
-    {% endfor %}
-    </dl>
-    <div class="clear"></div>
-
+      <li class="{% cycle 'even' 'odd' %}">
+          <a href="/{{ result_pair.0.type }}/{{result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">{{result_pair.0.name}}</a> 
+          <span class="transactions" title="Results">{{ result_pair.0.count_given }} transactions</span>
+          <span class="amountGiven">${{ result_pair.0.total_given|intcomma }} Given</span>
+          <div class="clear"></div>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
   {% endif %}
 
@@ -50,75 +33,55 @@
   {% if num_indivs %}
   <div class="searchBox clear">    
     <h3>Matching People</h3>
-    <span class="results">{{ num_indivs }} Results</span>    
-    {% for result_pair in sorted_results.individual %}
-    <dl>
-      <dt>
-	<a href="/{{ result_pair.0.type }}/{{ result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">
-	  {{result_pair.0.name}}
-	</a>
-	<span title="Results">({{ result_pair.0.count_given }} transactions)</span>
-      </dt>
-      <dd class="even">
-	${{ result_pair.0.total_given|intcomma }} given
-      </dd>
-
-      {% if result_pair.1 %}
-      <dt>
-	<a href="/{{ result_pair.1.type }}/{{ result_pair.1.name|slugify }}/{{ result_pair.1.id }}?cycle={{cycle}}">
-	  {{result_pair.1.name}}
-	</a>
-	<span title="Results">({{ result_pair.1.count_given }} transactions)</span>
-      </dt>
-      <dd class="odd">
-	${{ result_pair.1.total_given|intcomma }} given
-      </dd>
-      {% endif %}
-
-    </dl>
-    <div class="clear"></div>
-    {% endfor %}
+    <span class="results">{{ num_indivs }} Results</span>  
+    <ul>  
+        {% for result_pair in sorted_results.individual %}
+        <li class="{% cycle 'even' 'odd' %}">
+            <a href="/{{ result_pair.0.type }}/{{ result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">{{result_pair.0.name}}</a>
+            <span class="transactions" title="Results">{{ result_pair.0.count_given }} transactions</span>
+            <span class="amountGiven">${{ result_pair.0.total_given|intcomma }} Given</span>
+            <div class="clear"></div>
+        </li>
+        {% endfor %}
+    </ul>
   </div>
   {% endif %}
 
 
   {% if num_pols %}
   <div class="searchBox clear">
-    <h3>Matching Politicians</h3>
-    <span class="results">{{ num_pols }} Results</span>    
-
-    <table class="threeColumn clear">
-      <thead>
-        <tr id="titles">
-          <th class="left">Incumbant</th>
-          <th class="center">Politician</th>
-          <th class="center">State</th>
-          <th class="center">Position</th>
-          <th class="center">Office</th>
-          <th class="center">Party</th>
-          <th class="center">Total Received</th>
-          <th class="right">Records</th>
-        </tr>
-      </thead>
-      <tbody>	
-	{% for result in sorted_results.politician %}
-	<tr class="even">
-	  <td title="Not An Incumbant" class="incumbant_check incumbant_no">Not An Incumbant</td>
-          <td class="center">
-	    <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">
-	      {{result.name}}
-	    </a> 
-          </td>
-          <td class="center">XX</td>
-          <td class="center">XX</td>
-          <td class="center">??????</td>
-          <td class="center">???</td>
-          <td class="center">${{result.total_received|intcomma }}</td>
-          <td class="right">{{ result.count_received }}</td>	  
-	  {% endfor %}
-        </tr>
-      </tbody>
-    </table>
+      <h3>Matching Politicians</h3>
+      <span class="results">{{ num_pols }} Results</span>    
+      <table class="threeColumn clear">
+          <thead>
+              <tr id="titles">
+                  <th class="left">Incumbant</th>
+                  <th class="center">Politician</th>
+                  <th class="center">State</th>
+                  <th class="center">Position</th>
+                  <th class="center">Office</th>
+                  <th class="center">Party</th>
+                  <th class="center">Total Received</th>
+                  <th class="right">Records</th>
+              </tr>
+          </thead>
+          <tbody>	
+              {% for result in sorted_results.politician %}
+              <tr class="{% cycle 'even' 'odd' %}">
+                  <td title="Not An Incumbant" class="incumbant_check incumbant_no">Not An Incumbant</td>
+                  <td class="center">
+                      <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a> 
+                  </td>
+                  <td class="center">XX</td>
+                  <td class="center">XX</td>
+                  <td class="center">??????</td>
+                  <td class="center">???</td>
+                  <td class="center">${{result.total_received|intcomma }}</td>
+                  <td class="right">{{ result.count_received }}</td>	  
+                  {% endfor %}
+              </tr>
+          </tbody>
+      </table>
   </div>  
   <div class="twoColumn chartWrapper">  
     <div class="clear">
