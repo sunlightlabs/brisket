@@ -2,20 +2,20 @@
 
 link_templates = {'urn:crp:individual': None,
                    'urn:crp:organization':
-                        {'label': "View in OpenSecrets.org",
+                        {'label': "OpenSecrets.org",
                          'main': "http://www.opensecrets.org/orgs/summary.php?id=%s",
                          'cycle': "http://www.opensecrets.org/orgs/toprecips.php?id=%s&cycle=%s"},
                    'urn:crp:recipient': 
-                        {'label': 'View in OpenSecrets.org',
+                        {'label': 'OpenSecrets.org',
                          'main': "http://www.opensecrets.org/politicians/summary.php?cid=%s", 
                          'cycle': "http://www.opensecrets.org/politicians/summary.php?cid=%s&cycle=%s"},
                    'urn:nimsp:individual': None,
                    'urn:nimsp:organization': 
-                        {'label': "View in FollowTheMoney.org",
+                        {'label': "FollowTheMoney.org",
                          'main': "http://www.followthemoney.org/database/topcontributor.phtml?u=%s", 
                          'cycle':"http://www.followthemoney.org/database/topcontributor.phtml?u=%s&y=%s"},
                    'urn:nimsp:recipient': 
-                        {'label': "View in FollowTheMoney.org",
+                        {'label': "FollowTheMoney.org",
                          'main': "http://www.followthemoney.org/database/uniquecandidate.phtml?uc=%s",}}
 
 

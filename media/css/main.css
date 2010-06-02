@@ -23,10 +23,10 @@ div#pageMain, div#footer { width: 960px; margin: 0 auto; }
 
 .tip, div.searchBox .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
 
-h1 { float: left; padding-top: 55px; margin-bottom: 50px;}
-h1 a#logo { color: #000; text-decoration: none; font-size: 630%; text-transform: uppercase; line-height: 70px; }
+h1 { float: left; padding-top: 55px; margin-bottom: 50px; }
+h1 a { color: #000; text-decoration: none; font-size: 630%; text-transform: uppercase; line-height: 70px; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; }
 
-h2 { color: #000000; font-size: 380%; line-height: 40px;}
+h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #000000; font-size: 380%; line-height: 40px; }
 h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px; line-height: 25px;}
 h4 { text-transform: uppercase; color: #3b3130; font-size: 135%; margin-bottom: 25px;}
 h4.withTip { margin-bottom: 5px; }
@@ -35,7 +35,7 @@ div#featureBox { background: url(../images/feature_bg.jpg) top left no-repeat; h
 div#featureBox h2 { text-transform: uppercase; margin-bottom: 30px;}
 div#featureBox input { background: url(../images/searchBox_feature.png) top left no-repeat; width: 400px; height: 40px;}
 div#featureBox p { color: #989393; font-size: 120%; width: 550px; margin-bottom: 30px; line-height: 24px;}
-div#featureBox p span { color: #666666; font-size: 160%; text-transform: uppercase;}
+div#featureBox p span { color: #666666; font-size: 160%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
@@ -64,7 +64,8 @@ li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_org
 li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
 li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
 
-input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 358px; height: 38px; margin-right: 10px; padding: 10px; border: none; float: left; font-size: 270%; text-transform: uppercase;}
+input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 358px; height: 38px; margin-right: 10px; padding: 10px; border: none; float: left; font-size: 270%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
+input#id_search { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 div#wrapper { background: url(../images/corner.jpg) top right no-repeat;}
 
@@ -102,6 +103,8 @@ a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style:
 .module { padding: 0 40px;}
 .chartModule { padding: 0 5px 0 40px; }
 
+#ltColumn { padding: 0 30px 0 40px; width: 650px;}
+
 div.chartWrapper {   margin-right: 35px; margin-bottom: 55px;}
 div.oneColumn { width: 270px; float: left;}
 .twoColumn { width: 575px; float: right;}
@@ -113,7 +116,7 @@ div.chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
 
 .secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
-.lobbyistsOrgs li { float: left; margin-right: 10px;}
+.lobbyistsOrgs li, .issuesLobbied li { float: left; margin-right: 10px;}
 .lobbyistsOrgs { margin-bottom: 30px;}
 
 table .even, li.even { background-color: #f5f4f4;}
@@ -121,8 +124,9 @@ td { padding: 10px;}
 th { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; }
 th.left { padding-left: 10px;}
 th.right { padding-right: 10px;}
-.center { text-align: center;}
+.center, td.lawmakerName a { text-align: center;}
 .right { text-align: right;}
+td.lawmakerName a { float: none; margin-right: 0;}
 
 body.search #contentHeader { margin-bottom: 40px;}
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}

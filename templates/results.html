@@ -69,7 +69,7 @@
               {% for result in sorted_results.politician %}
               <tr class="{% cycle 'even' 'odd' %}">
                   <td title="Not An Incumbant" class="incumbant_check incumbant_no">Not An Incumbant</td>
-                  <td class="center">
+                  <td class="center lawmakerName">
                       <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a> 
                   </td>
                   <td class="center">XX</td>

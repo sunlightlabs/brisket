@@ -39,4 +39,7 @@ urlpatterns += patterns('django.views.generic.simple',
                              
     url(r'^contact/$', 'direct_to_template', 
         {'template': 'contact.html'}),
+        
+    url(r'^about/$', 'direct_to_template', 
+        {'template': 'about.html'}),
 )
