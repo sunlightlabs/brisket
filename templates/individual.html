@@ -1,5 +1,6 @@
 {% extends "entity_base.html" %}
 {% load humanize %}
+{% block body_class %}individual{% endblock %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
@@ -65,7 +66,7 @@ ${{entity_info.totals.contributor_amount|floatformat:-1|intcomma }} Given
 
 {% block external_contrib_links %}  
 {% if external_links %}
-Get more contributions information: 
+For more information on contributions:
 {% for link in external_links %}
 <a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
 {% endfor %}
@@ -75,61 +76,61 @@ Get more contributions information:
 {% block lobbying_tables %}
 
 {% if lobbying_with_firm %}
-<div class="twoColumn chartWrapper">
-  <h4>{{ entity_info.name }} Lobbied with the Following Firms</h4>
-  <table class="twoColumn">
-    <thead>
-      <tr id="titles">
-        <th class="left">Firm</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in lobbying_with_firm %}
-      <tr class="{% cycle 'even' 'odd' %}">
-        <td>	    
-	  {% if row.registrant_entity %}
-	  <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}?cycle={{cycle}}">{{ row.registrant_name }}</a>
-	  {% else %}
-	  {{ row.registrant_name }}
-          {% endif %} 
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="threeColumn chartWrapper">
+    <h4>{{ entity_info.name }} Lobbied with the Following Firms</h4>
+    <table class="twoColumn">
+        <thead>
+            <tr id="titles">
+                <th class="left">Firm</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in lobbying_with_firm %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td>	    
+                    {% if row.registrant_entity %}
+                    <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}?cycle={{cycle}}">{{ row.registrant_name }}</a>
+                    {% else %}
+                    {{ row.registrant_name }}
+                    {% endif %} 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
   {% if issues_lobbied_for %}
-  <p id="description" class="clear">
-    Issues Lobbied:     
-    {{ issues_lobbied_for|join:", " }}
-  </p>
-  {% endif %}
+  <div class="issuesLobbied">
+      <span class="secondaryTitle">Issues Lobbied:</span>
+      <ul>
+          <li>{{ issues_lobbied_for|join:", " }}</li>
+      </ul>
+      {% endif %}
 </div>
 {% endif %}
 
 {% if lobbying_for_clients %}
-<div class="twoColumn chartWrapper">
-  <h4>Clients of Firms {{ entity_info.name }} Worked For</h4>
-  <table class="twoColumn">
-    <thead>
-      <tr id="titles">
-        <th class="left">Client</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in lobbying_for_clients %}
-      <tr class="{% cycle 'even' 'odd' %}">
-        <td>	    
-	  {% if row.client_entity %}
-	  <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
-	  {% else %}
-	  {{ row.client_name }}
-          {% endif %} 
-        </td>
-      </tr>
-
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="threeColumn chartWrapper">
+    <h4>Clients of Firms {{ entity_info.name }} Worked For</h4>
+    <table class="twoColumn">
+        <thead>
+            <tr id="titles">
+                <th class="left">Client</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in lobbying_for_clients %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td>	    
+                    {% if row.client_entity %}
+                    <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
+                    {% else %}
+                    {{ row.client_name }}
+                    {% endif %} 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endif %}
 

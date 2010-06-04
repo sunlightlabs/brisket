@@ -23,27 +23,33 @@ div#pageMain, div#footer { width: 960px; margin: 0 auto; }
 
 .tip, div.searchBox .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
 
-h1 { float: left; padding-top: 55px; margin-bottom: 50px;}
-h1 a#logo { color: #000; text-decoration: none; font-size: 630%; text-transform: uppercase; line-height: 70px; }
+h1 { float: left; padding-top: 55px; margin-bottom: 50px; }
+h1 a { color: #000; text-decoration: none; font-size: 630%; text-transform: uppercase; line-height: 70px; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; }
 
-h2 { color: #000000; font-size: 380%; line-height: 40px;}
-h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px;}
-h4 { text-transform: uppercase; color: #3b3130; font-size: 125%; margin-bottom: 25px;}
+h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #000000; font-size: 380%; line-height: 40px; }
+h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px; line-height: 25px;}
+h4 { text-transform: uppercase; color: #3b3130; font-size: 135%; margin-bottom: 25px;}
 h4.withTip { margin-bottom: 5px; }
 
 div#featureBox { background: url(../images/feature_bg.jpg) top left no-repeat; height: 278px; padding-top: 40px;}
 div#featureBox h2 { text-transform: uppercase; margin-bottom: 30px;}
 div#featureBox input { background: url(../images/searchBox_feature.png) top left no-repeat; width: 400px; height: 40px;}
 div#featureBox p { color: #989393; font-size: 120%; width: 550px; margin-bottom: 30px; line-height: 24px;}
-div#featureBox p span { color: #666666; font-size: 160%; text-transform: uppercase;}
+div#featureBox p span { color: #666666; font-size: 160%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
 
+div.searchBox ul { margin-top: 15px; }
+div.searchBox li { padding: 10px;}
+div.searchBox a { float: left; margin-right: 10px;}
+span.amountGiven { display: block; float: right;}
+span.transactions { float: left; font-style: oblique; color: #827D7D; font-family: Georgia, Times New Roman, Times, serif;}
+
 dl { margin-top: 15px;}
 dt.noshow { display: none;}
 dt { float: left; margin-right: 5px; font-weight: bold;}
-dd { float: left; margin-right: 30px;}
+dd { float: left; margin-right: 15px;}
 
 div#search { float: right; padding-top: 20px;}
 div#search .tip { text-align: right; display: block; margin-right: 90px;}
@@ -52,13 +58,14 @@ div#nav li { float: left; }
 div#nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
 div#nav li a { text-indent: -9999em; display: block; height: 61px;}
 li#people a { background: url(../images/nav_people.png) left 1px no-repeat; width: 115px; }
-li#people a:hover { background: url(../images/nav_people.png) left -60px no-repeat; }
+li#people a:hover, body.individual li#people a { background: url(../images/nav_people.png) left -60px no-repeat; }
 li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 172px;}
-li#orgs a:hover { background: url(../images/nav_orgs.png) left -60px no-repeat; }
+li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
 li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
-li#politicians a:hover { background: url(../images/nav_politicians.png) left -60px no-repeat; }
+li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
 
-input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 358px; height: 38px; margin-right: 10px; padding: 10px; border: none; float: left; font-size: 270%; text-transform: uppercase;}
+input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 358px; height: 38px; margin-right: 10px; padding: 10px; border: none; float: left; font-size: 270%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
+input#id_search { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 div#wrapper { background: url(../images/corner.jpg) top right no-repeat;}
 
@@ -74,18 +81,19 @@ div#timeSpan label {color: #0a6e92; margin-right: 10px; }
 
 select { color: #58595b;}
 
-p#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 510px; }
+p#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; }
 
-p.external { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 120%; }
-div.external { float: right; margin-right: 40px; }
+div.external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
 a.external { padding-left: 5px; }
 
-.overviewBar { background: url(../images/overviewBar.png) top left no-repeat; padding: 27px 40px; height: 16px; margin: 30px 0 40px;}
-.overviewBar span { float: left; font-weight: bold; color: #797070; text-transform: uppercase; font-size: 160%; margin-right: 25px;}
+.overviewBar { background: url(../images/overviewBar.png) top left no-repeat; padding: 0 20px; height: 70px; margin: 30px 0 40px;}
+.overviewBar span { float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px;}
 div#sparklines { float: left;}
 .overviewBar a { float: right;}
+.insideBar { padding: 27px 0; }
 
-span.toggle {float: left; text-transform: none; font-size: 75%; }
+.overviewBar.active .toggle { background: url(../images/toggle.png) top left no-repeat;}
+.overviewBar .toggle { float: left; font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 27px;}
 
 div#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px; text-align: center; margin: 2px 10px 60px; }
 div#footerLinks a { text-transform: uppercase; text-decoration: none; font-size: 120%; }
@@ -95,9 +103,11 @@ a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style:
 .module { padding: 0 40px;}
 .chartModule { padding: 0 5px 0 40px; }
 
-div.chartWrapper {  float: left; margin-right: 35px; margin-bottom: 55px;}
-div.oneColumn { width: 270px; }
-.twoColumn { width: 575px; }
+#ltColumn { padding: 0 30px 0 40px; width: 650px;}
+
+div.chartWrapper {   margin-right: 35px; margin-bottom: 55px;}
+div.oneColumn { width: 270px; float: left;}
+.twoColumn { width: 575px; float: right;}
 .threeColumn { width: 880px; }
 
 div.chart { height: 200px;}
@@ -105,29 +115,42 @@ div.chartDoubleHeight { height: 400px;}
 div.chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
 
-table .even { background-color: #f5f4f4;}
+.secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
+.lobbyistsOrgs li, .issuesLobbied li { float: left; margin-right: 10px;}
+.lobbyistsOrgs { margin-bottom: 30px;}
+
+table .even, li.even { background-color: #f5f4f4;}
 td { padding: 10px;}
 th { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; }
 th.left { padding-left: 10px;}
 th.right { padding-right: 10px;}
-.center { text-align: center;}
+.center, td.lawmakerName a { text-align: center;}
 .right { text-align: right;}
+td.lawmakerName a { float: none; margin-right: 0;}
 
 body.search #contentHeader { margin-bottom: 40px;}
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
 body.search h3 { font-size: 135%;}
-body.search dt { width: 280px;}
-body.search dd.even { margin-right: 100px;}
-body.search dd { width: 90px;}
+body.search dt a { margin-right: 10px;}
+body.search dt { width: 600px; margin-right: 20px; }
+body.search dt span { font-weight: normal;}
+body.search dd { text-align: right; width: 260px; margin-right: 0;}
 body.search table { margin-top: 15px;}
 
 .incumbant_check { text-indent: -9999em; display: block;}
 .incumbant { background: url(../images/icon_check.png) 40px 10px no-repeat; height: 16px;}
 .incumbant_no { background: url(../images/icon_cross.png) 40px 10px no-repeat; height: 16px;}
 
-button { text-indent: -9999em; display: block; border: none;}
+button { text-indent: -9999em; display: block; border: none; cursor: pointer;}
 
 button.searchBtn { background: url(../images/btn_go.png) left 4px no-repeat; width: 75px; height: 60px; float: left; }
+button.submitBtn { background: url(../images/btn_submit.png) left top no-repeat; width: 106px; height: 46px; margin-left: 120px; }
+
+form#contact { margin-top: 45px;}
+form#contact label { color:#0A6E92; width: 120px; display: block; float: left;}
+form#contact input, form#contact textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
+form#contact li { margin-bottom: 15px;}
+
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 

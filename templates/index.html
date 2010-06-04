@@ -3,7 +3,7 @@
 {% block main %}
 <div class="module" id="featureBox">
   <h2>Start Your Search Below</h2>
-  <p>Type in the name of a <span>company</span>, your <span>lawmaker</span>, or your <span>friends</span>, and see how they're influencing the political system.</p>
+  <p>Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span>, or your <span class="differentText">friends</span>, and see how they're influencing the political system.</p>
   <form id="searchForm" action="/search" method="get">
     {{ search_form.query }}
     <input type="hidden" name="from_form" value="1">

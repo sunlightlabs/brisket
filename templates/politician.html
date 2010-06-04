@@ -1,5 +1,6 @@
 {% extends "entity_base.html" %}
 {% load humanize %}
+{% block body_class %}politician{% endblock %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
@@ -65,8 +66,6 @@ ${{entity_info.totals.recipient_amount|floatformat:-1|intcomma }} Received
     </div>
   </div>
 </div>
-
-<div class="clear"></div> <!-- start a new row -->
 
 <div class="oneColumn chartWrapper">
   <div class="chart">
@@ -136,7 +135,7 @@ ${{entity_info.totals.recipient_amount|floatformat:-1|intcomma }} Received
 
 {% block external_contrib_links %}  
 {% if external_links %}
-Get more contributions information: 
+Get more information on contributions: 
 {% for link in external_links %}
 <a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
 {% endfor %}
