@@ -33,7 +33,6 @@ $(document).ready(function() {
 
 <div class="module" id="timeSpan">
   <div id="currentDates">
-    Timeframe: 
     <span>
       {% ifequal cycle "-1" %} 
         {{entity_info.career.start}} to {{entity_info.career.end}}
@@ -55,7 +54,6 @@ $(document).ready(function() {
 <!-- if there's a description for the entity, override this -->
 <p id="description" class="module clear">
   {% block description %}
-  No description available
   {% endblock %}
 </p>
 
