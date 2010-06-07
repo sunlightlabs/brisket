@@ -66,6 +66,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = ('influence.context_processors.custom_context',
+                               'django.core.context_processors.auth', 
+                               'django.core.context_processors.debug',
+                               'django.core.context_processors.i18n',
+                               )    
+
 ROOT_URLCONF = 'brisket.urls'
 
 TEMPLATE_DIRS = (
