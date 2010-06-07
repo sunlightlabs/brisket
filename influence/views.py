@@ -156,6 +156,15 @@ def politician_entity(request, entity_id):
     metadata = api.politician_meta(entity_info['name'])
 
     top_contributors = api.pol_contributors(entity_id, cycle)
+    contributors_barchart_data = []
+    for record in top_contributors:
+        contributors_barchart_data.append({ 
+                'key': _generate_label(record['name']),
+                'value' : record['total_amount'],
+                'value_employee' : record['employee_amount'],
+                'value_pac' : record['direct_amount'],
+                'href' : _barchart_href(record, cycle, 'organization')
+                })
 
     # top sectors is already sorted
     top_sectors = api.pol_sectors(entity_id, cycle=cycle)
@@ -197,6 +206,7 @@ def politician_entity(request, entity_id):
                                'entity_breakdown' : entity_breakdown,
                                'metadata': metadata,
                                'sectors_barchart_data': sectors_barchart_data,
+                               'contributors_barchart_data': contributors_barchart_data,
                                'sparkline_data': sparkline_data,
                                'external_links': external_links,
                                'cycle': cycle,
@@ -204,11 +214,20 @@ def politician_entity(request, entity_id):
                               entity_context(request, cycle, available_cycles))
 
 def _barchart_href(record, cycle, entity_type):
-    if record['recipient_entity']:
-        href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']), 
-                                           record['recipient_entity'], cycle))
-    else:
-        href = str("/search?query=%s&cycle=%s" % (record['recipient_name'], cycle))
+    if 'recipient_entity' in record.keys(): 
+        if record['recipient_entity']:
+            href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']), 
+                                               record['recipient_entity'], cycle))
+        else:
+            href = str("/search?query=%s&cycle=%s" % (record['recipient_name'], cycle))
+
+    elif 'id' in record.keys(): 
+        if record['id']:
+            href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['name']), 
+                                               record['id'], cycle))
+        else:
+            href = str("/search?query=%s&cycle=%s" % (record['name'], cycle))
+
     return href
  
 def _generate_label(string):

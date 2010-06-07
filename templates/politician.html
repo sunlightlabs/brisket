@@ -8,6 +8,7 @@ $(document).ready(function() {
   piechart("piechart_local", {{ local_breakdown|safe }});
   piechart("piechart_entity", {{ entity_breakdown|safe }});
   barchart("sectors_barchart", {{ sectors_barchart_data|safe }});
+  barchart("contributors_barchart", {{ contributors_barchart_data|safe }});
   sparkline("sparklines", {{ sparkline_data|safe }});
 });
 </script>
@@ -87,50 +88,17 @@ ${{entity_info.totals.recipient_amount|floatformat:-1|intcomma }} Received
   </div>
 </div>
 
-{% block contributions_tables %}
-<div class="twoColumn chartWrapper">
-  <h4>Top Contributors to {{ entity_info.name }}</h4>
-  <table class="twoColumn">
-    <thead>
-      <tr id="titles">
-        <th class="left">Name</th>
-        <th class="center">Employee Contributions</th>
-        <th class="center">PAC Contributions</th>
-        <th class="right">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in top_contributors %}
-      <tr class="{% cycle 'even' 'odd' %}">
-        <td>	    
-	  {% if row.id %}
-	  <a href="/organization/{{ row.name|slugify }}/{{ row.id }}?cycle={{cycle}}">{{ row.name }}</a>
-	  {% else %}
-	  {{ row.name }}
-          {% endif %} 
-        </td>
-        <td class="center"> 
-	  {% if row.employee_amount != "0" %} 
-	  ${{row.employee_amount|floatformat:-1|intcomma }} 
-	  {% else %}
-	  --
-	  {% endif %}
-	</td>
-        <td class="center"> 
-	  {% if row.direct_amount != "0" %} 
-	  ${{row.direct_amount|floatformat:-1|intcomma }}
-	  {% else %} 
-	  -- 
-	  {% endif %}
-	</td>
-        <td class="right">${{ row.total_amount|floatformat:-1|intcomma }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="twoColumn chartWrapper"> 
+  <div class="chart"> 
+    <h4>Top Contributors</h4>
+    <div class="graph" id="contributors_barchart">
+      <!-- raphael charts -->
+    </div>
+  </div>
 </div>
 
-{% endblock %} <!-- end contributions_tables block -->
+<div class="clear"></div>
+
 {% endblock %} <!-- end charts block -->
 
 {% block external_contrib_links %}  
