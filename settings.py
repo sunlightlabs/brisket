@@ -93,14 +93,15 @@ INSTALLED_APPS = (
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 
 MEDIASYNC_JOINED = {
-    'js/brisket.js': (
+    'js/brisket-all.js': (
         'js/jquery-1.4.2.min.js',
         'js/raphael-min.js',
         'js/g.raphael-min.js',
         'js/g.pie.patched.js',
         'js/g.bar.jeremi.js',
         'js/g.line-min.js',
-        'js/brisket_charts.js'
+        'js/brisket_charts.js',
+        'js/brisket.js',
     )
 }
 

@@ -6,7 +6,7 @@
     <meta name="keywords" content="" /> 
     <meta name="description" content="" /> 
 	{% css "css/main.css" %}
-	{% js "js/brisket.js" %}
+	{% js "js/brisket-all.js" %}
     <script type="text/javascript" src="http://use.typekit.com/rum2sap.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
@@ -66,29 +66,5 @@
     </div><!-- end footer -->
 
     </div><!-- end pageMain -->
-	<script type="text/javascript">
-		$().ready(function() {
-			$('#cycle_submit').hide();
-			$('#id_cycle').bind('change', function() {
-				$('#cycle_form').submit();
-				return false;
-			});
-			$('#id_query').bind('focus', function() {
-				var q = $(this);
-				if (q.val().toUpperCase() == q.attr('data-initial')) {
-					q.val('');
-				}
-			}).bind('blur', function() {
-				var q = $(this);
-				if (!q.val()) {
-					q.val(q.attr('data-initial'));
-				}
-			});
-			$('#searchForm').bind('submit', function() {
-				var q = $('#id_query');
-				return q.val() != q.attr('data-initial');
-			});
-		});
-	</script>
   </body>
 </html>
