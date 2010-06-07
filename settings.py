@@ -82,7 +82,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates 
     'brisket.influence',
-    'brisket.util'
+    'brisket.util',
+    'brisket.metadata',
 )
 
 # use file-backed sessions while in development. the default location
