@@ -24,7 +24,7 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 # although not all choices may be available on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates 
+    'mediasync',
     'brisket.influence',
     'brisket.util'
 )
@@ -90,6 +91,19 @@ INSTALLED_APPS = (
 # this can be customized with the SESSION_FILE_PATH variable either
 # here or in local_settings.py.
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+
+MEDIASYNC_JOINED = {
+    'js/brisket.js': (
+        'js/jquery-1.4.2.min.js',
+        'js/raphael-min.js',
+        'js/g.raphael-min.js',
+        'js/g.pie.patched.js',
+        'js/g.bar.jeremi.js',
+        'js/g.line-min.js',
+        'js/brisket_charts.js'
+    )
+}
+
 
 try:
     from local_settings import *
