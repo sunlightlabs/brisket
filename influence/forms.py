@@ -16,7 +16,8 @@ DEFAULT_ELECTION_CYCLES = [('1990', '1990'),
                            (-1, 'Lifetime')]
 
 class SearchForm(forms.Form):
-    query = forms.CharField(max_length=200, initial='SEARCH')
+    query = forms.CharField(max_length=200, initial='SEARCH',
+                            widget=forms.TextInput(attrs={'data-initial': 'SEARCH'}))
 
 class ElectionCycle(forms.Form):    
     ELECTION_CYCLES = DEFAULT_ELECTION_CYCLES
