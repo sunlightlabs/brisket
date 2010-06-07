@@ -1,9 +1,9 @@
 function piechart(div, data, type) {
   // data is expected as a dict.
   var r = Raphael(div);
-  r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
+  r.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
-  party_colors = {"Republicans": "#E60002", "Democrats": "#186581", "Other" : "#666666"};
+  party_colors = {"Republicans": "#E60002", "Democrats": "#186582", "Other" : "#DCDDDE"};
   other_colors = ["#EFCC01","#F2E388"];
 
   var values_total = 0;
@@ -54,7 +54,7 @@ function piechart(div, data, type) {
     this.label[0].scale(1.5);
     this.label[1].attr({"font-weight": 800});
     lbl = r.text(70, 70, dollar(this.value.value));
-    lbl.attr({"font-weight": 800, "font-size": "13px"});
+    lbl.attr({"font-weight": 800, "font-size": "12px"});
     lbl.show();
     }}, function () {
     this.sector.animate({scale: [1, 1, this.cx,
@@ -85,7 +85,7 @@ function barchart(div, data, limit) {
     // expects data to be a list of dicts each with keys called key,
     // value, and href.
     b = Raphael(div);
-    b.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
+    b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
   if (limit && limit < data.length) {
     data= data.slice(0,limit);
@@ -96,22 +96,22 @@ function barchart(div, data, limit) {
   var original_len = data.length;
    if (data.length < 10) {
     for (var i=data.length; i<10; i++) {
-      data[i] = {'key':' ', 'value':0, 'href':'#'};
+      data[i] = {'key':' ', 'value': 0, 'href':'#'};
     }
    }
 
     data_values = [];
-    for (i in data) {
+    for (var i = 0; i < data.length; i++) {
 	data_values.push(data[i]['value']);
     }
 
     data_labels = [];
-    for (i in data) {
+    for (var i = 0; i < data.length; i++) {
 	data_labels.push(data[i]['key']);
     }
 
     data_hrefs = [];
-    for (i in data) {
+    for (var i = 0; i < data.length; i++) {
 	data_hrefs.push(data[i]['href']);
     }
 
@@ -138,8 +138,14 @@ function barchart(div, data, limit) {
 
     // this is the desired link colour, but it also seems to make
     //the font bold, which is undesireable :/
-    barchart.labels.hover(function() {this.attr({stroke: "#0A6E92"})},
-			  function() {this.attr({stroke: ""})});
+    barchart.labels.hover(
+        function() {
+            this.attr({fill: "#0A6E92"});
+        },
+        function() {
+            this.attr({fill: "#000000"});
+        }
+    );
 
 
     /* figure out the longest label text and move the chart over by
