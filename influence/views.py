@@ -15,14 +15,17 @@ def brisket_context(request):
 
 def entity_context(request, cycle, available_cycles): 
     context_variables = {}    
+
     if request.GET.get('query', None):
         context_variables['search_form'] = SearchForm(request.GET, cycle)
     else:
         context_variables['search_form'] = SearchForm() 
+
     if request.GET.get('cycle', None):
         context_variables['cycle_form'] = ElectionCycle(available_cycles, request.GET)
     else:
         context_variables['cycle_form'] = ElectionCycle(available_cycles)
+
     return RequestContext(request, context_variables)
 
 def index(request):    
@@ -200,10 +203,10 @@ def politician_entity(request, entity_id):
                                },
                               entity_context(request, cycle, available_cycles))
 
-def _barchart_href(record, cycle):
+def _barchart_href(record, cycle, entity_type):
     if record['recipient_entity']:
-        href = str("/politician/%s/%s?cycle=%s" % (slugify(record['recipient_name']), 
-                                                   record['recipient_entity'], cycle))
+        href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']), 
+                                           record['recipient_entity'], cycle))
     else:
         href = str("/search?query=%s&cycle=%s" % (record['recipient_name'], cycle))
     return href
@@ -229,7 +232,7 @@ def individual_entity(request, entity_id):
         candidates_barchart_data.append({
                 'key': _generate_label(record['recipient_name']),
                 'value' : record['amount'],
-                'href' : _barchart_href(record, cycle),
+                'href' : _barchart_href(record, cycle, entity_type="politician"),
                 })
 
     recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
@@ -238,7 +241,7 @@ def individual_entity(request, entity_id):
         orgs_barchart_data.append({
                 'key': _generate_label(record['recipient_name']),
                 'value' : record['amount'],
-                'href' : _barchart_href(record, cycle),
+                'href' : _barchart_href(record, cycle, entity_type="organization"),
                 })
 
     party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
