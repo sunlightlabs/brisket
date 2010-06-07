@@ -74,13 +74,19 @@
 				return false;
 			});
 			$('#id_query').bind('focus', function() {
-				if (this.value.toUpperCase() == 'SEARCH') {
-					this.value = '';
+				var q = $(this);
+				if (q.val().toUpperCase() == q.attr('data-initial')) {
+					q.val('');
 				}
 			}).bind('blur', function() {
-				if (!this.value) {
-					this.value = 'SEARCH';
+				var q = $(this);
+				if (!q.val()) {
+					q.val(q.attr('data-initial'));
 				}
+			});
+			$('#searchForm').bind('submit', function() {
+				var q = $('#id_query');
+				return q.val() != q.attr('data-initial');
 			});
 		});
 	</script>
