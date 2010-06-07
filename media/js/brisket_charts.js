@@ -83,13 +83,22 @@ function dollar(str) {
 
 function barchart(div, data, limit) {
     // expects data to be a list of dicts each with keys called key,
-    // value, and link.
+    // value, and href.
     b = Raphael(div);
     b.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 
   if (limit && limit < data.length) {
     data= data.slice(0,limit);
   }
+
+  /* if the data has less than 10 records, pad it so that
+   * the chart doesn't look like crap. */
+  var original_len = data.length;
+   if (data.length < 10) {
+    for (var i=data.length; i<10; i++) {
+      data[i] = {'key':' ', 'value':0, 'href':'#'};
+    }
+   }
 
     data_values = [];
     for (i in data) {
@@ -148,7 +157,7 @@ function barchart(div, data, limit) {
     /* add text markers for the amounts (which unfortunately uses a
      method called 'label' just to confuse you) */
     s = b.set();
-    for (var i=0; i< barchart.bars[0].length; i++) {
+    for (var i=0; i< original_len; i++) {
         x = barchart.bars[0][i].x;
 	y = barchart.bars[0][i].y;
 	text = '$'+barchart.bars[0][i].value;

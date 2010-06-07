@@ -24,7 +24,7 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 # although not all choices may be available on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -66,6 +66,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = ('influence.context_processors.custom_context',
+                               'django.core.context_processors.auth', 
+                               'django.core.context_processors.debug',
+                               'django.core.context_processors.i18n',
+                               )    
+
 ROOT_URLCONF = 'brisket.urls'
 
 TEMPLATE_DIRS = (
@@ -81,8 +87,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates 
+    'mediasync',
     'brisket.influence',
-    'brisket.util'
+    'brisket.util',
+    'brisket.metadata',
 )
 
 # use file-backed sessions while in development. the default location
@@ -90,6 +98,20 @@ INSTALLED_APPS = (
 # this can be customized with the SESSION_FILE_PATH variable either
 # here or in local_settings.py.
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+
+MEDIASYNC_JOINED = {
+    'js/brisket-all.js': (
+        'js/jquery-1.4.2.min.js',
+        'js/raphael-min.js',
+        'js/g.raphael-min.js',
+        'js/g.pie.patched.js',
+        'js/g.bar.jeremi.js',
+        'js/g.line-min.js',
+        'js/brisket_charts.js',
+        'js/brisket.js',
+    )
+}
+
 
 try:
     from local_settings import *

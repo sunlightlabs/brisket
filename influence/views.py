@@ -15,14 +15,17 @@ def brisket_context(request):
 
 def entity_context(request, cycle, available_cycles): 
     context_variables = {}    
+
     if request.GET.get('query', None):
         context_variables['search_form'] = SearchForm(request.GET, cycle)
     else:
         context_variables['search_form'] = SearchForm() 
+
     if request.GET.get('cycle', None):
         context_variables['cycle_form'] = ElectionCycle(available_cycles, request.GET)
     else:
         context_variables['cycle_form'] = ElectionCycle(available_cycles)
+
     return RequestContext(request, context_variables)
 
 def index(request):    
@@ -153,6 +156,15 @@ def politician_entity(request, entity_id):
     metadata = api.politician_meta(entity_info['name'])
 
     top_contributors = api.pol_contributors(entity_id, cycle)
+    contributors_barchart_data = []
+    for record in top_contributors:
+        contributors_barchart_data.append({ 
+                'key': _generate_label(record['name']),
+                'value' : record['total_amount'],
+                'value_employee' : record['employee_amount'],
+                'value_pac' : record['direct_amount'],
+                'href' : _barchart_href(record, cycle, 'organization')
+                })
 
     # top sectors is already sorted
     top_sectors = api.pol_sectors(entity_id, cycle=cycle)
@@ -194,18 +206,28 @@ def politician_entity(request, entity_id):
                                'entity_breakdown' : entity_breakdown,
                                'metadata': metadata,
                                'sectors_barchart_data': sectors_barchart_data,
+                               'contributors_barchart_data': contributors_barchart_data,
                                'sparkline_data': sparkline_data,
                                'external_links': external_links,
                                'cycle': cycle,
                                },
                               entity_context(request, cycle, available_cycles))
 
-def _barchart_href(record, cycle):
-    if record['recipient_entity']:
-        href = str("/politician/%s/%s?cycle=%s" % (slugify(record['recipient_name']), 
-                                                   record['recipient_entity'], cycle))
-    else:
-        href = str("/search?query=%s&cycle=%s" % (record['recipient_name'], cycle))
+def _barchart_href(record, cycle, entity_type):
+    if 'recipient_entity' in record.keys(): 
+        if record['recipient_entity']:
+            href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']), 
+                                               record['recipient_entity'], cycle))
+        else:
+            href = str("/search?query=%s&cycle=%s" % (record['recipient_name'], cycle))
+
+    elif 'id' in record.keys(): 
+        if record['id']:
+            href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['name']), 
+                                               record['id'], cycle))
+        else:
+            href = str("/search?query=%s&cycle=%s" % (record['name'], cycle))
+
     return href
  
 def _generate_label(string):
@@ -229,7 +251,7 @@ def individual_entity(request, entity_id):
         candidates_barchart_data.append({
                 'key': _generate_label(record['recipient_name']),
                 'value' : record['amount'],
-                'href' : _barchart_href(record, cycle),
+                'href' : _barchart_href(record, cycle, entity_type="politician"),
                 })
 
     recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
@@ -238,7 +260,7 @@ def individual_entity(request, entity_id):
         orgs_barchart_data.append({
                 'key': _generate_label(record['recipient_name']),
                 'value' : record['amount'],
-                'href' : _barchart_href(record, cycle),
+                'href' : _barchart_href(record, cycle, entity_type="organization"),
                 })
 
     party_breakdown = api.indiv_party_breakdown(entity_id, cycle)

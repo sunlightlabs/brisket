@@ -1,35 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load media %}
 <html xmlns="http://www.w3.org/1999/xhtml" >
-  <head> 
+  <head>
+	
+  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="keywords" content="" /> 
     <meta name="description" content="" /> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-    <link rel="stylesheet" href="/media/css/main.css" type="text/css"> 
-	<script src="/media/js/jquery-1.4.2.min.js"
-            type="text/javascript" charset="utf-8"></script>
-    <script src="/media/js/raphael-min.js"
-            type="text/javascript" charset="utf-8"></script> 
-    <script src="/media/js/g.raphael-min.js"
-            type="text/javascript" charset="utf-8"></script> 
-    <script src="/media/js/g.pie.patched.js" type="text/javascript"
-            charset="utf-8"></script> 
-    <script src="/media/js/g.bar.jeremi.js" type="text/javascript"
-            charset="utf-8"></script> 
-    <script src="/media/js/g.line-min.js" type="text/javascript"
-            charset="utf-8"></script> 
-    <script src="/media/js/brisket_charts.js" type="text/javascript"
-            charset="utf-8"></script> 
 
+	{% css "css/main.css" %}
+    <!--[if IE 6]>{% css "css/buggy.css" %}<![endif]-->
+	
+	{% js "js/brisket-all.js" %}
+    {% block js %}{% endblock %}
     <script type="text/javascript" src="http://use.typekit.com/rum2sap.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
-    <!--[if IE 6]><link rel="stylesheet" href="/media/css/buggy.css" type="text/css" media="screen" /><![endif]-->
-    <!--[if IE 7]><link rel="stylesheet" href="buggy7.css" type="text/css" media="screen" /><![endif]-->
-
     <title>{% block pagetitle %}Brisket{% endblock %}</title>
-    
-    {% block js %}
-    {% endblock %}
 
   </head>
           
@@ -79,23 +65,5 @@
     </div><!-- end footer -->
 
     </div><!-- end pageMain -->
-	<script type="text/javascript">
-		$().ready(function() {
-			$('#cycle_submit').hide();
-			$('#id_cycle').bind('change', function() {
-				$('#cycle_form').submit();
-				return false;
-			});
-			$('#id_query').bind('focus', function() {
-				if (this.value.toUpperCase() == 'SEARCH') {
-					this.value = '';
-				}
-			}).bind('blur', function() {
-				if (!this.value) {
-					this.value = 'SEARCH';
-				}
-			});
-		});
-	</script>
   </body>
 </html>

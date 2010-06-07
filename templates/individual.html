@@ -73,65 +73,57 @@ For more information on contributions:
 {% endif %}
 {% endblock %}
 
+{% if lobbying_for_org or lobbying_by_org %}
+
 {% block lobbying_tables %}
 
 {% if lobbying_with_firm %}
+
 <div class="threeColumn chartWrapper">
-    <h4>{{ entity_info.name }} Lobbied with the Following Firms</h4>
-    <table class="twoColumn">
-        <thead>
-            <tr id="titles">
-                <th class="left">Firm</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in lobbying_with_firm %}
-            <tr class="{% cycle 'even' 'odd' %}">
-                <td>	    
-                    {% if row.registrant_entity %}
-                    <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}?cycle={{cycle}}">{{ row.registrant_name }}</a>
-                    {% else %}
-                    {{ row.registrant_name }}
-                    {% endif %} 
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <h4>{{ entity_info.name }} Lobbied with the Following Firms</h4>
+  <div class="lobbyistsOrgs twoColumn">
+    {% for row in lobbying_with_firm %}
+    {% if row.registrant_entity %}    
+    <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}?cycle={{cycle}}">{{ row.registrant_name }}</a>{% if forloop.last %}{% else %},{% endif %}
+    {% else %}
+    {{ row.registrant_name }}{% if forloop.last %}{% else %},{% endif %}    
+    {% endif %}    
+    {% endfor %}
+  </div>
+  
   {% if issues_lobbied_for %}
-  <div class="issuesLobbied">
+  <div class="lobbyingColumn oneColumn">
+    <div class="issuesLobbied">
       <span class="secondaryTitle">Issues Lobbied:</span>
       <ul>
-          <li>{{ issues_lobbied_for|join:", " }}</li>
+	{% for issue in issues_lobbied_for %}
+	<li>{{issue}}{% if forloop.last %}{% else %},{% endif %}</li>
+	{% endfor %}
       </ul>
-      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  <div class="clear"></div>
 </div>
-{% endif %}
+
+{% endif %} <!-- end if lobbying with firm -->
 
 {% if lobbying_for_clients %}
 <div class="threeColumn chartWrapper">
-    <h4>Clients of Firms {{ entity_info.name }} Worked For</h4>
-    <table class="twoColumn">
-        <thead>
-            <tr id="titles">
-                <th class="left">Client</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in lobbying_for_clients %}
-            <tr class="{% cycle 'even' 'odd' %}">
-                <td>	    
-                    {% if row.client_entity %}
-                    <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
-                    {% else %}
-                    {{ row.client_name }}
-                    {% endif %} 
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <h4>Clients of Firms {{ entity_info.name }} Worked For</h4>
+  <div class="lobbyistsOrgs twoColumn">
+    {% for row in lobbying_for_clients %}
+    {% if row.client_entity %}
+    <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
+    {% else %}
+    {{ row.client_name }}
+    {% endif %} 
+    {% endfor %}
+  </div>
 </div>
 {% endif %}
 
 {% endblock %}
+
+{% else %}
+{% endif %} <!-- end if lobbying data -->
