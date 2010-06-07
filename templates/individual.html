@@ -73,6 +73,8 @@ For more information on contributions:
 {% endif %}
 {% endblock %}
 
+{% if lobbying_for_org or lobbying_by_org %}
+
 {% block lobbying_tables %}
 
 {% if lobbying_with_firm %}
@@ -90,7 +92,7 @@ For more information on contributions:
   </div>
   
   {% if issues_lobbied_for %}
-  <div class="lobbyingColumn oneColumn chartWrapper">
+  <div class="lobbyingColumn oneColumn">
     <div class="issuesLobbied">
       <span class="secondaryTitle">Issues Lobbied:</span>
       <ul>
@@ -122,3 +124,6 @@ For more information on contributions:
 {% endif %}
 
 {% endblock %}
+
+{% else %}
+{% endif %} <!-- end if lobbying data -->
