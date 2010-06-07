@@ -1,25 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load media %}
 <html xmlns="http://www.w3.org/1999/xhtml" >
   <head> 
     <meta name="keywords" content="" /> 
     <meta name="description" content="" /> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-    <link rel="stylesheet" href="/media/css/main.css" type="text/css"> 
-	<script src="/media/js/jquery-1.4.2.min.js"
-            type="text/javascript" charset="utf-8"></script>
-    <script src="/media/js/raphael-min.js"
-            type="text/javascript" charset="utf-8"></script> 
-    <script src="/media/js/g.raphael-min.js"
-            type="text/javascript" charset="utf-8"></script> 
-    <script src="/media/js/g.pie.patched.js" type="text/javascript"
-            charset="utf-8"></script> 
-    <script src="/media/js/g.bar.jeremi.js" type="text/javascript"
-            charset="utf-8"></script> 
-    <script src="/media/js/g.line-min.js" type="text/javascript"
-            charset="utf-8"></script> 
-    <script src="/media/js/brisket_charts.js" type="text/javascript"
-            charset="utf-8"></script> 
-
+	{% css "css/main.css" %}
+	{% js "js/brisket.js" %}
     <script type="text/javascript" src="http://use.typekit.com/rum2sap.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
