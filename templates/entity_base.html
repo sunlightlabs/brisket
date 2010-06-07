@@ -7,7 +7,7 @@
 {% endblock %}
 <script type="text/javascript" charset="utf=8">
 $(document).ready(function() {
-  $('.chartModule').hide();
+//  $('.chartModule').hide();
   $('.overviewBar').toggle(
     function() {
       $(this).next('.chartModule').slideToggle('slow');
@@ -117,10 +117,10 @@ $(document).ready(function() {
   {% block lobbying_tables %}
   {% endblock %}
   <div class="clear"></div>
-
+  
   <div class="external">
-      {% block external_lobby_links %}  
-      {% endblock %}
+    {% block external_lobby_links %}  
+    {% endblock %}
   </div>  
   
   <div class="clear"></div>
