@@ -64,8 +64,8 @@ Get more information on contributions:
 {% endfor %}
 {% endif %}
 {% endblock %}
-
-
+ 
+{% if lobbying_for_org or lobbying_by_org %}
 
 {% block lobbying_hired_amount %}
 {% if entity_info.totals.client_amount %} 
@@ -75,7 +75,7 @@ Get more information on contributions:
 
 {% block lobbying_executed_amount %}
 {% if entity_info.totals.registrant_amount %} 
-    ${{ entity_info.totals.registrant_amount|floatformat:-1|intcomma }} executed
+   ${{ entity_info.totals.registrant_amount|floatformat:-1|intcomma }} executed
 {% endif %}
 {% endblock %}
 
@@ -104,10 +104,14 @@ Get more information on contributions:
         {% endif %}
         
         {% if issues_lobbied_for %}
-        <div class="issuesLobbied oneColumn chartWrapper">
+        <div class="issuesLobbied oneColumn">
             <span class="secondaryTitle">Issues Lobbied:</span>
             <ul>
-                <li>{{ issues_lobbied_for|join:", " }}</li>
+	      {% for issue in issues_lobbied_for %}
+	      <li>
+		{{issue}}{% if forloop.last %}{% else %},{% endif %}
+	      </li>
+	      {% endfor %}
             </ul>
         </div>
         {% endif %}
@@ -143,9 +147,9 @@ Get more information on contributions:
 {% if lobbying_by_org %}
 <div class="threeColumn chartWrapper">
     <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
-    <div class="lobbyingColumn oneColumn chartWrapper">
+    <div class="lobbyingColumn oneColumn">
         {% if lobbyists_as_employees_of_org %}
-        <div class="lobbyistsOrgs">
+        <div class="lobbyistsOrgs chartWrapper">
             <span class="secondaryTitle">Lobbyists Employed by this Organization:</span>
             <ul>
                 {% for row in lobbyists_as_employees_of_org %}
@@ -166,7 +170,11 @@ Get more information on contributions:
         <div class="issuesLobbied">
             <span class="secondaryTitle">Issues Lobbied:</span>  
             <ul> 
-                <li>{{ issues_lobbied_by|join:", " }}</li>
+	      {% for issue in issues_lobbied_by %}
+	      <li>
+		{{issue}}{% if forloop.last %}{% else %},{% endif %}
+	      </li>
+	      {% endfor %}
             </ul>
         </div>
         {% endif %}
@@ -201,3 +209,7 @@ Get more information on contributions:
 {% endif %}
 
 {% endblock %}
+
+{% else %}
+
+{% endif %} <!-- endif there is lobbying data -->
