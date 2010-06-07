@@ -20,7 +20,9 @@
       {% for result_pair in sorted_results.organization %}
       <li class="{% cycle 'even' 'odd' %}">
           <a href="/{{ result_pair.0.type }}/{{result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">{{result_pair.0.name}}</a> 
-          <span class="transactions" title="Results">{{ result_pair.0.count_given }} transactions</span>
+          <span class="transactions" title="Results">
+	    {{result_pair.0.count_given }} 
+	    transaction{{result_pair.0.count_given|pluralize }} </span>
           <span class="amountGiven">${{ result_pair.0.total_given|intcomma }} Given</span>
           <div class="clear"></div>
       </li>
@@ -38,7 +40,9 @@
         {% for result_pair in sorted_results.individual %}
         <li class="{% cycle 'even' 'odd' %}">
             <a href="/{{ result_pair.0.type }}/{{ result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">{{result_pair.0.name}}</a>
-            <span class="transactions" title="Results">{{ result_pair.0.count_given }} transactions</span>
+            <span class="transactions" title="Results"> 
+	      {{ result_pair.0.count_given }}
+	      transaction{{result_pair.0.count_given|pluralize }} </span>
             <span class="amountGiven">${{ result_pair.0.total_given|intcomma }} Given</span>
             <div class="clear"></div>
         </li>
