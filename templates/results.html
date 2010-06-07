@@ -15,7 +15,7 @@
   {% if num_orgs %}
   <div class="searchBox">
     <h3>Matching Organizations</h3>
-    <span class="results">{{ num_orgs }} Results</span>
+    <span class="results">{{ num_orgs }} Result{{num_orgs|pluralize}}</span>
     <ul>
       {% for result_pair in sorted_results.organization %}
       <li class="{% cycle 'even' 'odd' %}">
@@ -33,7 +33,7 @@
   {% if num_indivs %}
   <div class="searchBox clear">    
     <h3>Matching People</h3>
-    <span class="results">{{ num_indivs }} Results</span>  
+    <span class="results">{{ num_indivs }} Result{{num_indivs|pluralize}}</span>  
     <ul>  
         {% for result_pair in sorted_results.individual %}
         <li class="{% cycle 'even' 'odd' %}">
@@ -51,7 +51,7 @@
   {% if num_pols %}
   <div class="searchBox clear">
       <h3>Matching Politicians</h3>
-      <span class="results">{{ num_pols }} Results</span>    
+      <span class="results">{{ num_pols }} Result{{num_pols|pluralize}}</span>    
       <table class="threeColumn clear">
           <thead>
               <tr id="titles">
