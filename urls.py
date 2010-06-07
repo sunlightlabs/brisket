@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     # evil url for media. 
     url(r'^%s/(?P<path>.*)$' % settings.MEDIA_URL.strip('/'), 
         'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
+    url('^contact/$', direct_to_template, {'template': 'contact.html'}),
+    url('^about/$', direct_to_template, {'template': 'about.html'}),
     # everything else goes to influence
     url(r'^', include('brisket.influence.urls')),
 )
