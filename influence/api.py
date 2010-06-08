@@ -154,6 +154,8 @@ def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     # temporary fix for null 'step's, which actually shouldn't appear
     # in the results.
     results = get_url_json('aggregates/org/%s/sparkline.json' % entity_id, cycle)
+    print 'raw api sparkline results:'
+    print results
     remove = []
     for i, row in enumerate(results):
         if row['step'] == None:
@@ -200,7 +202,7 @@ def get_bioguide_id(full_name):
     # gracefully handle slug-formatted strings
     name = full_name.replace('-',' ')
 
-    arguments = urllib.urlencode({'apikey': settings.SUNLIGHT_API_KEY, 
+    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
                                   'name': name,
                                   'all_legislators': 1,
                                   })    
@@ -267,7 +269,7 @@ def politician_meta(full_name):
     biography = bio_a.strip()+' '+bio_b.strip()
 
     # other metadata - from sunlightlabs services
-    arguments = urllib.urlencode({'apikey': settings.SUNLIGHT_API_KEY, 
+    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
                                   'bioguide_id': bioguide_id,
                                   'all_legislators': 1,
                                   })    
