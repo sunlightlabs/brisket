@@ -6,13 +6,8 @@
   <a class="toggle">Toggle</a>
   <h3 class="insideBar">Lobbying</h3>
   <span class="insideBar">
-    {% if entity_info.totals.client_amount %} 
-    ${{ entity_info.totals.client_amount|floatformat:-1|intcomma }} hired
-    {% endif %}
-  </span>
-  <span class="insideBar">
     {% if entity_info.totals.registrant_amount %} 
-    ${{ entity_info.totals.registrant_amount|floatformat:-1|intcomma }} executed
+    ${{ entity_info.totals.registrant_amount|floatformat:-1|intcomma }} Spent
     {% endif %}    
   </span>
   <div id="sparklines">                
@@ -90,7 +85,7 @@
   
   {% if lobbying_by_org %}
   <div class="threeColumn chartWrapper">
-    <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
+    <h4>(to do: hide when not relevant) Lobbying Carried Out by {{ entity_info.name }}</h4>
     <div class="lobbyingColumn oneColumn">
       {% if lobbyists_as_employees_of_org %}
       <div class="lobbyistsOrgs chartWrapper">
