@@ -70,7 +70,7 @@ class EntityAPITests(APITest):
         self.assertLength(2, api.entity_search('pelosi'))
         
     def test_entity_metadata(self):
-        self.assertLength(4, api.entity_metadata(self.PELOSI, CYCLE))
+        self.assertLength(5, api.entity_metadata(self.PELOSI, CYCLE))
         
     def test_id_lookup(self):
         self.assertEqual([{"id": self.PELOSI}], api.entity_id_lookup('urn:crp:recipient', self.PELOSI_CRP_ID))

@@ -34,4 +34,4 @@ class ElectionCycle(forms.Form):
             # second smallest to get the first real year.
             #career = "All: %s - %s" % (cycles[1], cycles[-1])
             self.fields['cycle'].choices = [(cycle, "%d - %s" % (int(cycle)-1, cycle)) 
-                                            for cycle in cycles if cycle != "-1"] + [(-1, "All Cycles")]
+                                            for cycle in cycles if cycle != "-1"] + [(-1, "All Years")]

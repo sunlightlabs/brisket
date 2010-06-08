@@ -30,5 +30,19 @@ $().ready(function() {
 		var q = $('#id_query');
 		return q.val() != q.attr('data-initial');
 	});
+
+	/* section toggles */
+	$('.overviewBar a.toggle').toggle(
+		function() {
+			var bar = $(this).parent();
+			bar.next('.chartModule').slideToggle('slow');
+			bar.addClass("active");
+		}, 
+		function() {
+			var bar = $(this).parent();
+			bar.next('.chartModule').slideToggle('slow');
+			bar.removeClass("active");
+		}
+	);
 	
 });

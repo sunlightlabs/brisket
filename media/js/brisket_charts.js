@@ -101,7 +101,7 @@ function barchart(div, data, limit) {
     * the chart doesn't look like crap. */
     var original_len = data.length;
 
-  /* commenting this out while we demo 
+  /* commenting this out while we demo
     if (data.length < 10) {
         for (var i=data.length; i<10; i++) {
             data[i] = {'key':' ', 'value': 0, 'href':'#'};
@@ -182,11 +182,12 @@ function barchart(div, data, limit) {
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: far_right+spacing, 'text-anchor': 'start'});
 
-    var yAxis = b.path("M 175 10 L 175 155");
+    var yAxis = b.path("M 175 10 L 175 154");
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
 
-    var xAxis = b.path("M 175 155 L 580 155");
+    var xAxis = b.path("M 175 154 L 560 154");
+
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
 
