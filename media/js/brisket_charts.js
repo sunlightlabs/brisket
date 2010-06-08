@@ -45,6 +45,8 @@ function piechart(div, data, type) {
         colors: colors
     });
 
+    var lbl = undefined;
+
     pie.hover(function () {
         this.sector.stop();
         // first two args to scale() are the scaled size.
