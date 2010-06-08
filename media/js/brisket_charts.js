@@ -1,3 +1,4 @@
+
 function piechart(div, data, type) {
     
     // data is expected as a dict.
@@ -21,7 +22,9 @@ function piechart(div, data, type) {
         
         var percent = Math.round((value / total) * 100);
         var label = (key || ' ') + ' (' + percent + '%)';
-        label[0] = label[0].toUpperCase();
+        if (label.length > 1) {
+            label = label[0].toUpperCase() + label.substr(1, label.length);
+        }
         
         slices.push({
             value: value,
