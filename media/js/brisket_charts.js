@@ -180,11 +180,11 @@ function barchart(div, data, limit) {
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: far_right+spacing, 'text-anchor': 'start'});
     
-    var yAxis = b.path("M 175 10 L 175 155");
+    var yAxis = b.path("M 175 10 L 175 154");
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
     
-    var xAxis = b.path("M 175 155 L 560 155");
+    var xAxis = b.path("M 175 154 L 560 154");
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
 
