@@ -76,39 +76,6 @@
 </div><!-- end chartModule -->
 
 {% block lobbying %}
-  
-<div class="overviewBar">
-  <a class="toggle">Toggle</a>
-  <h3 class="insideBar">Lobbying</h3>
-  <span class="insideBar">
-    {% block lobbying_hired_amount %}
-    {% endblock %}
-  </span>
-  <span class="insideBar">
-    {% block lobbying_executed_amount %}
-    {% endblock %}
-  </span>
-  <div id="sparklines">                
-    {% block lobbying_sparkline %}
-    {% endblock %}
-  </div>  
-  {% block lobbying_details_link %}
-  {% endblock %}
-</div>
-
-<div class="chartModule">  
-  {% block lobbying_tables %}
-  {% endblock %}
-  <div class="clear"></div>
-  
-  <div class="external">
-    {% block external_lobby_links %}  
-    {% endblock %}
-  </div>  
-  
-  <div class="clear"></div>
-</div>
-
-{% endblock %} <!-- end lobbying -->
+{% endblock %} 
 
 {% endblock %}<!-- end main -->
