@@ -5,10 +5,10 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
+  sparkline("sparklines", {{ sparkline_data|safe }});
   piechart("piechart_party", {{ party_breakdown|safe }}, type="party");
   barchart("recipients_barchart", {{ candidates_barchart_data|safe }});  
   barchart("orgs_barchart", {{ orgs_barchart_data|safe }});  
-  sparkline("sparklines", {{ sparkline_data|safe }});
 });
 
 </script>

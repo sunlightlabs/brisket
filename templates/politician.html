@@ -5,11 +5,11 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
+  sparkline("sparklines", {{ sparkline_data|safe }});
   piechart("piechart_local", {{ local_breakdown|safe }});
   piechart("piechart_entity", {{ entity_breakdown|safe }});
   barchart("sectors_barchart", {{ sectors_barchart_data|safe }});
   barchart("contributors_barchart", {{ contributors_barchart_data|safe }});
-  sparkline("sparklines", {{ sparkline_data|safe }});
 });
 </script>
 
