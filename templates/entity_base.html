@@ -5,21 +5,6 @@
 <!-- extrajs is where the charts are loaded and must go *before* the --
   -- div is hidden -->
 {% endblock %}
-<script type="text/javascript" charset="utf=8">
-$(document).ready(function() {
-//  $('.chartModule').hide();
-  $('.overviewBar').toggle(
-    function() {
-      $(this).next('.chartModule').slideToggle('slow');
-      $(this).addClass("active");
-    }, 
-    function() {
-      $(this).next('.chartModule').slideToggle('slow');
-      $(this).removeClass("active");
-    }
-  );
-});
-</script>
 {% endblock %}
 
 {% block body_class %}entity{% endblock %}
@@ -43,7 +28,7 @@ $(document).ready(function() {
   </div>
   <div id="changeDates">
     <form action="" method="get" id="cycle_form">
-      <label>View Other Election Cycles</label>
+      <label>View Other Years</label>
       {{ cycle_form.cycle }}
       <input type="submit" value="Update Cycles" id="cycle_submit" />
     </form>
@@ -91,39 +76,6 @@ $(document).ready(function() {
 </div><!-- end chartModule -->
 
 {% block lobbying %}
-  
-<div class="overviewBar">
-  <a class="toggle">Toggle</a>
-  <h3 class="insideBar">Lobbying</h3>
-  <span class="insideBar">
-    {% block lobbying_hired_amount %}
-    {% endblock %}
-  </span>
-  <span class="insideBar">
-    {% block lobbying_executed_amount %}
-    {% endblock %}
-  </span>
-  <div id="sparklines">                
-    {% block lobbying_sparkline %}
-    {% endblock %}
-  </div>  
-  {% block lobbying_details_link %}
-  {% endblock %}
-</div>
-
-<div class="chartModule">  
-  {% block lobbying_tables %}
-  {% endblock %}
-  <div class="clear"></div>
-  
-  <div class="external">
-    {% block external_lobby_links %}  
-    {% endblock %}
-  </div>  
-  
-  <div class="clear"></div>
-</div>
-
-{% endblock %} <!-- end lobbying -->
+{% endblock %} 
 
 {% endblock %}<!-- end main -->

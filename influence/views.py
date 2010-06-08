@@ -15,16 +15,17 @@ def brisket_context(request):
 
 def entity_context(request, cycle, available_cycles): 
     context_variables = {}    
+    
+    params = request.GET.copy()
+    if 'cycle' not in params:
+        params['cycle'] = DEFAULT_CYCLE
 
     if request.GET.get('query', None):
-        context_variables['search_form'] = SearchForm(request.GET, cycle)
+        context_variables['search_form'] = SearchForm(params, cycle)
     else:
         context_variables['search_form'] = SearchForm() 
 
-    if request.GET.get('cycle', None):
-        context_variables['cycle_form'] = ElectionCycle(available_cycles, request.GET)
-    else:
-        context_variables['cycle_form'] = ElectionCycle(available_cycles)
+    context_variables['cycle_form'] = ElectionCycle(available_cycles, params)
 
     return RequestContext(request, context_variables)
 
