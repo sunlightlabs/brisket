@@ -184,7 +184,7 @@ function barchart(div, data, limit) {
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
     
-    var xAxis = b.path("M 175 155 L 580 155");
+    var xAxis = b.path("M 175 155 L 560 155");
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
 
