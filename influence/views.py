@@ -232,7 +232,7 @@ def _barchart_href(record, cycle, entity_type):
     return href
  
 def _generate_label(string):
-    max_length = 20
+    max_length = 27
     return string[:max_length] + (lambda x, l: (len(x)>l and "...") 
                                   or "")(string, max_length)
 
