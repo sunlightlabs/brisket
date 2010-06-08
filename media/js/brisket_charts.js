@@ -1,47 +1,47 @@
 
 function piechart(div, data, type) {
-    
+
     // data is expected as a dict.
     var r = Raphael(div);
     r.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
     var party_colors = {"Republicans": "#E60002", "Democrats": "#186582", "Other" : "#DCDDDE"};
     var other_colors = ["#EFCC01","#F2E388"];
-    
+
     var slices = [];
     var keys = _.keys(data);
     var total = _(data).chain().values().reduce(0, function(memo, num) {
         return memo + num;
     }).value();
-    
+
     for (var i = 0; i < keys.length; i++) {
-        
+
         var key = keys[i];
         var value = data[key];
         var color = (type && type == "party") ? party_colors[key] : other_colors[i];
-        
+
         var percent = Math.round((value / total) * 100);
         var label = (key || ' ') + ' (' + percent + '%)';
         if (label.length > 1) {
             label = label[0].toUpperCase() + label.substr(1, label.length);
         }
-        
+
         slices.push({
             value: value,
             label: label,
             color: color,
         });
-        
+
     }
-    
+
     slices.sort(function(a, b) {
         return b.value - a.value;
     });
-    
+
     var labels = _.map(slices, function(s){ return s.label });
     var values = _.map(slices, function(s){ return s.value });
     var colors = _.map(slices, function(s){ return s.color });
-    
+
     pie = r.g.piechart(70, 70, 60, values, {
         legend: labels,
         legendpos: "east",
@@ -71,7 +71,7 @@ function piechart(div, data, type) {
             lbl.hide();
         }
     });
-    
+
 }
 
 function dollar(str) {
@@ -100,12 +100,14 @@ function barchart(div, data, limit) {
     /* if the data has less than 10 records, pad it so that
     * the chart doesn't look like crap. */
     var original_len = data.length;
+
+  /* commenting this out while we demo 
     if (data.length < 10) {
         for (var i=data.length; i<10; i++) {
             data[i] = {'key':' ', 'value': 0, 'href':'#'};
         }
     }
-
+  */
     var data_values = [];
     for (var i = 0; i < data.length; i++) {
 	    data_values.push(data[i]['value']);
@@ -179,11 +181,11 @@ function barchart(div, data, limit) {
     };
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: far_right+spacing, 'text-anchor': 'start'});
-    
+
     var yAxis = b.path("M 175 10 L 175 155");
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
-    
+
     var xAxis = b.path("M 175 155 L 580 155");
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
