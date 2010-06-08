@@ -1,71 +1,71 @@
 function piechart(div, data, type) {
-  // data is expected as a dict.
-  var r = Raphael(div);
-  r.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
+    
+    // data is expected as a dict.
+    var r = Raphael(div);
+    r.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
-  party_colors = {"Republicans": "#E60002", "Democrats": "#186582", "Other" : "#DCDDDE"};
-  other_colors = ["#EFCC01","#F2E388"];
-
-  var values_total = 0;
-  for (k in data) {
-    values_total += data[k];
-  }
-
-  var data_values = [];
-  var use_colors = [];
-  var data_labels = [];
-  //for (k in data) {
-  for (var k in data) {
-    //capitalize the labels (making sure the label is at least length 1).
-    if (k) { kk = k[0].toUpperCase()+k.substring(1,k.length);}
-    else { kk = k; }
-    var percent = Math.round((data[k]/values_total)*100);
-    data_labels.push(kk+' ('+percent+'%)');
-    data_values.push(data[k]);
-    //console.log(k+':'+data[k]);
-    if (type && type == "party") {
-      use_colors.push(party_colors[k]);
-      //console.log('pushing '+ party_colors[k]);
+    var party_colors = {"Republicans": "#E60002", "Democrats": "#186582", "Other" : "#DCDDDE"};
+    var other_colors = ["#EFCC01","#F2E388"];
+    
+    var slices = [];
+    var keys = _.keys(data);
+    var total = _(data).chain().values().reduce(0, function(memo, num) {
+        return memo + num;
+    }).value();
+    
+    for (var i = 0; i < keys.length; i++) {
+        
+        var key = keys[i];
+        var value = data[key];
+        var color = (type && type == "party") ? party_colors[key] : other_colors[i];
+        
+        var percent = Math.round((value / total) * 100);
+        var label = (key || ' ') + ' (' + percent + '%)';
+        label[0] = label[0].toUpperCase();
+        
+        slices.push({
+            value: value,
+            label: label,
+            color: color,
+        });
+        
     }
-  }
-  if (!type || type != "party") {
-    use_colors = other_colors;
-  }
-
-  var data_values_fixed = [];
-  for (var i=0; i<data_values.length; i++) {
-    data_values_fixed[i] = data_values[i];
-  }
-  /*
-  console.log(use_colors);
-  console.log(data_labels);
-  console.log(data_values);
-  console.log(data_values_fixed);
-   */
-  pie = r.g.piechart(70, 70, 60, data_values, { legend: data_labels, legendpos: "east",
-						  colors: use_colors });
+    
+    slices.sort(function(a, b) {
+        return b.value - a.value;
+    });
+    
+    var labels = _.map(slices, function(s){ return s.label });
+    var values = _.map(slices, function(s){ return s.value });
+    var colors = _.map(slices, function(s){ return s.color });
+    
+    pie = r.g.piechart(70, 70, 60, values, {
+        legend: labels,
+        legendpos: "east",
+        colors: colors
+    });
 
     pie.hover(function () {
-    this.sector.stop();
-    // first two args to scale() are the scaled size.
-    this.sector.scale(1.04, 1.04, this.cx, this.cy);
-    if (this.label) {
-    this.label[0].stop();
-    this.label[0].scale(1.5);
-    this.label[1].attr({"font-weight": 800});
-    lbl = r.text(70, 70, dollar(this.value.value));
-    lbl.attr({"font-weight": 800, "font-size": "12px"});
-    lbl.show();
-    }}, function () {
-    this.sector.animate({scale: [1, 1, this.cx,
-    this.cy]}, 500, "bounce");
-    if (this.label) {
-    this.label[0].animate({scale: 1}, 500,
-    "bounce");
-    this.label[1].attr({"font-weight": 400});
-    lbl.hide();
-    }
+        this.sector.stop();
+        // first two args to scale() are the scaled size.
+        this.sector.scale(1.04, 1.04, this.cx, this.cy);
+        if (this.label) {
+            this.label[0].stop();
+            this.label[0].scale(1.5);
+            this.label[1].attr({"font-weight": 800});
+            lbl = r.text(70, 70, dollar(this.value.value));
+            lbl.attr({"font-weight": 800, "font-size": "12px"});
+            lbl.show();
+        }
+    }, function () {
+        this.sector.animate({scale: [1, 1, this.cx, this.cy]}, 500, "bounce");
+        if (this.label) {
+            this.label[0].animate({scale: 1}, 500, "bounce");
+            this.label[1].attr({"font-weight": 400});
+            lbl.hide();
+        }
     });
+    
 }
 
 function dollar(str) {

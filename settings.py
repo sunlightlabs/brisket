@@ -102,6 +102,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 MEDIASYNC_JOINED = {
     'js/brisket-all.js': (
         'js/jquery-1.4.2.min.js',
+        'js/underscore-1.0.2.min.js',
         'js/raphael-min.js',
         'js/g.raphael-min.js',
         'js/g.pie.patched.js',
