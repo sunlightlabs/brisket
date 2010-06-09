@@ -19,7 +19,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contrib_overview_amount %}
-${{entity_info.totals.contributor_amount|floatformat:-1|intcomma }} Given
+${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
 {% endblock %}
 {% block details_link %}
 <a class="detailsLink" href="#">

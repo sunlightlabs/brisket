@@ -53,7 +53,7 @@ $(document).ready(function() {
 {% endif %}
 
 {% block contrib_overview_amount %}
-${{entity_info.totals.recipient_amount|floatformat:-1|intcomma }} Received
+${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
 {% endblock %}
 
 

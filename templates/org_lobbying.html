@@ -78,7 +78,7 @@
             {{ row.registrant_name }}
             {% endif %} 
           </td>
-          <td class="right">${{ row.amount|floatformat:-1|intcomma }}</td>
+          <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -127,7 +127,7 @@
     <table class="twoColumn">
       <thead>
         <tr id="titles">
-          <th class="left">Customer</th>
+          <th class="left">Client</th>
           <th class="right">Amount</th>
         </tr>
       </thead>
@@ -141,7 +141,7 @@
             {{ row.client_name }}
             {% endif %} 
           </td>
-          <td class="right">${{ row.amount|floatformat:-1|intcomma }}</td>
+          <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
         </tr>
         {% endfor %}
       </tbody>

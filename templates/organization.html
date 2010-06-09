@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 {% block contrib_overview_amount %}
 {% if entity_info.totals.contributor_amount %}
-${{entity_info.totals.contributor_amount|floatformat:-1|intcomma }} Given
+${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
 {% endif %}
 {% endblock %}
 
