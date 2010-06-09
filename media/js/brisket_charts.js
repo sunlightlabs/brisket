@@ -155,26 +155,9 @@ function barchart(div, data, limit) {
         }
     );
     barchart.labels.translate(-165);
-    console.log(barchart.labels);
-
-    /* figure out the longest label text and move the chart over by
-     that amount, so that the labels are beside and not on top of the
-     chart.
-    var far_right = 0;
-    for (var i = 0; i < data_labels.length; i++) {
-        var bb = barchart.labels[i].getBBox();
-        if (bb.x + bb.width > far_right) {
-            far_right = bb.x + bb.width;
-        }
-    }
-    far_right = 165; // FAKE IT HERE!!
-     */
-
-  //barchart.translate(175);
-
 
     /* add text markers for the amounts (which unfortunately uses a
-     method called 'label' just to confuse you) */
+       method called 'label' just to confuse you) */
     s = b.set();
     for (var i=0; i< original_len; i++) {
         x = barchart.bars[0][i].x;
