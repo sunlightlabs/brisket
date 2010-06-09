@@ -174,7 +174,7 @@ def politician_entity(request, entity_id):
         try:
             sector_name = catcodes.sector[record['sector']]
         except:
-            sector_name = '???'
+            sector_name = 'Unknown (%s)' % record['sector']
         sectors_barchart_data.append({                
                 'key': _generate_label(sector_name),
                 'value' : record['amount'],
@@ -232,9 +232,12 @@ def _barchart_href(record, cycle, entity_type):
     return href
  
 def _generate_label(string):
+    ''' truncate names longer than max_length and normalize the case
+    to use title case'''
     max_length = 27
-    return string[:max_length] + (lambda x, l: (len(x)>l and "...") 
-                                  or "")(string, max_length)
+    label = string[:max_length] + (lambda x, l: (len(x)>l and "...") 
+                                   or "")(string, max_length)
+    return label.title()
 
 def individual_entity(request, entity_id):    
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
