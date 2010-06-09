@@ -101,13 +101,13 @@ function barchart(div, data, limit) {
     * the chart doesn't look like crap. */
     var original_len = data.length;
 
-  /* commenting this out while we demo
+  /* commenting this out while we demo   */
     if (data.length < 10) {
         for (var i=data.length; i<10; i++) {
             data[i] = {'key':' ', 'value': 0, 'href':'#'};
         }
     }
-  */
+
     var data_values = [];
     for (var i = 0; i < data.length; i++) {
 	    data_values.push(data[i]['value']);
@@ -134,7 +134,7 @@ function barchart(div, data, limit) {
        supports multiple data series so expects an array of arrays,
        even for just one data series. Else it will treat each data
        point as one series. */
-    var barchart = b.g.hbarchart(10,10, 330, 150, [data_values], opts);
+    var barchart = b.g.hbarchart(175,10, 330, 150, [data_values], opts);
 
     // pass in labels array inside another array
     barchart.label([data_labels], false);
@@ -154,11 +154,12 @@ function barchart(div, data, limit) {
             this.attr({fill: "#000000"});
         }
     );
-
+    barchart.labels.translate(-165);
+    console.log(barchart.labels);
 
     /* figure out the longest label text and move the chart over by
      that amount, so that the labels are beside and not on top of the
-     chart. */
+     chart.
     var far_right = 0;
     for (var i = 0; i < data_labels.length; i++) {
         var bb = barchart.labels[i].getBBox();
@@ -167,7 +168,10 @@ function barchart(div, data, limit) {
         }
     }
     far_right = 165; // FAKE IT HERE!!
-    barchart.translate(far_right);
+     */
+
+  //barchart.translate(175);
+
 
     /* add text markers for the amounts (which unfortunately uses a
      method called 'label' just to confuse you) */
@@ -180,7 +184,7 @@ function barchart(div, data, limit) {
 	s.push(marker);
     };
     var spacing = 10; // spacing between bars and text markers
-    s.attr({translation: far_right+spacing, 'text-anchor': 'start'});
+    s.attr({translation: spacing, 'text-anchor': 'start'});
 
     var yAxis = b.path("M 175 10 L 175 154");
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
