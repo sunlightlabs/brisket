@@ -20,7 +20,7 @@
   <div id="currentDates">
     <span>
       {% ifequal cycle "-1" %} 
-        {{entity_info.career.start}} to {{entity_info.career.end}}
+        {{entity_info.career.start}} - {{entity_info.career.end}}
       {% else %}  
         {{cycle|add:-1}} - {{cycle}} 
       {% endifequal %}
