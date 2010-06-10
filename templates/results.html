@@ -17,13 +17,13 @@
     <h3>Matching Organizations</h3>
     <span class="results">{{ num_orgs }} Result{{num_orgs|pluralize}}</span>
     <ul>
-      {% for result_pair in sorted_results.organization %}
+      {% for result in sorted_results.organization %}
       <li class="{% cycle 'even' 'odd' %}">
-          <a href="/{{ result_pair.0.type }}/{{result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">{{result_pair.0.name}}</a> 
+          <a href="/{{ result.type }}/{{result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a> 
           <span class="transactions" title="Results">
-	    {{result_pair.0.count_given }} 
-	    transaction{{result_pair.0.count_given|pluralize }} </span>
-          <span class="amountGiven">${{ result_pair.0.total_given|intcomma }} Given</span>
+	    {{result.count_given }} 
+	    transaction{{result.count_given|pluralize }} </span>
+          <span class="amountGiven">${{ result.total_given|intcomma }} Given</span>
           <div class="clear"></div>
       </li>
       {% endfor %}
@@ -37,13 +37,13 @@
     <h3>Matching People</h3>
     <span class="results">{{ num_indivs }} Result{{num_indivs|pluralize}}</span>  
     <ul>  
-        {% for result_pair in sorted_results.individual %}
+        {% for result in sorted_results.individual %}
         <li class="{% cycle 'even' 'odd' %}">
-            <a href="/{{ result_pair.0.type }}/{{ result_pair.0.name|slugify }}/{{ result_pair.0.id }}?cycle={{cycle}}">{{result_pair.0.name}}</a>
+            <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a>
             <span class="transactions" title="Results"> 
-	      {{ result_pair.0.count_given }}
-	      transaction{{result_pair.0.count_given|pluralize }} </span>
-            <span class="amountGiven">${{ result_pair.0.total_given|intcomma }} Given</span>
+	      {{ result.count_given }}
+	      transaction{{result.count_given|pluralize }} </span>
+            <span class="amountGiven">${{ result.total_given|intcomma }} Given</span>
             <div class="clear"></div>
         </li>
         {% endfor %}
