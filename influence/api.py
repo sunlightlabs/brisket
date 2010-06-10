@@ -60,7 +60,10 @@ def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
     career = results['totals'].keys()
     career.sort()
     # start at index 1 to skip over the -1 for 'all cycles'
-    results['career'] = {'start': career[1], 'end': career[-1]}
+    if len(career):
+        results['career'] = {'start': career[1], 'end': career[-1]}
+    else:
+        results['career'] = {}
     return results
 
 
