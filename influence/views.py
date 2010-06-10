@@ -73,15 +73,6 @@ def search(request):
             kwargs['num_orgs'] = len(sorted_results['organization'])
             kwargs['num_pols'] = len(sorted_results['politician'])
             kwargs['num_indivs'] = len(sorted_results['individual'])
-
-            # organize the results for organizations and individuals
-            # into pairs to facilitate display in the template
-            #for k in ['organization', 'individual']:
-            #    l = sorted_results[k]
-            #    pairs = []
-            #    for i in xrange(0, len(l), 2):
-            #        pairs.append(l[i:i+2])
-            #    sorted_results[k] = pairs
             kwargs['query'] = query
             kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results
