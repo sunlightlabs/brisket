@@ -84,7 +84,7 @@ def search(request):
 def organization_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     entity_info = api.entity_metadata(entity_id, cycle)
-    available_cycles = entity_info['totals'].keys()
+    available_cycles = entity_info['totals'].keys()    
     # discard the info from cycles that are not the current one
     entity_info['totals'] = entity_info['totals'][cycle]
     external_links = external_sites.get_links(entity_info)
@@ -231,12 +231,45 @@ def _generate_label(string):
                                    or "")(string, max_length)
     return label.title()
 
+
+def get_metadata(entity_id, cycle, entity_type):
+    ''' beginnings of some refactoring. half implemented but
+    harmless. do not pet or feed.'''
+    data = {}
+    data_availability = {'individual': {'contributions': ('contributor_amount',), 
+                                      'lobbying': ('registrant_amount', 'client_amount') },
+                       'politician' : {},
+                       'organization' : {}
+                       }
+
+    entity_info = api.entity_metadata(entity_id, cycle)    
+
+    # check which types of data are available about this entity
+    for data_type, indicators in data_availability[entity_type].iteritems():
+        if (entity_info['totals'].get(cycle, False) and 
+            [True for ind in indicators if entity_info['totals'][cycle][ind]]):
+            data[data_type] = True
+        else:
+            data[data_type] = False
+
+    print data['contributions']
+    print data['lobbying']
+
+    data['available_cycles'] = entity_info['totals'].keys()    
+    entity_info['totals'] = entity_info['totals'][cycle]
+    data['entity_info'] = entity_info
+
+    return data
+    
+
 def individual_entity(request, entity_id):    
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-    entity_info = api.entity_metadata(entity_id, cycle)    
-    available_cycles = entity_info['totals'].keys()
-    # discard the info from cycles that are not the current one
-    entity_info['totals'] = entity_info['totals'][cycle]
+    cv = {}
+    # get entity metadata
+    metadata = get_metadata(entity_id, cycle, "individual")
+    available_cycles = metadata['available_cycles']
+    entity_info = metadata['entity_info']
+
     external_links = external_sites.get_links(entity_info)
     print 'external links'
     print external_links
@@ -269,12 +302,10 @@ def individual_entity(request, entity_id):
     sparkline_data = api.indiv_sparkline(entity_id, cycle)
     print sparkline_data
 
-
     # get lobbying info
     lobbying_with_firm = api.indiv_registrants(entity_id, cycle)
     issues_lobbied_for =  [item['issue'] for item in api.indiv_issues(entity_id, cycle)]
-    lobbying_for_clients = api.indiv_clients(entity_id, cycle)
-    
+    lobbying_for_clients = api.indiv_clients(entity_id, cycle)    
 
     return render_to_response('individual.html', 
                               {'entity_id': entity_id,
