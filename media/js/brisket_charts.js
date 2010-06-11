@@ -6,13 +6,24 @@ function piechart(div, data, type) {
     r.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
     var party_colors = {"Republicans": "#E60002", "Democrats": "#186582", "Other" : "#DCDDDE"};
-    var other_colors = ["#EFCC01","#F2E388", "#FFCC66"];
+    var other_colors = ["#EFCC01","#F2E388"];
 
     var slices = [];
     var keys = _.keys(data);
     var total = _(data).chain().values().reduce(0, function(memo, num) {
         return memo + num;
     }).value();
+
+    /* when there's an extra key-value pair, usually it's for an
+     * 'unknown' or 'other' category, so make it grey. in a moment
+     * of madness i determined why this should work and it apprently
+     * does-- it consistently associates the 'uknown' wedge with the
+     * additional colour, but now i forget why-- maybe it's because
+     * when they keys gets sorted below, 'u' is last in the
+     * alphabetical sort...? */
+    if (keys.length > 2 ) {
+      other_colors = ["#DCDDDE"].concat(other_colors);
+    }
 
     for (var i = 0; i < keys.length; i++) {
 
