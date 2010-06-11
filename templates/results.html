@@ -23,7 +23,7 @@
           <span class="transactions" title="Results">
 	    {{result.count_given }} 
 	    transaction{{result.count_given|pluralize }} </span>
-          <span class="amountGiven">${{ result.total_given|intcomma }} Given</span>
+          <span class="amountGiven">${{ result.total_given|floatformat:0|intcomma }} Given</span>
           <div class="clear"></div>
       </li>
       {% endfor %}
@@ -43,7 +43,7 @@
             <span class="transactions" title="Results"> 
 	      {{ result.count_given }}
 	      transaction{{result.count_given|pluralize }} </span>
-            <span class="amountGiven">${{ result.total_given|intcomma }} Given</span>
+            <span class="amountGiven">${{ result.total_given|floatformat:0|intcomma }} Given</span>
             <div class="clear"></div>
         </li>
         {% endfor %}
