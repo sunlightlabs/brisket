@@ -64,6 +64,11 @@ def search(request):
             for result in entity_results:
                 sorted_results[result['type']].append(result)
 
+            # sort each type by amount
+            sorted_results['organization'].sort(cmp=_amt_given_decreasing)
+            sorted_results['individual'].sort(cmp=_amt_given_decreasing)
+            sorted_results['politician'].sort(cmp=_amt_received_decreasing)
+
             # keep track of how many there are of each type of result
             kwargs['num_orgs'] = len(sorted_results['organization'])
             kwargs['num_pols'] = len(sorted_results['politician'])
@@ -75,6 +80,26 @@ def search(request):
         return render_to_response('results.html', kwargs, brisket_context(request))
     else: 
         return HttpResponseRedirect('/')
+
+def _amt_given_decreasing(d1, d2):
+    ''' a cmp function for sort(), to sort dicts by increasing value
+    of the total_given item'''
+
+    if float(d1['total_given']) > float(d2['total_given']):
+        return -1
+    if float(d1['total_given']) < float(d2['total_given']):
+        return 1
+    else: return 0
+
+def _amt_received_decreasing(d1, d2):
+    ''' a cmp function for sort(), to sort dicts by increasing value
+    of the total_given item'''
+
+    if float(d1['total_received']) > float(d2['total_received']):
+        return -1
+    if float(d1['total_received']) < float(d2['total_received']):
+        return 1
+    else: return 0
 
 def organization_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
