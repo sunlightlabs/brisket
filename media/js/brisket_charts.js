@@ -6,7 +6,7 @@ function piechart(div, data, type) {
     r.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
     var party_colors = {"Republicans": "#E60002", "Democrats": "#186582", "Other" : "#DCDDDE"};
-    var other_colors = ["#EFCC01","#F2E388"];
+    var other_colors = ["#EFCC01","#F2E388", "#FFCC66"];
 
     var slices = [];
     var keys = _.keys(data);
