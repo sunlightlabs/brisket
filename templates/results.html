@@ -80,7 +80,7 @@
                   <td class="center">XX</td>
                   <td class="center">??????</td>
                   <td class="center">???</td>
-                  <td class="center">${{result.total_received|intcomma }}</td>
+                  <td class="center">${{result.total_received|floatformat:0|intcomma }}</td>
                   <td class="right">{{ result.count_received }}</td>	  
                   {% endfor %}
               </tr>
