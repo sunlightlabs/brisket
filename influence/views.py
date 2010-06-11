@@ -20,11 +20,6 @@ def entity_context(request, cycle, available_cycles):
     if 'cycle' not in params:
         params['cycle'] = DEFAULT_CYCLE
 
-    if request.GET.get('query', None):
-        context_variables['search_form'] = SearchForm(params, cycle)
-    else:
-        context_variables['search_form'] = SearchForm() 
-
     context_variables['cycle_form'] = ElectionCycle(available_cycles, params)
 
     return RequestContext(request, context_variables)
@@ -256,7 +251,8 @@ def get_metadata(entity_id, cycle, entity_type):
     print data['lobbying']
 
     data['available_cycles'] = entity_info['totals'].keys()    
-    entity_info['totals'] = entity_info['totals'][cycle]
+    if entity_info['totals'].get(cycle, None):
+        entity_info['totals'] = entity_info['totals'][cycle]
     data['entity_info'] = entity_info
 
     return data
