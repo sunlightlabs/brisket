@@ -40,7 +40,7 @@ class ContributionsAPITests(APITest):
         self.assertLength(2, api.pol_contributor_type_breakdown(self.PELOSI, CYCLE))
 
     def test_indiv_org_recipients(self):
-        self.assertLength(6, api.indiv_org_recipients(self.PICKENS, CYCLE))
+        self.assertLength(7, api.indiv_org_recipients(self.PICKENS, CYCLE))
         
     def test_indiv_pol_recipients(self):
         self.assertLength(10, api.indiv_pol_recipients(self.PICKENS, CYCLE))
@@ -70,7 +70,13 @@ class EntityAPITests(APITest):
         self.assertLength(2, api.entity_search('pelosi'))
         
     def test_entity_metadata(self):
-        self.assertLength(5, api.entity_metadata(self.PELOSI, CYCLE))
+        bankers = api.entity_metadata(self.BANKERS, CYCLE)
+        self.assertLength(7, bankers)
+        self.assertFalse(bankers['metadata']['lobbying_firm'])
+        
+        nickles = api.entity_metadata(self.NICKLES, CYCLE)
+        self.assertTrue(nickles['metadata']['lobbying_firm'])
+        
         
     def test_id_lookup(self):
         self.assertEqual([{"id": self.PELOSI}], api.entity_id_lookup('urn:crp:recipient', self.PELOSI_CRP_ID))
