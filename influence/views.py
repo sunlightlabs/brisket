@@ -261,8 +261,7 @@ def get_metadata(entity_id, cycle, entity_type):
     ''' beginnings of some refactoring. half implemented but
     harmless. do not pet or feed.'''
     data = {}
-    data_availability = {'individual': {'contributions': ('contributor_amount',), 
-                                      'lobbying': ('registrant_amount', 'client_amount') },
+    data_availability = {'individual': {'contributions': ('contributor_amount',)},
                        'politician' : {},
                        'organization' : {}
                        }
@@ -278,7 +277,6 @@ def get_metadata(entity_id, cycle, entity_type):
             data[data_type] = False
 
     print data['contributions']
-    print data['lobbying']
 
     data['available_cycles'] = entity_info['totals'].keys()    
     if entity_info['totals'].get(cycle, None):

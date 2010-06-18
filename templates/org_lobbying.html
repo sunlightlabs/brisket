@@ -6,13 +6,10 @@
   <a class="toggle">Toggle</a>
   <h3 class="insideBar">Lobbying</h3>
   <span class="insideBar">
-    {% if entity_info.totals.registrant_amount %} 
-    ${{ entity_info.totals.registrant_amount|floatformat:0|intcomma }} Received
-    {% endif %}    
-  </span>
-  <span class="insideBar">
-    {% if entity_info.totals.client_amount %} 
-    ${{ entity_info.totals.client_amount|floatformat:0|intcomma }} Spent
+    {% if is_lobbying_firm %} 
+    ${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
+    {% else %}
+    ${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
     {% endif %}    
   </span>
   <div id="sparklines">                
