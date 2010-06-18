@@ -171,7 +171,14 @@ def politician_entity(request, entity_id):
     entity_info['totals'] = entity_info['totals'][cycle]
     external_links = external_sites.get_links(entity_info)
 
-    metadata = api.politician_meta(entity_info['name'])
+    # check if the politician has a federal ID. we currently only have
+    # politician metadata for federal politicians.    
+    for eid in entity_info['external_ids']:
+        if eid['namespace'].find('urn:crp') >= 0:
+            metadata = api.politician_meta(entity_info['name'])
+            break
+        else:
+            metadata = None
 
     top_contributors = api.pol_contributors(entity_id, cycle)
     contributors_barchart_data = []
@@ -212,9 +219,6 @@ def politician_entity(request, entity_id):
     # sparkline data
     sparkline_data = api.pol_sparkline(entity_id, cycle)
     print sparkline_data
-
-    # get top words spoken in congress by this legislator for this cycle
-    # capitol_words = get_capitol_words(entity_info['name'], cycle, 50)
 
     return render_to_response('politician.html', 
                               {'entity_id': entity_id,
