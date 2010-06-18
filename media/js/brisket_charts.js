@@ -104,6 +104,7 @@ function barchart(div, data, limit) {
     b = Raphael(div);
     b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
+    thedata = data;
     if (limit && limit < data.length) {
         data = data.slice(0, limit);
     }
@@ -112,7 +113,6 @@ function barchart(div, data, limit) {
     * the chart doesn't look like crap. */
     var original_len = data.length;
 
-  /* commenting this out while we demo   */
     if (data.length < 10) {
         for (var i=data.length; i<10; i++) {
             data[i] = {'key':' ', 'value': 0, 'href':'#'};
@@ -138,17 +138,40 @@ function barchart(div, data, limit) {
         "type": "soft",
         "gutter": 30, //space between bars, as fn of bar width/height
         "stacked": false,
-        "colors" : ["#EFCC01"]
+	"colors" : ["#EFCC01", "#FF6600"]
     };
+
+      // check if this is a stacked barchart
+    if (data[0]['value_employee']) {
+      var values_employee = [];
+      var values_pac = [];
+      for (var i=0; i<data.length; i++) {
+	values_employee.push(data[i]['value_employee']);
+	values_pac.push(data[i]['value_pac']);
+      }
+      all_data = [values_employee, values_pac];
+      opts['stacked'] = true;
+    } else {
+      all_data = [data_values];
+    }
 
     /* data array must be passed inside another array-- barchart fn
        supports multiple data series so expects an array of arrays,
        even for just one data series. Else it will treat each data
        point as one series. */
-    var barchart = b.g.hbarchart(175,10, 330, 150, [data_values], opts);
+    var barchart = b.g.hbarchart(175,10, 330, 150, all_data, opts);
 
-    // pass in labels array inside another array
-    barchart.label([data_labels], false);
+    /* pass in labels array inside another array. if this is a stacked
+     * barchart, raphael default to including the data value as a label
+     * if no label is passed in, so trick it by sending in blank (but
+     * non-empty!) strings.  */
+    if (barchart.bars.length > 1) {
+     the_labels = [data_labels, ["   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   "]];
+    }
+    else {
+      the_labels = [data_labels];
+    }
+    barchart.label(the_labels, false);
 
     // add links to the labels
     for (var i = 0; i < barchart.labels.length; i++) {
@@ -167,16 +190,24 @@ function barchart(div, data, limit) {
     );
     barchart.labels.translate(-165);
 
+    bc = barchart;
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
     s = b.set();
+    var num_datasets = barchart.bars.length;
     for (var i=0; i< original_len; i++) {
-        x = barchart.bars[0][i].x;
-	y = barchart.bars[0][i].y + 1;
-	text = '$'+barchart.bars[0][i].value;
-	marker = b.g.text(x,y,text);
-	s.push(marker);
+      x = barchart.bars[num_datasets-1][i].x;
+      y = barchart.bars[num_datasets-1][i].y;
+      text = 0;
+      for (var n=0; n< num_datasets; n++) {
+	text = text + barchart.bars[n][i].value;
+      }
+      text = "$"+text;
+
+      marker = b.g.text(x,y,text);
+      s.push(marker);
     };
+
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: spacing, 'text-anchor': 'start'});
 
