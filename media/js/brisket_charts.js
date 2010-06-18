@@ -115,7 +115,7 @@ function barchart(div, data, limit) {
 
     if (data.length < 10) {
         for (var i=data.length; i<10; i++) {
-            data[i] = {'key':' ', 'value': 0, 'href':'#'};
+          data[i] = {'key':' ', 'value': 0, 'href': "#"};
         }
     }
 
@@ -129,9 +129,15 @@ function barchart(div, data, limit) {
 	    data_labels.push(data[i]['key']);
     }
 
+  /*
     var data_hrefs = [];
     for (var i = 0; i < data.length; i++) {
 	    data_hrefs.push(data[i]['href']);
+    }
+*/
+    var data_hrefs = {};
+    for (var i = 0; i < data.length; i++) {
+      data_hrefs[data[i]['key']] = data[i]['href'];
     }
 
     opts = {
@@ -155,11 +161,12 @@ function barchart(div, data, limit) {
       all_data = [data_values];
     }
 
-    /* data array must be passed inside another array-- barchart fn
+  /* data array must be passed inside another array-- barchart fn
        supports multiple data series so expects an array of arrays,
        even for just one data series. Else it will treat each data
        point as one series. */
     var barchart = b.g.hbarchart(175,10, 330, 150, all_data, opts);
+    var num_datasets = barchart.bars.length;
 
     /* pass in labels array inside another array. if this is a stacked
      * barchart, raphael default to including the data value as a label
@@ -173,13 +180,17 @@ function barchart(div, data, limit) {
     }
     barchart.label(the_labels, false);
 
+
     // add links to the labels
-    for (var i = 0; i < barchart.labels.length; i++) {
-        barchart.labels[i].attr({'href': data_hrefs[i] });
+    for (var i = 0; i < barchart.bars[0].length; i+=num_datasets) {
+//        barchart.labels[i].attr({'href': data_hrefs[i] });
+      var key = barchart.labels[i].attr('text');
+      console.log(key);
+      console.log(data_hrefs[key]);
+      barchart.labels[i].attr({'href': data_hrefs[key] });
     }
 
-    // this is the desired link colour, but it also seems to make
-    //the font bold, which is undesireable :/
+    // change the labels to the link colour on hover
     barchart.labels.hover(
         function() {
             this.attr({fill: "#0A6E92"});
@@ -194,7 +205,6 @@ function barchart(div, data, limit) {
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
     s = b.set();
-    var num_datasets = barchart.bars.length;
     for (var i=0; i< original_len; i++) {
       x = barchart.bars[num_datasets-1][i].x;
       y = barchart.bars[num_datasets-1][i].y;
