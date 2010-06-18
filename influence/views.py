@@ -130,13 +130,20 @@ def organization_entity(request, entity_id):
     print sparkline_data
 
     # get lobbying info
-    lobbying_for_org = api.org_registrants(entity_id, cycle)
-    lobbyists_on_behalf_of_org = api.org_lobbyists(entity_id, cycle)
-    issues_lobbied_for =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
+    try:
+        is_lobbying_firm = entity_info['metadata']['lobbying_firm']
+    except:
+        is_lobbying_firm = False
+    
+    if is_lobbying_firm:
+        lobbying_clients = api.org_registrant_clients(entity_id, cycle)
+        lobbying_lobbyists = api.org_registrant_lobbyists(entity_id, cycle)
+        lobbying_issues =  [item['issue'] for item in api.org_registrant_issues(entity_id, cycle)]
+    else:
+        lobbying_clients = api.org_registrants(entity_id, cycle)
+        lobbying_lobbyists = api.org_lobbyists(entity_id, cycle)
+        lobbying_issues =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
 
-    lobbying_by_org = api.org_registrant_clients(entity_id, cycle)
-    lobbyists_as_employees_of_org = api.org_registrant_lobbyists(entity_id, cycle)
-    issues_lobbied_by =  [item['issue'] for item in api.org_registrant_issues(entity_id, cycle)]
 
     return render_to_response('organization.html', 
                               {'entity_id': entity_id, 
@@ -144,15 +151,13 @@ def organization_entity(request, entity_id):
                                'level_breakdown' : level_breakdown,
                                'party_breakdown' : party_breakdown,
                                'recipients_barchart_data': recipients_barchart_data,
-                               'lobbying_for_org': lobbying_for_org,
-                               'lobbyists_on_behalf_of_org': lobbyists_on_behalf_of_org,
-                               'issues_lobbied_for': issues_lobbied_for,
-                               'lobbying_by_org': lobbying_by_org,
-                               'lobbyists_as_employees_of_org': lobbyists_as_employees_of_org,
-                               'issues_lobbied_by': issues_lobbied_by,
                                'sparkline_data': sparkline_data,
                                'external_links': external_links,
                                'cycle': cycle,
+                               'is_lobbying_firm': is_lobbying_firm,
+                               'lobbying_clients': lobbying_clients,
+                               'lobbying_issues': lobbying_issues,
+                               'lobbying_lobbyists': lobbying_lobbyists,
                                },
                               entity_context(request, cycle, available_cycles))
 
@@ -260,8 +265,7 @@ def get_metadata(entity_id, cycle, entity_type):
     ''' beginnings of some refactoring. half implemented but
     harmless. do not pet or feed.'''
     data = {}
-    data_availability = {'individual': {'contributions': ('contributor_amount',), 
-                                      'lobbying': ('registrant_amount', 'client_amount') },
+    data_availability = {'individual': {'contributions': ('contributor_amount',)},
                        'politician' : {},
                        'organization' : {}
                        }
@@ -277,7 +281,6 @@ def get_metadata(entity_id, cycle, entity_type):
             data[data_type] = False
 
     print data['contributions']
-    print data['lobbying']
 
     data['available_cycles'] = entity_info['totals'].keys()    
     if entity_info['totals'].get(cycle, None):
