@@ -59,6 +59,14 @@ function piechart(div, data, type) {
         colors: colors,
         strokewidth: 0,
     });
+    
+    for (var i=0; i < pie.labels.length; i++) {
+	/* each label has two elements-- a circle for the slice colour
+	 * (the 0th element), and some text (the 1st element). we only
+	 * want to set the colour of the latter-- hence setting the
+	 * 1st element of each label. */
+	pie.labels[i][1].attr('fill', '#666666');
+    }
 
     var lbl = undefined;
 
@@ -69,7 +77,7 @@ function piechart(div, data, type) {
         if (this.label) {
             this.label[0].stop();
             this.label[0].scale(1.5);
-            this.label[1].attr({"font-weight": 800});
+            this.label[1].attr({"font-weight": 800, 'fill': '#666666'});
             lbl = r.text(70, 70, dollar(this.value.value));
             lbl.attr({"font-weight": 800, "font-size": "12px"});
             lbl.show();
@@ -144,7 +152,7 @@ function barchart(div, data, limit) {
         "type": "soft",
         "gutter": 30, //space between bars, as fn of bar width/height
         "stacked": false,
-	"colors" : ["#EFCC01", "#FF6600"]
+	"colors" : ["#EFCC01", "#f27e01"]
     };
 
       // check if this is a stacked barchart
@@ -187,7 +195,7 @@ function barchart(div, data, limit) {
       var key = barchart.labels[i].attr('text');
       //console.log(key);
       //console.log(data_hrefs[key]);
-      barchart.labels[i].attr({'href': data_hrefs[key] });
+      barchart.labels[i].attr({'href': data_hrefs[key], 'fill': "#666666" });
     }
 
     // change the labels to the link colour on hover
@@ -196,7 +204,7 @@ function barchart(div, data, limit) {
             this.attr({fill: "#0A6E92"});
         },
         function() {
-            this.attr({fill: "#000000"});
+            this.attr({fill: "#666666"});
         }
     );
     barchart.labels.translate(-165);
@@ -215,6 +223,7 @@ function barchart(div, data, limit) {
       text = "$"+text;
 
       marker = b.g.text(x,y,text);
+      marker.attr("fill", "#666666");
       s.push(marker);
     };
 
