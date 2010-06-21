@@ -16,6 +16,12 @@
 {% endblock %}
 </div>
 
+<!-- if there's a description for the entity, override this -->
+<p id="description" class="module clear">
+  {% block description %}
+  {% endblock %}
+</p>
+
 <div class="module" id="timeSpan">
   <div id="currentDates">
     <span class="currentDateTitle">Current View:</span>
@@ -36,12 +42,6 @@
   </div>
   <div class="clear"></div>
 </div>
-
-<!-- if there's a description for the entity, override this -->
-<p id="description" class="module clear">
-  {% block description %}
-  {% endblock %}
-</p>
 
 {% block contributions %}
 {% endblock %}
