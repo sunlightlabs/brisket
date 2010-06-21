@@ -73,27 +73,28 @@ div#mainContent_top { background: url(../images/whitebox_top.png) top left no-re
 div#mainContent { background: url(../images/whitebox_middle.png) top left repeat-y; padding-top: 25px; padding-bottom: 55px;}
 div#mainContent_bottom { background: url(../images/whitebox_bottom.png) top left no-repeat; height: 10px;}
 
-div#timeSpan { font-size: 130%; margin-bottom: 25px;}
-div#currentDates { float: left; width: 200px; font-style: oblique; color: #989393;}
+div#timeSpan { font-size: 120%; background: url(../images/filter_bg.png) top left no-repeat; height: 47px; padding-top: 20px;}
+div#currentDates { float: left; width: 350px; font-style: oblique; color: ##797070;}
+div#currentDates .currentDateTitle { font-style: normal; font-weight: bold; color: #0A6E92; margin-right: 5px;}
 #changeDates { float: right; }
 div#timeSpan select { font-size: 80%;}
-div#timeSpan label {color: #0a6e92; margin-right: 10px; } 
+div#timeSpan label {color: #0a6e92; margin-right: 10px; font-weight: bold;} 
 
 select { color: #58595b;}
 
-p#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; }
+p#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
 
 div.external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
 a.external { padding-left: 5px; }
 
-.overviewBar { background: url(../images/overviewBar.png) top left no-repeat; padding: 0 20px; height: 70px; margin: 30px 0 40px;}
+.overviewBar { background: url(../images/overviewBar_2.png) top left no-repeat; padding: 0 20px; height: 70px; margin: 30px 0 40px;}
 .overviewBar span { float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px; margin-top: 1px; }
 div#sparklines { float: left;}
 .overviewBar a { float: right;}
-.insideBar { padding: 24px 0; }
+.insideBar { padding: 18px 0 13px; }
 
 .overviewBar.active .toggle { background: url(../images/toggle.png) bottom left no-repeat;}
-.overviewBar .toggle { float: left; font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 30px;}
+.overviewBar .toggle { float: left; font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 22px;}
 
 div#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px; text-align: center; margin: 2px 10px 60px; }
 div#footerLinks a { text-transform: uppercase; text-decoration: none; font-size: 120%; }
@@ -127,6 +128,13 @@ th.right { padding-right: 10px;}
 .center, td.lawmakerName a { text-align: center;}
 .right { text-align: right;}
 td.lawmakerName a { float: none; margin-right: 0;}
+
+table#mainPageTables { width: 650px; margin-top: 30px;}
+table#mainPageTables img { border: 2px solid #e0e0df; width: 40px; }
+td.photo { width: 50px;}
+tr#titles th.photo { text-indent: -9999em;}
+table#mainPageTables th { padding: 0 10px 10px 15px;}
+.sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
 
 body.search #contentHeader { margin-bottom: 40px;}
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
