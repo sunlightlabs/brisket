@@ -89,7 +89,7 @@ a.external { padding-left: 5px; }
 
 .overviewBar { background: url(../images/overviewBar_2.png) top left no-repeat; padding: 0 20px; height: 70px; margin: 30px 0 40px;}
 .overviewBar span { float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px; margin-top: 1px; }
-div#sparklines { float: left;}
+div#sparklines { float: left; padding-top: 5px; }
 .overviewBar a { float: right;}
 .insideBar { padding: 18px 0 13px; }
 

@@ -1,33 +1,25 @@
 {% extends "search_base.html" %}
 
-{% block body_class %}politician{% endblock %}
+{% block body_class %}organization{% endblock %}
 
 {% block main %}
     <div id="contentHeader">
-        <h2>Politicians</h2>
+        <h2>Organizations</h2>
     </div>
     <div id="ltColumn">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu sagittis libero. Duis vel magna sem. Suspendisse cursus sapien vel mi lobortis eget mattis sapien condimentum. Proin eu lectus eget sem fringilla venenatis. Aliquam erat volutpat.</p>
         <table id="mainPageTables">
             <thead>
                   <tr id="titles">
-                      <th class="photo">Photo</th>
                       <th class="sort">Name</th>
-                      <th class="sort">Position</th>
-                      <th class="sort">Party</th>
-                      <th class="sort">State</th>
-                      <th class="sort">Total Received</th>
+                      <th class="sort">Total Given</th>
                   </tr>
               </thead>
               <tbody>
                   <tr class="{% cycle 'even' 'odd' %}">
-                      <td class="photo"><img src="http://assets.sunlightfoundation.com/moc/100x125/P000197.jpg" alt="political photo"></td>
-                      <td class="lawmakerName">
-                          <a href="#">Nancy Pelosi</a>
+                      <td>
+                          <a href="#">Organization</a>
                       </td>
-                      <td>Speaker of the House</td>
-                      <td>D</td>
-                      <td>CA</td>
                       <td>11,302,785</td>
                   </tr>
               </tbody>
