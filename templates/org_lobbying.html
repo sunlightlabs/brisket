@@ -7,9 +7,13 @@
   <h3 class="insideBar">Lobbying</h3>
   <span class="insideBar">
     {% if is_lobbying_firm %} 
-    ${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
+	    {% if entity_info.totals.firm_income %}
+	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
+	    {% endif %}
     {% else %}
-    ${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
+    	{% if entity_info.totals.non_firm_spending %}
+    		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
+    	{% endif %}
     {% endif %}    
   </span>
   <div id="sparklines">                
