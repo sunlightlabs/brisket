@@ -185,8 +185,8 @@ function barchart(div, data, limit) {
     for (var i = 0; i < barchart.bars[0].length; i+=num_datasets) {
 //        barchart.labels[i].attr({'href': data_hrefs[i] });
       var key = barchart.labels[i].attr('text');
-      console.log(key);
-      console.log(data_hrefs[key]);
+      //console.log(key);
+      //console.log(data_hrefs[key]);
       barchart.labels[i].attr({'href': data_hrefs[key] });
     }
 
