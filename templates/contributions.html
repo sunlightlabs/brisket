@@ -19,8 +19,7 @@
     {% endif %}
   </span>
   <div id="sparklines">                
-    {% block contrib_sparkline %}
-    {% endblock %}
+    <!-- raphael sparkline -->
   </div>  
 </div>
 
@@ -28,13 +27,18 @@
 
   {% block charts %}   
   
-  {% if entity_info.type == "individual" %}
-  {% include "indiv_charts.html" %}
-  {% else %}{% if entity_info.type == "politician" %}
-  {% include "pol_charts.html" %}
-  {% else %}{% if entity_info.type == "organization" %}
-  {% include "org_charts.html" %} 
-  {% endif %}{% endif %}{% endif %}
+  {% if not suppress_contrib_graphs %}
+    {% if entity_info.type == "individual" %}
+    {% include "indiv_charts.html" %}
+    {% else %}{% if entity_info.type == "politician" %}
+    {% include "pol_charts.html" %}
+    {% else %}{% if entity_info.type == "organization" %}
+    {% include "org_charts.html" %} 
+    {% endif %}{% endif %}{% endif %}
+  {% else %}
+  <p>Due to refunds and other accounting issues, aggregate totals
+  for this timeframe were negative.</p>  
+  {% endif %}
 
   {% endblock %} <!-- end chart block -->
 

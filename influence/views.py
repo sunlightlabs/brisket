@@ -116,6 +116,19 @@ def organization_entity(request, entity_id):
     if metadata['contributions']:        
         context['contributions_data'] = True
         org_recipients = api.org_recipients(entity_id, cycle=cycle)
+
+        # check to see if some or all contributions are negative. if
+        # they all are, don't display the charts. if only some are,
+        # then remove them from the barchart.
+        if float(entity_info['totals']['contributor_amount']) < 0:
+            positive_recipients = [r for r in org_recipients if float(r['total_amount']) > 0.0]
+            if len(positive_recipients) == 0:
+                context['suppress_contrib_graphs'] = True
+                print 'suppressing contribution charts because all data is negative'
+            else:
+                print 'removing some negative contributions from top contributors charts'
+                org_recipients = positive_recipients
+
         recipients_barchart_data = []
         for record in org_recipients:        
             recipients_barchart_data.append({
@@ -181,6 +194,19 @@ def politician_entity(request, entity_id):
         context['contributions_data'] = True
 
         top_contributors = api.pol_contributors(entity_id, cycle)
+        print top_contributors
+        # check to see if some or all contributions are negative. if
+        # they all are, don't display the charts. if only some are,
+        # then remove them from the barchart.
+        if float(entity_info['totals']['recipient_amount']) < 0:
+            positive_contribs = [c for c in top_contributors if float(c['total_amount']) > 0.0]
+            if len(positive_contribs) == 0:
+                context['suppress_contrib_graphs'] = True
+                print 'suppressing contribution charts because all data is negative'
+            else:
+                print 'removing some negative contributions from top contributors charts'
+                top_contributors = positive_contribs
+
         contributors_barchart_data = []
         for record in top_contributors:
             contributors_barchart_data.append({ 
@@ -194,6 +220,7 @@ def politician_entity(request, entity_id):
 
         # top sectors is already sorted
         top_sectors = api.pol_sectors(entity_id, cycle=cycle)
+        print top_sectors
         sectors_barchart_data = []
         for record in top_sectors:        
             try:
@@ -293,10 +320,6 @@ def get_metadata(entity_id, cycle, entity_type):
         entity_info['totals'] = entity_info['totals'][cycle]
     data['entity_info'] = entity_info
 
-
-
-
-
     return data
     
 
@@ -317,6 +340,22 @@ def individual_entity(request, entity_id):
     if metadata['contributions']:
         context['contributions_data'] = True
         recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
+        recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
+
+        # check to see if some or all contributions are negative. if
+        # they all are, don't display the charts. if only some are,
+        # then remove them from the barchart.
+        if float(entity_info['totals']['contributor_amount']) < 0:
+            positive_cands = [r for r in recipient_candidates if float(r['amount']) > 0.0]
+            positive_orgs = [r for r in recipient_orgs if float(r['amount']) > 0.0]
+            if len(positive_cands) == 0 or len(positive_orgs) == 0:
+                context['suppress_contrib_graphs'] = True
+                print 'suppressing contribution charts because all data is negative'
+            else:
+                print 'removing some negative contributions from charts'
+                recipient_candidates = positive_cands
+                recipient_orgs = positive_orgs
+
         candidates_barchart_data = []
         for record in recipient_candidates:        
             candidates_barchart_data.append({
@@ -326,7 +365,7 @@ def individual_entity(request, entity_id):
                     })
         context['candidates_barchart_data'] = candidates_barchart_data
         
-        recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
+ 
         orgs_barchart_data = []
         for record in recipient_orgs:        
             orgs_barchart_data.append({
@@ -335,6 +374,9 @@ def individual_entity(request, entity_id):
                     'href' : _barchart_href(record, cycle, entity_type="organization"),
                     })
         context['orgs_barchart_data'] = orgs_barchart_data
+        print 'top orgs data'
+        print recipient_orgs
+        print orgs_barchart_data
 
         party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
         for key, values in party_breakdown.iteritems():
