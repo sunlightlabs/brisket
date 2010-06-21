@@ -35,9 +35,8 @@ def search(request):
     submitted_form = SearchForm(request.GET)
     if submitted_form.is_valid():        
         kwargs = {}
-        query = urllib.unquote(submitted_form.cleaned_data['query'])
+        query = urllib.unquote(submitted_form.cleaned_data['query']).strip()
         cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-
         # if a user submitted the search value from the form, then
         # treat the hyphens as intentional. if it was from a url, then
         # the name has probably been slug-ized and we need to remove
@@ -103,137 +102,140 @@ def _amt_received_decreasing(d1, d2):
 
 def organization_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-    entity_info = api.entity_metadata(entity_id, cycle)
-    available_cycles = entity_info['totals'].keys()    
-    # discard the info from cycles that are not the current one
-    entity_info['totals'] = entity_info['totals'][cycle]
-    external_links = external_sites.get_links(entity_info)
+    context = {}
+    context['entity_id'] = entity_id
+    context['cycle'] = cycle    
 
-    org_recipients = api.org_recipients(entity_id, cycle=cycle)
-    recipients_barchart_data = []
-    for record in org_recipients:        
-        recipients_barchart_data.append({
-                'key': _generate_label(record['name']),
-                'value' : record['total_amount'],
-                'href' : str("/politician/%s/%s?cycle=%s" % (slugify(record['name']), record['id'], cycle)),
-                })
+    metadata = get_metadata(entity_id, cycle, "organization")
+    context['available_cycles'] = metadata['available_cycles']
+    entity_info = metadata['entity_info']
+    context['external_links'] = external_sites.get_links(entity_info)
+    context['entity_info'] = entity_info
 
-    party_breakdown = api.org_party_breakdown(entity_id, cycle)
-    for key, values in party_breakdown.iteritems():
-        party_breakdown[key] = float(values[1])
-    level_breakdown = api.org_level_breakdown(entity_id, cycle)
-    for key, values in level_breakdown.iteritems():
-        level_breakdown[key] = float(values[1])
+    # get contributions data if it exists for this entity
+    if metadata['contributions']:        
+        context['contributions_data'] = True
+        org_recipients = api.org_recipients(entity_id, cycle=cycle)
+        recipients_barchart_data = []
+        for record in org_recipients:        
+            recipients_barchart_data.append({
+                    'key': _generate_label(record['name']),
+                    'value' : record['total_amount'],
+                    'href' : _barchart_href(record, cycle, entity_type='politician')
+                    })
+        context['recipients_barchart_data'] = recipients_barchart_data
 
-    # sparkline data
-    sparkline_data = api.org_sparkline(entity_id, cycle)
-    print sparkline_data
+        party_breakdown = api.org_party_breakdown(entity_id, cycle)
+        for key, values in party_breakdown.iteritems():
+            party_breakdown[key] = float(values[1])
+        context['party_breakdown'] = party_breakdown
 
-    # get lobbying info
-    try:
-        is_lobbying_firm = entity_info['metadata']['lobbying_firm']
-    except:
-        is_lobbying_firm = False
-    
-    if is_lobbying_firm:
-        lobbying_clients = api.org_registrant_clients(entity_id, cycle)
-        lobbying_lobbyists = api.org_registrant_lobbyists(entity_id, cycle)
-        lobbying_issues =  [item['issue'] for item in api.org_registrant_issues(entity_id, cycle)]
-    else:
-        lobbying_clients = api.org_registrants(entity_id, cycle)
-        lobbying_lobbyists = api.org_lobbyists(entity_id, cycle)
-        lobbying_issues =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
+        level_breakdown = api.org_level_breakdown(entity_id, cycle)
+        for key, values in level_breakdown.iteritems():
+            level_breakdown[key] = float(values[1])
+        context['level_breakdown'] = level_breakdown
 
+        context['sparkline_data'] = api.org_sparkline(entity_id, cycle)
 
-    return render_to_response('organization.html', 
-                              {'entity_id': entity_id, 
-                               'entity_info': entity_info,
-                               'level_breakdown' : level_breakdown,
-                               'party_breakdown' : party_breakdown,
-                               'recipients_barchart_data': recipients_barchart_data,
-                               'sparkline_data': sparkline_data,
-                               'external_links': external_links,
-                               'cycle': cycle,
-                               'is_lobbying_firm': is_lobbying_firm,
-                               'lobbying_clients': lobbying_clients,
-                               'lobbying_issues': lobbying_issues,
-                               'lobbying_lobbyists': lobbying_lobbyists,
-                               },
-                              entity_context(request, cycle, available_cycles))
+    # get lobbying info if it exists for this entity
+    if metadata['lobbying']:
+        context['lobbying_data'] = True
+        is_lobbying_firm = bool(entity_info['metadata'].get('lobbying_firm', False))
+        context['is_lobbying_firm'] = is_lobbying_firm
+
+        if is_lobbying_firm:
+            context['lobbying_clients'] = api.org_registrant_clients(entity_id, cycle)
+            context['lobbying_lobbyists'] = api.org_registrant_lobbyists(entity_id, cycle)
+            context['lobbying_issues'] =  [item['issue'] for item in 
+                                           api.org_registrant_issues(entity_id, cycle)]
+        else:
+            context['lobbying_clients'] = api.org_registrants(entity_id, cycle)
+            context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
+            context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
+
+    return render_to_response('organization.html', context,
+                              entity_context(request, cycle, metadata['available_cycles'])) 
+
 
 def politician_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
+    context = {}
+    context['entity_id'] = entity_id
+    context['cycle'] = cycle    
 
-    # metadata
-    entity_info = api.entity_metadata(entity_id, cycle)
-    available_cycles = entity_info['totals'].keys()
-    # discard the info from cycles that are not the current one
-    entity_info['totals'] = entity_info['totals'][cycle]
-    external_links = external_sites.get_links(entity_info)
+    metadata = get_metadata(entity_id, cycle, "organization")
+    context['available_cycles'] = metadata['available_cycles']
+    entity_info = metadata['entity_info']
+    context['external_links'] = external_sites.get_links(entity_info)
+    context['entity_info'] = entity_info
+    context['external_links'] = external_sites.get_links(entity_info)
 
     # check if the politician has a federal ID. we currently only have
     # politician metadata for federal politicians.    
     for eid in entity_info['external_ids']:
         if eid['namespace'].find('urn:crp') >= 0:
-            metadata = api.politician_meta(entity_info['name'])
+            context['metadata'] = api.politician_meta(entity_info['name'])
             break
-        else:
-            metadata = None
+            
+    if metadata['contributions']:
+        context['contributions_data'] = True
 
-    top_contributors = api.pol_contributors(entity_id, cycle)
-    contributors_barchart_data = []
-    for record in top_contributors:
-        contributors_barchart_data.append({ 
-                'key': _generate_label(record['name']),
-                'value' : record['total_amount'],
-                'value_employee' : record['employee_amount'],
-                'value_pac' : record['direct_amount'],
-                'href' : _barchart_href(record, cycle, 'organization')
-                })
+        top_contributors = api.pol_contributors(entity_id, cycle)
+        contributors_barchart_data = []
+        for record in top_contributors:
+            contributors_barchart_data.append({ 
+                    'key': _generate_label(record['name']),
+                    'value' : record['total_amount'],
+                    'value_employee' : record['employee_amount'],
+                    'value_pac' : record['direct_amount'],
+                    'href' : _barchart_href(record, cycle, 'organization')
+                    })
+        context['contributors_barchart_data'] = contributors_barchart_data
 
-    # top sectors is already sorted
-    top_sectors = api.pol_sectors(entity_id, cycle=cycle)
-    sectors_barchart_data = []
-    for record in top_sectors:        
-        try:
-            sector_name = catcodes.sector[record['sector']]
-        except:
-            sector_name = 'Unknown (%s)' % record['sector']
-        sectors_barchart_data.append({                
-                'key': _generate_label(sector_name),
-                'value' : record['amount'],
-                'href' : str("/sector/%s/%s?cycle=%s" % (slugify(sector_name), 
-                                                         record['sector'], cycle)),
-                })
+        # top sectors is already sorted
+        top_sectors = api.pol_sectors(entity_id, cycle=cycle)
+        sectors_barchart_data = []
+        for record in top_sectors:        
+            try:
+                sector_name = catcodes.sector[record['sector']]
+            except:
+                sector_name = 'Unknown (%s)' % record['sector']
+            sectors_barchart_data.append({                
+                    'key': _generate_label(sector_name),
+                    'value' : record['amount'],
+                    'href' : "#" # will eventually link to industry pages. 
+                    })
+        context['sectors_barchart_data'] = sectors_barchart_data
 
-    local_breakdown = api.pol_local_breakdown(entity_id, cycle)
-    for key, values in local_breakdown.iteritems():
-        # values is a list of [count, amount]
-        local_breakdown[key] = float(values[1])
+        local_breakdown = api.pol_local_breakdown(entity_id, cycle)
+        for key, values in local_breakdown.iteritems():
+            # values is a list of [count, amount]
+            local_breakdown[key] = float(values[1])
+        context['local_breakdown'] = local_breakdown
 
-    entity_breakdown = api.pol_contributor_type_breakdown(entity_id, cycle)
-    for key, values in entity_breakdown.iteritems():
-        # values is a list of [count, amount]
-        entity_breakdown[key] = float(values[1])    
+        entity_breakdown = api.pol_contributor_type_breakdown(entity_id, cycle)
+        for key, values in entity_breakdown.iteritems():
+            # values is a list of [count, amount]
+            entity_breakdown[key] = float(values[1])    
+        context['entity_breakdown'] = entity_breakdown
 
-    # sparkline data
-    sparkline_data = api.pol_sparkline(entity_id, cycle)
-    print sparkline_data
+        context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
 
-    return render_to_response('politician.html', 
-                              {'entity_id': entity_id,
-                               'entity_info': entity_info,
-                               'top_contributors': top_contributors,
-                               'local_breakdown' : local_breakdown,
-                               'entity_breakdown' : entity_breakdown,
-                               'metadata': metadata,
-                               'sectors_barchart_data': sectors_barchart_data,
-                               'contributors_barchart_data': contributors_barchart_data,
-                               'sparkline_data': sparkline_data,
-                               'external_links': external_links,
-                               'cycle': cycle,
-                               },
-                              entity_context(request, cycle, available_cycles))
+    return render_to_response('politician.html', context,
+                              entity_context(request, cycle, metadata['available_cycles']))
+#                              {'entity_id': entity_id,
+#                               'entity_info': entity_info,
+#                               'top_contributors': top_contributors,
+#                               'local_breakdown' : local_breakdown,
+#                               'entity_breakdown' : entity_breakdown,
+#                               'metadata': metadata,
+#                               'sectors_barchart_data': sectors_barchart_data,
+#                               'contributors_barchart_data': contributors_barchart_data,
+#                               'sparkline_data': sparkline_data,
+#                               'external_links': external_links,
+#                               'cycle': cycle,
+#                               },
+
 
 def _barchart_href(record, cycle, entity_type):
     if 'recipient_entity' in record.keys(): 
@@ -265,90 +267,106 @@ def get_metadata(entity_id, cycle, entity_type):
     ''' beginnings of some refactoring. half implemented but
     harmless. do not pet or feed.'''
     data = {}
-    data_availability = {'individual': {'contributions': ('contributor_amount',)},
-                       'politician' : {},
-                       'organization' : {}
-                       }
+    # check the metadata to see which of the fields are present. this
+    # determines which sections to display on the entity page.
+    section_indicators = {'individual': {'contributions': ('contributor_amount',), 
+                                         'lobbying': ('lobbying_count',)},
+                          'organization' : {'contributions' : ('contributor_amount',),
+                                            'lobbying': ('lobbying_count',)},
+                          'politician' : {'contributions' : ('recipient_amount',)}
+                          }
 
     entity_info = api.entity_metadata(entity_id, cycle)    
 
     # check which types of data are available about this entity
-    for data_type, indicators in data_availability[entity_type].iteritems():
+    for data_type, indicators in section_indicators[entity_type].iteritems():
         if (entity_info['totals'].get(cycle, False) and 
             [True for ind in indicators if entity_info['totals'][cycle][ind]]):
             data[data_type] = True
         else:
             data[data_type] = False
 
-    print data['contributions']
 
     data['available_cycles'] = entity_info['totals'].keys()    
+    # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
         entity_info['totals'] = entity_info['totals'][cycle]
     data['entity_info'] = entity_info
+
+
+
+
 
     return data
     
 
 def individual_entity(request, entity_id):    
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-    cv = {}
+    context = {}
+    context['entity_id'] = entity_id
+    context['cycle'] = cycle
+
     # get entity metadata
     metadata = get_metadata(entity_id, cycle, "individual")
     available_cycles = metadata['available_cycles']
     entity_info = metadata['entity_info']
+    context['external_links'] = external_sites.get_links(entity_info)
+    context['entity_info'] = entity_info
 
-    external_links = external_sites.get_links(entity_info)
-    print 'external links'
-    print external_links
+    # get contributions information if it is available for this entity
+    if metadata['contributions']:
+        context['contributions_data'] = True
+        recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
+        candidates_barchart_data = []
+        for record in recipient_candidates:        
+            candidates_barchart_data.append({
+                    'key': _generate_label(record['recipient_name']),
+                    'value' : record['amount'],
+                    'href' : _barchart_href(record, cycle, entity_type="politician"),
+                    })
+        context['candidates_barchart_data'] = candidates_barchart_data
+        
+        recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
+        orgs_barchart_data = []
+        for record in recipient_orgs:        
+            orgs_barchart_data.append({
+                    'key': _generate_label(record['recipient_name']),
+                    'value' : record['amount'],
+                    'href' : _barchart_href(record, cycle, entity_type="organization"),
+                    })
+        context['orgs_barchart_data'] = orgs_barchart_data
 
-    recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
-    candidates_barchart_data = []
-    for record in recipient_candidates:        
-        candidates_barchart_data.append({
-                'key': _generate_label(record['recipient_name']),
-                'value' : record['amount'],
-                'href' : _barchart_href(record, cycle, entity_type="politician"),
-                })
+        party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
+        for key, values in party_breakdown.iteritems():
+            party_breakdown[key] = float(values[1])
+        context['party_breakdown'] = party_breakdown
 
-    recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
-    orgs_barchart_data = []
-    for record in recipient_orgs:        
-        orgs_barchart_data.append({
-                'key': _generate_label(record['recipient_name']),
-                'value' : record['amount'],
-                'href' : _barchart_href(record, cycle, entity_type="organization"),
-                })
+        context['sparkline_data'] = api.indiv_sparkline(entity_id, cycle)
+        
 
-    party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
-    print 'party breakdown'
-    print party_breakdown
-    for key, values in party_breakdown.iteritems():
-        party_breakdown[key] = float(values[1])
+    # get lobbying info if it's available for this entity
+    if metadata['lobbying']:
+        context['lobbying_data'] = True
+        context['lobbying_with_firm'] = api.indiv_registrants(entity_id, cycle)
+        context['issues_lobbied_for'] =  [item['issue'] for item in api.indiv_issues(entity_id, cycle)]
+        context['lobbying_for_clients'] = api.indiv_clients(entity_id, cycle)    
 
-    # sparkline data
-    sparkline_data = api.indiv_sparkline(entity_id, cycle)
-    print sparkline_data
-
-    # get lobbying info
-    lobbying_with_firm = api.indiv_registrants(entity_id, cycle)
-    issues_lobbied_for =  [item['issue'] for item in api.indiv_issues(entity_id, cycle)]
-    lobbying_for_clients = api.indiv_clients(entity_id, cycle)    
-
-    return render_to_response('individual.html', 
-                              {'entity_id': entity_id,
-                               'entity_info': entity_info,
-                               'candidates_barchart_data': candidates_barchart_data,
-                               'orgs_barchart_data': orgs_barchart_data,
-                               'party_breakdown' : party_breakdown, 
-                               'lobbying_with_firm': lobbying_with_firm,
-                               'issues_lobbied_for': issues_lobbied_for,
-                               'lobbying_for_clients': lobbying_for_clients,
-                               'sparkline_data': sparkline_data,
-                               'external_links': external_links,
-                               'cycle': cycle,
-                               },
+    return render_to_response('individual.html', context,
                               entity_context(request, cycle, available_cycles))
+
+#                              {'entity_id': entity_id,
+#                               'entity_info': entity_info,
+#                               'candidates_barchart_data': candidates_barchart_data,
+#                               'orgs_barchart_data': orgs_barchart_data,
+#                               'party_breakdown' : party_breakdown, 
+#                               'lobbying_with_firm': lobbying_with_firm,
+#                               'issues_lobbied_for': issues_lobbied_for,
+#                               'lobbying_for_clients': lobbying_for_clients,
+#                               'sparkline_data': sparkline_data,
+#                               'external_links': external_links,
+#                               'cycle': cycle,
+#                               },
+
 
 def industry_detail(request, entity_id):
     cycle = request.GET.get("cycle", DEFAULT_CYCLE)    

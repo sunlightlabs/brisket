@@ -1,0 +1,48 @@
+<!-- this file is included for individuals that have contributions
+     data to display -->
+
+{% load humanize %}
+
+<div class="overviewBar">
+  <a class="toggle">Toggle</a>
+  <h3 class="insideBar">Contributions</h3>
+  <span class="insideBar">
+    {% if entity_info.type == "individual" or entity_info.type == "organization" %}
+    ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
+    {% else %}
+    ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+    {% endif %}
+  </span>
+  <div id="sparklines">                
+    {% block contrib_sparkline %}
+    {% endblock %}
+  </div>  
+</div>
+
+<div class="chartModule">
+
+  {% block charts %}   
+  
+  {% if entity_info.type == "individual" %}
+  {% include "indiv_charts.html" %}
+  {% else %}{% if entity_info.type == "politician" %}
+  {% include "pol_charts.html" %}
+  {% else %}{% if entity_info.type == "organization" %}
+  {% include "org_charts.html" %} 
+  {% endif %}{% endif %}{% endif %}
+
+  {% endblock %} <!-- end chart block -->
+
+  <div class="clear"></div>
+  
+  <div class="external">
+    {% if external_links %}
+    For more information on contributions:
+    {% for link in external_links %}
+    <a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
+    {% endfor %}
+    {% endif %}
+  </div>
+  
+  <div class="clear"></div>
+</div><!-- end chartModule -->

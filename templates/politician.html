@@ -52,53 +52,14 @@ $(document).ready(function() {
 {% endblock %}
 {% endif %}
 
-{% block contrib_overview_amount %}
-${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+{% block contributions %}
+{% if contributions_data %}
+{% include "contributions.html" %}
+{% endif %}
 {% endblock %}
 
 
 {% block charts %}
-
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
-    <h4>Industry Sectors</h4>
-    <div class="graph" id="sectors_barchart">
-      <!-- raphael charts -->
-    </div>
-  </div>
-</div>
-
-<div class="oneColumn chartWrapper">
-  <div class="chart">
-    <h4 class="withTip">In State vs. Out of State</h4>
-    <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_local">
-      <!-- raphael charts -->
-    </div>
-  </div>
-</div>
-
-<div class="oneColumn chartWrapper">
-  <div class="chart">
-    <h4 class="withTip">Individuals vs. PACs</h4>
-    <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_entity">
-      <!-- raphael charts -->
-    </div>
-  </div>
-</div>
-
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
-    <h4 class="withTip">Top Contributors</h4>
-    <span class="tip">Employees and PACs of an organization</span>
-    <div class="graph" id="contributors_barchart">
-      <!-- raphael charts -->
-    </div>
-  </div>
-</div>
-
-<div class="clear"></div>
 
 {% endblock %} <!-- end charts block -->
 
