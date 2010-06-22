@@ -110,6 +110,10 @@ function barchart(div, data, limit) {
     /* expects data to be a list of dicts each with keys called key,
        value, and href. */
 
+    if (data.length == 0) {
+	return;
+    }
+
     b = Raphael(div);
     b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 

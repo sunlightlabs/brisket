@@ -1,10 +1,12 @@
 
 <div class="twoColumn chartWrapper"> 
   <div class="chart"> 
+    {% if candidates_barchart_data %}
     <h4>Top Candidates</h4>
     <div class="graph" id="recipients_barchart">
       <!-- raphael charts here -->
     </div>
+    {% endif %}
   </div>
 </div>
 
@@ -22,10 +24,12 @@
 
 <div class="twoColumn chartWrapper">
   <div class="chart">
+    {% if orgs_barchart_data %}
     <h4 class="withTip">Top Organizations</h4>
     <div class="graph" id="orgs_barchart">
       <!-- raphael charts here -->
     </div>
+    {% endif %}
   </div>
 </div>
 
