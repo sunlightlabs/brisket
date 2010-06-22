@@ -13,7 +13,7 @@ API_BASE_URL = settings.AGGREGATES_API_BASE_URL.strip('/')+'/'
 # defaults of None don't mean that there is not default or no limit--
 # it means that no parameter will be sent to the server, and the server
 # will use its own default.
-DEFAULT_CYCLE = "-1" # -1 will return career totals. 
+DEFAULT_CYCLE = "-1" # -1 will return career totals.
 DEFAULT_LIMIT = None
 
 
@@ -35,17 +35,17 @@ def remove_unicode(data):
     if isinstance(data,unicode):
         return str(data)
     else: return data
-    
-    
+
+
 def get_url_json(path, cycle=None, limit=None, **params):
     """ Low level call that just adds the API key, retrieves the URL and parses the JSON. """
-    
+
     if cycle:
         params.update({'cycle': cycle})
     if limit:
         params.update({'limit': limit})
     params.update({'apikey': settings.API_KEY})
-    
+
     fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
     results = json.loads(fp.read())
     return remove_unicode(results)
@@ -69,7 +69,7 @@ def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
 
 def entity_id_lookup(namespace, id):
     return get_url_json('entities/id_lookup.json', namespace=namespace, id=id)
- 
+
 
 def pol_contributors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/pol/%s/contributors.json' % entity_id, cycle, limit)
@@ -91,12 +91,12 @@ def org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 
 def pol_sectors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/pol/%s/contributors/sectors.json' % entity_id, cycle, limit)
-    
+
 
 def org_industries_for_sector(entity_id, sector_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/pol/%s/contributors/sector/%s/industries.json' % (entity_id, sector_id), cycle, limit)
-   
-    
+
+
 def org_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
     return get_url_json('aggregates/org/%s/recipients/party_breakdown.json' % entity_id, cycle)
 
@@ -115,7 +115,7 @@ def pol_contributor_type_breakdown(entity_id, cycle=DEFAULT_CYCLE):
 
 def indiv_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
     return get_url_json('aggregates/indiv/%s/recipients/party_breakdown.json' % entity_id, cycle)
-        
+
 # lobbying firms hired by this org
 def org_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     ''' check to see if the entity hired any lobbyists'''
@@ -125,7 +125,7 @@ def org_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 def org_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/issues.json' % entity_id, cycle, limit)
 
-# lobbyists who lobbied for this org (?)    
+# lobbyists who lobbied for this org (?)
 def org_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit)
 
@@ -140,7 +140,7 @@ def indiv_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 # who were the clients of the firms this indiv worked for
 def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit)
-    
+
 # issues this org was hired to lobby for
 def org_registrant_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/registrant/issues.json' % entity_id, cycle, limit)
@@ -148,10 +148,22 @@ def org_registrant_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 # clients of the org as a registrant
 def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit)
-    
+
 # lobbyists who work for this registrant (?)
 def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
+
+
+# top n lists
+def top_n_individuals(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_url_json('aggregates/indivs/top_%s.json' % limit, cycle)
+
+def top_n_organizations(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_url_json('aggregates/orgs/top_%s.json' % limit, cycle)
+
+def top_n_politicians(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+    return get_url_json('aggregates/pols/top_%s.json' % limit, cycle)
+
 
 def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     # temporary fix for null 'step's, which actually shouldn't appear
@@ -205,15 +217,15 @@ def get_bioguide_id(full_name):
     # gracefully handle slug-formatted strings
     name = full_name.replace('-',' ')
 
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+    arguments = urllib.urlencode({'apikey': settings.API_KEY,
                                   'name': name,
                                   'all_legislators': 1,
-                                  })    
+                                  })
     url = "http://services.sunlightlabs.com/api/legislators.search.json?"
     api_call = url + arguments
     print api_call
     fp = urllib2.urlopen(api_call)
-    js = json.loads(fp.read())    
+    js = json.loads(fp.read())
     try:
         #legislators.search method returns a set of results, sorted by
         #decreasing 'quality' of the result. take here the best
@@ -227,7 +239,7 @@ def get_bioguide_id(full_name):
 def politician_picture_url(full_name):
     ''' we aren't using this directly right now, but might in the
     future so will leave it in for now.'''
-    bioguide_id = get_bioguide_id(full_name)    
+    bioguide_id = get_bioguide_id(full_name)
     if not bioguide_id:
         print 'No bioguide_id found for legislator %s' % full_name
         return None
@@ -236,12 +248,12 @@ def politician_picture_url(full_name):
 
 def politician_meta(full_name):
     bioguide_id = get_bioguide_id(full_name)
-    
+
     if not bioguide_id:
         return None
 
     photo_url = "http://assets.sunlightfoundation.com/moc/100x125/%s.jpg" % bioguide_id
-    
+
     # scrape congress's bioguide site for years of service and official bio
     html = urllib2.urlopen("http://bioguide.congress.gov/scripts/biodisplay.pl?index=%s" % bioguide_id).read()
     soup = BeautifulSoup(html, convertEntities=BeautifulSoup.HTML_ENTITIES)
@@ -251,17 +263,17 @@ def politician_meta(full_name):
     biography = bio_a.strip()+' '+bio_b.strip()
 
     # other metadata - from sunlightlabs services
-    arguments = urllib.urlencode({'apikey': settings.API_KEY, 
+    arguments = urllib.urlencode({'apikey': settings.API_KEY,
                                   'bioguide_id': bioguide_id,
                                   'all_legislators': 1,
-                                  })    
+                                  })
     url = "http://services.sunlightlabs.com/api/legislators.get.json?"
     api_call = url + arguments
     print api_call
     fp = urllib2.urlopen(api_call)
-    js = json.loads(fp.read())    
+    js = json.loads(fp.read())
     meta = js['response']['legislator']
-    
+
     # append additional info and return
     meta['photo_url'] = photo_url
     meta['yrs_of_service'] = yrs_of_service

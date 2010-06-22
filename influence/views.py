@@ -1,6 +1,6 @@
 # Create your views here.
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 import urllib, re
@@ -10,6 +10,7 @@ from influence import helpers
 from util import catcodes
 import api, external_sites
 from api import DEFAULT_CYCLE
+from settings import LATEST_CYCLE
 
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
@@ -99,6 +100,27 @@ def _amt_received_decreasing(d1, d2):
     if float(d1['total_received']) < float(d2['total_received']):
         return 1
     else: return 0
+
+def organization_landing(request):
+    context = {}
+    context['top_n_organizations'] = api.top_n_organizations(cycle=LATEST_CYCLE, limit=50)
+    context['num_orgs'] = len(context['top_n_organizations'])
+    context['cycle'] = LATEST_CYCLE
+    return render_to_response('org_landing.html', context, brisket_context(request))
+
+def people_landing(request):
+    context = {}
+    context['top_n_individuals'] = api.top_n_individuals(cycle=LATEST_CYCLE, limit=50)
+    context['num_indivs'] = len(context['top_n_individuals'])
+    context['cycle'] = LATEST_CYCLE
+    return render_to_response('indiv_landing.html', context, brisket_context(request))
+
+def politician_landing(request):
+    context = {}
+    context['top_n_politicians'] = api.top_n_politicians(cycle=LATEST_CYCLE, limit=50)
+    context['num_pols'] = len(context['top_n_politicians'])
+    context['cycle'] = LATEST_CYCLE
+    return render_to_response('pol_landing.html', context, brisket_context(request))
 
 def organization_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
