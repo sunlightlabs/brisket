@@ -8,7 +8,7 @@ $(document).ready(function() {
   sparkline("sparklines", {{ sparkline_data|safe }});
   piechart("piechart_level", {{ level_breakdown|safe }});
   piechart("piechart_party", {{ party_breakdown|safe }}, type="party" );  
-  barchart("recipients_barchart", {{ recipients_barchart_data|safe }});  
+  barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});  
 });
 </script>
 {% endblock %}

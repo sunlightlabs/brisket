@@ -10,7 +10,7 @@ $(document).ready(function() {
   piechart("piechart_local", {{ local_breakdown|safe }});
   piechart("piechart_entity", {{ entity_breakdown|safe }});
   barchart("sectors_barchart", {{ sectors_barchart_data|safe }});
-  barchart("contributors_barchart", {{ contributors_barchart_data|safe }});
+  barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
 });
 </script>
 
