@@ -1,5 +1,6 @@
 {% extends "entity_base.html" %}
 {% load humanize %}
+{% load influence_extras %}
 {% block body_class %}politician{% endblock %}
 
 {% block extrajs %}
@@ -21,7 +22,7 @@ $(document).ready(function() {
 <img alt="political photo" src="{{ metadata.photo_url }}"/>
 {% endif %}
 
-<h2>{{ entity_info.name }}</h2>
+<h2>{{ entity_info.name|standardize_politician_name }}</h2>
 <dl>
   <dt class="noshow">Party</dt>
 
