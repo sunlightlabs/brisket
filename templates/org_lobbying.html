@@ -37,7 +37,7 @@
     <div class="lobbyingColumn oneColumn">
       {% if lobbying_lobbyists %}
       <div class="lobbyistsOrgs chartWrapper">
-        <span class="secondaryTitle">Lobbyists Employed by this Organization:</span>
+        <span class="secondaryTitle">Lobbyists Employed:</span>
         <ul>
           {% for row in lobbying_lobbyists %}
           {% if row.lobbyist_entity %}
@@ -101,7 +101,7 @@
     <div class="lobbyingColumn oneColumn chartWrapper">
       {% if lobbying_lobbyists %}
         <div class="lobbyistsOrgs oneColumn chartWrapper">
-          <span class="secondaryTitle">Lobbied for this Organization's Issues</span>:
+          <span class="secondaryTitle">Lobbyists Hired:</span>
           <ul>
             {% for row in lobbying_lobbyists %}
             {% if row.lobbyist_entity %}
