@@ -59,7 +59,6 @@
       <table class="threeColumn clear">
           <thead>
               <tr id="titles">
-                  <th class="left">Incumbent</th>
                   <th class="center">Politician</th>
                   <th class="center">State</th>
                   <th class="center">Office</th>
@@ -71,11 +70,6 @@
           <tbody>	
               {% for result in sorted_results.politician %}
               <tr class="{% cycle 'even' 'odd' %}">
-              	{% if result.seat_status == "I" %}
-                  <td title="Incumbent" class="incumbent_check incumbent">Yes</td>
-                {% else %}
-                  <td title="Not An Incumbent" class="incumbent_check incumbent_no">No</td>
-                {% endif %}
                   <td class="center lawmakerName">
                       <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a> 
                   </td>
