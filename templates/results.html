@@ -62,7 +62,6 @@
                   <th class="left">Incumbent</th>
                   <th class="center">Politician</th>
                   <th class="center">State</th>
-                  <th class="center">Position</th>
                   <th class="center">Office</th>
                   <th class="center">Party</th>
                   <th class="center">Total Received</th>
@@ -72,14 +71,17 @@
           <tbody>	
               {% for result in sorted_results.politician %}
               <tr class="{% cycle 'even' 'odd' %}">
-                  <td title="Not An Incumbant" class="incumbant_check incumbant_no">Not An Incumbant</td>
+              	{% if result.seat_status == "I" %}
+                  <td title="Incumbent" class="incumbent_check incumbent">Yes</td>
+                {% else %}
+                  <td title="Not An Incumbent" class="incumbent_check incumbent_no">No</td>
+                {% endif %}
                   <td class="center lawmakerName">
                       <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a> 
                   </td>
-                  <td class="center">XX</td>
-                  <td class="center">XX</td>
-                  <td class="center">??????</td>
-                  <td class="center">???</td>
+                  <td class="center">{{ result.state }}</td>
+                  <td class="center">{{ result.seat }}</td>
+                  <td class="center">{{ result.party }}</td>
                   <td class="center">${{result.total_received|floatformat:0|intcomma }}</td>
                   <td class="right">{{ result.count_received }}</td>	  
                   {% endfor %}

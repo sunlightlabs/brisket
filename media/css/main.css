@@ -145,9 +145,9 @@ body.search dt span { font-weight: normal;}
 body.search dd { text-align: right; width: 260px; margin-right: 0;}
 body.search table { margin-top: 15px;}
 
-.incumbant_check { text-indent: -9999em; display: block;}
-.incumbant { background: url(../images/icon_check.png) 40px 10px no-repeat; height: 16px;}
-.incumbant_no { background: url(../images/icon_cross.png) 40px 10px no-repeat; height: 16px;}
+.incumbent_check { text-indent: -9999em; display: block;}
+.incumbent { background: url(../images/icon_check.png) 40px 10px no-repeat; height: 16px;}
+.incumbent_no { background: url(../images/icon_cross.png) 40px 10px no-repeat; height: 16px;}
 
 button { text-indent: -9999em; display: block; border: none; cursor: pointer;}
 
