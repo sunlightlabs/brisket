@@ -75,7 +75,7 @@
                       <a href="/{{ result.type }}/{{ result.name|standardize_politician_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_politician_name}}</a>
                   </td>
                   <td class="center">{{ result.state }}</td>
-                  <td class="center">{{ result.seat }}</td>
+                  <td class="center">{{ result.seat|seat_label }}</td>
                   <td class="center">{{ result.party }}</td>
                   <td class="center">${{result.total_received|floatformat:0|intcomma }}</td>
                   <td class="right">{{ result.count_received }}</td>
