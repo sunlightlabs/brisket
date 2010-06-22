@@ -18,62 +18,14 @@ $(document).ready(function() {
 <h2>{{ entity_info.name }}</h2>
 {% endblock %}
 
-{% block contrib_overview_amount %}
-${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
-{% endblock %}
-{% block details_link %}
-<a class="detailsLink" href="#">
-  View Timeline Details
-</a>
-{% endblock %}
-
-{% block charts %}
-
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
-    <h4>Top Candidates</h4>
-    <div class="graph" id="recipients_barchart">
-      <!-- raphael charts here -->
-    </div>
-  </div>
-</div>
-
-<div class="oneColumn chartWrapper">
-  <div class="chart">
-    <h4 class="withTip">Republicans vs. Democrats</h4>
-    <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_party">
-      <!-- raphael charts here -->
-    </div>
-  </div>
-</div>
-
-<div class="clear"></div> <!-- start a new row -->
-
-<div class="twoColumn chartWrapper">
-  <div class="chart">
-    <h4 class="withTip">Top Organizations</h4>
-    <div class="graph" id="orgs_barchart">
-      <!-- raphael charts here -->
-    </div>
-  </div>
-</div>
-
-<div class="clear"></div> <!-- start a new row -->
-
-{% endblock %}
-
-{% block external_contrib_links %}  
-{% if external_links %}
-For more information on contributions:
-{% for link in external_links %}
-<a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
-{% endfor %}
+{% block contributions %}
+{% if contributions_data %}
+{% include "contributions.html" %}
 {% endif %}
 {% endblock %}
 
 {% block lobbying %}
-{% if lobbying_with_firm or lobbying_for_clients %}
-   {% include "indiv_lobbying.html" %}
+{% if lobbying_data %}
+{% include "indiv_lobbying.html" %}
 {% endif %}
 {% endblock %}

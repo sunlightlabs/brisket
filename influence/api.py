@@ -224,27 +224,6 @@ def get_bioguide_id(full_name):
     print bioguide_id
     return bioguide_id
 
-def get_capitol_words(full_name, cycle, limit):
-    # get bioguide
-    bioguide_id = get_bioguide_id(full_name)
-    if not bioguide_id:
-        print 'No bioguide_id found for legislator %s' % full_name
-        return None
-    
-    url = "http://capitolwords.org/api/lawmaker/%s/%s/top%d.json" % (bioguide_id, cycle, limit)
-    try:
-        fp = urllib2.urlopen(url)
-        results = json.loads(fp.read())
-        print results #list
-        # may want to remove unicode here eventually, too. 
-        return results
-    except Exception, e:
-        print 'Error retrieving capitol words'
-        print url
-        print e
-        return None
-
-
 def politician_picture_url(full_name):
     ''' we aren't using this directly right now, but might in the
     future so will leave it in for now.'''

@@ -59,6 +59,14 @@ function piechart(div, data, type) {
         colors: colors,
         strokewidth: 0,
     });
+    
+    for (var i=0; i < pie.labels.length; i++) {
+	/* each label has two elements-- a circle for the slice colour
+	 * (the 0th element), and some text (the 1st element). we only
+	 * want to set the colour of the latter-- hence setting the
+	 * 1st element of each label. */
+	pie.labels[i][1].attr('fill', '#666666');
+    }
 
     var lbl = undefined;
 
@@ -69,7 +77,7 @@ function piechart(div, data, type) {
         if (this.label) {
             this.label[0].stop();
             this.label[0].scale(1.5);
-            this.label[1].attr({"font-weight": 800});
+            this.label[1].attr({"font-weight": 800, 'fill': '#666666'});
             lbl = r.text(70, 70, dollar(this.value.value));
             lbl.attr({"font-weight": 800, "font-size": "12px"});
             lbl.show();
@@ -99,11 +107,13 @@ function dollar(str) {
 
 
 function barchart(div, data, limit) {
-    // expects data to be a list of dicts each with keys called key,
-    // value, and href.
+    /* expects data to be a list of dicts each with keys called key,
+       value, and href. */
+
     b = Raphael(div);
     b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
+    thedata = data;
     if (limit && limit < data.length) {
         data = data.slice(0, limit);
     }
@@ -112,10 +122,9 @@ function barchart(div, data, limit) {
     * the chart doesn't look like crap. */
     var original_len = data.length;
 
-  /* commenting this out while we demo   */
     if (data.length < 10) {
         for (var i=data.length; i<10; i++) {
-            data[i] = {'key':' ', 'value': 0, 'href':'#'};
+          data[i] = {'key':' ', 'value': 0, 'href': -1};
         }
     }
 
@@ -124,59 +133,100 @@ function barchart(div, data, limit) {
 	    data_values.push(data[i]['value']);
     }
 
-    var data_labels = [];
-    for (var i = 0; i < data.length; i++) {
-	    data_labels.push(data[i]['key']);
+    /* make the hrefs a map so that we can use the key to ensure the
+     * right url is assigned to the right entity. */
+    data_hrefs = {};
+    for (var i = 0; i < data.length; i++) {	
+	if (data[i]['href'] != -1) {
+	    data_hrefs[data[i]['key']] = data[i]['href'];
+	}
     }
 
-    var data_hrefs = [];
+    var data_labels = [];
     for (var i = 0; i < data.length; i++) {
-	    data_hrefs.push(data[i]['href']);
+	ind = data_labels.push(data[i]['key']);
     }
 
     opts = {
         "type": "soft",
         "gutter": 30, //space between bars, as fn of bar width/height
         "stacked": false,
-        "colors" : ["#EFCC01"]
+	"colors" : ["#EFCC01", "#f27e01"]
     };
 
-    /* data array must be passed inside another array-- barchart fn
-       supports multiple data series so expects an array of arrays,
-       even for just one data series. Else it will treat each data
-       point as one series. */
-    var barchart = b.g.hbarchart(175,10, 330, 150, [data_values], opts);
-
-    // pass in labels array inside another array
-    barchart.label([data_labels], false);
-
-    // add links to the labels
-    for (var i = 0; i < barchart.labels.length; i++) {
-        barchart.labels[i].attr({'href': data_hrefs[i] });
+    /* check if this is a stacked barchart. data sets must be passed
+       inside another array-- barchart fn supports multiple data
+       series so expects an array of arrays, even for just one data
+       series. Else it will treat each data point as one series. */
+    if (data[0]['value_employee']) {
+      var values_employee = [];
+      var values_pac = [];
+      for (var i=0; i<data.length; i++) {
+	values_employee.push(data[i]['value_employee']);
+	values_pac.push(data[i]['value_pac']);
+      }
+      all_data = [values_employee, values_pac];
+      opts['stacked'] = true;
+    } else {
+      all_data = [data_values];
     }
 
-    // this is the desired link colour, but it also seems to make
-    //the font bold, which is undesireable :/
-    barchart.labels.hover(
-        function() {
-            this.attr({fill: "#0A6E92"});
-        },
-        function() {
-            this.attr({fill: "#000000"});
+    var barchart = b.g.hbarchart(175,10, 330, 150, all_data, opts);
+    var num_datasets = barchart.bars.length;
+
+    /* pass in labels array inside another array. if this is a stacked
+     * barchart, raphael defaults to including the data value as a
+     * label when no label is passed in, so trick it by sending in
+     * blank (but non-empty!) strings.  */
+    if (barchart.bars.length > 1) {
+     the_labels = [data_labels, 
+		   ["   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   "]];
+    }
+    else {
+      the_labels = [data_labels];
+    }
+    barchart.label(the_labels, false);
+
+    /* add links to the labels */
+    for (var i = 0; i < barchart.labels.length; i++) {
+      var key = barchart.labels[i].attr('text');
+      if (data_hrefs[key]) {
+	  barchart.labels[i].attr({'href': data_hrefs[key], 'fill': "#666666" });
+      }
+      else {
+	  barchart.labels[i].attr({'fill': "#666666" });
+      }
+    }
+
+    /* change the labels to the link colour on hover */
+    barchart.labels.hover(function() {
+	    if (this.attr("href")) {
+		this.attr({fill: "#0A6E92"});
+	    }
+        }, function() {
+            this.attr({fill: "#666666"});
         }
-    );
+	);
+
     barchart.labels.translate(-165);
 
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
     s = b.set();
     for (var i=0; i< original_len; i++) {
-        x = barchart.bars[0][i].x;
-	y = barchart.bars[0][i].y + 1;
-	text = '$'+barchart.bars[0][i].value;
-	marker = b.g.text(x,y,text);
-	s.push(marker);
+      x = barchart.bars[num_datasets-1][i].x;
+      y = barchart.bars[num_datasets-1][i].y;
+      text = 0;
+      for (var n=0; n< num_datasets; n++) {
+	text = text + barchart.bars[n][i].value;
+      }
+      text = "$"+text;
+
+      marker = b.g.text(x,y,text);
+      marker.attr("fill", "#666666");
+      s.push(marker);
     };
+
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: spacing, 'text-anchor': 'start'});
 

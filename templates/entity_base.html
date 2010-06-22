@@ -16,8 +16,15 @@
 {% endblock %}
 </div>
 
+<!-- if there's a description for the entity, override this -->
+<p id="description" class="module clear">
+  {% block description %}
+  {% endblock %}
+</p>
+
 <div class="module" id="timeSpan">
   <div id="currentDates">
+    <span class="currentDateTitle">Current View:</span>
     <span>
       {% ifequal cycle "-1" %} 
         {{entity_info.career.start}} - {{entity_info.career.end}}
@@ -36,44 +43,8 @@
   <div class="clear"></div>
 </div>
 
-<!-- if there's a description for the entity, override this -->
-<p id="description" class="module clear">
-  {% block description %}
-  {% endblock %}
-</p>
-
-<div class="overviewBar">
-  <a class="toggle">Toggle</a>
-  <h3 class="insideBar">Contributions</h3>
-  <span class="insideBar">
-    {% block contrib_overview_amount %}
-    {% endblock %}
-  </span>
-  <div id="sparklines">                
-    {% block contrib_sparkline %}
-    {% endblock %}
-  </div>  
-  {% block contrib_details_link %}
-  {% endblock %}
-</div>
-
-<div class="chartModule">
-  {% block charts %}   
-
-  {% block contributions_tables %}
-  {% endblock %}
-
-  {% endblock %} <!-- end chart block -->
-
-  <div class="clear"></div>
-
-  <div class="external">
-      {% block external_contrib_links %}  
-      {% endblock %}
-  </div>
-  
-  <div class="clear"></div>
-</div><!-- end chartModule -->
+{% block contributions %}
+{% endblock %}
 
 {% block lobbying %}
 {% endblock %} 

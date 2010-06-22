@@ -4,12 +4,21 @@
 
 <div class="overviewBar">
   <a class="toggle">Toggle</a>
-  <h3 class="insideBar">Lobbying</h3>
+  <h3 class="insideBar">Lobbying, 
+      {% ifequal cycle "-1" %} 
+        {{entity_info.career.start}} - {{entity_info.career.end}}
+      {% else %}  
+        {{cycle|add:-1}} - {{cycle}} 
+      {% endifequal %}</h3>
   <span class="insideBar">
     {% if is_lobbying_firm %} 
-    ${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
+	    {% if entity_info.totals.firm_income %}
+	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
+	    {% endif %}
     {% else %}
-    ${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
+    	{% if entity_info.totals.non_firm_spending %}
+    		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
+    	{% endif %}
     {% endif %}    
   </span>
   <div id="sparklines">                
@@ -33,7 +42,7 @@
           {% for row in lobbying_lobbyists %}
           {% if row.lobbyist_entity %}
           <li>
-            <a href="/individual/{{ row.lobbyist_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name }}</a>
+            <a href="/individual/{{ row.lobbyist_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name }}</a>,
           </li>
           {% else %}
           {{ row.lobbyist_name }}

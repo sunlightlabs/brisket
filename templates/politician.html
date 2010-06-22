@@ -4,7 +4,7 @@
 {% block body_class %}politician{% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" charset="utf-8"> 
+<script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   sparkline("sparklines", {{ sparkline_data|safe }});
   piechart("piechart_local", {{ local_breakdown|safe }});
@@ -28,22 +28,22 @@ $(document).ready(function() {
 
   {% if metadata.party == 'D' %}
   <dd>Democrat</dd>
-  {% else %} 
-  {% if metadata.party == 'R' %}    
+  {% else %}
+  {% if metadata.party == 'R' %}
   <dd>Republican</dd>
   {% else %}
   <dd>{{ metadata.party }}</dd>
   {% endif %}
   {% endif %}
-    
+
   <dt class="noshow">State</dt>
   <dd>{{metadata.state}}</dd>
-  
+
   {% if metadata.yrs_of_service %}
   <dt>Years of Service:</dt>
-  <dd>{{metadata.yrs_of_service}}</dd>    
+  <dd>{{metadata.yrs_of_service}}</dd>
   {% endif %}
-</dl>  
+</dl>
 <div class="clear"></div>
 {% endblock %}
 
@@ -53,63 +53,16 @@ $(document).ready(function() {
 {% endblock %}
 {% endif %}
 
-{% block contrib_overview_amount %}
-${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+{% block contributions %}
+{% if contributions_data %}
+{% include "contributions.html" %}
+{% endif %}
 {% endblock %}
 
 
 {% block charts %}
-
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
-    <h4>Industry Sectors</h4>
-    <div class="graph" id="sectors_barchart">
-      <!-- raphael charts -->
-    </div>
-  </div>
-</div>
-
-<div class="oneColumn chartWrapper">
-  <div class="chart">
-    <h4 class="withTip">In State vs. Out of State</h4>
-    <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_local">
-      <!-- raphael charts -->
-    </div>
-  </div>
-</div>
-
-<div class="oneColumn chartWrapper">
-  <div class="chart">
-    <h4 class="withTip">Individuals vs. PACs</h4>
-    <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_entity">
-      <!-- raphael charts -->
-    </div>
-  </div>
-</div>
-
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
-    <h4>Top Contributors</h4>
-    <div class="graph" id="contributors_barchart">
-      <!-- raphael charts -->
-    </div>
-  </div>
-</div>
-
-<div class="clear"></div>
-
 {% endblock %} <!-- end charts block -->
 
-{% block external_contrib_links %}  
-{% if external_links %}
-Get more information on contributions: 
-{% for link in external_links %}
-<a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
-{% endfor %}
-{% endif %}
-{% endblock %}
 
 {% block lobbying %}
 {% endblock %}

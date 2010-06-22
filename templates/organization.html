@@ -17,51 +17,9 @@ $(document).ready(function() {
 <h2>{{ entity_info.name }}</h2>
 {% endblock %}
 
-{% block contrib_overview_amount %}
-{% if entity_info.totals.contributor_amount %}
-${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
-{% endif %}
-{% endblock %}
-
-{% block charts %}
-
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
-    <h4>Top Recipients</h4>
-    <div class="graph" id="recipients_barchart">
-      <!-- raphael charts here -->
-    </div>    
-  </div>
-</div>
-
-<div class="oneColumn chartWrapper">
-  <div class="chart">
-    <h4 class="withTip">Republicans vs. Democrats</h4>
-    <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_party">
-      <!-- raphael charts here -->
-    </div>
-  </div>
-</div>
-
-<div class="oneColumn chartWrapper">
-  <div class="chart">
-    <h4 class="withTip">State vs. Federal</h4>
-    <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_level">
-      <!-- raphael charts here -->
-    </div>
-  </div>
-</div>
-
-{% endblock %}
-
-{% block external_contrib_links %}  
-{% if external_links %}
-Get more information on contributions: 
-{% for link in external_links %}
-<a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
-{% endfor %}
+{% block contributions %}
+{% if contributions_data %}
+{% include "contributions.html" %}
 {% endif %}
 {% endblock %}
  
