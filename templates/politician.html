@@ -1,9 +1,10 @@
 {% extends "entity_base.html" %}
 {% load humanize %}
+{% load influence_extras %}
 {% block body_class %}politician{% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" charset="utf-8"> 
+<script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   sparkline("sparklines", {{ sparkline_data|safe }});
   piechart("piechart_local", {{ local_breakdown|safe }});
@@ -21,28 +22,28 @@ $(document).ready(function() {
 <img alt="political photo" src="{{ metadata.photo_url }}"/>
 {% endif %}
 
-<h2>{{ entity_info.name }}</h2>
+<h2>{{ entity_info.name|standardize_politician_name }}</h2>
 <dl>
   <dt class="noshow">Party</dt>
 
   {% if metadata.party == 'D' %}
   <dd>Democrat</dd>
-  {% else %} 
-  {% if metadata.party == 'R' %}    
+  {% else %}
+  {% if metadata.party == 'R' %}
   <dd>Republican</dd>
   {% else %}
   <dd>{{ metadata.party }}</dd>
   {% endif %}
   {% endif %}
-    
+
   <dt class="noshow">State</dt>
   <dd>{{metadata.state}}</dd>
-  
+
   {% if metadata.yrs_of_service %}
   <dt>Years of Service:</dt>
-  <dd>{{metadata.yrs_of_service}}</dd>    
+  <dd>{{metadata.yrs_of_service}}</dd>
   {% endif %}
-</dl>  
+</dl>
 <div class="clear"></div>
 {% endblock %}
 

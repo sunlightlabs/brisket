@@ -1,5 +1,6 @@
 {% extends "search_base.html" %}
 {% load humanize %}
+{% load influence_extras %}
 
 {% block main %}
 
@@ -11,7 +12,7 @@
 </div>
 
 <div class="module">
-  
+
   {% if num_orgs %}
   <div class="searchBox">
     <h3>Matching Organizations</h3>
@@ -19,9 +20,9 @@
     <ul>
       {% for result in sorted_results.organization %}
       <li class="{% cycle 'even' 'odd' %}">
-          <a href="/{{ result.type }}/{{result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a> 
+          <a href="/{{ result.type }}/{{result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a>
           <span class="transactions" title="Results">
-	    {{result.count_given }} 
+	    {{result.count_given }}
 	    transaction{{result.count_given|pluralize }} </span>
           <span class="amountGiven">${{ result.total_given|floatformat:0|intcomma }} Given</span>
           <div class="clear"></div>
@@ -33,14 +34,14 @@
 
 
   {% if num_indivs %}
-  <div class="searchBox clear">    
+  <div class="searchBox clear">
     <h3>Matching People</h3>
-    <span class="results">{{ num_indivs }} Result{{num_indivs|pluralize}}</span>  
-    <ul>  
+    <span class="results">{{ num_indivs }} Result{{num_indivs|pluralize}}</span>
+    <ul>
         {% for result in sorted_results.individual %}
         <li class="{% cycle 'even' 'odd' %}">
             <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a>
-            <span class="transactions" title="Results"> 
+            <span class="transactions" title="Results">
 	      {{ result.count_given }}
 	      transaction{{result.count_given|pluralize }} </span>
             <span class="amountGiven">${{ result.total_given|floatformat:0|intcomma }} Given</span>
@@ -55,7 +56,7 @@
   {% if num_pols %}
   <div class="searchBox clear">
       <h3>Matching Politicians</h3>
-      <span class="results">{{ num_pols }} Result{{num_pols|pluralize}}</span>    
+      <span class="results">{{ num_pols }} Result{{num_pols|pluralize}}</span>
       <table class="threeColumn clear">
           <thead>
               <tr id="titles">
@@ -67,23 +68,23 @@
                   <th class="right">Records</th>
               </tr>
           </thead>
-          <tbody>	
+          <tbody>
               {% for result in sorted_results.politician %}
               <tr class="{% cycle 'even' 'odd' %}">
                   <td class="center lawmakerName">
-                      <a href="/{{ result.type }}/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a> 
+                      <a href="/{{ result.type }}/{{ result.name|standardize_politician_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_politician_name}}</a>
                   </td>
                   <td class="center">{{ result.state }}</td>
                   <td class="center">{{ result.seat }}</td>
                   <td class="center">{{ result.party }}</td>
                   <td class="center">${{result.total_received|floatformat:0|intcomma }}</td>
-                  <td class="right">{{ result.count_received }}</td>	  
+                  <td class="right">{{ result.count_received }}</td>
                   {% endfor %}
               </tr>
           </tbody>
       </table>
-  </div>  
-  <div class="twoColumn chartWrapper">  
+  </div>
+  <div class="twoColumn chartWrapper">
     <div class="clear">
     </div>
   </div>
