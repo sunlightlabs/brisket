@@ -75,7 +75,6 @@ def search(request):
             kwargs['query'] = query
             kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results
-            print sorted_results
         return render_to_response('results.html', kwargs, brisket_context(request))
     else: 
         return HttpResponseRedirect('/')
@@ -194,7 +193,6 @@ def politician_entity(request, entity_id):
         context['contributions_data'] = True
 
         top_contributors = api.pol_contributors(entity_id, cycle)
-        print top_contributors
         # check to see if some or all contributions are negative. if
         # they all are, don't display the charts. if only some are,
         # then remove them from the barchart.
@@ -220,7 +218,6 @@ def politician_entity(request, entity_id):
 
         # top sectors is already sorted
         top_sectors = api.pol_sectors(entity_id, cycle=cycle)
-        print top_sectors
         sectors_barchart_data = []
         for record in top_sectors:        
             try:
@@ -230,7 +227,7 @@ def politician_entity(request, entity_id):
             sectors_barchart_data.append({                
                     'key': _generate_label(sector_name),
                     'value' : record['amount'],
-                    'href' : "#" # will eventually link to industry pages. 
+                    'href' : "-1" # will eventually link to industry pages. 
                     })
         context['sectors_barchart_data'] = sectors_barchart_data
 
@@ -270,14 +267,16 @@ def _barchart_href(record, cycle, entity_type):
             href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']), 
                                                record['recipient_entity'], cycle))
         else:
-            href = str("/search?query=%s&cycle=%s" % (record['recipient_name'], cycle))
+            href = -1
 
     elif 'id' in record.keys(): 
         if record['id']:
             href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['name']), 
                                                record['id'], cycle))
         else:
-            href = str("/search?query=%s&cycle=%s" % (record['name'], cycle))
+            href = -1
+    else:
+        href = -1
 
     return href
  
@@ -374,9 +373,6 @@ def individual_entity(request, entity_id):
                     'href' : _barchart_href(record, cycle, entity_type="organization"),
                     })
         context['orgs_barchart_data'] = orgs_barchart_data
-        print 'top orgs data'
-        print recipient_orgs
-        print orgs_barchart_data
 
         party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
         for key, values in party_breakdown.iteritems():

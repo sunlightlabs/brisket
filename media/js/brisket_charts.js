@@ -107,8 +107,9 @@ function dollar(str) {
 
 
 function barchart(div, data, limit) {
-    // expects data to be a list of dicts each with keys called key,
-    // value, and href.
+    /* expects data to be a list of dicts each with keys called key,
+       value, and href. */
+
     b = Raphael(div);
     b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
@@ -123,7 +124,7 @@ function barchart(div, data, limit) {
 
     if (data.length < 10) {
         for (var i=data.length; i<10; i++) {
-          data[i] = {'key':' ', 'value': 0, 'href': "#"};
+          data[i] = {'key':' ', 'value': 0, 'href': -1};
         }
     }
 
@@ -132,20 +133,18 @@ function barchart(div, data, limit) {
 	    data_values.push(data[i]['value']);
     }
 
-    var data_labels = [];
-    for (var i = 0; i < data.length; i++) {
-	    data_labels.push(data[i]['key']);
+    /* make the hrefs a map so that we can use the key to ensure the
+     * right url is assigned to the right entity. */
+    data_hrefs = {};
+    for (var i = 0; i < data.length; i++) {	
+	if (data[i]['href'] != -1) {
+	    data_hrefs[data[i]['key']] = data[i]['href'];
+	}
     }
 
-  /*
-    var data_hrefs = [];
+    var data_labels = [];
     for (var i = 0; i < data.length; i++) {
-	    data_hrefs.push(data[i]['href']);
-    }
-*/
-    var data_hrefs = {};
-    for (var i = 0; i < data.length; i++) {
-      data_hrefs[data[i]['key']] = data[i]['href'];
+	ind = data_labels.push(data[i]['key']);
     }
 
     opts = {
@@ -155,7 +154,10 @@ function barchart(div, data, limit) {
 	"colors" : ["#EFCC01", "#f27e01"]
     };
 
-      // check if this is a stacked barchart
+    /* check if this is a stacked barchart. data sets must be passed
+       inside another array-- barchart fn supports multiple data
+       series so expects an array of arrays, even for just one data
+       series. Else it will treat each data point as one series. */
     if (data[0]['value_employee']) {
       var values_employee = [];
       var values_pac = [];
@@ -169,47 +171,45 @@ function barchart(div, data, limit) {
       all_data = [data_values];
     }
 
-  /* data array must be passed inside another array-- barchart fn
-       supports multiple data series so expects an array of arrays,
-       even for just one data series. Else it will treat each data
-       point as one series. */
     var barchart = b.g.hbarchart(175,10, 330, 150, all_data, opts);
     var num_datasets = barchart.bars.length;
 
     /* pass in labels array inside another array. if this is a stacked
-     * barchart, raphael default to including the data value as a label
-     * if no label is passed in, so trick it by sending in blank (but
-     * non-empty!) strings.  */
+     * barchart, raphael defaults to including the data value as a
+     * label when no label is passed in, so trick it by sending in
+     * blank (but non-empty!) strings.  */
     if (barchart.bars.length > 1) {
-     the_labels = [data_labels, ["   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   "]];
+     the_labels = [data_labels, 
+		   ["   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   "]];
     }
     else {
       the_labels = [data_labels];
     }
     barchart.label(the_labels, false);
 
-
-    // add links to the labels
-    for (var i = 0; i < barchart.bars[0].length; i+=num_datasets) {
-//        barchart.labels[i].attr({'href': data_hrefs[i] });
+    /* add links to the labels */
+    for (var i = 0; i < barchart.labels.length; i++) {
       var key = barchart.labels[i].attr('text');
-      //console.log(key);
-      //console.log(data_hrefs[key]);
-      barchart.labels[i].attr({'href': data_hrefs[key], 'fill': "#666666" });
+      if (data_hrefs[key]) {
+	  barchart.labels[i].attr({'href': data_hrefs[key], 'fill': "#666666" });
+      }
+      else {
+	  barchart.labels[i].attr({'fill': "#666666" });
+      }
     }
 
-    // change the labels to the link colour on hover
-    barchart.labels.hover(
-        function() {
-            this.attr({fill: "#0A6E92"});
-        },
-        function() {
+    /* change the labels to the link colour on hover */
+    barchart.labels.hover(function() {
+	    if (this.attr("href")) {
+		this.attr({fill: "#0A6E92"});
+	    }
+        }, function() {
             this.attr({fill: "#666666"});
         }
-    );
+	);
+
     barchart.labels.translate(-165);
 
-    bc = barchart;
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
     s = b.set();
