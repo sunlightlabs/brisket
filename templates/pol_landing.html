@@ -1,0 +1,44 @@
+{% extends "search_base.html" %}
+{% load humanize %}
+{% load influence_extras %}
+
+{% block body_class %}politician{% endblock %}
+
+{% block main %}
+    <div id="contentHeader">
+        <h2>Politicians</h2>
+    </div>
+    <div id="ltColumn">
+        <p>The following politicians have received the greatest dollar amounts during the current election cycle.</p>
+        <table id="mainPageTables">
+            <thead>
+                  <tr id="titles">
+                      <th class="photo">Photo</th>
+                      <th class="sort">Name</th>
+                      <th class="sort">Position</th>
+                      <th class="sort">Party</th>
+                      <th class="sort">State</th>
+                      <th class="sort">Received</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for result in top_n_politicians %}
+                  <tr class="{% cycle 'even' 'odd' %}">
+                      <td class="photo">
+                            {% if metadata.photo_url %}
+                            <img alt="political photo" src="{{ metadata.photo_url }}"/>
+                            {% endif %}
+                      </td>
+                      <td class="lawmakerName">
+                          <a href="/politician/{{ result.name|standardize_politician_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{ result.name|standardize_politician_name }}</a>
+                      </td>
+                      <td>{{ result.seat|seat_label }}</td>
+                      <td>{{ result.party }}</td>
+                      <td>{{ result.state }}</td>
+                      <td>${{ result.amount|floatformat:0|intcomma }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+        </table>
+    </div>
+{% endblock %}
