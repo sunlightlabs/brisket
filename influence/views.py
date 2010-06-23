@@ -4,10 +4,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 import urllib, re
-
+from util import catcodes
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import *
-from util import catcodes
 import api, external_sites
 from api import DEFAULT_CYCLE
 from settings import LATEST_CYCLE
@@ -119,12 +118,15 @@ def organization_entity(request, entity_id):
         context['contributions_data'] = True
         org_recipients = api.org_recipients(entity_id, cycle=cycle)
 
+        print org_recipients
         recipients_barchart_data = []
         for record in org_recipients:
             recipients_barchart_data.append({
-                    'key': _generate_label(standardize_politician_name(record['name'])),
+                    'key': generate_label(standardize_politician_name(record['name'])),
                     'value' : record['total_amount'],
-                    'href' : _barchart_href(record, cycle, entity_type='politician')
+#                    'value_employee' : record['employee_amount'],
+#                    'value_pac' : record['direct_amount'],
+                    'href' : barchart_href(record, cycle, entity_type='politician')
                     })
         context['recipients_barchart_data'] = bar_validate(recipients_barchart_data)
 
@@ -156,7 +158,6 @@ def organization_entity(request, entity_id):
         print context['sparkline_data']
 
     # get lobbying info if it exists for this entity
-    print "metadata['lobbying'] = " + str(metadata['lobbying'])
     if metadata['lobbying']:
         context['lobbying_data'] = True
         is_lobbying_firm = bool(entity_info['metadata'].get('lobbying_firm', False))
@@ -206,11 +207,11 @@ def politician_entity(request, entity_id):
         contributors_barchart_data = []
         for record in top_contributors:
             contributors_barchart_data.append({
-                    'key': _generate_label(record['name']),
+                    'key': generate_label(record['name']),
                     'value' : record['total_amount'],
                     'value_employee' : record['employee_amount'],
                     'value_pac' : record['direct_amount'],
-                    'href' : _barchart_href(record, cycle, 'organization')
+                    'href' : barchart_href(record, cycle, 'organization')
                     })
         context['contributors_barchart_data'] = bar_validate(contributors_barchart_data)    
 
@@ -222,7 +223,7 @@ def politician_entity(request, entity_id):
             except:
                 sector_name = 'Unknown (%s)' % record['sector']
             sectors_barchart_data.append({
-                    'key': _generate_label(sector_name),
+                    'key': generate_label(sector_name),
                     'value' : record['amount'],
                     # make sure to leave href as -1 if you want to
                     # suppress link generation in the javascript
@@ -287,18 +288,18 @@ def individual_entity(request, entity_id):
         candidates_barchart_data = []
         for record in recipient_candidates:
             candidates_barchart_data.append({
-                    'key': _generate_label(standardize_politician_name(record['recipient_name'])),
+                    'key': generate_label(standardize_politician_name(record['recipient_name'])),
                     'value' : record['amount'],
-                    'href' : _barchart_href(record, cycle, entity_type="politician"),
+                    'href' : barchart_href(record, cycle, entity_type="politician"),
                     })
         context['candidates_barchart_data'] = bar_validate(candidates_barchart_data)
 
         orgs_barchart_data = []
         for record in recipient_orgs:
             orgs_barchart_data.append({
-                    'key': _generate_label(record['recipient_name']),
+                    'key': generate_label(record['recipient_name']),
                     'value' : record['amount'],
-                    'href' : _barchart_href(record, cycle, entity_type="organization"),
+                    'href' : barchart_href(record, cycle, entity_type="organization"),
                     })
         context['orgs_barchart_data'] = bar_validate(orgs_barchart_data)
 

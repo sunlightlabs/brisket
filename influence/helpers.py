@@ -1,5 +1,7 @@
 import re
 import string
+import api
+from util import catcodes
 
 def standardize_politician_name(name):
     no_party = strip_party(name)
@@ -157,7 +159,7 @@ def pie_validate(data):
     else:
         return positive
     
-def _barchart_href(record, cycle, entity_type):
+def barchart_href(record, cycle, entity_type):
     if 'recipient_entity' in record.keys():
         if record['recipient_entity']:
             href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']),
@@ -176,7 +178,7 @@ def _barchart_href(record, cycle, entity_type):
 
     return href
 
-def _generate_label(string):
+def generate_label(string):
     ''' truncate names longer than max_length and normalize the case
     to use title case'''
     max_length = 27
