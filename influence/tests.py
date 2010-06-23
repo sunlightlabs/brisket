@@ -130,3 +130,9 @@ class NameStandardizationTests(TestCase):
         self.assertEqual('Nancy Pelosi', helpers.standardize_politician_name('Nancy Pelosi (D)'))
         self.assertEqual('Albert Gore', helpers.standardize_politician_name('Gore, Albert'))
 
+    def test_standardize_running_mate_names(self):
+        self.assertEqual('John Kasich & Mary Taylor', helpers.standardize_politician_name('Kasich, John & Taylor, Mary'))
+
+    def test_we_dont_need_no_steeenking_nicknames(self):
+        self.assertEqual('Robert M McDonnell', helpers.standardize_politician_name('McDonnell, Robert M (Bob)'))
+
