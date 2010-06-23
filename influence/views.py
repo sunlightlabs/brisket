@@ -65,9 +65,9 @@ def search(request):
                 sorted_results[result['type']].append(result)
 
             # sort each type by amount
-            sorted_results['organization'].sort(cmp=_amt_given_decreasing)
-            sorted_results['individual'].sort(cmp=_amt_given_decreasing)
-            sorted_results['politician'].sort(cmp=_amt_received_decreasing)
+            sorted_results['organization'].sort(cmp = amt_given_decreasing)
+            sorted_results['individual'].sort(cmp = amt_given_decreasing)
+            sorted_results['politician'].sort(cmp = amt_received_decreasing)
 
             # keep track of how many there are of each type of result
             kwargs['num_orgs'] = len(sorted_results['organization'])
