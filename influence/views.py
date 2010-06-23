@@ -44,7 +44,7 @@ def search(request):
         # any single occurences of hyphens.
         if not request.GET.get('from_form', None):
             query = query.replace('-', ' ')
-        results = api.entity_search(query)
+        results = api.entity_search(urllib.quote(query))
 
         # limit the results to only those entities with an ID.
         entity_results = [result for result in results if result['id']]
