@@ -6,12 +6,12 @@ from util import catcodes
 def standardize_politician_name(name):
     no_party = strip_party(name)
     proper_case = convert_case(no_party)
-    right_order = convert_name_to_first_last(proper_case)
+    right_order = convert_to_standard_order(proper_case)
 
     return right_order
 
 def strip_party(name):
-    return re.sub(r'\s*\(\w\)\s*$', '', name)
+    return re.sub(r'\s*\(\w+\)\s*$', '', name)
 
 def convert_case(name):
     if not re.search(r'[A-Z][a-z]', name):
@@ -19,12 +19,28 @@ def convert_case(name):
     else:
         return name
 
+def convert_to_standard_order(name):
+    if '&' in name:
+        return convert_running_mates(name)
+    else:
+        return convert_name_to_first_last(name)
+
 def convert_name_to_first_last(name):
     split = name.split(',')
     if len(split) == 1: return split[0]
 
-    split.reverse()
-    return ' '.join(split).strip()
+    trimmed_split = [ x.strip() for x in split ]
+
+    trimmed_split.reverse()
+    return ' '.join(trimmed_split)
+
+def convert_running_mates(name):
+    mates = name.split('&')
+    fixed_mates = []
+    for name in mates:
+        fixed_mates.append(convert_name_to_first_last(name))
+
+    return ' & '.join(fixed_mates).strip()
 
 def industry_detail(request, entity_id):
     cycle = request.GET.get("cycle", DEFAULT_CYCLE)
@@ -149,7 +165,7 @@ def pie_validate(data):
     ''' take a dict formatted for submission to the piechart
      generation function, and make sure there's data worth displaying.
      if so, return the original data. if not, return false.'''
-    
+
     positive = {}
     for k,v in data.iteritems():
         if int(float(v)) != 0:
@@ -158,7 +174,7 @@ def pie_validate(data):
         return False
     else:
         return positive
-    
+
 def barchart_href(record, cycle, entity_type):
     if 'recipient_entity' in record.keys():
         if record['recipient_entity']:
