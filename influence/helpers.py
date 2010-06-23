@@ -133,8 +133,6 @@ def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
      generation function, and make sure there's data worth displaying.
      if so, return the original data. if not, return false.'''
-    print 'original bar data to be validated'
-    print data
 
     positive_data = [d for d in data if int(float(d['value'])) > 0]
     data = positive_data
@@ -149,9 +147,6 @@ def pie_validate(data):
     ''' take a dict formatted for submission to the piechart
      generation function, and make sure there's data worth displaying.
      if so, return the original data. if not, return false.'''
-
-    print 'original pie data to be validated'
-    print data
     
     positive = {}
     for k,v in data.iteritems():
