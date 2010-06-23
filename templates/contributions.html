@@ -11,13 +11,14 @@
         {% else %}  
           {{cycle|add:-1}} - {{cycle}} 
         {% endifequal %}</h3>
-  <span class="insideBar">
-    {% if entity_info.type == "individual" or entity_info.type == "organization" %}
+  <div class="insideBar amount">
+    <span class="amount">{% if entity_info.type == "individual" or entity_info.type == "organization" %}
     ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
     {% else %}
     ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
-    {% endif %}
+    {% endif %}</span>
     <a class="descriptor" href="#">?</a>
+    <div class="clear"></div>
     <div id="descriptorText">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in sapien a nisi sagittis malesuada vitae eget risus.</p>
         <ul>
@@ -27,7 +28,7 @@
             <li>Source 4</li>
         </ul>    
     </div>
-  </span>
+  </div>
   <div id="sparklines">                
     <!-- raphael sparkline -->
   </div>  

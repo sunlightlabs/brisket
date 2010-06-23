@@ -10,7 +10,7 @@
       {% else %}  
         {{cycle|add:-1}} - {{cycle}} 
       {% endifequal %}</h3>
-  <span class="insideBar">
+  <div class="insideBar amount">
     {% if is_lobbying_firm %} 
 	    {% if entity_info.totals.firm_income %}
 	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
@@ -21,6 +21,7 @@
     	{% endif %}
     {% endif %}
     <a class="descriptor" href="#">?</a>
+    <div class="clear"></div>
     <div id="descriptorText">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in sapien a nisi sagittis malesuada vitae eget risus.</p>
         <ul>
@@ -30,7 +31,7 @@
             <li>Source 4</li>
         </ul>    
     </div> 
-  </span>
+  </div>
   <div id="sparklines">                
     {% block lobbying_sparkline %}
     {% endblock %}
