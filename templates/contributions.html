@@ -4,7 +4,9 @@
 {% load humanize %}
 
 <div class="overviewBar">
+  {% if not suppress_contrib_graphs %}
   <a class="toggle">Toggle</a>
+  {% endif %}
   <h3 class="insideBar">Contributions, 
       {% ifequal cycle "-1" %} 
           {{entity_info.career.start}} - {{entity_info.career.end}}
