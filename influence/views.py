@@ -124,8 +124,8 @@ def organization_entity(request, entity_id):
             recipients_barchart_data.append({
                     'key': generate_label(standardize_politician_name(record['name'])),
                     'value' : record['total_amount'],
-#                    'value_employee' : record['employee_amount'],
-#                    'value_pac' : record['direct_amount'],
+                    'value_employee' : record['employee_amount'],
+                    'value_pac' : record['direct_amount'],
                     'href' : barchart_href(record, cycle, entity_type='politician')
                     })
         context['recipients_barchart_data'] = bar_validate(recipients_barchart_data)
