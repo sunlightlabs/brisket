@@ -30,6 +30,7 @@ h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #
 h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px; line-height: 25px;}
 h4 { text-transform: uppercase; color: #3b3130; font-size: 135%; margin-bottom: 25px;}
 h4.withTip { margin-bottom: 5px; }
+h4.key { float: left; margin-right: 20px;}
 
 div#featureBox { background: url(../images/feature_bg.jpg) top left no-repeat; height: 278px; padding-top: 40px;}
 div#featureBox h2 { text-transform: uppercase; margin-bottom: 30px;}
@@ -59,7 +60,7 @@ div#nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px
 div#nav li a { text-indent: -9999em; display: block; height: 61px;}
 li#people a { background: url(../images/nav_people.png) left 1px no-repeat; width: 115px; }
 li#people a:hover, body.individual li#people a { background: url(../images/nav_people.png) left -60px no-repeat; }
-li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 172px;}
+li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 182px;}
 li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
 li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
 li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
@@ -87,7 +88,7 @@ p#description { font-style: oblique; font-family: Georgia, Times New Roman, Time
 div.external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
 a.external { padding-left: 5px; }
 
-.overviewBar { background: url(../images/overviewBar_2.png) top left no-repeat; padding: 0 20px; height: 70px; margin: 30px 0 40px;}
+.overviewBar { background: url(../images/overviewBar_2.png) top left no-repeat; padding: 0 20px; height: 55px; margin: 30px 0 40px;}
 .overviewBar span { float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px; margin-top: 1px; }
 div#sparklines { float: left; padding-top: 5px; }
 .overviewBar a { float: right;}
@@ -111,10 +112,18 @@ div.oneColumn { width: 270px; float: left;}
 .twoColumn { width: 575px; float: right;}
 .threeColumn { width: 880px; }
 
-div.chart { height: 200px;}
+div.chart { height: 250px;}
 div.chartDoubleHeight { height: 400px;}
 div.chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
+
+.piechart { margin-top: 20px;}
+
+dl.key { margin-top: 0px; padding-top: 2px;}
+dl.key dt { text-indent: -9999em; width: 10px; height: 10px; display: block; margin: 5px 7px 0 0;}
+dl.key dd { margin-right: 15px;}
+dt.employees { background-color: #efcc01;}
+dt.pac { background-color: #f27e01;}
 
 .secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
 .lobbyistsOrgs li, .issuesLobbied li { float: left; margin-right: 10px;}

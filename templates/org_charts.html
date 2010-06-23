@@ -1,7 +1,15 @@
 <div class="twoColumn chartWrapper"> 
   <div class="chart"> 
     {% if recipients_barchart_data %}
-    <h4>Top Politicians</h4>
+    <h4 class="key">Top Politicians</h4>
+    <dl class="key">
+        <dt class="employees">Employee Color Block</dt>
+        <dd>Employee</dd>
+        
+        <dt class="pac">PAC Color Block</dt>
+        <dd>PAC</dd>           
+    </dl>
+    <div class="clear"></div>
     <div class="graph" id="recipients_barchart">
       <!-- raphael charts here -->
     </div>    
@@ -13,7 +21,7 @@
   <div class="chart">
     <h4 class="withTip">Republicans vs. Democrats</h4>
     <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_party">
+    <div class="graph piechart" id="piechart_party">
       <!-- raphael charts here -->
     </div>
   </div>
@@ -23,7 +31,7 @@
   <div class="chart">
     <h4 class="withTip">State vs. Federal</h4>
     <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_level">
+    <div class="graph piechart" id="piechart_level">
       <!-- raphael charts here -->
     </div>
   </div>
