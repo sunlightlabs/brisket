@@ -45,4 +45,17 @@ $().ready(function() {
 		}
 	);
 	
+	$("div#descriptorText").hide();
+	
+	$("a.descriptor").toggle(
+	  function(){
+	     $(this).addClass("active");
+	     $("div#descriptorText").slideDown("slow");
+	  },
+	  function(){
+  	     $(this).removeClass("active");
+  	     $("div#descriptorText").slideUp("slow");
+  	  } 
+	);
+	
 });

@@ -1,28 +1,33 @@
 {% extends "search_base.html" %}
+{% load humanize %}
 
 {% block body_class %}organization{% endblock %}
 
 {% block main %}
+    {% if num_orgs %}
     <div id="contentHeader">
         <h2>Organizations</h2>
     </div>
     <div id="ltColumn">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu sagittis libero. Duis vel magna sem. Suspendisse cursus sapien vel mi lobortis eget mattis sapien condimentum. Proin eu lectus eget sem fringilla venenatis. Aliquam erat volutpat.</p>
+        <p>The following organizations have contributed the greatest dollar amounts during the current election cycle.</p>
         <table id="mainPageTables">
             <thead>
                   <tr id="titles">
                       <th class="sort">Name</th>
-                      <th class="sort">Total Given</th>
+                      <th class="sort">Given</th>
                   </tr>
               </thead>
               <tbody>
+                  {% for result in top_n_organizations %}
                   <tr class="{% cycle 'even' 'odd' %}">
                       <td>
-                          <a href="#">Organization</a>
+                          <a href="/organization/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{ result.name }}</a>
                       </td>
-                      <td>11,302,785</td>
+                      <td>${{ result.amount|floatformat:0|intcomma }}</td>
                   </tr>
+                  {% endfor %}
               </tbody>
-        </table>    
+        </table>
     </div>
+    {% endif %}
 {% endblock %}

@@ -13,7 +13,7 @@
   <div class="chart">
     <h4 class="withTip">In State vs. Out of State</h4>
     <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_local">
+    <div class="graph piechart" id="piechart_local">
       <!-- raphael charts -->
     </div>
   </div>
@@ -23,7 +23,7 @@
   <div class="chart">
     <h4 class="withTip">Individuals vs. PACs</h4>
     <span class="tip">in dollars</span>
-    <div class="graph" id="piechart_entity">
+    <div class="graph piechart" id="piechart_entity">
       <!-- raphael charts -->
     </div>
   </div>
@@ -31,8 +31,17 @@
 
 <div class="twoColumn chartWrapper"> 
   <div class="chart"> 
+
     {% if contributors_barchart_data %}
-    <h4 class="withTip">Top Contributors</h4>
+    <h4 class="withTip key">Top Contributors</h4>
+    <dl class="key">
+        <dt class="employees">Employee Color Block</dt>
+        <dd>Employee</dd>
+        
+        <dt class="pac">PAC Color Block</dt>
+        <dd>PAC</dd>           
+    </dl>    
+    <div class="clear"></div>
     <span class="tip">Employees and PACs of an organization</span>
     <div class="graph" id="contributors_barchart">
       <!-- raphael charts -->

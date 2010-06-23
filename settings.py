@@ -114,6 +114,8 @@ MEDIASYNC_JOINED = {
     )
 }
 
+LATEST_CYCLE = 2010
+
 
 try:
     from local_settings import *

@@ -10,7 +10,7 @@
       {% else %}  
         {{cycle|add:-1}} - {{cycle}} 
       {% endifequal %}</h3>
-  <span class="insideBar">
+  <div class="insideBar amount">
     {% if is_lobbying_firm %} 
 	    {% if entity_info.totals.firm_income %}
 	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
@@ -19,8 +19,19 @@
     	{% if entity_info.totals.non_firm_spending %}
     		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
     	{% endif %}
-    {% endif %}    
-  </span>
+    {% endif %}
+    <a class="descriptor" href="#">?</a>
+    <div class="clear"></div>
+    <div id="descriptorText">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in sapien a nisi sagittis malesuada vitae eget risus.</p>
+        <ul>
+            <li>Source 1</li>
+            <li>Source 2</li>
+            <li>Source 3</li>
+            <li>Source 4</li>
+        </ul>    
+    </div> 
+  </div>
   <div id="sparklines">                
     {% block lobbying_sparkline %}
     {% endblock %}
@@ -37,7 +48,7 @@
     <div class="lobbyingColumn oneColumn">
       {% if lobbying_lobbyists %}
       <div class="lobbyistsOrgs chartWrapper">
-        <span class="secondaryTitle">Lobbyists Employed by this Organization:</span>
+        <span class="secondaryTitle">Lobbyists Employed:</span>
         <ul>
           {% for row in lobbying_lobbyists %}
           {% if row.lobbyist_entity %}
@@ -102,7 +113,7 @@
     <div class="lobbyingColumn oneColumn chartWrapper">
       {% if lobbying_lobbyists %}
         <div class="lobbyistsOrgs oneColumn chartWrapper">
-          <span class="secondaryTitle">Lobbied for this Organization's Issues</span>:
+          <span class="secondaryTitle">Lobbyists Hired:</span>
           <ul>
             {% for row in lobbying_lobbyists %}
             {% if row.lobbyist_entity %}
