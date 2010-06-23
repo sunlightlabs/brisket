@@ -118,6 +118,11 @@ div.chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
 
 .piechart { margin-top: 20px;}
+a.descriptor { margin-left: 5px; font-size: 80%; margin-top: 1px;}
+div#descriptorText { position: absolute; padding: 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px; width: 300px; text-transform: none; font-size: 65%; background-color: #FAFAF8; border:1px solid #E2E2DC; margin-top: 10px;}
+div#descriptorText ol { list-style-type: decimal; margin-left: 20px;}
+div#descriptorText ul { list-style-type: disc; margin-left: 20px;}
+div#descriptorText p { margin-bottom: 1em;}
 
 dl.key { margin-top: 0px; padding-top: 2px;}
 dl.key dt { text-indent: -9999em; width: 10px; height: 10px; display: block; margin: 5px 7px 0 0;}

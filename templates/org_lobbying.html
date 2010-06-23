@@ -19,7 +19,17 @@
     	{% if entity_info.totals.non_firm_spending %}
     		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
     	{% endif %}
-    {% endif %}    
+    {% endif %}
+    <a class="descriptor" href="#">?</a>
+    <div id="descriptorText">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in sapien a nisi sagittis malesuada vitae eget risus.</p>
+        <ul>
+            <li>Source 1</li>
+            <li>Source 2</li>
+            <li>Source 3</li>
+            <li>Source 4</li>
+        </ul>    
+    </div> 
   </span>
   <div id="sparklines">                
     {% block lobbying_sparkline %}
