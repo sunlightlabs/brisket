@@ -5,9 +5,9 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
-  sparkline("sparklines", {{ sparkline_data|safe }});
-  piechart("piechart_level", {{ level_breakdown|safe }});
-  piechart("piechart_party", {{ party_breakdown|safe }}, type="party" );  
+  sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+  piechart("piechart_level", {% if level_breakdown %}{{ level_breakdown|safe }}{% else %}{}{% endif %});
+  piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );  
   barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});  
 });
 </script>
@@ -24,7 +24,7 @@ $(document).ready(function() {
 {% endblock %}
  
 {% block lobbying %}
-{% if lobbying_clients %}
+{% if lobbying_data %}
    {% include "org_lobbying.html" %}
 {% endif %} 
 {% endblock %}

@@ -36,8 +36,10 @@
     {% include "org_charts.html" %} 
     {% endif %}{% endif %}{% endif %}
   {% else %}
+  {% if reason == "negative" %}
   <p>Due to refunds and other accounting issues, aggregate totals
   for this timeframe were negative.</p>  
+  {% endif %}
   {% endif %}
 
   {% endblock %} <!-- end chart block -->

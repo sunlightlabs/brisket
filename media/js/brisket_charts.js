@@ -1,5 +1,7 @@
 
 function piechart(div, data, type) {
+    
+    if ( _.keys(data).length == 0) { return; }
 
     // data is expected as a dict.
     var r = Raphael(div);
@@ -246,12 +248,15 @@ function barchart(div, data, limit) {
 }
 
 function sparkline(div, data) {
-  r = Raphael(div, 100, 30);
-  var x = [], y = [];
-  for (var i=0; i<data.length; i++) {
-    x[i] = data[i]['step'];
-    y[i] = data[i]['amount'];
-  }
-  r.g.linechart(0, 10, 100, 30, x, y);
+    if (data.length == 0) {
+	return;
+    }
 
+    r = Raphael(div, 100, 30);
+    var x = [], y = [];
+    for (var i=0; i<data.length; i++) {
+	x[i] = data[i]['step'];
+	y[i] = data[i]['amount'];
+    }
+    r.g.linechart(0, 10, 100, 30, x, y);
 }

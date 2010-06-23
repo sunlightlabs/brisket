@@ -5,8 +5,8 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
-  sparkline("sparklines", {{ sparkline_data|safe }});
-  piechart("piechart_party", {{ party_breakdown|safe }}, type="party");
+  sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+  piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party");
   barchart("recipients_barchart", {% if candidates_barchart_data %}{{ candidates_barchart_data|safe }}{% else %} [] {% endif %});  
   barchart("orgs_barchart", {% if orgs_barchart_data %}{{ orgs_barchart_data|safe }}{% else %} [] {% endif %});
 });

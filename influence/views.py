@@ -117,18 +117,6 @@ def organization_entity(request, entity_id):
         context['contributions_data'] = True
         org_recipients = api.org_recipients(entity_id, cycle=cycle)
 
-        # check to see if some or all contributions are negative. if
-        # they all are, don't display the charts. if only some are,
-        # then remove them from the barchart.
-        if float(entity_info['totals']['contributor_amount']) < 0:
-            positive_recipients = [r for r in org_recipients if float(r['total_amount']) > 0.0]
-            if len(positive_recipients) == 0:
-                context['suppress_contrib_graphs'] = True
-                print 'suppressing contribution charts because all data is negative'
-            else:
-                print 'removing some negative contributions from top contributors charts'
-                org_recipients = positive_recipients
-
         recipients_barchart_data = []
         for record in org_recipients:
             recipients_barchart_data.append({
@@ -136,21 +124,37 @@ def organization_entity(request, entity_id):
                     'value' : record['total_amount'],
                     'href' : _barchart_href(record, cycle, entity_type='politician')
                     })
-        context['recipients_barchart_data'] = validate(recipients_barchart_data)
+        context['recipients_barchart_data'] = bar_validate(recipients_barchart_data)
 
         party_breakdown = api.org_party_breakdown(entity_id, cycle)
         for key, values in party_breakdown.iteritems():
             party_breakdown[key] = float(values[1])
-        context['party_breakdown'] = party_breakdown
+        context['party_breakdown'] = pie_validate(party_breakdown)
 
         level_breakdown = api.org_level_breakdown(entity_id, cycle)
         for key, values in level_breakdown.iteritems():
             level_breakdown[key] = float(values[1])
-        context['level_breakdown'] = level_breakdown
+        context['level_breakdown'] = pie_validate(level_breakdown)
+
+        # if none of the charts have data, or if the aggregate total
+        # received was negative, then suppress that whole content
+        # section except the overview bar
+        if int(float(entity_info['totals']['contributor_amount'])) < 0:
+            context['suppress_contrib_graphs'] = True
+            context['reason'] = "negative"
+
+        elif (not context['recipients_barchart_data'] 
+              and not context['party_breakdown'] 
+              and not context['level_breakdown']):
+            context['suppress_contrib_graphs'] = True
+            context['reason'] = 'empty'
 
         context['sparkline_data'] = api.org_sparkline(entity_id, cycle)
+        print 'sparkline data'
+        print context['sparkline_data']
 
     # get lobbying info if it exists for this entity
+    print "metadata['lobbying'] = " + str(metadata['lobbying'])
     if metadata['lobbying']:
         context['lobbying_data'] = True
         is_lobbying_firm = bool(entity_info['metadata'].get('lobbying_firm', False))
@@ -166,6 +170,7 @@ def organization_entity(request, entity_id):
             context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
             context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
 
+
     return render_to_response('organization.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
@@ -176,7 +181,7 @@ def politician_entity(request, entity_id):
     context['entity_id'] = entity_id
     context['cycle'] = cycle
 
-    metadata = get_metadata(entity_id, cycle, "organization")
+    metadata = get_metadata(entity_id, cycle, "politician")
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
     context['external_links'] = external_sites.get_links(entity_info)
@@ -194,17 +199,7 @@ def politician_entity(request, entity_id):
         context['contributions_data'] = True
 
         top_contributors = api.pol_contributors(entity_id, cycle)
-        # check to see if some or all contributions are negative. if
-        # they all are, don't display the charts. if only some are,
-        # then remove them from the barchart.
-        if float(entity_info['totals']['recipient_amount']) < 0:
-            positive_contribs = [c for c in top_contributors if float(c['total_amount']) > 0.0]
-            if len(positive_contribs) == 0:
-                context['suppress_contrib_graphs'] = True
-                print 'suppressing contribution charts because all data is negative'
-            else:
-                print 'removing some negative contributions from top contributors charts'
-                top_contributors = positive_contribs
+        top_sectors = api.pol_sectors(entity_id, cycle=cycle)
 
         contributors_barchart_data = []
         for record in top_contributors:
@@ -215,10 +210,9 @@ def politician_entity(request, entity_id):
                     'value_pac' : record['direct_amount'],
                     'href' : _barchart_href(record, cycle, 'organization')
                     })
-        context['contributors_barchart_data'] = validate(contributors_barchart_data)
+        context['contributors_barchart_data'] = bar_validate(contributors_barchart_data)    
 
         # top sectors is already sorted
-        top_sectors = api.pol_sectors(entity_id, cycle=cycle)
         sectors_barchart_data = []
         for record in top_sectors:
             try:
@@ -228,21 +222,38 @@ def politician_entity(request, entity_id):
             sectors_barchart_data.append({
                     'key': _generate_label(sector_name),
                     'value' : record['amount'],
-                    'href' : "-1" # will eventually link to industry pages.
+                    # make sure to leave href as -1 if you want to
+                    # suppress link generation in the javascript
+                    # barchart function.
+                    'href' : "-1" 
                     })
-        context['sectors_barchart_data'] = validate(sectors_barchart_data)
+        context['sectors_barchart_data'] = bar_validate(sectors_barchart_data)
 
         local_breakdown = api.pol_local_breakdown(entity_id, cycle)
         for key, values in local_breakdown.iteritems():
             # values is a list of [count, amount]
             local_breakdown[key] = float(values[1])
-        context['local_breakdown'] = local_breakdown
+        context['local_breakdown'] = pie_validate(local_breakdown)
 
         entity_breakdown = api.pol_contributor_type_breakdown(entity_id, cycle)
         for key, values in entity_breakdown.iteritems():
             # values is a list of [count, amount]
             entity_breakdown[key] = float(values[1])
-        context['entity_breakdown'] = entity_breakdown
+        context['entity_breakdown'] = pie_validate(entity_breakdown)
+
+        # if none of the charts have data, or if the aggregate total
+        # received was negative, then suppress that whole content
+        # section except the overview bar
+        if int(float(entity_info['totals']['recipient_amount'])) < 0:
+            context['suppress_contrib_graphs'] = True
+            context['reason'] = "negative"
+
+        elif (not context['sectors_barchart_data'] 
+            and not context['contributors_barchart_data'] 
+            and not context['local_breakdown'] 
+            and not context['entity_breakdown']):
+            context['suppress_contrib_graphs'] = True
+            context['reason'] = 'empty'
 
         context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
 
@@ -293,13 +304,17 @@ def get_metadata(entity_id, cycle, entity_type):
     entity_info = api.entity_metadata(entity_id, cycle)
 
     # check which types of data are available about this entity
+    print 'getting metadata for %s %s' % (entity_type, entity_id)
     for data_type, indicators in section_indicators[entity_type].iteritems():
+        try:
+            print 'totals for %s' % indicators[0]
+            print entity_info['totals'][cycle][indicators[0]]
+        except: pass
         if (entity_info['totals'].get(cycle, False) and
-            [True for ind in indicators if entity_info['totals'][cycle][ind]]):
+            [True for ind in indicators if entity_info['totals'][cycle][ind] ]):
             data[data_type] = True
         else:
             data[data_type] = False
-
 
     data['available_cycles'] = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
@@ -330,20 +345,6 @@ def individual_entity(request, entity_id):
         recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
         recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
 
-        # check to see if some or all contributions are negative. if
-        # they all are, don't display the charts. if only some are,
-        # then remove them from the barchart.
-        if float(entity_info['totals']['contributor_amount']) < 0:
-            positive_cands = [r for r in recipient_candidates if float(r['amount']) > 0.0]
-            positive_orgs = [r for r in recipient_orgs if float(r['amount']) > 0.0]
-            if len(positive_cands) == 0 or len(positive_orgs) == 0:
-                context['suppress_contrib_graphs'] = True
-                print 'suppressing contribution charts because all data is negative'
-            else:
-                print 'removing some negative contributions from charts'
-                recipient_candidates = positive_cands
-                recipient_orgs = positive_orgs
-
         candidates_barchart_data = []
         for record in recipient_candidates:
             candidates_barchart_data.append({
@@ -351,7 +352,7 @@ def individual_entity(request, entity_id):
                     'value' : record['amount'],
                     'href' : _barchart_href(record, cycle, entity_type="politician"),
                     })
-        context['candidates_barchart_data'] = validate(candidates_barchart_data)
+        context['candidates_barchart_data'] = bar_validate(candidates_barchart_data)
 
         orgs_barchart_data = []
         for record in recipient_orgs:
@@ -360,15 +361,28 @@ def individual_entity(request, entity_id):
                     'value' : record['amount'],
                     'href' : _barchart_href(record, cycle, entity_type="organization"),
                     })
-        context['orgs_barchart_data'] = validate(orgs_barchart_data)
+        context['orgs_barchart_data'] = bar_validate(orgs_barchart_data)
 
         party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
         for key, values in party_breakdown.iteritems():
             party_breakdown[key] = float(values[1])
-        context['party_breakdown'] = party_breakdown
+        context['party_breakdown'] = pie_validate(party_breakdown)
 
         context['sparkline_data'] = api.indiv_sparkline(entity_id, cycle)
 
+        # if none of the charts have data, or if the aggregate total
+        # received was negative, then suppress that whole content
+        # section except the overview bar
+        if int(float(entity_info['totals']['contributor_amount'])) < 0:
+            context['suppress_contrib_graphs'] = True
+            context['reason'] = "negative"
+
+        elif (not context['candidates_barchart_data'] 
+            and not context['orgs_barchart_data'] 
+            and not context['party_breakdown']):
+            context['suppress_contrib_graphs'] = True
+            context['reason'] = 'empty'
+        
 
     # get lobbying info if it's available for this entity
     if metadata['lobbying']:
@@ -399,18 +413,38 @@ def industry_detail(request, entity_id):
                                },
                               entity_context(request, cycle))
 
-def validate(data):
+def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
      generation function, and make sure there's data worth displaying.
      if so, return the original data. if not, return false.'''
-    print 'original data to be validated'
+    print 'original bar data to be validated'
     print data
 
-    # if all the data is 0 or if the list is empty, return false
+    positive_data = [d for d in data if int(float(d['value'])) > 0]
+    data = positive_data
+    # if all the data is 0 or if the list with only positive data is
+    # empty, return false
     if sum([int(float(record['value'])) for record in data]) == 0:
         return False
     else:
         return data
+
+def pie_validate(data):
+    ''' take a dict formatted for submission to the piechart
+     generation function, and make sure there's data worth displaying.
+     if so, return the original data. if not, return false.'''
+
+    print 'original pie data to be validated'
+    print data
+    
+    positive = {}
+    for k,v in data.iteritems():
+        if int(float(v)) != 0:
+            positive[k] = v
+    if len(positive) == 0:
+        return False
+    else:
+        return positive
     
 
 # lobbying
