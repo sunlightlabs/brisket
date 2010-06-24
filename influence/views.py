@@ -30,7 +30,6 @@ def index(request):
 
 def search(request):
     if not request.GET.get('query', None):
-        print 'Form Error'
         HttpResponseRedirect('/')
 
     submitted_form = SearchForm(request.GET)
@@ -118,7 +117,6 @@ def organization_entity(request, entity_id):
         context['contributions_data'] = True
         org_recipients = api.org_recipients(entity_id, cycle=cycle)
 
-        print org_recipients
         recipients_barchart_data = []
         for record in org_recipients:
             recipients_barchart_data.append({
@@ -154,8 +152,6 @@ def organization_entity(request, entity_id):
             context['reason'] = 'empty'
 
         context['sparkline_data'] = api.org_sparkline(entity_id, cycle)
-        print 'sparkline data'
-        print context['sparkline_data']
 
     # get lobbying info if it exists for this entity
     if metadata['lobbying']:

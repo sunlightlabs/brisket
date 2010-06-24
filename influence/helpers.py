@@ -235,12 +235,7 @@ def get_metadata(entity_id, cycle, entity_type):
     entity_info = api.entity_metadata(entity_id, cycle)
 
     # check which types of data are available about this entity
-    print 'getting metadata for %s %s' % (entity_type, entity_id)
     for data_type, indicators in section_indicators[entity_type].iteritems():
-        try:
-            print 'totals for %s' % indicators[0]
-            print entity_info['totals'][cycle][indicators[0]]
-        except: pass
         if (entity_info['totals'].get(cycle, False) and
             [True for ind in indicators if entity_info['totals'][cycle][ind] ]):
             data[data_type] = True
