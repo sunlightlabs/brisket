@@ -9,9 +9,16 @@
   <h2>No results for that search</h2>
   {% else %}
   <h2>Results for &#8220;{{ query|title }}&#8221;</h2>
+  
 </div>
 
+  
 <div class="module">
+  <p id="description">
+  Influence Explorer tracks disclosure data for all state and federal politicians and most large corporate and individual donors. 
+  If you can't find an organization or individual listed here, you might still be able to find them in our source data at
+  <a href="http://transparencydata.com">Transparency Data</a>.
+  </p>
 
   {% if num_orgs %}
   <div class="searchBox">
@@ -60,7 +67,7 @@
       <table class="threeColumn clear">
           <thead>
               <tr id="titles">
-                  <th class="center">Politician</th>
+                  <th class="left">Politician</th>
                   <th class="center">State</th>
                   <th class="center">Office</th>
                   <th class="center">Party</th>
@@ -71,7 +78,7 @@
           <tbody>
               {% for result in sorted_results.politician %}
               <tr class="{% cycle 'even' 'odd' %}">
-                  <td class="center lawmakerName">
+                  <td class="left lawmakerName">
                       <a href="/{{ result.type }}/{{ result.name|standardize_politician_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_politician_name}}</a>
                   </td>
                   <td class="center">{{ result.state }}</td>
