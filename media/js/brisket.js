@@ -59,6 +59,6 @@ $().ready(function() {
 	);
 
 	/* make entity landing pages sortable */
-	$("#mainPageTables").tablesorter(); 
+	$("#mainPageTables").tablesorter({ widgets: ['zebra']}); 
 	
 });
