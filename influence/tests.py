@@ -112,7 +112,7 @@ class LobbyingAPITests(APITest):
         self.assertLength(10, api.org_registrant_issues(self.NICKLES, CYCLE))
 
 
-class NameStandardizationTests(TestCase):
+class PoliticianNameStandardizationTests(TestCase):
 
     def test_strip_party_affiliation(self):
         self.assertEqual('Nancy Pelosi', helpers.strip_party('Nancy Pelosi (D)'))
@@ -136,3 +136,10 @@ class NameStandardizationTests(TestCase):
     def test_we_dont_need_no_steeenking_nicknames(self):
         self.assertEqual('Robert M McDonnell', helpers.standardize_politician_name('McDonnell, Robert M (Bob)'))
 
+class IndividualNameStandardizationTests(TestCase):
+
+    def test_all_kinds_of_crazy(self):
+        self.assertEqual('Mr Stanford Z Rothschild', helpers.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MR'))
+
+    def test_jr_and_the_like_end_up_at_the_end(self):
+        self.assertEqual('Frederick A "Tripp" Baird III', helpers.standardize_individual_name('Baird, Frederick A "Tripp" III'))

@@ -1,5 +1,6 @@
 {% extends "entity_base.html" %}
 {% load humanize %}
+{% load influence_extras %}
 {% block body_class %}individual{% endblock %}
 
 {% block extrajs %}
@@ -15,7 +16,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contentHeader %}
-<h2>{{ entity_info.name }}</h2>
+<h2>{{ entity_info.name|standardize_individual_name }}</h2>
 {% endblock %}
 
 {% block contributions %}

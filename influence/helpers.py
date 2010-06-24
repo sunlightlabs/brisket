@@ -6,18 +6,34 @@ from util import catcodes
 def standardize_politician_name(name):
     no_party = strip_party(name)
     proper_case = convert_case(no_party)
-    right_order = convert_to_standard_order(proper_case)
 
-    return right_order
+    return convert_to_standard_order(proper_case)
+
+def standardize_individual_name(name):
+    name, honorific, suffix = separate_affixes(name)
+
+    name = convert_name_to_first_last(name)
+    name = ' '.join([x for x in [honorific, name, suffix] if x])
+    name = re.sub(r'\d{2,}\s*$', '', name)
+
+    return convert_case(name)
+
+def separate_affixes(name):
+    # this should match both honorifics (mr/mrs/ms) and jr/sr/II/III
+    matches = re.search(r'^(?P<name>.*)\b((?P<honorific>m[rs]s?)|(?P<suffix>([js]r|I{2,})))\.?\s*$', name, re.IGNORECASE)
+    if matches:
+        return matches.group('name', 'honorific', 'suffix')
+    else:
+        return name, None, None
 
 def strip_party(name):
     return re.sub(r'\s*\(\w+\)\s*$', '', name)
 
 def convert_case(name):
-    if not re.search(r'[A-Z][a-z]', name):
-        return string.capwords(name)
-    else:
+    if re.search(r'[A-Z][a-z]', name):
         return name
+    else:
+        return string.capwords(name)
 
 def convert_to_standard_order(name):
     if '&' in name:

@@ -1,6 +1,7 @@
 <!-- this file is included for individuals that have lobbying data to --
   -- display -->
 {% load humanize %}
+{% load influence_extras %}
 
 <div class="overviewBar">
   <a class="toggle">Toggle</a>
@@ -23,7 +24,7 @@
   {% if lobbying_with_firm %}
   
   <div class="threeColumn chartWrapper">
-    <h4>{{ entity_info.name }} Lobbied with the Following Firms</h4>
+    <h4>{{ entity_info.name|standardize_individual_name }} Lobbied with the Following Firms</h4>
     <div class="lobbyistsOrgs twoColumn">
       {% for row in lobbying_with_firm %}
       {% if row.registrant_entity %}    
@@ -54,7 +55,7 @@
   {% if lobbying_for_clients %}
   
   <div class="threeColumn chartWrapper">
-    <h4>Clients of Firms {{ entity_info.name }} Worked For</h4>
+    <h4>Clients of Firms {{ entity_info.name|standardize_individual_name }} Worked For</h4>
     <div class="lobbyistsOrgs twoColumn">
       {% for row in lobbying_for_clients %}
       {% if row.client_entity %}

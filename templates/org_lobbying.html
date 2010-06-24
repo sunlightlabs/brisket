@@ -1,6 +1,7 @@
 <!-- this file is included for organizations that have lobbying data to --
   -- display -->
 {% load humanize %}
+{% load influence_extras %}
 
 <div class="overviewBar">
   <a class="toggle">Toggle</a>
@@ -53,10 +54,10 @@
           {% for row in lobbying_lobbyists %}
           {% if row.lobbyist_entity %}
           <li>
-            <a href="/individual/{{ row.lobbyist_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name }}</a>,
+            <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
           </li>
           {% else %}
-          {{ row.lobbyist_name }}
+          {{ row.lobbyist_name|standardize_individual_name }}
           {% endif %}
           {% endfor %}
         </ul>
@@ -118,10 +119,10 @@
             {% for row in lobbying_lobbyists %}
             {% if row.lobbyist_entity %}
             <li>
-              <a href="/individual/{{ row.lobbyist_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name }}</a>
+              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>
             </li>
             {% else %}
-            {{ row.lobbyist_name }}
+            {{ row.lobbyist_name|standardize_individual_name }}
             {% endif %}
             {% endfor %}
           </ul>

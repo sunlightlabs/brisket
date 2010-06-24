@@ -10,6 +10,16 @@ def standardize_politician_name_filter(name):
     return helpers.standardize_politician_name(name)
 
 
+@register.filter(name='standardize_individual_name')
+@stringfilter
+def standardize_individual_name_filter(name):
+    return helpers.standardize_individual_name(name)
+
+@register.filter(name='standardize_politician_name')
+@stringfilter
+def standardize_politician_name_filter(name):
+    return helpers.standardize_politician_name(name)
+
 
 seat_labels = {'federal:senate': 'Senate',
                'federal:house': 'House',
