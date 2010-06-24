@@ -57,5 +57,8 @@ $().ready(function() {
   	     $("div#descriptorText").slideUp("slow");
   	  } 
 	);
+
+	/* make entity landing pages sortable */
+	$("#mainPageTables").tablesorter(); 
 	
 });
