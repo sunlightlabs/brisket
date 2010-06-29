@@ -1,6 +1,6 @@
 $().ready(function() {
-    
-    /* hide cycle submit button if JavaScript is enabled */
+	
+	/* hide cycle submit button if JavaScript is enabled */
 	$('#cycle_submit').hide();
 	
 	/* change cycle on select rather than using submit button */
@@ -49,13 +49,13 @@ $().ready(function() {
 	
 	$("a.descriptor").toggle(
 	  function(){
-	     $(this).addClass("active");
-	     $("div#descriptorText").slideDown("slow");
+		 $(this).addClass("active");
+		 $("div#descriptorText").slideDown("slow");
 	  },
 	  function(){
-  	     $(this).removeClass("active");
-  	     $("div#descriptorText").slideUp("slow");
-  	  } 
+		 $(this).removeClass("active");
+		 $("div#descriptorText").slideUp("slow");
+	  } 
 	);
 
 	/* make entity landing pages sortable */

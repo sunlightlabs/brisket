@@ -2,6 +2,10 @@
 {% load humanize %}
 {% block body_class %}organization{% endblock %}
 
+{% block pagetitle %}
+    : {{ entity_info.name }}
+{% endblock %}
+
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {

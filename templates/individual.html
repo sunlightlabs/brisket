@@ -1,6 +1,11 @@
 {% extends "entity_base.html" %}
 {% load humanize %}
 {% load influence_extras %}
+
+{% block pagetitle %}
+    : {{ entity_info.name|standardize_individual_name }}
+{% endblock %}
+
 {% block body_class %}individual{% endblock %}
 
 {% block extrajs %}

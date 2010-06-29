@@ -4,33 +4,32 @@
 
 {% block main %}
 
-<div id="contentHeader">
-    <h2>We'd Love to Hear from You</h2>
-</div>
+	<div id="contentHeader">
+	    <h2>We'd Love to Hear from You</h2>
+	</div>
 
-<div class="module">
-    <p class="tip">Have suggestions or would just like to tell us what you think? Let us know below.</p>
-    <form action="#" id="contact">
-        <ul>
-            <li>
-                <label>Name</label>
-                <input id="name" class="full" type="text" name="word" />
-            </li>
-            <li>
-                <label>Email</label>
-                <input id="email" class="full" type="text" name="word" />
-            </li>
-            <li>
-                <label>Comment</label>
-                <textarea id="comment" class="textarea full" name="text" cols="32" rows="5"></textarea>
-            </li>
-            <li>
-                <button class="submitBtn" type="submit">
-                    <span>Submit</span>
-                </button>
-            </li>    
-        </ul>
-    </form>
-</div>
+	<div class="module">
+
+		{% if messages %}
+			<ul class="messages">
+		    	{% for message in messages %}
+		    	<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		    	{% endfor %}
+			</ul>
+		{% else %}
+		    <p class="tip">Have suggestions or would just like to tell us what you think? Let us know below.</p>
+		    <form action="{% url contact_form %}" method="post" id="contact">
+		        <ul>
+		            {{ form.as_ul }}
+		            <li>
+		                <button class="submitBtn" type="submit">
+		                    <span>Submit</span>
+		                </button>
+		            </li>    
+		        </ul>
+		    </form>
+		{% endif %}
+		
+	</div>
 
 {% endblock %}

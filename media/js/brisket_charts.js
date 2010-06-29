@@ -1,7 +1,18 @@
+function dollar(str) {
+  str += '';
+  x = str.split('.');
+  x1 = x[0];
+  x2 = x.length > 1 ? '.' + x[1] : '';
+  var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+  return "$"+ x1 + x2;
+}
 
 function piechart(div, data, type) {
     
-    if ( _.keys(data).length == 0) { return; }
+    if ( _.keys(data).length === 0) { return; }
 
     // data is expected as a dict.
     var r = Raphael(div);
@@ -30,7 +41,7 @@ function piechart(div, data, type) {
     for (var i = 0; i < keys.length; i++) {
 
         var key = keys[i];
-        var value = data[key];
+        var value = Math.min(data[key], total);
         var color = (type && type == "party") ? party_colors[key] : other_colors[i];
 
         var percent = Math.round((value / total) * 100);
@@ -39,11 +50,13 @@ function piechart(div, data, type) {
             label = label[0].toUpperCase() + label.substr(1, label.length);
         }
 
-        slices.push({
-            value: value,
-            label: label,
-            color: color,
-        });
+		if (value > 0) {
+	        slices.push({
+	            value: value,
+	            label: label,
+	            color: color
+	        });
+		}
 
     }
 
@@ -51,15 +64,15 @@ function piechart(div, data, type) {
         return b.value - a.value;
     });
 
-    var labels = _.map(slices, function(s){ return s.label });
-    var values = _.map(slices, function(s){ return s.value });
-    var colors = _.map(slices, function(s){ return s.color });
+    var labels = _.map(slices, function(s){ return s.label; });
+    var values = _.map(slices, function(s){ return s.value; });
+    var colors = _.map(slices, function(s){ return s.color; });
 
     pie = r.g.piechart(70, 70, 60, values, {
         legend: labels,
         legendpos: "east",
         colors: colors,
-        strokewidth: 0,
+        strokewidth: 0
     });
     
     for (var i=0; i < pie.labels.length; i++) {
@@ -95,24 +108,22 @@ function piechart(div, data, type) {
 
 }
 
-function dollar(str) {
-  str += '';
-  x = str.split('.');
-  x1 = x[0];
-  x2 = x.length > 1 ? '.' + x[1] : '';
-  var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-  return "$"+ x1 + x2;
-}
 
 
 function barchart(div, data, limit) {
     /* expects data to be a list of dicts each with keys called key,
        value, and href. */
 
-    if (data.length == 0) {
+	var conf = {
+		chart_height: 195,
+		chart_width: 285,
+		chart_x: 215,
+		chart_y: 10,
+		bar_gutter: 30,
+		right_gutter: 60
+	};
+
+    if (data.length === 0) {
 	return;
     }
 
@@ -129,7 +140,7 @@ function barchart(div, data, limit) {
     var original_len = data.length;
 
     if (data.length < 10) {
-        for (var i=data.length; i<10; i++) {
+        for (var i=data.length; i < 10; i++) {
           data[i] = {'key':' ', 'value': 0, 'href': -1};
         }
     }
@@ -155,13 +166,13 @@ function barchart(div, data, limit) {
 
     opts = {
         "type": "soft",
-        "gutter": 30, //space between bars, as fn of bar width/height
+        "gutter": conf.bar_gutter, //space between bars, as fn of bar width/height
         "stacked": false,
-	"colors" : ["#EFCC01", "#f27e01"]
+		"colors" : ["#EFCC01", "#f27e01"]
     };
 
-    /* check if this is a stacked barchart. data sets must be passed
-       inside another array-- barchart fn supports multiple data
+    /* check if this is a stacked barchart_obj. data sets must be passed
+       inside another array-- barchart_obj fn supports multiple data
        series so expects an array of arrays, even for just one data
        series. Else it will treat each data point as one series. */
     if (data[0]['value_employee']) {
@@ -177,35 +188,35 @@ function barchart(div, data, limit) {
       all_data = [data_values];
     }
 
-    var barchart = b.g.hbarchart(175,10, 330, 150, all_data, opts);
-    var num_datasets = barchart.bars.length;
+    var barchart_obj = b.g.hbarchart(conf.chart_x, conf.chart_y, conf.chart_width, conf.chart_height, all_data, opts);
+    var num_datasets = barchart_obj.bars.length;
 
     /* pass in labels array inside another array. if this is a stacked
-     * barchart, raphael defaults to including the data value as a
+     * barchart_obj, raphael defaults to including the data value as a
      * label when no label is passed in, so trick it by sending in
      * blank (but non-empty!) strings.  */
-    if (barchart.bars.length > 1) {
+    if (barchart_obj.bars.length > 1) {
      the_labels = [data_labels, 
 		   ["   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   "]];
     }
     else {
       the_labels = [data_labels];
     }
-    barchart.label(the_labels, false);
+    barchart_obj.label(the_labels, false);
 
     /* add links to the labels */
-    for (var i = 0; i < barchart.labels.length; i++) {
-      var key = barchart.labels[i].attr('text');
+    for (var i = 0; i < barchart_obj.labels.length; i++) {
+      var key = barchart_obj.labels[i].attr('text');
       if (data_hrefs[key]) {
-	  barchart.labels[i].attr({'href': data_hrefs[key], 'fill': "#666666" });
+	  barchart_obj.labels[i].attr({'href': data_hrefs[key], 'fill': "#666666" });
       }
       else {
-	  barchart.labels[i].attr({'fill': "#666666" });
+	  barchart_obj.labels[i].attr({'fill': "#666666" });
       }
     }
 
     /* change the labels to the link colour on hover */
-    barchart.labels.hover(function() {
+    barchart_obj.labels.hover(function() {
 	    if (this.attr("href")) {
 		this.attr({fill: "#0A6E92"});
 	    }
@@ -214,33 +225,34 @@ function barchart(div, data, limit) {
         }
 	);
 
-    barchart.labels.translate(-165);
+    barchart_obj.labels.translate((conf.chart_x - 10) * -1);
 
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
     s = b.set();
     for (var i=0; i< original_len; i++) {
-      x = barchart.bars[num_datasets-1][i].x;
-      y = barchart.bars[num_datasets-1][i].y;
+      x = barchart_obj.bars[num_datasets-1][i].x;
+      y = barchart_obj.bars[num_datasets-1][i].y;
       text = 0;
       for (var n=0; n< num_datasets; n++) {
-	text = text + barchart.bars[n][i].value;
+	text = text + barchart_obj.bars[n][i].value;
       }
       text = "$"+text;
 
       marker = b.g.text(x,y,text);
       marker.attr("fill", "#666666");
       s.push(marker);
-    };
+    }
 
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: spacing, 'text-anchor': 'start'});
 
-    var yAxis = b.path("M 175 10 L 175 154");
+    var yAxis = b.path("M " + conf.chart_x + " " + conf.chart_y + " L " + conf.chart_x + " " + conf.chart_height);
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
 
-    var xAxis = b.path("M 175 154 L 560 154");
+	var xAxisLength = conf.chart_width + conf.chart_x + conf.right_gutter;
+    var xAxis = b.path("M " + conf.chart_x + " " + conf.chart_height + " L " + xAxisLength + " " + conf.chart_height);
 
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
@@ -248,7 +260,7 @@ function barchart(div, data, limit) {
 }
 
 function sparkline(div, data) {
-    if (data.length == 0) {
+    if (data.length === 0) {
 	return;
     }
 
