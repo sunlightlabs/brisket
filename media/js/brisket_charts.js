@@ -112,6 +112,15 @@ function barchart(div, data, limit) {
     /* expects data to be a list of dicts each with keys called key,
        value, and href. */
 
+	var conf = {
+		chart_height: 195,
+		chart_width: 285,
+		chart_x: 215,
+		chart_y: 10,
+		bar_gutter: 30,
+		right_gutter: 60
+	};
+
     if (data.length == 0) {
 	return;
     }
@@ -129,7 +138,7 @@ function barchart(div, data, limit) {
     var original_len = data.length;
 
     if (data.length < 10) {
-        for (var i=data.length; i<10; i++) {
+        for (var i=data.length; i < 10; i++) {
           data[i] = {'key':' ', 'value': 0, 'href': -1};
         }
     }
@@ -155,9 +164,9 @@ function barchart(div, data, limit) {
 
     opts = {
         "type": "soft",
-        "gutter": 30, //space between bars, as fn of bar width/height
+        "gutter": conf.bar_gutter, //space between bars, as fn of bar width/height
         "stacked": false,
-	"colors" : ["#EFCC01", "#f27e01"]
+		"colors" : ["#EFCC01", "#f27e01"]
     };
 
     /* check if this is a stacked barchart. data sets must be passed
@@ -177,7 +186,7 @@ function barchart(div, data, limit) {
       all_data = [data_values];
     }
 
-    var barchart = b.g.hbarchart(175,10, 330, 150, all_data, opts);
+    var barchart = b.g.hbarchart(conf.chart_x, conf.chart_y, conf.chart_width, conf.chart_height, all_data, opts);
     var num_datasets = barchart.bars.length;
 
     /* pass in labels array inside another array. if this is a stacked
@@ -214,7 +223,7 @@ function barchart(div, data, limit) {
         }
 	);
 
-    barchart.labels.translate(-165);
+    barchart.labels.translate((conf.chart_x - 10) * -1);
 
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
@@ -236,11 +245,12 @@ function barchart(div, data, limit) {
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: spacing, 'text-anchor': 'start'});
 
-    var yAxis = b.path("M 175 10 L 175 154");
+    var yAxis = b.path("M " + conf.chart_x + " " + conf.chart_y + " L " + conf.chart_x + " " + conf.chart_height);
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
 
-    var xAxis = b.path("M 175 154 L 560 154");
+	var xAxisLength = conf.chart_width + conf.chart_x + conf.right_gutter;
+    var xAxis = b.path("M " + conf.chart_x + " " + conf.chart_height + " L " + xAxisLength + " " + conf.chart_height);
 
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();

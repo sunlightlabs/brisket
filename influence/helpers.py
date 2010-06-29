@@ -213,7 +213,7 @@ def barchart_href(record, cycle, entity_type):
 def generate_label(string):
     ''' truncate names longer than max_length and normalize the case
     to use title case'''
-    max_length = 27
+    max_length = 34
     label = string[:max_length] + (lambda x, l: (len(x)>l and "...")
                                    or "")(string, max_length)
     return label.title()
