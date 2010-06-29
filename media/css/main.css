@@ -120,7 +120,7 @@ div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
 span.amount { float: left; margin-right: 5px;}
 div.amount { float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px; margin-top: 1px;}
 a.descriptor { margin-left: 5px; font-size: 80%; margin-top: 1px; }
-div#descriptorText { position: absolute; padding: 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px; width: 300px; text-transform: none; font-size: 65%; background-color: #FAFAF8; border:1px solid #E2E2DC; margin-top: 10px;}
+div#descriptorText { position: absolute; padding: 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px; width: 300px; text-transform: none; font-size: 65%; background-color: #FAFAF8; border:1px solid #E2E2DC; margin-top: 10px; z-index: 100000; }
 div#descriptorText ol { list-style-type: decimal; margin-left: 20px;}
 div#descriptorText ul { list-style-type: disc; margin-left: 20px;}
 div#descriptorText p { margin-bottom: 1em;}
