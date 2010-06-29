@@ -30,7 +30,6 @@ def index(request):
 
 def search(request):
     if not request.GET.get('query', None):
-        print 'Form Error'
         HttpResponseRedirect('/')
 
     submitted_form = SearchForm(request.GET)
@@ -118,7 +117,6 @@ def organization_entity(request, entity_id):
         context['contributions_data'] = True
         org_recipients = api.org_recipients(entity_id, cycle=cycle)
 
-        print org_recipients
         recipients_barchart_data = []
         for record in org_recipients:
             recipients_barchart_data.append({

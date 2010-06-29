@@ -1,6 +1,6 @@
 $().ready(function() {
-    
-    /* hide cycle submit button if JavaScript is enabled */
+	
+	/* hide cycle submit button if JavaScript is enabled */
 	$('#cycle_submit').hide();
 	
 	/* change cycle on select rather than using submit button */
@@ -45,17 +45,20 @@ $().ready(function() {
 		}
 	);
 	
-	$("div#descriptorText").hide();
-	
+	/* descriptor toggles */
 	$("a.descriptor").toggle(
-	  function(){
-	     $(this).addClass("active");
-	     $("div#descriptorText").slideDown("slow");
-	  },
-	  function(){
-  	     $(this).removeClass("active");
-  	     $("div#descriptorText").slideUp("slow");
-  	  } 
+		function(){
+			var hsh = this.hash;
+			if (hsh[0] != '#') hsh = '#' + hsh;
+			$(this).addClass("active");
+			$(hsh).slideDown("slow");
+		},
+		function(){
+			var hsh = this.hash;
+			if (hsh[0] != '#') hsh = '#' + hsh;
+			$(this).removeClass("active");
+			$(hsh).slideUp("slow");
+		} 
 	);
 
 	/* make entity landing pages sortable */

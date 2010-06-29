@@ -64,13 +64,16 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = ('influence.context_processors.custom_context',
-                               'django.core.context_processors.auth', 
-                               'django.core.context_processors.debug',
-                               'django.core.context_processors.i18n',
-                               )    
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'influence.context_processors.custom_context',
+    'django.core.context_processors.auth', 
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.contrib.messages.context_processors.messages',
+)
 
 ROOT_URLCONF = 'brisket.urls'
 
@@ -84,6 +87,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates 
@@ -98,14 +102,17 @@ INSTALLED_APPS = (
 # this can be customized with the SESSION_FILE_PATH variable either
 # here or in local_settings.py.
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
 MEDIASYNC_JOINED = {
     'js/brisket-all.js': (
-        'js/jquery-1.4.2.min.js',
+        #'js/jquery-1.4.2.min.js',
         'js/jquery.tablesorter.min.js',
         'js/underscore-1.0.2.min.js',
         'js/raphael-min.js',
-#        'js/raphael.js',
+        # 'js/raphael.js',
         'js/g.raphael-min.js',
         'js/g.pie.patched.js',
         'js/g.bar.jeremi.js',
