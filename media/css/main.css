@@ -90,6 +90,10 @@ a.external { padding-left: 5px; }
 
 .overviewBar { background: url(../images/overviewBar_2.png) top left no-repeat; padding: 0 20px; height: 55px; margin: 30px 0 40px;}
 div#sparklines { float: left; padding-top: 5px; }
+div#sparklines_legend { margin-top: -10px; float: left; line-height: 95%; display: none; }
+li#sparklines_legend_r { color: #e60002 }
+li#sparklines_legend_d { color: #186582 }
+li#sparklines_legend_o { color: #909090 }
 .overviewBar a { float: right;}
 .insideBar { padding: 18px 0 13px; }
 

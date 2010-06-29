@@ -168,8 +168,9 @@ def top_n_politicians(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 
 
 def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
-    # temporary fix for null 'step's, which actually shouldn't appear
+    # temporary fix for null steps, which actually shouldn't appear
     # in the results.
+    # TODO: all these can probably be removed
     results = get_url_json('aggregates/org/%s/sparkline.json' % entity_id, cycle)
     print 'raw api sparkline results:'
     print results
@@ -181,9 +182,16 @@ def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
         results.pop(i)
     return results
 
+
+def org_sparkline_by_party(entity_id, cycle=DEFAULT_CYCLE):
+    results = get_url_json('aggregates/org/%s/sparkline_by_party.json' % entity_id, cycle)
+    return results
+
+
 def pol_sparkline(entity_id, cycle=DEFAULT_CYCLE):
-    # temporary fix for null 'step's, which actually shouldn't appear
+    # temporary fix for null steps, which actually shouldn't appear
     # in the results.
+    # TODO: all these can probably be removed
     results = get_url_json('aggregates/pol/%s/sparkline.json' % entity_id, cycle)
     remove = []
     for i, row in enumerate(results):
@@ -194,8 +202,9 @@ def pol_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     return results
 
 def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
-    # temporary fix for null 'step's, which actually shouldn't appear
+    # temporary fix for null steps, which actually shouldn't appear
     # in the results.
+    # TODO: all these can probably be removed
     results = get_url_json('aggregates/indiv/%s/sparkline.json' % entity_id, cycle)
     remove = []
     for i, row in enumerate(results):

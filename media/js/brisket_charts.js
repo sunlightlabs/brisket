@@ -1,6 +1,6 @@
 
 function piechart(div, data, type) {
-    
+
     if ( _.keys(data).length == 0) { return; }
 
     // data is expected as a dict.
@@ -61,13 +61,13 @@ function piechart(div, data, type) {
         colors: colors,
         strokewidth: 0,
     });
-    
+
     for (var i=0; i < pie.labels.length; i++) {
-	/* each label has two elements-- a circle for the slice colour
-	 * (the 0th element), and some text (the 1st element). we only
-	 * want to set the colour of the latter-- hence setting the
-	 * 1st element of each label. */
-	pie.labels[i][1].attr('fill', '#666666');
+    /* each label has two elements-- a circle for the slice colour
+     * (the 0th element), and some text (the 1st element). we only
+     * want to set the colour of the latter-- hence setting the
+     * 1st element of each label. */
+    pie.labels[i][1].attr('fill', '#666666');
     }
 
     var lbl = undefined;
@@ -113,7 +113,7 @@ function barchart(div, data, limit) {
        value, and href. */
 
     if (data.length == 0) {
-	return;
+    return;
     }
 
     b = Raphael(div);
@@ -136,28 +136,28 @@ function barchart(div, data, limit) {
 
     var data_values = [];
     for (var i = 0; i < data.length; i++) {
-	    data_values.push(data[i]['value']);
+        data_values.push(data[i]['value']);
     }
 
     /* make the hrefs a map so that we can use the key to ensure the
      * right url is assigned to the right entity. */
     data_hrefs = {};
-    for (var i = 0; i < data.length; i++) {	
-	if (data[i]['href'] != -1) {
-	    data_hrefs[data[i]['key']] = data[i]['href'];
-	}
+    for (var i = 0; i < data.length; i++) {
+    if (data[i]['href'] != -1) {
+        data_hrefs[data[i]['key']] = data[i]['href'];
+    }
     }
 
     var data_labels = [];
     for (var i = 0; i < data.length; i++) {
-	ind = data_labels.push(data[i]['key']);
+    ind = data_labels.push(data[i]['key']);
     }
 
     opts = {
         "type": "soft",
         "gutter": 30, //space between bars, as fn of bar width/height
         "stacked": false,
-	"colors" : ["#EFCC01", "#f27e01"]
+    "colors" : ["#EFCC01", "#f27e01"]
     };
 
     /* check if this is a stacked barchart. data sets must be passed
@@ -168,8 +168,8 @@ function barchart(div, data, limit) {
       var values_employee = [];
       var values_pac = [];
       for (var i=0; i<data.length; i++) {
-	values_employee.push(data[i]['value_employee']);
-	values_pac.push(data[i]['value_pac']);
+    values_employee.push(data[i]['value_employee']);
+    values_pac.push(data[i]['value_pac']);
       }
       all_data = [values_employee, values_pac];
       opts['stacked'] = true;
@@ -185,8 +185,8 @@ function barchart(div, data, limit) {
      * label when no label is passed in, so trick it by sending in
      * blank (but non-empty!) strings.  */
     if (barchart.bars.length > 1) {
-     the_labels = [data_labels, 
-		   ["   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   "]];
+     the_labels = [data_labels,
+           ["   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   "]];
     }
     else {
       the_labels = [data_labels];
@@ -197,22 +197,22 @@ function barchart(div, data, limit) {
     for (var i = 0; i < barchart.labels.length; i++) {
       var key = barchart.labels[i].attr('text');
       if (data_hrefs[key]) {
-	  barchart.labels[i].attr({'href': data_hrefs[key], 'fill': "#666666" });
+      barchart.labels[i].attr({'href': data_hrefs[key], 'fill': "#666666" });
       }
       else {
-	  barchart.labels[i].attr({'fill': "#666666" });
+      barchart.labels[i].attr({'fill': "#666666" });
       }
     }
 
     /* change the labels to the link colour on hover */
     barchart.labels.hover(function() {
-	    if (this.attr("href")) {
-		this.attr({fill: "#0A6E92"});
-	    }
+        if (this.attr("href")) {
+        this.attr({fill: "#0A6E92"});
+        }
         }, function() {
             this.attr({fill: "#666666"});
         }
-	);
+    );
 
     barchart.labels.translate(-165);
 
@@ -224,7 +224,7 @@ function barchart(div, data, limit) {
       y = barchart.bars[num_datasets-1][i].y;
       text = 0;
       for (var n=0; n< num_datasets; n++) {
-	text = text + barchart.bars[n][i].value;
+    text = text + barchart.bars[n][i].value;
       }
       text = "$"+text;
 
@@ -244,19 +244,61 @@ function barchart(div, data, limit) {
 
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
-
 }
 
 function sparkline(div, data) {
     if (data.length == 0) {
-	return;
+        return;
     }
 
     r = Raphael(div, 100, 30);
     var x = [], y = [];
     for (var i=0; i<data.length; i++) {
-	x[i] = data[i]['step'];
-	y[i] = data[i]['amount'];
+        x[i] = data[i]['step'];
+        y[i] = data[i]['amount'];
     }
     r.g.linechart(0, 10, 100, 30, x, y);
+}
+
+function sparkline_by_party(div, data) {
+    if (data.length == 0) {
+        return;
+    }
+
+    // data => { 'R': [{'step': 1, 'amount': 100}, {...}], 'D': [{...},], 'O': [{...},] }
+
+    var party_colors = ["#186582", "#909090", "#E60002"];
+
+    r = Raphael(div, 100, 30);
+    var x = [], y = [];
+    var keys = ['D', 'O', 'R']
+
+    // for (thus far) unknown reasons, raphael refuses to show any charts if all of the
+    // amounts are zero, even though the data structure is otherwise complete, so we need
+    // to track whether we have any non-zero values to show in the chart
+    var saw_non_zero_value = false
+
+    for (var i=0; i<keys.length; i++) {
+        y[keys[i]] = [];
+
+        for (var j=0; j<data[keys[i]].length; j++) {
+            x[j] = j+1;
+            y[keys[i]][j] = data[keys[i]][j]['amount'];
+
+            if (y[keys[i]][j] > 0) {
+                saw_non_zero_value = true
+            }
+        }
+    }
+
+    // bail if we don't have a real chart to show (and to avoid having raphael break the whole page)
+    if (!saw_non_zero_value) {
+        return []
+    }
+
+    r.g.linechart(0, 10, 100, 30, x, [y['D'], y['O'], y['R']], { colors: party_colors, width: 1 });
+
+    // the legend is hidden by default, in case we had the aforementioned all-zero situation
+    // so show it now
+    $("#sparklines_legend").show()
 }
