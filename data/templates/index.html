@@ -99,13 +99,10 @@
 				TD.HashMonitor.setAnchor('');
 				if (df == 'contributions') {
 					TD.activeFilter = TD.ContributionFilter;
-					TD.ContributionFilter.loadHash();
 				} else if (df == 'lobbying') {
 					TD.activeFilter = TD.LobbyingFilter;
-					TD.LobbyingFilter.loadHash();
 				} else if (df == 'grants') {
 					TD.activeFilter = TD.GrantsFilter;
-					TD.GrantsFilter.loadHash();
 				}
 				return false;
 			});
