@@ -11,7 +11,7 @@ function dollar(str) {
 }
 
 function piechart(div, data, type) {
-    
+
     if ( _.keys(data).length === 0) { return; }
 
     // data is expected as a dict.
@@ -74,7 +74,7 @@ function piechart(div, data, type) {
         colors: colors,
         strokewidth: 0
     });
-    
+
     for (var i=0; i < pie.labels.length; i++) {
     /* each label has two elements-- a circle for the slice colour
      * (the 0th element), and some text (the 1st element). we only
@@ -151,7 +151,7 @@ function barchart(div, data, limit) {
     /* make the hrefs a map so that we can use the key to ensure the
      * right url is assigned to the right entity. */
     data_hrefs = {};
-    for (var i = 0; i < data.length; i++) { 
+    for (var i = 0; i < data.length; i++) {
         if (data[i]['href'] != -1) {
             data_hrefs[data[i]['key']] = data[i]['href'];
         }
@@ -194,14 +194,41 @@ function barchart(div, data, limit) {
      * label when no label is passed in, so trick it by sending in
      * blank (but non-empty!) strings.  */
     if (barchart_obj.bars.length > 1) {
-        the_labels = [data_labels, 
-            ["   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   "]];
+        the_labels = [data_labels,
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]];
     }
     else {
         the_labels = [data_labels];
     }
     barchart_obj.label(the_labels, false);
-    
+
+    var labelOffset = 0;
+    var graphElem = $('#' + div);
+    var graphElemPosition = graphElem.offset();
+    for (var i = 0; i < barchart_obj.labels.length; i++) {
+        var text = barchart_obj.labels[i].attr('text');
+        if (text != ' ') {
+            var e = document.createElement(data_hrefs[text] ? 'a' : 'span');
+            e.appendChild(document.createTextNode(text));
+            e.style.position = 'absolute';
+            e.style.top = (10 + labelOffset) + 'px';
+            e.style.left = '15px';
+            e.style.fontSize = '11px';
+            e.style.textDecoration = 'none';
+            e.style.zIndex = 100 + labelOffset;
+            if (data_hrefs[text]) {
+                e.href = data_hrefs[text];
+            } else {
+                e.href = '#';
+                $(e).click(function() {
+                    return false;
+                });
+            }
+            graphElem.prepend(e);
+            labelOffset += 18;
+        }
+    }
+
     /* add links to the labels */
     for (var i = 0; i < barchart_obj.labels.length; i++) {
         var key = barchart_obj.labels[i].attr('text');
@@ -220,7 +247,7 @@ function barchart(div, data, limit) {
             barchart_obj.labels[i].attr({'fill': "#666666"});
         }
     }
-    
+
     /* change the labels to the link colour on hover */
     barchart_obj.labels.hover(function() {
         if (this.attr("href")) {
@@ -229,9 +256,9 @@ function barchart(div, data, limit) {
             this.attr({fill: "#666666"});
         }
     );
-        
-    barchart_obj.labels.translate((conf.chart_x - 10) * -1, 0);
-    
+
+    barchart_obj.labels.translate((conf.chart_x - 10) * -1, -1000000);
+
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
     s = b.set();
@@ -247,17 +274,17 @@ function barchart(div, data, limit) {
         marker.attr("fill", "#666666");
         s.push(marker);
     }
-    
+
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: spacing + ',0', 'text-anchor': 'start'});
-    
+
     var yAxis = b.path("M " + conf.chart_x + " " + conf.chart_y + " L " + conf.chart_x + " " + conf.chart_height);
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
-    
+
     var xAxisLength = conf.chart_width + conf.chart_x + conf.right_gutter;
     var xAxis = b.path("M " + conf.chart_x + " " + conf.chart_height + " L " + xAxisLength + " " + conf.chart_height);
-    
+
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
 
