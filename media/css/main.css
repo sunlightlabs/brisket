@@ -21,6 +21,8 @@ body{
 
 div#pageMain, div#footer { width: 960px; margin: 0 auto; }
 
+.graph { position: relative; }
+
 .tip, div.searchBox .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
 
 h1 { float: left; padding-top: 85px; margin-bottom: 50px; width: 440px; height: 61px; margin-left: 10px;}

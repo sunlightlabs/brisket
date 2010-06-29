@@ -195,12 +195,39 @@ function barchart(div, data, limit) {
 	 * blank (but non-empty!) strings.	*/
 	if (barchart_obj.bars.length > 1) {
 		the_labels = [data_labels, 
-			["	 ", "	", "   ", "	  ", "	 ", "	", "   ", "	  ", "	 ", "	"]];
+			[" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]];
 	}
 	else {
 		the_labels = [data_labels];
 	}
 	barchart_obj.label(the_labels, false);
+	
+	var labelOffset = 0;
+	var graphElem = $('#' + div);
+	var graphElemPosition = graphElem.offset();
+	for (var i = 0; i < barchart_obj.labels.length; i++) {
+		var text = barchart_obj.labels[i].attr('text');
+		if (text != ' ') {
+			var e = document.createElement(data_hrefs[text] ? 'a' : 'span');
+			e.appendChild(document.createTextNode(text));
+			e.style.position = 'absolute';
+			e.style.top = (10 + labelOffset) + 'px';
+			e.style.left = '15px';
+			e.style.fontSize = '11px';
+			e.style.textDecoration = 'none';
+			e.style.zIndex = 100 + labelOffset;
+			if (data_hrefs[text]) {
+				e.href = data_hrefs[text];
+			} else {
+				e.href = '#';
+				$(e).click(function() {
+					return false;
+				});
+			}
+			graphElem.prepend(e);
+			labelOffset += 18;
+		}
+	}
 	
 	/* add links to the labels */
 	for (var i = 0; i < barchart_obj.labels.length; i++) {
@@ -230,7 +257,7 @@ function barchart(div, data, limit) {
 		}
 	);
 		
-	barchart_obj.labels.translate((conf.chart_x - 10) * -1, 0);
+	barchart_obj.labels.translate((conf.chart_x - 10) * -1, -1000000);
 	
 	/* add text markers for the amounts (which unfortunately uses a
 	   method called 'label' just to confuse you) */
