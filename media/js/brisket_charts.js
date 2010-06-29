@@ -30,7 +30,7 @@ function piechart(div, data, type) {
     for (var i = 0; i < keys.length; i++) {
 
         var key = keys[i];
-        var value = data[key];
+        var value = Math.min(data[key], total);
         var color = (type && type == "party") ? party_colors[key] : other_colors[i];
 
         var percent = Math.round((value / total) * 100);
@@ -39,11 +39,13 @@ function piechart(div, data, type) {
             label = label[0].toUpperCase() + label.substr(1, label.length);
         }
 
-        slices.push({
-            value: value,
-            label: label,
-            color: color,
-        });
+		if (value > 0) {
+	        slices.push({
+	            value: value,
+	            label: label,
+	            color: color,
+	        });
+		}
 
     }
 
