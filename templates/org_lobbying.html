@@ -119,7 +119,7 @@
             {% for row in lobbying_lobbyists %}
             {% if row.lobbyist_entity %}
             <li>
-              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>
+              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
             </li>
             {% else %}
             {{ row.lobbyist_name|standardize_individual_name }}
