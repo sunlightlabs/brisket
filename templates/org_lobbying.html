@@ -7,7 +7,7 @@
   <a class="toggle">Toggle</a>
   <h3 class="insideBar">Lobbying, 
       {% ifequal cycle "-1" %} 
-        {{entity_info.career.start}} - {{entity_info.career.end}}
+        {{entity_info.career.start|add:-1}} - {{entity_info.career.end}}
       {% else %}  
         {{cycle|add:-1}} - {{cycle}} 
       {% endifequal %}</h3>
@@ -119,7 +119,7 @@
             {% for row in lobbying_lobbyists %}
             {% if row.lobbyist_entity %}
             <li>
-              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>
+              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
             </li>
             {% else %}
             {{ row.lobbyist_name|standardize_individual_name }}

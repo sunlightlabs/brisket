@@ -15,3 +15,13 @@ urlpatterns = patterns('',
     # everything else goes to influence
     url(r'^', include('brisket.influence.urls')),
 )
+
+if settings.DEBUG:
+    from django.shortcuts import render_to_response
+    
+    def design_view(request, path):
+        return render_to_response('design/%s' % path)
+        
+    urlpatterns += patterns('',
+        url('design/(?P<path>.*)$', design_view),
+    )
