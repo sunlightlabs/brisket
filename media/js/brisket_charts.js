@@ -39,17 +39,17 @@ function piechart(div, data, type) {
     }
 
     for (var i = 0; i < keys.length; i++) {
-
+    
         var key = keys[i];
         var value = Math.min(data[key], total);
         var color = (type && type == "party") ? party_colors[key] : other_colors[i];
-
+    
         var percent = Math.round((value / total) * 100);
         var label = (key || ' ') + ' (' + percent + '%)';
-        if (label.length > 1) {
-            label = label[0].toUpperCase() + label.substr(1, label.length);
-        }
-
+        // if (label.length > 1) {
+        //     label = label[0].toUpperCase() + label.substr(1, label.length - 1);
+        // }
+    
         if (value > 0) {
             slices.push({
                 value: value,
@@ -57,24 +57,24 @@ function piechart(div, data, type) {
                 color: color
             });
         }
-
+    
     }
-
+    
     slices.sort(function(a, b) {
         return b.value - a.value;
     });
-
+    
     var labels = _.map(slices, function(s){ return s.label; });
     var values = _.map(slices, function(s){ return s.value; });
     var colors = _.map(slices, function(s){ return s.color; });
-
+    
     pie = r.g.piechart(70, 70, 60, values, {
         legend: labels,
         legendpos: "east",
         colors: colors,
         strokewidth: 0
     });
-
+    
     for (var i=0; i < pie.labels.length; i++) {
     /* each label has two elements-- a circle for the slice colour
      * (the 0th element), and some text (the 1st element). we only
@@ -82,9 +82,9 @@ function piechart(div, data, type) {
      * 1st element of each label. */
     pie.labels[i][1].attr('fill', '#666666');
     }
-
+    
     var lbl = undefined;
-
+    
     pie.hover(function () {
         this.sector.stop();
         // first two args to scale() are the scaled size.
@@ -323,16 +323,20 @@ function sparkline_by_party(div, data) {
     var saw_non_zero_value = false
 
     for (var i=0; i<keys.length; i++) {
-        y[keys[i]] = [];
+	
+		var key = keys[i];
+		
+        y[key] = [];
 
-        for (var j=0; j<data[keys[i]].length; j++) {
+        for (var j=0; j<data[key].length; j++) {
             x[j] = j+1;
-            y[keys[i]][j] = data[keys[i]][j]['amount'];
+            y[key][j] = data[key][j]['amount'];
 
-            if (y[keys[i]][j] > 0) {
+            if (y[key][j] > 0) {
                 saw_non_zero_value = true
             }
         }
+
     }
 
     // bail if we don't have a real chart to show (and to avoid having raphael break the whole page)
