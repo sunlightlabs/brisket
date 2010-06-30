@@ -30,7 +30,6 @@ def index(request):
 
 def search(request):
     if not request.GET.get('query', None):
-        print 'Form Error'
         HttpResponseRedirect('/')
 
     submitted_form = SearchForm(request.GET)
@@ -118,7 +117,6 @@ def organization_entity(request, entity_id):
         context['contributions_data'] = True
         org_recipients = api.org_recipients(entity_id, cycle=cycle)
 
-        print org_recipients
         recipients_barchart_data = []
         for record in org_recipients:
             recipients_barchart_data.append({
@@ -147,15 +145,14 @@ def organization_entity(request, entity_id):
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 
-        elif (not context['recipients_barchart_data'] 
-              and not context['party_breakdown'] 
+        elif (not context['recipients_barchart_data']
+              and not context['party_breakdown']
               and not context['level_breakdown']):
             context['suppress_contrib_graphs'] = True
             context['reason'] = 'empty'
 
-        context['sparkline_data'] = api.org_sparkline(entity_id, cycle)
-        print 'sparkline data'
-        print context['sparkline_data']
+        if cycle != DEFAULT_CYCLE:
+            context['sparkline_data'] = api.org_sparkline_by_party(entity_id, cycle)
 
     # get lobbying info if it exists for this entity
     if metadata['lobbying']:
@@ -213,7 +210,7 @@ def politician_entity(request, entity_id):
                     'value_pac' : record['direct_amount'],
                     'href' : barchart_href(record, cycle, 'organization')
                     })
-        context['contributors_barchart_data'] = bar_validate(contributors_barchart_data)    
+        context['contributors_barchart_data'] = bar_validate(contributors_barchart_data)
 
         # top sectors is already sorted
         sectors_barchart_data = []
@@ -228,7 +225,7 @@ def politician_entity(request, entity_id):
                     # make sure to leave href as -1 if you want to
                     # suppress link generation in the javascript
                     # barchart function.
-                    'href' : "-1" 
+                    'href' : "-1"
                     })
         context['sectors_barchart_data'] = bar_validate(sectors_barchart_data)
 
@@ -251,9 +248,9 @@ def politician_entity(request, entity_id):
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 
-        elif (not context['sectors_barchart_data'] 
-            and not context['contributors_barchart_data'] 
-            and not context['local_breakdown'] 
+        elif (not context['sectors_barchart_data']
+            and not context['contributors_barchart_data']
+            and not context['local_breakdown']
             and not context['entity_breakdown']):
             context['suppress_contrib_graphs'] = True
             context['reason'] = 'empty'
@@ -317,12 +314,12 @@ def individual_entity(request, entity_id):
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 
-        elif (not context['candidates_barchart_data'] 
-            and not context['orgs_barchart_data'] 
+        elif (not context['candidates_barchart_data']
+            and not context['orgs_barchart_data']
             and not context['party_breakdown']):
             context['suppress_contrib_graphs'] = True
             context['reason'] = 'empty'
-        
+
 
     # get lobbying info if it's available for this entity
     if metadata['lobbying']:

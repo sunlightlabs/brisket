@@ -1,7 +1,9 @@
 from BeautifulSoup import BeautifulSoup
 from django.conf import settings
+import helpers
 import urllib2
 import urllib
+import re
 try:
     import json
 except:
@@ -166,8 +168,9 @@ def top_n_politicians(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 
 
 def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
-    # temporary fix for null 'step's, which actually shouldn't appear
+    # temporary fix for null steps, which actually shouldn't appear
     # in the results.
+    # TODO: all these can probably be removed
     results = get_url_json('aggregates/org/%s/sparkline.json' % entity_id, cycle)
     print 'raw api sparkline results:'
     print results
@@ -179,9 +182,16 @@ def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
         results.pop(i)
     return results
 
+
+def org_sparkline_by_party(entity_id, cycle=DEFAULT_CYCLE):
+    results = get_url_json('aggregates/org/%s/sparkline_by_party.json' % entity_id, cycle)
+    return results
+
+
 def pol_sparkline(entity_id, cycle=DEFAULT_CYCLE):
-    # temporary fix for null 'step's, which actually shouldn't appear
+    # temporary fix for null steps, which actually shouldn't appear
     # in the results.
+    # TODO: all these can probably be removed
     results = get_url_json('aggregates/pol/%s/sparkline.json' % entity_id, cycle)
     remove = []
     for i, row in enumerate(results):
@@ -192,8 +202,9 @@ def pol_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     return results
 
 def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
-    # temporary fix for null 'step's, which actually shouldn't appear
+    # temporary fix for null steps, which actually shouldn't appear
     # in the results.
+    # TODO: all these can probably be removed
     results = get_url_json('aggregates/indiv/%s/sparkline.json' % entity_id, cycle)
     remove = []
     for i, row in enumerate(results):
@@ -208,17 +219,17 @@ def get_bioguide_id(full_name):
     ''' attempt to determine the bioguide_id of this legislastor, or
     return None. removes some basic formatting and trailing party
     designators'''
-    # do some basic sanity checking on the name passed in
-    if full_name.rfind('(D)') > -1:
-        full_name = full_name.strip('(D)').strip()
-    elif full_name.rfind('(R)') > -1:
-        full_name = full_name.strip('(R)').strip()
+    full_name = helpers.standardize_politician_name(full_name) # strip party, etc... if that hasn't been done already
 
     # gracefully handle slug-formatted strings
     name = full_name.replace('-',' ')
 
+    # this is a fix for the legislator search API's poor performance with middle initials
+    # it may be removed later on if James can fix the API
+    name_first_last = re.sub(r'^(\w+) (\w)( \w+)$', '\1 \2', name)
+
     arguments = urllib.urlencode({'apikey': settings.API_KEY,
-                                  'name': name,
+                                  'name': name_first_last,
                                   'all_legislators': 1,
                                   })
     url = "http://services.sunlightlabs.com/api/legislators.search.json?"

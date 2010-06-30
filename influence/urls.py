@@ -6,8 +6,8 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^search', 'search', name='search'),
 
     # industry
-    url(r'^sector/[\w\-]+/(?P<entity_id>\w+)', 'sector_detail',
-        name='sector_detail'),
+    # url(r'^sector/[\w\-]+/(?P<entity_id>\w+)', 'sector_detail',
+    #     name='sector_detail'),
 
     # landing pages
     url(r'^organizations$', 'organization_landing'),
@@ -23,7 +23,7 @@ urlpatterns = patterns('brisket.influence.views',
         name='individual_entity'),
 
     # utility
-    url(r'^reset$', 'clear_network', name='clear_network'),
+    #url(r'^reset$', 'clear_network', name='clear_network'),
 
     # make sure this goes after the more specific urls or it will
     # match before the others get hit.

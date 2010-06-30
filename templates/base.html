@@ -2,24 +2,22 @@
 {% load media %}
 <html xmlns="http://www.w3.org/1999/xhtml" >
   <head>
-	
-  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="keywords" content="" /> 
-    <meta name="description" content="" /> 
 
-	{% css "css/main.css" %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    {% css "css/main.css" %}
     <!--[if IE 6]>{% css "css/buggy.css" %}<![endif]-->
-	
-	{% js "js/brisket-all.js" %}
+    {% js "js/jquery-1.4.2.min.js" %}
+
     {% block js %}{% endblock %}
     <script type="text/javascript" src="http://use.typekit.com/rum2sap.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
- 
 
-    <title>{% block pagetitle %}Influence Explorer{% endblock %}</title>
-
+    <title>Influence Explorer{% block pagetitle %}{% endblock %}</title>
   </head>
-          
+
   <body class="{% block body_class %}{% endblock %}">
     <div id="wrapper">
 
@@ -27,8 +25,8 @@
 
         <div id="header">
           <h1><a id="logo" href="/">Influence Explorer</a></h1>
-	  {% block search %}
-	  {% endblock %}
+      {% block search %}
+      {% endblock %}
           <div class="clear" id="nav">
             <ul>
               <li id="people"><a href="/people">People</a></li>
@@ -38,15 +36,15 @@
           </div>    <!-- end nav -->
         </div><!-- end header -->
 
-	<div id="mainContent_top">
-	</div>
-	
-	<div id="mainContent">
-	  {% block main %}
-	  {% endblock %}
-	</div>
-        
-	<div id="mainContent_bottom">
+    <div id="mainContent_top">
+    </div>
+
+    <div id="mainContent">
+      {% block main %}
+      {% endblock %}
+    </div>
+
+    <div id="mainContent_bottom">
         </div>
 
       </div> <!-- end pageMain -->
@@ -55,7 +53,7 @@
       <div id="footerLinks">
         <a id="aboutLink" href="/about/">About</a>
         <a href="/contact/">Contact</a>
-      </div> 
+      </div>
       <div id="footerPolicy">
         <a class="logo" id="sunlightFoundation" href="http://www.sunlightfoundation.com">Sunlight Foundation</a>
         <a class="logo" id="openSecrets" href="http://www.opensecrets.org/">Open Secrets</a>
@@ -66,5 +64,6 @@
     </div><!-- end footer -->
 
     </div><!-- end pageMain -->
+    {% js "js/brisket-all.js" %}
   </body>
 </html>

@@ -1,6 +1,18 @@
 {% extends "entity_base.html" %}
 {% load humanize %}
 {% load influence_extras %}
+
+{% block pagetitle %}
+    : {{ entity_info.name|standardize_politician_name }}
+    {% if metadata.party %}
+        ({{metadata.party}})
+    {% endif %}
+    {{metadata.state}}
+    {% if metadata.yrs_of_service %}
+        {{metadata.yrs_of_service}}
+    {% endif %}
+{% endblock %}
+
 {% block body_class %}politician{% endblock %}
 
 {% block extrajs %}
@@ -17,6 +29,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contentHeader %}
+
 
 {% if metadata.photo_url %}
 <img alt="political photo" src="{{ metadata.photo_url }}"/>

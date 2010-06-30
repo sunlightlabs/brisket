@@ -9,7 +9,7 @@
   {% endif %}
   <h3 class="insideBar">Contributions, 
       {% ifequal cycle "-1" %} 
-          {{entity_info.career.start}} - {{entity_info.career.end}}
+          {{entity_info.career.start|add:-1}} - {{entity_info.career.end}}
         {% else %}  
           {{cycle|add:-1}} - {{cycle}} 
         {% endifequal %}</h3>
@@ -19,11 +19,14 @@
     {% else %}
     ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
     {% endif %}</span>
-    <a class="descriptor" href="#">?</a>
+    <a class="descriptor" href="#contributionsDescriptor">?</a>
     <div class="clear"></div>
-    <div id="descriptorText">
+    <div class="descriptorText" id="contributionsDescriptor">
         <p>
-          This total includes the most common types of contributions from individuals and organizations to politicians. 
+          This total includes the most common types of contributions from individuals and organizations to politicians. It does not include contributions under the $200 reporting limit. 
+          Because of this, the total money given or raised may be significantly higher than what's listed here.
+        </p>
+        <p>
           We try to match the methodology of Center for Responsive Politics and the National Institute for Money in State Politics as closely as possible. For further details
           see our methodology page. (to do.) 
         </p>
@@ -32,6 +35,13 @@
   <div id="sparklines">                
     <!-- raphael sparkline -->
   </div>  
+  <div id="sparklines_legend" class="insideBar">
+      <ul>
+          <li id="sparklines_legend_d">Democrats</li>
+          <li id="sparklines_legend_r">Republicans</li>
+          <li id="sparklines_legend_o">Other</li>
+      </ul>
+  </div>
 </div>
 
 <div class="chartModule">
