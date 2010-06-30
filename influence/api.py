@@ -227,8 +227,13 @@ def get_bioguide_id(full_name):
     # this is a fix for the legislator search API's poor performance with middle initials
     # it may be removed later on if James can fix the API
     name_parts = re.search(r'^(?P<first>\w+)(?P<middle> \w\.?)?(?P<last_w_suffix> (?P<last>\w+)(?P<suffix> ([js]r|I{2,})\.?)?\s*)$', name, re.IGNORECASE)
-    name_first_last = "%s %s" % name_parts.group('first', 'last')
-    last_name = name_parts.group('last')
+
+    if name_parts:
+        name_first_last = "%s %s" % name_parts.group('first', 'last')
+        last_name       = name_parts.group('last')
+    else:
+        name_first_last, last_name = name, name
+
     print "Searching bioguide for: %s" % name_first_last
 
     arguments = urllib.urlencode({'apikey': settings.API_KEY,
@@ -249,7 +254,7 @@ def get_bioguide_id(full_name):
         # unsuccessful runs for federal office can result in federal campaign contributions,
         # but no bioguide info. in that case, the search API can throw really crazy guesses at us.
         # make sure the match is at least sane by checking the last name.
-        if first_match['lastname'] == last_name:
+        if re.match(first_match['lastname'], last_name, re.IGNORECASE):
             bioguide_id = first_match['bioguide_id']
         else:
             bioguide_id = None
