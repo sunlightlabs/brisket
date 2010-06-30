@@ -250,7 +250,7 @@ def get_bioguide_id(full_name):
         # but no bioguide info. in that case, the search API can throw really crazy guesses at us.
         # make sure the match is at least sane by checking the last name.
         if first_match['lastname'] == last_name:
-            bioguide_id = js['response']['results'][0]['result']['legislator']['bioguide_id']
+            bioguide_id = first_match['bioguide_id']
         else:
             bioguide_id = None
     except:
