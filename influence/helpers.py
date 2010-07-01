@@ -12,14 +12,19 @@ def standardize_individual_name(name):
     name, honorific, suffix = separate_affixes(name)
 
     name = convert_name_to_first_last(name)
-    name = ' '.join([x for x in [honorific, name, suffix] if x])
-    name = re.sub(r'\d{2,}\s*$', '', name)
+    name = ' '.join([x for x in [
+        honorific if honorific and honorific.lower() == 'mrs' else None,
+        name,
+        suffix
+    ] if x])
+    name = re.sub(r'\d{2,}\s*$', '', name) # strip any trailing numbers
+    name = re.sub(r'^(?i)\s*mr\.?\s+', '', name) # strip leading 'Mr' if not caught by the other algorithm (e.g. the name was in first last format to begin with)
 
     return convert_case(name)
 
 def separate_affixes(name):
     # this should match both honorifics (mr/mrs/ms) and jr/sr/II/III
-    matches = re.search(r'^(?P<name>.*)\b((?P<honorific>m[rs]s?)|(?P<suffix>([js]r|I{2,})))\.?\s*$', name, re.IGNORECASE)
+    matches = re.search(r'^\s*(?P<name>.*)\b((?P<honorific>m[rs]s?.?)|(?P<suffix>([js]r|I{2,})))[.,]?\s*$', name, re.IGNORECASE)
     if matches:
         return matches.group('name', 'honorific', 'suffix')
     else:
