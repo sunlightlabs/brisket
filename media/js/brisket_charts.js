@@ -203,7 +203,7 @@ function barchart(div, data, limit) {
     barchart_obj.label(the_labels, false);
 
     var labelOffset = 0;
-    var graphElem = $('#' + div);
+    var graphElem = jQuery('#' + div);
     var graphElemPosition = graphElem.offset();
     for (var i = 0; i < barchart_obj.labels.length; i++) {
         var text = barchart_obj.labels[i].attr('text');
@@ -220,7 +220,7 @@ function barchart(div, data, limit) {
                 e.href = data_hrefs[text];
             } else {
                 e.href = '#';
-                $(e).click(function() {
+                jQuery(e).click(function() {
                     return false;
                 });
             }
@@ -348,5 +348,5 @@ function sparkline_by_party(div, data) {
 
     // the legend is hidden by default, in case we had the aforementioned all-zero situation
     // so show it now
-    $("#sparklines_legend").show()
+    jQuery("#sparklines_legend").show();
 }
