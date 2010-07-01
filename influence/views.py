@@ -211,7 +211,7 @@ def politician_entity(request, entity_id):
         contributors_barchart_data = []
         for record in top_contributors:
             contributors_barchart_data.append({
-                    'key': generate_label(record['name']),
+                    'key': generate_label(standardize_organization_name(record['name'])),
                     'value' : record['total_amount'],
                     'value_employee' : record['employee_amount'],
                     'value_pac' : record['direct_amount'],
@@ -301,7 +301,7 @@ def individual_entity(request, entity_id):
         orgs_barchart_data = []
         for record in recipient_orgs:
             orgs_barchart_data.append({
-                    'key': generate_label(record['recipient_name']),
+                    'key': generate_label(standardize_organization_name(record['recipient_name'])),
                     'value' : record['amount'],
                     'href' : barchart_href(record, cycle, entity_type="organization"),
                     })

@@ -27,7 +27,7 @@
     <ul>
       {% for result in sorted_results.organization %}
       <li class="{% cycle 'even' 'odd' %}">
-          <a href="/{{ result.type }}/{{result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name}}</a>
+          <a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_organization_name}}</a>
           <span class="transactions" title="Results">
 	    {{result.count_given }}
 	    transaction{{result.count_given|pluralize }} </span>

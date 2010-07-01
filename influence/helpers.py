@@ -22,6 +22,17 @@ def standardize_individual_name(name):
 
     return convert_case(name)
 
+def standardize_organization_name(name):
+    name = convert_case(name)
+    name = name.strip()
+
+    if re.match(r'(?i)^\w*PAC$', name):
+        name = name.upper() # if there's only one word that ends in PAC, make the whole thing uppercase
+    else:
+        name = re.sub(r'(?i)\bpac\b', 'PAC', name) # otherwise just uppercase the PAC part
+
+    return name
+
 def separate_affixes(name):
     # this should match both honorifics (mr/mrs/ms) and jr/sr/II/III
     matches = re.search(r'^\s*(?P<name>.*)\b((?P<honorific>m[rs]s?.?)|(?P<suffix>([js]r|I{2,})))[.,]?\s*$', name, re.IGNORECASE)
@@ -34,10 +45,10 @@ def strip_party(name):
     return re.sub(r'\s*\(\w+\)\s*$', '', name)
 
 def convert_case(name):
-    if re.search(r'[A-Z][a-z]', name):
-        return name
-    else:
-        return string.capwords(name)
+    return name if is_mixed_case(name) else string.capwords(name)
+
+def is_mixed_case(name):
+    return re.search(r'[A-Z][a-z]', name)
 
 def convert_to_standard_order(name):
     if '&' in name:
