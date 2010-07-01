@@ -1,15 +1,15 @@
 # Create your views here.
 
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-import urllib, re
-from util import catcodes
-from influence.forms import SearchForm, ElectionCycle
-from influence.helpers import *
+import urllib, re, datetime
 import api, external_sites
-from api import DEFAULT_CYCLE
-from settings import LATEST_CYCLE
+from api               import DEFAULT_CYCLE
+from django.http       import HttpResponseRedirect, HttpResponse
+from django.shortcuts  import render_to_response
+from django.template   import RequestContext
+from influence.forms   import SearchForm, ElectionCycle
+from influence.helpers import *
+from settings          import LATEST_CYCLE
+from util              import catcodes
 
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
@@ -152,7 +152,14 @@ def organization_entity(request, entity_id):
             context['reason'] = 'empty'
 
         if cycle != DEFAULT_CYCLE:
+
+            if int(cycle) == int(LATEST_CYCLE):
+                cut_off_at_step = months_into_cycle_for_date(datetime.date.today(), cycle)
+            else:
+                cut_off_at_step = 24
+
             context['sparkline_data'] = api.org_sparkline_by_party(entity_id, cycle)
+            context['cut_off_sparkline_at_step'] = cut_off_at_step
 
     # get lobbying info if it exists for this entity
     if metadata['lobbying']:

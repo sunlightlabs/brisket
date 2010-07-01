@@ -1,5 +1,4 @@
-import re
-import string
+import re, string, datetime
 import api
 from util import catcodes
 
@@ -249,3 +248,8 @@ def get_metadata(entity_id, cycle, entity_type):
     data['entity_info'] = entity_info
 
     return data
+
+def months_into_cycle_for_date(date, cycle):
+    end_of_cycle = datetime.datetime.strptime("{0}1231".format(cycle), "%Y%m%d").date()
+    step = 24 - abs(((end_of_cycle.year - date.year) * 12) + end_of_cycle.month - date.month)
+    return step
