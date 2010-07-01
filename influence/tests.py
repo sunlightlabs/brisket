@@ -148,6 +148,7 @@ class IndividualNameStandardizationTests(TestCase):
         self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Mr T Boone Pickens'))
         self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Mr. T Boone Pickens'))
         self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Pickens, T Boone Mr'))
+        self.assertEqual('John L Nau', helpers.standardize_individual_name(' MR JOHN L NAU,'))
 
     def test_keep_the_mrs(self):
         self.assertEqual('Mrs T Boone Pickens', helpers.standardize_individual_name('Mrs T Boone Pickens'))
