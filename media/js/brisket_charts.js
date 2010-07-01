@@ -46,9 +46,9 @@ function piechart(div, data, type) {
 
         var percent = Math.round((value / total) * 100);
         var label = (key || ' ') + ' (' + percent + '%)';
-        if (label.length > 1) {
-            label = label[0].toUpperCase() + label.substr(1, label.length);
-        }
+        // if (label.length > 1) {
+        //     label = label[0].toUpperCase() + label.substr(1, label.length - 1);
+        // }
 
         if (value > 0) {
             slices.push({
@@ -203,7 +203,7 @@ function barchart(div, data, limit) {
     barchart_obj.label(the_labels, false);
 
     var labelOffset = 0;
-    var graphElem = $('#' + div);
+    var graphElem = jQuery('#' + div);
     var graphElemPosition = graphElem.offset();
     for (var i = 0; i < barchart_obj.labels.length; i++) {
         var text = barchart_obj.labels[i].attr('text');
@@ -220,7 +220,7 @@ function barchart(div, data, limit) {
                 e.href = data_hrefs[text];
             } else {
                 e.href = '#';
-                $(e).click(function() {
+                jQuery(e).click(function() {
                     return false;
                 });
             }
@@ -323,13 +323,14 @@ function sparkline_by_party(div, data, cut_off_point) {
     var saw_non_zero_value = false
 
     for (var i=0; i<keys.length; i++) {
-        y[keys[i]] = [];
+        var key = keys[i];
+        y[key] = [];
 
         for (var j=0; j<cut_off_point; j++) {
             x[j] = j+1;
-            y[keys[i]][j] = data[keys[i]][j]['amount'];
+            y[key][j] = data[key][j]['amount'];
 
-            if (y[keys[i]][j] > 0) {
+            if (y[key][j] > 0) {
                 saw_non_zero_value = true
             }
         }
@@ -344,5 +345,5 @@ function sparkline_by_party(div, data, cut_off_point) {
 
     // the legend is hidden by default, in case we had the aforementioned all-zero situation
     // so show it now
-    $("#sparklines_legend").show()
+    jQuery("#sparklines_legend").show();
 }
