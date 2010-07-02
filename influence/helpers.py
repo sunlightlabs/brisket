@@ -1,5 +1,4 @@
-import re
-import string
+import re, string, datetime
 import api
 from util import catcodes
 
@@ -13,14 +12,30 @@ def standardize_individual_name(name):
     name, honorific, suffix = separate_affixes(name)
 
     name = convert_name_to_first_last(name)
-    name = ' '.join([x for x in [honorific, name, suffix] if x])
-    name = re.sub(r'\d{2,}\s*$', '', name)
+    name = ' '.join([x for x in [
+        honorific if honorific and honorific.lower() == 'mrs' else None,
+        name,
+        suffix
+    ] if x])
+    name = re.sub(r'\d{2,}\s*$', '', name) # strip any trailing numbers
+    name = re.sub(r'^(?i)\s*mr\.?\s+', '', name) # strip leading 'Mr' if not caught by the other algorithm (e.g. the name was in first last format to begin with)
 
     return convert_case(name)
 
+def standardize_organization_name(name):
+    name = convert_case(name)
+    name = name.strip()
+
+    if re.match(r'(?i)^\w*PAC$', name):
+        name = name.upper() # if there's only one word that ends in PAC, make the whole thing uppercase
+    else:
+        name = re.sub(r'(?i)\bpac\b', 'PAC', name) # otherwise just uppercase the PAC part
+
+    return name
+
 def separate_affixes(name):
     # this should match both honorifics (mr/mrs/ms) and jr/sr/II/III
-    matches = re.search(r'^(?P<name>.*)\b((?P<honorific>m[rs]s?)|(?P<suffix>([js]r|I{2,})))\.?\s*$', name, re.IGNORECASE)
+    matches = re.search(r'^\s*(?P<name>.*)\b((?P<honorific>m[rs]s?.?)|(?P<suffix>([js]r|I{2,})))[.,]?\s*$', name, re.IGNORECASE)
     if matches:
         return matches.group('name', 'honorific', 'suffix')
     else:
@@ -30,10 +45,10 @@ def strip_party(name):
     return re.sub(r'\s*\(\w+\)\s*$', '', name)
 
 def convert_case(name):
-    if re.search(r'[A-Z][a-z]', name):
-        return name
-    else:
-        return string.capwords(name)
+    return name if is_mixed_case(name) else string.capwords(name)
+
+def is_mixed_case(name):
+    return re.search(r'[A-Z][a-z]', name)
 
 def convert_to_standard_order(name):
     if '&' in name:
@@ -249,3 +264,8 @@ def get_metadata(entity_id, cycle, entity_type):
     data['entity_info'] = entity_info
 
     return data
+
+def months_into_cycle_for_date(date, cycle):
+    end_of_cycle = datetime.datetime.strptime("{0}1231".format(cycle), "%Y%m%d").date()
+    step = 24 - abs(((end_of_cycle.year - date.year) * 12) + end_of_cycle.month - date.month)
+    return step

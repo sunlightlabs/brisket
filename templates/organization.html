@@ -1,5 +1,6 @@
 {% extends "entity_base.html" %}
 {% load humanize %}
+{% load influence_extras %}
 {% block body_class %}organization{% endblock %}
 
 {% block pagetitle %}
@@ -9,7 +10,7 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-  sparkline_by_party("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+  sparkline_by_party("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}, {{ cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
   piechart("piechart_level", {% if level_breakdown %}{{ level_breakdown|safe }}{% else %}{}{% endif %});
   piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
   barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
@@ -18,7 +19,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contentHeader %}
-<h2>{{ entity_info.name }}</h2>
+<h2>{{ entity_info.name|standardize_organization_name }}</h2>
 {% endblock %}
 
 {% block contributions %}

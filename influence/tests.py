@@ -139,7 +139,35 @@ class PoliticianNameStandardizationTests(TestCase):
 class IndividualNameStandardizationTests(TestCase):
 
     def test_all_kinds_of_crazy(self):
-        self.assertEqual('Mr Stanford Z Rothschild', helpers.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MR'))
+        self.assertEqual('Stanford Z Rothschild', helpers.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MR'))
 
     def test_jr_and_the_like_end_up_at_the_end(self):
         self.assertEqual('Frederick A "Tripp" Baird III', helpers.standardize_individual_name('Baird, Frederick A "Tripp" III'))
+
+    def test_throw_out_mr(self):
+        self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Mr T Boone Pickens'))
+        self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Mr. T Boone Pickens'))
+        self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Pickens, T Boone Mr'))
+        self.assertEqual('John L Nau', helpers.standardize_individual_name(' MR JOHN L NAU,'))
+
+    def test_keep_the_mrs(self):
+        self.assertEqual('Mrs T Boone Pickens', helpers.standardize_individual_name('Mrs T Boone Pickens'))
+        self.assertEqual('Mrs. T Boone Pickens', helpers.standardize_individual_name('Mrs. T Boone Pickens'))
+        self.assertEqual('Mrs Stanford Z Rothschild', helpers.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MRS'))
+
+
+class OrganizationNameStandardizationTests(TestCase):
+
+    def test_capitalize_pac(self):
+        self.assertEqual('Nancy Pelosi Leadership PAC', helpers.standardize_organization_name('NANCY PELOSI LEADERSHIP PAC'))
+
+    def test_make_single_word_names_ending_in_pac_all_uppercase(self):
+        self.assertEqual('ECEPAC', helpers.standardize_organization_name('ECEPAC'))
+
+    def test_names_starting_with_PAC(self):
+        self.assertEqual('PAC For Engineers', helpers.standardize_organization_name('PAC FOR ENGINEERS'))
+        self.assertEqual('PAC 102', helpers.standardize_organization_name('PAC 102'))
+
+    def test_doesnt_bother_names_containing_string_pac(self):
+        self.assertEqual('Pacific Trust', helpers.standardize_organization_name('PACIFIC TRUST'))
+

@@ -1,5 +1,6 @@
 {% extends "search_base.html" %}
 {% load humanize %}
+{% load influence_extras %}
 
 {% block body_class %}organization{% endblock %}
 
@@ -21,7 +22,7 @@
                   {% for result in top_n_organizations %}
                   <tr class="{% cycle 'even' 'odd' %}">
                       <td>
-                          <a href="/organization/{{ result.name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{ result.name }}</a>
+                          <a href="/organization/{{ result.name|standardize_organization_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{ result.name|standardize_organization_name }}</a>
                       </td>
                       <td>${{ result.amount|floatformat:0|intcomma }}</td>
                   </tr>

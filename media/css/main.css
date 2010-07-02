@@ -91,11 +91,12 @@ div.external { float: right; margin-right: 40px; font-family: Georgia, Times New
 a.external { padding-left: 5px; }
 
 .overviewBar { background: url(../images/overviewBar_2.png) top left no-repeat; padding: 0 20px; height: 55px; margin: 30px 0 40px;}
-div#sparklines { float: left; padding-top: 5px; }
-div#sparklines_legend { margin-top: -10px; float: left; line-height: 95%; display: none; }
-li#sparklines_legend_r { color: #e60002 }
-li#sparklines_legend_d { color: #186582 }
-li#sparklines_legend_o { color: #909090 }
+div#sparklinesContainer { float: right; padding-top: 12px; padding-right: 20px;}
+div#sparklines { float: left; margin-right: 5px;}
+div#sparklines_legend { float: left; line-height: 95%; display: none; font-size: 85%; margin-top: 4px;}
+div#sparklines_legend li { margin-bottom: 3px;}
+li#sparklines_legend_r { color: #e60002; }
+li#sparklines_legend_d { color: #186582; }
 .overviewBar a { float: right;}
 .insideBar { padding: 18px 0 13px; }
 
@@ -125,7 +126,7 @@ div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
 .piechart { margin-top: 20px;}
 span.amount { float: left; margin-right: 5px;}
 div.amount { float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px; margin-top: 1px;}
-a.descriptor { margin-left: 5px; font-size: 80%; margin-top: 1px; }
+a.descriptor { margin-left: 5px; font-size: 80%; margin-top: 1px; text-indent: -9999em; display: block; background: url(../images/btn_info.png) bottom left no-repeat; width: 16px; height: 17px;}
 div.descriptorText { position: absolute; padding: 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px; width: 300px; text-transform: none; font-size: 65%; background-color: #FAFAF8; border:1px solid #E2E2DC; margin-top: 10px; z-index: 100000; display: none; }
 div.descriptorText ol { list-style-type: decimal; margin-left: 20px;}
 div.descriptorText ul { list-style-type: disc; margin-left: 20px;}
@@ -167,9 +168,12 @@ body.search table { margin-top: 15px;}
 
 button { text-indent: -9999em; display: block; border: none; cursor: pointer;}
 
-button.searchBtn { background: url(../images/btn_go.png) left 4px no-repeat; width: 75px; height: 60px; float: left; }
+button.searchBtn { background: url(../images/btn_go.png) left top no-repeat; width: 75px; height: 55px; float: left; margin-top: 3px;}
+button.searchBtn:hover { background: url(../images/btn_go.png) left -55px no-repeat; width: 75px; height: 55px; float: left; }
 button.searchBtn_sm { background: url(../images/btn_go_sm.png) left 2px no-repeat; width: 68px; height: 51px; float: left; }
+button.searchBtn_sm:hover { background: url(../images/btn_go_sm.png) left -49px no-repeat; width: 68px; height: 51px; float: left; }
 button.submitBtn { background: url(../images/btn_submit.png) left top no-repeat; width: 106px; height: 46px; margin-left: 120px; }
+button.submitBtn:hover { background: url(../images/btn_submit.png) left -46px no-repeat; width: 106px; height: 46px; margin-left: 120px; }
 
 form#contact { margin-top: 45px;}
 form#contact label { color:#0A6E92; width: 120px; display: block; float: left;}
