@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     'locksmith.auth',
     'matchbox',
     'dcdata',
+    'dcdata.contracts',
     'dcdata.contribution',
     'dcdata.grants',
     'dcdata.lobbying',
