@@ -390,6 +390,16 @@ li.filter{
 	background-color: #FFF;
 }
 
+body#contracts #dataTabs li#contractsTab a {
+    background-color: #ECEBE6;
+    border-bottom: 2px solid #ECEBE6;
+}
+
+body#contracts.index #dataTabs li#contractsTab a {
+    background-color: #FFF;
+    border-bottom: 2px solid #FFF;
+}
+
 body#contributions #dataTabs li#contributionsTab a {
     background-color: #ECEBE6;
     border-bottom: 2px solid #ECEBE6;
@@ -420,14 +430,6 @@ body#lobbying.index #dataTabs li#lobbyingTab a {
     border-bottom: 2px solid #FFF;
 }
 
-#contributionsTab {
-	margin-left: 10px;
-}
-
-#dataTabs li#contractingTab {
-	display: none;
-}
-
 body.filteredSearch #dataTabs {
 	position: static;
 	z-index: 0;
@@ -445,10 +447,16 @@ body.filteredSearch #contribution {
 	margin-left: 25px;
 }
 
+body#contracts #intro-contributions { display: none; }
+body#contracts #intro-grants { display: none; }
+body#contracts #intro-lobbying { display: none; }
+body#contributions #intro-contracts { display: none; }
 body#contributions #intro-grants { display: none; }
 body#contributions #intro-lobbying { display: none; }
+body#lobbying #intro-contracts { display: none; }
 body#lobbying #intro-contributions { display: none; }
 body#lobbying #intro-grants { display: none; }
+body#grants #intro-contracts { display: none; }
 body#grants #intro-contributions { display: none; }
 body#grants #intro-lobbying { display: none; }
 

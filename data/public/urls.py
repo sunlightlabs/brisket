@@ -6,6 +6,13 @@ urlpatterns = patterns('dc_web.public.views',
     # old filter redirect to contributions
     url(r'^filter/$', 'filter', name="filter"),
     
+    # grants
+    url(r'^contracts/$', 'filter_contracts', name="filter_contracts"),
+    url(r'^contracts/download/$', 'data_contracts_download', name="data_contracts_download"),
+    url(r'^data/contracts/$', 'data_contracts', name="data_contracts"),
+    url(r'^data/contracts/count/$', 'data_contracts', {'count': True}, name="data_contracts_count"),
+    url(r'^debug/contracts/$', 'debug_contracts', name="debug_contracts"),
+    
     # contributions
     url(r'^contributions/$', 'filter_contributions', name="filter_contributions"),
     url(r'^contributions/download/$', 'data_contributions_download', name="data_contributions_download"),
