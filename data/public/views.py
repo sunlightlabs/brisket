@@ -3,6 +3,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from dcapi.contracts.handlers import load_contracts
+from dcapi.contracts.urls import contractsfilter_handler
 from dcapi.contributions.handlers import load_contributions
 from dcapi.contributions.urls import contributionfilter_handler
 from dcapi.grants.handlers import load_grants
@@ -20,6 +22,9 @@ def index(request):
 
 def filter(request):
     return HttpResponsePermanentRedirect('/contributions/')
+
+def filter_contracts(request):
+    return render_to_response('filter_contracts.html', context_instance=RequestContext(request))
 
 def filter_contributions(request):
     return render_to_response('filter_contributions.html', context_instance=RequestContext(request))
@@ -41,6 +46,35 @@ def bulk_index(request):
         
 def doc_index(request):
     return render_to_response('docs/index.html', context_instance=RequestContext(request))
+
+#
+# ajaxy contracts stuff
+#
+
+def debug_contracts(request):
+    content = '\n'.join(data_contracts(request))
+    return render_to_response('debug.html', {'content': content})
+
+def data_contracts(request, count=False):
+    if count:
+        params = request.GET.copy()
+        c = load_contracts(params, nolimit=True).order_by().count()
+        return HttpResponse("%i" % c, content_type='text/plain')
+    else:
+        request.GET = request.GET.copy()
+        request.GET['per_page'] = 30
+        request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
+        return contractsfilter_handler(request)
+
+def data_contracts_download(request):
+    request.GET = request.GET.copy()
+    request.apikey = ApiKey.objects.get(key=API_KEY, status='A')
+    request.GET['per_page'] = 1000000
+    request.GET['format'] = 'xls'
+    response = contractsfilter_handler(request)
+    response['Content-Disposition'] = "attachment; filename=contracts.xls"
+    response['Content-Type'] = "application/vnd.ms-excel; charset=utf-8"
+    return response
 
 #
 # ajaxy contributions stuff

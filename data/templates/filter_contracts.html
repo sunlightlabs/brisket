@@ -1,11 +1,11 @@
 {% extends "filter.html" %}
 {% load media %}
 
-{% block bodyid %}grants{% endblock %}
+{% block bodyid %}contracts{% endblock %}
 
 {% block sidebar %}
 	<div id="datafilter" class="module datafilter">
-		<h2>Search Federal Grants for</h2>
+		<h2>Search Federal Contracts for</h2>
 		<span class="helper">Add additional fields to refine your search.</span>
 		<form>
 			<select id="filterselect">
@@ -25,24 +25,16 @@
             	<thead>
             		<tr id="titles">
                    		<th>Fiscal Year</th>
-                   		<th>Total Amount</th>
-                   		<th>Recipient</th>
+                   		<th>Current Amount</th>
+                   		<th>Vendor</th>
                    		<th>Program</th>
                    		<th>Agency</th>
                    	</tr>
                 </thead>
                 <tbody></tbody>
             </table>
-            <!--
-            <div class="paginator">
-            	<span>Page</span>
-            	<a href="#">1</a>
-				<a href="#">2</a>
-				<a href="#">3</a>
-			</div>
-			-->
 		</div>
-		<div id="nodata">No grants match your filter criteria.</div>
+		<div id="nodata">No contracts match your filter criteria.</div>
 		<div id="loading">Loading a few records to preview your filter...</div>
 		<div id="downloading" class="dialog">
 			<p>
@@ -59,15 +51,15 @@
 		</div>
         <div class="clear"></div>
 	</div>
-    {% js "grants.js" %}
+    {% js "contracts.js" %}
 	<script type="text/javascript">
 		$().ready(function() {
-			TD.GrantsFilter.bindDataFilter('#datafilter');
-			TD.GrantsFilter.bindPreview('#previewButton');
-			TD.GrantsFilter.bindDownload('#downloadButton');
-		    TD.GrantsFilter.init();
+			TD.ContractsFilter.bindDataFilter('#datafilter');
+			TD.ContractsFilter.bindPreview('#previewButton');
+			TD.ContractsFilter.bindDownload('#downloadButton');
+		    TD.ContractsFilter.init();
 			
-		    TD.activeFilter = TD.GrantsFilter;
+		    TD.activeFilter = TD.ContractsFilter;
 		
 			TD.init();
 		});

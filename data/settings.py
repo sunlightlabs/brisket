@@ -102,6 +102,11 @@ MEDIASYNC_JOINED = {
         'js/jquery.currency.js',
         'js/underscore-min.js'
     ],
+    'contracts.js': [
+        'js/td.js',
+        'js/td.fields.js',
+        'js/td.contracts.js'
+    ],
     'contributions.js': [
         'js/td.js',
         'js/td.fields.js',
@@ -120,6 +125,7 @@ MEDIASYNC_JOINED = {
     'index.js': [
         'js/td.js',
         'js/td.fields.js',
+        'js/td.contracts.js',
         'js/td.grants.js',
         'js/td.lobbying.js',
         'js/td.contributions.js'

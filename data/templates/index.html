@@ -25,7 +25,7 @@
 			<li id="contributionsTab"><a href="/contributions/" class="contributions">Contribution Data</a></li>
 			<li id="lobbyingTab"><a href="/lobbying/" class="lobbying">Lobbying Data</a></li>
 			<li id="grantsTab"><a href="/grants/" class="grants">Grant Data</a></li>
-			<li id="contractingTab"><a href="/contracts/" class="contracts">Contracting Data</a></li>
+			<li id="contractsTab"><a href="/contracts/" class="contracts">Contracting Data</a></li>
 		</ul>
 	</div>
 	<div class="introbox" id="intro-contributions">
@@ -87,7 +87,26 @@
 			<a id="grantsPreviewButton" class="previewButton" href="#">Preview Data</a>
 		</div>
 	</div>
-	
+
+	<div class="introbox" id="intro-contracts">
+		<h4>Search Federal Contracts</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific organization or agency in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="contractsDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="contractsPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
 	
     {% js "index.js" %}
 	<script type="text/javascript">
@@ -103,6 +122,8 @@
 					TD.activeFilter = TD.LobbyingFilter;
 				} else if (df == 'grants') {
 					TD.activeFilter = TD.GrantsFilter;
+				} else if (df == 'contracts') {
+					TD.activeFilter = TD.ContractsFilter;
 				}
 				return false;
 			});
@@ -117,6 +138,12 @@
 			TD.GrantsFilter.bindPreview('#grantsPreviewButton');
 		    TD.GrantsFilter.init();
 		
+			TD.HashMonitor.setAnchor('');
+
+			TD.ContractsFilter.bindDataFilter('#contractsDataFilter');
+			TD.ContractsFilter.bindPreview('#contractsPreviewButton');
+		    TD.ContractsFilter.init();
+
 			TD.HashMonitor.setAnchor('');
 
 			TD.ContributionFilter.bindDataFilter('#contributionDataFilter');
