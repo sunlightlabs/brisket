@@ -2,6 +2,12 @@ import re, string, datetime
 import api
 from util import catcodes
 
+def standardize_politician_name_with_metadata(name, party, state):
+    party_state = "-".join([x for x in [party, state] if x]) # because presidential candidates are listed without a state
+    name = "{0} ({1})".format(standardize_politician_name(name), party_state)
+
+    return name
+
 def standardize_politician_name(name):
     no_party = strip_party(name)
     proper_case = convert_case(no_party)
@@ -229,9 +235,8 @@ def generate_label(string):
     ''' truncate names longer than max_length and normalize the case
     to use title case'''
     max_length = 34
-    label = string[:max_length] + (lambda x, l: (len(x)>l and "...")
+    return string[:max_length] + (lambda x, l: (len(x)>l and "...")
                                    or "")(string, max_length)
-    return label.title()
 
 
 def get_metadata(entity_id, cycle, entity_type):
