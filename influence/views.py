@@ -193,7 +193,6 @@ def politician_entity(request, entity_id):
     entity_info = metadata['entity_info']
     context['external_links'] = external_sites.get_links(entity_info)
     context['entity_info'] = entity_info
-    context['external_links'] = external_sites.get_links(entity_info)
 
     # check if the politician has a federal ID. we currently only have
     # politician metadata for federal politicians.
