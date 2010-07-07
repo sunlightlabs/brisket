@@ -140,15 +140,6 @@ function barchart(div, data) {
     	data_series = [_.pluck(data, 'value')]
         data_labels = [_.pluck(data, 'key')];
     }
-    
-    /* make the hrefs a map so that we can use the key to ensure the
-     * right url is assigned to the right entity. */
-    data_hrefs = {};
-    for (var i = 0; i < data.length; i++) {
-        if (data[i]['href'] != -1) {
-            data_hrefs[data[i]['key']] = data[i]['href'];
-        }
-    }
 
     b = Raphael(div);
     b.setSize(sizes.chart_x + sizes.chart_width + sizes.right_gutter, sizes.chart_y + sizes.chart_height);
@@ -165,7 +156,7 @@ function barchart(div, data) {
     for (var i = 0; i < barchart_obj.labels.length; i++) {
         var text = barchart_obj.labels[i].attr('text');
         if (text != ' ') {
-            var e = document.createElement(data_hrefs[text] ? 'a' : 'span');
+            var e = document.createElement(data[labelCount].href ? 'a' : 'span');
             e.appendChild(document.createTextNode(text));
             e.style.position = 'absolute';
             e.style.top = (10 + labelCount * sizes.label_offset) + 'px';
@@ -173,8 +164,8 @@ function barchart(div, data) {
             e.style.fontSize = '11px';
             e.style.textDecoration = 'none';
             e.style.zIndex = 100 + labelCount * sizes.label_offset;
-            if (data_hrefs[text]) {
-                e.href = data_hrefs[text];
+            if (data[labelCount].href) {
+                e.href = data[labelCount].href;
             }
             graphElem.prepend(e);
             labelCount += 1;
@@ -186,7 +177,7 @@ function barchart(div, data) {
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
     s = b.set();
-    for (var i=0; i< original_len; i++) {
+    for (var i=0; i< data.length; i++) {
         x = barchart_obj.bars[num_datasets-1][i].x;
         y = barchart_obj.bars[num_datasets-1][i].y;
         text = "$" + data[i]['value'];
