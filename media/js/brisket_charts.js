@@ -110,7 +110,7 @@ function piechart(div, data, type) {
 
 
 
-function barchart(div, data, limit) {
+function barchart(div, data) {
     /* expects data to be a list of dicts each with keys called key,
        value, and href. */
 
@@ -125,20 +125,6 @@ function barchart(div, data, limit) {
     };
 
     if (data.length === 0) return;
-
-    if (limit && limit < data.length) {
-        data = data.slice(0, limit);
-    }
-
-    /* if the data has less than 10 records, pad it so that
-    * the chart doesn't look like crap. */
-    var original_len = data.length;
-
-    if (data.length < 10) {
-        for (var i=data.length; i < 10; i++) {
-          data[i] = {'key':' ', 'value': 0, 'href': -1};
-        }
-    }
 
     opts = {
         "type": "soft",
