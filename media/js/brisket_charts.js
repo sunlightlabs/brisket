@@ -114,7 +114,7 @@ function barchart(div, data, limit) {
     /* expects data to be a list of dicts each with keys called key,
        value, and href. */
 
-    var conf = {
+    var sizes = {
         chart_height: 195,
         chart_width: 285,
         chart_x: 215,
@@ -125,9 +125,6 @@ function barchart(div, data, limit) {
 
     if (data.length === 0) return;
 
-    b = Raphael(div);
-    b.setSize(conf.chart_x + conf.chart_width + conf.right_gutter, conf.chart_y + conf.chart_height);
-    b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
     thedata = data;
     if (limit && limit < data.length) {
@@ -144,11 +141,42 @@ function barchart(div, data, limit) {
         }
     }
 
-    var data_values = [];
-    for (var i = 0; i < data.length; i++) {
-        data_values.push(data[i]['value']);
-    }
+    opts = {
+        "type": "soft",
+        "gutter": sizes.bar_gutter, //space between bars, as fn of bar width/height
+        "stacked": data[0]['value_employee'] ? true : false,
+        "colors" : ["#EFCC01", "#f27e01"]
+    };
 
+    /* check if this is a stacked barchart_obj. data sets must be passed
+       inside another array-- barchart_obj fn supports multiple data
+       series so expects an array of arrays, even for just one data
+       series. Else it will treat each data point as one series. */
+    
+    if (opts['stacked']) {
+        data_series = [[],[]];
+        for (var i=0; i<data.length; i++) {
+            data_series[0].push(data[i]['value_employee']);
+            data_series[1].push(data[i]['value_pac']);
+        }
+        
+        data_labels = [[], []];
+        for (var i=0; i < data.length; i++) {
+        	data_labels[0].push(data[i]['key']);
+        	data_labels[1].push(" ")
+        }
+    } else {
+    	data_series = [[]];
+        for (var i = 0; i < data.length; i++) {
+            data_series[0].push(data[i]['value']);
+        }
+        
+        data_labels = [[]];
+        for (var i=0; i < data.length; i++) {
+        	data_labels[0].push(data[i]['key']);
+        }        
+    }
+    
     /* make the hrefs a map so that we can use the key to ensure the
      * right url is assigned to the right entity. */
     data_hrefs = {};
@@ -158,50 +186,15 @@ function barchart(div, data, limit) {
         }
     }
 
-    var data_labels = [];
-    for (var i = 0; i < data.length; i++) {
-        ind = data_labels.push(data[i]['key']);
-    }
+    b = Raphael(div);
+    b.setSize(sizes.chart_x + sizes.chart_width + sizes.right_gutter, sizes.chart_y + sizes.chart_height);
+    b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";    
+    
+    var barchart_obj = b.g.hbarchart(sizes.chart_x, sizes.chart_y, sizes.chart_width, sizes.chart_height, data_series, opts);
+    barchart_obj.label(data_labels, false);
 
-    opts = {
-        "type": "soft",
-        "gutter": conf.bar_gutter, //space between bars, as fn of bar width/height
-        "stacked": false,
-        "colors" : ["#EFCC01", "#f27e01"]
-    };
-
-    /* check if this is a stacked barchart_obj. data sets must be passed
-       inside another array-- barchart_obj fn supports multiple data
-       series so expects an array of arrays, even for just one data
-       series. Else it will treat each data point as one series. */
-    if (data[0]['value_employee']) {
-        var values_employee = [];
-        var values_pac = [];
-        for (var i=0; i<data.length; i++) {
-            values_employee.push(data[i]['value_employee']);
-            values_pac.push(data[i]['value_pac']);
-        }
-        all_data = [values_employee, values_pac];
-        opts['stacked'] = true;
-    } else {
-        all_data = [data_values];
-    }
-
-    var barchart_obj = b.g.hbarchart(conf.chart_x, conf.chart_y, conf.chart_width, conf.chart_height, all_data, opts);
     var num_datasets = barchart_obj.bars.length;
 
-    /* pass in labels array inside another array. if this is a stacked
-     * barchart_obj, raphael defaults to including the data value as a
-     * label when no label is passed in, so trick it by sending in
-     * blank (but non-empty!) strings.  */
-    if (barchart_obj.bars.length > 1) {
-        the_labels = [data_labels,
-            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]];
-    }
-    else {
-        the_labels = [data_labels];
-    }
-    barchart_obj.label(the_labels, false);
 
     var labelOffset = 0;
     var graphElem = jQuery('#' + div);
@@ -258,7 +251,7 @@ function barchart(div, data, limit) {
         }
     );
 
-    barchart_obj.labels.translate((conf.chart_x - 10) * -1, -1000000);
+    barchart_obj.labels.translate((sizes.chart_x - 10) * -1, -1000000);
 
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
@@ -279,12 +272,12 @@ function barchart(div, data, limit) {
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: spacing + ',0', 'text-anchor': 'start'});
 
-    var yAxis = b.path("M " + conf.chart_x + " " + conf.chart_y + " L " + conf.chart_x + " " + conf.chart_height);
+    var yAxis = b.path("M " + sizes.chart_x + " " + sizes.chart_y + " L " + sizes.chart_x + " " + sizes.chart_height);
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
 
-    var xAxisLength = conf.chart_width + conf.chart_x + conf.right_gutter;
-    var xAxis = b.path("M " + conf.chart_x + " " + conf.chart_height + " L " + xAxisLength + " " + conf.chart_height);
+    var xAxisLength = sizes.chart_width + sizes.chart_x + sizes.right_gutter;
+    var xAxis = b.path("M " + sizes.chart_x + " " + sizes.chart_height + " L " + xAxisLength + " " + sizes.chart_height);
 
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
