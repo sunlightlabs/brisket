@@ -126,6 +126,7 @@ function barchart(div, data, limit) {
     if (data.length === 0) return;
 
     b = Raphael(div);
+    b.setSize(conf.chart_x + conf.chart_width + conf.right_gutter, conf.chart_y + conf.chart_height);
     b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
     thedata = data;
