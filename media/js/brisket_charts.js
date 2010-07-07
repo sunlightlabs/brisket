@@ -120,13 +120,12 @@ function barchart(div, data, limit) {
         chart_x: 215,
         chart_y: 10,
         bar_gutter: 30,
-        right_gutter: 60
+        right_gutter: 60,
+        label_offset: 18
     };
 
     if (data.length === 0) return;
 
-
-    thedata = data;
     if (limit && limit < data.length) {
         data = data.slice(0, limit);
     }
@@ -148,33 +147,12 @@ function barchart(div, data, limit) {
         "colors" : ["#EFCC01", "#f27e01"]
     };
 
-    /* check if this is a stacked barchart_obj. data sets must be passed
-       inside another array-- barchart_obj fn supports multiple data
-       series so expects an array of arrays, even for just one data
-       series. Else it will treat each data point as one series. */
-    
     if (opts['stacked']) {
-        data_series = [[],[]];
-        for (var i=0; i<data.length; i++) {
-            data_series[0].push(data[i]['value_employee']);
-            data_series[1].push(data[i]['value_pac']);
-        }
-        
-        data_labels = [[], []];
-        for (var i=0; i < data.length; i++) {
-        	data_labels[0].push(data[i]['key']);
-        	data_labels[1].push(" ")
-        }
+        data_series = [_.pluck(data, 'value_employee'), _.pluck(data, 'value_pac')]; 
+        data_labels = [_.pluck(data, 'key'), _.map(data, function(x){ return " "; })];
     } else {
-    	data_series = [[]];
-        for (var i = 0; i < data.length; i++) {
-            data_series[0].push(data[i]['value']);
-        }
-        
-        data_labels = [[]];
-        for (var i=0; i < data.length; i++) {
-        	data_labels[0].push(data[i]['key']);
-        }        
+    	data_series = [_.pluck(data, 'value')]
+        data_labels = [_.pluck(data, 'key')];
     }
     
     /* make the hrefs a map so that we can use the key to ensure the
@@ -195,61 +173,27 @@ function barchart(div, data, limit) {
 
     var num_datasets = barchart_obj.bars.length;
 
-
-    var labelOffset = 0;
     var graphElem = jQuery('#' + div);
     var graphElemPosition = graphElem.offset();
+    labelCount = 0;
     for (var i = 0; i < barchart_obj.labels.length; i++) {
         var text = barchart_obj.labels[i].attr('text');
         if (text != ' ') {
             var e = document.createElement(data_hrefs[text] ? 'a' : 'span');
             e.appendChild(document.createTextNode(text));
             e.style.position = 'absolute';
-            e.style.top = (10 + labelOffset) + 'px';
+            e.style.top = (10 + labelCount * sizes.label_offset) + 'px';
             e.style.left = '15px';
             e.style.fontSize = '11px';
             e.style.textDecoration = 'none';
-            e.style.zIndex = 100 + labelOffset;
+            e.style.zIndex = 100 + labelCount * sizes.label_offset;
             if (data_hrefs[text]) {
                 e.href = data_hrefs[text];
-            } else {
-                e.href = '#';
-                jQuery(e).click(function() {
-                    return false;
-                });
             }
             graphElem.prepend(e);
-            labelOffset += 18;
+            labelCount += 1;
         }
     }
-
-    /* add links to the labels */
-    for (var i = 0; i < barchart_obj.labels.length; i++) {
-        var key = barchart_obj.labels[i].attr('text');
-        if (data_hrefs[key]) {
-            barchart_obj.labels[i].attr({
-                'href': data_hrefs[key],
-                'fill': "#666666"
-            });
-            barchart_obj.labels[i].click(function(ev) {
-                if (this.attr('href')) {
-                    window.location = this.attr('href');
-                    return false;
-                }
-            });
-        } else {
-            barchart_obj.labels[i].attr({'fill': "#666666"});
-        }
-    }
-
-    /* change the labels to the link colour on hover */
-    barchart_obj.labels.hover(function() {
-        if (this.attr("href")) {
-            this.attr({fill: "#0A6E92"});
-        }}, function() {
-            this.attr({fill: "#666666"});
-        }
-    );
 
     barchart_obj.labels.translate((sizes.chart_x - 10) * -1, -1000000);
 
@@ -259,11 +203,7 @@ function barchart(div, data, limit) {
     for (var i=0; i< original_len; i++) {
         x = barchart_obj.bars[num_datasets-1][i].x;
         y = barchart_obj.bars[num_datasets-1][i].y;
-        text = 0;
-        for (var n=0; n< num_datasets; n++) {
-            text = text + barchart_obj.bars[n][i].value;
-        }
-        text = "$"+text;
+        text = "$" + data[i]['value'];
         marker = b.g.text(x,y,text);
         marker.attr("fill", "#666666");
         s.push(marker);
