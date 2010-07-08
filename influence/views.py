@@ -120,7 +120,7 @@ def organization_entity(request, entity_id):
         recipients_barchart_data = []
         for record in org_recipients:
             recipients_barchart_data.append({
-                    'key': generate_label(standardize_politician_name(record['name'])),
+                    'key': generate_label(standardize_politician_name_with_metadata(record['name'], record['party'], record['state'])),
                     'value' : record['total_amount'],
                     'value_employee' : record['employee_amount'],
                     'value_pac' : record['direct_amount'],
@@ -291,7 +291,7 @@ def individual_entity(request, entity_id):
         candidates_barchart_data = []
         for record in recipient_candidates:
             candidates_barchart_data.append({
-                    'key': generate_label(standardize_politician_name(record['recipient_name'])),
+                    'key': generate_label(standardize_politician_name_with_metadata(record['recipient_name'], record['party'], record['state'])),
                     'value' : record['amount'],
                     'href' : barchart_href(record, cycle, entity_type="politician"),
                     })

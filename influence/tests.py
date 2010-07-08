@@ -136,6 +136,12 @@ class PoliticianNameStandardizationTests(TestCase):
     def test_we_dont_need_no_steeenking_nicknames(self):
         self.assertEqual('Robert M McDonnell', helpers.standardize_politician_name('McDonnell, Robert M (Bob)'))
 
+    def test_with_metadata__party_and_state_present(self):
+        self.assertEqual('Charles Schumer (D-NY)', helpers.standardize_politician_name_with_metadata('Charles Schumer', 'D', 'NY'))
+        self.assertEqual('Barack Obama (D)', helpers.standardize_politician_name_with_metadata('Barack Obama', 'D', ''))
+        self.assertEqual('Charles Schumer (NY)', helpers.standardize_politician_name_with_metadata('Charles Schumer', '', 'NY'))
+        self.assertEqual('Jerry Leon Carroll ()', helpers.standardize_politician_name_with_metadata('Jerry Leon Carroll', '', '')) # only this one guy is missing both, so not writing a special case for it right now
+
 class IndividualNameStandardizationTests(TestCase):
 
     def test_all_kinds_of_crazy(self):
