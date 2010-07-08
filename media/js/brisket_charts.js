@@ -114,18 +114,18 @@ function barchart(div, data) {
     /* expects data to be a list of dicts each with keys called key,
        value, and href. */
 
-    var sizes = {
+	if (data.length === 0) return;
+
+	var sizes = {
         chart_height: 195,
         chart_width: 285,
         chart_x: 215,
         chart_y: 10,
         bar_gutter: 30,
         right_gutter: 60,
-        label_offset: 18
+        row_height: 18
     };
-
-    if (data.length === 0) return;
-
+	
     opts = {
         "type": "soft",
         "gutter": sizes.bar_gutter, //space between bars, as fn of bar width/height
@@ -133,6 +133,17 @@ function barchart(div, data) {
         "colors" : ["#EFCC01", "#f27e01"]
     };
 
+    real_rows = data.length;
+    
+    // Note: ideally we'd just make the chart itself smaller when there are fewer rows.
+    // But Raphael sizing is unpredictable, so we have to keep the height and number of
+    // rows constant in order to be able to match Raphael's row positions.
+    if (data.length < 10) {
+        for (var i=data.length; i < 10; i++) {
+          data[i] = {'key':' ', 'value': 0, 'href': -1};
+        }
+    }    
+    
     if (opts['stacked']) {
         data_series = [_.pluck(data, 'value_employee'), _.pluck(data, 'value_pac')]; 
         data_labels = [_.pluck(data, 'key'), _.map(data, function(x){ return " "; })];
@@ -159,11 +170,11 @@ function barchart(div, data) {
             var e = document.createElement(data[labelCount].href ? 'a' : 'span');
             e.appendChild(document.createTextNode(text));
             e.style.position = 'absolute';
-            e.style.top = (10 + labelCount * sizes.label_offset) + 'px';
+            e.style.top = (sizes.chart_y + labelCount * sizes.row_height) + 'px';
             e.style.left = '15px';
             e.style.fontSize = '11px';
             e.style.textDecoration = 'none';
-            e.style.zIndex = 100 + labelCount * sizes.label_offset;
+            e.style.zIndex = 100 + labelCount * sizes.row_height;
             if (data[labelCount].href) {
                 e.href = data[labelCount].href;
             }
@@ -178,28 +189,32 @@ function barchart(div, data) {
        method called 'label' just to confuse you) */
     s = b.set();
     for (var i=0; i< data.length; i++) {
-        x = barchart_obj.bars[num_datasets-1][i].x;
-        y = barchart_obj.bars[num_datasets-1][i].y;
-        text = "$" + data[i]['value'];
-        marker = b.g.text(x,y,text);
-        marker.attr("fill", "#666666");
-        s.push(marker);
+    	if (data[i].value > 0) {
+	        x = barchart_obj.bars[num_datasets-1][i].x;
+	        y = barchart_obj.bars[num_datasets-1][i].y;
+	        text = "$" + data[i]['value'];
+	        marker = b.g.text(x,y,text);
+	        marker.attr("fill", "#666666");
+	        s.push(marker);
+    	}
     }
 
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: spacing + ',0', 'text-anchor': 'start'});
 
-    var yAxis = b.path("M " + sizes.chart_x + " " + sizes.chart_y + " L " + sizes.chart_x + " " + sizes.chart_height);
+    bottomY = 5 + sizes.chart_y + sizes.row_height * real_rows
+    
+    var yAxis = b.path("M " + sizes.chart_x + " " + sizes.chart_y + " L " + sizes.chart_x + " " + bottomY);
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
 
     var xAxisLength = sizes.chart_width + sizes.chart_x + sizes.right_gutter;
-    var xAxis = b.path("M " + sizes.chart_x + " " + sizes.chart_height + " L " + xAxisLength + " " + sizes.chart_height);
+    var xAxis = b.path("M " + sizes.chart_x + " " + bottomY + " L " + xAxisLength + " " + bottomY);
 
     xAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     xAxis.show();
-
 }
+
 
 function sparkline(div, data) {
     if (data.length === 0) {
