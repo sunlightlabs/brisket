@@ -1,13 +1,11 @@
 function dollar(str) {
-  str += '';
-  x = str.split('.');
-  x1 = x[0];
-  x2 = x.length > 1 ? '.' + x[1] : '';
+  var decimal_split = (str + '').split('.');
+  var integer_part = decimal_split[0];
   var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    while (rgx.test(integer_part)) {
+    	integer_part = integer_part.replace(rgx, '$1' + ',' + '$2');
     }
-  return "$"+ x1 + x2;
+  return "$"+ integer_part;
 }
 
 function piechart(div, data, type) {
@@ -46,9 +44,6 @@ function piechart(div, data, type) {
 
         var percent = Math.round((value / total) * 100);
         var label = (key || ' ') + ' (' + percent + '%)';
-        // if (label.length > 1) {
-        //     label = label[0].toUpperCase() + label.substr(1, label.length - 1);
-        // }
 
         if (value > 0) {
             slices.push({
@@ -187,12 +182,12 @@ function barchart(div, data) {
 
     /* add text markers for the amounts (which unfortunately uses a
        method called 'label' just to confuse you) */
-    s = b.set();
+    var s = b.set();
     for (var i=0; i< data.length; i++) {
     	if (data[i].value > 0) {
-	        x = barchart_obj.bars[num_datasets-1][i].x;
-	        y = barchart_obj.bars[num_datasets-1][i].y;
-	        text = "$" + data[i]['value'];
+	        var x = barchart_obj.bars[num_datasets-1][i].x;
+	        var y = barchart_obj.bars[num_datasets-1][i].y;
+	        text = dollar(data[i]['value']);
 	        marker = b.g.text(x,y,text);
 	        marker.attr("fill", "#666666");
 	        s.push(marker);
