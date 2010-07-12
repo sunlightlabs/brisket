@@ -59,19 +59,25 @@ def search(request):
             kwargs['sorted_results'] = None
         else:
             # sort the results by type
-            sorted_results = {'organization': [], 'politician': [], 'individual': []}
+            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': []}
             for result in entity_results:
-                sorted_results[result['type']].append(result)
+                print result
+                if result['type'] == 'organization' and result['lobbying_firm'] == True:
+                    sorted_results['lobbying_firm'].append(result)
+                else:
+                    sorted_results[result['type']].append(result)
 
             # sort each type by amount
             sorted_results['organization'].sort(cmp = amt_given_decreasing)
             sorted_results['individual'].sort(cmp = amt_given_decreasing)
             sorted_results['politician'].sort(cmp = amt_received_decreasing)
+            sorted_results['lobbying_firm'].sort(cmp = amt_received_decreasing)
 
             # keep track of how many there are of each type of result
             kwargs['num_orgs'] = len(sorted_results['organization'])
             kwargs['num_pols'] = len(sorted_results['politician'])
             kwargs['num_indivs'] = len(sorted_results['individual'])
+            kwargs['num_firms'] = len(sorted_results['lobbying_firm'])
             kwargs['query'] = query
             kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results

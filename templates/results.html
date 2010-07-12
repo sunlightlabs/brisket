@@ -43,6 +43,24 @@
   </div>
   {% endif %}
 
+  {% if num_firms %}
+  <div class="searchBox">
+    <h3>Matching Lobbying Firms</h3>
+    <span class="results">{{ num_firms }} Result{{num_firms|pluralize}}</span>
+    <ul>
+      {% for result in sorted_results.lobbying_firm %}
+      <li class="{% cycle 'even' 'odd' %}">
+          <a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_organization_name}}</a>
+          <span class="transactions" title="Results">
+            {{result.count_received }}
+            transaction{{result.count_received|pluralize }} </span>
+          <span class="amountGiven">${{ result.total_received|floatformat:0|intcomma }} received</span>
+          <div class="clear"></div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
 
   {% if num_indivs %}
   <div class="searchBox clear">
