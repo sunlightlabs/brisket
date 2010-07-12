@@ -63,13 +63,14 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'influence.middleware.RequestLoggingMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'influence.context_processors.custom_context',
-    'django.core.context_processors.auth', 
+    'django.core.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.contrib.messages.context_processors.messages',
@@ -85,12 +86,10 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.humanize', #format numbers in templates 
+    'django.contrib.humanize', #format numbers in templates
     'mediasync',
     'brisket.influence',
     'brisket.util',
