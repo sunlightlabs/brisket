@@ -155,26 +155,6 @@ def slugify(string):
     hyphens. '''
     return re.sub(" ", "-", re.sub("[^a-zA-Z0-9 -]+", "", string)).lower()
 
-def amt_given_decreasing(d1, d2):
-    ''' a cmp function for sort(), to sort dicts by increasing value
-    of the total_given item'''
-
-    if float(d1['total_given']) > float(d2['total_given']):
-        return -1
-    if float(d1['total_given']) < float(d2['total_given']):
-        return 1
-    else: return 0
-
-def amt_received_decreasing(d1, d2):
-    ''' a cmp function for sort(), to sort dicts by increasing value
-    of the total_given item'''
-
-    if float(d1['total_received']) > float(d2['total_received']):
-        return -1
-    if float(d1['total_received']) < float(d2['total_received']):
-        return 1
-    else: return 0
-
 def tuple_cmp(t1, t2):
     ''' a cmp function for sort(), to sort tuples by increasing value
     of the tuple's 2nd item (index 1)'''

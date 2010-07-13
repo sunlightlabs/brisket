@@ -8,6 +8,7 @@ from django.shortcuts  import render_to_response
 from django.template   import RequestContext
 from influence.forms   import SearchForm, ElectionCycle
 from influence.helpers import *
+from operator          import itemgetter
 from settings          import LATEST_CYCLE
 from util              import catcodes
 
@@ -59,19 +60,24 @@ def search(request):
             kwargs['sorted_results'] = None
         else:
             # sort the results by type
-            sorted_results = {'organization': [], 'politician': [], 'individual': []}
+            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': []}
             for result in entity_results:
-                sorted_results[result['type']].append(result)
+                if result['type'] == 'organization' and result['lobbying_firm'] == True:
+                    sorted_results['lobbying_firm'].append(result)
+                else:
+                    sorted_results[result['type']].append(result)
 
             # sort each type by amount
-            sorted_results['organization'].sort(cmp = amt_given_decreasing)
-            sorted_results['individual'].sort(cmp = amt_given_decreasing)
-            sorted_results['politician'].sort(cmp = amt_received_decreasing)
+            sorted_results['organization']  = sorted(sorted_results['organization'],  key=lambda x: float(x['total_given']), reverse=True)
+            sorted_results['individual']    = sorted(sorted_results['individual'],    key=lambda x: float(x['total_given']), reverse=True)
+            sorted_results['politician']    = sorted(sorted_results['politician'],    key=lambda x: float(x['total_received']), reverse=True)
+            sorted_results['lobbying_firm'] = sorted(sorted_results['lobbying_firm'], key=lambda x: float(x['firm_income']), reverse=True)
 
             # keep track of how many there are of each type of result
-            kwargs['num_orgs'] = len(sorted_results['organization'])
-            kwargs['num_pols'] = len(sorted_results['politician'])
+            kwargs['num_orgs']   = len(sorted_results['organization'])
+            kwargs['num_pols']   = len(sorted_results['politician'])
             kwargs['num_indivs'] = len(sorted_results['individual'])
+            kwargs['num_firms']  = len(sorted_results['lobbying_firm'])
             kwargs['query'] = query
             kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results

@@ -66,6 +66,16 @@ def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
         results['career'] = {'start': career[1], 'end': career[-1]}
     else:
         results['career'] = {}
+
+    # lobbying career
+    lobbying_career = [k for (k,v) in results['totals'].items() if v['lobbying_count']]
+    lobbying_career.sort()
+    # start at index 1 to skip over the -1 for 'all cycles'
+    if len(lobbying_career):
+        results['lobbying_career'] = {'start': lobbying_career[1], 'end': lobbying_career[-1]}
+    else:
+        results['lobbying_career'] = {}
+
     return results
 
 
