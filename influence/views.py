@@ -68,10 +68,10 @@ def search(request):
                     sorted_results[result['type']].append(result)
 
             # sort each type by amount
-            sorted_results['organization']  = sorted(sorted_results['organization'],  key=itemgetter('total_given'), reverse=True)
-            sorted_results['individual']    = sorted(sorted_results['individual'],    key=itemgetter('total_given'), reverse=True)
-            sorted_results['politician']    = sorted(sorted_results['politician'],    key=itemgetter('total_received'), reverse=True)
-            sorted_results['lobbying_firm'] = sorted(sorted_results['lobbying_firm'], key=itemgetter('total_lobbied'), reverse=True)
+            sorted_results['organization']  = sorted(sorted_results['organization'],  key=lambda x: float(x['total_given']), reverse=True)
+            sorted_results['individual']    = sorted(sorted_results['individual'],    key=lambda x: float(x['total_given']), reverse=True)
+            sorted_results['politician']    = sorted(sorted_results['politician'],    key=lambda x: float(x['total_received']), reverse=True)
+            sorted_results['lobbying_firm'] = sorted(sorted_results['lobbying_firm'], key=lambda x: float(x['firm_income']), reverse=True)
 
             # keep track of how many there are of each type of result
             kwargs['num_orgs']   = len(sorted_results['organization'])
