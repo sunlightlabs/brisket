@@ -234,10 +234,6 @@ def politician_entity(request, entity_id):
             sectors_barchart_data.append({
                     'key': generate_label(sector_name),
                     'value' : record['amount'],
-                    # make sure to leave href as -1 if you want to
-                    # suppress link generation in the javascript
-                    # barchart function.
-                    'href' : "-1"
                     })
         context['sectors_barchart_data'] = bar_validate(sectors_barchart_data)
 

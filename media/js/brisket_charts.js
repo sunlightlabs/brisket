@@ -135,7 +135,7 @@ function barchart(div, data) {
     // rows constant in order to be able to match Raphael's row positions.
     if (data.length < 10) {
         for (var i=data.length; i < 10; i++) {
-          data[i] = {'key':' ', 'value': 0, 'href': -1};
+          data[i] = {'key':' ', 'value': 0};
         }
     }    
     
