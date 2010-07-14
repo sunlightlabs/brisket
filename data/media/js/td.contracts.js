@@ -65,9 +65,25 @@ $().ready(function() {
     TD.ContractsFilter.init = function() {
 
         TD.ContractsFilter.registerFilter({
-            name: 'agency_ft',
+            name: 'agency_name',
             label: 'Agency',
             help: 'The name of the agency that awarded the contract.',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true
+        });
+
+		TD.ContractsFilter.registerFilter({
+            name: 'contracting_agency_name',
+            label: 'Agency (contracting)',
+            help: 'The name of the contracting agency.',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true
+        });
+
+		TD.ContractsFilter.registerFilter({
+            name: 'requesting_agency_name',
+            label: 'Agency (requesting)',
+            help: 'The name of the requesting agency.',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
@@ -94,26 +110,6 @@ $().ready(function() {
         });
 
         TD.ContractsFilter.registerFilter({
-            name: 'assistance_type',
-            label: 'Assistance Type',
-            help: 'The type of contract given.',
-            field: TD.DataFilter.DropDownField,
-            allowMultipleFields: true,
-            options: [
-                ['02','Block contra'],
-                ['03','Formula grant'],
-                ['04','Project grant'],
-                ['05','Cooperative agreement'],
-                ['06','Direct payment for specified use, as a subsidy or other non-reimbursable direct financial aid'],
-                ['07','Direct loan'],
-                ['08','Guaranteed/insured loan'],
-                ['09','Insurance'],
-                ['10','Direct payment with unrestricted use'],
-                ['11','Other reimbursable, contingent, intangible or indirect financial assistance'],
-            ]
-        });
-
-        TD.ContractsFilter.registerFilter({
             name: 'fiscal_year',
             label: 'Fiscal Year',
             help: 'The year in which the contract was issued.',
@@ -130,18 +126,10 @@ $().ready(function() {
             ]
         });
 
-        TD.ContractsFilter.registerFilter({
-            name: 'recipient_ft',
-            label: 'Recipient',
-            help: 'The name of the organization that received the contract.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
-
-        TD.ContractsFilter.registerFilter({
-            name: 'recipient_state',
-            label: 'Recipient State',
-            help: 'State in which the recipient resides.',
+		TD.ContractsFilter.registerFilter({
+            name: 'place_state',
+            label: 'Place of Performance State',
+            help: 'The state in which the contract action will be performed.',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
             options: [
@@ -162,27 +150,68 @@ $().ready(function() {
             ]
         });
 
+		TD.ContractsFilter.registerFilter({
+            name: 'vendor_name',
+            label: 'Vendor',
+            help: 'The name of the organization that received the contract.',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true
+        });
+
+		TD.ContractsFilter.registerFilter({
+            name: 'vendor_duns',
+            label: 'Vendor DUNs',
+            help: 'The Dun and Bradstreet identifier of the organization that received the contract.',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true
+        });
+
+		TD.ContractsFilter.registerFilter({
+            name: 'vendor_parent_duns',
+            label: 'Vendor DUNs (parent)',
+            help: 'The Dun and Bradstreet identifier of the parent of the organization that received the contract.',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true
+        });
+
+		TD.ContractsFilter.registerFilter({
+            name: 'vendor_city',
+            label: 'Vendor City',
+            help: 'The city of the organization that received the contract.',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true
+        });
+
         TD.ContractsFilter.registerFilter({
-            name: 'recipient_type',
-            label: 'Recipient Type',
-            help: 'The type of recipient to whom the contract was given.',
+            name: 'vendor_state',
+            label: 'Vendor State',
+            help: 'The state of the organization that received the contract.',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
             options: [
-                ['00','State government'],
-                ['01','County government'],
-                ['02','City or township government'],
-                ['04','Special district government'],
-                ['05','Independent school district'],
-                ['06','State controlled institution of higher education'],
-                ['11','Indian tribe'],
-                ['12','Other nonprofit'],
-                ['20','Private higher education'],
-                ['21','individual'],
-                ['22','Profit organization'],
-                ['23','Small business'],
-                ['25','Other'],
+                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
+                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
+                ['DC', 'District of Columbia'],
+                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
+                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
+                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
+                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
+                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
+                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
+                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
+                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
+                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
+                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
+                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
             ]
+        });
+
+		TD.ContractsFilter.registerFilter({
+            name: 'vendor_zipcode',
+            label: 'Vendor Zipcode',
+            help: 'The zipcode of the organization that received the contract.',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true
         });
 
         var anchor = TD.HashMonitor.getAnchor();
