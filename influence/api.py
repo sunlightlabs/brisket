@@ -9,6 +9,7 @@ try:
 except:
     import simplejson as json
 
+from profiling import TimeProfile
 
 API_BASE_URL = settings.AGGREGATES_API_BASE_URL.strip('/')+'/'
 
@@ -38,7 +39,7 @@ def remove_unicode(data):
         return str(data)
     else: return data
 
-
+@TimeProfile
 def get_url_json(path, cycle=None, limit=None, **params):
     """ Low level call that just adds the API key, retrieves the URL and parses the JSON. """
 

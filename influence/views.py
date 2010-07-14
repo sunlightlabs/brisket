@@ -12,6 +12,8 @@ from operator          import itemgetter
 from settings          import LATEST_CYCLE
 from util              import catcodes
 
+from profiling import TimeProfile
+
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
 
@@ -29,6 +31,7 @@ def entity_context(request, cycle, available_cycles):
 def index(request):
     return render_to_response('index.html', brisket_context(request))
 
+@TimeProfile
 def search(request):
     if not request.GET.get('query', None):
         HttpResponseRedirect('/')
@@ -106,6 +109,7 @@ def politician_landing(request):
     context['cycle'] = LATEST_CYCLE
     return render_to_response('pol_landing.html', context, brisket_context(request))
 
+@TimeProfile
 def organization_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     context = {}
@@ -187,7 +191,7 @@ def organization_entity(request, entity_id):
     return render_to_response('organization.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
-
+@TimeProfile
 def politician_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     context = {}
@@ -269,7 +273,7 @@ def politician_entity(request, entity_id):
                               entity_context(request, cycle, metadata['available_cycles']))
 
 
-
+@TimeProfile
 def individual_entity(request, entity_id):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     context = {}
