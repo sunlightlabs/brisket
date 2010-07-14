@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from dcdata import contracts
 from dcapi.contracts.handlers import load_contracts
 from dcapi.contracts.urls import contractsfilter_handler
 from dcapi.contributions.handlers import load_contributions
@@ -46,6 +47,21 @@ def bulk_index(request):
         
 def doc_index(request):
     return render_to_response('docs/index.html', context_instance=RequestContext(request))
+
+#
+# lookups documentation
+#
+
+def lookup(self, dataset, field):
+    if dataset == 'contracts':
+        attr = field.upper()
+        print dir(contracts)
+        if hasattr(contracts, attr):
+            return render_to_response('docs/lookup.html', {
+                'attr': attr,
+                'lookup': getattr(contracts, attr),
+            })
+    raise Http404()
 
 #
 # ajaxy contracts stuff
