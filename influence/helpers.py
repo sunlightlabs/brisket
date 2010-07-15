@@ -193,23 +193,15 @@ def pie_validate(data):
         return positive
 
 def barchart_href(record, cycle, entity_type):
-    if 'recipient_entity' in record.keys():
-        if record['recipient_entity']:
-            href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']),
+    if record.get('recipient_entity', None):
+            return str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']),
                                                record['recipient_entity'], cycle))
-        else:
-            href = -1
-
-    elif 'id' in record.keys():
+    elif record.get('id', None):
         if record['id']:
-            href = str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['name']),
+            return str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['name']),
                                                record['id'], cycle))
-        else:
-            href = -1
-    else:
-        href = -1
+    return ''
 
-    return href
 
 def generate_label(string):
     ''' truncate names longer than max_length and normalize the case

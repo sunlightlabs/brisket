@@ -47,4 +47,7 @@ urlpatterns += patterns('django.views.generic.simple',
 
     url(r'^about/$', 'direct_to_template',
         {'template': 'about.html'}),
+        
+    url(r'^about/methodology/campaign_finance/$', 'direct_to_template',
+        {'template': 'campaign_finance_methodology.html'}),
 )

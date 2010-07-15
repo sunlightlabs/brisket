@@ -59,10 +59,10 @@
     <div class="lobbyistsOrgs twoColumn">
       {% for row in lobbying_for_clients %}
       {% if row.client_entity %}
-      <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
+      <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>{% if forloop.last %}{% else %},{% endif %}
       {% else %}
-      {{ row.client_name }}
-      {% endif %} 
+      {{ row.client_name }}{% if forloop.last %}{% else %},{% endif %}
+      {% endif %}
       {% endfor %}
     </div>
   </div>
