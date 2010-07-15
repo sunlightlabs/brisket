@@ -154,11 +154,11 @@ th.right { padding-right: 10px;}
 .right { text-align: right;}
 td.lawmakerName a { float: none; margin-right: 0;}
 
-table#mainPageTables { width: 650px; margin-top: 30px;}
-table#mainPageTables img { border: 2px solid #e0e0df; width: 40px; }
+table#mainPageTable { width: 650px; margin-top: 30px;}
+table#mainPageTable img { border: 2px solid #e0e0df; width: 40px; }
 td.photo { width: 50px;}
 tr#titles th.photo { text-indent: -9999em;}
-table#mainPageTables th { padding: 0 10px 10px 15px;}
+table#mainPageTable th { padding: 0 10px 10px 15px;}
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
