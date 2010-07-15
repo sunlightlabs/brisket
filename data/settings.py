@@ -76,6 +76,8 @@ INSTALLED_APPS = (
     'dc_web.public',
 )
 
+DATABASE_ROUTERS = ['db_router.DataCommonsDBRouter']
+
 PISTON_DISPLAY_ERRORS = True
 PISTON_EMAIL_ERRORS = False
 PISTON_STREAM_OUTPUT = True
