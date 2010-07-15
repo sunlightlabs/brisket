@@ -65,7 +65,6 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'mediasync',
     'locksmith.auth',
-    'matchbox',
     'dcdata',
     'dcdata.contracts',
     'dcdata.contribution',
