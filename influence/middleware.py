@@ -7,6 +7,9 @@ class RequestLoggingMiddleware():
         if not self.should_log(request):
             return None
 
+        if not request.META.has_key('REMOTE_ADDR'):
+            request.META['REMOTE_ADDR'] = request.META.get('HTTP_X_REAL_IP', '1.1.1.1')
+
         page_request = PageRequest.objects.create(
             ip_address    = request.META.get('REMOTE_ADDR'),
             path          = request.path,
