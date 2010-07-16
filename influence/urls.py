@@ -42,12 +42,15 @@ urlpatterns += patterns('django.views.generic.simple',
     url(r'^individual/(?P<query_string>[\w\-]+)', 'redirect_to',
         {'url': '/search?query=%(query_string)s'}),
 
-    url(r'^contact/$', 'direct_to_template',
+    url(r'^contact/?$', 'direct_to_template',
         {'template': 'contact.html'}),
 
-    url(r'^about/$', 'direct_to_template',
+    url(r'^about/?$', 'direct_to_template',
         {'template': 'about.html'}),
         
-    url(r'^about/methodology/campaign_finance/$', 'direct_to_template',
+    url(r'^about/methodology/campaign_finance/?$', 'direct_to_template',
         {'template': 'campaign_finance_methodology.html'}),
+
+    url(r'^about/methodology/lobbying/?$', 'direct_to_template',
+        {'template': 'lobbying_methodology.html'}),
 )
