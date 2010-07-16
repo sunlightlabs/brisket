@@ -10,4 +10,4 @@ class PageRequest(models.Model):
     path           =  models.CharField(max_length=255)
     query_params   =  models.CharField(max_length=255)
     referring_url  =  models.CharField(max_length=255, null=True)
-    user_agent     =  models.CharField(max_length=100, null=True)
+    user_agent     =  models.CharField(max_length=255, null=True)
