@@ -133,6 +133,8 @@ MEDIASYNC_JOINED = {
     ],
 }
 
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+
 try:
     from local_settings import *
 except ImportError:
