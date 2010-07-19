@@ -18,11 +18,21 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-  sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
-  piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
-  piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
-  barchart("sectors_barchart", {% if sectors_barchart_data %}{{ sectors_barchart_data|safe }} {% else %}[]{% endif %});
-  barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    if ($('sparklines').length > 0) {
+        sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+    }
+    if ($('piechart_local').length > 0) {
+        piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
+    }
+    if ($('piechart_entity').length > 0) {
+        piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
+    }
+    if ($('sectors_barchart').length > 0) {
+        barchart("sectors_barchart", {% if sectors_barchart_data %}{{ sectors_barchart_data|safe }} {% else %}[]{% endif %});
+    }
+    if ($('contributors_barchart').length > 0) {
+        barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    }
 });
 </script>
 
