@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.db import connection
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -69,6 +70,8 @@ def lookup(self, dataset, field):
 
 def debug_contracts(request):
     content = '\n'.join(data_contracts(request))
+    if settings.DEBUG:
+        print connection.queries
     return render_to_response('debug.html', {'content': content})
 
 def data_contracts(request, count=False):
