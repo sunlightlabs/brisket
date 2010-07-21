@@ -133,7 +133,8 @@ MEDIASYNC_JOINED = {
     ],
 }
 
-CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+# timeout set to a week
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/?timeout=10080'
 
 try:
     from local_settings import *
