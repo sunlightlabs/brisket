@@ -9,10 +9,10 @@ def standardize_politician_name_with_metadata(name, party, state):
     return name
 
 def standardize_politician_name(name):
-    no_party = strip_party(name)
-    proper_case = convert_case(no_party)
+    name = strip_party(name)
+    name = convert_to_standard_order(name)
 
-    return convert_to_standard_order(proper_case)
+    return convert_case(name)
 
 def standardize_individual_name(name):
     name, honorific, suffix = separate_affixes(name)
@@ -51,7 +51,16 @@ def strip_party(name):
     return re.sub(r'\s*\(\w+\)\s*$', '', name)
 
 def convert_case(name):
-    return name if is_mixed_case(name) else string.capwords(name)
+    name = name if is_mixed_case(name) else string.capwords(name)
+    return uppercase_roman_numeral_suffix(name)
+
+def uppercase_roman_numeral_suffix(name):
+    matches = re.search(r'(?i)(?P<suffix>\b[ivx]+)$', name)
+    if matches:
+        suffix = matches.group('suffix')
+        return re.sub(suffix, suffix.upper(), name)
+    else:
+        return name
 
 def is_mixed_case(name):
     return re.search(r'[A-Z][a-z]', name)
@@ -204,8 +213,7 @@ def barchart_href(record, cycle, entity_type):
 
 
 def generate_label(string):
-    ''' truncate names longer than max_length and normalize the case
-    to use title case'''
+    ''' truncate names longer than max_length '''
     max_length = 34
     return string[:max_length] + (lambda x, l: (len(x)>l and "...")
                                    or "")(string, max_length)
