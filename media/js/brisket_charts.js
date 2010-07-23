@@ -247,7 +247,13 @@ function sparkline_by_party(div, data, cut_off_point) {
         var key = keys[i];
         y[key] = [];
 
-        for (var j=0; j<cut_off_point; j++) {
+        stop_at = data[key].length  
+
+        if (cut_off_point < stop_at) {
+            stop_at = cut_off_point
+        }
+        
+        for (var j=0; j<stop_at; j++) {
             x[j] = j+1;
             y[key][j] = data[key][j]['amount'];
 

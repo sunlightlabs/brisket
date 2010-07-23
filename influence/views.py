@@ -163,9 +163,11 @@ def organization_entity(request, entity_id):
                 cut_off_at_step = months_into_cycle_for_date(datetime.date.today(), cycle)
             else:
                 cut_off_at_step = 24
+        else:
+            cut_off_at_step = 9999
 
-            context['sparkline_data'] = api.org_sparkline_by_party(entity_id, cycle)
-            context['cut_off_sparkline_at_step'] = cut_off_at_step
+        context['cut_off_sparkline_at_step'] = cut_off_at_step
+        context['sparkline_data'] = api.org_sparkline_by_party(entity_id, cycle)
 
     # get lobbying info if it exists for this entity
     if metadata['lobbying']:
