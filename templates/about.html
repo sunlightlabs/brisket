@@ -1,15 +1,34 @@
 {% extends "search_base.html" %}
 
-{% block body_class %}about{% endblock %}
+{% block body_class %}about flatText{% endblock %}
 
 {% block main %}
 
 <div id="contentHeader">
-    <h2>About Us</h2>
+    <h2>About Influence Explorer</h2>
 </div>
 
 <div id="ltColumn">
-    <p>Text will go here when we come up with some</p>
+	<h3>About Us</h3>
+
+	<p>Influence Explorer is a project of <a href="http://sunlightlabs.com/">Sunlight Labs</a>, part of the <a href="http://sunlightfoundation.com/">Sunlight Foundation</a>. </p>
+	
+	<h3>Our Data</h3>
+	
+	<p>Our data is provided by the <a href="http://www.opensecrets.org/">Center for Responsive Politics</a> and the <a href="http://www.followthemoney.org/">National Institute for Money in State Politics</a>. </p>
+	
+	<p>For more information on how we use this data, see our <a href="/about/methodology/campaign_finance">campaign finance</a> and <a href="/about/methodology/lobbying">lobbying</a> methodology pages.</p>
+	
+	<p>Influence Explorer provides an overview of campaign finance and lobbying data. To search the underlying records or download the data in bulk, see our companion site <a href="http://transparencydata.com">Transparency Data</a>.</p>
+	
+	<h3>Developers</h3>
+	
+	<p>Influence Explorer is built on the public Transparency Data API. For more information see the <a href="http://transparencydata.com/api/aggregates/contributions/">API docs</a>.</p>
+	
+	<h3>Contact Us</h3>
+	
+	<p>For questions or comments, please use the Feedback widget on the side of the page.</p>
+		
 </div>
 
 {% endblock %}
