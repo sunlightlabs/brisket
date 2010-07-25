@@ -142,6 +142,13 @@ class PoliticianNameStandardizationTests(TestCase):
         self.assertEqual('Charles Schumer (NY)', helpers.standardize_politician_name_with_metadata('Charles Schumer', '', 'NY'))
         self.assertEqual('Jerry Leon Carroll ()', helpers.standardize_politician_name_with_metadata('Jerry Leon Carroll', '', '')) # only this one guy is missing both, so not writing a special case for it right now
 
+    def test_capitalize_roman_numeral_suffixes(self):
+        self.assertEqual('Ken Cuccinelli II', helpers.standardize_politician_name('KEN CUCCINELLI II'))
+        self.assertEqual('Ken Cuccinelli II', helpers.standardize_politician_name('CUCCINELLI II, KEN'))
+        self.assertEqual('Ken Cuccinelli IV', helpers.standardize_politician_name('CUCCINELLI IV, KEN'))
+        self.assertEqual('Ken Cuccinelli IX', helpers.standardize_politician_name('CUCCINELLI IX, KEN'))
+
+
 class IndividualNameStandardizationTests(TestCase):
 
     def test_all_kinds_of_crazy(self):
@@ -160,6 +167,12 @@ class IndividualNameStandardizationTests(TestCase):
         self.assertEqual('Mrs T Boone Pickens', helpers.standardize_individual_name('Mrs T Boone Pickens'))
         self.assertEqual('Mrs. T Boone Pickens', helpers.standardize_individual_name('Mrs. T Boone Pickens'))
         self.assertEqual('Mrs Stanford Z Rothschild', helpers.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MRS'))
+
+    def test_capitalize_roman_numeral_suffixes(self):
+        self.assertEqual('Ken Cuccinelli II', helpers.standardize_individual_name('KEN CUCCINELLI II'))
+        self.assertEqual('Ken Cuccinelli II', helpers.standardize_individual_name('CUCCINELLI II, KEN'))
+        self.assertEqual('Ken Cuccinelli IV', helpers.standardize_individual_name('CUCCINELLI IV, KEN'))
+        self.assertEqual('Ken Cuccinelli IX', helpers.standardize_individual_name('CUCCINELLI IX, KEN'))
 
 
 class OrganizationNameStandardizationTests(TestCase):

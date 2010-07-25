@@ -16,16 +16,17 @@
 {% block body_class %}politician{% endblock %}
 
 {% block extrajs %}
+{% if not suppress_contrib_graphs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-  sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
-  piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
-  piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
-  barchart("sectors_barchart", {% if sectors_barchart_data %}{{ sectors_barchart_data|safe }} {% else %}[]{% endif %});
-  barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+    piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
+    piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
+    barchart("sectors_barchart", {% if sectors_barchart_data %}{{ sectors_barchart_data|safe }} {% else %}[]{% endif %});
+    barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
 });
 </script>
-
+{% endif %}
 {% endblock %}
 
 {% block contentHeader %}
