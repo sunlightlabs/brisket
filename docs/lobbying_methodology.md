@@ -26,13 +26,6 @@ In all of these cases it is important to use only the most up-to-date records, s
 
 
 
-
-
-
-
-
-
-
 [1]: http://transparencydata.com
 [2]: http://www.senate.gov/pagelayout/legislative/g_three_sections_with_teasers/lobbyingdisc.htm
 [3]: http://clerk.house.gov/public_disc/index.html
