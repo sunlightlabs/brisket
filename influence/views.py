@@ -206,7 +206,7 @@ def politician_entity(request, entity_id):
     # politician metadata for federal politicians.
     for eid in entity_info['external_ids']:
         if eid['namespace'].find('urn:crp') >= 0:
-            context['metadata'] = api.politician_meta(entity_info['name'])
+            context['metadata'] = api.politician_meta(entity_id)
             break
 
     if metadata['contributions']:

@@ -96,6 +96,8 @@ INSTALLED_APPS = (
     'brisket.metadata',
 )
 
+DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
+
 # use file-backed sessions while in development. the default location
 # for file-backed sessions is tempfile.gettempdir(), most likely /tmp.
 # this can be customized with the SESSION_FILE_PATH variable either

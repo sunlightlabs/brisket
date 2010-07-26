@@ -190,71 +190,14 @@ def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     return get_url_json('aggregates/indiv/%s/sparkline.json' % entity_id, cycle)
 
 
-def get_bioguide_id(full_name):
-    ''' attempt to determine the bioguide_id of this legislastor, or
-    return None. removes some basic formatting and trailing party
-    designators'''
-    full_name = helpers.standardize_politician_name(full_name) # strip party, etc... if that hasn't been done already
+def politician_meta(entity_id):
+    metadata = entity_metadata(entity_id)
 
-    # gracefully handle slug-formatted strings
-    name = full_name.replace('-',' ')
-
-    # this is a fix for the legislator search API's poor performance with middle initials
-    # it may be removed later on if James can fix the API
-    name_parts = re.search(r'^(?P<first>\w+)(?P<middle> \w\.?)?(?P<last_w_suffix> (?P<last>\w+)(?P<suffix> ([js]r|I{2,})\.?)?\s*)$', name, re.IGNORECASE)
-
-    if name_parts:
-        name_first_last = "%s %s" % name_parts.group('first', 'last')
-        last_name       = name_parts.group('last')
+    bioguide_id = None
+    if metadata and metadata['metadata']['bioguide_id']:
+        bioguide_id = metadata['metadata']['bioguide_id']
     else:
-        name_first_last, last_name = name, name
-
-    print "Searching bioguide for: %s" % name_first_last
-
-    arguments = urllib.urlencode({'apikey': settings.API_KEY,
-                                  'name': name_first_last,
-                                  'all_legislators': 1,
-                                  })
-    url = "http://services.sunlightlabs.com/api/legislators.search.json?"
-    api_call = url + arguments
-    print api_call
-    fp = urllib2.urlopen(api_call)
-    js = json.loads(fp.read())
-    try:
-        #legislators.search method returns a set of results, sorted by
-        #decreasing 'quality' of the result. take here the best
-        #match-- the first one.
-        first_match = js['response']['results'][0]['result']['legislator']
-
-        # unsuccessful runs for federal office can result in federal campaign contributions,
-        # but no bioguide info. in that case, the search API can throw really crazy guesses at us.
-        # make sure the match is at least sane by checking the last name.
-        if re.match(first_match['lastname'], last_name, re.IGNORECASE):
-            bioguide_id = first_match['bioguide_id']
-        else:
-            bioguide_id = None
-    except:
-        bioguide_id = None
-    print bioguide_id
-    return bioguide_id
-
-def politician_picture_url(full_name):
-    ''' we aren't using this directly right now, but might in the
-    future so will leave it in for now.'''
-    bioguide_id = get_bioguide_id(full_name)
-    if not bioguide_id:
-        print 'No bioguide_id found for legislator %s' % full_name
         return None
-    print 'bioguide_id for %s: %s' % (full_name, bioguide_id)
-    return "http://assets.sunlightfoundation.com/moc/100x125/%s.jpg" % bioguide_id
-
-def politician_meta(full_name):
-    bioguide_id = get_bioguide_id(full_name)
-
-    if not bioguide_id:
-        return None
-
-    photo_url = "http://assets.sunlightfoundation.com/moc/100x125/%s.jpg" % bioguide_id
 
     # scrape congress's bioguide site for years of service and official bio
     html = urllib2.urlopen("http://bioguide.congress.gov/scripts/biodisplay.pl?index=%s" % bioguide_id).read()
@@ -277,7 +220,7 @@ def politician_meta(full_name):
     meta = js['response']['legislator']
 
     # append additional info and return
-    meta['photo_url'] = photo_url
+    meta['photo_url'] = metadata['metadata']['photo_url']
     meta['yrs_of_service'] = yrs_of_service
     meta['biography'] = biography
     return meta
