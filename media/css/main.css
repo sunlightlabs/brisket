@@ -134,6 +134,7 @@ div.descriptorText { position: absolute; padding: 15px; -moz-border-radius: 3px;
 div.descriptorText ol, body.flatText div#mainContent ol { list-style-type: decimal; margin-left: 20px;}
 div.descriptorText ul, body.flatText div#mainContent ul { list-style-type: disc; margin-left: 20px;}
 div.descriptorText p, div#description p, body.flatText div#mainContent p { margin-bottom: 1em;}
+div.descriptorText a { float: none; }
 
 body.flatText div#mainContent h3 { float: none; margin-bottom: 15px; margin-top: 35px;}
 body.flatText div#mainContent ul li, body.flatText div#mainContent ol li { margin-bottom: 10px;}
@@ -166,6 +167,7 @@ td.photo { width: 50px;}
 tr#titles th.photo { text-indent: -9999em;}
 table#mainPageTable th { padding: 0 10px 10px 15px;}
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
+
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
 body.search h3 { font-size: 135%;}
