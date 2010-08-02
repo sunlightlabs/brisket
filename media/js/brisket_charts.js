@@ -109,7 +109,7 @@ function barchart(div, data) {
     /* expects data to be a list of dicts each with keys called key,
        value, and href. */
 
-	if (data.length === 0) return;
+	if (data === false || data.length === 0) return;
 
 	var sizes = {
         chart_height: 195,
@@ -212,7 +212,7 @@ function barchart(div, data) {
 
 
 function sparkline(div, data) {
-    if (data.length === 0) {
+    if (data === false || data.length === 0) {
         return;
     }
 
@@ -226,7 +226,7 @@ function sparkline(div, data) {
 }
 
 function sparkline_by_party(div, data, cut_off_point) {
-    if (data.length === 0) {
+    if (data === false || data.length === 0) {
         return;
     }
 
