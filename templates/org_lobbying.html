@@ -19,7 +19,7 @@
 	    {% endif %}
     {% else %}
     	{% if entity_info.totals.non_firm_spending %}
-    		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
+    		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Reported Spent
     	{% endif %}
     {% endif %}
     </span>
@@ -64,7 +64,7 @@
       
       {% if lobbying_issues %}
       <div class="issuesLobbied">
-        <span class="secondaryTitle">Issues Lobbied:</span>  
+        <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>  
         <ul> 
 	  {% for issue in lobbying_issues %}
 	  <li>
@@ -111,7 +111,7 @@
     <div class="lobbyingColumn oneColumn chartWrapper">
       {% if lobbying_lobbyists %}
         <div class="lobbyistsOrgs oneColumn chartWrapper">
-          <span class="secondaryTitle">Lobbyists Hired:</span>
+          <span class="secondaryTitle">Names of Lobbyists:</span>
           <ul>
             {% for row in lobbying_lobbyists %}
             {% if row.lobbyist_entity %}
@@ -128,7 +128,7 @@
         
         {% if lobbying_issues %}
         <div class="issuesLobbied oneColumn">
-          <span class="secondaryTitle">Issues Lobbied:</span>
+          <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>
           <ul>
 	    {% for issue in lobbying_issues %}
 	    <li>
