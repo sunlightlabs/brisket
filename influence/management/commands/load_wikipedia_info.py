@@ -1,4 +1,4 @@
-import logging, sys, csv, codecs
+import logging, csv, codecs
 
 from django.core.management.base import BaseCommand, CommandError
 from django.db                   import connection, transaction

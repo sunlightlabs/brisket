@@ -13,9 +13,6 @@ except:
 
 class Command(BaseCommand):
     args = '<limit> <offset (optional)>'
-    # possible options:
-    # overwrite existing/refresh vs. only fill in missing
-    # delete or mark ones no longer found (how do we want to deal w/ this?) maybe update a "no longer found on" date column
 
     help = 'Populate Bioguide info'
 
