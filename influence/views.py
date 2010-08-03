@@ -11,6 +11,7 @@ from influence.helpers import *
 from operator          import itemgetter
 from settings          import LATEST_CYCLE
 from util              import catcodes
+import json
 
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
@@ -342,3 +343,10 @@ def individual_entity(request, entity_id):
                               entity_context(request, cycle, available_cycles))
 
 
+def amount_search(request, pol_id, org_term):
+    output = []
+    search_results = api.entity_search(org_term)
+    for result in search_results:
+        pairwise_result = api.pairwise_amount(pol_id, result['id'])
+        output.append({'name': result['name'], 'amount': pairwise_result['amount']})
+    return HttpResponse(json.dumps(output))

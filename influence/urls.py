@@ -21,6 +21,8 @@ urlpatterns = patterns('brisket.influence.views',
         name='politician_entity'),
     url(r'^individual/[\w\-]+/(?P<entity_id>\w+)', 'individual_entity',
         name='individual_entity'),
+    url(r'^amount_search/(?P<pol_id>\w+)/(?P<org_term>\w+)/', 'amount_search', name='amount_search'),
+
 
     # utility
     #url(r'^reset$', 'clear_network', name='clear_network'),

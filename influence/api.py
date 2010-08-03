@@ -189,6 +189,8 @@ def pol_sparkline(entity_id, cycle=DEFAULT_CYCLE):
 def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     return get_url_json('aggregates/indiv/%s/sparkline.json' % entity_id, cycle)
 
+def pairwise_amount(pol_id, org_id):
+    return get_url_json('aggregates/recipient/%s/contributor/%s/amount.json' % (pol_id, org_id))
 
 def politician_meta(entity_id):
     metadata = entity_metadata(entity_id)
