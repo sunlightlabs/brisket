@@ -80,3 +80,12 @@
   
   <div class="clear"></div>
 </div><!-- end chartModule -->
+
+<div class="otherSearchBar" style="margin-top: 80px;">
+    <form id="orgSearchForm" action="/nothing">
+        <input type="hidden" id="polId" value="{{ entity_info.id }}" />
+        Organization search <input type="text" id="idOrgSearch" name="orgSearch" /> <input type="submit" name="Search" />
+    </form>
+    <div id="orgSearchResults"></div>
+    <div id="orgSearchAmount"></div>
+</div>

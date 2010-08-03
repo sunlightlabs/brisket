@@ -64,4 +64,27 @@ $().ready(function() {
 	/* make entity landing pages sortable */
 	$(".sortable").tablesorter({ widgets: ['zebra']}); 
 	
+	$('#orgSearchForm').submit(function() {
+		var form = $(this);
+		$.getJSON('http://staging.influenceexplorer.com:8000/api/1.0/entities.json?apikey=sunlight9&search=' + $('#idOrgSearch').val() + '&callback=?', function(data) {
+			var list = $('<ul>')
+			$('#orgSearchResults').html(list);
+			$.each(data, function(num, item) {
+				var listItem = $('<li><a id="link-' + item.id + '" href="">' + item.name + '</a></li>');
+				list.append(listItem)
+				listItem.find('a').click(function() {
+					var id = $(this).attr('id').split('-')[1];
+					var pol_id = form.find('#polId').val();
+					
+					$.getJSON('http://staging.influenceexplorer.com:8000/api/1.0/aggregates/recipient/' + pol_id + '/contributor/' + id + '/amount.json?apikey=sunlight9&callback=?', function(aggregate_data) {
+						$('#orgSearchAmount').html('$' + aggregate_data.amount)
+					});
+					return false;
+				})
+			})
+			
+		})
+		
+		return false;
+	})
 });
