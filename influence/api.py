@@ -19,27 +19,7 @@ DEFAULT_CYCLE = "-1" # -1 will return career totals.
 DEFAULT_LIMIT = None
 
 
-def remove_unicode(data):
-    ''' converts a dictionary or list of dictionaries with unicode
-    keys or values to plain string keys'''
-    if isinstance(data, dict):
-        plain = {}
-        for k,v in data.iteritems():
-            k = remove_unicode(k)
-            v = remove_unicode(v)
-            plain[k] = v
-        return plain
-    if isinstance(data, list):
-        plain = []
-        for record in data:
-            plain.append(remove_unicode(record))
-        return plain
-    if isinstance(data,unicode):
-        return str(data)
-    else: return data
-
-
-def get_url_json(path, cycle=None, limit=None, **params):
+def get_url_json(path, cycle=None, limit=None, parse_json=False, **params):
     """ Low level call that just adds the API key, retrieves the URL and parses the JSON. """
 
     if cycle:
@@ -49,16 +29,18 @@ def get_url_json(path, cycle=None, limit=None, **params):
     params.update({'apikey': settings.API_KEY})
 
     fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
-    results = json.loads(fp.read())
-    return remove_unicode(results)
 
+    if parse_json:
+        return json.loads(fp.read())
+    else:
+        return fp.read()
 
 def entity_search(query):
-    return get_url_json('entities.json', search=query)
+    return get_url_json('entities.json', search=query, parse_json=True)
 
 
 def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
-    results = get_url_json('entities/%s.json' % entity_id, cycle)
+    results = get_url_json('entities/%s.json' % entity_id, cycle, parse_json=True)
     career = results['totals'].keys()
     career.sort()
     # start at index 1 to skip over the -1 for 'all cycles'
@@ -83,75 +65,75 @@ def entity_id_lookup(namespace, id):
     return get_url_json('entities/id_lookup.json', namespace=namespace, id=id)
 
 
-def pol_contributors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/pol/%s/contributors.json' % entity_id, cycle, limit)
+def pol_contributors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/pol/%s/contributors.json' % entity_id, cycle, limit, parse_json)
 
 
-def indiv_org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+def indiv_org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
     ''' recipients from a single individual'''
-    return get_url_json('aggregates/indiv/%s/recipient_orgs.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/indiv/%s/recipient_orgs.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 
-def indiv_pol_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+def indiv_pol_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
     ''' recipients from a single individual'''
-    return get_url_json('aggregates/indiv/%s/recipient_pols.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/indiv/%s/recipient_pols.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 
-def org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/org/%s/recipients.json' % entity_id, cycle, limit)
+def org_recipients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/org/%s/recipients.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 
-def pol_sectors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/pol/%s/contributors/sectors.json' % entity_id, cycle, limit)
+def pol_sectors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/pol/%s/contributors/sectors.json' % entity_id, cycle, limit, parse_json)
 
 
 def org_industries_for_sector(entity_id, sector_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/pol/%s/contributors/sector/%s/industries.json' % (entity_id, sector_id), cycle, limit)
 
 
-def org_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_url_json('aggregates/org/%s/recipients/party_breakdown.json' % entity_id, cycle)
+def org_party_breakdown(entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('aggregates/org/%s/recipients/party_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
 
-def org_level_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_url_json('aggregates/org/%s/recipients/level_breakdown.json' % entity_id, cycle)
+def org_level_breakdown(entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('aggregates/org/%s/recipients/level_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
 
-def pol_local_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_url_json('aggregates/pol/%s/contributors/local_breakdown.json' % entity_id, cycle)
+def pol_local_breakdown(entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('aggregates/pol/%s/contributors/local_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
 
-def pol_contributor_type_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_url_json('aggregates/pol/%s/contributors/type_breakdown.json' % entity_id, cycle)
+def pol_contributor_type_breakdown(entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('aggregates/pol/%s/contributors/type_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
 
-def indiv_party_breakdown(entity_id, cycle=DEFAULT_CYCLE):
-    return get_url_json('aggregates/indiv/%s/recipients/party_breakdown.json' % entity_id, cycle)
+def indiv_party_breakdown(entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('aggregates/indiv/%s/recipients/party_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
 # lobbying firms hired by this org
-def org_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
+def org_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
     ''' check to see if the entity hired any lobbyists'''
-    return get_url_json('aggregates/org/%s/registrants.json' % entity_id, cycle, limit)
+    return get_url_json('aggregates/org/%s/registrants.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # issues this org hired lobbying for
-def org_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/org/%s/issues.json' % entity_id, cycle, limit)
+def org_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/org/%s/issues.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # lobbyists who lobbied for this org (?)
-def org_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit)
+def org_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # which lobbying firms did this indiv work for
-def indiv_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/indiv/%s/registrants.json' % entity_id, cycle, limit)
+def indiv_registrants(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/indiv/%s/registrants.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # issues this individual lobbied on
-def indiv_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/indiv/%s/issues.json' % entity_id, cycle, limit)
+def indiv_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/indiv/%s/issues.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # who were the clients of the firms this indiv worked for
-def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit)
+def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # issues this org was hired to lobby for
 def org_registrant_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
@@ -165,16 +147,15 @@ def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
 def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
     return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
 
-
 # top n lists
-def top_n_individuals(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/indivs/top_%s.json' % limit, cycle)
+def top_n_individuals(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/indivs/top_%s.json' % limit, cycle, parse_json=parse_json)
 
-def top_n_organizations(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/orgs/top_%s.json' % limit, cycle)
+def top_n_organizations(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/orgs/top_%s.json' % limit, cycle, parse_json=parse_json)
 
-def top_n_politicians(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/pols/top_%s.json' % limit, cycle)
+def top_n_politicians(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/pols/top_%s.json' % limit, cycle, parse_json=parse_json)
 
 
 def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
@@ -191,38 +172,7 @@ def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
 
 
 def politician_meta(entity_id):
-    metadata = entity_metadata(entity_id)
+    return entity_metadata(entity_id)['metadata']
 
-    bioguide_id = None
-    if metadata and metadata['metadata']['bioguide_id']:
-        bioguide_id = metadata['metadata']['bioguide_id']
-    else:
-        return None
-
-    # scrape congress's bioguide site for years of service and official bio
-    html = urllib2.urlopen("http://bioguide.congress.gov/scripts/biodisplay.pl?index=%s" % bioguide_id).read()
-    soup = BeautifulSoup(html, convertEntities=BeautifulSoup.HTML_ENTITIES)
-    yrs_of_service = soup.findAll('table')[1].find('tr').findAll('td')[1].findAll('font')[2].next.next.next.strip()
-    bio_a = soup.findAll('table')[1].find('tr').findAll('td')[1].find('p').find('font').extract().renderContents()
-    bio_b = soup.findAll('table')[1].find('tr').findAll('td')[1].find('p').renderContents()
-    biography = bio_a.strip()+' '+bio_b.strip()
-
-    # other metadata - from sunlightlabs services
-    arguments = urllib.urlencode({'apikey': settings.API_KEY,
-                                  'bioguide_id': bioguide_id,
-                                  'all_legislators': 1,
-                                  })
-    url = "http://services.sunlightlabs.com/api/legislators.get.json?"
-    api_call = url + arguments
-    print api_call
-    fp = urllib2.urlopen(api_call)
-    js = json.loads(fp.read())
-    meta = js['response']['legislator']
-
-    # append additional info and return
-    meta['photo_url'] = metadata['metadata']['photo_url']
-    meta['yrs_of_service'] = yrs_of_service
-    meta['biography'] = biography
-    return meta
 
 

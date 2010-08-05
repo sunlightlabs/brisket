@@ -61,9 +61,9 @@ $(document).ready(function() {
 <div class="clear"></div>
 {% endblock %}
 
-{% if metadata.biography %}
+{% if metadata.bio %}
 {% block description %}
-{{ metadata.biography }}
+{{ metadata.bio|safe }}
 {% endblock %}
 {% endif %}
 

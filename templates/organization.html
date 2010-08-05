@@ -22,6 +22,12 @@ $(document).ready(function() {
 <h2>{{ entity_info.name|standardize_organization_name }}</h2>
 {% endblock %}
 
+{% if entity_info.metadata.bio %}
+{% block description %}
+{{ entity_info.metadata.bio|safe }}
+{% endblock %}
+{% endif %}
+
 {% block contributions %}
 {% if contributions_data %}
 {% include "contributions.html" %}

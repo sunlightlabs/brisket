@@ -11,6 +11,10 @@ from influence.helpers import *
 from operator          import itemgetter
 from settings          import LATEST_CYCLE
 from util              import catcodes
+try:
+    import json
+except:
+    import simplejson as json
 
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
@@ -132,17 +136,17 @@ def organization_entity(request, entity_id):
                     'value_pac' : record['direct_amount'],
                     'href' : barchart_href(record, cycle, entity_type='politician')
                     })
-        context['recipients_barchart_data'] = bar_validate(recipients_barchart_data)
+        context['recipients_barchart_data'] = json.dumps(bar_validate(recipients_barchart_data))
 
         party_breakdown = api.org_party_breakdown(entity_id, cycle)
         for key, values in party_breakdown.iteritems():
             party_breakdown[key] = float(values[1])
-        context['party_breakdown'] = pie_validate(party_breakdown)
+        context['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
 
         level_breakdown = api.org_level_breakdown(entity_id, cycle)
         for key, values in level_breakdown.iteritems():
             level_breakdown[key] = float(values[1])
-        context['level_breakdown'] = pie_validate(level_breakdown)
+        context['level_breakdown'] = json.dumps(pie_validate(level_breakdown))
 
         # if none of the charts have data, or if the aggregate total
         # received was negative, then suppress that whole content
@@ -196,7 +200,7 @@ def politician_entity(request, entity_id):
     context['entity_id'] = entity_id
     context['cycle'] = cycle
 
-    metadata = get_metadata(entity_id, cycle, "politician")
+    metadata = get_metadata(entity_id, int(cycle), "politician")
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
     context['external_links'] = external_sites.get_links(entity_info)
@@ -218,13 +222,13 @@ def politician_entity(request, entity_id):
         contributors_barchart_data = []
         for record in top_contributors:
             contributors_barchart_data.append({
-                    'key': generate_label(standardize_organization_name(record['name'])),
-                    'value' : record['total_amount'],
-                    'value_employee' : record['employee_amount'],
-                    'value_pac' : record['direct_amount'],
-                    'href' : barchart_href(record, cycle, 'organization')
-                    })
-        context['contributors_barchart_data'] = bar_validate(contributors_barchart_data)
+                'key': generate_label(standardize_organization_name(record['name'])),
+                'value' : record['total_amount'],
+                'value_employee' : record['employee_amount'],
+                'value_pac' : record['direct_amount'],
+                'href' : barchart_href(record, cycle, 'organization')
+            })
+        context['contributors_barchart_data'] = json.dumps(bar_validate(contributors_barchart_data))
 
         # top sectors is already sorted
         sectors_barchart_data = []
@@ -237,24 +241,24 @@ def politician_entity(request, entity_id):
                     'key': generate_label(sector_name),
                     'value' : record['amount'],
                     })
-        context['sectors_barchart_data'] = bar_validate(sectors_barchart_data)
+        context['sectors_barchart_data'] = json.dumps(bar_validate(sectors_barchart_data))
 
         local_breakdown = api.pol_local_breakdown(entity_id, cycle)
         for key, values in local_breakdown.iteritems():
             # values is a list of [count, amount]
             local_breakdown[key] = float(values[1])
-        context['local_breakdown'] = pie_validate(local_breakdown)
+        context['local_breakdown'] = json.dumps(pie_validate(local_breakdown))
 
         entity_breakdown = api.pol_contributor_type_breakdown(entity_id, cycle)
         for key, values in entity_breakdown.iteritems():
             # values is a list of [count, amount]
             entity_breakdown[key] = float(values[1])
-        context['entity_breakdown'] = pie_validate(entity_breakdown)
+        context['entity_breakdown'] = json.dumps(pie_validate(entity_breakdown))
 
         # if none of the charts have data, or if the aggregate total
         # received was negative, then suppress that whole content
         # section except the overview bar
-        if int(float(entity_info['totals']['recipient_amount'])) < 0:
+        if int(float(entity_info['totals'][cycle]['recipient_amount'])) < 0:
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 
@@ -279,7 +283,7 @@ def individual_entity(request, entity_id):
     context['cycle'] = cycle
 
     # get entity metadata
-    metadata = get_metadata(entity_id, cycle, "individual")
+    metadata = get_metadata(entity_id, int(cycle), "individual")
     available_cycles = metadata['available_cycles']
     entity_info = metadata['entity_info']
 
@@ -299,7 +303,7 @@ def individual_entity(request, entity_id):
                     'value' : record['amount'],
                     'href' : barchart_href(record, cycle, entity_type="politician"),
                     })
-        context['candidates_barchart_data'] = bar_validate(candidates_barchart_data)
+        context['candidates_barchart_data'] = json.dumps(bar_validate(candidates_barchart_data))
 
         orgs_barchart_data = []
         for record in recipient_orgs:
@@ -308,19 +312,19 @@ def individual_entity(request, entity_id):
                     'value' : record['amount'],
                     'href' : barchart_href(record, cycle, entity_type="organization"),
                     })
-        context['orgs_barchart_data'] = bar_validate(orgs_barchart_data)
+        context['orgs_barchart_data'] = json.dumps(bar_validate(orgs_barchart_data))
 
         party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
         for key, values in party_breakdown.iteritems():
             party_breakdown[key] = float(values[1])
-        context['party_breakdown'] = pie_validate(party_breakdown)
+        context['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
 
         context['sparkline_data'] = api.indiv_sparkline(entity_id, cycle)
 
         # if none of the charts have data, or if the aggregate total
         # received was negative, then suppress that whole content
         # section except the overview bar
-        if int(float(entity_info['totals']['contributor_amount'])) < 0:
+        if int(float(entity_info['totals'][cycle]['contributor_amount'])) < 0:
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 

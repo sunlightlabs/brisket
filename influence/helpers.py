@@ -211,33 +211,30 @@ def barchart_href(record, cycle, entity_type):
                                                record['id'], cycle))
     return ''
 
-
 def generate_label(string):
     ''' truncate names longer than max_length '''
     max_length = 34
     return string[:max_length] + (lambda x, l: (len(x)>l and "...")
                                    or "")(string, max_length)
 
-
 def get_metadata(entity_id, cycle, entity_type):
-    ''' beginnings of some refactoring. half implemented but
-    harmless. do not pet or feed.'''
     data = {}
+    cycle_str = unicode(cycle)
+
     # check the metadata to see which of the fields are present. this
     # determines which sections to display on the entity page.
-    section_indicators = {'individual': {'contributions': ('contributor_amount',),
-                                         'lobbying': ('lobbying_count',)},
-                          'organization' : {'contributions' : ('contributor_amount',),
-                                            'lobbying': ('lobbying_count',)},
-                          'politician' : {'contributions' : ('recipient_amount',)}
-                          }
+    section_indicators = {\
+        'individual':   {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
+        'organization': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
+        'politician':   {'contributions': ['recipient_amount']}\
+    }
 
     entity_info = api.entity_metadata(entity_id, cycle)
 
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():
-        if (entity_info['totals'].get(cycle, False) and
-            [True for ind in indicators if entity_info['totals'][cycle][ind] ]):
+        if (entity_info['totals'].get(cycle_str, False) and
+            [True for ind in indicators if entity_info['totals'][cycle_str][ind] ]):
             data[data_type] = True
         else:
             data[data_type] = False
@@ -245,7 +242,7 @@ def get_metadata(entity_id, cycle, entity_type):
     data['available_cycles'] = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
-        entity_info['totals'] = entity_info['totals'][cycle]
+        entity_info['totals'] = entity_info['totals'][cycle_str]
     data['entity_info'] = entity_info
 
     return data
