@@ -9,7 +9,7 @@
   <h2>No results for that search</h2>
   {% else %}
   <h2>Results for &#8220;{{ query|title }}&#8221;</h2>
-
+  {% endif %}
 </div>
 
 
@@ -23,8 +23,8 @@
       </p>
       <p>
       If you can’t find the organization or individual
-      you’re looking for here, try searching in           
-      <a href="http://transparencydata.com">Transparency Data</a>.
+      you’re looking for here, try searching           
+      <a href="http://transparencydata.com">TransparencyData.com</a>.
       </p>
   </div>
 
@@ -144,7 +144,5 @@
   {% endif %}
 
 </div>
-
-{% endif %}
 
 {% endblock %}

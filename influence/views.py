@@ -200,7 +200,7 @@ def politician_entity(request, entity_id):
     context['entity_id'] = entity_id
     context['cycle'] = cycle
 
-    metadata = get_metadata(entity_id, int(cycle), "politician")
+    metadata = get_metadata(entity_id, cycle, "politician")
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
     context['external_links'] = external_sites.get_links(entity_info)
@@ -258,7 +258,7 @@ def politician_entity(request, entity_id):
         # if none of the charts have data, or if the aggregate total
         # received was negative, then suppress that whole content
         # section except the overview bar
-        if int(float(entity_info['totals'][cycle]['recipient_amount'])) < 0:
+        if int(float(entity_info['totals']['recipient_amount'])) < 0:
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 
@@ -283,7 +283,7 @@ def individual_entity(request, entity_id):
     context['cycle'] = cycle
 
     # get entity metadata
-    metadata = get_metadata(entity_id, int(cycle), "individual")
+    metadata = get_metadata(entity_id, cycle, "individual")
     available_cycles = metadata['available_cycles']
     entity_info = metadata['entity_info']
 
@@ -324,7 +324,7 @@ def individual_entity(request, entity_id):
         # if none of the charts have data, or if the aggregate total
         # received was negative, then suppress that whole content
         # section except the overview bar
-        if int(float(entity_info['totals'][cycle]['contributor_amount'])) < 0:
+        if int(float(entity_info['totals']['contributor_amount'])) < 0:
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 
