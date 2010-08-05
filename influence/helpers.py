@@ -183,7 +183,7 @@ def bar_validate(data):
     # if all the data is 0 or if the list with only positive data is
     # empty, return false
     if sum([int(float(record['value'])) for record in data]) == 0:
-        return False
+        return []
     else:
         return data
 
