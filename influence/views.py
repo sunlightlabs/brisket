@@ -119,8 +119,8 @@ def organization_entity(request, entity_id):
     metadata = get_metadata(entity_id, cycle, "organization")
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
-    context['external_links'] = external_sites.get_links(entity_info)
     context['entity_info'] = entity_info
+    context['external_links'] = external_sites.get_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     # get contributions data if it exists for this entity
     if metadata['contributions']:
@@ -203,7 +203,9 @@ def politician_entity(request, entity_id):
     metadata = get_metadata(entity_id, cycle, "politician")
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
-    context['external_links'] = external_sites.get_links(entity_info)
+
+    context['external_links'] = external_sites.get_links(standardize_politician_name(entity_info['name']), entity_info['external_ids'], cycle)
+
     context['entity_info'] = entity_info
 
     # check if the politician has a federal ID. we currently only have
@@ -287,8 +289,8 @@ def individual_entity(request, entity_id):
     available_cycles = metadata['available_cycles']
     entity_info = metadata['entity_info']
 
-    context['external_links'] = external_sites.get_links(entity_info)
     context['entity_info'] = entity_info
+    context['external_links'] = external_sites.get_links(standardize_individual_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     # get contributions information if it is available for this entity
     if metadata['contributions']:

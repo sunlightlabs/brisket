@@ -136,12 +136,12 @@ def indiv_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_jso
     return get_url_json('aggregates/indiv/%s/clients.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # issues this org was hired to lobby for
-def org_registrant_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/org/%s/registrant/issues.json' % entity_id, cycle, limit)
+def org_registrant_issues(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/org/%s/registrant/issues.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # clients of the org as a registrant
-def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit)
+def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # lobbyists who work for this registrant (?)
 def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):

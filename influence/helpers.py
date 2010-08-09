@@ -1,6 +1,7 @@
 import re, string, datetime
 import api
 from util import catcodes
+from django.template.defaultfilters import slugify
 
 def standardize_politician_name_with_metadata(name, party, state):
     party_state = "-".join([x for x in [party, state] if x]) # because presidential candidates are listed without a state
@@ -158,12 +159,6 @@ def lobbying_by_firm(lobbying_data):
 
 # random util/helper functions
 
-def slugify(string):
-    ''' like the django template tag, converts to lowercase, removes
-    all non-alphanumeric characters and replaces spaces with
-    hyphens. '''
-    return re.sub(" ", "-", re.sub("[^a-zA-Z0-9 -]+", "", string)).lower()
-
 def tuple_cmp(t1, t2):
     ''' a cmp function for sort(), to sort tuples by increasing value
     of the tuple's 2nd item (index 1)'''
@@ -197,7 +192,7 @@ def pie_validate(data):
         if int(float(v)) != 0:
             positive[k] = v
     if len(positive) == 0:
-        return False
+        return []
     else:
         return positive
 
@@ -251,3 +246,5 @@ def months_into_cycle_for_date(date, cycle):
     end_of_cycle = datetime.datetime.strptime("{0}1231".format(cycle), "%Y%m%d").date()
     step = 24 - abs(((end_of_cycle.year - date.year) * 12) + end_of_cycle.month - date.month)
     return step
+
+
