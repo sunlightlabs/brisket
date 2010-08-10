@@ -117,7 +117,7 @@ function barchart(div, data) {
         chart_x: 215,
         chart_y: 10,
         bar_gutter: 30,
-        right_gutter: 65,
+        right_gutter: 70,
         row_height: 18
     };
 
