@@ -192,7 +192,7 @@ def pie_validate(data):
         if int(float(v)) != 0:
             positive[k] = v
     if len(positive) == 0:
-        return False
+        return []
     else:
         return positive
 
