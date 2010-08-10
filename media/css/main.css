@@ -89,6 +89,7 @@ select { color: #58595b;}
 
 #description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
 #description>p { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d;}
+#description>p#bio_source { margin-top: 10px; text-align: right; }
 
 div.external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
 a.external { padding-left: 5px; }
