@@ -34,3 +34,4 @@ seat_labels = {'federal:senate': 'Senate',
 @stringfilter
 def seat_label_filter(raw):
     return seat_labels.get(raw, raw)
+

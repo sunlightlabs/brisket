@@ -36,15 +36,13 @@ class RequestLoggingMiddleware():
 
     def process_exception(self, request, exception):
         if not self.should_log(request):
-            return exception
+            return None
 
         page_request = self.get_existing_page_request(request)
 
         if self.page_request_is_valid(request, page_request):
             page_request.was_exception = True
             page_request.save()
-
-        return exception
 
 
     def get_existing_page_request(self, request):

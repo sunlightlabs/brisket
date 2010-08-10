@@ -22,14 +22,14 @@
     <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
     <div class="clear"></div>
     <div class="descriptorText" id="contributionsDescriptor">
-        <p>
-          This total includes the most common types of contributions from individuals and organizations to politicians. It does not include contributions under the $200 reporting limit. 
-          Because of this, the total money given or raised may be significantly higher than what's listed here.
-        </p>
-        <p>
-          We try to match the methodology of Center for Responsive Politics and the National Institute for Money in State Politics as closely as possible. For further details
-          see our methodology page. (to do.) 
-        </p>
+		<p>Figures are based on itemized contributions reported to the Federal Election Commission and state agencies. Please note that:</p>
+		<ul>
+			<li>contributions under $200 are not reported, and so are not included in totals.</li>
+			<li>only contributions from individuals and organizations to candidates are included. Various accounting measures and more exotic contribution types are excluded.</li>
+			<li>contributions are matched based on organization and recipient name. Contributions reporting incorrect or non-standard versions of the name may be missed. Similarly, corporate name changes may cause contributions to be missed.</li>
+			<li>organization totals include known subsidiaries of the organization.</li>
+		</ul>
+		<p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page.</p>
     </div>
   </div>
   <div id="sparklinesContainer">
@@ -73,7 +73,7 @@
     {% if external_links %}
     For more information on contributions:
     {% for link in external_links %}
-    <a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
     {% endfor %}
     {% endif %}
   </div>
