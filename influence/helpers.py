@@ -53,13 +53,23 @@ def strip_party(name):
 
 def convert_case(name):
     name = name if is_mixed_case(name) else string.capwords(name)
-    return uppercase_roman_numeral_suffix(name)
+    name = uppercase_roman_numeral_suffix(name)
+    return uppercase_the_scots(name)
 
 def uppercase_roman_numeral_suffix(name):
     matches = re.search(r'(?i)(?P<suffix>\b[ivx]+)$', name)
     if matches:
         suffix = matches.group('suffix')
         return re.sub(suffix, suffix.upper(), name)
+    else:
+        return name
+
+def uppercase_the_scots(name):
+    matches = re.search(r'(?i) (?P<mc>ma?c)(?P<first_letter>\w)', name)
+    if matches:
+        mc = matches.group('mc')
+        first_letter = matches.group('first_letter')
+        return re.sub(mc + first_letter, mc.title() + first_letter.upper(), name)
     else:
         return name
 
