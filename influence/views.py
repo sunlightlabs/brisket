@@ -1,4 +1,3 @@
-# Create your views here.
 
 import urllib, re, datetime
 import api, external_sites
@@ -15,6 +14,9 @@ try:
     import json
 except:
     import simplejson as json
+
+
+SOURCE_DISPLAY_NAMES = {'wikipedia_info': 'Wikipedia', 'bioguide_info': 'Bioguide', 'sunlight_info': 'Sunlight'}
 
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
@@ -120,6 +122,9 @@ def organization_entity(request, entity_id):
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
     context['entity_info'] = entity_info
+
+    entity_info['metadata']['source_display_name'] = SOURCE_DISPLAY_NAMES[entity_info['metadata']['source_name']]
+
     context['external_links'] = external_sites.get_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     # get contributions data if it exists for this entity
@@ -204,16 +209,11 @@ def politician_entity(request, entity_id):
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
 
+    entity_info['metadata']['source_display_name'] = SOURCE_DISPLAY_NAMES[entity_info['metadata']['source_name']]
+
     context['external_links'] = external_sites.get_links(standardize_politician_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     context['entity_info'] = entity_info
-
-    # check if the politician has a federal ID. we currently only have
-    # politician metadata for federal politicians.
-    for eid in entity_info['external_ids']:
-        if eid['namespace'].find('urn:crp') >= 0:
-            context['metadata'] = api.politician_meta(entity_id)
-            break
 
     if metadata['contributions']:
         context['contributions_data'] = True

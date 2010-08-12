@@ -4,12 +4,12 @@
 
 {% block pagetitle %}
     : {{ entity_info.name|standardize_politician_name }}
-    {% if metadata.party %}
-        ({{metadata.party}})
+    {% if entity_info.metadata.party %}
+        ({{entity_info.metadata.party}})
     {% endif %}
-    {{metadata.state}}
-    {% if metadata.yrs_of_service %}
-        {{metadata.yrs_of_service}}
+    {{entity_info.metadata.state}}
+    {% if entity_info.metadata.yrs_of_service %}
+        {{entity_info.metadata.yrs_of_service}}
     {% endif %}
 {% endblock %}
 
@@ -32,38 +32,41 @@ $(document).ready(function() {
 {% block contentHeader %}
 
 
-{% if metadata.photo_url %}
-<img alt="political photo" src="{{ metadata.photo_url }}"/>
+{% if entity_info.metadata.photo_url %}
+<img alt="political photo" src="{{ entity_info.metadata.photo_url }}"/>
 {% endif %}
 
 <h2>{{ entity_info.name|standardize_politician_name }}</h2>
 <dl>
   <dt class="noshow">Party</dt>
 
-  {% if metadata.party == 'D' %}
+  {% if entity_info.metadata.party == 'D' %}
   <dd>Democrat</dd>
   {% else %}
-  {% if metadata.party == 'R' %}
+  {% if entity_info.metadata.party == 'R' %}
   <dd>Republican</dd>
   {% else %}
-  <dd>{{ metadata.party }}</dd>
+  <dd>{{ entity_info.metadata.party }}</dd>
   {% endif %}
   {% endif %}
 
   <dt class="noshow">State</dt>
-  <dd>{{metadata.state}}</dd>
+  <dd>{{entity_info.metadata.state}}</dd>
 
-  {% if metadata.yrs_of_service %}
+  {% if entity_info.metadata.yrs_of_service %}
   <dt>Years of Service:</dt>
-  <dd>{{metadata.yrs_of_service}}</dd>
+  <dd>{{entity_info.metadata.yrs_of_service}}</dd>
   {% endif %}
 </dl>
 <div class="clear"></div>
 {% endblock %}
 
-{% if metadata.bio %}
+{% if entity_info.metadata.bio %}
 {% block description %}
-{{ metadata.bio|safe }}
+{{ entity_info.metadata.bio|safe }}
+{% if entity_info.metadata.bio_url and entity_info.meta.source_display_name != "Sunlight" %}
+<p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_new">{{ entity_info.metadata.source_display_name }}</a></p>
+{% endif %}
 {% endblock %}
 {% endif %}
 

@@ -118,14 +118,14 @@ class PoliticianNameStandardizationTests(TestCase):
         self.assertEqual('Nancy Pelosi', helpers.strip_party('Nancy Pelosi (D)'))
 
     def test_convert_to_title_case_converts_non_mixed_case_names_only(self):
-        self.assertEqual('Emory Macdonald', helpers.convert_case('EMORY MACDONALD'))
-        self.assertEqual('Emory MacDonald', helpers.convert_case('Emory MacDonald'))
+        self.assertEqual('Emory MacDonald', helpers.convert_case('EMORY MACDONALD'))
+        self.assertEqual('Antonio dAlesio', helpers.convert_case('Antonio dAlesio'))
 
     def test_change_last_first_to_first_last(self):
         self.assertEqual('Nancy Pelosi', helpers.convert_name_to_first_last('Pelosi, Nancy'))
 
     def test_standardize_politician_name(self):
-        self.assertEqual('Emory Macdonald', helpers.standardize_politician_name('MACDONALD, EMORY (R)'))
+        self.assertEqual('Emory MacDonald', helpers.standardize_politician_name('MACDONALD, EMORY (R)'))
         self.assertEqual('Emory MacDonald', helpers.standardize_politician_name('MacDonald, Emory (R)'))
         self.assertEqual('Nancy Pelosi', helpers.standardize_politician_name('Nancy Pelosi (D)'))
         self.assertEqual('Albert Gore', helpers.standardize_politician_name('Gore, Albert'))
@@ -173,6 +173,10 @@ class IndividualNameStandardizationTests(TestCase):
         self.assertEqual('Ken Cuccinelli II', helpers.standardize_individual_name('CUCCINELLI II, KEN'))
         self.assertEqual('Ken Cuccinelli IV', helpers.standardize_individual_name('CUCCINELLI IV, KEN'))
         self.assertEqual('Ken Cuccinelli IX', helpers.standardize_individual_name('CUCCINELLI IX, KEN'))
+
+    def test_capitalize_scottish_last_names(self):
+        self.assertEqual('Ronald McDonald', helpers.standardize_individual_name('RONALD MCDONALD'))
+        self.assertEqual('Old MacDonald', helpers.standardize_individual_name('OLD MACDONALD'))
 
 
 class OrganizationNameStandardizationTests(TestCase):
