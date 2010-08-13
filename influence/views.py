@@ -123,7 +123,7 @@ def organization_entity(request, entity_id):
     entity_info = metadata['entity_info']
     context['entity_info'] = entity_info
 
-    entity_info['metadata']['source_display_name'] = SOURCE_DISPLAY_NAMES[entity_info['metadata']['source_name']]
+    entity_info['metadata']['source_display_name'] = SOURCE_DISPLAY_NAMES.get(entity_info['metadata'].get('source_name', ''), '')
 
     context['external_links'] = external_sites.get_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
