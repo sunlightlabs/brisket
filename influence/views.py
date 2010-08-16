@@ -16,8 +16,6 @@ except:
     import simplejson as json
 
 
-SOURCE_DISPLAY_NAMES = {'wikipedia_info': 'Wikipedia', 'bioguide_info': 'Bioguide', 'sunlight_info': 'Sunlight'}
-
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
 
@@ -123,7 +121,7 @@ def organization_entity(request, entity_id):
     entity_info = metadata['entity_info']
     context['entity_info'] = entity_info
 
-    entity_info['metadata']['source_display_name'] = SOURCE_DISPLAY_NAMES.get(entity_info['metadata'].get('source_name', ''), '')
+    entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
 
     context['external_links'] = external_sites.get_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
@@ -209,7 +207,7 @@ def politician_entity(request, entity_id):
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
 
-    entity_info['metadata']['source_display_name'] = SOURCE_DISPLAY_NAMES[entity_info['metadata']['source_name']]
+    entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
 
     context['external_links'] = external_sites.get_links(standardize_politician_name(entity_info['name']), entity_info['external_ids'], cycle)
 
@@ -346,5 +344,10 @@ def individual_entity(request, entity_id):
 
     return render_to_response('individual.html', context,
                               entity_context(request, cycle, available_cycles))
+
+
+def get_source_display_name(metadata):
+    source_display_names = {'wikipedia_info': 'Wikipedia', 'bioguide_info': 'Bioguide', 'sunlight_info': 'Sunlight'}
+    return source_display_names.get(metadata.get('source_name', ''), '')
 
 
