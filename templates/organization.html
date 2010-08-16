@@ -4,7 +4,7 @@
 {% block body_class %}organization{% endblock %}
 
 {% block pagetitle %}
-    : {{ entity_info.name }}
+    : {{ entity_info.name|standardize_organization_name}}
 {% endblock %}
 
 {% block extrajs %}
