@@ -67,10 +67,6 @@ contributor_category
 	The five character industry category code of the contributor assigned by CRP or NIMSP.
 	http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv
 
-contributor_category_order
-	The three character industry code of the contributor assigned by CRP or NIMSP.
-	http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv
-
 organization_name
 	The name of the organization related to the contributor (employee, owner, spouse of owner, etc.). CRP or NIMSP standardized name.
 
