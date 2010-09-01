@@ -217,13 +217,11 @@ function sparkline(div, data) {
     }
 
     r = Raphael(div, 100, 30);
-    var x = [], y = [], accumulator = 0;
+    var x = [], y = [];
     for (var i=0; i<data.length; i++) {
         x[i] = data[i]['step'];
         y[i] = data[i]['amount'];
-        accumulator = accumulator || data[i]['amount'];
     }
-    if (accumulator == 0) { return; } // raphael dies if all amounts are 0
     r.g.linechart(0, 1, 100, 30, x, y, { width: 1, gutter: 1 });
 }
 
