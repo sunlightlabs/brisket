@@ -83,6 +83,7 @@ TD.DataFilter.DateRangeField.render = function() {
                 dend.datepicker('setDate',
                     dstart.datepicker('getDate'));
             }
+            dstart.trigger('change');
         }
     });
 
@@ -93,7 +94,10 @@ TD.DataFilter.DateRangeField.render = function() {
         changeYear: true,
         defaultDate: null,
         duration: '',
-        yearRange: '1990:2010'
+        yearRange: '1990:2010',
+        onSelect: function(dateText, inst) {
+            dend.trigger('change');
+        }
     });
 
     return this.node;
