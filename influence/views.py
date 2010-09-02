@@ -62,6 +62,7 @@ def search(request):
 
         if len(entity_results) == 0:
             kwargs['sorted_results'] = None
+            kwargs['query'] = query
         else:
             # sort the results by type
             sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': []}
