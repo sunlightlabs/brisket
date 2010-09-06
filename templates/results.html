@@ -6,7 +6,7 @@
 
 <div id="contentHeader">
   {% if not sorted_results %}
-  <h2>No results for that search</h2>
+  <h2>No results for &#8220;{{ query|title }}&#8221;</h2>
   {% else %}
   <h2>Results for &#8220;{{ query|title }}&#8221;</h2>
   {% endif %}

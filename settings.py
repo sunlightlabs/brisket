@@ -111,10 +111,10 @@ MEDIASYNC_JOINED = {
     'js/brisket-all.js': (
         'js/jquery.tablesorter.min.js',
         'js/underscore-1.0.2.min.js',
-        'js/g.raphael-min.js',
-        'js/g.pie.patched.js',
-        'js/g.bar.jeremi.js',
-        'js/g.line-min.js',
+        'js/g.raphael.js',
+        'js/g.pie.js',
+        'js/g.bar.patched.js',
+        'js/g.line.js',
         'js/brisket_charts.js',
         'js/brisket.js',
     )
