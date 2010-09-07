@@ -7,6 +7,8 @@
     {{ entity_info.name|standardize_organization_name}} | 
 {% endblock %}
 
+{% block canonicalurl %}/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}{% endblock %}
+
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {

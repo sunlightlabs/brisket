@@ -14,6 +14,8 @@
     | 
 {% endblock %}
 
+{% block canonicalurl %}/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}{% endblock %}
+
 {% block body_class %}politician{% endblock %}
 
 {% block extrajs %}

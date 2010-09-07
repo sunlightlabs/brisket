@@ -6,6 +6,8 @@
     {{ entity_info.name|standardize_individual_name }} | 
 {% endblock %}
 
+{% block canonicalurl %}/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}{% endblock %}
+
 {% block body_class %}individual{% endblock %}
 
 {% block extrajs %}
