@@ -3,7 +3,7 @@
 {% load influence_extras %}
 
 {% block pagetitle %}
-    : {{ entity_info.name|standardize_politician_name }}
+    {{ entity_info.name|standardize_politician_name }}
     {% if entity_info.metadata.party %}
         ({{entity_info.metadata.party}})
     {% endif %}
@@ -11,6 +11,7 @@
     {% if entity_info.metadata.yrs_of_service %}
         {{entity_info.metadata.yrs_of_service}}
     {% endif %}
+    | 
 {% endblock %}
 
 {% block body_class %}politician{% endblock %}

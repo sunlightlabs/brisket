@@ -3,7 +3,7 @@
 {% load influence_extras %}
 
 {% block pagetitle %}
-    : {{ entity_info.name|standardize_individual_name }}
+    {{ entity_info.name|standardize_individual_name }} | 
 {% endblock %}
 
 {% block body_class %}individual{% endblock %}
