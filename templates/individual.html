@@ -22,6 +22,20 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
+{% block timespan %}
+    {{ block.super }}
+    {% if entity_info.metadata.affiliated_organizations %}
+    <div class="relationships">
+      <div class="relationship">
+        <span class="relationshipTitle">Organizational Association{{ entity_info.metadata.affiliated_organizations|pluralize }}:</span>
+        {% for affiliation in entity_info.metadata.affiliated_organizations %}
+          <a href="/{{ affiliation.type }}/{{ affiliation.name|standardize_organization_name|slugify }}/{{ affiliation.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}">{{ affiliation.name|standardize_organization_name }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
 {% block contentHeader %}
 <h2>{{ entity_info.name|standardize_individual_name }}</h2>
 {% endblock %}
