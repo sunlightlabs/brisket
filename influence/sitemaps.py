@@ -55,3 +55,10 @@ class OrganizationSitemap(EntitySitemap):
 
 class PoliticianSitemap(EntitySitemap):
     entity_type = "politician"
+
+sitemaps = {
+    'landing': LandingSitemap,
+    'individual': IndividualSitemap,
+    'organization': OrganizationSitemap,
+    'politician': PoliticianSitemap,
+}
