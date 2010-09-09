@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import redirect_to
 from django.conf import settings
 
-from brisket.influence.sitemaps import LandingSitemap
+from brisket.influence.sitemaps import LandingSitemap, IndividualSitemap, OrganizationSitemap, PoliticianSitemap
 
 urlpatterns = patterns('brisket.influence.views',
     url(r'^search', 'search', name='search'),
@@ -59,6 +59,9 @@ urlpatterns += patterns('django.views.generic.simple',
 
 sitemaps = {
     'landing': LandingSitemap,
+    'individual': IndividualSitemap,
+    'organization': OrganizationSitemap,
+    'politician': PoliticianSitemap,
 }
 
 urlpatterns += patterns('django.contrib.sitemaps.views',
