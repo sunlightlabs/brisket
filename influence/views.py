@@ -62,6 +62,7 @@ def search(request):
 
         if len(entity_results) == 0:
             kwargs['sorted_results'] = None
+            kwargs['query'] = query
         else:
             # sort the results by type
             sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': []}
@@ -123,7 +124,7 @@ def organization_entity(request, entity_id):
 
     entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
 
-    context['external_links'] = external_sites.get_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
+    context['external_links'] = external_sites.get_organization_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     # get contributions data if it exists for this entity
     if metadata['contributions']:
@@ -209,7 +210,7 @@ def politician_entity(request, entity_id):
 
     entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
 
-    context['external_links'] = external_sites.get_links(standardize_politician_name(entity_info['name']), entity_info['external_ids'], cycle)
+    context['external_links'] = external_sites.get_politician_links(standardize_politician_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     context['entity_info'] = entity_info
 
@@ -288,7 +289,7 @@ def individual_entity(request, entity_id):
     entity_info = metadata['entity_info']
 
     context['entity_info'] = entity_info
-    context['external_links'] = external_sites.get_links(standardize_individual_name(entity_info['name']), entity_info['external_ids'], cycle)
+    context['external_links'] = external_sites.get_individual_links(standardize_individual_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     # get contributions information if it is available for this entity
     if metadata['contributions']:

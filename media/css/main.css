@@ -206,3 +206,7 @@ form#contact li { margin-bottom: 15px;}
 #footerPolicy p { font-size: 90%; line-height: 16px; margin: 0 30px; float: left; width: 345px;}
 
 .clear { clear: both;}
+
+.relationships { margin-top: 8px; font-size: 90%; line-height: 16px; }
+.relationshipTitle { font-weight: bold; }
+.relationship a { font-style: italic; padding-left: 8px; font-family: Georgia, Times New Roman, Times, serif; }

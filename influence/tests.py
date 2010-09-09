@@ -60,9 +60,6 @@ class ContributionsAPITests(APITest):
     def test_pol_sectors(self):
         self.assertLength(10, api.pol_sectors(self.PELOSI, CYCLE))
 
-    def test_org_industries_for_sector(self):
-        self.assertLength(5, api.org_industries_for_sector(self.PELOSI, 'H', CYCLE))
-
 
 class EntityAPITests(APITest):
 

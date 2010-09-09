@@ -99,24 +99,6 @@ def convert_running_mates(name):
 
     return ' & '.join(fixed_mates).strip()
 
-def industry_detail(request, entity_id):
-    cycle = request.GET.get("cycle", DEFAULT_CYCLE)
-    entity_info = api.entity_metadata(entity_id, cycle)
-    top_industries = api.pol_sectors(entity_id, cycle)
-
-    sectors = {}
-    for industry in top_industries:
-        industry_id = industry['category_name']
-        results = api.org_industries_for_sector(entity_id, industry_id)
-        sectors[industry_id] = (results)
-
-    return render_to_response('industry_detail.html',
-                              {'entity_id': entity_id,
-                               'entity_info': entity_info,
-                               'sectors': sectors,
-                               },
-                              entity_context(request, cycle))
-
 
 # lobbying
 def lobbying_by_industry(lobbying_data):

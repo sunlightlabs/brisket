@@ -87,10 +87,6 @@ def pol_sectors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=
     return get_url_json('aggregates/pol/%s/contributors/sectors.json' % entity_id, cycle, limit, parse_json)
 
 
-def org_industries_for_sector(entity_id, sector_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/pol/%s/contributors/sector/%s/industries.json' % (entity_id, sector_id), cycle, limit)
-
-
 def org_party_breakdown(entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
     return get_url_json('aggregates/org/%s/recipients/party_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
@@ -144,8 +140,8 @@ def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, 
     return get_url_json('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # lobbyists who work for this registrant (?)
-def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
+def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # top n lists
 def top_n_individuals(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):

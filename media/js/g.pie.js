@@ -1,15 +1,9 @@
 /*
- * g.Raphael 0.4 - Charting library, based on Raphaël
+ * g.Raphael 0.4.1 - Charting library, based on Raphaël
  *
  * Copyright (c) 2009 Dmitry Baranovskiy (http://g.raphaeljs.com)
  * Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.
  */
-
-/*
- * patched by jessy
- * search for comments with the word 'patched'
- */
-
 Raphael.fn.g.piechart = function (cx, cy, r, values, opts) {
     opts = opts || {};
     var paper = this,
@@ -26,10 +20,7 @@ Raphael.fn.g.piechart = function (cx, cy, r, values, opts) {
         defcut = true;
     chart.covers = covers;
     if (len == 1) {
-        /* patch this line: added opts.colors && opts.colors[i] to color handling
-	 * and fixed typo in opt.stroke --> opts.stroke
-	 */
-        series.push(this.circle(cx, cy, r).attr({fill: opts.colors && opts.colors[0] || this.g.colors[0], stroke: opts.stroke || "#fff", "stroke-width": opts.strokewidth == null ? 1 : opts.strokewidth}));
+        series.push(this.circle(cx, cy, r).attr({fill: this.g.colors[0], stroke: opts.stroke || "#fff", "stroke-width": opts.strokewidth == null ? 1 : opts.strokewidth}));
         covers.push(this.circle(cx, cy, r).attr(this.g.shim));
         total = values[0];
         values[0] = {value: values[0], order: 0, valueOf: function () { return this.value; }};
@@ -55,7 +46,7 @@ Raphael.fn.g.piechart = function (cx, cy, r, values, opts) {
         values.sort(function (a, b) {
             return b.value - a.value;
         });
-        for (var i = 0; i < len; i++) {
+        for (i = 0; i < len; i++) {
             if (defcut && values[i] * 360 / total <= 1.5) {
                 cut = i;
                 defcut = false;
@@ -69,7 +60,7 @@ Raphael.fn.g.piechart = function (cx, cy, r, values, opts) {
         }
         len = Math.min(cut + 1, values.length);
         others && values.splice(len) && (values[cut].others = true);
-        for (var i = 0; i < len; i++) {
+        for (i = 0; i < len; i++) {
             var mangle = angle - 360 * values[i] / total / 2;
             if (!i) {
                 angle = 90 - mangle;
@@ -87,8 +78,8 @@ Raphael.fn.g.piechart = function (cx, cy, r, values, opts) {
             series.push(p);
             opts.init && p.animate({path: path.join(",")}, (+opts.init - 1) || 1000, ">");
         }
-        for (var i = 0; i < len; i++) {
-            var p = paper.path(sectors[i].attr("path")).attr(this.g.shim);
+        for (i = 0; i < len; i++) {
+            p = paper.path(sectors[i].attr("path")).attr(this.g.shim);
             opts.href && opts.href[i] && p.attr({href: opts.href[i]});
             p.attr = function () {};
             covers.push(p);

@@ -1,5 +1,5 @@
-/*
- * g.Raphael 0.4 - Charting library, based on Raphaël
+/*!
+ * g.Raphael 0.4.1 - Charting library, based on Raphaël
  *
  * Copyright (c) 2009 Dmitry Baranovskiy (http://g.raphaeljs.com)
  * Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.
@@ -63,7 +63,7 @@ Raphael.fn.g.barchart = function (x, y, width, height, values, opts) {
         for (var j = 0; j < (multi || 1); j++) {
             var h = Math.round((multi ? values[j][i] : values[i]) * Y),
                 top = y + height - barvgutter - h,
-                bar = this.g.finger(Math.round(X + barwidth / 2), top + h, barwidth, h, true, type).attr({stroke: colors[multi ? j : i], fill: colors[multi ? j : i]});
+                bar = this.g.finger(Math.round(X + barwidth / 2), top + h, barwidth, h, true, type).attr({stroke: "none", fill: colors[multi ? j : i]});
             if (multi) {
                 bars[j].push(bar);
             } else {
@@ -122,7 +122,6 @@ Raphael.fn.g.barchart = function (x, y, width, height, values, opts) {
     }
     chart.label = function (labels, isBottom) {
         labels = labels || [];
-        isBottom = isBottom == undefined ? true : isBottom;
         this.labels = paper.set();
         var L, l = -Infinity;
         if (opts.stacked) {
@@ -130,9 +129,9 @@ Raphael.fn.g.barchart = function (x, y, width, height, values, opts) {
                 var tot = 0;
                 for (var j = 0; j < (multi || 1); j++) {
                     tot += multi ? values[j][i] : values[i];
-                    if (j == 0) {
-                        var label = paper.g.labelise(labels[j][i], tot, total);
-                        L = paper.g.text(bars[j][i].x, isBottom ? y + height - barvgutter / 2 : bars[j][i].y - 10, label);
+                    if (j == multi - 1) {
+                        var label = paper.g.labelise(labels[i], tot, total);
+                        L = paper.g.text(bars[j][i].x, y + height - barvgutter / 2, label).insertBefore(covers[i * (multi || 1) + j]);
                         var bb = L.getBBox();
                         if (bb.x - 7 < l) {
                             L.remove();
@@ -146,9 +145,8 @@ Raphael.fn.g.barchart = function (x, y, width, height, values, opts) {
         } else {
             for (var i = 0; i < len; i++) {
                 for (var j = 0; j < (multi || 1); j++) {
-                    // did not remove the loop because don't yet know whether to accept multi array input for arrays
-                    var label = paper.g.labelise(multi ? labels[0] && labels[0][i] : labels[i], multi ? values[0][i] : values[i], total);
-                     L = paper.g.text(bars[0][i].x, isBottom ? y + height - barvgutter / 2 : bars[0][i].y - 10, label);
+                    var label = paper.g.labelise(multi ? labels[j] && labels[j][i] : labels[i], multi ? values[j][i] : values[i], total);
+                    L = paper.g.text(bars[j][i].x, isBottom ? y + height - barvgutter / 2 : bars[j][i].y - 10, label).insertBefore(covers[i * (multi || 1) + j]);
                     var bb = L.getBBox();
                     if (bb.x - 7 < l) {
                         L.remove();
@@ -262,7 +260,7 @@ Raphael.fn.g.hbarchart = function (x, y, width, height, values, opts) {
         stack = [];
         for (var j = 0; j < (multi || 1); j++) {
             var val = multi ? values[j][i] : values[i],
-                bar = this.g.finger(x, Y + barheight / 2, Math.round(val * X), barheight - 1, false, type).attr({stroke: colors[multi ? j : i], fill: colors[multi ? j : i]});
+                bar = this.g.finger(x, Y + barheight / 2, Math.round(val * X), barheight - 1, false, type).attr({stroke: "none", fill: colors[multi ? j : i]});
             if (multi) {
                 bars[j].push(bar);
             } else {
@@ -308,10 +306,11 @@ Raphael.fn.g.hbarchart = function (x, y, width, height, values, opts) {
     Y = y + bargutter;
     if (!opts.stacked) {
         for (var i = 0; i < len; i++) {
-            for (var j = 0; j < multi; j++) {
+            for (var j = 0; j < (multi || 1); j++) {
                 var cover = this.rect(x, Y, width, barheight).attr(this.g.shim);
                 covers.push(cover);
-                cover.bar = bars[j][i];
+                cover.bar = multi ? bars[j][i] : bars[i];
+                cover.value = cover.bar.value;
                 Y += barheight;
             }
             Y += bargutter;
@@ -323,14 +322,14 @@ Raphael.fn.g.hbarchart = function (x, y, width, height, values, opts) {
         for (var i = 0; i < len; i++) {
             for (var j = 0; j < multi; j++) {
                 var  label = paper.g.labelise(multi ? labels[j] && labels[j][i] : labels[i], multi ? values[j][i] : values[i], total);
-                var X = isRight ? bars[i * (multi || 1) + j].x - barheight / 2 + 3 : x + 5,
+                var X = isRight ? bars[j][i].x - barheight / 2 + 3 : x + 5,
                     A = isRight ? "end" : "start",
                     L;
-                this.labels.push(L = paper.g.text(X, bars[i * (multi || 1) + j].y, label).attr({"text-anchor": A}).insertBefore(covers[0]));
+                this.labels.push(L = paper.g.text(X, bars[j][i].y, label).attr({"text-anchor": A}).insertBefore(covers[0]));
                 if (L.getBBox().x < x + 5) {
                     L.attr({x: x + 5, "text-anchor": "start"});
                 } else {
-                    bars[i * (multi || 1) + j].label = L;
+                    bars[j][i].label = L;
                 }
             }
         }

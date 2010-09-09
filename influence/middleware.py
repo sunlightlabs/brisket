@@ -14,7 +14,7 @@ class RequestLoggingMiddleware():
             ip_address    = request.META.get('REMOTE_ADDR'),
             path          = request.path,
             query_params  = request.META.get('QUERY_STRING'),
-            referring_url = request.META.get('HTTP_REFERER'),
+            referring_url = request.META.get('HTTP_REFERER')[:255] if request.META.get('HTTP_REFERER') is not None else None,
             user_agent    = request.META.get('USER_AGENT'),
         )
 
