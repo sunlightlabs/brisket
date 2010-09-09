@@ -1,8 +1,11 @@
 from django.contrib.sitemaps import Sitemap
+from django.contrib.sitemaps.views import index, sitemap
 from influence.api import entity_count, entity_list
 from django.conf import settings
 from influence import helpers
 from django.template.defaultfilters import slugify
+from django.http import HttpResponse
+import os
 
 class LandingSitemap(Sitemap):
     changefreq = "monthly"
@@ -55,6 +58,22 @@ class OrganizationSitemap(EntitySitemap):
 
 class PoliticianSitemap(EntitySitemap):
     entity_type = "politician"
+
+def index_wrapper(request, sitemaps):
+    path = os.path.join(settings.MEDIA_ROOT, "sitemaps", "sitemap.xml")
+    if os.path.exists(path):
+        return HttpResponse(open(path), mimetype='application/xml')
+    else:
+        return index(request, sitemaps)
+
+def sitemap_wrapper(request, sitemaps, section):
+    path = os.path.join(settings.MEDIA_ROOT, "sitemaps", "sitemap-%s.xml" % section)
+    if 'p' in request.GET:
+        path += '_p_%s' % request.GET['p']
+    if os.path.exists(path):
+        return HttpResponse(open(path), mimetype='application/xml')
+    else:
+        return sitemap(request, sitemaps, section)
 
 sitemaps = {
     'landing': LandingSitemap,
