@@ -48,7 +48,7 @@ class EntitySitemap(Sitemap):
         return EntityList(self.entity_type)
     
     def location(self, item):
-        return "/%s/%s/%s?cycle=%s" % (item['type'], self.clean(item['name']), item['id'], settings.LATEST_CYCLE)
+        return "/%s/%s/%s?cycle=%s" % (item['type'], self.clean(item['name']), item['id'], '-1')
 
 class IndividualSitemap(EntitySitemap):
     entity_type = "individual"
