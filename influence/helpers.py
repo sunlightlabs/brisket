@@ -2,6 +2,7 @@ import re, string, datetime
 import api
 from util import catcodes
 from django.template.defaultfilters import slugify
+from django.http import Http404
 
 def standardize_politician_name_with_metadata(name, party, state):
     party_state = "-".join([x for x in [party, state] if x]) # because presidential candidates are listed without a state
@@ -240,3 +241,10 @@ def months_into_cycle_for_date(date, cycle):
     return step
 
 
+def check_entity(entity_info, cycle, entity_type):
+    try:
+        icycle = int(cycle)
+    except:
+        raise Http404
+    if (icycle != -1 and (icycle < int(entity_info['career']['start']) or icycle > int(entity_info['career']['end']))) or entity_info['type'] != entity_type:
+        raise Http404
