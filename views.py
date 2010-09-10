@@ -6,6 +6,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from brisket.forms import ContactForm
+from django import http
+from django.template import Context, RequestContext, loader
+from influence.forms import SearchForm
+import re
 
 EMAIL_RECIPIENTS = getattr(settings, "EMAIL_RECIPIENTS", [])
 EMAIL_TEMPLATE = """%(comment)s"""
@@ -36,3 +40,16 @@ def contact(request):
         form = ContactForm(label_suffix='')
         
     return render_to_response('contact.html', {'form': form}, context_instance=RequestContext(request))
+
+def page_not_found(request, template_name='404.html'):
+    t = loader.get_template(template_name)
+    search = SearchForm()
+    matches = re.findall('^/(organization|individual|politician)/([a-zA-Z0-9\-]*?)/', request.path)
+    print request.path
+    if matches:
+        search.fields['query'].initial = matches[0][1].replace('-', ' ').title()
+    return http.HttpResponseNotFound(t.render(RequestContext(request, {'request_page': request.path, 'search_form_ext': search})))
+
+def server_error(request, template_name='500.html'):
+    t = loader.get_template(template_name)
+    return http.HttpResponseServerError(t.render(Context({'search_form': SearchForm()})))

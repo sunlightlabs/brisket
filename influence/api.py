@@ -1,5 +1,6 @@
 from BeautifulSoup import BeautifulSoup
 from django.conf import settings
+from django.http import Http404
 import helpers
 import urllib2
 import urllib
@@ -28,12 +29,15 @@ def get_url_json(path, cycle=None, limit=None, parse_json=False, **params):
         params.update({'limit': limit})
     params.update({'apikey': settings.API_KEY})
 
-    fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
-
-    if parse_json:
-        return json.loads(fp.read())
-    else:
-        return fp.read()
+    try:
+        fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
+    
+        if parse_json:
+            return json.loads(fp.read())
+        else:
+            return fp.read()
+    except urllib2.HTTPError, e:
+        raise Http404
 
 def entity_search(query):
     return get_url_json('entities.json', search=query, parse_json=True)
