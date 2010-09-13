@@ -20,12 +20,12 @@ def standardize_organization_name_filter(name):
     return helpers.standardize_organization_name(name)
 
 
-seat_labels = {'federal:senate': 'Senate',
-               'federal:house': 'House',
+seat_labels = {'federal:senate': 'US Senate',
+               'federal:house': 'US House',
                'federal:president': 'President',
                'state:upper': 'State Upper Chamber',
                'state:lower': 'State Lower Chamber',
-               'state:governor': 'State Governor',
+               'state:governor': 'Governor',
                'state:judicial': 'State Judiciary',
                'state:office': 'Other State Office'
                }
@@ -35,3 +35,26 @@ seat_labels = {'federal:senate': 'Senate',
 def seat_label_filter(raw):
     return seat_labels.get(raw, raw)
 
+
+seat_titles = {'federal:senate': 'Sen.',
+               'federal:house': 'Rep.',
+               'federal:president': 'Pres.',
+               'state:governor': 'Gov.',
+}
+
+@register.filter(name='seat_title')
+@stringfilter
+def seat_title_filter(person, seat):
+    if seat and seat in seat_titles:
+        return '%s %s' % (seat_titles.get(seat), person)
+    else:
+        return person
+
+
+@register.filter(name='pretty_cycle')
+@stringfilter
+def pretty_cycle_filter(cycle):
+    if str(cycle) == '-1':
+        return ''
+    else:
+        return '?cycle=%s' % cycle

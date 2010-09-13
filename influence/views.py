@@ -58,7 +58,7 @@ def search(request):
             result_type = entity_results[0]['type']
             name = slugify(entity_results[0]['name'])
             _id = entity_results[0]['id']
-            return HttpResponseRedirect('/%s/%s/%s?cycle=%s' % (result_type, name, _id, cycle))
+            return HttpResponseRedirect('/%s/%s/%s%s' % (result_type, name, _id, "?cycle=" + cycle if cycle != "-1" else ""))
 
         if len(entity_results) == 0:
             kwargs['sorted_results'] = None

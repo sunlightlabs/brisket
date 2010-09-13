@@ -6,7 +6,9 @@
     {{ entity_info.name|standardize_individual_name }} | 
 {% endblock %}
 
-{% block canonicalurl %}/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}{% endblock %}
+{% block canonicalurl %}/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
+
+{% block metadesc %}{{ entity_info.name|standardize_individual_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.career.start|add:-1}} to {{entity_info.career.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
 
 {% block body_class %}individual{% endblock %}
 
@@ -33,7 +35,7 @@ $(document).ready(function() {
     <div class="relationship">
       <span class="relationshipTitle">Organizational Association{{ entity_info.metadata.affiliated_organizations|pluralize }}:</span>
       {% for affiliation in entity_info.metadata.affiliated_organizations %}
-        <a href="/{{ affiliation.type }}/{{ affiliation.name|standardize_organization_name|slugify }}/{{ affiliation.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}">{{ affiliation.name|standardize_organization_name }}</a>
+        <a href="/{{ affiliation.type }}/{{ affiliation.name|standardize_organization_name|slugify }}/{{ affiliation.id }}{{cycle|pretty_cycle}}">{{ affiliation.name|standardize_organization_name }}</a>
       {% endfor %}
     </div>
   </div>
