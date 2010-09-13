@@ -35,3 +35,17 @@ seat_labels = {'federal:senate': 'US Senate',
 def seat_label_filter(raw):
     return seat_labels.get(raw, raw)
 
+
+seat_titles = {'federal:senate': 'Sen.',
+               'federal:house': 'Rep.',
+               'federal:president': 'Pres.',
+               'state:governor': 'Gov.',
+}
+
+@register.filter(name='seat_title')
+@stringfilter
+def seat_title_filter(person, seat):
+    if seat and seat in seat_titles:
+        return '%s %s' % (seat_titles.get(seat), person)
+    else:
+        return person
