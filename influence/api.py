@@ -69,14 +69,14 @@ def entity_count(type=None):
     params = {'count': 1}
     if type:
         params['type'] = type
-    return int(get_url_json('entities_simple.json', parse_json=True, **params)['count'])
+    return int(get_url_json('entities/list.json', parse_json=True, **params)['count'])
 
 
 def entity_list(start, end, type=None):
     params = {'start': start, 'end': end}
     if type:
         params['type'] = type
-    return get_url_json('entities_simple.json', parse_json=True, **params)
+    return get_url_json('entities/list.json', parse_json=True, **params)
 
     
 def pol_contributors(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
