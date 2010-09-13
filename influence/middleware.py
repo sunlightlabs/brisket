@@ -18,7 +18,7 @@ class RequestLoggingMiddleware():
             user_agent    = request.META.get('USER_AGENT'),
         )
 
-        request.session['page_request_id'] = page_request.id
+        request.page_request_id = page_request.id
 
 
     def process_response(self, request, response):
@@ -46,8 +46,8 @@ class RequestLoggingMiddleware():
 
 
     def get_existing_page_request(self, request):
-        if request.session.get('page_request_id'):
-            page_request = PageRequest.objects.get(id=request.session['page_request_id'])
+        if hasattr(request, 'page_request_id'):
+            page_request = PageRequest.objects.get(id=request.page_request_id)
 
             if page_request:
                 return page_request
