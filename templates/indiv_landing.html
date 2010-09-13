@@ -26,7 +26,7 @@
                   {% for result in top_n_individuals %}
                   <tr class="{% cycle 'even' 'odd' %}">
                       <td>
-                          <a href="/individual/{{ result.name|standardize_individual_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{ result.name|standardize_individual_name }}</a>
+                          <a href="/individual/{{ result.name|standardize_individual_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{ result.name|standardize_individual_name }}</a>
                       </td>
                       <td>${{ result.amount|floatformat:0|intcomma }}</td>
                   </tr>

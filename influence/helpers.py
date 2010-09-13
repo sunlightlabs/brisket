@@ -191,12 +191,12 @@ def pie_validate(data):
 
 def barchart_href(record, cycle, entity_type):
     if record.get('recipient_entity', None):
-            return str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']),
-                                               record['recipient_entity'], cycle))
+            return str("/%s/%s/%s%s" % (entity_type, slugify(record['recipient_name']),
+                                               record['recipient_entity'], "?cycle=" + cycle if cycle != "-1" else ""))
     elif record.get('id', None):
         if record['id']:
-            return str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['name']),
-                                               record['id'], cycle))
+            return str("/%s/%s/%s%s" % (entity_type, slugify(record['name']),
+                                               record['id'], "?cycle=" + cycle if cycle != "-1" else ""))
     return ''
 
 def generate_label(string):
