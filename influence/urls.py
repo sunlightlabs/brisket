@@ -2,6 +2,8 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import redirect_to
 from django.conf import settings
 
+from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
+
 urlpatterns = patterns('brisket.influence.views',
     url(r'^search', 'search', name='search'),
 
@@ -53,4 +55,11 @@ urlpatterns += patterns('django.views.generic.simple',
 
     url(r'^about/methodology/lobbying/?$', 'direct_to_template',
         {'template': 'lobbying_methodology.html'}),
+)
+
+urlpatterns += patterns('',
+    url(r'^sitemap\.xml$', index_wrapper, {'sitemaps': sitemaps}),
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
+    url(r'^sitemap-(?P<section>.+)\.xml$', sitemap_wrapper, {'sitemaps': sitemaps}),
+    url(r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
 )
