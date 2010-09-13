@@ -1,5 +1,6 @@
 from BeautifulSoup import BeautifulSoup
 from django.conf import settings
+from django.http import Http404
 import helpers
 import urllib2
 import urllib
@@ -28,12 +29,15 @@ def get_url_json(path, cycle=None, limit=None, parse_json=False, **params):
         params.update({'limit': limit})
     params.update({'apikey': settings.API_KEY})
 
-    fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
-
-    if parse_json:
-        return json.loads(fp.read())
-    else:
-        return fp.read()
+    try:
+        fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
+    
+        if parse_json:
+            return json.loads(fp.read())
+        else:
+            return fp.read()
+    except urllib2.HTTPError, e:
+        raise Http404
 
 def entity_search(query):
     return get_url_json('entities.json', search=query, parse_json=True)
@@ -140,8 +144,8 @@ def org_registrant_clients(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, 
     return get_url_json('aggregates/org/%s/registrant/clients.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # lobbyists who work for this registrant (?)
-def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT):
-    return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit)
+def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/org/%s/registrant/lobbyists.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # top n lists
 def top_n_individuals(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):

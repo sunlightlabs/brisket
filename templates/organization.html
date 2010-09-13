@@ -4,8 +4,10 @@
 {% block body_class %}organization{% endblock %}
 
 {% block pagetitle %}
-    : {{ entity_info.name|standardize_organization_name}}
+    {{ entity_info.name|standardize_organization_name}} | 
 {% endblock %}
+
+{% block canonicalurl %}/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}{% endblock %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8">
@@ -20,6 +22,24 @@ $(document).ready(function() {
 
 {% block contentHeader %}
 <h2>{{ entity_info.name|standardize_organization_name }}</h2>
+  {% if entity_info.metadata.child_entities or entity_info.metadata.parent_entity %}
+  <div class="relationships">
+    {% if entity_info.metadata.parent_entity %}
+      <div class="relationship">
+        <span class="relationshipTitle">Parent Organization:</span>
+        <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}">{{ entity_info.metadata.parent_entity.name }}</a>
+      </div>
+    {% endif %}
+    {% if entity_info.metadata.child_entities %}
+      <div class="relationship">
+        <span class="relationshipTitle">Child Organization{{ entity_info.metadata.child_entities|pluralize }}:</span>
+        {% for child_entity in entity_info.metadata.child_entities %}
+          <a href="/organization/{{ child_entity.name|standardize_organization_name|slugify }}/{{ child_entity.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}">{{ child_entity.name|standardize_organization_name }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  {% endif %}
 {% endblock %}
 
 {% if entity_info.metadata.bio %}
@@ -30,6 +50,7 @@ $(document).ready(function() {
 {% endif %}
 {% endblock %}
 {% endif %}
+
 
 {% block contributions %}
 {% if contributions_data %}

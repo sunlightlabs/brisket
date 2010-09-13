@@ -121,6 +121,9 @@ def organization_entity(request, entity_id):
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
     context['entity_info'] = entity_info
+    
+    # a little error-checking now that we have the entity info
+    check_entity(entity_info, cycle, 'organization')
 
     entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
 
@@ -207,6 +210,9 @@ def politician_entity(request, entity_id):
     metadata = get_metadata(entity_id, cycle, "politician")
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
+    
+    # a little error-checking now that we have the entity info
+    check_entity(entity_info, cycle, 'politician')
 
     entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
 
@@ -287,6 +293,9 @@ def individual_entity(request, entity_id):
     metadata = get_metadata(entity_id, cycle, "individual")
     available_cycles = metadata['available_cycles']
     entity_info = metadata['entity_info']
+    
+    # a little error-checking now that we have the entity info
+    check_entity(entity_info, cycle, 'individual')
 
     context['entity_info'] = entity_info
     context['external_links'] = external_sites.get_individual_links(standardize_individual_name(entity_info['name']), entity_info['external_ids'], cycle)

@@ -25,3 +25,6 @@ if settings.DEBUG:
     urlpatterns += patterns('',
         url('design/(?P<path>.*)$', design_view),
     )
+
+handler404 = 'brisket.views.page_not_found'
+handler500 = 'brisket.views.server_error'
