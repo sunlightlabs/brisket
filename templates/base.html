@@ -5,7 +5,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="keywords" content="campaign contributions, sunlight foundation, influence explorer, politics, government, influence" />
-    <meta name="description" content="Influence Explorer is the central source for information on money and influence in politics. From here you can explore who the big donors to a politician are, how companies and whole industries spend their political money, and who politically connected individuals have given money to." />
+    <meta name="description" content="{% block metadesc %}Influence Explorer is the central source for information on money and influence in politics. From here you can explore who the big donors to a politician are, how companies and whole industries spend their political money, and who politically connected individuals have given money to.{% endblock %}" />
 
 	<link rel="icon" href="{% media_url %}/images/favicon.ico" type="image/x-icon">
 	<link rel="canonical" rel="{% block canonicalurl %}{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}{% endblock %}" />
