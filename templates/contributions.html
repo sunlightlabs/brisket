@@ -9,9 +9,9 @@
   {% endif %}
   <h3 class="insideBar">Contributions, 
       {% ifequal cycle "-1" %} 
-          {{entity_info.career.start|add:-1}} - {{entity_info.career.end}}
+          {{entity_info.career.start|add:-1}} &#150; {{entity_info.career.end}}
         {% else %}  
-          {{cycle|add:-1}} - {{cycle}} 
+          {{cycle|add:-1}} &#150; {{cycle}} 
         {% endifequal %}</h3>
   <div class="insideBar amount">
     <span class="amount">{% if entity_info.type == "individual" or entity_info.type == "organization" %}
