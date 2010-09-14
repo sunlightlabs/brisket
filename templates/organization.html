@@ -65,3 +65,9 @@ $(document).ready(function() {
    {% include "org_lobbying.html" %}
 {% endif %}
 {% endblock %}
+
+{% block grants_and_contracts %}
+{% if grants_and_contracts %}
+  {% include "org_grants_and_contracts.html" %}
+{% endif %}
+{% endblock %}
