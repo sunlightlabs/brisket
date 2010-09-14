@@ -49,3 +49,12 @@ def seat_title_filter(person, seat):
         return '%s %s' % (seat_titles.get(seat), person)
     else:
         return person
+
+
+@register.filter(name='pretty_cycle')
+@stringfilter
+def pretty_cycle_filter(cycle):
+    if str(cycle) == '-1':
+        return ''
+    else:
+        return '?cycle=%s' % cycle

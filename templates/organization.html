@@ -7,7 +7,7 @@
     {{ entity_info.name|standardize_organization_name}} | 
 {% endblock %}
 
-{% block canonicalurl %}/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}{% endblock %}
+{% block canonicalurl %}/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_organization_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.career.start|add:-1}} to {{entity_info.career.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
 
@@ -29,14 +29,14 @@ $(document).ready(function() {
     {% if entity_info.metadata.parent_entity %}
       <div class="relationship">
         <span class="relationshipTitle">Parent Organization:</span>
-        <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}">{{ entity_info.metadata.parent_entity.name }}</a>
+        <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{{cycle|pretty_cycle}}">{{ entity_info.metadata.parent_entity.name }}</a>
       </div>
     {% endif %}
     {% if entity_info.metadata.child_entities %}
       <div class="relationship">
         <span class="relationshipTitle">Child Organization{{ entity_info.metadata.child_entities|pluralize }}:</span>
         {% for child_entity in entity_info.metadata.child_entities %}
-          <a href="/organization/{{ child_entity.name|standardize_organization_name|slugify }}/{{ child_entity.id }}{% if request.GET.cycle %}?cycle={{ request.GET.cycle }}{% endif %}">{{ child_entity.name|standardize_organization_name }}</a>
+          <a href="/organization/{{ child_entity.name|standardize_organization_name|slugify }}/{{ child_entity.id }}{{cycle|pretty_cycle}}">{{ child_entity.name|standardize_organization_name }}</a>
         {% endfor %}
       </div>
     {% endif %}

@@ -44,7 +44,7 @@
           <tbody>
           {% for result in sorted_results.organization %}
               <tr class="{% cycle 'even' 'odd' %}">
-                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_organization_name}}</a></td>
+                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_organization_name}}</a></td>
                   <td class="right">{{result.count_lobbied|add:result.count_given}}</td>
                   <td class="right">{% if result.non_firm_spending %}${% endif %}{{ result.non_firm_spending|floatformat:0|intcomma }}</td>
                   <td class="right">${{ result.total_given|floatformat:0|intcomma }}</td>
@@ -71,7 +71,7 @@
           <tbody>
           {% for result in sorted_results.lobbying_firm %}
               <tr class="{% cycle 'even' 'odd' %}">
-                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_organization_name}}</a></td>
+                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_organization_name}}</a></td>
                   <td class="right">{{result.count_lobbied|add:result.count_given}}</td>
                   <td class="right">${{ result.firm_income|floatformat:0|intcomma }}</td>
                   <td class="right">{% if result.total_given %}${% endif %}{{ result.total_given|floatformat:0|intcomma }}</td>
@@ -96,7 +96,7 @@
         <tbody>
         {% for result in sorted_results.individual %}
             <tr class="{% cycle 'even' 'odd' %}">
-                <td class="left"><a href="/{{ result.type }}/{{ result.name|standardize_individual_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_individual_name}}</a></td>
+                <td class="left"><a href="/{{ result.type }}/{{ result.name|standardize_individual_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_individual_name}}</a></td>
                 <td class="right">{{result.count_given}}</td>
                 <td class="right">${{ result.total_given|floatformat:0|intcomma }}</td>
             </tr>
@@ -125,7 +125,7 @@
               {% for result in sorted_results.politician %}
               <tr class="{% cycle 'even' 'odd' %}">
                   <td class="left lawmakerName">
-                      <a href="/{{ result.type }}/{{ result.name|standardize_politician_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{result.name|standardize_politician_name}}</a>
+                      <a href="/{{ result.type }}/{{ result.name|standardize_politician_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_politician_name}}</a>
                   </td>
                   <td class="center">{{ result.state }}</td>
                   <td class="center">{{ result.seat|seat_label }}</td>

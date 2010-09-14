@@ -51,7 +51,7 @@
           {% for row in lobbying_lobbyists %}
           {% if row.lobbyist_entity %}
           <li>
-            <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+            <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
           </li>
           {% else %}
           {{ row.lobbyist_name|standardize_individual_name }}
@@ -89,7 +89,7 @@
         <tr class="{% cycle 'even' 'odd' %}">
           <td>	    
             {% if row.client_entity %}
-            <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
+            <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>
             {% else %}
             {{ row.client_name }}
             {% endif %} 
@@ -116,7 +116,7 @@
             {% for row in lobbying_lobbyists %}
             {% if row.lobbyist_entity %}
             <li>
-              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
             </li>
             {% else %}
             {{ row.lobbyist_name|standardize_individual_name }}
@@ -153,7 +153,7 @@
         <tr class="{% cycle 'even' 'odd' %}">
           <td>	    
             {% if row.registrant_entity %}
-            <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}?cycle={{cycle}}">{{ row.registrant_name }}</a>
+            <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}{{cycle|pretty_cycle}}">{{ row.registrant_name }}</a>
             {% else %}
             {{ row.registrant_name }}
             {% endif %} 
