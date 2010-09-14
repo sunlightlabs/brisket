@@ -207,7 +207,7 @@ def organization_entity(request, entity_id):
         'agency': s['agency_name'],
         'amount': float(s['amount_total']),
         'program': s['cfda_program_title'],
-    }, api.org_grants(entity_info['name'])))
+    }, api.org_grants(entity_info['name'], cycle=cycle)))
     
     # fetch and normalize contracts
     grants_and_contracts.extend(map(lambda s: {
@@ -217,7 +217,7 @@ def organization_entity(request, entity_id):
         'agency': s['agency_name'],
         'amount': float(s['current_amount']),
         'program': s['contract_description'],
-    }, api.org_contracts(entity_info['name'])))
+    }, api.org_contracts(entity_info['name'], cycle=cycle)))
     
     if grants_and_contracts:
         grants_and_contracts.sort(lambda a, b: cmp(a['amount'], b['amount']), reverse=True)
