@@ -769,6 +769,16 @@ dt.term, .docutils dt {
     margin-top: 1em;
 }
 
+.docs .changelog {
+    margin-top: 10px;
+}
+.docs .changelog ul {
+    list-style: square;
+}
+.docs .changelog ul li {
+	margin-left: 15px;
+}
+
 dd {
     display: block;
     margin: 0 0 1.3em 3em;
