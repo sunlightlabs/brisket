@@ -1,4 +1,5 @@
-django >= 1.2, < 1.3
+psycopg2
+django==1.2.3
 BeautifulSoup
 boto
 django-mediasync==1.0.1
