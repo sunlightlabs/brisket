@@ -214,3 +214,12 @@ form#contact li { margin-bottom: 15px;}
 .error #ltColumn #search { float: none; background: #eaeaea; display: inline-block; padding: 10px; margin-top: 10px; margin-bottom: 10px; }
 .error #ltColumn ul { list-style: disc; margin-left: 30px; }
 .error #ltColumn ul li { margin-top: 10px; }
+
+.chartTile strong { text-transform: uppercase; }
+.chartTile a { float: right; font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
+.chartTile { width: 400px; padding-left: 15px; margin-left: 25px; }
+.chartTile { border-top: 1px dotted #666666; margin-top: 15px; padding-top: 15px; }
+.chartTile:first-child { border-top: none; margin-top: 0px; padding-top: 0px; }
+.chartTile h4 { margin-bottom: 0px; }
+
+.frontLeft .overviewBar { margin: 0px; margin-bottom: 10px; width: 405px; }

@@ -199,9 +199,8 @@ def barchart_href(record, cycle, entity_type):
                                                record['id'], "?cycle=" + cycle if cycle != "-1" else ""))
     return ''
 
-def generate_label(string):
+def generate_label(string, max_length=34):
     ''' truncate names longer than max_length '''
-    max_length = 34
     return string[:max_length] + (lambda x, l: (len(x)>l and "...")
                                    or "")(string, max_length)
 

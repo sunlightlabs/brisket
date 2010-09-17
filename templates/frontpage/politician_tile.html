@@ -1,0 +1,19 @@
+{% load influence_extras %}
+{% load humanize %}
+<div class="chartModule chartTile">
+    <h4 class="key">{{ entity.name|standardize_politician_name }}</h4><div class="clear"></div>
+    <strong>Top Contributing Industries</strong><br />
+    <div id="entity-{{ entity.id }}" style="position: relative;">
+    </div>
+    <a href="/{{ entity.type }}/{{ entity.name|standardize_politician_name|slugify }}/{{ entity.id }}">Learn more about this politician &raquo;</a>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(function() {
+    barchart(
+        "entity-{{ entity.id}}",
+        {% if entity.sectors_barchart_data %}{{ entity.sectors_barchart_data|safe }} {% else %}[]{% endif %},
+        {chart_width: 100, chart_x: 190}
+    );
+});
+</script>

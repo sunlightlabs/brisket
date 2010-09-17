@@ -1,0 +1,15 @@
+<div class="overviewBar"><h3 class="insideBar">In the News</h3></div>
+
+<div class="frontItems">
+{% for entity in entities %}
+    {% if entity.type = "individual" %}
+        {% include "frontpage/individual_tile.html" %}
+    {% endif %}
+    {% if entity.type = "politician" %}
+        {% include "frontpage/politician_tile.html" %}
+    {% endif %}
+    {% if entity.type = "organization" %}
+        {% include "frontpage/organization_tile.html" %}
+    {% endif %}
+{% endfor %}
+</div>
