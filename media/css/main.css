@@ -214,3 +214,7 @@ form#contact li { margin-bottom: 15px;}
 .error #ltColumn #search { float: none; background: #eaeaea; display: inline-block; padding: 10px; margin-top: 10px; margin-bottom: 10px; }
 .error #ltColumn ul { list-style: disc; margin-left: 30px; }
 .error #ltColumn ul li { margin-top: 10px; }
+
+.addthis_toolbox { float: right !important; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; }
+.addthis_toolbox a { text-decoration: none; color: #989393; }
+.addthis_toolbox img { float: right; margin-left: 6px; }
