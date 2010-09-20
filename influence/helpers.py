@@ -101,6 +101,11 @@ def convert_running_mates(name):
     return ' & '.join(fixed_mates).strip()
 
 
+# see redmine ticket #545
+def normalize_search_query(q):
+    return q.replace(u'\xe2', "'")
+
+
 # lobbying
 def lobbying_by_industry(lobbying_data):
     ''' aggregates lobbying spending by industry'''

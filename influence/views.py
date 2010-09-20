@@ -42,6 +42,9 @@ def search(request):
         kwargs = {}
         query = urllib.unquote(submitted_form.cleaned_data['query']).strip()
         cycle = request.GET.get('cycle', DEFAULT_CYCLE)
+        
+        query = normalize_search_query(query)
+        
         # if a user submitted the search value from the form, then
         # treat the hyphens as intentional. if it was from a url, then
         # the name has probably been slug-ized and we need to remove
