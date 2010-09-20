@@ -8,7 +8,7 @@ from django.template   import RequestContext
 from influence.forms   import SearchForm, ElectionCycle
 from influence.helpers import *
 from operator          import itemgetter
-from settings          import LATEST_CYCLE
+from settings          import LATEST_CYCLE, API_KEY
 from util              import catcodes
 try:
     import json
@@ -31,7 +31,7 @@ def entity_context(request, cycle, available_cycles):
     return RequestContext(request, context_variables)
 
 def index(request):
-    return render_to_response('index.html', brisket_context(request))
+    return render_to_response('index.html', {'key': API_KEY}, brisket_context(request))
 
 def search(request):
     if not request.GET.get('query', None):

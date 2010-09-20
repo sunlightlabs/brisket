@@ -216,20 +216,37 @@ form#contact li { margin-bottom: 15px;}
 .error #ltColumn ul li { margin-top: 10px; }
 
 .chartTile strong, .frontTop .article strong { text-transform: uppercase; }
-.chartTile a { float: right; font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
+.chartTile a, a.frontMoreLink { float: right; font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
 .frontLeft .chartTile { width: 400px; padding-left: 15px; margin-left: 25px; }
-.frontTop .article { padding-left: 15px; padding-right: 15px; margin-left: 25px; margin-right: 5px; width: 430px; border-right: 1px dotted #666666; float: left; margin-bottom: 30px; }
+.frontTop .article { padding-left: 15px; padding-right: 15px; margin-left: 25px; margin-right: 0px; width: 430px; float: left; margin-bottom: 30px; }
 .chartTile { border-top: 1px dotted #666666; margin-top: 15px; padding-top: 15px; }
-.chartTile:first-child { border-top: none; margin-top: 0px; padding-top: 0px; }
+.frontLeft .chartTile:first-child { border-top: none; margin-top: 0px; padding-top: 0px; }
 .chartTile h4, .frontTop .article h4 { margin-bottom: 0px; }
 
-.frontLeft .overviewBar, .frontRight .overviewBar { margin: 0px; margin-bottom: 10px; width: 405px; }
-.frontLeft { float: left; width: 445px; }
-.frontRight { float: right; width: 445px; }
+.frontLeft .overviewBar, .frontRight .overviewBar { margin: 0px; margin-bottom: 10px; width: 420px; }
+.frontLeft { float: left; width: 460px; }
+.frontRight { float: right; width: 460px; }
 .frontTop .overviewBar {margin: 0px; margin-bottom: 10px;}
 .frontTop .chartTile {
     float: right;
-    width: 400px; padding-right: 15px; margin-right: 25px; padding-left: 20px; }
+    width: 400px; padding-right: 15px; margin-right: 25px; padding-left: 20px; border: 0px; background: #edede6; padding-bottom: 5px; }
 .frontTop .frontItems {
     margin-bottom: 30px;
 }
+
+.searchCloud {
+    padding-right: 25px;
+    margin-bottom: 25px;
+}
+
+.reps .legislator img {
+    display: block;
+    float: left;
+    width: 60px;
+    margin-right: 5px;
+}
+.reps .legislator h4 { float: none; margin: 0px; }
+.reps .legislator a { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
+.reps .legislator { margin-right: 25px; }
+.reps .legislator { border-top: 1px dotted #666666; margin-top: 15px; padding-top: 15px; }
+.reps .legislator:first-child { border-top: none; margin-top: 0px; padding-top: 0px; }

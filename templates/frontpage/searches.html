@@ -1,0 +1,7 @@
+<div class="overviewBar"><h3 class="insideBar">Top Searches</h3></div>
+
+<div class="searchCloud">
+    {% for term in cloud %}
+        <a href="/search?query={{ term.tag }}" style="font-size: {{ term.size }}em;">{{ term.tag }}</a>
+    {% endfor %}
+</div>
