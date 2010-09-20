@@ -215,11 +215,21 @@ form#contact li { margin-bottom: 15px;}
 .error #ltColumn ul { list-style: disc; margin-left: 30px; }
 .error #ltColumn ul li { margin-top: 10px; }
 
-.chartTile strong { text-transform: uppercase; }
+.chartTile strong, .frontTop .article strong { text-transform: uppercase; }
 .chartTile a { float: right; font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
-.chartTile { width: 400px; padding-left: 15px; margin-left: 25px; }
+.frontLeft .chartTile { width: 400px; padding-left: 15px; margin-left: 25px; }
+.frontTop .article { padding-left: 15px; padding-right: 15px; margin-left: 25px; margin-right: 5px; width: 430px; border-right: 1px dotted #666666; float: left; margin-bottom: 30px; }
 .chartTile { border-top: 1px dotted #666666; margin-top: 15px; padding-top: 15px; }
 .chartTile:first-child { border-top: none; margin-top: 0px; padding-top: 0px; }
-.chartTile h4 { margin-bottom: 0px; }
+.chartTile h4, .frontTop .article h4 { margin-bottom: 0px; }
 
-.frontLeft .overviewBar { margin: 0px; margin-bottom: 10px; width: 405px; }
+.frontLeft .overviewBar, .frontRight .overviewBar { margin: 0px; margin-bottom: 10px; width: 405px; }
+.frontLeft { float: left; width: 445px; }
+.frontRight { float: right; width: 445px; }
+.frontTop .overviewBar {margin: 0px; margin-bottom: 10px;}
+.frontTop .chartTile {
+    float: right;
+    width: 400px; padding-right: 15px; margin-right: 25px; padding-left: 20px; }
+.frontTop .frontItems {
+    margin-bottom: 30px;
+}
