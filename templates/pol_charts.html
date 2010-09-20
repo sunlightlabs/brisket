@@ -1,9 +1,9 @@
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
-    {% if sectors_barchart_data %}
+<div class="twoColumn chartWrapper">
+  <div class="chart">
+    {% if industries_barchart_data %}
     <h4>Top Industries</h4>
-    <span class="tip">OpenSecrets.org and FollowTheMoney.org classify contribution data into 13 broad <a href="http://www.opensecrets.org/lobby/list_indus.php">sectors</a>.</span>
-    <div class="graph" id="sectors_barchart">
+    <span class="tip">OpenSecrets.org and FollowTheMoney.org classify contribution data into about 100 <a href="http://www.opensecrets.org/lobby/list_indus.php">industries</a>.</span>
+    <div class="graph" id="industries_barchart">
       <!-- raphael charts -->
     </div>
     {% endif %}
@@ -30,18 +30,18 @@
   </div>
 </div>
 
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
+<div class="twoColumn chartWrapper">
+  <div class="chart">
 
     {% if contributors_barchart_data %}
     <h4 class="withTip key">Top Contributors</h4>
     <dl class="key">
         <dt class="employees">Employee Color Block</dt>
         <dd>Employees</dd>
-        
+
         <dt class="pac">PAC Color Block</dt>
-        <dd>PAC</dd>           
-    </dl>    
+        <dd>PAC</dd>
+    </dl>
     <div class="clear"></div>
     <span class="tip">Includes contributions from an organization’s employees, their family members, and its political action committee.</span>
     <div class="graph" id="contributors_barchart">
