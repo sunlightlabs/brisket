@@ -196,35 +196,13 @@ def organization_entity(request, entity_id):
             context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
             context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
 
-    # grants and contracts
-    grants_and_contracts = []
-    
-    # fetch and normalize grants
-    grants_and_contracts.extend(map(lambda s: {
-        'type': 'grant',
-        'name': s['recipient_name'],
-        'year': s['fiscal_year'],
-        'agency': s['agency_name'],
-        'amount': float(s['amount_total']),
-        'program': s['cfda_program_title'],
-    }, api.org_grants(entity_info['name'], cycle=cycle)))
-    
-    # fetch and normalize contracts
-    grants_and_contracts.extend(map(lambda s: {
-        'type': 'contract',
-        'name': s['vendor_name'],
-        'year': s['fiscal_year'],
-        'agency': s['agency_name'],
-        'amount': float(s['current_amount']),
-        'program': s['contract_description'],
-    }, api.org_contracts(entity_info['name'], cycle=cycle)))
-    
-    if grants_and_contracts:
-        grants_and_contracts.sort(lambda a, b: cmp(a['amount'], b['amount']), reverse=True)
-        
-        context['grants_and_contracts'] = grants_and_contracts[:10]
-        context['gc_min_year'] = min(grants_and_contracts, key=lambda s: s['year'])['year']
-        context['gc_max_year'] = max(grants_and_contracts, key=lambda s: s['year'])['year']
+    # Grants and Contracts
+    spending = api.org_fed_spending(entity_id, cycle)
+            
+    if spending:
+        context['grants_and_contracts'] = spending
+        context['gc_min_year'] = min(spending, key=lambda s: s['fiscal_year'])['fiscal_year']
+        context['gc_max_year'] = max(spending, key=lambda s: s['fiscal_year'])['fiscal_year']
 
     return render_to_response('organization.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))

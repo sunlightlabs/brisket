@@ -197,4 +197,7 @@ def pol_sparkline(entity_id, cycle=DEFAULT_CYCLE):
 
 def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     return get_url_json('aggregates/indiv/%s/sparkline.json' % entity_id, cycle)
+    
+def org_fed_spending(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/org/%s/fed_spending.json' % entity_id, cycle, limit, parse_json=parse_json)
 
