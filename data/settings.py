@@ -91,46 +91,48 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
 
-MEDIASYNC_JOINED = {
-    'css/all.css': [
-        'css/ui-lightness/jquery-ui-1.7.2.custom.css',
-        'css/jquery.autocomplete.css',
-        'css/main.css'
-    ],
-    '3rdparty.js': [
-        'js/jquery-1.4.2.min.js',
-        'js/jquery-ui-1.7.2.custom.min.js',
-        'js/jquery.currency.js',
-        'js/underscore-min.js'
-    ],
-    'contracts.js': [
-        'js/td.js',
-        'js/td.fields.js',
-        'js/td.contracts.js'
-    ],
-    'contributions.js': [
-        'js/td.js',
-        'js/td.fields.js',
-        'js/td.contributions.js'
-    ],
-    'grants.js': [
-        'js/td.js',
-        'js/td.fields.js',
-        'js/td.grants.js'
-    ],
-    'lobbying.js': [
-        'js/td.js',
-        'js/td.fields.js',
-        'js/td.lobbying.js'
-    ],
-    'index.js': [
-        'js/td.js',
-        'js/td.fields.js',
-        'js/td.contracts.js',
-        'js/td.grants.js',
-        'js/td.lobbying.js',
-        'js/td.contributions.js'
-    ],
+MEDIASYNC = {
+    'JOINED': {
+        'css/all.css': [
+            'css/ui-lightness/jquery-ui-1.7.2.custom.css',
+            'css/jquery.autocomplete.css',
+            'css/main.css'
+        ],
+        '3rdparty.js': [
+            'js/jquery-1.4.2.min.js',
+            'js/jquery-ui-1.7.2.custom.min.js',
+            'js/jquery.currency.js',
+            'js/underscore-min.js'
+        ],
+        'contracts.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.contracts.js'
+        ],
+        'contributions.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.contributions.js'
+        ],
+        'grants.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.grants.js'
+        ],
+        'lobbying.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.lobbying.js'
+        ],
+        'index.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.contracts.js',
+            'js/td.grants.js',
+            'js/td.lobbying.js',
+            'js/td.contributions.js'
+        ],
+    }
 }
 
 # timeout set to a week
