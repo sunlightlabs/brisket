@@ -74,6 +74,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
+    'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
 )
 
@@ -109,17 +110,19 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
-MEDIASYNC_JOINED = {
-    'js/brisket-all.js': (
-        'js/jquery.tablesorter.min.js',
-        'js/underscore-1.0.2.min.js',
-        'js/g.raphael.js',
-        'js/g.pie.js',
-        'js/g.bar.patched.js',
-        'js/g.line.js',
-        'js/brisket_charts.js',
-        'js/brisket.js',
-    )
+MEDIASYNC = {
+    'JOINED': {
+        'js/brisket-all.js': [
+            'js/jquery.tablesorter.min.js',
+            'js/underscore-1.0.2.min.js',
+            'js/g.raphael.js',
+            'js/g.pie.js',
+            'js/g.bar.patched.js',
+            'js/g.line.js',
+            'js/brisket_charts.js',
+            'js/brisket.js',
+        ]
+    }
 }
 
 LATEST_CYCLE = 2010
