@@ -110,17 +110,19 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
-MEDIASYNC_JOINED = {
-    'js/brisket-all.js': (
-        'js/jquery.tablesorter.min.js',
-        'js/underscore-1.0.2.min.js',
-        'js/g.raphael.js',
-        'js/g.pie.js',
-        'js/g.bar.patched.js',
-        'js/g.line.js',
-        'js/brisket_charts.js',
-        'js/brisket.js',
-    )
+MEDIASYNC = {
+    'JOINED': {
+        'js/brisket-all.js': [
+            'js/jquery.tablesorter.min.js',
+            'js/underscore-1.0.2.min.js',
+            'js/g.raphael.js',
+            'js/g.pie.js',
+            'js/g.bar.patched.js',
+            'js/g.line.js',
+            'js/brisket_charts.js',
+            'js/brisket.js',
+        ]
+    }
 }
 
 LATEST_CYCLE = 2010
