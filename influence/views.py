@@ -1,3 +1,4 @@
+# coding=utf-8
 
 import urllib, re, datetime
 import api, external_sites
@@ -40,18 +41,20 @@ def search(request):
     submitted_form = SearchForm(request.GET)
     if submitted_form.is_valid():
         kwargs = {}
-        query = urllib.unquote(submitted_form.cleaned_data['query']).strip()
+        query = submitted_form.cleaned_data['query'].strip()
         cycle = request.GET.get('cycle', DEFAULT_CYCLE)
         
-        query = normalize_search_query(query)
-        
+        # see ticket #545
+        query = query.replace(u"’", "'")
+                
         # if a user submitted the search value from the form, then
         # treat the hyphens as intentional. if it was from a url, then
         # the name has probably been slug-ized and we need to remove
         # any single occurences of hyphens.
         if not request.GET.get('from_form', None):
             query = query.replace('-', ' ')
-        results = api.entity_search(urllib.quote(query))
+                    
+        results = api.entity_search(query)
 
         # limit the results to only those entities with an ID.
         entity_results = [result for result in results if result['id']]
@@ -63,9 +66,10 @@ def search(request):
             _id = entity_results[0]['id']
             return HttpResponseRedirect('/%s/%s/%s%s' % (result_type, name, _id, "?cycle=" + cycle if cycle != "-1" else ""))
 
+        kwargs['query'] = query
+
         if len(entity_results) == 0:
             kwargs['sorted_results'] = None
-            kwargs['query'] = query
         else:
             # sort the results by type
             sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': []}
@@ -86,7 +90,6 @@ def search(request):
             kwargs['num_pols']   = len(sorted_results['politician'])
             kwargs['num_indivs'] = len(sorted_results['individual'])
             kwargs['num_firms']  = len(sorted_results['lobbying_firm'])
-            kwargs['query'] = query
             kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results
         return render_to_response('results.html', kwargs, brisket_context(request))
