@@ -1,5 +1,0 @@
--e svn+http://code.djangoproject.com/svn/django/trunk/#egg=django
-django-debug-toolbar
-django-piston
--e git://github.com/sunlightlabs/django-locksmith.git#egg=locksmith
-#python-psycopg2
