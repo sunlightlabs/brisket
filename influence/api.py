@@ -171,6 +171,9 @@ def top_n_organizations(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=Tru
 def top_n_politicians(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
     return get_url_json('aggregates/pols/top_%s.json' % limit, cycle, parse_json=parse_json)
 
+def top_n_industries(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+    return get_url_json('aggregates/industries/top_%s.json' % limit, cycle, parse_json=parse_json)
+
 
 def org_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     return get_url_json('aggregates/org/%s/sparkline.json' % entity_id, cycle)

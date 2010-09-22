@@ -119,9 +119,7 @@ def politician_landing(request):
 
 def industry_landing(request):
     context = {}
-    
-    # temporary code for fetching industries until a real API is available
-    context['top_n_industries'] = api.entity_list(0, 1000, 'industry')
+    context['top_n_industries'] = api.top_n_industries(cycle=LATEST_CYCLE, limit=50)
     context['num_industries'] = len(context['top_n_industries'])
     context['cycle'] = LATEST_CYCLE
     return render_to_response('industry_landing.html', context, brisket_context(request))
