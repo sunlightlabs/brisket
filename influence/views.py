@@ -209,6 +209,7 @@ def organization_entity(request, entity_id):
         context['grants_and_contracts'] = spending
         context['gc_min_year'] = min(spending, key=lambda s: s['fiscal_year'])['fiscal_year']
         context['gc_max_year'] = max(spending, key=lambda s: s['fiscal_year'])['fiscal_year']
+        context['gc_links'] = external_sites.get_gc_links(standardize_organization_name(entity_info['name']), cycle)
 
     return render_to_response('organization.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))

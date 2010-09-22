@@ -1,7 +1,8 @@
 from django.utils.functional import curry
-import base64
+import base64, urllib
+import json
 
-
+# contribution links
 def get_crp_url(type, standardized_name, ids, cycle=None):
     if (type == 'politician' and 'urn:crp:recipient' in ids) or type != 'politician':
         return "http://www.opensecrets.org/usearch/index.php?q=%s" % standardized_name
@@ -45,3 +46,32 @@ def get_links(type, standardized_name, namespaces_and_ids, cycle):
 get_organization_links = curry(get_links, 'organization')
 get_individual_links = curry(get_links, 'individual')
 get_politician_links = curry(get_links, 'politician')
+
+
+# grants and contracts links
+def get_gc_links(standardized_name, cycle):
+    # TD
+    td_keywords = {}
+    if cycle != '-1':
+        td_keywords['fiscal_year'] = "%s|%s" % (int(cycle) - 1, cycle)
+    
+    grant_keywords = td_keywords.copy()
+    grant_keywords.update({'recipient_ft': standardized_name})
+    
+    contract_keywords = td_keywords.copy()
+    contract_keywords.update({'vendor_name': standardized_name})
+    
+    links = [
+        dict(text='Grants on TransparencyData.com', url="http://transparencydata.com/grants/#%s" % base64.b64encode(urllib.urlencode(grant_keywords))),
+        dict(text='Contracts on TransparencyData.com', url="http://transparencydata.com/contracts/#%s" % base64.b64encode(urllib.urlencode(contract_keywords)))
+    ]
+    
+    # USA Spending
+    usa_keywords = {'RecipientNameText': [standardized_name]}
+    if cycle != '-1':
+        usa_keywords['FiscalYear'] = [str(int(cycle) - 1), cycle]
+    links.append(
+        dict(text='USASpending.gov', url="http://usaspending.gov/search?query=&formFields=%s" % base64.b64encode(urllib.quote(json.dumps(usa_keywords))))
+    )
+    
+    return links

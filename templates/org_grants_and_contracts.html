@@ -38,4 +38,15 @@
   </table>
   
   <div class="clear"></div>
+  
+  <div class="external">
+    {% if gc_links %}
+    For more information on grants and contracts:
+    {% for link in gc_links %}
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+    {% endfor %}
+    {% endif %}
+  </div>
+  
+  <div class="clear"></div>
 </div><!-- end chartModule -->
