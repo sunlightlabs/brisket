@@ -117,31 +117,41 @@ def politician_landing(request):
     context['cycle'] = LATEST_CYCLE
     return render_to_response('pol_landing.html', context, brisket_context(request))
 
-def organization_entity(request, entity_id):
+def industry_landing(request):
+    context = {}
+    
+    # temporary code for fetching industries until a real API is available
+    context['top_n_industries'] = api.entity_list(0, 1000, 'industry')
+    context['num_industries'] = len(context['top_n_industries'])
+    context['cycle'] = LATEST_CYCLE
+    return render_to_response('industry_landing.html', context, brisket_context(request))
+
+def org_industry_entity(request, entity_id, type='organization'):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     context = {}
     context['entity_id'] = entity_id
     context['cycle'] = cycle
 
-    metadata = get_metadata(entity_id, cycle, "organization")
+    metadata = get_metadata(entity_id, cycle, type)
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
     context['entity_info'] = entity_info
     
     # a little error-checking now that we have the entity info
-    check_entity(entity_info, cycle, 'organization')
+    check_entity(entity_info, cycle, type)
 
     entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
-
-    context['external_links'] = external_sites.get_organization_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
+    
+    if type == 'organization':
+        context['external_links'] = external_sites.get_organization_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     # get contributions data if it exists for this entity
     if metadata['contributions']:
         context['contributions_data'] = True
-        org_recipients = api.org_recipients(entity_id, cycle=cycle)
+        recipients = api.org_recipients(entity_id, cycle=cycle)
 
         recipients_barchart_data = []
-        for record in org_recipients:
+        for record in recipients:
             recipients_barchart_data.append({
                     'key': generate_label(standardize_politician_name_with_metadata(record['name'], record['party'], record['state'])),
                     'value' : record['total_amount'],
@@ -203,8 +213,14 @@ def organization_entity(request, entity_id):
             context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
 
 
-    return render_to_response('organization.html', context,
+    return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
+
+def organization_entity(request, entity_id):
+    return org_industry_entity(request, entity_id, 'organization')
+
+def industry_entity(request, entity_id):
+    return org_industry_entity(request, entity_id, 'industry')
 
 
 def politician_entity(request, entity_id):

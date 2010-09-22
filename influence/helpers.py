@@ -41,6 +41,12 @@ def standardize_organization_name(name):
 
     return name
 
+def standardize_industry_name(name):
+    name = convert_case(name)
+    name = name.strip()
+    
+    return name
+
 def separate_affixes(name):
     # this should match both honorifics (mr/mrs/ms) and jr/sr/II/III
     matches = re.search(r'^\s*(?P<name>.*)\b((?P<honorific>m[rs]s?.?)|(?P<suffix>([js]r|I{2,})))[.,]?\s*$', name, re.IGNORECASE)
@@ -214,6 +220,7 @@ def get_metadata(entity_id, cycle, entity_type):
     section_indicators = {\
         'individual':   {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
         'organization': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
+        'industry': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
         'politician':   {'contributions': ['recipient_amount']}\
     }
 
