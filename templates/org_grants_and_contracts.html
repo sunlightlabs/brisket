@@ -26,7 +26,7 @@
     <tbody>
     {% for row in grants_and_contracts %}
       <tr class="{% cycle 'even' 'odd' %}">
-        <td><div class="label-{% if row.type = 'g' %}grant{% else %}contract{% endif %}">{{ row.type }}</div></td>
+        <td><div class="label-{% if row.type = 'g' %}grant{% else %}contract{% endif %}">{% if row.type = 'g' %}grant{% else %}contract{% endif %}</div></td>
         <td>{{ row.recipient_name|standardize_organization_name }}</td>
 	    <td>{{ row.fiscal_year }}</td>
 	    <td>{{ row.agency_name|standardize_organization_name }}</td>
