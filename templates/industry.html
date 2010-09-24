@@ -18,6 +18,7 @@ $(document).ready(function() {
   piechart("piechart_level", {% if level_breakdown %}{{ level_breakdown|safe }}{% else %}{}{% endif %});
   piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
   barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
+  barchart("organizations_barchart", {% if top_orgs %}{{ top_orgs|safe }} {% else %} [] {% endif %});
 });
 </script>
 {% endblock %}
