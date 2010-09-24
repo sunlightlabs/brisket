@@ -72,7 +72,7 @@ def search(request):
             kwargs['sorted_results'] = None
         else:
             # sort the results by type
-            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': []}
+            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': [], 'industry': []}
             for result in entity_results:
                 if result['type'] == 'organization' and result['lobbying_firm'] == True:
                     sorted_results['lobbying_firm'].append(result)
@@ -80,12 +80,14 @@ def search(request):
                     sorted_results[result['type']].append(result)
 
             # sort each type by amount
+            sorted_results['industry']      = sorted(sorted_results['industry'],      key=lambda x: float(x['total_given']), reverse=True)
             sorted_results['organization']  = sorted(sorted_results['organization'],  key=lambda x: float(x['total_given']), reverse=True)
             sorted_results['individual']    = sorted(sorted_results['individual'],    key=lambda x: float(x['total_given']), reverse=True)
             sorted_results['politician']    = sorted(sorted_results['politician'],    key=lambda x: float(x['total_received']), reverse=True)
             sorted_results['lobbying_firm'] = sorted(sorted_results['lobbying_firm'], key=lambda x: float(x['firm_income']), reverse=True)
 
             # keep track of how many there are of each type of result
+            kwargs['num_industries']   = len(sorted_results['industry'])
             kwargs['num_orgs']   = len(sorted_results['organization'])
             kwargs['num_pols']   = len(sorted_results['politician'])
             kwargs['num_indivs'] = len(sorted_results['individual'])

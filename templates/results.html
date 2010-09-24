@@ -28,6 +28,33 @@
       </p>
   </div>
 
+  {% if num_industries %}
+  <div class="searchBox">
+    <h3>Matching Industries</h3>
+    <span class="results">{{ num_industries }} Result{{num_industries|pluralize}}</span>
+      <table class="threeColumn clear sortable">
+          <thead>
+              <tr id="titles">
+                  <th class="left sort">Name</th>
+                  <th class="right sort">Records</th>
+                  <th class="right sort">Lobbying Spending</th>
+                  <th class="right sort">Campaign Contributions</th>
+              </tr>
+          </thead>
+          <tbody>
+          {% for result in sorted_results.industry %}
+              <tr class="{% cycle 'even' 'odd' %}">
+                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_industry_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_industry_name}}</a></td>
+                  <td class="right">{{result.count_lobbied|add:result.count_given}}</td>
+                  <td class="right">{% if result.non_firm_spending %}${% endif %}{{ result.non_firm_spending|floatformat:0|intcomma }}</td>
+                  <td class="right">${{ result.total_given|floatformat:0|intcomma }}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  {% endif %}
+  
   {% if num_orgs %}
   <div class="searchBox">
     <h3>Matching Organizations</h3>
