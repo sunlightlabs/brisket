@@ -2,6 +2,10 @@
 {% load humanize %}
 {% load influence_extras %}
 
+{% block pagetitle %}
+    Results {% if sorted_results %}for &#8220;{{ query|title }}&#8221; {% endif %}| 
+{% endblock %}
+
 {% block main %}
 
 <div id="contentHeader">
@@ -55,84 +59,6 @@
   </div>
   {% endif %}
   
-  {% if num_orgs %}
-  <div class="searchBox">
-    <h3>Matching Organizations</h3>
-    <span class="results">{{ num_orgs }} Result{{num_orgs|pluralize}}</span>
-      <table class="threeColumn clear sortable">
-          <thead>
-              <tr id="titles">
-                  <th class="left sort">Name</th>
-                  <th class="right sort">Records</th>
-                  <th class="right sort">Lobbying Spending</th>
-                  <th class="right sort">Campaign Contributions</th>
-              </tr>
-          </thead>
-          <tbody>
-          {% for result in sorted_results.organization %}
-              <tr class="{% cycle 'even' 'odd' %}">
-                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_organization_name}}</a></td>
-                  <td class="right">{{result.count_lobbied|add:result.count_given}}</td>
-                  <td class="right">{% if result.non_firm_spending %}${% endif %}{{ result.non_firm_spending|floatformat:0|intcomma }}</td>
-                  <td class="right">${{ result.total_given|floatformat:0|intcomma }}</td>
-              </tr>
-          {% endfor %}
-          </tbody>
-      </table>
-  </div>
-  {% endif %}
-
-  {% if num_firms %}
-  <div class="searchBox">
-    <h3>Matching Lobbying Firms</h3>
-    <span class="results">{{ num_firms }} Result{{num_firms|pluralize}}</span>
-      <table class="threeColumn clear sortable">
-          <thead>
-              <tr id="titles">
-                  <th class="left sort">Name</th>
-                  <th class="right sort">Records</th>
-                  <th class="right sort">Lobbying Income</th>
-                  <th class="right sort">Campaign Contributions</th>
-              </tr>
-          </thead>
-          <tbody>
-          {% for result in sorted_results.lobbying_firm %}
-              <tr class="{% cycle 'even' 'odd' %}">
-                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_organization_name}}</a></td>
-                  <td class="right">{{result.count_lobbied|add:result.count_given}}</td>
-                  <td class="right">${{ result.firm_income|floatformat:0|intcomma }}</td>
-                  <td class="right">{% if result.total_given %}${% endif %}{{ result.total_given|floatformat:0|intcomma }}</td>
-              </tr>
-          {% endfor %}
-          </tbody>
-      </table>
-  </div>
-  {% endif %}
-
-  {% if num_indivs %}
-  <div class="searchBox clear">
-    <h3>Matching People</h3>
-    <span class="results">{{ num_indivs }} Result{{num_indivs|pluralize}}</span>
-    <table class="threeColumn clear sortable">
-        <thead>
-            <tr id="titles">
-                <th class="left sort">Name</th>
-                <th class="right sort">Records</th>
-                <th class="right sort">Campaign Contributions</th>
-            </tr>
-        <tbody>
-        {% for result in sorted_results.individual %}
-            <tr class="{% cycle 'even' 'odd' %}">
-                <td class="left"><a href="/{{ result.type }}/{{ result.name|standardize_individual_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_individual_name}}</a></td>
-                <td class="right">{{result.count_given}}</td>
-                <td class="right">${{ result.total_given|floatformat:0|intcomma }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-  </div>
-  {% endif %}
-
-
   {% if num_pols %}
   <div class="searchBox clear">
       <h3>Matching Politicians</h3>
@@ -167,6 +93,83 @@
   <div class="twoColumn chartWrapper">
     <div class="clear">
     </div>
+  </div>
+  {% endif %}
+  
+  {% if num_firms %}
+  <div class="searchBox">
+    <h3>Matching Lobbying Firms</h3>
+    <span class="results">{{ num_firms }} Result{{num_firms|pluralize}}</span>
+      <table class="threeColumn clear sortable">
+          <thead>
+              <tr id="titles">
+                  <th class="left sort">Name</th>
+                  <th class="right sort">Records</th>
+                  <th class="right sort">Lobbying Income</th>
+                  <th class="right sort">Campaign Contributions</th>
+              </tr>
+          </thead>
+          <tbody>
+          {% for result in sorted_results.lobbying_firm %}
+              <tr class="{% cycle 'even' 'odd' %}">
+                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_organization_name}}</a></td>
+                  <td class="right">{{result.count_lobbied|add:result.count_given}}</td>
+                  <td class="right">${{ result.firm_income|floatformat:0|intcomma }}</td>
+                  <td class="right">{% if result.total_given %}${% endif %}{{ result.total_given|floatformat:0|intcomma }}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  {% endif %}
+  
+  {% if num_orgs %}
+  <div class="searchBox">
+    <h3>Matching Organizations</h3>
+    <span class="results">{{ num_orgs }} Result{{num_orgs|pluralize}}</span>
+      <table class="threeColumn clear sortable">
+          <thead>
+              <tr id="titles">
+                  <th class="left sort">Name</th>
+                  <th class="right sort">Records</th>
+                  <th class="right sort">Lobbying Spending</th>
+                  <th class="right sort">Campaign Contributions</th>
+              </tr>
+          </thead>
+          <tbody>
+          {% for result in sorted_results.organization %}
+              <tr class="{% cycle 'even' 'odd' %}">
+                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_organization_name}}</a></td>
+                  <td class="right">{{result.count_lobbied|add:result.count_given}}</td>
+                  <td class="right">{% if result.non_firm_spending %}${% endif %}{{ result.non_firm_spending|floatformat:0|intcomma }}</td>
+                  <td class="right">${{ result.total_given|floatformat:0|intcomma }}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  {% endif %}
+
+  {% if num_indivs %}
+  <div class="searchBox clear">
+    <h3>Matching People</h3>
+    <span class="results">{{ num_indivs }} Result{{num_indivs|pluralize}}</span>
+    <table class="threeColumn clear sortable">
+        <thead>
+            <tr id="titles">
+                <th class="left sort">Name</th>
+                <th class="right sort">Records</th>
+                <th class="right sort">Campaign Contributions</th>
+            </tr>
+        <tbody>
+        {% for result in sorted_results.individual %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td class="left"><a href="/{{ result.type }}/{{ result.name|standardize_individual_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_individual_name}}</a></td>
+                <td class="right">{{result.count_given}}</td>
+                <td class="right">${{ result.total_given|floatformat:0|intcomma }}</td>
+            </tr>
+        {% endfor %}
+    </table>
   </div>
   {% endif %}
 
