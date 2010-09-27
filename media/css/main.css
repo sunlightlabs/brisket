@@ -221,3 +221,33 @@ form#contact li { margin-bottom: 15px;}
 .addthis_toolbox { float: right !important; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; }
 .addthis_toolbox a { text-decoration: none; color: #989393; }
 .addthis_toolbox img { float: right; margin-left: 6px; }
+
+table .recipient{
+padding-left: 10px;
+width: 190px;
+}
+
+table .agency{
+padding-left: 10px;
+width: 195px;
+}
+
+table .description{
+padding-left: 10px;
+width: 180px;
+}
+
+table .type{
+padding-left: 10px;
+width: 75px;
+}
+
+table .year{
+padding-left: 10px;
+width: 75px;
+}
+
+table .amount{
+padding-right: 10px;
+width: 100px;
+}
