@@ -258,7 +258,7 @@ def politician_entity(request, entity_id):
         context['contributions_data'] = True
 
         top_contributors = api.pol_contributors(entity_id, cycle)
-        top_sectors = api.pol_sectors(entity_id, cycle=cycle)
+        top_industries = api.pol_industries(entity_id, cycle=cycle)
 
         contributors_barchart_data = []
         for record in top_contributors:
@@ -271,18 +271,13 @@ def politician_entity(request, entity_id):
             })
         context['contributors_barchart_data'] = json.dumps(bar_validate(contributors_barchart_data))
 
-        # top sectors is already sorted
-        sectors_barchart_data = []
-        for record in top_sectors:
-            try:
-                sector_name = catcodes.sector[record['sector']]
-            except:
-                sector_name = 'Unknown (%s)' % record['sector']
-            sectors_barchart_data.append({
-                    'key': generate_label(sector_name),
-                    'value' : record['amount'],
-                    })
-        context['sectors_barchart_data'] = json.dumps(bar_validate(sectors_barchart_data))
+        industries_barchart_data = []
+        for record in top_industries:
+            industries_barchart_data.append({
+                'key': generate_label(record['industry']),
+                'value' : record['amount'],
+            })
+        context['industries_barchart_data'] = json.dumps(bar_validate(industries_barchart_data))
 
         local_breakdown = api.pol_local_breakdown(entity_id, cycle)
         for key, values in local_breakdown.iteritems():
@@ -303,7 +298,7 @@ def politician_entity(request, entity_id):
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 
-        elif (not context['sectors_barchart_data']
+        elif (not context['industries_barchart_data']
             and not context['contributors_barchart_data']
             and not context['local_breakdown']
             and not context['entity_breakdown']):
