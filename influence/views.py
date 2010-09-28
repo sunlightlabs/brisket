@@ -142,9 +142,11 @@ def org_industry_entity(request, entity_id, type='organization'):
 
     entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
     
-    if type == 'organization':
-        context['external_links'] = external_sites.get_organization_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
-    else:
+    standardized_name = standardize_organization_name(entity_info['name']) if type == 'organization' else standardize_industry_name(entity_info['name'])
+    
+    context['external_links'] = external_sites.get_links(type, standardized_name, entity_info['external_ids'], cycle)
+    
+    if type == 'industry':
         context['top_orgs'] = json.dumps([
             {
                 'key': generate_label(standardize_organization_name(org['organization_name'])),
