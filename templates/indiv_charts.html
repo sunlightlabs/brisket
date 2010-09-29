@@ -22,6 +22,7 @@
 
 <div class="clear"></div> <!-- start a new row -->
 
+{% if orgs_barchart_data and orgs_barchart_data != "[]" %}
 <div class="twoColumn chartWrapper">
   <div class="chart">
     {% if orgs_barchart_data %}
@@ -34,4 +35,4 @@
 </div>
 
 <div class="clear"></div> <!-- start a new row -->
-
+{% endif %}
