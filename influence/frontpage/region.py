@@ -13,8 +13,8 @@ class Region(object):
         template_static = os.path.join(settings.TEMPLATE_DIRS[0], self.output)
         
         out = render_to_string(self.template, self.get_context())
-        f = open(template_static, 'w')
-        f.write(out)
+        f = open(template_static, 'wb')
+        f.write(out.encode('utf-8'))
         f.close()
     
     def get_context(self):
