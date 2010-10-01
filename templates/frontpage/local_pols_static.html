@@ -1,0 +1,27 @@
+<div class="overviewBar"><h3 class="insideBar">Your Representatives</h3></div>
+
+<div class="reps">
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        // fetch IP address
+        $.getJSON("http://ipinfodb.com/ip_query.php?output=json&timezone=false&callback=?", function(data) {
+            // fetch congresspeople
+            $.getJSON("http://services.sunlightlabs.com/api/legislators.allForLatLong.json?latitude=" + data.Latitude + "&longitude=" + data.Longitude + "&apikey=" + sunlightApiKey + "&jsonp=?", function(congress) {
+                $.each(congress.response.legislators, function(num, l) {
+                    var leg = l.legislator;
+                    $.getJSON("http://transparencydata.com/api/1.0/entities/id_lookup.json?apikey=" + sunlightApiKey + "&namespace=urn:crp:recipient&id=" + leg.crp_id + "&callback=?", function(crp) {
+                        var html = "<div class='legislator'>"
+                            + "<img src='http://assets.sunlightfoundation.com/moc/100x125/" + leg.bioguide_id + ".jpg' />"
+                            + "<h4 class='key'>" + leg.title + ". " + leg.firstname + " " + leg.middlename + " " + leg.lastname + " (" + leg.party + "-" + leg.state + ")</h4>"
+                            + "<a href='/politician/" + leg.firstname.toLowerCase() + "-" + leg.lastname.toLowerCase() + "/" + crp[0].id + "'>Learn more about this politician &raquo;</a>"
+                            + "<div class='clear'></div>"
+                            + "</div>";
+                        $(".frontRight .reps").append(html);
+                    });
+                });
+            });
+        })
+    })
+</script>

@@ -1,16 +1,16 @@
-from django.core.management.base import BaseCommand, CommandError
+from influence.frontpage.region import Region
+from influence.frontpage import register_region
 from django.conf import settings
-from django.template import Context
 from django.template.loader import render_to_string
 import urlparse
 from datetime import datetime, timedelta
 from influence import api
 from influence.models import PageRequest
 
-class Command(BaseCommand):
-    help = 'Generates top news area on home page.'
+class TopPages(Region):
+    name = 'top_pages'
     
-    def handle(self, *args, **options):
+    def get_context(self):
         # grab significant entities
         searches = PageRequest.objects.filter(path='/search', requested_at__gte=datetime.now() - timedelta(days=3))
         counts = {}
@@ -25,8 +25,7 @@ class Command(BaseCommand):
         
         cloud = tagcloud(counts, 5)
         
-        out = render_to_string('frontpage/searches.html', Context({'cloud': cloud}))
-        print out
+        return {'cloud': cloud}
 
 # altered from the version found here: http://dburke.info/blog/logarithmic-tag-clouds/
 from math import log
@@ -53,3 +52,5 @@ def tagcloud(initial_counts, threshold=0, maxsize=1.75, minsize=.75):
         tagcloud.append({'tag': tag, 'count': count, 'size': round(size, 7)})
     tagcloud.sort(cmp=lambda a, b: cmp(a['tag'], b['tag']))
     return tagcloud
+
+register_region(TopPages)

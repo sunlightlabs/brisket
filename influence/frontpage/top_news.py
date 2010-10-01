@@ -1,7 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from influence.frontpage.region import Region
+from influence.frontpage import register_region
 from django.conf import settings
-from django.template import Context
-from django.template.loader import render_to_string
 import feedparser, re
 from supertagging.calais import Calais
 from influence import api
@@ -9,18 +8,10 @@ from util import catcodes
 from influence.helpers import generate_label, pie_validate
 import json
 
-class Command(BaseCommand):
-    help = 'Generates top news area on home page.'
+class TopNews(Region):    
+    name = 'top_news'
     
-    def handle(self, *args, **options):
-        # grab significant entities
-        news_entities = self.fetch_entities()
-        
-        out = render_to_string('frontpage/news.html', Context({'entities': news_entities}))
-        print out
-        
-    
-    def fetch_entities(self):
+    def get_context(self):
         entities = []
         font_tag = re.compile(r'<font size="-1">(.*?)</font>')
         all_tags = re.compile(r'(<.*?>|[^a-zA-Z0-9\.\'\,\-\:\? ])')
@@ -89,7 +80,9 @@ class Command(BaseCommand):
                 out_entities.append(entity)
                 seen_so_far.append(entity['id'])
         
-        return out_entities[:5]
+        return {'entities': out_entities[:5]}
+
+register_region(TopNews)
 
 def compare_entities(a, b):
     # first look at Calais's relevance metric
