@@ -68,6 +68,17 @@
   </div>
 <div class="clear"></div>
 
+<div class="external">
+  {% if lobbying_links %}
+    For more information on lobbying:
+    {% for link in lobbying_links %}
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+    {% endfor %}
+  {% endif %}
+</div>
+  
+<div class="clear"></div>
+
 </div> <!-- end div chartModule -->
 {% endif %}
 
