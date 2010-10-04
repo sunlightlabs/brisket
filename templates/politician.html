@@ -27,7 +27,7 @@ $(document).ready(function() {
     sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
     piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
     piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
-    barchart("sectors_barchart", {% if sectors_barchart_data %}{{ sectors_barchart_data|safe }} {% else %}[]{% endif %});
+    barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
     barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
 });
 </script>

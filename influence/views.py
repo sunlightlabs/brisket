@@ -200,10 +200,12 @@ def organization_entity(request, entity_id):
             context['lobbying_lobbyists'] = api.org_registrant_lobbyists(entity_id, cycle)
             context['lobbying_issues'] =  [item['issue'] for item in
                                            api.org_registrant_issues(entity_id, cycle)]
+            context['lobbying_links'] = external_sites.get_lobbying_links('firm', standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
         else:
             context['lobbying_clients'] = api.org_registrants(entity_id, cycle)
             context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
             context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
+            context['lobbying_links'] = external_sites.get_lobbying_links('client', standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     # Grants and Contracts
     spending = api.org_fed_spending(entity_id, cycle)
@@ -252,7 +254,7 @@ def politician_entity(request, entity_id):
         context['contributions_data'] = True
 
         top_contributors = api.pol_contributors(entity_id, cycle)
-        top_sectors = api.pol_sectors(entity_id, cycle=cycle)
+        top_industries = api.pol_industries(entity_id, cycle=cycle)
 
         contributors_barchart_data = []
         for record in top_contributors:
@@ -265,18 +267,13 @@ def politician_entity(request, entity_id):
             })
         context['contributors_barchart_data'] = json.dumps(bar_validate(contributors_barchart_data))
 
-        # top sectors is already sorted
-        sectors_barchart_data = []
-        for record in top_sectors:
-            try:
-                sector_name = catcodes.sector[record['sector']]
-            except:
-                sector_name = 'Unknown (%s)' % record['sector']
-            sectors_barchart_data.append({
-                    'key': generate_label(sector_name),
-                    'value' : record['amount'],
-                    })
-        context['sectors_barchart_data'] = json.dumps(bar_validate(sectors_barchart_data))
+        industries_barchart_data = []
+        for record in top_industries:
+            industries_barchart_data.append({
+                'key': generate_label(record['industry']),
+                'value' : record['amount'],
+            })
+        context['industries_barchart_data'] = json.dumps(bar_validate(industries_barchart_data))
 
         local_breakdown = api.pol_local_breakdown(entity_id, cycle)
         for key, values in local_breakdown.iteritems():
@@ -297,7 +294,7 @@ def politician_entity(request, entity_id):
             context['suppress_contrib_graphs'] = True
             context['reason'] = "negative"
 
-        elif (not context['sectors_barchart_data']
+        elif (not context['industries_barchart_data']
             and not context['contributors_barchart_data']
             and not context['local_breakdown']
             and not context['entity_breakdown']):
@@ -379,6 +376,7 @@ def individual_entity(request, entity_id):
         context['lobbying_with_firm'] = api.indiv_registrants(entity_id, cycle)
         context['issues_lobbied_for'] =  [item['issue'] for item in api.indiv_issues(entity_id, cycle)]
         context['lobbying_for_clients'] = api.indiv_clients(entity_id, cycle)
+        context['lobbying_links'] = external_sites.get_lobbying_links('lobbyist', standardize_individual_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     return render_to_response('individual.html', context,
                               entity_context(request, cycle, available_cycles))
