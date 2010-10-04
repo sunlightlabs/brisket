@@ -1,7 +1,14 @@
+{% load humanize %}
+{% load influence_extras %}
+
 <div class="overviewBar"><h3 class="insideBar">Top Searches</h3></div>
 
-<div class="searchCloud">
-    {% for term in cloud %}
-        <a href="/search?query={{ term.tag }}" style="font-size: {{ term.size }}em;">{{ term.tag }}</a>
+<div class="topPages">
+    <ul>
+    {% for page in top_pages %}
+        <li>
+            <div class="rankBar percent{{ page.percentage }}"></div>
+            <div class="rankItem"><a href="/{{ page.metadata.type }}/{{ page.metadata|standardize_name|slugify }}/{{ page.id }}">{{ page.metadata|standardize_name }}</a> ({{ page.count }} views)</div>
     {% endfor %}
+    </ul>
 </div>

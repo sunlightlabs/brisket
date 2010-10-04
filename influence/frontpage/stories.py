@@ -1,33 +1,29 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
-from django.template import Context
-from django.template.loader import render_to_string
-import feedparser, re
-from supertagging.calais import Calais
+from influence.frontpage.top_news import TopNews
 from influence import api
-from util import catcodes
-from influence.helpers import generate_label, pie_validate
 import json
+from influence.frontpage import register_region
 
-class Command(BaseCommand):
-    help = 'Generates top news area on home page.'
+class Stories(TopNews):
+    name = 'stories'
+    url = 'http://feeds.feedburner.com/SunlightFoundationReportingGroup'
+    to_parse = 5
+    to_return = 1
     
-    def handle(self, *args, **options):
-        # grab significant entities
-        entities = self.fetch_entities(args[1:])
-        
-        out = render_to_string(args[0], Context({'entities': entities}))
-        print out        
-    
-    def fetch_entities(self, ids):
-        entities = []
-        for id in ids:
-            entities.append(api.entity_metadata(id, cycle='-1'))
+    def process_entries(self, pg_entries):
+        for entry in pg_entries:
+            entry['entities'] = sorted(filter(lambda s: s['tdata_id'] is not None, entry['pg_struct']['entities']), cmp=lambda a, b: cmp(a['relevance'], b['relevance']), reverse=True)
+            entry['text'] = entry['pg_struct']['source_content'].split('</p>')[1] + '</p>'
+            
+        # pick the one with the most entities referenced
+        entry = sorted(pg_entries, cmp=lambda a, b: cmp(len(a['entities']), len(b['entities'])))[0]
+        for entity in entry['entities']:
+            entity['metadata'] = api.entity_metadata(entity['tdata_id'], cycle='-1')
         
         # de-dupe entities
         seen_so_far = []
         out_entities = []
-        for entity in entities:
+        for pg_entity in entry['entities']:
+            entity = pg_entity['metadata']
             if entity['id'] not in seen_so_far:
                 if entity['type'] == 'politician':
                     # grab some additional metadata
@@ -56,7 +52,11 @@ class Command(BaseCommand):
                 out_entities.append(entity)
                 seen_so_far.append(entity['id'])
         
-        return out_entities[:5]
+        out = [entry]
+        print out
+        return out
+
+register_region(Stories)
 
 def compare_entities(a, b):
     # first look at Calais's relevance metric

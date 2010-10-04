@@ -1,17 +1,17 @@
-<div class="overviewBar"><h3 class="insideBar">From the Sunlight Blogs</h3></div>
+{% if entries %}
+<div class="overviewBar"><h3 class="insideBar">Sunlight Stories</h3></div>
 <div>
 <div class="chartModule article">
-    <h4 class="key">Top donors to lawmakers fund their official portraits</h4><div class="clear"></div>
+    <h4 class="key">{{ entries.0.title }}</h4><div class="clear"></div>
     <strong>Nancy Watzman</strong><br /><br />
     <div class="textContent">
-         For 24 years, Rep. Bart Gordon, D-Tenn., has represented the sixth district of Tennessee, rising to become the chairman of the House Science Committee. Now he is retiring, but he is planning to leave his likeness behind in the committee room, in the form of an official portrait paid for by corporate donors such as Lockheed Martin, Microsoft, and Northrop Grumman, which are also top contributors to his campaign fund. These companies have contributed a total of $34,000 to the portrait fund.
-        <br /><br />Another lawmaker, House Agriculture Chairman Collin Peterson, D-Minn., who is slated for an easy win in the midterms is also raising money for an official portrait, with his top campaign donor, Monsanto, helping finance the cost.
-        <br /><a href="http://reporting.sunlightfoundation.com/2010/corporate-funded-congressional-portraits/" class="frontMoreLink">Read more &raquo;</a>
+         {{ entries.0.text|striptags }}
+        <br /><a href="{{ entries.0.url }}" class="frontMoreLink">Read more &raquo;</a>
     </div>
 </div>
 </div>
 <div class="frontItems">
-{% for entity in entities %}
+{% for entity in entry.0.entities %}
     {% if entity.type = "individual" %}
         {% include "frontpage/individual_tile.html" %}
     {% endif %}
@@ -25,3 +25,4 @@
 <div class="clear"></div>
 </div>
 <div class="clear"></div>
+{% endif %}

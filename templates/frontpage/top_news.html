@@ -6,10 +6,30 @@
     <h4 class="key">{{ entries.0.title }}</h4><div class="clear"></div>
     <strong>{{ entries.0.source }} &mdash; {{ entries.0.date|date:"F j, Y" }}</strong><br /><br />
     
-    {% if entries.0.photo %}<img src="{{ entries.0.photo }}" alt="{{ entries.0.title }}" />{% endif %}
+    {% if entries.0.photo %}<img class='articlePhoto' src="{{ entries.0.photo }}" alt="{{ entries.0.title }}" />{% endif %}
     <div class="textContent">
         {{ entries.0.text|striptags }}
         <br /><a href="{{ entries.0.pg_url }}" class="frontMoreLink">Read more &raquo;</a>
+        <div class="clear"></div>
+        <strong>In this article:</strong>
+        <ul class="ita">
+            {% for entity in entries.0.entities %}
+            <li><img src="{{ entity.sparkline_url }}" alt="" /> <a href="/{{ entity.tdata_type }}/{{ entity.tdata_slug }}/{{ entity.tdata_id }}">{{ entity.name }}</a>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="moreNews">
+        <strong>More stories:</strong>
+        <ul>
+            {% for entry in entries|slice:'1:' %}
+                <li><a href="{{ entry.pg_url }}">{{ entry.title }} ({{ entries.0.source }} &mdash; {{ entries.0.date|date:"N j, Y" }})</a>
+                    <div class="itaShort">
+                        <span class="itaTitle">In this article:</span> {% for entity in entry.entities %}<a href="/{{ entity.tdata_type }}/{{ entity.tdata_slug }}/{{ entity.tdata_id }}">{{ entity.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
     
     <div class="clear"></div>

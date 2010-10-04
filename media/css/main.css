@@ -215,24 +215,20 @@ form#contact li { margin-bottom: 15px;}
 .error #ltColumn ul { list-style: disc; margin-left: 30px; }
 .error #ltColumn ul li { margin-top: 10px; }
 
-.chartTile strong, .frontTop .article strong { text-transform: uppercase; }
-.chartTile a, a.frontMoreLink { float: right; font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
+.chartTile strong, .frontBottom .article strong { text-transform: uppercase; }
+.chartTile a.frontMoreLink { float: right; font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
 .frontLeft .chartTile { width: 400px; padding-left: 15px; margin-left: 25px; }
-.frontTop .article { padding-left: 15px; padding-right: 15px; margin-left: 25px; margin-right: 0px; width: 430px; float: left; margin-bottom: 30px; }
+.frontBottom .article { padding-left: 15px; padding-right: 15px; margin-left: 25px; margin-right: 0px; width: 430px; float: left; margin-bottom: 30px; }
 .chartTile { border-top: 1px dotted #666666; margin-top: 15px; padding-top: 15px; }
 .frontLeft .chartTile:first-child { border-top: none; margin-top: 0px; padding-top: 0px; }
-.chartTile h4, .frontTop .article h4 { margin-bottom: 0px; }
+.chartTile h4, .frontBottom .article h4 { margin-bottom: 0px; }
 
 .frontLeft .overviewBar, .frontRight .overviewBar { margin: 0px; margin-bottom: 10px; width: 420px; }
 .frontLeft { float: left; width: 460px; }
 .frontRight { float: right; width: 460px; }
-.frontTop .overviewBar {margin: 0px; margin-bottom: 10px;}
-.frontTop .chartTile {
-    float: right;
-    width: 400px; padding-right: 15px; margin-right: 25px; padding-left: 20px; border: 0px; background: #edede6; padding-bottom: 5px; }
-.frontTop .frontItems {
-    margin-bottom: 30px;
-}
+.frontBottom .overviewBar {margin: 0px; margin-bottom: 10px; margin-top: 20px;}
+.frontBottom .chartTile { float: right; width: 400px; padding-right: 15px; margin-right: 25px; padding-left: 20px; border: 0px; background: #edede6; padding-bottom: 5px; }
+.frontBottom .frontItems { margin-bottom: 20px; }
 
 .searchCloud {
     padding-right: 25px;
@@ -254,3 +250,17 @@ form#contact li { margin-bottom: 15px;}
 .addthis_toolbox { float: right !important; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; }
 .addthis_toolbox a { text-decoration: none; color: #989393; }
 .addthis_toolbox img { float: right; margin-left: 6px; }
+
+.itaShort { font-size: 90%; }
+.itaTitle { font-weight: bold; }
+.ita li { font-size: 16px; line-height: 20px; margin-left: 15px; }
+.ita img { padding-right: 5px; }
+.ita { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #edede6; }
+.moreNews li { list-style: square; margin-left: 15px; margin-top: 5px; margin-bottom: 5px; }
+.articlePhoto { float: left; margin-right: 10px; margin-bottom: 10px; }
+
+.topPages li { height: 25px; position: relative; margin: 5px; width: 400px; }
+.topPages li .rankBar { position: absolute; height: 25px; top: 0px; left: 0px; background: #edede6; }
+.topPages li .rankItem { position: absolute; height: 25px; top: 0px; left: 0px; line-height: 25px; overflow: hidden; white-space: nowrap; padding-left: 5px; }
+.percent0{width: 0%;} .percent1{width: 1%;} .percent2{width: 2%;} .percent3{width: 3%;} .percent4{width: 4%;} .percent5{width: 5%;} .percent6{width: 6%;} .percent7{width: 7%;} .percent8{width: 8%;} .percent9{width: 9%;} .percent10{width: 10%;} .percent11{width: 11%;} .percent12{width: 12%;} .percent13{width: 13%;} .percent14{width: 14%;} .percent15{width: 15%;} .percent16{width: 16%;} .percent17{width: 17%;} .percent18{width: 18%;} .percent19{width: 19%;} .percent20{width: 20%;} .percent21{width: 21%;} .percent22{width: 22%;} .percent23{width: 23%;} .percent24{width: 24%;} .percent25{width: 25%;} .percent26{width: 26%;} .percent27{width: 27%;} .percent28{width: 28%;} .percent29{width: 29%;} .percent30{width: 30%;} .percent31{width: 31%;} .percent32{width: 32%;} .percent33{width: 33%;} .percent34{width: 34%;} .percent35{width: 35%;} .percent36{width: 36%;} .percent37{width: 37%;} .percent38{width: 38%;} .percent39{width: 39%;} .percent40{width: 40%;} .percent41{width: 41%;} .percent42{width: 42%;} .percent43{width: 43%;} .percent44{width: 44%;} .percent45{width: 45%;} .percent46{width: 46%;} .percent47{width: 47%;} .percent48{width: 48%;} .percent49{width: 49%;} .percent50{width: 50%;} .percent51{width: 51%;} .percent52{width: 52%;} .percent53{width: 53%;} .percent54{width: 54%;} .percent55{width: 55%;} .percent56{width: 56%;} .percent57{width: 57%;} .percent58{width: 58%;} .percent59{width: 59%;} .percent60{width: 60%;} .percent61{width: 61%;} .percent62{width: 62%;} .percent63{width: 63%;} .percent64{width: 64%;} .percent65{width: 65%;} .percent66{width: 66%;} .percent67{width: 67%;} .percent68{width: 68%;} .percent69{width: 69%;} .percent70{width: 70%;} .percent71{width: 71%;} .percent72{width: 72%;} .percent73{width: 73%;} .percent74{width: 74%;} .percent75{width: 75%;} .percent76{width: 76%;} .percent77{width: 77%;} .percent78{width: 78%;} .percent79{width: 79%;} .percent80{width: 80%;} .percent81{width: 81%;} .percent82{width: 82%;} .percent83{width: 83%;} .percent84{width: 84%;} .percent85{width: 85%;} .percent86{width: 86%;} .percent87{width: 87%;} .percent88{width: 88%;} .percent89{width: 89%;} .percent90{width: 90%;} .percent91{width: 91%;} .percent92{width: 92%;} .percent93{width: 93%;} .percent94{width: 94%;} .percent95{width: 95%;} .percent96{width: 96%;} .percent97{width: 97%;} .percent98{width: 98%;} .percent99{width: 99%;} .percent100{width: 100%;}
+.topPages { margin-bottom: 20px; }
