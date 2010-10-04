@@ -16,6 +16,9 @@ try:
 except:
     import simplejson as json
 
+from django.template.defaultfilters import pluralize
+from django.contrib.humanize.templatetags.humanize import apnumber
+
 
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
@@ -210,6 +213,17 @@ def organization_entity(request, entity_id):
         context['gc_min_year'] = min(spending, key=lambda s: s['fiscal_year'])['fiscal_year']
         context['gc_max_year'] = max(spending, key=lambda s: s['fiscal_year'])['fiscal_year']
         context['gc_links'] = external_sites.get_gc_links(standardize_organization_name(entity_info['name']), cycle)
+        
+        gc_found_things = []
+        for gc_type in ['grant', 'contract', 'loan']:
+            if '%s_count' % gc_type in context['entity_info']['totals']:
+                gc_found_things.append('%s %s%s' % (
+                    apnumber(context['entity_info']['totals']['%s_count' % gc_type]),
+                    gc_type,
+                    pluralize(context['entity_info']['totals']['%s_count' % gc_type])
+                ))
+        
+        context['gc_found_things'] = gc_found_things
 
     return render_to_response('organization.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))

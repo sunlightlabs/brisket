@@ -15,12 +15,10 @@
 
 {% if entity_info.totals.contract_count or entity_info.totals.grant_count %}
 <div class="fulltext-disclaimer">Found
-     {% if entity_info.totals.contract_count %}
-	  {{ entity_info.totals.contract_count|apnumber }} contracts
-	  {% if entity_info.totals.grant_count %} and {% endif %}
-     {% endif %}
-     {% if entity_info.totals.grant_count %}
-	  {{ entity_info.totals.grant_count|apnumber }} grants
+     {% if gc_found_things.length = 1 %}
+	  {{ gc_found_things.1 }}
+     {% else %}
+	  {{ gc_found_things|slice:"-1"|join:", " }} and {{ gc_found_things|last }}
      {% endif %}
      containing the words &ldquo;{{ entity_info.name|standardize_organization_name }}&rdquo;
 </div>
@@ -39,7 +37,7 @@
     <tbody>
     {% for row in grants_and_contracts %}
       <tr class="{% cycle 'even' 'odd' %}">
-        <td><div class="label-{% if row.type = 'g' %}grant{% else %}contract{% endif %}">{% if row.type = 'g' %}grant{% else %}contract{% endif %}</div></td>
+        <td><div class="label-{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}">{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}</div></td>
         <td>{{ row.recipient_name|standardize_organization_name }}</td>
 	    <td>{{ row.fiscal_year }}</td>
 	    <td>{{ row.agency_name|standardize_organization_name }}</td>
