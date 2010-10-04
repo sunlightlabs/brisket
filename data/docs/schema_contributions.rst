@@ -64,8 +64,7 @@ contributor_zipcode
 	The self-reported ZIPCode of the contributor.
 
 contributor_category
-	The five character industry category code of the contributor assigned by CRP or NIMSP.
-	http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv
+	The five character industry `category code <http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes.csv>`_ of the contributor assigned by CRP or NIMSP.
 
 organization_name
 	The name of the organization related to the contributor (employee, owner, spouse of owner, etc.). CRP or NIMSP standardized name.
