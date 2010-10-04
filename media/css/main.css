@@ -216,7 +216,7 @@ form#contact li { margin-bottom: 15px;}
 .error #ltColumn ul li { margin-top: 10px; }
 
 .chartTile strong, .frontBottom .article strong { text-transform: uppercase; }
-.chartTile a.frontMoreLink { float: right; font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
+a.frontMoreLink { float: right; font-style: italic; font-family: Georgia, Times New Roman, Times, serif; }
 .frontLeft .chartTile { width: 400px; padding-left: 15px; margin-left: 25px; }
 .frontBottom .article { padding-left: 15px; padding-right: 15px; margin-left: 25px; margin-right: 0px; width: 430px; float: left; margin-bottom: 30px; }
 .chartTile { border-top: 1px dotted #666666; margin-top: 15px; padding-top: 15px; }
@@ -235,6 +235,7 @@ form#contact li { margin-bottom: 15px;}
     margin-bottom: 25px;
 }
 
+.reps { margin-bottom: 20px; }
 .reps .legislator img {
     display: block;
     float: left;
@@ -255,7 +256,7 @@ form#contact li { margin-bottom: 15px;}
 .itaTitle { font-weight: bold; }
 .ita li { font-size: 16px; line-height: 20px; margin-left: 15px; }
 .ita img { padding-right: 5px; }
-.ita { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #edede6; }
+.ita { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dotted #666666; }
 .moreNews li { list-style: square; margin-left: 15px; margin-top: 5px; margin-bottom: 5px; }
 .articlePhoto { float: left; margin-right: 10px; margin-bottom: 10px; }
 

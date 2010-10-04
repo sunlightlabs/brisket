@@ -5,20 +5,20 @@
     <h4 class="key">{{ entries.0.title }}</h4><div class="clear"></div>
     <strong>Nancy Watzman</strong><br /><br />
     <div class="textContent">
-         {{ entries.0.text|striptags }}
-        <br /><a href="{{ entries.0.url }}" class="frontMoreLink">Read more &raquo;</a>
+         {{ entries.0.text|safe }}
+        <br /><a href="{{ entries.0.link }}" class="frontMoreLink">Read more &raquo;</a>
     </div>
 </div>
 </div>
 <div class="frontItems">
-{% for entity in entry.0.entities %}
-    {% if entity.type = "individual" %}
+{% for entity in entries.0.entities %}
+    {% if entity.metadata.type = "individual" %}
         {% include "frontpage/individual_tile.html" %}
     {% endif %}
-    {% if entity.type = "politician" %}
+    {% if entity.metadata.type = "politician" %}
         {% include "frontpage/politician_tile.html" %}
     {% endif %}
-    {% if entity.type = "organization" %}
+    {% if entity.metadata.type = "organization" %}
         {% include "frontpage/organization_tile.html" %}
     {% endif %}
 {% endfor %}

@@ -3,18 +3,18 @@
 <div class="chartModule chartTile">
     <h4 class="key">{{ entity.name|standardize_organization_name }}</h4><div class="clear"></div>
     <strong>Contribution Breakdown</strong><br />
-    <div id="entity-{{ entity.id }}" style="position: relative;">
+    <div id="entity-{{ entity.metadata.id }}" style="position: relative;">
     </div>
-    <a href="/{{ entity.type }}/{{ entity.name|standardize_organization_name|slugify }}/{{ entity.id }}">Learn more about this organization &raquo;</a>
+    <a class="frontMoreLink" href="/{{ entity.metadata.type }}/{{ entity.metadata.name|standardize_organization_name|slugify }}/{{ entity.metadata.id }}">Learn more about this organization &raquo;</a>
     <div class="clear"></div>
 </div>
 <script type="text/javascript">
 $(function() {
     piechart(
-        "entity-{{ entity.id}}",
+        "entity-{{ entity.metadata.id}}",
         {% if entity.party_breakdown %}{{ entity.party_breakdown|safe }} {% else %}[]{% endif %},
         "party"
     );
-    $("#entity-{{ entity.id }} svg").get(0).setAttribute('height', 150);
+    $("#entity-{{ entity.metadata.id }} svg").get(0).setAttribute('height', 150);
 });
 </script>
