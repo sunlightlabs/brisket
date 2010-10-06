@@ -1,4 +1,5 @@
 <h3 class="h4 withTip">Your Representatives</h3>
+
 <div id="changeLocation">
     <p class="tip">We've identified your state with our geolocation tools. Is Michigan not your state? <a href="#">Change it now.</a></p>
     <select id="id_states" name="states">
@@ -7,41 +8,80 @@
         <option value="3">State 3</option>
     </select>
 </div>
+
 <div class="reps">
+  <ul>
+    <li>
+      <img src=
+      "http://assets.sunlightfoundation.com/moc/100x125/S000148.jpg" />
+
+      <h4 class="h5 withTip">Sen. Charles E. Schumer</h4>
+
+      <dl>
+        <dt class="noshow">State</dt>
+
+        <dd>NY</dd>
+
+        <dt class="noshow">Party</dt>
+
+        <dd>D</dd>
+      </dl>
+
+      <div class="clear"></div><a class="moreLink" href=
+      "/politician/charles-schumer/e708669995e844af90f205003683f2fa">Learn
+      more about this politician &raquo;</a>
+
+      <div class="clear"></div>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <img src=
+      "http://assets.sunlightfoundation.com/moc/100x125/G000555.jpg" />
+
+      <h4 class="h5 withTip">Sen. Kirsten E. Gillibrand</h4>
+
+      <dl>
+        <dt class="noshow">State</dt>
+
+        <dd>NY</dd>
+
+        <dt class="noshow">Party</dt>
+
+        <dd>D</dd>
+      </dl>
+
+      <div class="clear"></div><a class="moreLink" href=
+      "/politician/kirsten-gillibrand/5133536fdc44445695adf6f244ee69c9">Learn
+      more about this politician &raquo;</a>
+
+      <div class="clear"></div>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <img src=
+      "http://assets.sunlightfoundation.com/moc/100x125/T000469.jpg" />
+
+      <h4 class="h5 withTip">Rep. Paul D. Tonko</h4>
+
+      <dl>
+        <dt class="noshow">State</dt>
+
+        <dd>NY</dd>
+
+        <dt class="noshow">Party</dt>
+
+        <dd>D</dd>
+      </dl>
+
+      <div class="clear"></div><a class="moreLink" href=
+      "/politician/paul-tonko/996d2f5d32c640e3be424680d4ce59fb">Learn
+      more about this politician &raquo;</a>
+
+      <div class="clear"></div>
+    </li>
+  </ul>
 </div>
-
-<script type="text/javascript">
-    $(function() {
-        var processLegislators = function(congress) {
-            $.each(congress.response.legislators, function(num, l) {
-                var leg = l.legislator;
-                $.getJSON("http://transparencydata.com/api/1.0/entities/id_lookup.json?apikey=" + sunlightApiKey + "&namespace=urn:crp:recipient&id=" + leg.crp_id + "&callback=?", function(crp) {
-                    var html = "<ul>"
-                        + "<li>"
-                        + "<img src='http://assets.sunlightfoundation.com/moc/100x125/" + leg.bioguide_id + ".jpg' />"
-                        + "<h4 class='h5 withTip '>" + leg.title + ". " + leg.firstname + " " + leg.middlename + " " + leg.lastname + "</h4>"
-                        + "<dl> <dt class='noshow'>State</dt> <dd>" + leg.state + "</dd> <dt class='noshow'>Party</dt> <dd>" + leg.party + "</dd></dl>"
-                        + "<div class='clear'></div>"
-                        + "<a class='moreLink' href='/politician/" + leg.firstname.toLowerCase() + "-" + leg.lastname.toLowerCase() + "/" + crp[0].id + "'>Learn more about this politician &raquo;</a>"
-                        + "<div class='clear'></div>"
-                        + "</li>"
-                        + "</ul>";
-                    $("#rtColumn .reps").append(html);
-                });
-            });
-        }
-        
-        // check for zip code
-        var split = window.location.href.split('?')
-        if (split.length > 1 && (new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/)).test(split[1])) {
-            $.getJSON("http://services.sunlightlabs.com/api/legislators.allForZip.json?zip=" + split[1] + "&apikey=" + sunlightApiKey + "&jsonp=?", processLegislators);
-        } else {
-            // fetch IP address
-            $.getJSON("http://ipinfodb.com/ip_query.php?output=json&timezone=false&callback=?", function(data) {
-                $.getJSON("http://services.sunlightlabs.com/api/legislators.allForLatLong.json?latitude=" + data.Latitude + "&longitude=" + data.Longitude + "&apikey=" + sunlightApiKey + "&jsonp=?", processLegislators);
-            })
-        }
-        
-
-    })
-</script>
