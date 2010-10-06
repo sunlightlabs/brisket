@@ -1,9 +1,15 @@
-<div class="frontLeft">
-{% include "frontpage/top_news_static.html" %}
+<div id="ltColumn">
+    <div class="insideModule">
+        {% include "frontpage/top_news_static.html" %}
+    </div>
 </div>
-<div class="frontRight">
-{% include "frontpage/local_pols_static.html" %}
-{% include "frontpage/top_pages_static.html" %}
+<div id="rtColumn">
+    <div class="insideModule">
+        {% include "frontpage/local_pols_static.html" %}
+    </div>
+    <div class="insideModule">
+        {% include "frontpage/top_pages_static.html" %}
+    </div>
 </div>
 <div class="clear"></div>
 <div class="frontBottom">
