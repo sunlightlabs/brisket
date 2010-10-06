@@ -11,11 +11,11 @@
                 $.getJSON("http://transparencydata.com/api/1.0/entities/id_lookup.json?apikey=" + sunlightApiKey + "&namespace=urn:crp:recipient&id=" + leg.crp_id + "&callback=?", function(crp) {
                     var html = "<div class='legislator'>"
                         + "<img src='http://assets.sunlightfoundation.com/moc/100x125/" + leg.bioguide_id + ".jpg' />"
-                        + "<h4 class="h5">" + leg.title + ". " + leg.firstname + " " + leg.middlename + " " + leg.lastname + " (" + leg.party + "-" + leg.state + ")</h4>"
+                        + "<h4 class='h5'>" + leg.title + ". " + leg.firstname + " " + leg.middlename + " " + leg.lastname + " (" + leg.party + "-" + leg.state + ")</h4>"
                         + "<a href='/politician/" + leg.firstname.toLowerCase() + "-" + leg.lastname.toLowerCase() + "/" + crp[0].id + "'>Learn more about this politician &raquo;</a>"
                         + "<div class='clear'></div>"
                         + "</div>";
-                    $(".frontRight .reps").append(html);
+                    $("#rtColumn .reps").append(html);
                 });
             });
         }
