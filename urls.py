@@ -12,6 +12,7 @@ urlpatterns = patterns('',
         'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
     url('^contact/$', 'brisket.views.contact', name='contact_form'),
     url('^about/$', direct_to_template, {'template': 'about.html'}),
+    url('^postcard', include('postcards.urls')),
     # everything else goes to influence
     url(r'^', include('brisket.influence.urls')),
 )
