@@ -188,3 +188,5 @@ def pol_sparkline(entity_id, cycle=DEFAULT_CYCLE):
 def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
     return get_url_json('aggregates/indiv/%s/sparkline.json' % entity_id, cycle)
 
+def candidates_by_location(location, cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('entities/race/%s.json' % location, cycle, parse_json=parse_json)

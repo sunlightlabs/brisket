@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'brisket.influence',
     'brisket.util',
     'brisket.metadata',
+    'brisket.postcards',
 )
 
 DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
