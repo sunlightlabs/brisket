@@ -22,19 +22,34 @@
             <ul>
                 <li>
                     <label>Office</label>
-                    <input id="id_office" type="text" name="office"/>
+                    <select class="office" name="office">
+                        <option value="all">All</option>
+                        <option value="house">House</option>
+                        <option value="senate">Senate</option>
+                        <option value="senate">Governor</option>
+                    </select>
                 </li>
                 <li>
-                    <label>Location</label>
-                    <input id="id_location" type="text" name="location"/>
+                    <label>State</label>
+                    <select class="state" name="state">
+                        <option value="select">Select</option>
+                    </select>
                 </li>
                 <li>
                     <label>Candidate</label>
-                    <input id="id_candidate" type="text" name="candidate"/>
+                    <select class="candidate" name="candidate">
+                        <option value="select">Select</option>
+                    </select>
                 </li>
                 <li>
                     <label>Single Candidate or Opposing Candidates</label>
-                
+                    <div class="postcardImage">
+                        <input class="radio" type="radio" name="word" />
+                    </div>
+                    <div class="postcardImage">
+                        <input class="radio" type="radio" name="word" />
+                    </div>
+                    <div class="clear"></div>
                 </li>
                 <li>
                     <button class="previewBtn" type="submit">
@@ -56,7 +71,9 @@
                 </li>
                 <li>
                     <label>State</label>
-                    <input id="id_state" type="text" name="state"/>
+                    <select class="state" name="state">
+                        <option value="select">Select</option>
+                    </select>
                 </li>
                 <li>
                     <label>Zip</label>

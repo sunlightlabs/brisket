@@ -21,6 +21,10 @@ body {
 
 div#pageMain, div#footer { width: 960px; margin: 0 auto; }
 
+body.search #brandingbar input, body.home #brandingbar input { width: 85px; padding: 3px 3px 2px;}
+body.search #brandingbar, body.home #brandingbar { padding: 3px 0 5px;}
+body.search #sllink, body.home #sllink { margin-top: 3px;}
+
 .graph { position: relative; }
 
 .tip, div.searchBox .results, .inArticle_sm, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
@@ -30,8 +34,10 @@ h1 { float: left; padding-top: 85px; margin-bottom: 50px; width: 440px; height: 
 h1 a { color: #000; text-decoration: none; font-size: 470%; text-transform: uppercase; line-height: 70px; text-indent: -9999em; display: block; background: url(../images/logo.png) top left no-repeat; width: 440px; height: 61px;}
 
 h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #000000; font-size: 380%; line-height: 40px; }
-h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px; line-height: 25px;}
-body.home h3 { border-bottom: 1px dashed #dcdcd8; float: none; margin-bottom: 25px; margin-right: 0;}
+h2 big { text-transform: uppercase; margin-right: 10px;}
+.overviewBar h3 { float: left;  margin-bottom: 0px;  margin-right: 25px;}
+h3 { font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; line-height: 25px; margin-bottom: 25px;}
+body.home h3 { border-bottom: 1px dashed #dcdcd8; }
 h3.withTip, body.home h3.withTip { margin-bottom: 10px;}
 h4, .h4 { text-transform: uppercase; color: #3b3130; font-size: 145%; margin-bottom: 25px; font-weight: normal; float: none; margin-right: 0px;}
 h4.withTip { margin-bottom: 5px; }
@@ -143,7 +149,6 @@ div.descriptorText ul, body.flatText div#mainContent ul { list-style-type: disc;
 div.descriptorText p, div#description p, body.flatText div#mainContent p { margin-bottom: 1em;}
 div.descriptorText a { float: none; }
 
-body.flatText div#mainContent h3 { float: none; margin-bottom: 15px; margin-top: 35px;}
 body.flatText div#mainContent ul li, body.flatText div#mainContent ol li { margin-bottom: 10px;}
 body.flatText div#mainContent ul, body.flatText div#mainContent ol { margin-bottom: 20px;}
 strong, b { font-weight: bold; }
@@ -177,7 +182,6 @@ table#mainPageTable th { padding: 0 10px 10px 15px;}
 
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
-body.search h3 { font-size: 135%;}
 body.search dt a { margin-right: 10px;}
 body.search dt { width: 600px; margin-right: 20px; }
 body.search dt span { font-weight: normal;}
@@ -192,17 +196,21 @@ button.searchBtn_sm { background: url(../images/btn_go_sm.png) left 2px no-repea
 button.searchBtn_sm:hover { background: url(../images/btn_go_sm.png) left -49px no-repeat; }
 button.submitBtn { background: url(../images/btn_submit.png) left top no-repeat; width: 106px; height: 46px; margin-left: 120px; }
 button.submitBtn:hover { background: url(../images/btn_submit.png) left -46px no-repeat; }
-button.previewBtn { background: url(../images/btn_preview.png) left top no-repeat; width: 121px; height: 46px; margin-left: 120px; }
+button.previewBtn { background: url(../images/btn_preview.png) left top no-repeat; width: 121px; height: 46px; margin-left: 225px; }
 button.previewBtn:hover { background: url(../images/btn_preview.png) left bottom no-repeat; }
-button.sendBtn { background: url(../images/btn_send.png) left top no-repeat; width: 90px; height: 46px; margin-left: 120px; }
+button.sendBtn { background: url(../images/btn_send.png) left top no-repeat; width: 90px; height: 46px; margin-left: 225px; }
 button.sendBtn:hover { background: url(../images/btn_send.png) left bottom no-repeat; }
 button.searchPostcardBtn { background: url(../images/btn_postcardSearch.png) left top no-repeat; width: 90px; height: 29px; margin-top: 2px; float: left;}
 button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.png) left bottom no-repeat;  }
 
 form#contact { margin-top: 45px;}
-label { color:#0A6E92; width: 120px; display: block; float: left;}
-input, form#contact textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
-form#contact li { margin-bottom: 15px;}
+label { color: #0A6E92; width: 120px; display: block; float: left;}
+input, textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
+select { width: 310px;}
+form#contact li, #postcardBox form li { margin-bottom: 15px;}
+#postcardBox form { margin-bottom: 35px;}
+
+.radio { width: 15px; margin-right: 10px;}
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 
@@ -267,7 +275,9 @@ dt.moneyTitle { margin-top: 8px;}
 .addthis_toolbox a { text-decoration: none; color: #989393; }
 .addthis_toolbox img { float: right; margin-left: 6px; }
 
-#postcardBox { background: url(../images/bg_postcard.jpg) center top repeat-y; padding-top: 40px;}
-#postcardSearch { background: url(../images/bg_postcardSearch.jpg) center top no-repeat; height: 57px; padding-top: 15px;}
-#postcardSearch label { color: #827d7d; width: auto; margin: 6px 15px 0 0;}
+#postcardBox { background: url(../images/bg_postcard.jpg) center top repeat-y; padding: 40px 0;}
+#postcardSearch { background: url(../images/bg_postcardSearch.jpg) center top no-repeat; height: 42px; padding-top: 15px; margin: 25px 0;}
+#postcardBox #postcardSearch label { color: #827d7d; width: auto; margin: 6px 15px 0 0;}
 #postcardSearch input { float: left; width: 200px; margin-right: 10px;}
+#postcardBox label { width: 225px;}
+.postcardImage { float: left;}
