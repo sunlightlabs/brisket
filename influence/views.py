@@ -149,14 +149,14 @@ def org_industry_entity(request, entity_id, type='organization'):
     if type == 'industry':
         context['top_orgs'] = json.dumps([
             {
-                'key': generate_label(standardize_organization_name(org['organization_name'])),
-                'value': org['amount'],
-                'value_employee': org['amount'],
-                'value_pac': 0,
-                'href': '/organization/%s/%s%s' % (slugify(standardize_organization_name(org['organization_name'])), entity_id, '?cycle=%s' % cycle if cycle != '-1' else '')
+                'key': generate_label(standardize_organization_name(org['name'])),
+                'value': org['total_amount'],
+                'value_employee': org['employee_amount'],
+                'value_pac': org['direct_amount'],
+                'href': '/organization/%s/%s%s' % (slugify(standardize_organization_name(org['name'])), org['id'], '?cycle=%s' % cycle if cycle != '-1' else '')
             } for org in api.industry_orgs(entity_id, cycle, limit=10)
         ])
-
+    
     # get contributions data if it exists for this entity
     if metadata['contributions']:
         context['contributions_data'] = True

@@ -167,7 +167,7 @@ def org_registrant_lobbyists(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT
 
 # top orgs in an industry
 def industry_orgs(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
-    return get_url_json('aggregates/industry/%s/orgs/top_%s.json' % (entity_id, limit), cycle, limit, parse_json=parse_json)
+    return get_url_json('aggregates/industry/%s/orgs.json' % entity_id, cycle, limit, parse_json=parse_json)
 
 # top n lists
 def top_n_individuals(cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
