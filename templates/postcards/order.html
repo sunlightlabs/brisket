@@ -2,6 +2,78 @@
 
 {% block main %}
 
-Put some content here.
+<div id="postcardBox">
+    <div class="module">
+        <h2><big>Before they vote</big><small>Send Them a Postcard</small></h2>
+        <span class="tip">Share the knowledge with friends, family or just an aquantiance of who has influence over their candidates.</span>
+    </div>
+    <div id="postcardSearch" class="module">
+        <form action="." method="get">
+            <label class="tip">Search by a candidate, a zip code or an addresss to see what postcards are available</label>
+            <input id="id_postcardSearch" type="text" name="postcardSearch"/>
+            <button class="searchPostcardBtn" type="submit">
+                <span>Search</span>
+            </button>
+        </form>    
+    </div> 
+    <div class="module">
+        <h3>Build Your Postcard Now</h3>
+        <form action="." method="get">
+            <ul>
+                <li>
+                    <label>Office</label>
+                    <input id="id_office" type="text" name="office"/>
+                </li>
+                <li>
+                    <label>Location</label>
+                    <input id="id_location" type="text" name="location"/>
+                </li>
+                <li>
+                    <label>Candidate</label>
+                    <input id="id_candidate" type="text" name="candidate"/>
+                </li>
+                <li>
+                    <label>Single Candidate or Opposing Candidates</label>
+                
+                </li>
+                <li>
+                    <button class="previewBtn" type="submit">
+                        <span>Preview</span>
+                    </button>
+                </li>    
+            </ul>
+        </form>    
+        <h4>Personalize It</h4>
+        <form action="." method="get">
+            <ul>
+                <li>
+                    <label>Address of Recipient</label>
+                    <input id="id_address" type="text" name="address"/>
+                </li>
+                <li>
+                    <label>City</label>
+                    <input id="id_city" type="text" name="city"/>
+                </li>
+                <li>
+                    <label>State</label>
+                    <input id="id_state" type="text" name="state"/>
+                </li>
+                <li>
+                    <label>Zip</label>
+                    <input id="id_zip" type="text" name="zip"/>
+                </li>
+                <li>
+                    <label>Message</label>
+                    <textarea class="textarea full additionalDescription" name="text"></textarea>
+                </li>
+                <li>
+                    <button class="sendBtn" type="submit">
+                        <span>Send</span>
+                    </button>
+                </li>    
+            </ul>
+        </form>
+    </div>
+</div>
 
 {% endblock %}
