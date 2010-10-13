@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.2//EN" "http://www.w3.org/Graphics/SVG/1.2/DTD/svg12.dtd">
+
+{% load influence_extras %}
+{% load postcard_extras %}
+{% load humanize %}
+<svg width="6.25in" height="4.5in">
+    <defs>
+        <style type="text/css">
+          <![CDATA[
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: normal;
+                font-style: normal;
+                src: url("resources/UniversLTStd-Cn.svg#UniversLTStd57Condensed") format("svg");
+            }
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: bold;
+                font-style: normal;
+                src: url("resources/UniversLTStd-BoldCn.svg#UniversLTStd67BoldCondensed") format("svg");
+            }
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: normal;
+                font-style: italic;
+                src: url("resources/UniversLTStd-CnObl.svg#UniversLTStd57CondensedOblique") format("svg");
+            }
+            text {
+                font-family: 'Univers Condensed';
+                stroke: none;
+                fill: #444545;
+            }
+            .name {
+                font-size: 20pt;
+                fill: #bd5027;
+                font-weight: bold;
+            }
+            .district {
+                font-size: 12pt;
+                fill: #e67225;
+            }
+            .amount {
+                font-size: 32pt;
+                fill: #bd5027;
+                font-weight: bold;
+            }
+            .description {
+                font-size: 7.3pt;
+                font-style: italic;
+            }
+            .legend {
+                font-size: 8pt;
+            }
+          ]]>
+        </style>
+    </defs>
+    <g transform="rotate(90,216,300) translate(-84,-84)">
+        <!-- base template -->
+        <image xlink:href="resources/single_background.svg" x="0" y="0" width="4.5in" height="6.25in" />
+        
+        <!-- headshot -->
+        <image xlink:href="resources/26732_lg.jpg" x="0.375in" y="1.07in" width="0.36in" height="0.36in" />
+        
+        <!-- main candidate name, district, and donation amount -->
+        <text class="name" x="0.875in" y="1.275in">{{ entity_info.name|standardize_politician_name|upper }} ({{ district_info.party }}-{{ district_info.state }})</text>
+        <text class="district" x="0.875in" y="1.435in">{{ district_info|district_name }}</text>
+        <text class="amount" x="0.375in" y="1.89in">${{ total|intcomma }}</text>
+        
+        <!-- graphs -->
+        <g transform="translate(36, 245)">
+            {{ industries|barchart|safe }}
+        </g>
+        
+        <g transform="translate(36, 394)">
+            {{ contributions|barchart|safe }}
+        </g>
+
+        <!-- graph descriptions -->
+        <text class="description" x="0.375in" y="3.675in">These industries gave the most money this election season (2009-2010) to the candidate.</text>
+        <text class="description" x="0.375in" y="5.245in">These organizations gave the most money to the candidate. (Note: this includes donations</text>
+        <text class="description" x="0.375in" y="5.375in">from the organization&#x2019;s employees, their family members, and its political action committee.)</text>
+        
+        <!-- opensecrets and sunlight logos -->
+        <g transform="translate(95, 482) scale(0.18, 0.18)">
+            <image xlink:href="resources/opensecrets.svg" x="0" y="0" width="612" height="792" />
+        </g>
+        <g transform="translate(8, 472) scale(0.20, 0.20)">
+            <image xlink:href="resources/sunlight.svg" x="0" y="0" width="612" height="792" />
+        </g>
+        
+    </g>
+</svg>
