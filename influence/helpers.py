@@ -44,6 +44,7 @@ def standardize_organization_name(name):
 def standardize_industry_name(name):
     name = convert_case(name)
     name = name.strip()
+    name = re.sub(r'/([a-z])', lambda s: s.group().upper(), name)
     
     return name
 

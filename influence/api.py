@@ -190,3 +190,6 @@ def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
 
 def candidates_by_location(location, cycle=DEFAULT_CYCLE, parse_json=True):
     return get_url_json('entities/race/%s.json' % location, cycle, parse_json=parse_json)
+
+def election_districts(cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('entities/race/districts.json', cycle, parse_json=parse_json)

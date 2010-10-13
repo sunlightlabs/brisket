@@ -60,11 +60,13 @@
         <image xlink:href="resources/single_background.svg" x="0" y="0" width="4.5in" height="6.25in" />
         
         <!-- headshot -->
-        <image xlink:href="resources/26732_lg.jpg" x="0.375in" y="1.07in" width="0.36in" height="0.36in" />
+        {% if photo %}
+        <image xlink:href="resources/photos/{{ photo }}" x="0.375in" y="1.07in" width="0.36in" height="0.36in" />
+        {% endif %}
         
         <!-- main candidate name, district, and donation amount -->
-        <text class="name" x="0.875in" y="1.275in">{{ entity_info.name|standardize_politician_name|upper }} ({{ district_info.party }}-{{ district_info.state }})</text>
-        <text class="district" x="0.875in" y="1.435in">{{ district_info|district_name }}</text>
+        <text class="name" x="{% if photo %}0.825{% else %}0.375{% endif %}in" y="1.275in">{{ entity_info.name|standardize_politician_name|upper }} ({{ district_info.party }}-{{ district_info.state }})</text>
+        <text class="district" x="{% if photo %}0.825{% else %}0.375{% endif %}in" y="1.435in">{{ district_info|district_name }}</text>
         <text class="amount" x="0.375in" y="1.89in">${{ total|intcomma }}</text>
         
         <!-- graphs -->

@@ -1,4 +1,4 @@
-from django.template.defaultfilters import stringfilter
+from django.template.defaultfilters import stringfilter, force_escape
 from django import template
 from django.contrib.humanize.templatetags.humanize import ordinal, intcomma
 
@@ -47,14 +47,14 @@ def barchart(bar_data):
         out += '<text class="legend" x="%s" y="%s">%s</text>' % (
             xpos + width + 5,
             ypos + 9,
-            labels[i]
+            force_escape(labels[i])
         )
         
         # type label
         out += '<text class="legend" x="%s" y="%s">%s</text>' % (
             0,
             ypos + 9,
-            types[i]
+            force_escape(types[i])
         )
         
         ypos += bar_height + bar_spacing
