@@ -94,13 +94,14 @@ INSTALLED_APPS = (
     'django.contrib.humanize', #format numbers in templates
     'django.contrib.sitemaps',
     'mediasync',
+    'simplepay',
     'brisket.influence',
     'brisket.util',
     'brisket.metadata',
     'brisket.postcards',
 )
 
-DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
+#DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
 
 # use file-backed sessions while in development. the default location
 # for file-backed sessions is tempfile.gettempdir(), most likely /tmp.

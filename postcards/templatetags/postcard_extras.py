@@ -21,7 +21,7 @@ def barchart(bar_data):
     label_width = 150
     dollar_width = 40
     bar_height = 12
-    bar_spacing = 4
+    bar_spacing = 5
     pre_bar = 4
     
     types = [ellipsize(k, 30) for k in bar_data.keys()]
@@ -59,14 +59,14 @@ def barchart(bar_data):
         
         ypos += bar_height + bar_spacing
     
-    out += '<line x1="%s" y1="%s" x2="%s" y2="%s" style="stroke: #444545; fill: none; stroke-width: 2pt;" />' % (
+    out += '<line x1="%s" y1="%s" x2="%s" y2="%s" style="stroke: #c0cccb; fill: none; stroke-width: 1pt;" />' % (
         label_width,
         0,
         label_width,
-        len(types) * (bar_height + bar_spacing) + bar_spacing + 1.38
+        len(types) * (bar_height + bar_spacing) + bar_spacing
     )
     
-    out += '<line x1="%s" y1="%s" x2="%s" y2="%s" style="stroke: #444545; fill: none; stroke-width: 2pt;" />' % (
+    out += '<line x1="%s" y1="%s" x2="%s" y2="%s" style="stroke: #c0cccb; fill: none; stroke-width: 1pt;" />' % (
         label_width,
         len(types) * (bar_height + bar_spacing) + bar_spacing,
         label_width + pre_bar + bar_width + dollar_width,
