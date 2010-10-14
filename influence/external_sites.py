@@ -4,7 +4,11 @@ import json
 
 # contribution links
 def get_crp_url(type, standardized_name, ids, cycle=None):
-    if (type == 'politician' and 'urn:crp:recipient' in ids) or type != 'politician':
+    if type == 'industry':
+        if "urn:crp:industry" not in ids:
+            return None
+        return "http://www.opensecrets.org/industries/indus.php?ind=%s" % ids['urn:crp:industry']
+    elif (type == 'politician' and 'urn:crp:recipient' in ids) or type != 'politician':
         return "http://www.opensecrets.org/usearch/index.php?q=%s" % standardized_name
     return None
 
@@ -16,11 +20,18 @@ def get_nimsp_url(type, standardized_name, ids, cycle):
             return "http://www.followthemoney.org/database/topcontributor.phtml?u=%(id)s" % dict(id=ids['urn:nimsp:organization'])
     elif type == 'politician' and 'urn:nimsp:recipient' in ids:
         return "http://www.followthemoney.org/database/uniquecandidate.phtml?uc=%(id)s" % dict(id=ids['urn:nimsp:recipient'])
+    elif type == 'industry':
+        return 'http://www.followthemoney.org/database/IndustryTotals.phtml'
     return None
 
 def get_td_url(type, standardized_name, ids, cycle):
-    keywords = {'individual': 'contributor_ft', 'organization': 'organization_ft', 'politician': 'recipient_ft'}
-    query_string = "%s=%s" % (keywords[type], standardized_name)
+    if type == 'industry':
+        if "urn:crp:industry" not in ids:
+            return None
+        query_string = "contributor_industry=%s" % ids['urn:crp:industry']
+    else:
+        keywords = {'individual': 'contributor_ft', 'organization': 'organization_ft', 'politician': 'recipient_ft'}
+        query_string = "%s=%s" % (keywords[type], standardized_name)
     if cycle:
         query_string += "&cycle=%s" % cycle
     return "http://transparencydata.com/contributions/#%s" % base64.b64encode(query_string)

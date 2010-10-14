@@ -1,0 +1,182 @@
+<!-- this file is included for organizations that have lobbying data to --
+  -- display -->
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar">
+  <a class="toggle">Toggle</a>
+  <h3 class="insideBar">Lobbying, 
+      {% ifequal cycle "-1" %} 
+        {{entity_info.lobbying_career.start}} - {{entity_info.lobbying_career.end}}
+      {% else %}  
+        {{cycle|add:-1}} - {{cycle}} 
+      {% endifequal %}</h3>
+  <div class="insideBar amount">
+    <span class="amount">
+    {% if is_lobbying_firm %} 
+	    {% if entity_info.totals.firm_income %}
+	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
+	    {% endif %}
+    {% else %}
+    	{% if entity_info.totals.non_firm_spending %}
+    		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Reported Spent
+    	{% endif %}
+    {% endif %}
+    </span>
+    <a class="descriptor" title="More Information" href="#lobbyingDescriptor">Information</a>
+    <div class="clear"></div>
+    <div class="descriptorText" id="lobbyingDescriptor">
+		<p>Figures are based on lobbying activity reported to the Senate Office of Public Records. Reported dollar amounts are required to be accurate only to the nearest $20,000. For organizations whose primary business is lobbying, we display total income and top clients. For organizations that are not primarily lobbying firms, we display total amount spent on lobbying and top lobbying firms hired.</p>
+		<p>For more information, please see our <a href="/about/methodology/lobbying">lobbying methodology</a> page.</p>
+    </div> 
+  </div>
+  <div id="sparklines">                
+    {% block lobbying_sparkline %}
+    {% endblock %}
+  </div>  
+  {% block lobbying_details_link %}
+  {% endblock %}
+</div>
+
+
+<div class="chartModule">
+  {% if is_lobbying_firm %}
+  <div class="threeColumn chartWrapper">
+    <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
+    <div class="lobbyingColumn oneColumn">
+      {% if lobbying_lobbyists %}
+      <div class="lobbyistsOrgs chartWrapper">
+        <span class="secondaryTitle">Lobbyists Employed:</span>
+        <ul>
+          {% for row in lobbying_lobbyists %}
+          {% if row.lobbyist_entity %}
+          <li>
+            <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+          </li>
+          {% else %}
+          {{ row.lobbyist_name|standardize_individual_name }}
+          {% endif %}
+          {% endfor %}
+        </ul>
+        <div class="clear"></div>
+      </div>
+      {% endif %}
+      
+      {% if lobbying_issues %}
+      <div class="issuesLobbied">
+        <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>  
+        <ul> 
+	  {% for issue in lobbying_issues %}
+	  <li>
+	    {{issue}}{% if forloop.last %}{% else %},{% endif %}
+	  </li>
+	  {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+
+    {% if lobbying_clients %}
+    <table class="twoColumn">
+      <thead>
+        <tr id="titles">
+          <th class="left">Client</th>
+          <th class="right">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in lobbying_clients %}
+        <tr class="{% cycle 'even' 'odd' %}">
+          <td>	    
+            {% if row.client_entity %}
+            <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>
+            {% else %}
+            {{ row.client_name }}
+            {% endif %} 
+          </td>
+          <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    
+    <div class="clear"></div>
+  </div>
+  {% else %}  
+  
+  <div class="threeColumn chartWrapper">
+    <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
+    
+    <div class="lobbyingColumn oneColumn chartWrapper">
+      {% if lobbying_lobbyists %}
+        <div class="lobbyistsOrgs oneColumn chartWrapper">
+          <span class="secondaryTitle">Names of Lobbyists:</span>
+          <ul>
+            {% for row in lobbying_lobbyists %}
+            {% if row.lobbyist_entity %}
+            <li>
+              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+            </li>
+            {% else %}
+            {{ row.lobbyist_name|standardize_individual_name }}
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        
+        {% if lobbying_issues %}
+        <div class="issuesLobbied oneColumn">
+          <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>
+          <ul>
+	    {% for issue in lobbying_issues %}
+	    <li>
+	      {{issue}}{% if forloop.last %}{% else %},{% endif %}
+	    </li>
+	    {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if lobbying_clients %}    
+    <table class="twoColumn">
+      <thead>
+        <tr id="titles">
+          <th class="left">Firm Hired</th>
+          <th class="right">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in lobbying_clients %}
+        <tr class="{% cycle 'even' 'odd' %}">
+          <td>	    
+            {% if row.registrant_entity %}
+            <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}{{cycle|pretty_cycle}}">{{ row.registrant_name }}</a>
+            {% else %}
+            {{ row.registrant_name }}
+            {% endif %} 
+          </td>
+          <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    
+    <div class="clear"></div>
+  </div>
+  
+  {% endif %}
+  
+  
+  <div class="clear"></div>
+  
+  <div class="external">
+    {% block external_lobby_links %}  
+    {% endblock %}
+  </div>  
+  
+  <div class="clear"></div>
+</div>

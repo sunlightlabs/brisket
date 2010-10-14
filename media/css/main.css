@@ -68,6 +68,8 @@ li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 1
 li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
 li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
 li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
+li#industries a { background: url(../images/nav_industries.png) left 1px no-repeat; width: 146px;}
+li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries.png) left -60px no-repeat; }
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 input#id_search { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}

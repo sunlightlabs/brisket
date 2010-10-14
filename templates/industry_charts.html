@@ -1,0 +1,59 @@
+<div class="twoColumn chartWrapper">
+  <div class="chart">
+    {% if recipients_barchart_data %}
+    <h4 class="key withTip">Top Organizations</h4>
+    <dl class="key">
+        <dt class="employees">Employee Color Block</dt>
+        <dd>Individuals</dd>
+
+        <dt class="pac">PAC Color Block</dt>
+        <dd>PAC</dd>
+    </dl>
+    <div class="clear"></div>
+    <span class="tip">Includes contributions from the employees of the organizations, their family members, and their political action committees.</span>
+    <div class="graph" id="organizations_barchart">
+      <!-- raphael charts here -->
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="oneColumn chartWrapper">
+  <div class="chart">
+    <h4 class="withTip">Republicans vs. Democrats</h4>
+    <span class="tip">in dollars</span>
+    <div class="graph piechart" id="piechart_party">
+      <!-- raphael charts here -->
+    </div>
+  </div>
+</div>
+
+<div class="twoColumn chartWrapper">
+  <div class="chart">
+    {% if recipients_barchart_data %}
+    <h4 class="key withTip">Top Recipients</h4>
+    <dl class="key">
+        <dt class="employees">Employee Color Block</dt>
+        <dd>Individuals</dd>
+
+        <dt class="pac">PAC Color Block</dt>
+        <dd>PAC</dd>
+    </dl>
+    <div class="clear"></div>
+    <span class="tip">Includes contributions from the employees of organizations within the industry, their family members, and their political action committees.</span>
+    <div class="graph" id="recipients_barchart">
+      <!-- raphael charts here -->
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="oneColumn chartWrapper">
+  <div class="chart">
+    <h4 class="withTip">State vs. Federal</h4>
+    <span class="tip">in dollars</span>
+    <div class="graph piechart" id="piechart_level">
+      <!-- raphael charts here -->
+    </div>
+  </div>
+</div>
