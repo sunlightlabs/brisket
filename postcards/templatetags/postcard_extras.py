@@ -15,14 +15,27 @@ def district_name(district):
     return ''
 
 @register.filter(name='barchart')
-def barchart(bar_data):
+def barchart(bar_data, size='large'):
     # constant sizes of things
-    bar_width = 100
-    label_width = 150
-    dollar_width = 40
-    bar_height = 12
-    bar_spacing = 5
-    pre_bar = 4
+    if size == 'large':
+        bar_width = 100
+        label_width = 150
+        dollar_width = 40
+        bar_height = 12
+        bar_spacing = 5
+        pre_bar = 4
+        legend_shift = 9
+        legend_number_shift = 8
+    else:
+        # small
+        bar_width = 90
+        label_width = 135
+        dollar_width = 35
+        bar_height = 9
+        bar_spacing = 5
+        pre_bar = 4
+        legend_shift = 8
+        legend_number_shift = 7
     
     types = [ellipsize(k, 30) for k in bar_data.keys()]
     labels = ['$%s' % intcomma(int(float(l))) for l in bar_data.values()]
@@ -44,29 +57,29 @@ def barchart(bar_data):
         )
         
         # number
-        out += '<text class="legend" x="%s" y="%s">%s</text>' % (
+        out += '<text class="legend-number" x="%s" y="%s">%s</text>' % (
             xpos + width + 5,
-            ypos + 9,
+            ypos + legend_number_shift,
             force_escape(labels[i])
         )
         
         # type label
         out += '<text class="legend" x="%s" y="%s">%s</text>' % (
             0,
-            ypos + 9,
+            ypos + legend_shift,
             force_escape(types[i])
         )
         
         ypos += bar_height + bar_spacing
     
-    out += '<line x1="%s" y1="%s" x2="%s" y2="%s" style="stroke: #c0cccb; fill: none; stroke-width: 1pt;" />' % (
+    out += '<line x1="%s" y1="%s" x2="%s" y2="%s" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" />' % (
         label_width,
         0,
         label_width,
         len(types) * (bar_height + bar_spacing) + bar_spacing
     )
     
-    out += '<line x1="%s" y1="%s" x2="%s" y2="%s" style="stroke: #c0cccb; fill: none; stroke-width: 1pt;" />' % (
+    out += '<line x1="%s" y1="%s" x2="%s" y2="%s" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" />' % (
         label_width,
         len(types) * (bar_height + bar_spacing) + bar_spacing,
         label_width + pre_bar + bar_width + dollar_width,
@@ -76,6 +89,9 @@ def barchart(bar_data):
     return out
 
 def ellipsize(val, length):
+    # hack so as not to change the global industry thing with this
+    if val == 'Employer Listed/Category Unknown': val = 'Category Unknown'
+    
     if len(val) > length:
         return '%s...' % val[:length - 2]
     else:

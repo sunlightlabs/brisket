@@ -155,9 +155,16 @@ class Command(BaseCommand):
                 # generate SVGs
                 for chamber in congress.keys():
                     for loc in congress[chamber].keys():
+                        if chamber == 'federal:senate':
+                                district_name = loc.split('-')[0]
+                        else:
+                            district_name = loc
+                        chamber_name = chamber.split(':')[-1]
+                        
+                        pair = []
                         # single-candidate cards
                         for candidate in congress[chamber][loc]:
-                            sys.stdout.write('Generating SVG for %s...\n' % candidate['name'])
+                            sys.stdout.write('Generating SVG for %s candidate %s...\n' % (chamber_name.capitalize(), candidate['name']))
                             
                             # contribution data
                             contributions = SortedDict()
@@ -171,19 +178,51 @@ class Command(BaseCommand):
                                 if float(cont['amount']) >= 0:
                                     industries[standardize_industry_name(cont['industry'])] = cont['amount']
                             
-                            svg_static = os.path.join(self.svg_dir, 'candidate_%s_%s.svg' % (slugify(standardize_politician_name(candidate['name']).split(' ')[-1]), candidate['entity_id']))
+                            #deal with the name
+                            candidate['standard_name'] = standardize_politician_name(candidate['name'])
+                            name_components = candidate['standard_name'].split(' ')
+                            candidate['first_name'] = name_components[0]
+                            if len(name_components) > 2 and len(name_components[-1]) < 4:
+                                candidate['last_name'] = name_components[-2]
+                                candidate['suffix'] = name_components[-1]
+                            else:
+                                candidate['last_name'] = name_components[-1]
+                                candidate['suffix'] = None
                             
-                            out = render_to_string('postcards/single_card.svg', {
+                            
+                            if len(candidate['standard_name']) > 24:
+                                candidate['standard_name'] = '%s %s %s' % (candidate['first_name'], candidate['last_name'], candidate['suffix']) if candidate['suffix'] else '%s %s' % (candidate['first_name'], candidate['last_name'])
+                            svg_static = os.path.join(self.svg_dir, 'candidate_%s_%s.svg' % (slugify(candidate['last_name']), candidate['entity_id']))
+                            
+                            card_context = {
                                 'entity_info': candidate['entity_info'],
                                 'contributions': contributions,
                                 'industries': industries,
                                 'district_info': candidate,
                                 'total': int(round(float(candidate['total']))),
                                 'photo': pics[candidate['votesmart_id']] if candidate['votesmart_id'] in pics else None,
-                            })
+                            }
+                            
+                            out = render_to_string('postcards/single_card.svg', card_context)
                             f = open(svg_static, 'wb')
                             f.write(out.encode('utf-8'))
                             f.close()
+                            
+                            pair.append(card_context)
+                        
+                        # double-candidate card
+                        if len(congress[chamber][loc]) > 1:
+                            pair.sort(cmp=cmp_candidates)
+                            
+                            sys.stdout.write('Generating SVG for %s race %s...\n' % (chamber_name.capitalize(), district_name))
+                            pair_svg_static = os.path.join(self.svg_dir, 'race_%s_%s.svg' % (chamber_name, district_name))
+                            
+                            out = render_to_string('postcards/pair_card.svg', {'candidates': pair})
+                            f = open(pair_svg_static, 'wb')
+                            f.write(out.encode('utf-8'))
+                            f.close()
+                        else:
+                            sys.stdout.write('No second candidate for %s race %s; skipping card.\n' % (chamber_name.capitalize(), district_name))
             
             if self.raster:
                 batik_path = getattr(settings, 'BATIK_RASTERIZER_PATH', None)
@@ -199,8 +238,16 @@ class Command(BaseCommand):
                             # single-candidate cards
                             for candidate in congress[chamber][loc]:
                                 to_render.append(os.path.join(self.svg_dir, 'candidate_%s_%s.svg' % (slugify(standardize_politician_name(candidate['name']).split(' ')[-1]), candidate['entity_id'])))
+                                
+                                if chamber == 'federal:senate':
+                                    district_name = loc.split('-')[0]
+                                else:
+                                    district_name = loc
+                                pair_svg_static = os.path.join(self.svg_dir, 'race_%s_%s.svg' % (chamber.split(':')[-1], district_name))
+                                if pair_svg_static not in to_render and os.path.exists(pair_svg_static):
+                                    to_render.append(pair_svg_static)
                 else:
-                    svgs = filter(lambda s: s.startswith('candidate'), os.listdir(self.svg_dir))
+                    svgs = filter(lambda s: s.startswith('candidate') or s.startswith('race'), os.listdir(self.svg_dir))
                     to_render = [os.path.join(self.svg_dir, s) for s in svgs]
                 
                 args = ['java', '-jar', batik_path, '-d', self.pdf_dir]
@@ -214,3 +261,10 @@ class Command(BaseCommand):
     
     def get_districts(self):
         return [item['district'] for item in api.election_districts()]
+
+def cmp_candidates(a, b):
+    status_cmp = -1 * cmp(a['district_info']['seat_status'], b['district_info']['seat_status'])
+    if status_cmp:
+        return status_cmp
+    else:
+        return cmp(a['district_info']['last_name'], b['district_info']['last_name'])

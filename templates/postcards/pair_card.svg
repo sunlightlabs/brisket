@@ -41,7 +41,7 @@
                 fill: #666666;
             }
             .amount {
-                font-size: 32pt;
+                font-size: 23pt;
                 fill: #444545;
                 font-weight: bold;
             }
@@ -50,38 +50,44 @@
                 font-style: italic;
             }
             .legend {
-                font-size: 8pt;
+                font-size: 7.5pt;
             }
             .legend-number {
-                font-size: 7pt;
+                font-size: 6pt;
                 fill: #666666;
+            }
+            .raised-for {
+                font-size: 9pt;
+                fill: #666666;
+                font-weight: normal;
             }
           ]]>
         </style>
     </defs>
     <g transform="rotate(90,216,300) translate(-84,-84)">
         <!-- base template -->
-        <image xlink:href="resources/single_background_final.svg" x="0" y="0" width="4.5in" height="6.25in" />
+        <image xlink:href="resources/pair_background_final.svg" x="0" y="0" width="4.5in" height="6.25in" />
         
-        <!-- headshot -->
-        {% if photo %}
-        <rect x="0.375in" y="1.07in" width="0.46in" height="0.46in" style="fill: #000000; stroke: none;" />
-        <image xlink:href="resources/photos/{{ photo }}" x="0.385in" y="1.08in" width="0.44in" height="0.44in" />
-        {% endif %}
-        
-        <!-- main candidate name, district, and donation amount -->
-        <text class="name" x="{% if photo %}0.91{% else %}0.375{% endif %}in" y="1.33in">{{ district_info.standard_name|upper }}</text>
-        <text class="district" x="{% if photo %}0.91{% else %}0.375{% endif %}in" y="1.48in">{{ district_info|district_name }} ({{ district_info.party }}-{{ district_info.state }})</text>
-        <text class="amount" x="0.375in" y="1.91in">${{ total|intcomma }}</text>
-        
-        <!-- graphs -->
-        <g transform="translate(36, 258)">
-            {{ industries|barchart|safe }}
+        <!-- for the two-candidate card, each candidate goes in a group so that we can transpose -->
+        {% for candidate in candidates %}
+        <g transform="translate(0, {% cycle 0 213 %})">
+            <!-- headshot -->
+            {% if candidate.photo %}
+            <rect x="0.375in" y="1.07in" width="0.46in" height="0.46in" style="fill: #000000; stroke: none;" />
+            <image xlink:href="resources/photos/{{ candidate.photo }}" x="0.385in" y="1.08in" width="0.44in" height="0.44in" />
+            {% endif %}
+            
+            <!-- main candidate name, district, and donation amount -->
+            <text class="name" x="{% if candidate.photo %}0.91{% else %}0.375{% endif %}in" y="1.33in">{{ candidate.district_info.standard_name|upper }}</text>
+            <text class="district" x="{% if candidate.photo %}0.91{% else %}0.375{% endif %}in" y="1.48in">{{ candidate.district_info|district_name }} ({{ candidate.district_info.party }}-{{ candidate.district_info.state }})</text>
+            <text class="amount" x="0.375in" y="1.88in">${{ candidate.total|intcomma }} <tspan class="raised-for">raised for the 2010 election</tspan></text>
+            
+            <!-- graphs -->
+            <g transform="translate(36, 227)">
+                {{ candidate.industries|barchart:'small'|safe }}
+            </g>
         </g>
-        
-        <g transform="translate(36, 419)">
-            {{ contributions|barchart|safe }}
-        </g>
+        {% endfor %}
         
     </g>
 </svg>
