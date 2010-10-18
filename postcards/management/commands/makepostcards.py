@@ -224,40 +224,41 @@ class Command(BaseCommand):
                         else:
                             sys.stdout.write('No second candidate for %s race %s; skipping card.\n' % (chamber_name.capitalize(), district_name))
             
-            if self.raster:
-                batik_path = getattr(settings, 'BATIK_RASTERIZER_PATH', None)
-                if not batik_path:
-                    sys.stdout.write('Setting BATIK_RASTERIZER_PATH not found.\n')
-                    return
-                
-                if self.districts:
-                    # we're generating specific candidate PDFs, so all the data should be there
-                    to_render = []
-                    for chamber in congress.keys():
-                        for loc in congress[chamber].keys():
-                            # single-candidate cards
-                            for candidate in congress[chamber][loc]:
-                                to_render.append(os.path.join(self.svg_dir, 'candidate_%s_%s.svg' % (slugify(standardize_politician_name(candidate['name']).split(' ')[-1]), candidate['entity_id'])))
-                                
-                                if chamber == 'federal:senate':
-                                    district_name = loc.split('-')[0]
-                                else:
-                                    district_name = loc
-                                pair_svg_static = os.path.join(self.svg_dir, 'race_%s_%s.svg' % (chamber.split(':')[-1], district_name))
-                                if pair_svg_static not in to_render and os.path.exists(pair_svg_static):
-                                    to_render.append(pair_svg_static)
-                else:
-                    svgs = filter(lambda s: s.startswith('candidate') or s.startswith('race'), os.listdir(self.svg_dir))
-                    to_render = [os.path.join(self.svg_dir, s) for s in svgs]
-                
-                args = ['java', '-jar', batik_path, '-d', self.pdf_dir]
-                args.extend(to_render)
-                
-                # PDF run
-                pdf_args = args + ['-m', 'application/pdf']
-                sys.stdout.write('Generating PDFs...\n')
-                batik = subprocess.Popen(pdf_args, stdout=sys.stdout)
-                batik.wait()
+        if self.raster:
+            batik_path = getattr(settings, 'BATIK_RASTERIZER_PATH', None)
+            if not batik_path:
+                sys.stdout.write('Setting BATIK_RASTERIZER_PATH not found.\n')
+                return
+            
+            if self.districts:
+                # we're generating specific candidate PDFs, so all the data should be there
+                to_render = []
+                for chamber in congress.keys():
+                    for loc in congress[chamber].keys():
+                        # single-candidate cards
+                        for candidate in congress[chamber][loc]:
+                            svg_static = os.path.join(self.svg_dir, 'candidate_%s_%s.svg' % (slugify(candidate['last_name']), candidate['entity_id']))
+                            to_render.append(svg_static)
+                            
+                            if chamber == 'federal:senate':
+                                district_name = loc.split('-')[0]
+                            else:
+                                district_name = loc
+                            pair_svg_static = os.path.join(self.svg_dir, 'race_%s_%s.svg' % (chamber.split(':')[-1], district_name))
+                            if pair_svg_static not in to_render and os.path.exists(pair_svg_static):
+                                to_render.append(pair_svg_static)
+            else:
+                svgs = filter(lambda s: s.startswith('candidate') or s.startswith('race'), os.listdir(self.svg_dir))
+                to_render = [os.path.join(self.svg_dir, s) for s in svgs]
+            
+            args = ['java', '-jar', batik_path, '-d', self.pdf_dir]
+            args.extend(to_render)
+            
+            # PDF run
+            pdf_args = args + ['-m', 'application/pdf']
+            sys.stdout.write('Generating PDFs...\n')
+            batik = subprocess.Popen(pdf_args, stdout=sys.stdout)
+            batik.wait()
     
     def get_districts(self):
         return [item['district'] for item in api.election_districts()]
