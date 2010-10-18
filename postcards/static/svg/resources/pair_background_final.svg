@@ -101,7 +101,19 @@
 				
 				
 				
-			</defs><sodipodi:namedview
+			
+			
+		
+				
+			
+					
+				
+			
+		
+				
+			
+					
+				</defs><sodipodi:namedview
    pagecolor="#ffffff"
    bordercolor="#666666"
    borderopacity="1"
@@ -115,10 +127,10 @@
    id="namedview10699"
    showgrid="false"
    inkscape:zoom="2.12"
-   inkscape:cx="162"
-   inkscape:cy="130.66038"
-   inkscape:window-x="991"
-   inkscape:window-y="307"
+   inkscape:cx="78.509434"
+   inkscape:cy="338.20755"
+   inkscape:window-x="269"
+   inkscape:window-y="327"
    inkscape:window-maximized="0"
    inkscape:current-layer="svg9272" />
 <g
@@ -133,24 +145,14 @@
    transform="scale(0.24,0.24)"
    style="overflow:visible">
 			</image>
-		</g><g
-   id="Shape_12_1_"
-   enable-background="new    ">
-			<g
-   id="Shape_12">
-				<g
-   id="g9284">
-					<rect
-   y="397.229"
-   clip-rule="evenodd"
-   width="324"
-   height="52.771"
-   id="rect9286"
+		</g><rect
+   style="fill:#ececec;fill-rule:evenodd;fill-opacity:1"
    x="0"
-   style="fill:#f8f8f9;fill-rule:evenodd" />
-				</g>
-			</g>
-		</g><g
+   id="rect9286"
+   height="52.771"
+   width="324"
+   clip-rule="evenodd"
+   y="397.229" /><g
    id="bottom_bar_1_"
    enable-background="new    ">
 			<g
@@ -167,24 +169,14 @@
    style="fill:#cccccc;fill-rule:evenodd" />
 				</g>
 			</g>
-		</g><g
-   id="Shape_12_copy_1_"
-   enable-background="new    ">
-			<g
-   id="Shape_12_copy">
-				<g
-   id="g9296">
-					<rect
-   clip-rule="evenodd"
-   width="324"
-   height="69.375"
-   id="rect9298"
-   x="0"
+		</g><rect
+   style="fill:#ececec;fill-rule:evenodd;fill-opacity:1"
    y="0"
-   style="fill:#f8f8f9;fill-rule:evenodd" />
-				</g>
-			</g>
-		</g><g
+   x="0"
+   id="rect9298"
+   height="69.375"
+   width="324"
+   clip-rule="evenodd" /><g
    id="top_bar_1_"
    enable-background="new    ">
 			<g
