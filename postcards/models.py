@@ -2,6 +2,18 @@ from django.db import models
 from django.contrib.localflavor.us.models import USStateField
 from simplepay.models import Transaction
 
+BATCH_STATUS_CHOICES = (
+    ('not_processed', 'Not processed'),
+    ('processing', 'Processing'),
+    ('processed', 'Processed'),
+    ('at_printer', 'At printer'),
+    ('printed', 'Printed'),
+    ('mailed', 'Mailed'),
+)
+class Batch(models.Model):
+    name = models.CharField(max_length=128)
+    status = models.CharField(max_length=24, choices=BATCH_STATUS_CHOICES, default='not_processed')
+
 POSTCARD_STATUS_CHOICES = (
     ('not_paid', 'Not paid'),
     ('paid', 'Paid'),
@@ -27,7 +39,9 @@ class Postcard(models.Model):
     
     message = models.TextField()
     
-    status = models.CharField(max_length=24, choices=POSTCARD_STATUS_CHOICES)
+    status = models.CharField(max_length=24, choices=POSTCARD_STATUS_CHOICES, default='not_paid')
     
-    amazon_transaction = models.ForeignKey(Transaction)
-    pm_id = models.CharField(max_length=24, verbose_name="PostalMethods ID")
+    amazon_transaction = models.ForeignKey(Transaction, null=True, blank=True)
+    pm_id = models.CharField(max_length=24, verbose_name="PostalMethods ID", blank=True)
+    
+    batch = models.ForeignKey(Batch, null=True, blank=True)

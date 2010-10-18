@@ -3,8 +3,8 @@ from django.views.generic.simple import direct_to_template
 from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
     # evil url for media. 
@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url('^contact/$', 'brisket.views.contact', name='contact_form'),
     url('^about/$', direct_to_template, {'template': 'about.html'}),
     url('^postcard', include('postcards.urls')),
+    (r'^admin/', include(admin.site.urls)),
     # everything else goes to influence
     url(r'^', include('brisket.influence.urls')),
 )
