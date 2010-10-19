@@ -255,3 +255,9 @@ def check_entity(entity_info, cycle, entity_type):
         raise Http404
     if (icycle != -1 and (icycle < int(entity_info['career']['start']) or icycle > int(entity_info['career']['end']))) or entity_info['type'] != entity_type:
         raise Http404
+        
+        
+def filter_bad_spending_descriptions(spending):
+    for r in spending:
+        if r['description'].count('!') > 10:
+            r['description'] = ''

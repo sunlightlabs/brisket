@@ -233,6 +233,8 @@ def org_industry_entity(request, entity_id, type='organization'):
     spending = api.org_fed_spending(entity_id, cycle)
             
     if spending:
+        filter_bad_spending_descriptions(spending)
+        
         context['grants_and_contracts'] = spending
         context['gc_min_year'] = min(spending, key=lambda s: s['fiscal_year'])['fiscal_year']
         context['gc_max_year'] = max(spending, key=lambda s: s['fiscal_year'])['fiscal_year']
