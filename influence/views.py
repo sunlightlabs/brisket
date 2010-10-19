@@ -300,7 +300,7 @@ def politician_entity(request, entity_id):
         industries_barchart_data = []
         for record in top_industries:
             industries_barchart_data.append({
-                'key': generate_label(record['name']),
+                'key': generate_label(standardize_industry_name(record['name'])),
                 'href': barchart_href(record, cycle, 'industry'),
                 'value' : record['amount'],
             })
