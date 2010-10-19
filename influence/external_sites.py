@@ -73,7 +73,7 @@ def get_gc_links(standardized_name, cycle):
     contract_keywords.update({'vendor_name': standardized_name})
     
     links = [
-        dict(text='Grants on TransparencyData.com', url="http://transparencydata.com/grants/#%s" % base64.b64encode(urllib.urlencode(grant_keywords))),
+        dict(text='Grants & Loans on TransparencyData.com', url="http://transparencydata.com/grants/#%s" % base64.b64encode(urllib.urlencode(grant_keywords))),
         dict(text='Contracts on TransparencyData.com', url="http://transparencydata.com/contracts/#%s" % base64.b64encode(urllib.urlencode(contract_keywords)))
     ]
     
