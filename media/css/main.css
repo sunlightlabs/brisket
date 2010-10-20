@@ -21,7 +21,7 @@ body {
 
 div#pageMain, div#footer { width: 960px; margin: 0 auto; }
 
-body.search #brandingbar input, body.home #brandingbar input { width: 85px; padding: 3px 3px 2px;}
+#brandingbar input { width: 85px; padding: 3px 3px 2px;}
 body.search #brandingbar, body.home #brandingbar { padding: 3px 0 5px;}
 body.search #sllink, body.home #sllink { margin-top: 3px;}
 
