@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.2//EN" "http://www.w3.org/Graphics/SVG/1.2/DTD/svg12.dtd">
+
+
+
+
+<svg width="6.25in" height="4.5in" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <style type="text/css">
+          <![CDATA[
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: normal;
+                font-style: normal;
+                src: url("resources/UniversLTStd-Cn.svg#UniversLTStd57Condensed") format("svg");
+            }
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: bold;
+                font-style: normal;
+                src: url("resources/UniversLTStd-BoldCn.svg#UniversLTStd67BoldCondensed") format("svg");
+            }
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: normal;
+                font-style: italic;
+                src: url("resources/UniversLTStd-CnObl.svg#UniversLTStd57CondensedOblique") format("svg");
+            }
+            text {
+                font-family: 'Univers Condensed';
+                stroke: none;
+                fill: #444545;
+            }
+            .name {
+                font-size: 16pt;
+                fill: #444545;
+                font-weight: bold;
+            }
+            .district {
+                font-size: 11pt;
+                fill: #666666;
+            }
+            .amount {
+                font-size: 32pt;
+                fill: #444545;
+                font-weight: bold;
+            }
+            .description {
+                font-size: 7.3pt;
+                font-style: italic;
+            }
+            .legend {
+                font-size: 8pt;
+            }
+            .legend-number {
+                font-size: 7pt;
+                fill: #666666;
+            }
+          ]]>
+        </style>
+    </defs>
+    <g transform="rotate(90,216,300) translate(-84,-84)">
+        <!-- base template -->
+        <image xlink:href="resources/single_background_final.svg" x="0" y="0" width="4.5in" height="6.25in" />
+        
+        <!-- headshot -->
+        
+        <rect x="0.375in" y="1.07in" width="0.46in" height="0.46in" style="fill: #000000; stroke: none;" />
+        <rect x="0.385in" y="1.08in" width="0.44in" height="0.44in" style="fill: #aaaaaa; stroke: none;" />
+        
+        
+        <!-- main candidate name, district, and donation amount -->
+        <text class="name" x="0.91in" y="1.33in">CANDIDATE NAME</text>
+        <text class="district" x="0.91in" y="1.48in">Senate (I-AB)</text>
+        <text class="amount" x="0.375in" y="1.91in">$3,901,789</text>
+        
+        <!-- graphs -->
+        <g transform="translate(36, 258)">
+            <rect x="154" y="5" width="100.0" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="259.0" y="13">$362,809</text><text class="legend" x="0" y="14">Category Unknown</text><rect x="154" y="22" width="82.0817565165" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="241.081756517" y="30">$297,800</text><text class="legend" x="0" y="31">Leadership Pacs</text><rect x="154" y="39" width="64.1025994394" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="223.102599439" y="47">$232,570</text><text class="legend" x="0" y="48">Insurance</text><rect x="154" y="56" width="50.5555264616" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="209.555526462" y="64">$183,420</text><text class="legend" x="0" y="65">Health Professionals</text><rect x="154" y="73" width="44.1852324501" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="203.18523245" y="81">$160,308</text><text class="legend" x="0" y="82">Lawyers/Law Firms</text><line x1="150" y1="0" x2="150" y2="90" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" /><line x1="150" y1="90" x2="294" y2="90" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" />
+        </g>
+        
+        <g transform="translate(36, 419)">
+            <rect x="154" y="5" width="100.0" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="259.0" y="13">$34,600</text><text class="legend" x="0" y="14">Leon Medical Centers</text><rect x="154" y="22" width="56.6473988439" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="215.647398844" y="30">$19,600</text><text class="legend" x="0" y="31">Intellectual Ventures LLC</text><rect x="154" y="39" width="55.2023121387" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="214.202312139" y="47">$19,100</text><text class="legend" x="0" y="48">Select Medical Corp</text><rect x="154" y="56" width="44.5086705202" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="203.50867052" y="64">$15,400</text><text class="legend" x="0" y="65">Welsh, Carson et al</text><rect x="154" y="73" width="43.3526011561" height="12" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="202.352601156" y="81">$15,000</text><text class="legend" x="0" y="82">Occidental Petroleum</text><line x1="150" y1="0" x2="150" y2="90" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" /><line x1="150" y1="90" x2="294" y2="90" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" />
+        </g>
+        
+    </g>
+</svg>

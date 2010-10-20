@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.localflavor.us.models import USStateField
 from simplepay.models import Transaction
+from django.conf import settings
+import hashlib
 
 BATCH_STATUS_CHOICES = (
     ('not_processed', 'Not processed'),
@@ -46,7 +48,7 @@ POSTCARD_STATUS_CHOICES = (
 )
 class Postcard(models.Model):
     td_id = models.CharField(max_length=32, verbose_name="Candidate")
-    num_candidates = models.PositiveIntegerField(verbose_name="Number of Candidates")
+    num_candidates = models.PositiveIntegerField(verbose_name="Number of Candidates", choices=((1, '1'), (2, '2')))
     
     sender_name = models.CharField(max_length=128, verbose_name="Sender Name")
     sender_address1 = models.CharField(max_length=128, verbose_name="Sender Address Line 1")
@@ -58,7 +60,7 @@ class Postcard(models.Model):
     recipient_name = models.CharField(max_length=128, verbose_name="Recipient Name")
     recipient_address1 = models.CharField(max_length=128, verbose_name="Recipient Address Line 1")
     recipient_address2 = models.CharField(max_length=128, verbose_name="Recipient Address Line 2", blank=True)
-    recipient_city = models.CharField(max_length=128, verbose_name="Sender City")
+    recipient_city = models.CharField(max_length=128, verbose_name="Recipient City")
     recipient_state = USStateField(verbose_name="Recipient State")
     recipient_zip = models.CharField(max_length=10, verbose_name="Recipient Zip")
     
@@ -75,3 +77,6 @@ class Postcard(models.Model):
     
     def __str__(self):
         return 'Postcard to %s in %s, %s' % (self.recipient_name, self.recipient_city, self.recipient_state)
+    
+    def get_code(self):
+        return hashlib.md5('%s%s' % (self.pk, settings.SECRET_KEY)).hexdigest()[:5]

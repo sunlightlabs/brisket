@@ -210,7 +210,7 @@ select { width: 310px;}
 form#contact li, #postcardBox form li { margin-bottom: 15px;}
 #postcardBox form { margin-bottom: 35px;}
 
-.radio { width: 15px; margin-right: 10px;}
+.radio { display: block; float: left; width: 15px; margin-right: 10px;}
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 
@@ -280,4 +280,11 @@ dt.moneyTitle { margin-top: 8px;}
 #postcardBox #postcardSearch label { color: #827d7d; width: auto; margin: 6px 15px 0 0;}
 #postcardSearch input { float: left; width: 200px; margin-right: 10px;}
 #postcardBox label { width: 225px;}
-.postcardImage { float: left;}
+.postcardImage { float: left; }
+.postcardImage img { height: 244px; width: 176px; border: 1px solid #aaaaaa; }
+
+.errorlist {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
+.errorlist li { margin-bottom: 0px !important; }
+
+.cardFront, .cardBack { float: left; padding-right: 15px; }
+.cardFront img, .cardBack img { border: 1px solid #aaaaaa; }

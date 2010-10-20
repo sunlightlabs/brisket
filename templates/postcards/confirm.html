@@ -1,0 +1,46 @@
+{% extends 'search_base.html' %}
+
+{% block js %}
+{{ block.super }}
+{% comment %}Quick and dirty API interaction code for postcards; could probably be moved to its own file if it were going to be around for a while {% endcomment %}
+
+<script type="text/javascript" src="/media/js/postcards.js"></script>
+
+{% endblock %}
+
+{% block main %}
+
+<div id="postcardBox">
+    <div class="module">
+        <h2><big>Before they vote</big><small>Send Them a Postcard</small></h2>
+        <span class="tip">Share the knowledge with friends, family or just an aquantiance of who has influence over their candidates.</span>
+    </div>
+    <div id="postcardSearch" class="module">
+    </div>
+    <div class="module">
+        <h3>Confirm Your Postcard Information</h3>
+        <div class="cardFront">
+            <h4>Image</h4>
+            <img src="{{ front }}" alt="Postcard front" />
+        </div>
+        <div class="cardBack">
+            <h4>Message</h4>
+            <img src="/postcard/text_preview/{{ card.id }}/{{ card.get_code }}" alt="Postcard back" />
+        </div>
+        <div class="clear"></div><br />
+        <h4>Payment</h4>
+        <div class="tip" style="text-transform: none;">The cost of printing and shipping for each postcard is $2.  We suggest an additional donation of $1 to help the Sunlight Foundation further its mission of government transparency and accountability.</div>
+        <form method="POST">
+            {{ form.non_field_errors }}
+            <ul>
+                <li>
+                    {{ form.amount.errors }}
+                    <label>Payment (cost and donation)</label>
+                    {{ form.amount }}
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

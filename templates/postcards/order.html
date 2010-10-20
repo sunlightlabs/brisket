@@ -1,5 +1,13 @@
 {% extends 'search_base.html' %}
 
+{% block js %}
+{{ block.super }}
+{% comment %}Quick and dirty API interaction code for postcards; could probably be moved to its own file if it were going to be around for a while {% endcomment %}
+
+<script type="text/javascript" src="/media/js/postcards.js"></script>
+
+{% endblock %}
+
 {% block main %}
 
 <div id="postcardBox">
@@ -17,75 +25,109 @@
         </form>    
     </div> 
     <div class="module">
-        <h3>Build Your Postcard Now</h3>
-        <form action="." method="get">
+        <form method="POST">
+            <h3>Build Your Postcard Now</h3>
+            {{ form.non_field_errors }}
             <ul>
                 <li>
+                    {{ form.office.errors }}
                     <label>Office</label>
-                    <select class="office" name="office">
-                        <option value="all">All</option>
-                        <option value="house">House</option>
-                        <option value="senate">Senate</option>
-                        <option value="senate">Governor</option>
-                    </select>
+                    {{ form.office }}
                 </li>
                 <li>
+                    {{ form.state.errors }}
                     <label>State</label>
-                    <select class="state" name="state">
-                        <option value="select">Select</option>
-                    </select>
+                    {{ form.state }}
                 </li>
                 <li>
+                    {{ form.td_id.errors }}
                     <label>Candidate</label>
-                    <select class="candidate" name="candidate">
-                        <option value="select">Select</option>
-                    </select>
+                    {{ form.td_id }}
                 </li>
                 <li>
+                    {{ form.num_candidates.errors }}
                     <label>Single Candidate or Opposing Candidates</label>
-                    <div class="postcardImage">
-                        <input class="radio" type="radio" name="word" />
-                    </div>
-                    <div class="postcardImage">
-                        <input class="radio" type="radio" name="word" />
-                    </div>
+                    {{ form.num_candidates }}
                     <div class="clear"></div>
+                </li>  
+            </ul>
+            <h4>Personalize It</h4>
+            <h5>Sender's Address</h5>
+            <ul>
+                <li>
+                    {{ form.sender_name.errors }}
+                    <label>Name</label>
+                    {{ form.sender_name }}
+                </li>
+                <li>
+                    {{ form.sender_address1.errors }}
+                    <label>Address Line 1</label>
+                    {{ form.sender_address1 }}
+                </li>
+                <li>
+                    {{ form.sender_address2.errors }}
+                    <label>Address Line 2</label>
+                    {{ form.sender_address2 }}
+                </li>
+                <li>
+                    {{ form.sender_city.errors }}
+                    <label>City</label>
+                    {{ form.sender_city }}
+                </li>
+                <li>
+                    {{ form.sender_state.errors }}
+                    <label>State</label>
+                    {{ form.sender_state }}
+                </li>
+                <li>
+                    {{ form.sender_zip.errors }}
+                    <label>Zip</label>
+                    {{ form.sender_zip }}
+                </li>
+            </ul>
+            <h5>Recipient's Address</h5>
+            <ul>
+                <li>
+                    {{ form.recipient_name.errors }}
+                    <label>Name</label>
+                    {{ form.recipient_name }}
+                </li>
+                <li>
+                    {{ form.recipient_address1.errors }}
+                    <label>Address Line 1</label>
+                    {{ form.recipient_address1 }}
+                </li>
+                <li>
+                    {{ form.recipient_address2.errors }}
+                    <label>Address Line 2</label>
+                    {{ form.recipient_address2 }}
+                </li>
+                <li>
+                    {{ form.recipient_city.errors }}
+                    <label>City</label>
+                    {{ form.recipient_city }}
+                </li>
+                <li>
+                    {{ form.recipient_state.errors }}
+                    <label>State</label>
+                    {{ form.recipient_state }}
+                </li>
+                <li>
+                    {{ form.recipient_zip.errors }}
+                    <label>Zip</label>
+                    {{ form.recipient_zip }}
+                </li>
+            </ul>
+            <h5>Personalized Message</h5>
+            <ul>
+                <li>
+                    {{ form.message.errors }}
+                    <label>Message</label>
+                    {{ form.message }}
                 </li>
                 <li>
                     <button class="previewBtn" type="submit">
                         <span>Preview</span>
-                    </button>
-                </li>    
-            </ul>
-        </form>    
-        <h4>Personalize It</h4>
-        <form action="." method="get">
-            <ul>
-                <li>
-                    <label>Address of Recipient</label>
-                    <input id="id_address" type="text" name="address"/>
-                </li>
-                <li>
-                    <label>City</label>
-                    <input id="id_city" type="text" name="city"/>
-                </li>
-                <li>
-                    <label>State</label>
-                    <select class="state" name="state">
-                        <option value="select">Select</option>
-                    </select>
-                </li>
-                <li>
-                    <label>Zip</label>
-                    <input id="id_zip" type="text" name="zip"/>
-                </li>
-                <li>
-                    <label>Message</label>
-                    <textarea class="textarea full additionalDescription" name="text"></textarea>
-                </li>
-                <li>
-                    <button class="sendBtn" type="submit">
-                        <span>Send</span>
                     </button>
                 </li>    
             </ul>

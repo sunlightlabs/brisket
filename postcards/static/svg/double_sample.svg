@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.2//EN" "http://www.w3.org/Graphics/SVG/1.2/DTD/svg12.dtd">
+
+
+
+
+<svg width="6.25in" height="4.5in" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <style type="text/css">
+          <![CDATA[
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: normal;
+                font-style: normal;
+                src: url("resources/UniversLTStd-Cn.svg#UniversLTStd57Condensed") format("svg");
+            }
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: bold;
+                font-style: normal;
+                src: url("resources/UniversLTStd-BoldCn.svg#UniversLTStd67BoldCondensed") format("svg");
+            }
+            @font-face {
+                font-family: 'Univers Condensed'; 
+                font-weight: normal;
+                font-style: italic;
+                src: url("resources/UniversLTStd-CnObl.svg#UniversLTStd57CondensedOblique") format("svg");
+            }
+            text {
+                font-family: 'Univers Condensed';
+                stroke: none;
+                fill: #444545;
+            }
+            .name {
+                font-size: 16pt;
+                fill: #444545;
+                font-weight: bold;
+            }
+            .district {
+                font-size: 11pt;
+                fill: #666666;
+            }
+            .amount {
+                font-size: 23pt;
+                fill: #444545;
+                font-weight: bold;
+            }
+            .description {
+                font-size: 7.3pt;
+                font-style: italic;
+            }
+            .legend {
+                font-size: 7.5pt;
+            }
+            .legend-number {
+                font-size: 6pt;
+                fill: #666666;
+            }
+            .raised-for {
+                font-size: 9pt;
+                fill: #666666;
+                font-weight: normal;
+            }
+          ]]>
+        </style>
+    </defs>
+    <g transform="rotate(90,216,300) translate(-84,-84)">
+        <!-- base template -->
+        <image xlink:href="resources/pair_background_final.svg" x="0" y="0" width="4.5in" height="6.25in" />
+        
+        <!-- for the two-candidate card, each candidate goes in a group so that we can transpose -->
+        
+        <g transform="translate(0, 0)">
+            <!-- headshot -->
+            
+            <rect x="0.375in" y="1.07in" width="0.46in" height="0.46in" style="fill: #000000; stroke: none;" />
+            <rect x="0.385in" y="1.08in" width="0.44in" height="0.44in" style="fill: #aaaaaa; stroke: none;" />
+            
+            
+            <!-- main candidate name, district, and donation amount -->
+            <text class="name" x="0.91in" y="1.33in">CANDIDATE NAME</text>
+            <text class="district" x="0.91in" y="1.48in">Senate (I-AB)</text>
+            <text class="amount" x="0.375in" y="1.88in">$3,901,789 <tspan class="raised-for">raised for the 2010 election</tspan></text>
+            
+            <!-- graphs -->
+            <g transform="translate(36, 227)">
+                <rect x="139" y="5" width="90.0" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="234.0" y="12">$362,809</text><text class="legend" x="0" y="13">Category Unknown</text><rect x="139" y="19" width="73.8735808649" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="217.873580865" y="26">$297,800</text><text class="legend" x="0" y="27">Leadership Pacs</text><rect x="139" y="33" width="57.6923394954" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="201.692339495" y="40">$232,570</text><text class="legend" x="0" y="41">Insurance</text><rect x="139" y="47" width="45.4999738154" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="189.499973815" y="54">$183,420</text><text class="legend" x="0" y="55">Health Professionals</text><rect x="139" y="61" width="39.7667092051" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="183.766709205" y="68">$160,308</text><text class="legend" x="0" y="69">Lawyers/Law Firms</text><line x1="135" y1="0" x2="135" y2="75" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" /><line x1="135" y1="75" x2="264" y2="75" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" />
+            </g>
+        </g>
+        
+        <g transform="translate(0, 213)">
+            <!-- headshot -->
+            
+            <rect x="0.375in" y="1.07in" width="0.46in" height="0.46in" style="fill: #000000; stroke: none;" />
+            <rect x="0.385in" y="1.08in" width="0.44in" height="0.44in" style="fill: #aaaaaa; stroke: none;" />
+            
+            
+            <!-- main candidate name, district, and donation amount -->
+            <text class="name" x="0.91in" y="1.33in">CANDIDATE NAME</text>
+            <text class="district" x="0.91in" y="1.48in">Senate (I-AB)</text>
+            <text class="amount" x="0.375in" y="1.88in">$1,340,689 <tspan class="raised-for">raised for the 2010 election</tspan></text>
+            
+            <!-- graphs -->
+            <g transform="translate(36, 227)">
+                <rect x="139" y="5" width="90.0" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="234.0" y="12">$868,925</text><text class="legend" x="0" y="13">Lawyers/Law Firms</text><rect x="139" y="19" width="14.1588744713" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="158.158874471" y="26">$136,700</text><text class="legend" x="0" y="27">Category Unknown</text><rect x="139" y="33" width="9.38028023132" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="153.380280231" y="40">$90,564</text><text class="legend" x="0" y="41">Retired</text><rect x="139" y="47" width="6.83085421642" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="150.830854216" y="54">$65,950</text><text class="legend" x="0" y="55">Real Estate</text><rect x="139" y="61" width="2.27349886354" height="9" style="stroke: none; fill: #efcc01" /><text class="legend-number" x="146.273498864" y="68">$21,950</text><text class="legend" x="0" y="69">Democratic/Liberal</text><line x1="135" y1="0" x2="135" y2="75" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" /><line x1="135" y1="75" x2="264" y2="75" style="stroke: #cdcccb; fill: none; stroke-width: 1pt;" />
+            </g>
+        </g>
+        
+        
+    </g>
+</svg>
