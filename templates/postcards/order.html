@@ -2,7 +2,6 @@
 
 {% block js %}
 {{ block.super }}
-{% comment %}Quick and dirty API interaction code for postcards; could probably be moved to its own file if it were going to be around for a while {% endcomment %}
 
 <script type="text/javascript" src="/media/js/postcards.js"></script>
 
@@ -21,9 +20,9 @@
         </div>
     </div>
     <div id="postcardSearch" class="module">
-        <form action="." method="get">
-            <label class="tip">Search by a candidate, a zip code or an addresss to see what postcards are available</label>
-            <input id="id_postcardSearch" type="text" name="postcardSearch"/>
+        <form method="get">
+            <label class="tip">Search by a city and state, a zip code or an addresss to see what postcards are available</label>
+            <input id="id_postcardSearch" type="text" name="location"/>
             <button class="searchPostcardBtn" type="submit">
                 <span>Search</span>
             </button>
@@ -33,6 +32,9 @@
         <form method="POST">
             <h3>Build Your Postcard Now</h3>
             {{ form.non_field_errors }}
+            {% if search_error %}
+                <ul class="errorlist"><li>{{ search_error }}</li></ul>
+            {% endif %}
             <ul>
                 <li>
                     {{ form.office.errors }}

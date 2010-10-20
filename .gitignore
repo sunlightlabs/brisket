@@ -10,6 +10,7 @@ postcards/static/svg/race*.svg
 postcards/static/svg/resources/Univers*
 postcards/static/svg/resources/photos/*
 postcards/static/pdf/*
-postcards/static/png/*
+postcards/static/png/candidate*.png
+postcards/static/png/race*.png
 postcards/static/messages/pdf/*.pdf
 postcards/static/messages/png/*.png
