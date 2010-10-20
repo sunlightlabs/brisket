@@ -78,7 +78,7 @@ def render_card_pdf(card, filename):
         'address2': card.recipient_address2,
         'city': card.recipient_city,
         'state': card.recipient_state,
-        'zip': card.sender_zip,
+        'zip': card.recipient_zip,
     })), large)], canv)
     
     canv.save()

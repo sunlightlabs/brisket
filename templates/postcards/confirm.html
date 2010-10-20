@@ -6,7 +6,17 @@
 {{ block.super }}
 {% comment %}Quick and dirty API interaction code for postcards; could probably be moved to its own file if it were going to be around for a while {% endcomment %}
 
-<script type="text/javascript" src="/media/js/postcards.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#id_amount').change(function() {
+            $('input[type=image]').attr('disabled', 'true');
+            $.getJSON('/simplepay/transaction/{{ card.amazon_transaction.reference_id }}/?amount=' + $('#id_amount').val(), function(data) {
+                $('#id_signature').val(data.signature);
+                $('#id_amount').removeAttr('disabled');
+            });
+        })
+    });
+</script>
 
 {% endblock %}
 
@@ -17,7 +27,7 @@
         <h2><big>Before they vote</big><small>Send Them a Postcard</small></h2>
     </div>
     <div id="postcardSearch" class="module">
-        <form method="get">
+        <form method="get" action="/postcard/order">
             <label class="tip">Search by a city and state, a zip code or an addresss to see what postcards are available</label>
             <input id="id_postcardSearch" type="text" name="location"/>
             <button class="searchPostcardBtn" type="submit">
