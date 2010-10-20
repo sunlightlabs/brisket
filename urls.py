@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url('^contact/$', 'brisket.views.contact', name='contact_form'),
     url('^about/$', direct_to_template, {'template': 'about.html'}),
     url('^postcard', include('postcards.urls')),
+    url('^simplepay/', include('simplepay.urls')),
     (r'^admin/', include(admin.site.urls)),
     # everything else goes to influence
     url(r'^', include('brisket.influence.urls')),

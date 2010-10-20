@@ -62,6 +62,6 @@ class RequestLoggingMiddleware():
 
 
     def should_log(self, request):
-        return not re.match(r'(^/media|.*\.ico$)', request.path)
+        return not re.match(r'(^/media|^/simplepay|.*\.ico$)', request.path)
 
 

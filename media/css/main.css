@@ -297,3 +297,6 @@ dt.moneyTitle { margin-top: 8px;}
 #postcards h2 { font-size: 240%;}
 #postcards span { font-size: 180%; color: #bc4c22; text-transform: uppercase;}
 #postcardDescrition { float: left; width: 495px;}
+
+#postcardBox input[type=image] { width: auto; height: auto; border: 0;}
+.payment-info { text-transform: none; margin-bottom: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; }

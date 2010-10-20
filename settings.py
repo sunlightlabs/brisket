@@ -133,6 +133,8 @@ LATEST_CYCLE = 2010
 
 SESSION_COOKIE_NAME = 'brisket_session'
 
+SIMPLEPAY_COMPLETE_REDIRECT = '/postcard/thanks'
+
 try:
     from local_settings import *
 except:

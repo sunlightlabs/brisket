@@ -1,0 +1,24 @@
+{% extends 'search_base.html' %}
+
+{% block js %}
+{{ block.super }}
+
+<script type="text/javascript" src="/media/js/postcards.js"></script>
+
+{% endblock %}
+
+{% block main %}
+
+<div id="postcardBox">
+    <div class="module">
+        <h2><big>Before they vote</big><small>Send Them a Postcard</small></h2>
+        <span class="tip">Share the knowledge with friends, family or just an aquantiance of who has influence over their candidates.</span>
+    </div>
+    <div id="postcardSearch" class="module">
+    </div> 
+    <div class="module">
+        <h3>Thanks for ordering your postcard!</h3>
+    </div>
+</div>
+
+{% endblock %}

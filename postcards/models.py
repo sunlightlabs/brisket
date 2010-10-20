@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.localflavor.us.models import USStateField
-from simplepay.models import Transaction
+from simplepay.models import Transaction, DonationButton
 from django.conf import settings
 import hashlib
+from django.db.models.signals import post_save
 
 BATCH_STATUS_CHOICES = (
     ('not_processed', 'Not processed'),
@@ -80,3 +81,19 @@ class Postcard(models.Model):
     
     def get_code(self):
         return hashlib.md5('%s%s' % (self.pk, settings.SECRET_KEY)).hexdigest()[:5]
+    
+    def save(self):
+        if not self.amazon_transaction:
+            transaction = Transaction(button=DonationButton.objects.get(pk=1))
+            transaction.save()
+            self.amazon_transaction = transaction
+        super(Postcard, self).save()
+
+def update_card(sender, **kwargs):
+    if instance.status in ['PS', 'PI']:
+        cards = Postcard.objects.filter(amazon_transaction=kwargs['instance'])
+        if cards:
+            card[0].status = 'paid'
+            card[0].save()
+
+post_save.connect(update_card, sender=Transaction)

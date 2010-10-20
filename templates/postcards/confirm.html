@@ -1,5 +1,7 @@
 {% extends 'search_base.html' %}
 
+{% load simplepay_tags %}
+
 {% block js %}
 {{ block.super }}
 {% comment %}Quick and dirty API interaction code for postcards; could probably be moved to its own file if it were going to be around for a while {% endcomment %}
@@ -29,17 +31,8 @@
         </div>
         <div class="clear"></div><br />
         <h4>Payment</h4>
-        <div class="tip" style="text-transform: none;">The cost of printing and shipping for each postcard is $2.  We suggest an additional donation of $1 to help the Sunlight Foundation further its mission of government transparency and accountability.</div>
-        <form method="POST">
-            {{ form.non_field_errors }}
-            <ul>
-                <li>
-                    {{ form.amount.errors }}
-                    <label>Payment (cost and donation)</label>
-                    {{ form.amount }}
-                </li>
-            </ul>
-        </form>
+        <div class="payment-info">The cost of printing and shipping for each postcard is $2.  We suggest an additional donation of $1 to help the Sunlight Foundation further its mission of government transparency and accountability.</div>
+        {% simplepay_form form %}
     </div>
 </div>
 

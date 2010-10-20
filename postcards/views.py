@@ -92,11 +92,17 @@ def confirm(request, id, hash):
     card = Postcard.objects.get(id=id)
     if hash != card.get_code():
         raise Http404
-    type = 'candidate' if card.num_candidates == 1 else 'race'
     
+    # payment
+    form = card.amazon_transaction.get_form()
+    form.set_urls(request)
+    form.generate_signature()
+    
+    # thumbnails
+    type = 'candidate' if card.num_candidates == 1 else 'race'
     thumb = get_thumbnail(type, card.td_id)
     
-    return direct_to_template(request, 'postcards/confirm.html', {'front': '/postcard/thumbnail/%s/%s' % (type, card.id), 'card': card})
+    return direct_to_template(request, 'postcards/confirm.html', {'front': '/postcard/thumbnail/%s/%s' % (type, card.id), 'card': card, 'form': form})
 
 # utility stuff
 def get_thumbnail(type, id):
