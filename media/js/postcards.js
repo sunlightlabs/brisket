@@ -73,7 +73,6 @@ $(function() {
     };
     
     var cmp = function(a, b) {
-        console.log("called cmp", a, b)
         if (a < b) {
             return -1;
         } else if (a > b) {
