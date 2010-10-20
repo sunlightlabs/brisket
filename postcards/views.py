@@ -19,9 +19,10 @@ class PostcardForm(forms.ModelForm):
     office = forms.ChoiceField(choices=(('', '---------'), ('house', 'House'), ('senate', 'Senate')), required=False)
     state = forms.ChoiceField(choices=([('', '---------')] + list(STATE_CHOICES)), required=False)
     num_candidates = forms.ChoiceField(widget=forms.RadioSelect(), choices=((1, '1'), (2, '2')))
+    location = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         model = Postcard
-        fields = ('office', 'state', 'td_id', 'num_candidates', 'sender_name', 'sender_address1', 'sender_address2', 'sender_city', 'sender_state', 'sender_zip', 'recipient_name', 'recipient_address1', 'recipient_address2', 'recipient_city', 'recipient_state', 'recipient_zip', 'message')
+        fields = ('office', 'location', 'state', 'td_id', 'num_candidates', 'sender_name', 'sender_address1', 'sender_address2', 'sender_city', 'sender_state', 'sender_zip', 'recipient_name', 'recipient_address1', 'recipient_address2', 'recipient_city', 'recipient_state', 'recipient_zip', 'message')
 
     
 def order(request):
@@ -99,10 +100,14 @@ def confirm(request, id, hash):
     form.generate_signature()
     
     # thumbnails
-    type = 'candidate' if card.num_candidates == 1 else 'race'
-    thumb = get_thumbnail(type, card.td_id)
+    if card.num_candidates == 1:
+        type = 'candidate'
+        id = card.td_id
+    else:
+        type = 'race'
+        id = card.location
     
-    return direct_to_template(request, 'postcards/confirm.html', {'front': '/postcard/thumbnail/%s/%s' % (type, card.id), 'card': card, 'form': form})
+    return direct_to_template(request, 'postcards/confirm.html', {'front': '/postcard/thumbnail/%s/%s' % (type, id), 'card': card, 'form': form})
 
 # utility stuff
 def get_thumbnail(type, id):

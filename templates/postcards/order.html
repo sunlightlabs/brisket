@@ -35,6 +35,7 @@
             {% if search_error %}
                 <ul class="errorlist"><li>{{ search_error }}</li></ul>
             {% endif %}
+            {{ form.location }}
             <ul>
                 <li>
                     {{ form.office.errors }}

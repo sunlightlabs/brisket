@@ -41,7 +41,7 @@ $(function() {
         //double candidate
         $('#id_num_candidates_1_label div').html('<img src="/postcard/thumbnail/race/' + (selected.attr('data-contest') || 'none') + '" alt="Double-candidate"/>')
         
-        //Disable photo and button if there's only one candidate
+        // Disable photo and button if there's only one candidate
         var $td = $('#id_td_id');
         if ($td.val() && $td.find('option[data-contest=' + selected.attr('data-contest') + ']').length < 2) {
             //force-select the first radio
@@ -51,6 +51,9 @@ $(function() {
             $('input.radio').removeAttr('disabled');
             $('#id_num_candidates_1_label div img').css('opacity', '');
         }
+        
+        // Make sure the location record is current
+        $('#id_location').val(selected.attr('data-contest'));
     };
     
     if (candidate || ($('#id_state').val() && $('#id_office').val())) {

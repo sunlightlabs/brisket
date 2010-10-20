@@ -49,6 +49,7 @@ POSTCARD_STATUS_CHOICES = (
 )
 class Postcard(models.Model):
     td_id = models.CharField(max_length=32, verbose_name="Candidate")
+    location = models.CharField(max_length=12, verbose_name="District", blank=True)
     num_candidates = models.PositiveIntegerField(verbose_name="Number of Candidates", choices=((1, '1'), (2, '2')))
     
     sender_name = models.CharField(max_length=128, verbose_name="Sender Name")
