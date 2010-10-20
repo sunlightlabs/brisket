@@ -94,7 +94,7 @@ div#currentDates { float: left; width: 350px; font-style: oblique; color: ##7970
 div#currentDates .currentDateTitle { font-style: normal; font-weight: bold; color: #0A6E92; margin-right: 5px;}
 #changeDates { float: right; }
 div#timeSpan select { font-size: 80%;}
-div#timeSpan label {color: #0a6e92; margin-right: 10px; font-weight: bold;} 
+div#timeSpan label {color: #0a6e92; margin-right: 10px; font-weight: bold; width: 135px;} 
 
 select { color: #58595b;}
 
@@ -287,7 +287,7 @@ dt.moneyTitle { margin-top: 8px;}
 .errorlist {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
 .errorlist li { margin-bottom: 0px !important; }
 
-.cardFront, .cardBack { float: left; padding-right: 15px; }
+.cardFront, .cardBack { float: left; margin-right: 25px; margin-bottom: 30px;}
 .cardFront img, .cardBack img { border: 1px solid #aaaaaa; }
 
 #postcardBox h2 { margin-bottom: 15px;}
@@ -298,5 +298,7 @@ dt.moneyTitle { margin-top: 8px;}
 #postcards span { font-size: 180%; color: #bc4c22; text-transform: uppercase;}
 #postcardDescrition { float: left; width: 495px;}
 
-#postcardBox input[type=image] { width: auto; height: auto; border: 0;}
+#postcardBox input[type=image] { width: auto; height: auto; border: 0; margin-left: 150px;}
 .payment-info { text-transform: none; margin-bottom: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; }
+#payment label { width: 150px;}
+#payment form { margin-top: 20px;}

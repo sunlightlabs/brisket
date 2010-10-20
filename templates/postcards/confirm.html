@@ -15,9 +15,15 @@
 <div id="postcardBox">
     <div class="module">
         <h2><big>Before they vote</big><small>Send Them a Postcard</small></h2>
-        <span class="tip">Share the knowledge with friends, family or just an aquantiance of who has influence over their candidates.</span>
     </div>
     <div id="postcardSearch" class="module">
+        <form method="get">
+            <label class="tip">Search by a city and state, a zip code or an addresss to see what postcards are available</label>
+            <input id="id_postcardSearch" type="text" name="location"/>
+            <button class="searchPostcardBtn" type="submit">
+                <span>Search</span>
+            </button>
+        </form>
     </div>
     <div class="module">
         <h3>Confirm Your Postcard Information</h3>
@@ -29,10 +35,12 @@
             <h4>Message</h4>
             <img src="/postcard/text_preview/{{ card.id }}/{{ card.get_code }}" alt="Postcard back" />
         </div>
-        <div class="clear"></div><br />
-        <h4>Payment</h4>
-        <div class="payment-info">The cost of printing and shipping for each postcard is $2.  We suggest an additional donation of $1 to help the Sunlight Foundation further its mission of government transparency and accountability.</div>
-        {% simplepay_form form %}
+        <div class="clear"></div>
+        <div id="payment">
+            <h4 class="withTip">Payment</h4>
+            <div class="payment-info">The cost of printing and shipping for each postcard is $2.  We suggest an additional donation of $1 to help the Sunlight Foundation further its mission of government transparency and accountability.</div>
+            {% simplepay_form form %}
+        </div>
     </div>
 </div>
 
