@@ -19,15 +19,31 @@ $(function() {
             $.getJSON("http://transparencydata.com/api/1.0/entities/race/" + state + ".json?apikey=" + API + "&cycle=2010&callback=?", function(data) {
                 var $td = $('#id_td_id');
                 $td.html('<option selected="selected" value="">---------</option>')
-                $.each(data, function(num, val) {
+                
+                data = $.map(data, function(val) {
                     if ((val.party == "R" || val.party == "D") && val.seat == office) {
-                        if (office == 'federal:senate') {
-                            var contest = 'state';
-                        } else {
-                            var contest = 'district';
-                        }
-                        $td.append("<option value='" + val.entity_id + "' data-contest='" + val[contest] + "'>" + val.name + "</option>")
+                        return val;
+                    } else {
+                        return null;
                     }
+                })
+                data.sort(function(a, b) {
+                    var contest = a['seat'] == 'federal:senate' ? 'state' : 'district';
+                    var comp = cmp(a[contest], b[contest]);
+                    if (comp != 0) {
+                        return comp;
+                    } else {
+                        return cmp(a.name, b.name)
+                    }
+                })
+                
+                $.each(data, function(num, val) {
+                    if (office == 'federal:senate') {
+                        var contest = 'state';
+                    } else {
+                        var contest = 'district';
+                    }
+                    $td.append("<option value='" + val.entity_id + "' data-contest='" + val[contest] + "'>" + val.name.replace(")", "-" + val[contest] + ")") + "</option>")
                 })
                 
                 callback();
@@ -55,6 +71,17 @@ $(function() {
         // Make sure the location record is current
         $('#id_location').val(selected.attr('data-contest'));
     };
+    
+    var cmp = function(a, b) {
+        console.log("called cmp", a, b)
+        if (a < b) {
+            return -1;
+        } else if (a > b) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
     
     if (candidate || ($('#id_state').val() && $('#id_office').val())) {
         load_candidates(function() {
