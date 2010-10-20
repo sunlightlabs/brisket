@@ -304,3 +304,8 @@ dt.moneyTitle { margin-top: 8px;}
 .payment-info { text-transform: none; margin-bottom: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; }
 #payment label { width: 150px;}
 #payment form { margin-top: 20px;}
+
+#postcardBox h4 img {
+    width: 24px;
+    height: 24px;
+}
