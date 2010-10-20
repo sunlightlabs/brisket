@@ -90,10 +90,14 @@ class Postcard(models.Model):
         super(Postcard, self).save()
 
 def update_card(sender, **kwargs):
+    if 'instance' in kwargs:
+        instance = kwargs['instance']
+    else:
+        return
     if instance.status in ['PS', 'PI']:
-        cards = Postcard.objects.filter(amazon_transaction=kwargs['instance'])
+        cards = Postcard.objects.filter(amazon_transaction=instance)
         if cards:
-            card[0].status = 'paid'
-            card[0].save()
+            cards[0].status = 'paid'
+            cards[0].save()
 
 post_save.connect(update_card, sender=Transaction)
