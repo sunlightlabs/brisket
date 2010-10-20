@@ -20,6 +20,8 @@ class SessionMiddleware(object):
         request.session = SessionStore(cookie)
     
     def process_response(self, request, response):
+        if not getattr(request, 'session', None):
+            return response
         session = request.session
         if session.deleted:
             response.delete_cookie(settings.SESSION_COOKIE_NAME,
