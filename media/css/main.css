@@ -188,7 +188,7 @@ body.search dt span { font-weight: normal;}
 body.search dd { text-align: right; width: 260px; margin-right: 0;}
 body.search table { margin-top: 15px;}
 
-button { text-indent: -9999em; display: block; border: none; cursor: pointer;}
+button, .linkBtn { text-indent: -9999em; display: block; border: none; cursor: pointer;}
 
 button.searchBtn { background: url(../images/btn_go.png) left top no-repeat; width: 75px; height: 55px; float: left; margin-top: 3px;}
 button.searchBtn:hover { background: url(../images/btn_go.png) left -55px no-repeat; }
@@ -202,6 +202,8 @@ button.sendBtn { background: url(../images/btn_send.png) left top no-repeat; wid
 button.sendBtn:hover { background: url(../images/btn_send.png) left bottom no-repeat; }
 button.searchPostcardBtn { background: url(../images/btn_postcardSearch.png) left top no-repeat; width: 90px; height: 29px; margin-top: 2px; float: left;}
 button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.png) left bottom no-repeat;  }
+#postcardBtn { background: url(../images/btn_sendPostcard.jpg) left top no-repeat; width: 259px; height: 46px; }
+#postcardBtn:hover { background: url(../images/btn_sendPostcard.jpg) left bottom no-repeat; }
 
 form#contact { margin-top: 45px;}
 label { color: #0A6E92; width: 120px; display: block; float: left;}
