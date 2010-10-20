@@ -58,7 +58,7 @@ div.searchBox ul { margin-top: 15px; }
 div.searchBox li { padding: 10px;}
 div.searchBox a { float: left; margin-right: 10px;}
 div.searchBox p.description a { float: none; margin-right: 0px; }
-div.searchBox p.description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
+div.searchBox p.description, #postcardDescription { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
 span.amountGiven { display: block; float: right;}
 span.transactions { float: left; font-style: oblique; color: #827D7D; font-family: Georgia, Times New Roman, Times, serif;}
 
@@ -280,6 +280,7 @@ dt.moneyTitle { margin-top: 8px;}
 #postcardBox #postcardSearch label { color: #827d7d; width: auto; margin: 6px 15px 0 0;}
 #postcardSearch input { float: left; width: 200px; margin-right: 10px;}
 #postcardBox label { width: 225px;}
+
 .postcardImage { float: left; }
 .postcardImage img { height: 244px; width: 176px; border: 1px solid #aaaaaa; }
 
@@ -288,3 +289,11 @@ dt.moneyTitle { margin-top: 8px;}
 
 .cardFront, .cardBack { float: left; padding-right: 15px; }
 .cardFront img, .cardBack img { border: 1px solid #aaaaaa; }
+
+#postcardBox h2 { margin-bottom: 15px;}
+
+#postcards img { float: left; margin-right: 30px;}
+#postcards p, #postcardDescription p { margin-bottom: 1em;}
+#postcards h2 { font-size: 240%;}
+#postcards span { font-size: 180%; color: #bc4c22; text-transform: uppercase;}
+#postcardDescrition { float: left; width: 495px;}
