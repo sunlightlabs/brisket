@@ -92,20 +92,22 @@ def get_card_pdf(card, invalidate=False):
         render_card_pdf(card, pdf_path)
     return pdf_path
 
-def render_card_png(card, png_path, invalidate=False):
+def render_card_png(card, png_path, invalidate=False, large=False):
     pdf = get_card_pdf(card, invalidate)
-    mogrify = subprocess.Popen(['mogrify', '-format', 'png', '-density', '400', '-resize', '435x313', pdf])
+    tmp_pdf = "%s.pdf" % png_path[:-4]
+    os.symlink(pdf, tmp_pdf)
+    size = '625x450' if large else '435x313'
+    mogrify = subprocess.Popen(['mogrify', '-format', 'png', '-density', '400', '-resize', size, tmp_pdf])
     mogrify.wait()
-    print '%s.png' % pdf[:-4], png_path
-    os.rename('%s.png' % pdf[:-4], png_path)
+    os.unlink(tmp_pdf)
 
-def get_card_png(card, invalidate=False):
+def get_card_png(card, invalidate=False, large=False):
     postcard_dir = os.path.dirname(postcards.__file__)
-    png_dir = os.path.join(postcard_dir, 'static', 'messages', 'png')
+    png_dir = os.path.join(postcard_dir, 'static', 'messages', 'png' + ('_large' if large else ''))
     
     png_path = os.path.join(png_dir, "message_%s.png" % card.id)
     
     if not os.path.exists(png_path) or invalidate:
-        render_card_png(card, png_path, invalidate)
+        render_card_png(card, png_path, invalidate, large)
     return png_path
     
