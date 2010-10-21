@@ -7,9 +7,9 @@
   <a class="toggle">Toggle</a>
   <h3 class="insideBar">Lobbying, 
       {% ifequal cycle "-1" %} 
-        {{entity_info.lobbying_career.start}} - {{entity_info.lobbying_career.end}}
+        {{entity_info.lobbying_career.start}} &#150; {{entity_info.lobbying_career.end}}
       {% else %}  
-        {{cycle|add:-1}} - {{cycle}} 
+        {{cycle|add:-1}} &#150; {{cycle}} 
       {% endifequal %}</h3>
   <div class="insideBar amount">
     <span class="amount">
@@ -51,7 +51,7 @@
           {% for row in lobbying_lobbyists %}
           {% if row.lobbyist_entity %}
           <li>
-            <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+            <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
           </li>
           {% else %}
           {{ row.lobbyist_name|standardize_individual_name }}
@@ -89,7 +89,7 @@
         <tr class="{% cycle 'even' 'odd' %}">
           <td>	    
             {% if row.client_entity %}
-            <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}?cycle={{cycle}}">{{ row.client_name }}</a>
+            <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>
             {% else %}
             {{ row.client_name }}
             {% endif %} 
@@ -116,7 +116,7 @@
             {% for row in lobbying_lobbyists %}
             {% if row.lobbyist_entity %}
             <li>
-              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}?cycle={{cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+              <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
             </li>
             {% else %}
             {{ row.lobbyist_name|standardize_individual_name }}
@@ -153,7 +153,7 @@
         <tr class="{% cycle 'even' 'odd' %}">
           <td>	    
             {% if row.registrant_entity %}
-            <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}?cycle={{cycle}}">{{ row.registrant_name }}</a>
+            <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}{{cycle|pretty_cycle}}">{{ row.registrant_name }}</a>
             {% else %}
             {{ row.registrant_name }}
             {% endif %} 
@@ -174,9 +174,13 @@
   <div class="clear"></div>
   
   <div class="external">
-    {% block external_lobby_links %}  
-    {% endblock %}
-  </div>  
+    {% if lobbying_links %}
+      For more information on lobbying:
+      {% for link in lobbying_links %}
+      <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+      {% endfor %}
+    {% endif %}
+  </div>
   
   <div class="clear"></div>
 </div>

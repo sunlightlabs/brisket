@@ -10,26 +10,26 @@
 
 <div id="ltColumn">
     <p id="description">This document describes the process we use to compute aggregate information from single contributions. The information provided in this document should be detailed enough to allow a dedicated user to reproduce the figures in Influence Explorer using the underlying data provided in <a href="http://transparencydata.com">TransparencyData.com</a>.</p>
-    
+
     <h3>Background</h3>
-    <p>In order to understand the complexities involved in processing campaign finance data it&#8217;s important to understand the steps the data goes through to reach the TransparencyData.com website and APIs. At the federal level, when individuals or organizations give to a politician or a political action committee (PAC), the recipient asks the donor to provide information such as name, address, occupation and employer. Federal campaign finance disclosure laws require the recipient to report any contribution over $200 to the Federal Election Commission (FEC). The FEC releases this information to the public in the form of a large database dump. The FEC makes no attempt at data cleanup or standardization, making the raw data very difficult to use effectively. </p>
+    <p>In order to understand the complexities involved in processing campaign finance data, it&#8217;s important to understand the steps the data goes through to reach the TransparencyData.com website and APIs. At the federal level, when individuals or organizations give to a politician or a political action committee (PAC), the recipient asks the donor to provide information such as name, address, occupation and employer. Federal campaign finance disclosure laws require the recipient to report any contribution over $200 to the Federal Election Commission (FEC). The FEC releases this information to the public in the form of a large database dump. The FEC makes no attempt at data cleanup or standardization, making the raw data very difficult to use effectively. </p>
 
     <p>Our partner organization for federal data, the <a href="http://www.opensecrets.com">Center for Responsive Politics</a> (CRP), goes to great lengths to clean the FEC data, standardize names, and assign unique identifiers to some individuals and organizations. A similar process happens in each of the 50 states, with varying disclosure rules in each. Our partner organization for state-level data, the <a href="http://www.followthemoney.org">National Institute for Money in State Politics</a> (NIMSP), combines and standardizes this data across all 50 states. The Sunlight Foundation combines these and other data sets and makes them easily accessible through the TransparencyData.com website and APIs.</p>
 
     <h3>Matching Entities with Contributions</h3>
-    <p>An &#8216;entity&#8217; is any individual, organization or politician with a page on Influence Explorer. Every entity is identified by a name, and sometimes also by a unique identifier from one of our partner organizations. To find contributions that an entity was involved in, we search the database for records with matching names or IDs.</p>
+    <p>An &#8216;entity&#8217; is any individual, organization or politician with a page on Influence Explorer. Every entity is identified by a name and sometimes also by a unique identifier from one of our partner organizations. To find contributions that an entity was involved in, we search the database for records with matching names or IDs.</p>
 
-    <p>Organizations have an additional level of complexity, in that they may be a subsidiary of a larger organization. In this case, we associate the contribution with <em>both</em> the organization and the parent organization. This is an imperfect solution, and can lead to strange results, such as when the Top Contributors table for a politician lists a company and its parent company, when there was really only one set of contributions. </p>
+    <p>Organizations have an additional level of complexity, in that they may be subsidiaries of a larger organization. On organization pages, all numbers include contributions from subsidiary organizations. On politician pages, the Top Contributors chart lists only the contributing organization, not any parent organization. This is an imperfect solution and can lead to strange results, such as a parent organization page showing a contribution to a politician, but the politician showing only smaller contributions from subsidiary organizations.</p>
 
     <h3>Summing Contributions between Entities</h3>
 
-    <p>The campaign finance data includes records for many sorts of transactions other than a typical donation to a politician. Some examples include transfers between party and politician committees, independent expenditures for or against a candidate, or transfers of money from one election cycle to another. When we talk about the amount of money raised by a politician, or the amount of money a certain industry gave, we want to include only straightforward contributions from an individual or organization to a politician or PAC.</p>
+    <p>The campaign finance data includes records for many sorts of transactions other than a typical donation to a politician. Some examples include transfers between party and politician committees, independent expenditures for or against a candidate or transfers of money from one election cycle to another. When we talk about the amount of money raised by a politician, or the amount of money a certain industry gave, we want to include only straightforward contributions from an individual or organization to a politician or PAC.</p>
 
     <p>In deciding what contributions to include, we attempt to follow the methodology of CRP and NIMSP:</p>
     <ul>
-        <li>For federal contributions from individuals, we only count contributions with an FEC transaction type of 11, 15, 15e, 15j, or 22y.</li>
+        <li>For federal contributions from individuals, we only count contributions with an FEC transaction type of 11, 15, 15e, 15j or 22y.</li>
         <li>For federal contributions from organizations, we only count contributions with an FEC transaction type of 24k, 24r or 24z.</li>
-        <li>For state contributions, we ignore all contributions with a category code of Z2100, Z2200, Z2300, Z2400, Z7777, Z8888, Z9010, Z9020, Z9030, Z9040, Z9100, Z9500, Z9600, Z9700, or Z9999.</li>
+        <li>For state contributions, we ignore all contributions with a category code of Z2100, Z2200, Z2300, Z2400, Z7777, Z8888, Z9010, Z9020, Z9030, Z9040, Z9100, Z9500, Z9600, Z9700 or Z9999.</li>
     </ul>
 
     <p>For an admittedly cryptic guide to FEC codes see <a href="http://www.fec.gov/finance/disclosure/ftpdet.shtml">here</a> and <a href="ftp://ftp.fec.gov/FEC/indiv_dictionary.txt">here</a>. For a list of category codes see <a href="http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv">here</a>.</p>
@@ -42,7 +42,7 @@
         <li>If either the contributor or recipient name is written in a non-standard way, then the contribution will be missed. Contributions from &#8216;John P Smith&#8217; or to &#8216;Acme Widgets&#8217;, for example, might not be included. CRP and NIMSP go to great effort to standardize names, but they are far from covering all of the 40+ million records in the database.</li>
         <li>If a different real-world entity shares the same name, then those contributions will be erroneously included. This is especially problematic for common names, such as in this example.</li>
         <li>If there has been a name change over time, the previous names will not be included. This applies mostly to organizations, which undergo mergers, acquisitions and name changes, but also to individuals who change their names through marriage or divorce.</li>
-        <li>Contributions under $200 are never reported to the FEC, and so aren&#8217;t included in our totals.</li>
+        <li>Contributions under $200 are never reported to the FEC and so aren&#8217;t included in our totals.</li>
         <li>The data may simply be missing or inaccurate. For a contribution record to reach us, the contributor must disclose their name and employer, the recipient must report it to the FEC or state agency, and then the record must pass through various formats and databases from the government, to our partner organizations, and on to us.</li>
     </ul>
 
@@ -53,8 +53,8 @@
     <ul>
         <li>Our numbers include both state and federal data, whereas OpenSecrets is only federal data and FollowTheMoney is primarily state data.</li>
         <li>The data may be out of sync. The bulk databases provided to us by CRP and NIMSP are not necessarily the same version of the data that appears on their websites. The data they provide us may be newer or older, depending on when they last updated a particular page.</li>
-        <li>OpenSecret&#8217;s &#8216;Heavy Hitters&#8217; pages are based on a large amount of manual research to overcome the shortcomings listed in the section above. We do not have access to this research, and their numbers are likely to be more accurate than ours for organization on the &#8216;Heavy Hitters&#8217; list.</li>
-        <li>The time span may be different. Pages on OpenSecrets may display career totals, six-year Senate term totals, two-year election cycles totals, or single-year totals. Influence Explorer groups all data into either two-year cycles or career totals.</li>
+        <li>For a handful of large companies on the <a href="http://www.opensecrets.org/orgs/index.php">Heavy Hitters list</a>, OpenSecrets has special rules for handling corporate mergers and name changes over time. For these organizations, OpenSecrets combines the totals for the previous corporate entities under the current organization. For example, JP Morgan and Chase Manhattan merged in 2000 to form JP Morgan Chase. OpenSecrets shows the combined totals from both companies as JP Morgan Chase. Influence Explorer lists totals separately for JP Morgan, Chase Manhattan and&#8212;after 2000&#8212;the combined JP Morgan Chase.</li>
+        <li>The time span may be different. Pages on OpenSecrets may display career totals, six-year Senate term totals, two-year election cycles totals or single-year totals. Influence Explorer groups all data into either two-year cycles or career totals.</li>
         <li>We have made a best-effort attempt to match the methodology of our data providers. But there may still be unintentional methodology differences. The algorithms for importing, storing and working with this data are complex, and our systems cannot be guaranteed to function in exactly the same way in every case.</li>
     </ul>
 

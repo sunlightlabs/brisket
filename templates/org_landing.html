@@ -2,6 +2,10 @@
 {% load humanize %}
 {% load influence_extras %}
 
+{% block pagetitle %}
+    Organizations | 
+{% endblock %}
+
 {% block body_class %}organization{% endblock %}
 
 {% block main %}
@@ -11,7 +15,7 @@
     </div>
     <div id="ltColumn">
         <p>The following organizations have contributed the greatest dollar amounts during the current election cycle.</p>
-        <table id="mainPageTables">
+        <table id="mainPageTable" class="sortable">
             <thead>
                   <tr id="titles">
                       <th class="sort">Name</th>
@@ -22,7 +26,7 @@
                   {% for result in top_n_organizations %}
                   <tr class="{% cycle 'even' 'odd' %}">
                       <td>
-                          <a href="/organization/{{ result.name|standardize_organization_name|slugify }}/{{ result.id }}?cycle={{cycle}}">{{ result.name|standardize_organization_name }}</a>
+                          <a href="/organization/{{ result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{ result.name|standardize_organization_name }}</a>
                       </td>
                       <td>${{ result.amount|floatformat:0|intcomma }}</td>
                   </tr>

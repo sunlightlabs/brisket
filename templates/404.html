@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load influence_extras %}
+
+{% block pagetitle %}
+    Page Not Found |
+{% endblock %}
+
+{% block body_class %}error{% endblock %}
+
+{% block main %}
+    <div id="contentHeader">
+        <h2>Page Not Found</h2>
+    </div>
+    <div id="ltColumn">
+        <p>We're sorry, but we were unable to locate the page you requested.  Some things you might like to try include:</p>
+        <ul style="">
+            <li>Searching for the page you were after:<br />
+                <div id="search">
+                  <form id="searchForm" action="/search" method="get">
+                    {{ search_form_ext.query }}
+                    <input type="hidden" name="from_form" value="1">
+                    <button class="searchBtn_sm" type="submit">
+                      <span>Go</span>
+                    </button>
+                  </form>
+                  <div class="clear"></div>
+                </div>
+            </li>
+            <li>Returning to the <a href="/">home page</a></li>
+            <li><a href="/contact/">Contacting us</a> to let us know about the problem</li>
+        </ul>
+    </div>
+{% endblock %}

@@ -1,6 +1,8 @@
 import re, string, datetime
 import api
 from util import catcodes
+from django.template.defaultfilters import slugify
+from django.http import Http404
 
 def standardize_politician_name_with_metadata(name, party, state):
     party_state = "-".join([x for x in [party, state] if x]) # because presidential candidates are listed without a state
@@ -9,10 +11,10 @@ def standardize_politician_name_with_metadata(name, party, state):
     return name
 
 def standardize_politician_name(name):
-    no_party = strip_party(name)
-    proper_case = convert_case(no_party)
+    name = strip_party(name)
+    name = convert_to_standard_order(name)
 
-    return convert_to_standard_order(proper_case)
+    return convert_case(name)
 
 def standardize_individual_name(name):
     name, honorific, suffix = separate_affixes(name)
@@ -39,6 +41,12 @@ def standardize_organization_name(name):
 
     return name
 
+def standardize_industry_name(name):
+    name = convert_case(name)
+    name = name.strip()
+    
+    return name
+
 def separate_affixes(name):
     # this should match both honorifics (mr/mrs/ms) and jr/sr/II/III
     matches = re.search(r'^\s*(?P<name>.*)\b((?P<honorific>m[rs]s?.?)|(?P<suffix>([js]r|I{2,})))[.,]?\s*$', name, re.IGNORECASE)
@@ -51,7 +59,26 @@ def strip_party(name):
     return re.sub(r'\s*\(\w+\)\s*$', '', name)
 
 def convert_case(name):
-    return name if is_mixed_case(name) else string.capwords(name)
+    name = name if is_mixed_case(name) else string.capwords(name)
+    name = uppercase_roman_numeral_suffix(name)
+    return uppercase_the_scots(name)
+
+def uppercase_roman_numeral_suffix(name):
+    matches = re.search(r'(?i)(?P<suffix>\b[ivx]+)$', name)
+    if matches:
+        suffix = matches.group('suffix')
+        return re.sub(suffix, suffix.upper(), name)
+    else:
+        return name
+
+def uppercase_the_scots(name):
+    matches = re.search(r'(?i) (?P<mc>ma?c)(?P<first_letter>\w)', name)
+    if matches:
+        mc = matches.group('mc')
+        first_letter = matches.group('first_letter')
+        return re.sub(mc + first_letter, mc.title() + first_letter.upper(), name)
+    else:
+        return name
 
 def is_mixed_case(name):
     return re.search(r'[A-Z][a-z]', name)
@@ -78,24 +105,6 @@ def convert_running_mates(name):
         fixed_mates.append(convert_name_to_first_last(name))
 
     return ' & '.join(fixed_mates).strip()
-
-def industry_detail(request, entity_id):
-    cycle = request.GET.get("cycle", DEFAULT_CYCLE)
-    entity_info = api.entity_metadata(entity_id, cycle)
-    top_industries = api.pol_sectors(entity_id, cycle)
-
-    sectors = {}
-    for industry in top_industries:
-        industry_id = industry['category_name']
-        results = api.org_industries_for_sector(entity_id, industry_id)
-        sectors[industry_id] = (results)
-
-    return render_to_response('industry_detail.html',
-                              {'entity_id': entity_id,
-                               'entity_info': entity_info,
-                               'sectors': sectors,
-                               },
-                              entity_context(request, cycle))
 
 
 # lobbying
@@ -149,12 +158,6 @@ def lobbying_by_firm(lobbying_data):
 
 # random util/helper functions
 
-def slugify(string):
-    ''' like the django template tag, converts to lowercase, removes
-    all non-alphanumeric characters and replaces spaces with
-    hyphens. '''
-    return re.sub(" ", "-", re.sub("[^a-zA-Z0-9 -]+", "", string)).lower()
-
 def tuple_cmp(t1, t2):
     ''' a cmp function for sort(), to sort tuples by increasing value
     of the tuple's 2nd item (index 1)'''
@@ -174,7 +177,7 @@ def bar_validate(data):
     # if all the data is 0 or if the list with only positive data is
     # empty, return false
     if sum([int(float(record['value'])) for record in data]) == 0:
-        return False
+        return []
     else:
         return data
 
@@ -188,48 +191,45 @@ def pie_validate(data):
         if int(float(v)) != 0:
             positive[k] = v
     if len(positive) == 0:
-        return False
+        return []
     else:
         return positive
 
 def barchart_href(record, cycle, entity_type):
     if record.get('recipient_entity', None):
-            return str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['recipient_name']),
-                                               record['recipient_entity'], cycle))
+            return str("/%s/%s/%s%s" % (entity_type, slugify(record['recipient_name']),
+                                               record['recipient_entity'], "?cycle=" + cycle if cycle != "-1" else ""))
     elif record.get('id', None):
         if record['id']:
-            return str("/%s/%s/%s?cycle=%s" % (entity_type, slugify(record['name']),
-                                               record['id'], cycle))
+            return str("/%s/%s/%s%s" % (entity_type, slugify(record['name']),
+                                               record['id'], "?cycle=" + cycle if cycle != "-1" else ""))
     return ''
 
-
 def generate_label(string):
-    ''' truncate names longer than max_length and normalize the case
-    to use title case'''
+    ''' truncate names longer than max_length '''
     max_length = 34
     return string[:max_length] + (lambda x, l: (len(x)>l and "...")
                                    or "")(string, max_length)
 
-
 def get_metadata(entity_id, cycle, entity_type):
-    ''' beginnings of some refactoring. half implemented but
-    harmless. do not pet or feed.'''
     data = {}
+    cycle_str = unicode(cycle)
+
     # check the metadata to see which of the fields are present. this
     # determines which sections to display on the entity page.
-    section_indicators = {'individual': {'contributions': ('contributor_amount',),
-                                         'lobbying': ('lobbying_count',)},
-                          'organization' : {'contributions' : ('contributor_amount',),
-                                            'lobbying': ('lobbying_count',)},
-                          'politician' : {'contributions' : ('recipient_amount',)}
-                          }
+    section_indicators = {\
+        'individual':   {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
+        'organization': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
+        'industry': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
+        'politician':   {'contributions': ['recipient_amount']}\
+    }
 
     entity_info = api.entity_metadata(entity_id, cycle)
 
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():
-        if (entity_info['totals'].get(cycle, False) and
-            [True for ind in indicators if entity_info['totals'][cycle][ind] ]):
+        if (entity_info['totals'].get(cycle_str, False) and
+            [True for ind in indicators if entity_info['totals'][cycle_str][ind] ]):
             data[data_type] = True
         else:
             data[data_type] = False
@@ -237,7 +237,7 @@ def get_metadata(entity_id, cycle, entity_type):
     data['available_cycles'] = entity_info['totals'].keys()
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
-        entity_info['totals'] = entity_info['totals'][cycle]
+        entity_info['totals'] = entity_info['totals'][cycle_str]
     data['entity_info'] = entity_info
 
     return data
@@ -246,3 +246,18 @@ def months_into_cycle_for_date(date, cycle):
     end_of_cycle = datetime.datetime.strptime("{0}1231".format(cycle), "%Y%m%d").date()
     step = 24 - abs(((end_of_cycle.year - date.year) * 12) + end_of_cycle.month - date.month)
     return step
+
+
+def check_entity(entity_info, cycle, entity_type):
+    try:
+        icycle = int(cycle)
+    except:
+        raise Http404
+    if (icycle != -1 and (icycle < int(entity_info['career']['start']) or icycle > int(entity_info['career']['end']))) or entity_info['type'] != entity_type:
+        raise Http404
+        
+        
+def filter_bad_spending_descriptions(spending):
+    for r in spending:
+        if r['description'].count('!') > 10:
+            r['description'] = ''

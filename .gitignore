@@ -3,3 +3,5 @@
 .project
 .pydevproject
 local_settings.py
+fabfile.py
+media/sitemaps

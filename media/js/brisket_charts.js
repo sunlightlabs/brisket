@@ -3,7 +3,7 @@ function dollar(str) {
   var integer_part = decimal_split[0];
   var rgx = /(\d+)(\d{3})/;
     while (rgx.test(integer_part)) {
-    	integer_part = integer_part.replace(rgx, '$1' + ',' + '$2');
+        integer_part = integer_part.replace(rgx, '$1' + ',' + '$2');
     }
   return "$"+ integer_part;
 }
@@ -109,18 +109,18 @@ function barchart(div, data) {
     /* expects data to be a list of dicts each with keys called key,
        value, and href. */
 
-	if (data.length === 0) return;
+    if (data.length === 0) return;
 
-	var sizes = {
+    var sizes = {
         chart_height: 195,
         chart_width: 285,
         chart_x: 215,
         chart_y: 10,
         bar_gutter: 30,
-        right_gutter: 65,
+        right_gutter: 70,
         row_height: 18
     };
-	
+
     opts = {
         "type": "soft",
         "gutter": sizes.bar_gutter, //space between bars, as fn of bar width/height
@@ -129,7 +129,7 @@ function barchart(div, data) {
     };
 
     real_rows = data.length;
-    
+
     // Note: ideally we'd just make the chart itself smaller when there are fewer rows.
     // But Raphael sizing is unpredictable, so we have to keep the height and number of
     // rows constant in order to be able to match Raphael's row positions.
@@ -137,20 +137,20 @@ function barchart(div, data) {
         for (var i=data.length; i < 10; i++) {
           data[i] = {'key':' ', 'value': 0};
         }
-    }    
-    
+    }
+
     if (opts['stacked']) {
-        data_series = [_.pluck(data, 'value_employee'), _.pluck(data, 'value_pac')]; 
+        data_series = [_.pluck(data, 'value_employee'), _.pluck(data, 'value_pac')];
         data_labels = [_.pluck(data, 'key'), _.map(data, function(x){ return " "; })];
     } else {
-    	data_series = [_.pluck(data, 'value')]
+        data_series = [_.pluck(data, 'value')]
         data_labels = [_.pluck(data, 'key')];
     }
 
     b = Raphael(div);
     b.setSize(sizes.chart_x + sizes.chart_width + sizes.right_gutter, sizes.chart_y + sizes.chart_height);
-    b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";    
-    
+    b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
+
     var barchart_obj = b.g.hbarchart(sizes.chart_x, sizes.chart_y, sizes.chart_width, sizes.chart_height, data_series, opts);
     barchart_obj.label(data_labels, false);
 
@@ -184,21 +184,21 @@ function barchart(div, data) {
        method called 'label' just to confuse you) */
     var s = b.set();
     for (var i=0; i< data.length; i++) {
-    	if (data[i].value > 0) {
-	        var x = barchart_obj.bars[num_datasets-1][i].x;
-	        var y = barchart_obj.bars[num_datasets-1][i].y;
-	        text = dollar(data[i]['value']);
-	        marker = b.g.text(x,y,text);
-	        marker.attr("fill", "#666666");
-	        s.push(marker);
-    	}
+        if (data[i].value > 0) {
+            var x = barchart_obj.bars[num_datasets-1][i].x;
+            var y = barchart_obj.bars[num_datasets-1][i].y;
+            text = dollar(data[i]['value']);
+            marker = b.g.text(x,y,text);
+            marker.attr("fill", "#666666");
+            s.push(marker);
+        }
     }
 
     var spacing = 10; // spacing between bars and text markers
     s.attr({translation: spacing + ',0', 'text-anchor': 'start'});
 
     bottomY = 5 + sizes.chart_y + sizes.row_height * real_rows
-    
+
     var yAxis = b.path("M " + sizes.chart_x + " " + sizes.chart_y + " L " + sizes.chart_x + " " + bottomY);
     yAxis.attr({"stroke": "#827D7D", "stroke-width": 1});
     yAxis.show();
@@ -247,7 +247,13 @@ function sparkline_by_party(div, data, cut_off_point) {
         var key = keys[i];
         y[key] = [];
 
-        for (var j=0; j<cut_off_point; j++) {
+        stop_at = data[key].length
+
+        if (cut_off_point < stop_at) {
+            stop_at = cut_off_point
+        }
+
+        for (var j=0; j<stop_at; j++) {
             x[j] = j+1;
             y[key][j] = data[key][j]['amount'];
 

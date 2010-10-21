@@ -7,7 +7,7 @@ This document describes the process we use to compute aggregate information from
 
 In order to understand the complexities involved in processing campaign finance data it's important to understand the steps the data goes through to reach Transparency Data. At the federal level, when individuals or organizations give to a politician or a political action committee (PAC), the recipient asks the donor to provide information such as name, address, occupation and employer. Federal campaign finance disclosure laws require the recipient to report any contribution over $200 to the Federal Election Commission (FEC). The FEC releases this information to the public in the form of a large database dump. The FEC makes no attempt at data cleanup or standardization, making the raw data very difficult to use effectively. 
 
-Our partner organization for federal data, [Center for Responsive Politics][2] (CRP), goes to great lengths to clean the FEC data, standardize names, and assign unique identifiers to some individuals and organizations. A similar process happens in each of the 50 states, with varying disclosure rules in each. Our partner organization for state-level data, [National Institute for Money in State Politics][3] (NIMSP), combines and standardizes this data across all 50 states. The Sunlight Foundation combines these and other data sets and makes them easily accessible through the Transparency Data website and APIs.
+Our partner organization for federal data, [Center for Responsive Politics][2] (CRP), goes to great lengths to clean the FEC data, standardize names, and assign unique identifiers to some individuals and organizations. A similar process happens in each of the 50 states, with varying disclosure rules in each. Our partner organization for state-level data, [National Institute for Money in State Politics][3] (NIMSP), combines and standardizes this data across all 50 states. The Sunlight Foundation combines these and other data sets and makes them easily accessible through the Transparency Data website and APIs. The format for the underlying contribution records is described in the [Transparency Data documentation][7].
 
 
 #### Matching Entities with Contributions  ####
@@ -47,7 +47,7 @@ Given that Influence Explorer is built on data from CRP and NIMSP, it is reasona
 
 * Our numbers include both state and federal data, whereas OpenSecrets is only federal data and FollowTheMoney is primarily state data.
 * The data may be out of sync. The bulk databases provided to us by CRP and NIMSP are not necessarily the same version of the data that appears on their websites. The data they provide us may be newer or older, depending on when they last updated a particular page.
-* OpenSecret's Heavy Hitters pages are based on a large amount of manual research to overcome the shortcomings listed in the section above. We do not have access to this research, and their numbers are likely to be more accurate than ours for organization on the Heavy Hitters list.
+* OpenSecret's Heavy Hitters pages are based on a large amount of manual research to overcome the shortcomings listed in the section above. We do not have access to this research, and their numbers are likely to be more accurate than ours for organization on the Heavy Hitters list. (See CRP's Heavy Hitters [methodology page][8].)
 * The time span may be different. Pages on OpenSecrets may display career totals, 6-year senate term totals, 2-year election cycles totals, or single-year totals. Influence Explorer groups all data into either 2-year cycles or career totals.
 * We have made a best-effort attempt to match the methodology of our data providers. But there may still be unintentional methodology differences. The algorithms for importing, storing and working with this data are complex, and our systems cannot be guaranteed to function in exactly the same way in every case.
 
@@ -58,6 +58,6 @@ Given that Influence Explorer is built on data from CRP and NIMSP, it is reasona
 [4]: http://www.fec.gov/finance/disclosure/ftpdet.shtml
 [5]: ftp://ftp.fec.gov/FEC/indiv_dictionary.txt
 [6]: http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv
-
-
+[7]: http://transparencydata.com/docs/contributions/
+[8]: http://www.opensecrets.org/orgs/methodology.php
 

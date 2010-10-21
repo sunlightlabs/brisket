@@ -1,0 +1,71 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar">
+  <a class="toggle">Toggle</a>
+  <h3 class="insideBar">Grants and Contracts,
+      {% ifequal cycle "-1" %}
+        {{ gc_min_year }} &#150; {{ gc_max_year }}
+      {% else %}
+        {{cycle|add:-1}} &#150; {{cycle}}
+      {% endifequal %}</h3>
+      <div class="insideBar amount">
+          <a class="descriptor" title="More Information" href="#spendingDescriptor">Information</a>
+          <div class="clear"></div>      
+          <div class="descriptorText" id='spendingDescriptor'>
+              <p>Federal grants, contracts and loans are reported by federal agencies using the FPDS and FAADS+ systems. The data is made available to the public at <a href="http://www.usaspending.gov/">USASpending.gov</a>. Please note that the completeness and quality of the data varies greatly by agency.</p>
+              <p>Because company names are not reported in a standardized manner, we cannot reliably determine the company recieving the contract or award. The results shown here are based on a search for the company name. Individual records may be missed or erroneously included because of name variations.</p>
+          </div>      
+    </div>
+</div>
+
+<div class="chartModule">
+
+{% if entity_info.totals.contract_count or entity_info.totals.grant_count %}
+<div class="fulltext-disclaimer">Found
+     {% if gc_found_things.length = 1 %}
+	  {{ gc_found_things.1 }}
+     {% else %}
+	  {{ gc_found_things|slice:"-1"|join:", " }} and {{ gc_found_things|last }}
+     {% endif %}
+     containing the words &ldquo;{{ entity_info.name|standardize_organization_name }}&rdquo;
+</div>
+{% endif %}
+
+  <table class="threeColumn">
+    <thead>
+      <tr>
+        <th class="type">Type</th>
+        <th class="recipient">Recipient Name</th>
+		<th class="year">Year</th>
+		<th class="agency">Agency</th>
+		<th class="description">Description</th>
+		<th class="right">Amount</th>
+    </thead>
+    <tbody>
+    {% for row in grants_and_contracts %}
+      <tr class="{% cycle 'even' 'odd' %}">
+        <td><div class="label-{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}">{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}</div></td>
+        <td>{{ row.recipient_name|standardize_organization_name }}</td>
+	    <td>{{ row.fiscal_year }}</td>
+	    <td>{{ row.agency_name|standardize_organization_name }}</td>
+	    <td>{{ row.description }}</td>
+	    <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  
+  <div class="clear"></div>
+  
+  <div class="external">
+    {% if gc_links %}
+    For more information on grants and contracts:
+    {% for link in gc_links %}
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+    {% endfor %}
+    {% endif %}
+  </div>
+  
+  <div class="clear"></div>
+</div><!-- end chartModule -->

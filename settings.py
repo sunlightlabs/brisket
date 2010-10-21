@@ -3,7 +3,7 @@ import os
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -62,16 +62,19 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+#    'django.contrib.sessions.middleware.SessionMiddleware',
+    'influence.middleware.RequestLoggingMiddleware',
+#    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'influence.context_processors.custom_context',
-    'django.core.context_processors.auth', 
+#    'django.core.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
 )
 
@@ -85,17 +88,18 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.messages',
-    'django.contrib.sessions',
+#    'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.humanize', #format numbers in templates 
+    'django.contrib.humanize', #format numbers in templates
+    'django.contrib.sitemaps',
     'mediasync',
     'brisket.influence',
     'brisket.util',
     'brisket.metadata',
 )
+
+DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
 
 # use file-backed sessions while in development. the default location
 # for file-backed sessions is tempfile.gettempdir(), most likely /tmp.
@@ -106,17 +110,19 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
-MEDIASYNC_JOINED = {
-    'js/brisket-all.js': (
-        'js/jquery.tablesorter.min.js',
-        'js/underscore-1.0.2.min.js',
-        'js/g.raphael-min.js',
-        'js/g.pie.patched.js',
-        'js/g.bar.jeremi.js',
-        'js/g.line-min.js',
-        'js/brisket_charts.js',
-        'js/brisket.js',
-    )
+MEDIASYNC = {
+    'JOINED': {
+        'js/brisket-all.js': [
+            'js/jquery.tablesorter.min.js',
+            'js/underscore-1.0.2.min.js',
+            'js/g.raphael.js',
+            'js/g.pie.js',
+            'js/g.bar.patched.js',
+            'js/g.line.js',
+            'js/brisket_charts.js',
+            'js/brisket.js',
+        ]
+    }
 }
 
 LATEST_CYCLE = 2010

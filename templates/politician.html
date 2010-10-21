@@ -3,66 +3,78 @@
 {% load influence_extras %}
 
 {% block pagetitle %}
-    : {{ entity_info.name|standardize_politician_name }}
-    {% if metadata.party %}
-        ({{metadata.party}})
+    {{ entity_info.name|standardize_politician_name }}
+    {% if entity_info.metadata.party %}
+        ({{entity_info.metadata.party}})
     {% endif %}
-    {{metadata.state}}
-    {% if metadata.yrs_of_service %}
-        {{metadata.yrs_of_service}}
+    {{entity_info.metadata.state}}
+    {% if entity_info.metadata.yrs_of_service %}
+        {{entity_info.metadata.yrs_of_service}}
     {% endif %}
+    | 
 {% endblock %}
+
+{% block canonicalurl %}/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
+
+{% block metadesc %}{{ entity_info.name|standardize_politician_name|seat_title:entity_info.metadata.seat }} {% if entity_info.metadata.party %}({{entity_info.metadata.party}}{% if entity_info.metadata.state %}-{{entity_info.metadata.state}}{% endif %}){% endif %} has received ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.career.start|add:-1}} to {{entity_info.career.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money came from on Influence Explorer.{% endblock %}
 
 {% block body_class %}politician{% endblock %}
 
 {% block extrajs %}
+{% if not suppress_contrib_graphs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-  sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
-  piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
-  piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
-  barchart("sectors_barchart", {% if sectors_barchart_data %}{{ sectors_barchart_data|safe }} {% else %}[]{% endif %});
-  barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+    piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
+    piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
+    barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
+    barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
 });
 </script>
-
+{% endif %}
 {% endblock %}
 
 {% block contentHeader %}
 
 
-{% if metadata.photo_url %}
-<img alt="political photo" src="{{ metadata.photo_url }}"/>
+{% if entity_info.metadata.photo_url %}
+<img alt="political photo" src="{{ entity_info.metadata.photo_url }}"/>
 {% endif %}
 
 <h2>{{ entity_info.name|standardize_politician_name }}</h2>
 <dl>
   <dt class="noshow">Party</dt>
 
-  {% if metadata.party == 'D' %}
+  <dt class="noshow">State</dt>
+  <dd>{{entity_info.metadata.state}}</dd>
+
+  {% if entity_info.metadata.seat %}
+  <dt class="noshow">Seat</dt><dd>{{ entity_info.metadata.seat|seat_label }}</dd>
+  {% endif %}
+
+  {% if entity_info.metadata.party == 'D' %}
   <dd>Democrat</dd>
-  {% else %}
-  {% if metadata.party == 'R' %}
+  {% else %}{% if entity_info.metadata.party == 'R' %}
   <dd>Republican</dd>
   {% else %}
-  <dd>{{ metadata.party }}</dd>
-  {% endif %}
-  {% endif %}
+  <dd>{{ entity_info.metadata.party }}</dd>
+  {% endif %}{% endif %}
 
-  <dt class="noshow">State</dt>
-  <dd>{{metadata.state}}</dd>
-
-  {% if metadata.yrs_of_service %}
+  {% if entity_info.metadata.yrs_of_service %}
   <dt>Years of Service:</dt>
-  <dd>{{metadata.yrs_of_service}}</dd>
+  <dd>{{entity_info.metadata.yrs_of_service}}</dd>
   {% endif %}
+
 </dl>
 <div class="clear"></div>
 {% endblock %}
 
-{% if metadata.biography %}
+{% if entity_info.metadata.bio %}
 {% block description %}
-{{ metadata.biography }}
+{{ entity_info.metadata.bio|safe }}
+{% if entity_info.metadata.bio_url and entity_info.meta.source_display_name != "Sunlight" %}
+<p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_new">{{ entity_info.metadata.source_display_name }}</a></p>
+{% endif %}
 {% endblock %}
 {% endif %}
 

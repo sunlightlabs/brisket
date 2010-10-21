@@ -9,12 +9,12 @@
   {% endif %}
   <h3 class="insideBar">Contributions, 
       {% ifequal cycle "-1" %} 
-          {{entity_info.career.start|add:-1}} - {{entity_info.career.end}}
+          {{entity_info.career.start|add:-1}} &#150; {{entity_info.career.end}}
         {% else %}  
-          {{cycle|add:-1}} - {{cycle}} 
+          {{cycle|add:-1}} &#150; {{cycle}} 
         {% endifequal %}</h3>
   <div class="insideBar amount">
-    <span class="amount">{% if entity_info.type == "individual" or entity_info.type == "organization" %}
+    <span class="amount">{% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
     ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
     {% else %}
     ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
@@ -26,7 +26,8 @@
 		<ul>
 			<li>contributions under $200 are not reported, and so are not included in totals.</li>
 			<li>only contributions from individuals and organizations to candidates are included. Various accounting measures and more exotic contribution types are excluded.</li>
-			<li>contributions are matched based on organization and recipient name. Contributions reporting incorrect or non-standard versions of the name may be missed. Similarly, corporate name changes may cause contributions to be missed.</li>
+			<li>contributions are matched based on organization and recipient name reported within each election cycle. Contributions using an incorrect or non-standard version of the name may be missed.</li>
+			<li>corporate name changes and mergers may cause figures to differ from those of the Center for Responsive Politics.</li>
 			<li>organization totals include known subsidiaries of the organization.</li>
 		</ul>
 		<p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page.</p>
@@ -56,8 +57,10 @@
     {% else %}{% if entity_info.type == "politician" %}
     {% include "pol_charts.html" %}
     {% else %}{% if entity_info.type == "organization" %}
-    {% include "org_charts.html" %} 
-    {% endif %}{% endif %}{% endif %}
+    {% include "org_charts.html" %}
+    {% else %}{% if entity_info.type == "industry" %}
+    {% include "industry_charts.html" %}
+    {% endif %}{% endif %}{% endif %}{% endif %}
   {% else %}
   {% if reason == "negative" %}
   <p>Due to refunds and other accounting issues, aggregate totals
@@ -73,7 +76,7 @@
     {% if external_links %}
     For more information on contributions:
     {% for link in external_links %}
-    <a href="{{ link.1 }}" class="external">{{ link.0 }}</a>
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
     {% endfor %}
     {% endif %}
   </div>
