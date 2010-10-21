@@ -15,6 +15,7 @@ $(function() {
     var load_candidates = function(callback) {
         var state = $('#id_state').val();
         var office = "federal:" + $('#id_office').val();
+        $('.candidate-loading').fadeIn();
         if (state && office) {
             $.getJSON("http://transparencydata.com/api/1.0/entities/race/" + state + ".json?apikey=" + API + "&cycle=2010&callback=?", function(data) {
                 var $td = $('#id_td_id');
@@ -47,6 +48,7 @@ $(function() {
                 })
                 
                 callback();
+                $('.candidate-loading').fadeOut();
             })
         }
     }

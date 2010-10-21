@@ -296,6 +296,7 @@ dt.moneyTitle { margin-top: 8px;}
 .cardFront a:hover img, .cardBack a:hover img { border-color: #dadbd6; }
 .cardFront .plus, .cardBack .plus { border: 0px; display: none; position: absolute; bottom: 10px; right: 10px; }
 .cardFront a:hover .plus, .cardBack a:hover .plus { display: block; }
+.candidate-loading { padding-left: 10px; display: none; height: 12px; width: 12px; }
 
 #postcardBox h2 { margin-bottom: 15px;}
 

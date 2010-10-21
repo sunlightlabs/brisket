@@ -54,10 +54,10 @@
                     <label>State</label>
                     {{ form.state }}
                 </li>
-                <li>
+                <li class="candidate-row">
                     {{ form.td_id.errors }}
                     <label>Candidate</label>
-                    {{ form.td_id }}
+                    {{ form.td_id }}<img src="/media/images/loading.gif" alt="Loading..." class="candidate-loading" />
                 </li>
                 <li>
                     {{ form.num_candidates.errors }}
