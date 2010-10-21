@@ -2,6 +2,9 @@ import os
 from settings import MEDIASYNC, MEDIA_ROOT
 
 def cache_fix(s):
+    split = s.split(MEDIASYNC['AWS_PREFIX'])
+    if len(split) < 2:
+        return ''
     rel = s.split(MEDIASYNC['AWS_PREFIX'])[1][1:]
     rpath = os.path.join(MEDIA_ROOT, rel)
     paths = []
