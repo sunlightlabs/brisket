@@ -1,7 +1,7 @@
 import re
 from influence.models import PageRequest
 
-def trun(s):
+def trunc(s):
     return s[:255] if s is not None else None
 
 
