@@ -1,6 +1,10 @@
 import re
 from influence.models import PageRequest
 
+def trunc(s):
+    return s[:255] if s is not None else None
+
+
 class RequestLoggingMiddleware():
 
     def process_request(self, request):
@@ -12,10 +16,10 @@ class RequestLoggingMiddleware():
 
         page_request = PageRequest.objects.create(
             ip_address    = request.META.get('REMOTE_ADDR'),
-            path          = request.path,
-            query_params  = request.META.get('QUERY_STRING'),
-            referring_url = request.META.get('HTTP_REFERER')[:255] if request.META.get('HTTP_REFERER') is not None else None,
-            user_agent    = request.META.get('USER_AGENT'),
+            path          = trunc(request.path),
+            query_params  = trunc(request.META.get('QUERY_STRING')),
+            referring_url = trunc(request.META.get('HTTP_REFERER')),
+            user_agent    = trunc(request.META.get('USER_AGENT')),
         )
 
         request.page_request_id = page_request.id
