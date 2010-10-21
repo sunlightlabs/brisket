@@ -12,7 +12,7 @@
             $('input[type=image]').attr('disabled', 'true');
             $.getJSON('/simplepay/transaction/{{ card.amazon_transaction.reference_id }}/?amount=' + $('#id_amount').val(), function(data) {
                 $('#id_signature').val(data.signature);
-                $('#id_amount').removeAttr('disabled');
+                $('input[type=image]').removeAttr('disabled');
             });
         })
     });
