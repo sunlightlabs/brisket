@@ -45,12 +45,12 @@
     <tbody>
     {% for row in grants_and_contracts %}
       <tr class="{% cycle 'even' 'odd' %}">
-        <td><div class="label-{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}">{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}</div></td>
-        <td>{{ row.recipient_name|standardize_organization_name }}</td>
-	    <td>{{ row.fiscal_year }}</td>
-	    <td>{{ row.agency_name|standardize_organization_name }}</td>
-	    <td>{{ row.description }}</td>
-	    <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
+        <td class="cell-type"><div class="label-{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}">{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}</div></td>
+        <td class="cell-recipient">{{ row.recipient_name|standardize_organization_name }}</td>
+	    <td class="cell-year">{{ row.fiscal_year }}</td>
+	    <td class="cell-agency">{{ row.agency_name|standardize_organization_name }}</td>
+	    <td class="cell-description">{{ row.description }}</td>
+	    <td class="right cell-amount">${{ row.amount|floatformat:0|intcomma }}</td>
       </tr>
     {% endfor %}
     </tbody>
