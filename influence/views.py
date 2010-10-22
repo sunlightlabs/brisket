@@ -156,7 +156,7 @@ def org_industry_entity(request, entity_id, type='organization'):
                 'value': org['total_amount'],
                 'value_employee': org['employee_amount'],
                 'value_pac': org['direct_amount'],
-                'href': '/organization/%s/%s%s' % (slugify(standardize_organization_name(org['name'])), org['id'], '?cycle=%s' % cycle if cycle != '-1' else '')
+                'href' : barchart_href(org, cycle, 'organization')
             } for org in api.industry_orgs(entity_id, cycle, limit=10)
         ])
     
