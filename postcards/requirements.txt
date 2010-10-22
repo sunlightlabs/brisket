@@ -1,0 +1,2 @@
+reportlab
+-e git+http://github.com/sunlightlabs/django-simplepay.git#egg=simplepay
