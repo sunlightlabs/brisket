@@ -9,10 +9,18 @@
 </div>
 
 <div id="ltColumn">
-	<p id="description">This document describes the process we use to display federal spending data. Note that our treatment of federal spending data is much simpler than that of <a href="/about/methodology/campaign_finance/">campaign finance</a> or <a href="/about/methodology/lobbying">lobbying</a>. In particular, we don't do any aggregation or processing of the data--we simply show the top 10 records that match on the organization name.
+	<p id="description">This document describes the process we use to display federal spending data. Note that our treatment of federal spending data is much simpler than that of <a href="/about/methodology/campaign_finance/">campaign finance</a> or <a href="/about/methodology/lobbying">lobbying</a>. In particular, we don't do any aggregation or analysis of the data--we simply show the top 10 records that match on the organization name.
 	
 	<h3>Background</h3>
-	All federal agencies are required to report on spending to outside organizations. The agencies report this data primarily through the Federal Procurement Data System (FPDS) and the Federal Assistance Award Data System (FAADS). These and other auditing systems are combined and made available to the public through the government site <a href="http://www.usaspending.gov/">USASpending.gov</a>.
+ 	<p>All federal agencies are required to report on spending to outside organizations. The agencies report this data primarily through the Federal Procurement Data System (FPDS) and the Federal Assistance Award Data System (FAADS). These and other auditing systems are combined and made available to the public through the government-run site <a href="http://www.usaspending.gov/">USASpending.gov</a>. More information on this process is available <a href="http://www.usaspending.gov/learn?tab=Sources%20of%20Data">
+here</a>.</p>
+    <p>The underlying data provided by USASpending.gov is of poor quality: dollar amounts are frequently incorrect, descriptions often missing, an whole agencies fail to report at all. Please see Sunlight's <a href="http://sunlightfoundation.com/clearspending/">Clear Spending</a> project for a full analysis of the data quality problems. In addition, unlike other datasets on Influence Explorer, federal spending data does not report company names in any standardized manner. Because of this, we can not reliably determine the contracts and awards associated with a company.</p>
+    <p>Given these limitations, we have chosen not to do any analysis or aggregation of the data. Unlike the campaign finance and lobbying sections, there are no charts and total dollar amounts. Instead, the Federal Spending section contains a simple chart of the top 10 grants, contracts and loans that match on a search for the company name. User's may investigate the data further by following the links to <a href="http://transparencydata.com">TransparencyData.com</a> or <a href="http://www.usaspending.gov">USASpending.gov</a>.</p>
+    
+    <h3>Data Columns</h3>
+    <p>Influence Explorer divides federal spending into three categories: grants, contracts and loans. Contracts include all data from USASpending's contract database (FPDS.) Grants and loans are drawn from USASpending's award database (FAADS.) Loans include any record with an assistance type of loan or insurance. Grants include all other assistance types.</p>
+     <p>For grants and loans, the dollar amount reported is taken from FAADS's total amount field. For contracts, the dollar amount reported is taken from FPDS's obligated amount field.</p>
+    
 	
 
 
