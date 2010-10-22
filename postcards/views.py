@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.views.generic.simple import direct_to_template
 from django import forms
 from postcards.models import *
-from postcards.card_text import get_card_png
+from postcards.cards import get_card_png, get_thumbnail, get_thumbnail_pdf
 from django.contrib.localflavor.us.forms import USStateField
 from django.contrib.localflavor.us.us_states import STATE_CHOICES
 from django.template import RequestContext
@@ -111,22 +111,3 @@ def confirm(request, id, hash):
         id = card.location
     
     return direct_to_template(request, 'postcards/confirm.html', {'front': '/postcard/thumbnail/%s/%s' % (type, id), 'card': card, 'form': form})
-
-# utility stuff
-def get_thumbnail(type, id, large=False):
-    img_dir = os.path.join(os.path.dirname(postcards.__file__), 'static', 'png' + ('_large' if large else ''))
-    files = os.listdir(img_dir)
-    match = filter(lambda s: s.startswith(type) and s.endswith('%s.png' % id), files)
-    if match:
-        return os.path.join(img_dir, match[0])
-    else:
-        return os.path.join(img_dir, 'resources', '%s.png' % type)
-
-def get_thumbnail_pdf(type, id):
-    pdf_dir = os.path.join(os.path.dirname(postcards.__file__), 'static', 'pdf')
-    files = os.listdir(pdf_dir)
-    match = filter(lambda s: s.startswith(type) and s.endswith('%s.pdf' % id), files)
-    if match:
-        return os.path.join(pdf_dir, match[0])
-    else:
-        raise Http404

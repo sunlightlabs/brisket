@@ -110,4 +110,61 @@ def get_card_png(card, invalidate=False, large=False):
     if not os.path.exists(png_path) or invalidate:
         render_card_png(card, png_path, invalidate, large)
     return png_path
+
+def get_batch_pdf(batch, invalidate=False):
+    postcard_dir = os.path.dirname(postcards.__file__)
+    batch_dir = os.path.join(postcard_dir, 'static', 'batches')
     
+    batch_path = os.path.join(batch_dir, "batch_%s.pdf" % batch.id)
+    if not os.path.exists(batch_path) or invalidate:
+        render_batch_pdf(batch, batch_path, invalidate)
+    return batch_path
+
+def render_batch_pdf(batch, batch_path, invalidate=False):
+    postcard_dir = os.path.dirname(postcards.__file__)
+    batch_dir = os.path.join(postcard_dir, 'static', 'batches')
+    
+    pages = []
+    for card in batch.postcard_set.all().order_by('id'):
+        # front side
+        if card.num_candidates == 1:
+            id = card.td_id
+            type = 'candidate'
+        else:
+            id = card.location
+            type = 'race'
+        pages.append(get_thumbnail_pdf(type, id))
+        
+        # back side
+        pages.append(get_card_pdf(card, invalidate))
+    
+    # stitch them together into a temp pdf
+    tmp_pdf = '%s_tmp.pdf' % batch_path[:-4]
+    stitch = subprocess.Popen(['pdftk'] + pages + ['cat', 'output', tmp_pdf])
+    stitch.wait()
+    
+    # stamp with crop marks
+    stamp = subprocess.Popen(['pdftk', tmp_pdf, 'stamp', os.path.join(batch_dir, 'resources', 'open_cropmarks.pdf'), 'output', batch_path])
+    stamp.wait()
+    
+    os.unlink(tmp_pdf)
+    
+    return batch_path
+
+def get_thumbnail(type, id, large=False):
+    img_dir = os.path.join(os.path.dirname(postcards.__file__), 'static', 'png' + ('_large' if large else ''))
+    files = os.listdir(img_dir)
+    match = filter(lambda s: s.startswith(type) and s.endswith('%s.png' % id), files)
+    if match:
+        return os.path.join(img_dir, match[0])
+    else:
+        return os.path.join(img_dir, 'resources', '%s.png' % type)
+
+def get_thumbnail_pdf(type, id):
+    pdf_dir = os.path.join(os.path.dirname(postcards.__file__), 'static', 'pdf')
+    files = os.listdir(pdf_dir)
+    match = filter(lambda s: s.startswith(type) and s.endswith('%s.pdf' % id), files)
+    if match:
+        return os.path.join(pdf_dir, match[0])
+    else:
+        raise Http404

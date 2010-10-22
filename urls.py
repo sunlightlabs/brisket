@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url('^postcard', include('postcards.urls')),
     url('^simplepay/', include('simplepay.urls')),
     (r'^admin/', include(admin.site.urls)),
+    (r'^media/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.dirname(admin.__file__) + '/media'})
     # everything else goes to influence
     url(r'^', include('brisket.influence.urls')),
 )
