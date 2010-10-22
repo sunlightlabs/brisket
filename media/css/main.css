@@ -227,32 +227,10 @@ form#contact li { margin-bottom: 15px;}
 
 .fulltext-disclaimer { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; margin-top: -1.5em; margin-bottom: 1.5em; }
 
-table .recipient{
-padding-left: 10px;
-width: 190px;
-}
 
-table .agency{
-padding-left: 10px;
-width: 195px;
-}
-
-table .description{
-padding-left: 10px;
-width: 180px;
-}
-
-table .type{
-padding-left: 10px;
-width: 75px;
-}
-
-table .year{
-padding-left: 10px;
-width: 75px;
-}
-
-table .amount{
-padding-right: 10px;
-width: 100px;
-}
+.cell-type { width: 65px; }
+.cell-recipient { width: 165px; }
+.cell-year { width: 65px; }
+.cell-agency { width: 165px; }
+.cell-description { width: 205px; }
+.cell-amount { width: 95px; }
