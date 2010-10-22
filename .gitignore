@@ -5,3 +5,15 @@
 local_settings.py
 fabfile.py
 media/sitemaps
+postcards/static/svg/candidate*.svg
+postcards/static/svg/race*.svg
+postcards/static/svg/resources/Univers*
+postcards/static/svg/resources/photos/*
+postcards/static/pdf/*
+postcards/static/png/candidate*.png
+postcards/static/png/race*.png
+postcards/static/png_large/*.png
+postcards/static/messages/pdf/*.pdf
+postcards/static/messages/png/*.png
+postcards/static/messages/png_large/*.png
+postcards/static/batches/*.pdf

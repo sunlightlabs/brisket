@@ -212,3 +212,8 @@ def indiv_sparkline(entity_id, cycle=DEFAULT_CYCLE):
 def org_fed_spending(entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
     return get_url_json('aggregates/org/%s/fed_spending.json' % entity_id, cycle, limit, parse_json=parse_json)
 
+def candidates_by_location(location, cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('entities/race/%s.json' % location, cycle, parse_json=parse_json)
+
+def election_districts(cycle=DEFAULT_CYCLE, parse_json=True):
+    return get_url_json('entities/race/districts.json', cycle, parse_json=parse_json)
