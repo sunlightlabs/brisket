@@ -76,9 +76,10 @@ class EntityAPITests(APITest):
 
     def test_entity_year_range(self):
         bankers = api.entity_metadata(self.BANKERS)
-        self.assertEqual(dict(start='1990', end='2010'), bankers['career'])
-        self.assertEqual(dict(start='1998', end='2010'), bankers['lobbying_career'])
-        self.assertEqual(dict(start='2006', end='2010'), bankers['spending_career'])
+        self.assertEqual(dict(start='1990', end='2010'), bankers['years'])
+        self.assertEqual(dict(start='1990', end='2010'), bankers['camp_fin_years'])        
+        self.assertEqual(dict(start='1998', end='2010'), bankers['lobbying_years'])
+        self.assertEqual(dict(start='2006', end='2010'), bankers['spending_years'])
 
     def test_id_lookup(self):
         self.assertEqual([{"id": str(self.PELOSI)}], api.entity_id_lookup('urn:crp:recipient', self.PELOSI_CRP_ID))
