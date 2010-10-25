@@ -198,10 +198,10 @@ button.searchBtn_sm { background: url(../images/btn_go_sm.png) left 2px no-repea
 button.searchBtn_sm:hover { background: url(../images/btn_go_sm.png) left -49px no-repeat; }
 button.submitBtn { background: url(../images/btn_submit.png) left top no-repeat; width: 106px; height: 46px; margin-left: 120px; }
 button.submitBtn:hover { background: url(../images/btn_submit.png) left -46px no-repeat; }
-button.previewBtn { background: url(../images/btn_preview.png) left top no-repeat; width: 121px; height: 46px; margin-left: 225px; }
-button.previewBtn:hover { background: url(../images/btn_preview.png) left bottom no-repeat; }
-button.sendBtn { background: url(../images/btn_send.png) left top no-repeat; width: 90px; height: 46px; margin-left: 225px; }
-button.sendBtn:hover { background: url(../images/btn_send.png) left bottom no-repeat; }
+.previewBtn { background: url(../images/btn_preview.png) left top no-repeat; width: 121px; height: 46px; margin-left: 225px; }
+.previewBtn:hover { background: url(../images/btn_preview.png) left bottom no-repeat; }
+button.contBtn { background: url(../images/btn_continue.png) left top no-repeat; width: 121px; height: 46px; margin-left: 225px; }
+button.contBtn:hover { background: url(../images/btn_continue.png) left bottom no-repeat; }
 button.searchPostcardBtn { background: url(../images/btn_postcardSearch.png) left top no-repeat; width: 90px; height: 29px; margin-top: 2px; float: left;}
 button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.png) left bottom no-repeat;  }
 #postcardBtn { background: url(../images/btn_sendPostcard.jpg) left top no-repeat; width: 259px; height: 46px; }
@@ -327,3 +327,4 @@ dt.moneyTitle { margin-top: 8px;}
 #payment form { margin-top: 20px;}
 
 #postcardBox h4 img { width: 24px; height: 24px; }
+#postcardBox div.tip { margin-bottom: 15px; }

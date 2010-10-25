@@ -2,6 +2,8 @@
 
 {% block js %}
 {{ block.super }}
+<link rel="stylesheet" href="/media/fancybox/jquery.fancybox-1.3.2.css" type="text/css" />
+<script type="text/javascript" src="/media/fancybox/jquery.fancybox-1.3.2.pack.js"></script>
 
 <script type="text/javascript" src="/media/js/postcards.js"></script>
 
@@ -37,7 +39,8 @@
     </div> 
     <div class="module">
         <form method="POST">
-            <h3>Build Your Postcard Now</h3>
+            <h3 class="withTip">Build Your Postcard Now</h3>
+            <div class="tip">The cost of printing and shipping for each postcard is $2</div>
             {{ form.non_field_errors }}
             {% if search_error %}
                 <ul class="errorlist"><li>{{ search_error }}</li></ul>
@@ -64,7 +67,12 @@
                     <label>Single Candidate or Opposing Candidates</label>
                     {{ form.num_candidates }}
                     <div class="clear"></div>
-                </li>  
+                </li>
+                <li>
+                    <a class="previewBtn linkBtn">
+                        <span>Preview</span>
+                    </a>
+                </li>
             </ul>
             <h4>Personalize It</h4>
             <h5>Sender's Address</h5>
@@ -141,8 +149,8 @@
                     {{ form.message }}
                 </li>
                 <li>
-                    <button class="previewBtn" type="submit">
-                        <span>Preview</span>
+                    <button class="contBtn" type="submit">
+                        <span>Continue</span>
                     </button>
                 </li>    
             </ul>

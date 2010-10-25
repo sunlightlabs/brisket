@@ -72,7 +72,18 @@ $(function() {
         
         // Make sure the location record is current
         $('#id_location').val(selected.attr('data-contest'));
+        
+        //Fix preview link
+        update_preview();
     };
+    var update_preview = function() {
+        var selected = $('input[name=num_candidates]:checked');
+        if (selected.length == 0) selected = $('input[name=num_candidates][value=1]');
+        
+        var url = selected.parent().find('img').attr('src') + '-large.png';
+        $('a.previewBtn').attr('href', url);
+    }
+    $('input[name=num_candidates]').change(update_preview)
     
     var cmp = function(a, b) {
         if (a < b) {
@@ -98,4 +109,6 @@ $(function() {
     });
     $('#id_td_id').change(load_photos);
     load_photos();
+    
+    $('a.previewBtn').fancybox();
 });
