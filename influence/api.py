@@ -42,18 +42,22 @@ def get_url_json(path, cycle=None, limit=None, parse_json=False, **params):
 def entity_search(query):
     return get_url_json('entities.json', search=query, parse_json=True)
 
+_camp_fin_markers = ['contributor_count', 'recipient_count']
+_lobbying_markers = ['lobbying_count']
+_spending_markers = ['grant_count', 'loan_count', 'contract_count']
 
 def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
     results = get_url_json('entities/%s.json' % entity_id, cycle, parse_json=True)
         
-    results['career'] = entity_years(results['totals'], ['contributor_count', 'recipient_count'])
-    results['lobbying_career'] = entity_years(results['totals'], ['lobbying_count'])
-    results['spending_career'] = entity_years(results['totals'], ['grant_count', 'loan_count', 'contract_count'])
+    results['years'] = entity_years(results['totals'], _camp_fin_markers + _lobbying_markers + _spending_markers)
+    results['camp_fin_years'] = entity_years(results['totals'], _camp_fin_markers)
+    results['lobbying_years'] = entity_years(results['totals'], _lobbying_markers)
+    results['spending_years'] = entity_years(results['totals'], _spending_markers)
 
     return results
 
 def entity_years(totals, keys):
-    years = [year for (year, values) in totals.items() if any([v for (k,v) in values.items() if k in keys]) and year != -1]
+    years = [year for (year, values) in totals.items() if any([v for (k,v) in values.items() if k in keys]) and year != "-1"]
     if years:
         return dict(start=years[0], end=years[-1])
     else:
