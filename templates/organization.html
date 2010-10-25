@@ -21,6 +21,16 @@ $(document).ready(function() {
   barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
   
   $('table.threeColumn td').multiellipsis(3);
+  
+  var serializer = new XMLSerializer();
+  $('svg').each(function(num, item) {
+    $this = $(this);
+    var canv = $('<canvas id="canvg_' + num + '">');
+    $this.after(canv);
+    
+    canvg('canvg_' + num, serializer.serializeToString(this));
+    $this.remove();
+  });
 });
 </script>
 {% endblock %}
