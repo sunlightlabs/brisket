@@ -1,0 +1,22 @@
+.addthis_toolbox img { border: 1px solid red;}
+.addthis_toolbox a {  border: 1px solid red;}
+#footerPolicy p { width: 330px;}
+
+li#people a { background: url(../images/nav_people_8.png) left 1px no-repeat;}
+li#people a:hover, body.individual li#people a { background: url(../images/nav_people_8.png) left -60px no-repeat; }
+li#orgs a { background: url(../images/nav_orgs_8.png) left 1px no-repeat; }
+li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_orgs_8.png) left -60px no-repeat; }
+li#politicians a { background: url(../images/nav_politicians_8.png) left 1px no-repeat; }
+li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians_8.png) left -60px no-repeat; }
+li#industries a { background: url(../images/nav_industries_8.png) left 1px no-repeat; }
+li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries_8.png) left -60px no-repeat; }
+
+div#mainContent_top { background: url(../images/whitebox_top_8.png) top left no-repeat;}
+div#mainContent { background: url(../images/whitebox_middle_8.png) top left repeat-y; margin-top: -10px;}
+div#mainContent_bottom { background: url(../images/whitebox_bottom_8.png) top left no-repeat; }
+
+h1 a { background: url(../images/logo_8.png) top left no-repeat; }
+
+div#footerLinks { margin-left: 20px; }
+
+.overviewBar { background: url(../images/overviewBar_8.png) top left no-repeat; }

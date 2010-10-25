@@ -241,7 +241,7 @@ form#contact li, #postcardBox form li { margin-bottom: 15px;}
 .label-contract { width: 60px; text-align: center; padding: 2px; background: #efcc01; color: black; text-transform: uppercase; font-size: 75%; }
 .label-loan { width: 60px; text-align: center; padding: 2px; background: #f27e01; color: white; text-transform: uppercase; font-size: 75%; }
 
-.addthis_toolbox { float: right !important; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; }
+.addthis_toolbox { float: right; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; width: 82px;}
 .addthis_toolbox a { text-decoration: none; color: #989393; }
 .addthis_toolbox img { float: right; margin-left: 6px; }
 
