@@ -7,7 +7,7 @@
   <a class="toggle">Toggle</a>
   <h3 class="insideBar">Lobbying, 
       {% ifequal cycle "-1" %} 
-        {{entity_info.lobbying_career.start}} &#150; {{entity_info.lobbying_career.end}}
+        {{entity_info.lobbying_career.start|add:-1}} &#150; {{entity_info.lobbying_career.end}}
       {% else %}  
         {{cycle|add:-1}} &#150; {{cycle}} 
       {% endifequal %}</h3>
