@@ -65,8 +65,8 @@ def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
     return results
 
 
-def entity_id_lookup(namespace, id):
-    return get_url_json('entities/id_lookup.json', namespace=namespace, id=id)
+def entity_id_lookup(namespace, id, parse_json=True):
+    return get_url_json('entities/id_lookup.json', namespace=namespace, id=id, parse_json=parse_json)
 
 
 def entity_count(type=None):
