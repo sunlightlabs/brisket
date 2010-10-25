@@ -66,7 +66,7 @@ class Postcard(models.Model):
     recipient_state = USStateField(verbose_name="Recipient State")
     recipient_zip = models.CharField(max_length=10, verbose_name="Recipient Zip")
     
-    message = models.TextField()
+    message = models.TextField(default="Check out this campaign finance information from InfluenceExplorer.com.")
     
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
