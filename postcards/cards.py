@@ -78,7 +78,7 @@ def render_card_pdf(card, filename):
         'address2': card.recipient_address2,
         'city': card.recipient_city,
         'state': card.recipient_state,
-        'zip': card.sender_zip,
+        'zip': card.recipient_zip,
     })), large)], canv)
     
     canv.save()
@@ -92,20 +92,79 @@ def get_card_pdf(card, invalidate=False):
         render_card_pdf(card, pdf_path)
     return pdf_path
 
-def render_card_png(card, png_path, invalidate=False):
+def render_card_png(card, png_path, invalidate=False, large=False):
     pdf = get_card_pdf(card, invalidate)
-    mogrify = subprocess.Popen(['mogrify', '-format', 'png', '-density', '400', '-resize', '435x313', pdf])
+    tmp_pdf = "%s.pdf" % png_path[:-4]
+    os.symlink(pdf, tmp_pdf)
+    size = '625x450' if large else '435x313'
+    mogrify = subprocess.Popen(['mogrify', '-format', 'png', '-density', '400', '-resize', size, tmp_pdf])
     mogrify.wait()
-    print '%s.png' % pdf[:-4], png_path
-    os.rename('%s.png' % pdf[:-4], png_path)
+    os.unlink(tmp_pdf)
 
-def get_card_png(card, invalidate=False):
+def get_card_png(card, invalidate=False, large=False):
     postcard_dir = os.path.dirname(postcards.__file__)
-    png_dir = os.path.join(postcard_dir, 'static', 'messages', 'png')
+    png_dir = os.path.join(postcard_dir, 'static', 'messages', 'png' + ('_large' if large else ''))
     
     png_path = os.path.join(png_dir, "message_%s.png" % card.id)
     
     if not os.path.exists(png_path) or invalidate:
-        render_card_png(card, png_path, invalidate)
+        render_card_png(card, png_path, invalidate, large)
     return png_path
+
+def get_batch_pdf(batch, invalidate=False):
+    postcard_dir = os.path.dirname(postcards.__file__)
+    batch_dir = os.path.join(postcard_dir, 'static', 'batches')
     
+    batch_path = os.path.join(batch_dir, "batch_%s.pdf" % batch.id)
+    if not os.path.exists(batch_path) or invalidate:
+        render_batch_pdf(batch, batch_path, invalidate)
+    return batch_path
+
+def render_batch_pdf(batch, batch_path, invalidate=False):
+    postcard_dir = os.path.dirname(postcards.__file__)
+    batch_dir = os.path.join(postcard_dir, 'static', 'batches')
+    
+    pages = []
+    for card in batch.postcard_set.all().order_by('id'):
+        # front side
+        if card.num_candidates == 1:
+            id = card.td_id
+            type = 'candidate'
+        else:
+            id = card.location
+            type = 'race'
+        pages.append(get_thumbnail_pdf(type, id))
+        
+        # back side
+        pages.append(get_card_pdf(card, invalidate))
+    
+    # stitch them together into a temp pdf
+    tmp_pdf = '%s_tmp.pdf' % batch_path[:-4]
+    stitch = subprocess.Popen(['pdftk'] + pages + ['cat', 'output', tmp_pdf])
+    stitch.wait()
+    
+    # stamp with crop marks
+    stamp = subprocess.Popen(['pdftk', tmp_pdf, 'stamp', os.path.join(batch_dir, 'resources', 'open_cropmarks.pdf'), 'output', batch_path])
+    stamp.wait()
+    
+    os.unlink(tmp_pdf)
+    
+    return batch_path
+
+def get_thumbnail(type, id, large=False):
+    img_dir = os.path.join(os.path.dirname(postcards.__file__), 'static', 'png' + ('_large' if large else ''))
+    files = os.listdir(img_dir)
+    match = filter(lambda s: s.startswith(type) and s.endswith('%s.png' % id), files)
+    if match:
+        return os.path.join(img_dir, match[0])
+    else:
+        return os.path.join(img_dir, 'resources', '%s.png' % type)
+
+def get_thumbnail_pdf(type, id):
+    pdf_dir = os.path.join(os.path.dirname(postcards.__file__), 'static', 'pdf')
+    files = os.listdir(pdf_dir)
+    match = filter(lambda s: s.startswith(type) and s.endswith('%s.pdf' % id), files)
+    if match:
+        return os.path.join(pdf_dir, match[0])
+    else:
+        raise Http404

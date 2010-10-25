@@ -3,8 +3,6 @@
 {% block js %}
 {{ block.super }}
 
-<script type="text/javascript" src="/media/js/postcards.js"></script>
-
 {% endblock %}
 
 {% block main %}
@@ -14,7 +12,7 @@
         <h2><big>Before they vote</big><small>Send Them a Postcard</small></h2>
     </div>
     <div id="postcardSearch" class="module">
-        <form method="get">
+        <form method="get" action="/postcard/order">
             <label class="tip">Search by a city and state, a zip code or an addresss to see what postcards are available</label>
             <input id="id_postcardSearch" type="text" name="location"/>
             <button class="searchPostcardBtn" type="submit">
@@ -24,6 +22,14 @@
     </div> 
     <div class="module">
         <h3>Thanks for ordering your postcard!</h3>
+        <h4>Share:
+            <a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Finfluenceexplorer.com%2Fpostcard&t=Sunlight+Foundation%27s+influence+postcard+campaign">
+                <img src="/media/images/facebook_32.png">
+            </a>
+            <a href="http://twitter.com/?status=I%20sent%20a%20political%20postcard%20on%20http%3A%2F%2Finfluenceexplorer.com%2Fpostcard">
+                <img src="/media/images/twitter_32.png">
+            </a>
+        </h4>
     </div>
 </div>
 

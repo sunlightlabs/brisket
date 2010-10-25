@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.views.generic.simple import direct_to_template
 from django import forms
 from postcards.models import *
-from postcards.card_text import get_card_png
+from postcards.cards import get_card_png, get_thumbnail, get_thumbnail_pdf
 from django.contrib.localflavor.us.forms import USStateField
 from django.contrib.localflavor.us.us_states import STATE_CHOICES
 from django.template import RequestContext
@@ -76,16 +76,19 @@ def order(request):
 
     return direct_to_template(request, 'postcards/order.html', {'form': form, 'search_error': search_error})
 
-def thumbnail(request, type, id):
-    img_dir = os.path.join(os.path.dirname(postcards.__file__), 'static', 'png')
-    thumb = get_thumbnail(type, id)
+def thumbnail(request, type, id, large=False):
+    thumb = get_thumbnail(type, id, large)
     return HttpResponse(open(thumb, 'rb'), mimetype='image/png')
 
-def preview(request, id, hash):
+def thumbnail_pdf(request, type, id):
+    thumb = get_thumbnail_pdf(type, id)
+    return HttpResponse(open(thumb, 'rb'), mimetype='application/pdf')
+
+def preview(request, id, hash, large=False):
     card = Postcard.objects.get(id=id)
     if hash != card.get_code():
         raise Http404
-    image = get_card_png(card)
+    image = get_card_png(card, large=large)
     return HttpResponse(open(image, 'rb'), mimetype='image/png')
     
 def confirm(request, id, hash):
@@ -108,13 +111,3 @@ def confirm(request, id, hash):
         id = card.location
     
     return direct_to_template(request, 'postcards/confirm.html', {'front': '/postcard/thumbnail/%s/%s' % (type, id), 'card': card, 'form': form})
-
-# utility stuff
-def get_thumbnail(type, id):
-    img_dir = os.path.join(os.path.dirname(postcards.__file__), 'static', 'png')
-    files = os.listdir(img_dir)
-    match = filter(lambda s: s.startswith(type) and s.endswith('%s.png' % id), files)
-    if match:
-        return os.path.join(img_dir, match[0])
-    else:
-        return os.path.join(img_dir, 'resources', '%s.png' % type)

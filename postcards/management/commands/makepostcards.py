@@ -176,7 +176,7 @@ class Command(BaseCommand):
                             industries = SortedDict()
                             for cont in candidate['industries'][:5]:
                                 if float(cont['amount']) >= 0:
-                                    industries[standardize_industry_name(cont['industry'])] = cont['amount']
+                                    industries[standardize_industry_name(cont['name'])] = cont['amount']
                             
                             #deal with the name
                             candidate['standard_name'] = standardize_politician_name(candidate['name'])
