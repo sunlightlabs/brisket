@@ -39,7 +39,8 @@
     </div> 
     <div class="module">
         <form method="POST">
-            <h3>Build Your Postcard Now</h3>
+            <h3 class="withTip">Build Your Postcard Now</h3>
+            <div class="tip">The cost of printing and shipping for each postcard is $2</div>
             {{ form.non_field_errors }}
             {% if search_error %}
                 <ul class="errorlist"><li>{{ search_error }}</li></ul>
