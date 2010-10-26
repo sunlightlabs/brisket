@@ -58,6 +58,7 @@ def entity_metadata(entity_id, cycle=DEFAULT_CYCLE):
 
 def entity_years(totals, keys):
     years = [year for (year, values) in totals.items() if any([v for (k,v) in values.items() if k in keys]) and year != "-1"]
+    years.sort()
     if years:
         return dict(start=years[0], end=years[-1])
     else:
