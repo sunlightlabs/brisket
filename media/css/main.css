@@ -95,7 +95,7 @@ div#timeSpan { font-size: 120%; background: url(../images/filter_bg.png) top lef
 div#currentDates { float: left; width: 350px; font-style: oblique; color: ##797070;}
 div#currentDates .currentDateTitle { font-style: normal; font-weight: bold; color: #0A6E92; margin-right: 5px;}
 #changeDates { float: right; }
-div#timeSpan select { font-size: 80%;}
+div#timeSpan select { font-size: 80%; width: 150px;}
 div#timeSpan label {color: #0a6e92; margin-right: 10px; font-weight: bold; width: 135px;} 
 
 select { color: #58595b;}
@@ -241,7 +241,8 @@ form#contact li, #postcardBox form li { margin-bottom: 15px;}
 .label-contract { width: 60px; text-align: center; padding: 2px; background: #efcc01; color: black; text-transform: uppercase; font-size: 75%; }
 .label-loan { width: 60px; text-align: center; padding: 2px; background: #f27e01; color: white; text-transform: uppercase; font-size: 75%; }
 
-.addthis_toolbox { float: right; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; width: 82px;}
+.addthis_toolbox { float: right; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; width: 90px;}
+.addthis_toolbox span { float: left; margin-top: 4px;}
 .addthis_toolbox a { text-decoration: none; color: #989393; }
 .addthis_toolbox img { float: right; margin-left: 6px; }
 

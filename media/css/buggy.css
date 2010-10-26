@@ -1,5 +1,3 @@
-.addthis_toolbox img { border: 1px solid red;}
-.addthis_toolbox a {  border: 1px solid red;}
 #footerPolicy p { width: 330px;}
 
 li#people a { background: url(../images/nav_people_8.png) left 1px no-repeat;}
@@ -11,7 +9,7 @@ li#politicians a:hover, body.politician li#politicians a { background: url(../im
 li#industries a { background: url(../images/nav_industries_8.png) left 1px no-repeat; }
 li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries_8.png) left -60px no-repeat; }
 
-div#mainContent_top { background: url(../images/whitebox_top_8.png) top left no-repeat;}
+div#mainContent_top { background: url(../images/whitebox_top_8.png) top left no-repeat; margin-top: -10px;}
 div#mainContent { background: url(../images/whitebox_middle_8.png) top left repeat-y; margin-top: -10px;}
 div#mainContent_bottom { background: url(../images/whitebox_bottom_8.png) top left no-repeat; }
 
@@ -20,3 +18,17 @@ h1 a { background: url(../images/logo_8.png) top left no-repeat; }
 div#footerLinks { margin-left: 20px; }
 
 .overviewBar { background: url(../images/overviewBar_8.png) top left no-repeat; }
+
+dl.key dt {  margin: -10px 7px 0 0; }
+div.amount { width: 300px;}
+
+.overviewBar.active .toggle { background: url(../images/toggle_8.png) left -10px no-repeat;}
+.overviewBar .toggle { background: url(../images/toggle_8.png) left 20px no-repeat; } 
+
+input#id_query { background: url(../images/searchBox_8.png) top left no-repeat; }
+a.descriptor { float: left;}
+
+.graph { height: 205px;}
+
+.lobbyingColumn { width: 230px !important;}
+.lobbyistsOrgs, .issuesLobbied { width: 230px !important;}
