@@ -3,3 +3,5 @@ django==1.2.3
 BeautifulSoup
 boto
 -e git+http://github.com/sunlightlabs/django-mediasync.git#egg=mediasync
+nose
+django-nose

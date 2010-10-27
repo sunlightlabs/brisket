@@ -101,6 +101,7 @@ INSTALLED_APPS = (
     'brisket.metadata',
     'brisket.postcards',
     'django.contrib.admin',
+    'django_nose',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -134,6 +135,8 @@ LATEST_CYCLE = 2010
 SESSION_COOKIE_NAME = 'brisket_session'
 
 SIMPLEPAY_COMPLETE_REDIRECT = '/postcard/thanks'
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 try:
     from local_settings import *
