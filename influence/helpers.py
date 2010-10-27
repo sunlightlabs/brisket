@@ -31,8 +31,8 @@ def standardize_individual_name(name):
     return convert_case(name)
 
 def standardize_organization_name(name):
-    name = convert_case(name)
     name = name.strip()
+    name = convert_case(name)
 
     if re.match(r'(?i)^\w*PAC$', name):
         name = name.upper() # if there's only one word that ends in PAC, make the whole thing uppercase
@@ -74,7 +74,7 @@ def uppercase_roman_numeral_suffix(name):
         return name
 
 def uppercase_the_scots(name):
-    matches = re.search(r'(?i) (?P<mc>ma?c)(?P<first_letter>\w)', name)
+    matches = re.search(r'(?i)\b(?P<mc>ma?c)(?P<first_letter>\w)', name)
     if matches:
         mc = matches.group('mc')
         first_letter = matches.group('first_letter')
