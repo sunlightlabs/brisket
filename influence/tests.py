@@ -197,3 +197,7 @@ class OrganizationNameStandardizationTests(TestCase):
     def test_doesnt_bother_names_containing_string_pac(self):
         self.assertEqual('Pacific Trust', helpers.standardize_organization_name('PACIFIC TRUST'))
 
+    def test_capitalize_scottish_names(self):
+        self.assertEqual('McDonnell Douglas', helpers.standardize_individual_name('MCDONNELL DOUGLAS'))
+        self.assertEqual('MacDonnell Douglas', helpers.standardize_individual_name('MACDONNELL DOUGLAS'))
+
