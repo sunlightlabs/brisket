@@ -149,20 +149,6 @@ class TransparencyDataAPI(object):
     def org_lobbyists(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit, parse_json=parse_json)
 
-    # full-text grant search
-    def org_grants(self, name, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
-        params = {'recipient_ft': name, 'limit':limit, 'parse_json': parse_json}
-        if cycle != "-1":
-            params['fiscal_year'] = "%s|%s" % (int(cycle) - 1, cycle)
-        return self._get_url_json('grants.json', **params)
-
-    # full-text contract search
-    def org_contracts(self, name, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
-        params = {'vendor_name': name, 'limit':limit, 'parse_json': parse_json}
-        if cycle != "-1":
-            params['fiscal_year'] = "%s|%s" % (int(cycle) - 1, cycle)
-        return self._get_url_json('contracts.json', **params)
-
     # which lobbying firms did this indiv work for
     def indiv_registrants(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/indiv/%s/registrants.json' % entity_id, cycle, limit, parse_json=parse_json)
