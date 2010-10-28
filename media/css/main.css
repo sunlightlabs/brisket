@@ -319,6 +319,7 @@ dt.moneyTitle { margin-top: 8px;}
 .beforeyouvote { background: url(../images/header_beforeyouvote.png) top center no-repeat; padding-top: 30px;}
 .beforeyouvote .chart { height: 210px;}
 .beforeyouvote .oneColumn p { font-size: 115%; line-height: 23px;}
+.beforeyouvote .oneColumn p.tip { font-size: 95%; line-height: 18px;}
 
 #postcardBox h2 { margin-bottom: 15px;}
 
