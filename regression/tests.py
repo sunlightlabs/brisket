@@ -1,17 +1,17 @@
+from regression import *
 from influence.api import TransparencyDataAPI
 
 
 
 cycles = [2008, 2010, -1]
 
-entity_methods = [TransparencyDataAPI.entity_metadata]
-
 
 politician_methods = [
     TransparencyDataAPI.pol_contributors,
     TransparencyDataAPI.pol_industries,
     TransparencyDataAPI.pol_local_breakdown,
-    TransparencyDataAPI.pol_contributor_type_breakdown
+    TransparencyDataAPI.pol_contributor_type_breakdown,
+    TransparencyDataAPI.pol_sparkline,
 ]
 
 politician_entities = [
@@ -41,50 +41,48 @@ organization_entities = [
     'd5bc3b5e617b43ed89e73000de9ff379', # Van Scoyoc Assoc
 ]
 
+individual_methods = [
+    TransparencyDataAPI.indiv_org_recipients,
+    TransparencyDataAPI.indiv_pol_recipients,
+    TransparencyDataAPI.indiv_party_breakdown,
+    TransparencyDataAPI.indiv_sparkline,
+    TransparencyDataAPI.indiv_registrants,
+    TransparencyDataAPI.indiv_issues,
+    TransparencyDataAPI.indiv_clients,
+]
 
-def cross(l, *rest):
-    """ Return the cross product of lists. """
-    if not rest:
-        return [[x] for x in l]
-    return [[x] + y for x in l for y in cross(rest[0], *rest[1:])]
+individual_entities = [
+    '56014031e60e4df6903025bd26e60b61', # Thomas Boggs
+    '6a2a5d19dbea499d8e1db4dbddc12091', # Parker Collier
+    '77905c714f74469db1db064dbc942dc9', # Edgar Bronfman Jr
+]
 
 
-def cross_calls(methods, *arg_lists):
-    """ Return a list of all methods on all argument combinations.
-    
-        Each returned item is a pair of string label and function.
-        The functions are not bound to an instance--they expect self as the only argument.
-        
-    """
-    result = []
-    for call in cross(methods, *arg_lists):
-        method = call[0]
-        args = call[1:]
-        label = "%s(%s)" % (method.__name__, ", ".join(map(str, args)))
-        func = lambda api: method(api, *args)
-        result.append((label, func))
+industry_methods = [
+    TransparencyDataAPI.industry_orgs
+] + organization_methods
 
-    return result
+industry_entities = [
+    'cdb3f500a3f74179bb4a5eb8b2932fa6', # Unknown
+    'f50cf984a2e3477c8167d32e2b14e052', # Lawyers
+]
 
-def run_regression(production, staging, methods):
-    for (label, func) in methods:
-        print "testing %s" % label
-        
-        production_result = func(production)
-        staging_result = func(staging)
-        
-        if production_result == staging_result:
-            print "identical"
-        else:
-            print "different"
+
+entity_methods = [TransparencyDataAPI.entity_metadata]
+
+entities = politician_entities + organization_entities + individual_entities + industry_entities
+
+calls = \
+    cross_calls(politician_methods, politician_entities, cycles) + \
+    cross_calls(organization_methods, organization_entities, cycles) + \
+    cross_calls(individual_methods, individual_entities, cycles) + \
+    cross_calls(industry_methods, industry_entities, cycles) + \
+    cross_calls(entity_methods, entities)
+
 
 def test_all():
     production_api = TransparencyDataAPI("http://transparencydata.com/api/1.0/")
     staging_api = TransparencyDataAPI("http://staging.influenceexplorer.com:8000/api/1.0/")
-
-    calls = \
-        cross_calls(politician_methods, politician_entities, cycles) + \
-        cross_calls(organization_methods, organization_entities, cycles)
 
     run_regression(production_api, staging_api, calls)
     

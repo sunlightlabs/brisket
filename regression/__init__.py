@@ -1,0 +1,37 @@
+# note: don't really want 
+
+def cross(l, *rest):
+    """ Return the cross product of lists. """
+    if not rest:
+        return [[x] for x in l]
+    return [[x] + y for x in l for y in cross(rest[0], *rest[1:])]
+
+
+def cross_calls(methods, *arg_lists):
+    """ Return a list of all methods on all argument combinations.
+    
+        Each returned item is a pair of string label and function.
+        The functions are not bound to an instance--they expect self as the only argument.
+        
+    """
+    result = []
+    for call in cross(methods, *arg_lists):
+        method = call[0]
+        args = call[1:]
+        label = "%s(%s)" % (method.__name__, ", ".join(map(str, args)))
+        func = lambda api: method(api, *args)
+        result.append((label, func))
+
+    return result
+
+def run_regression(production, staging, methods):
+    for (label, func) in methods:
+        print "testing %s" % label
+        
+        production_result = func(production)
+        staging_result = func(staging)
+        
+        if production_result == staging_result:
+            print "identical"
+        else:
+            print "different"
