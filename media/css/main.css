@@ -343,6 +343,6 @@ dt.moneyTitle { margin-top: 8px;}
 #grantsContracts { margin-bottom: 55px;}
 #orderPostcards { margin-top: 10px; padding-top: 40px; border-top: 1px dashed #DCDCD8; }
 
-.electionChart { float: left; margin-right: 10px; font-size: 90%; width: 143px;}
+.electionChart { float: left; margin-right: 10px; font-size: 88%; width: 143px; overflow: hidden;}
 .electionChart li { line-height: 24px;}
 .electionChart li a:link, .electionChart li a:visited, .electionChart li a:hover, .electionChart li a:active { text-decoration: none;}
