@@ -204,8 +204,8 @@ button.contBtn { background: url(../images/btn_continue.png) left top no-repeat;
 button.contBtn:hover { background: url(../images/btn_continue.png) left bottom no-repeat; }
 button.searchPostcardBtn { background: url(../images/btn_postcardSearch.png) left top no-repeat; width: 90px; height: 29px; margin-top: 2px; float: left;}
 button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.png) left bottom no-repeat;  }
-#postcardBtn { background: url(../images/btn_sendPostcard.jpg) left top no-repeat; width: 259px; height: 46px; }
-#postcardBtn:hover { background: url(../images/btn_sendPostcard.jpg) left bottom no-repeat; }
+#postcardBtn { background: url(../images/btn_sendPostcard.png) left top no-repeat; width: 259px; height: 46px; }
+#postcardBtn:hover { background: url(../images/btn_sendPostcard.png) left bottom no-repeat; }
 
 form#contact { margin-top: 45px;}
 label { color: #0A6E92; width: 120px; display: block; float: left;}
@@ -326,7 +326,7 @@ dt.moneyTitle { margin-top: 8px;}
 #postcards p, #postcardDescription p { margin-bottom: 1em;}
 #postcards h2 { font-size: 240%;}
 #postcards span { font-size: 180%; color: #bc4c22; text-transform: uppercase;}
-#postcardDescrition { float: left; width: 495px;}
+#postcardDescrition { float: left; width: 545px; margin-left: 40px;}
 
 #postcardBox input[type=image] { width: auto; height: auto; border: 0; margin-left: 150px;}
 .payment-info { text-transform: none; margin-bottom: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; }
