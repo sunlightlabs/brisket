@@ -45,10 +45,10 @@ h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 130%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; }
 h6, .h6 { font-size: 110%; font-weight: bold;}
 
-div#featureBox { background: url(../images/feature_bg.jpg) top left no-repeat; height: 278px; padding-top: 40px;}
-div#featureBox h2 { text-transform: uppercase; margin-bottom: 30px;}
+div#featureBox { background: url(../images/feature_bgSm.jpg) top left no-repeat; height: 155px; padding-top: 30px; margin-bottom: 50px;}
+div#featureBox h2 { text-transform: uppercase; margin-bottom: 25px; float: left; margin-right: 20px; margin-top: 10px;}
 div#featureBox input { background: url(../images/searchBox_feature.png) top left no-repeat; width: 400px; height: 40px;}
-div#featureBox p { color: #989393; font-size: 120%; width: 550px; margin-bottom: 30px; line-height: 24px;}
+div#featureBox p { color: #989393; font-size: 120%; width: 620px; margin-bottom: 30px; line-height: 24px;}
 div#featureBox p span { color: #666666; font-size: 160%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
@@ -294,6 +294,7 @@ dt.moneyTitle { margin-top: 8px;}
 #changeLocation, .tipHeight { margin-bottom: 25px; display: block;}
 
 #postcardBox { background: url(../images/bg_postcard.jpg) center top repeat-y; padding: 40px 0;}
+.home #postcardBox  { padding: 0 0 40px;}
 #postcardSearch { background: url(../images/bg_postcardSearch.jpg) center top no-repeat; height: 42px; padding-top: 15px; margin: 25px 0;}
 #postcardBox #postcardSearch label { color: #827d7d; width: auto; margin: 6px 15px 0 0;}
 #postcardSearch input { float: left; width: 200px; margin-right: 10px;}
@@ -313,6 +314,11 @@ dt.moneyTitle { margin-top: 8px;}
 .cardFront .plus, .cardBack .plus { border: 0px; display: none; position: absolute; bottom: 10px; right: 10px; }
 .cardFront a:hover .plus, .cardBack a:hover .plus { display: block; }
 .candidate-loading { padding-left: 10px; display: none; height: 12px; width: 12px; }
+
+#postcardBox #beforeVoteLogo { width: 381px; height: 115px; background: url(../images/logo_beforeyouvote.png) top left no-repeat; text-indent: -9999em; display: block; margin-bottom: 25px;}
+.beforeyouvote { background: url(../images/header_beforeyouvote.png) top center no-repeat; padding-top: 30px;}
+.beforeyouvote .chart { height: 210px;}
+.beforeyouvote .oneColumn p { font-size: 115%; line-height: 23px;}
 
 #postcardBox h2 { margin-bottom: 15px;}
 
@@ -334,3 +340,7 @@ dt.moneyTitle { margin-top: 8px;}
 #cardOptions li label { float: none;}
 
 #grantsContracts { margin-bottom: 55px;}
+#orderPostcards { margin-top: 10px; padding-top: 40px; border-top: 1px dashed #DCDCD8; }
+
+.electionChart { float: left; margin-right: 10px; font-size: 90%; width: 143px;}
+.electionChart li { line-height: 23px;}

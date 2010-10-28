@@ -3,27 +3,68 @@
 
 {% block main %}
 <div class="module" id="featureBox">
-  <h2>Start Your Search Below</h2>
-  <p>Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span> or a prominent <span class="differentText">individual</span>, and see how they're influencing the political system.</p>
+  <h2>Start Your Search</h2>
   <form id="searchForm" action="/search" method="get">
-    {{ search_form.query }}
-    <input type="hidden" name="from_form" value="1">
-    <button class="searchBtn" type="submit">
-      <span>Go</span>
-    </button>
-  </form>
+      {{ search_form.query }}
+      <input type="hidden" name="from_form" value="1">
+      <button class="searchBtn" type="submit">
+        <span>Go</span>
+      </button>
+    </form>
+  <p class="clear">Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span> or a prominent <span class="differentText">individual</span>, and see how they're influencing the political system.</p>
   <div class="clear"></div>
 </div>
-<div class="module" id="postcards">
-    <img alt="postcard images" src="/media/images/img_postcard.jpg"/>
-    <div id="postcardDescrition">
-        <h2><big>Before They Vote</big> <small>send them a postcard</small></h2>
-        <p>Want to make sure your friends and family are informed about just who they're voting for in the upcoming midterms?</p> 
-        <p>With an unprecedented amount of money flowing into this year's midterm elections, help your friends and family follow the money by sending a customized postcard or three right from this website - no stamps necessary - about the elections happening in their community.</p>
-        <p>Each postcard will show the industries and organizations that contribute the most to the candidate (or candidates) you choose. Make it personal by writing a note to tell your friend or family member about why you want them to see the money and influence this political season.</p>
-        <a class="linkBtn" id="postcardBtn" href="/postcard/order">Send a Postcard!</a>
-    </div>
-    
-</div>    
+<div id="postcardBox">
+    <div class="chartModule beforeyouvote" id="postcards">
+        <h2 id="beforeVoteLogo"><big>Before You Vote</big> <small>get insanely informed</small></h2>
+        <div class="oneColumn chart">
+            <p>Search the site to find information about the money being spent on candidates and parties before you cast your ballot. Below are some examples  of the information you will find.</p>
+        </div>
+        <div class="twoColumn">
+            <div class="chart">
+                <h4>Top Industries</h4>
+                <ol class="electionChart">
+                    <li><a href="http://influenceexplorer.com/industry/lawyerslaw-firms/f50cf984a2e3477c8167d32e2b14e052?cycle=2010 ">Lawyers/Law Firms</a></li>
+                    <li><a href="http://influenceexplorer.com/industry/health-professionals/a05a0d06f6814b31bece35a81fcb40c7?cycle=2010 ">Health Professionals</a></li>
+                    <li><a href="http://influenceexplorer.com/industry/real-estate/7500030dffe24844aa467a75f7aedfd1?cycle=2010 ">Real Estate</a></li>
+                    <li><a href="http://influenceexplorer.com/industry/securities-investment/0af3f418f426497e8bbf916bfc074ebc?cycle=2010 ">Securities & Investments</a></li>
+                    <li><a href="http://influenceexplorer.com/industry/insurance/8ada0fc2d6994f2ab06c7e025dff2284?cycle=2010 ">Insurance</a></li>
+                </ol>
+                <img alt="chart of money top industries have given" src="/media/images/img_electionchart1.png" />
+            </div>
+        </div>
+        <div class="oneColumn">
+            <div class="chart">
+                <h4>Total Raised</h4>
+                <img alt="pie chart of money raised by democrats vs. republicans" src="/media/images/img_electionchart3.png" />
+            </div>    
+        </div>
+        <div class="twoColumn">
+            <div class="chart">
+                <h4>Top Recipients</h4>
+                <ol class="electionChart">
+                    <li><a href="http://influenceexplorer.com/politician/charles-e-schumer/e708669995e844af90f205003683f2fa?cycle=2010 ">Charles E Schumer  (D- NY)</a></li>
+                    <li><a href="http://influenceexplorer.com/politician/harry-reid/b875d19789ce4c88b276a607202b362c?cycle=2010 ">Harry Reid (D- NV)</a></li>
+                    <li><a href="http://influenceexplorer.com/politician/charles-j-crist-jr/0fc3d891b38a43abaa0a3ec32c0ad0cf?cycle=2010 ">Charles J Crist Jr (I-FL)</a></li>
+                    <li><a href="http://influenceexplorer.com/politician/rob-portman/f062e216cb9f4a29a8ac0e7353d1d01e?cycle=2010 ">Rob Portman (R-OH)</a></li>
+                    <li><a href="http://influenceexplorer.com/politician/kirsten-gillibrand/5133536fdc44445695adf6f244ee69c9?cycle=2010">Kirsten Gillibrand (D-NY)</a></li>
+                </ol>
+                <img alt="chart of money top recipients have recieved" src="/media/images/img_electionchart1.png" />
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div id="orderPostcards">
+            <img alt="postcard images" src="/media/images/img_postcard.jpg"/>
+            <div id="postcardDescrition">
+                <h2><big>Before They Vote</big> <small>send them a postcard</small></h2>
+                <p>Want to make sure your friends and family are informed about just who they're voting for in the upcoming midterms?</p> 
+                <p>With an unprecedented amount of money flowing into this year's midterm elections, help your friends and family follow the money by sending a customized postcard or three right from this website - no stamps necessary - about the elections happening in their community.</p>
+                <p>Each postcard will show the industries and organizations that contribute the most to the candidate (or candidates) you choose. Make it personal by writing a note to tell your friend or family member about why you want them to see the money and influence this political season.</p>
+                <a class="linkBtn" id="postcardBtn" href="/postcard/order">Send a Postcard!</a>
+            </div>
+        </div>
+    </div>  
+    <div class="clear"></div>
+</div>  
 <div class="clear"></div>
 {% endblock %}

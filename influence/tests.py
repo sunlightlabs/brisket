@@ -68,6 +68,7 @@ class EntityAPITests(APITest):
 
     def test_entity_metadata(self):
         bankers = api.entity_metadata(self.BANKERS)
+
         self.assertLength(10, bankers)
         self.assertFalse(bankers['metadata']['lobbying_firm'])
 
