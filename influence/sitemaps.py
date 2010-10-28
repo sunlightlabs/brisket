@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import index, sitemap
-from influence.api import entity_count, entity_list
+from influence import api
 from django.conf import settings
 from influence import helpers
 from django.template.defaultfilters import slugify
@@ -25,10 +25,10 @@ class EntityList:
             self.params['type'] = type
     
     def __len__(self):
-        return entity_count(**self.params)
+        return api.entity_count(**self.params)
     
     def __getslice__(self, start, end):
-        return entity_list(start, end, **self.params)
+        return api.entity_list(start, end, **self.params)
     
 
 class EntitySitemap(Sitemap):

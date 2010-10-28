@@ -1,7 +1,8 @@
 # coding=utf-8
 
 import urllib, re, datetime
-import api, external_sites
+import external_sites
+from api               import api
 from api               import DEFAULT_CYCLE
 from django.http       import HttpResponseRedirect, HttpResponse
 from django.shortcuts  import render_to_response
