@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 from optparse import make_option
 import os, sys
 import postcards
-from influence import api
+from influence.api import api
 from django.conf import settings
 from django.template.loader import render_to_string
 from gevent.pool import Pool

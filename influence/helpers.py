@@ -1,5 +1,5 @@
 import re, string, datetime
-import api
+from api import api
 from util import catcodes
 from django.template.defaultfilters import slugify
 from django.http import Http404
@@ -226,7 +226,7 @@ def get_metadata(entity_id, cycle, entity_type):
         'politician':   {'contributions': ['recipient_amount']}\
     }
 
-    entity_info = api.entity_metadata(entity_id, cycle)
+    entity_info = api.entity_metadata(entity_id)
 
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():

@@ -2,8 +2,8 @@
 
 from django.test import TestCase
 
-from influence import api, helpers
-
+from influence import helpers
+from api import api
 
 CYCLE = 2008
 
@@ -67,11 +67,11 @@ class EntityAPITests(APITest):
         self.assertLength(2, api.entity_search('pelosi'))
 
     def test_entity_metadata(self):
-        bankers = api.entity_metadata(self.BANKERS, CYCLE)
-        self.assertLength(9, bankers)
+        bankers = api.entity_metadata(self.BANKERS)
+        self.assertLength(10, bankers)
         self.assertFalse(bankers['metadata']['lobbying_firm'])
 
-        nickles = api.entity_metadata(self.NICKLES, CYCLE)
+        nickles = api.entity_metadata(self.NICKLES)
         self.assertTrue(nickles['metadata']['lobbying_firm'])
 
     def test_entity_year_range(self):
