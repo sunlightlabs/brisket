@@ -1,10 +1,8 @@
 from influence.api import TransparencyDataAPI
 
 
-production_api = TransparencyDataAPI("http://transparencydata.com/api/1.0/")
-staging_api = TransparencyDataAPI("http://staging.influenceexplorer.com:8000/api/1.0/")
 
-
+cycles = [2008, 2010, -1]
 
 entity_methods = [TransparencyDataAPI.entity_metadata]
 
@@ -45,22 +43,31 @@ organization_entities = [
 
 
 def cross(l, *rest):
+    """ Return the cross product of lists. """
     if not rest:
         return [[x] for x in l]
     return [[x] + y for x in l for y in cross(rest[0], *rest[1:])]
 
 
-def bind_methods(methods, *arg_lists):
+def cross_calls(methods, *arg_lists):
+    """ Return a list of all methods on all argument combinations.
+    
+        Each returned item is a pair of string label and function.
+        The functions are not bound to an instance--they expect self as the only argument.
+        
+    """
+    result = []
     for call in cross(methods, *arg_lists):
         method = call[0]
         args = call[1:]
-        label = "%s(%s)" % (method.__name__, str(args))
+        label = "%s(%s)" % (method.__name__, ", ".join(map(str, args)))
         func = lambda api: method(api, *args)
-        yield (label, func)
+        result.append((label, func))
 
+    return result
 
-def run_regression(production, staging, bound_methods):
-    for (label, func) in bound_methods:
+def run_regression(production, staging, methods):
+    for (label, func) in methods:
         print "testing %s" % label
         
         production_result = func(production)
@@ -71,5 +78,13 @@ def run_regression(production, staging, bound_methods):
         else:
             print "different"
 
-def politician_regression():
-    run_regression(production_api, staging_api, bind_methods(politician_methods, [(e,) for e in politician_entities]))
+def test_all():
+    production_api = TransparencyDataAPI("http://transparencydata.com/api/1.0/")
+    staging_api = TransparencyDataAPI("http://staging.influenceexplorer.com:8000/api/1.0/")
+
+    calls = \
+        cross_calls(politician_methods, politician_entities, cycles) + \
+        cross_calls(organization_methods, organization_entities, cycles)
+
+    run_regression(production_api, staging_api, calls)
+    
