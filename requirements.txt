@@ -4,3 +4,5 @@ BeautifulSoup
 boto
 -e git+http://github.com/sunlightlabs/django-mediasync.git#egg=mediasync
 -e svn+http://feedparser.googlecode.com/svn/trunk/feedparser@315#egg=feedparser-dev_r315
+nose
+django-nose

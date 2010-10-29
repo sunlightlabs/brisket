@@ -19,9 +19,11 @@ def standardize_individual_name_filter(name):
 def standardize_organization_name_filter(name):
     return helpers.standardize_organization_name(name)
 
-@register.filter(name='standardize_name')
-def standardize_name_filter(entity_info):
-    return getattr(helpers, 'standardize_%s_name' % entity_info['type'])(entity_info['name'])
+
+@register.filter(name='standardize_industry_name')
+@stringfilter
+def standardize_industry_name_filter(name):
+    return helpers.standardize_industry_name(name)
 
 seat_labels = {'federal:senate': 'US Senate',
                'federal:house': 'US House',

@@ -3,17 +3,18 @@
 
 {% block main %}
 <div class="module" id="featureBox">
-  <h2>Start Your Search Below</h2>
-  <p>Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span> or a prominent <span class="differentText">individual</span>, and see how they're influencing the political system.</p>
+  <h2>Start Your Search</h2>
   <form id="searchForm" action="/search" method="get">
-    {{ search_form.query }}
-    <input type="hidden" name="from_form" value="1">
-    <button class="searchBtn" type="submit">
-      <span>Go</span>
-    </button>
-  </form>
+      {{ search_form.query }}
+      <input type="hidden" name="from_form" value="1">
+      <button class="searchBtn" type="submit">
+        <span>Go</span>
+      </button>
+    </form>
+  <p class="clear">Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span> or a prominent <span class="differentText">individual</span>, and see how they're influencing the political system.</p>
   <div class="clear"></div>
 </div>
 
 {% include "frontpage/frontpage.html" %}
+
 {% endblock %}

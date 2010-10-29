@@ -28,9 +28,9 @@
     <span class="currentDateTitle">Current View:</span>
     <span>
       {% ifequal cycle "-1" %} 
-        {{entity_info.career.start|add:-1}} - {{entity_info.career.end}}
+        {{entity_info.years.start|add:-1}} &#150; {{entity_info.years.end}}
       {% else %}  
-        {{cycle|add:-1}} - {{cycle}} 
+        {{cycle|add:-1}} &#150; {{cycle}} 
       {% endifequal %}
     </span>
   </div>
@@ -50,5 +50,8 @@
 
 {% block lobbying %}
 {% endblock %} 
+
+{% block grants_and_contracts %}
+{% endblock %}
 
 {% endblock %}<!-- end main -->

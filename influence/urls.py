@@ -15,6 +15,7 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^organizations$', 'organization_landing'),
     url(r'^politicians$',   'politician_landing'),
     url(r'^people$',        'people_landing'),
+    url(r'^industries$',    'industry_landing'),
 
     # entity pages
     url(r'^organization/[\w\-]+/(?P<entity_id>\w+)', 'organization_entity',
@@ -23,6 +24,8 @@ urlpatterns = patterns('brisket.influence.views',
         name='politician_entity'),
     url(r'^individual/[\w\-]+/(?P<entity_id>\w+)', 'individual_entity',
         name='individual_entity'),
+    url(r'^industry/[\w\-]+/(?P<entity_id>\w+)', 'industry_entity',
+        name='industry_entity'),
 
     # utility
     #url(r'^reset$', 'clear_network', name='clear_network'),
@@ -43,6 +46,9 @@ urlpatterns += patterns('django.views.generic.simple',
 
     url(r'^individual/(?P<query_string>[\w\-]+)', 'redirect_to',
         {'url': '/search?query=%(query_string)s'}),
+    
+    url(r'^industry/(?P<query_string>[\w\-]+)', 'redirect_to',
+        {'url': '/search?query=%(query_string)s'}),
 
     url(r'^contact/?$', 'direct_to_template',
         {'template': 'contact.html'}),
@@ -55,6 +61,9 @@ urlpatterns += patterns('django.views.generic.simple',
 
     url(r'^about/methodology/lobbying/?$', 'direct_to_template',
         {'template': 'lobbying_methodology.html'}),
+        
+    url(r'^about/methodology/fed_spending/?$', 'direct_to_template',
+        {'template': 'fed_spending_methodology.html'}),        
 )
 
 urlpatterns += patterns('',

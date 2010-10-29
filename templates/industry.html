@@ -1,0 +1,50 @@
+{% extends "entity_base.html" %}
+{% load humanize %}
+{% load influence_extras %}
+{% block body_class %}industry{% endblock %}
+
+{% block pagetitle %}
+    {{ entity_info.name|standardize_industry_name}} | 
+{% endblock %}
+
+{% block canonicalurl %}/industry/{{ entity_info.name|standardize_industry_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
+
+{% block metadesc %}{{ entity_info.name|standardize_industry_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+  sparkline_by_party("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}, {{ cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
+  piechart("piechart_level", {% if level_breakdown %}{{ level_breakdown|safe }}{% else %}{}{% endif %});
+  piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
+  barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
+  barchart("organizations_barchart", {% if top_orgs %}{{ top_orgs|safe }} {% else %} [] {% endif %});
+});
+</script>
+{% endblock %}
+
+{% block contentHeader %}
+<h2>{{ entity_info.name|standardize_industry_name }}</h2>
+{% endblock %}
+
+{% if entity_info.metadata.bio %}
+{% block description %}
+{{ entity_info.metadata.bio|safe }}
+{% if entity_info.metadata.bio_url and entity_info.meta.source_display_name != "Sunlight" %}
+<p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_new">{{ entity_info.metadata.source_display_name }}</a></p>
+{% endif %}
+{% endblock %}
+{% endif %}
+
+
+{% block contributions %}
+{% if contributions_data %}
+{% include "contributions.html" %}
+{% endif %}
+{% endblock %}
+
+{% block lobbying %}
+{% if lobbying_data %}
+   {% include "industry_lobbying.html" %}
+{% endif %}
+{% endblock %}

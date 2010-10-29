@@ -10,25 +10,7 @@
 
 	<div class="module">
 
-		{% if messages %}
-			<ul class="messages">
-		    	{% for message in messages %}
-		    	<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-		    	{% endfor %}
-			</ul>
-		{% else %}
-		    <p class="tip">Have suggestions or would just like to tell us what you think? Let us know below.</p>
-		    <form action="{% url contact_form %}" method="post" id="contact">
-		        <ul>
-		            {{ form.as_ul }}
-		            <li>
-		                <button class="submitBtn" type="submit">
-		                    <span>Submit</span>
-		                </button>
-		            </li>    
-		        </ul>
-		    </form>
-		{% endif %}
+	    <p>Please use the Feedback widget on the right edge of the page to ask questions, view other users' comments or send us a private message.</p>
 		
 	</div>
 

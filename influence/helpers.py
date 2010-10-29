@@ -1,5 +1,5 @@
 import re, string, datetime
-import api
+from api import api
 from util import catcodes
 from django.template.defaultfilters import slugify
 from django.http import Http404
@@ -31,14 +31,22 @@ def standardize_individual_name(name):
     return convert_case(name)
 
 def standardize_organization_name(name):
-    name = convert_case(name)
     name = name.strip()
+    name = convert_case(name)
 
     if re.match(r'(?i)^\w*PAC$', name):
         name = name.upper() # if there's only one word that ends in PAC, make the whole thing uppercase
     else:
         name = re.sub(r'(?i)\bpac\b', 'PAC', name) # otherwise just uppercase the PAC part
 
+    return name
+
+def standardize_industry_name(name):
+    name = convert_case(name)
+    name = name.strip()
+    name = re.sub(r'/([a-z])', lambda s: s.group().upper(), name)
+    name = re.sub(r'-([a-z])', lambda s: s.group().upper(), name)
+    
     return name
 
 def separate_affixes(name):
@@ -66,7 +74,7 @@ def uppercase_roman_numeral_suffix(name):
         return name
 
 def uppercase_the_scots(name):
-    matches = re.search(r'(?i) (?P<mc>ma?c)(?P<first_letter>\w)', name)
+    matches = re.search(r'(?i)\b(?P<mc>ma?c)(?P<first_letter>\w)', name)
     if matches:
         mc = matches.group('mc')
         first_letter = matches.group('first_letter')
@@ -213,10 +221,11 @@ def get_metadata(entity_id, cycle, entity_type):
     section_indicators = {\
         'individual':   {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
         'organization': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
+        'industry': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
         'politician':   {'contributions': ['recipient_amount']}\
     }
 
-    entity_info = api.entity_metadata(entity_id, cycle)
+    entity_info = api.entity_metadata(entity_id)
 
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():
@@ -245,5 +254,12 @@ def check_entity(entity_info, cycle, entity_type):
         icycle = int(cycle)
     except:
         raise Http404
-    if (icycle != -1 and (icycle < int(entity_info['career']['start']) or icycle > int(entity_info['career']['end']))) or entity_info['type'] != entity_type:
+
+    if (icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end']))) or entity_info['type'] != entity_type:
         raise Http404
+        
+        
+def filter_bad_spending_descriptions(spending):
+    for r in spending:
+        if r['description'].count('!') > 10:
+            r['description'] = ''

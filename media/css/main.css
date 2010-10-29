@@ -21,6 +21,10 @@ body {
 
 div#pageMain, div#footer { width: 960px; margin: 0 auto; }
 
+#brandingbar input { width: 85px; padding: 3px 3px 2px;}
+body.search #brandingbar, body.home #brandingbar { padding: 3px 0 5px;}
+body.search #sllink, body.home #sllink { margin-top: 3px;}
+
 .graph { position: relative; }
 
 .tip, div.searchBox .results, .inArticle_sm, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
@@ -30,6 +34,8 @@ h1 { float: left; padding-top: 85px; margin-bottom: 50px; width: 440px; height: 
 h1 a { color: #000; text-decoration: none; font-size: 470%; text-transform: uppercase; line-height: 70px; text-indent: -9999em; display: block; background: url(../images/logo.png) top left no-repeat; width: 440px; height: 61px;}
 
 h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #000000; font-size: 380%; line-height: 40px; }
+h2 big { text-transform: uppercase; margin-right: 10px;}
+.overviewBar h3 { float: left;  margin-bottom: 0px;  margin-right: 25px;}
 h3 { float: left; font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; margin-right: 25px; line-height: 25px;}
 body.home h3 { border-bottom: 1px dashed #dcdcd8; float: none; margin-bottom: 25px; margin-right: 0;}
 h3.withTip, body.home h3.withTip { margin-bottom: 10px;}
@@ -39,10 +45,10 @@ h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 130%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; }
 h6, .h6 { font-size: 110%; font-weight: bold;}
 
-div#featureBox { background: url(../images/feature_bg.jpg) top left no-repeat; height: 278px; padding-top: 40px;}
-div#featureBox h2 { text-transform: uppercase; margin-bottom: 30px;}
+div#featureBox { background: url(../images/feature_bgSm.jpg) top left no-repeat; height: 155px; padding-top: 30px; margin-bottom: 50px;}
+div#featureBox h2 { text-transform: uppercase; margin-bottom: 25px; float: left; margin-right: 20px; margin-top: 10px;}
 div#featureBox input { background: url(../images/searchBox_feature.png) top left no-repeat; width: 400px; height: 40px;}
-div#featureBox p { color: #989393; font-size: 120%; width: 550px; margin-bottom: 30px; line-height: 24px;}
+div#featureBox p { color: #989393; font-size: 120%; width: 620px; margin-bottom: 30px; line-height: 24px;}
 div#featureBox p span { color: #666666; font-size: 160%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
@@ -52,7 +58,7 @@ div.searchBox ul { margin-top: 15px; }
 div.searchBox li { padding: 10px;}
 div.searchBox a { float: left; margin-right: 10px;}
 div.searchBox p.description a { float: none; margin-right: 0px; }
-div.searchBox p.description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
+div.searchBox p.description, #postcardDescription { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
 span.amountGiven { display: block; float: right;}
 span.transactions { float: left; font-style: oblique; color: #827D7D; font-family: Georgia, Times New Roman, Times, serif;}
 
@@ -73,6 +79,8 @@ li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 1
 li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
 li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
 li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
+li#industries a { background: url(../images/nav_industries.png) left 1px no-repeat; width: 146px;}
+li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries.png) left -60px no-repeat; }
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 input#id_search { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
@@ -87,8 +95,8 @@ div#timeSpan { font-size: 120%; background: url(../images/filter_bg.png) top lef
 div#currentDates { float: left; width: 350px; font-style: oblique; color: ##797070;}
 div#currentDates .currentDateTitle { font-style: normal; font-weight: bold; color: #0A6E92; margin-right: 5px;}
 #changeDates { float: right; }
-div#timeSpan select { font-size: 80%;}
-div#timeSpan label {color: #0a6e92; margin-right: 10px; font-weight: bold;} 
+div#timeSpan select { font-size: 80%; width: 150px;}
+div#timeSpan label {color: #0a6e92; margin-right: 10px; font-weight: bold; width: 135px;} 
 
 select { color: #58595b;}
 
@@ -117,7 +125,7 @@ a#aboutLink { border-right: 1px solid #cecec9; padding-right: 20px; margin-right
 
 a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 120%; text-transform: lowercase; }
 .module { padding: 0 40px;}
-.chartModule { padding: 0 5px 0 40px; }
+.chartModule { padding: 0 5px 30px 40px; }
 
 #ltColumn { padding: 0 30px 0 40px; width: 650px;}
 body.home #ltColumn { width: 565px; float: left; padding: 0 25px 0 40px;}
@@ -143,7 +151,6 @@ div.descriptorText ul, body.flatText div#mainContent ul { list-style-type: disc;
 div.descriptorText p, div#description p, body.flatText div#mainContent p { margin-bottom: 1em;}
 div.descriptorText a { float: none; }
 
-body.flatText div#mainContent h3 { float: none; margin-bottom: 15px; margin-top: 35px;}
 body.flatText div#mainContent ul li, body.flatText div#mainContent ol li { margin-bottom: 10px;}
 body.flatText div#mainContent ul, body.flatText div#mainContent ol { margin-bottom: 20px;}
 strong, b { font-weight: bold; }
@@ -177,26 +184,41 @@ table#mainPageTable th { padding: 0 10px 10px 15px;}
 
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
-body.search h3 { font-size: 135%;}
 body.search dt a { margin-right: 10px;}
 body.search dt { width: 600px; margin-right: 20px; }
 body.search dt span { font-weight: normal;}
 body.search dd { text-align: right; width: 260px; margin-right: 0;}
 body.search table { margin-top: 15px;}
 
-button { text-indent: -9999em; display: block; border: none; cursor: pointer;}
+button, .linkBtn { text-indent: -9999em; display: block; border: none; cursor: pointer;}
 
 button.searchBtn { background: url(../images/btn_go.png) left top no-repeat; width: 75px; height: 55px; float: left; margin-top: 3px;}
-button.searchBtn:hover { background: url(../images/btn_go.png) left -55px no-repeat; width: 75px; height: 55px; float: left; }
+button.searchBtn:hover { background: url(../images/btn_go.png) left -55px no-repeat; }
 button.searchBtn_sm { background: url(../images/btn_go_sm.png) left 2px no-repeat; width: 68px; height: 51px; float: left; }
-button.searchBtn_sm:hover { background: url(../images/btn_go_sm.png) left -49px no-repeat; width: 68px; height: 51px; float: left; }
+button.searchBtn_sm:hover { background: url(../images/btn_go_sm.png) left -49px no-repeat; }
 button.submitBtn { background: url(../images/btn_submit.png) left top no-repeat; width: 106px; height: 46px; margin-left: 120px; }
-button.submitBtn:hover { background: url(../images/btn_submit.png) left -46px no-repeat; width: 106px; height: 46px; margin-left: 120px; }
+button.submitBtn:hover { background: url(../images/btn_submit.png) left -46px no-repeat; }
+.previewBtn { background: url(../images/btn_preview.png) left top no-repeat; width: 121px; height: 46px; margin-left: 225px; }
+.previewBtn:hover { background: url(../images/btn_preview.png) left bottom no-repeat; }
+button.contBtn { background: url(../images/btn_continue.png) left top no-repeat; width: 121px; height: 46px; margin-left: 225px; }
+button.contBtn:hover { background: url(../images/btn_continue.png) left bottom no-repeat; }
+button.searchPostcardBtn { background: url(../images/btn_postcardSearch.png) left top no-repeat; width: 90px; height: 29px; margin-top: 2px; float: left;}
+button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.png) left bottom no-repeat;  }
+#postcardBtn { background: url(../images/btn_sendPostcard.png) left top no-repeat; width: 259px; height: 46px; }
+#postcardBtn:hover { background: url(../images/btn_sendPostcard.png) left bottom no-repeat; }
 
 form#contact { margin-top: 45px;}
+<<<<<<< HEAD
 form#contact label { width: 120px; display: block; float: left;}
 form#contact input, form#contact textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
-form#contact li { margin-bottom: 15px;}
+
+label { color: #0A6E92; width: 120px; display: block; float: left;}
+input, textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
+select { width: 310px;}
+form#contact li, #postcardBox form li { margin-bottom: 15px;}
+#postcardBox form { margin-bottom: 35px;}
+
+.radio { display: block; float: left; width: 15px; margin-right: 10px;}
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 
@@ -257,6 +279,113 @@ dt.moneyTitle { margin-top: 8px;}
 
 #changeLocation, .tipHeight { margin-bottom: 25px; display: block;}
 
-.addthis_toolbox { float: right; line-height: 24px; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; }
+.label-grant { width: 60px; text-align: center; padding: 2px; background: #f2e388; color: black; text-transform: uppercase; font-size: 75%; }
+.label-contract { width: 60px; text-align: center; padding: 2px; background: #efcc01; color: black; text-transform: uppercase; font-size: 75%; }
+.label-loan { width: 60px; text-align: center; padding: 2px; background: #f27e01; color: white; text-transform: uppercase; font-size: 75%; }
+
+.addthis_toolbox { float: right; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-top: 15px; margin-right: 15px; width: 90px;}
+.addthis_toolbox span { float: left; margin-top: 4px;}
 .addthis_toolbox a { text-decoration: none; color: #989393; }
 .addthis_toolbox img { float: right; margin-left: 6px; }
+
+.fulltext-disclaimer { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; margin-top: -1.5em; margin-bottom: 1.5em; }
+
+.cell-type { width: 65px; }
+.cell-recipient { width: 165px; }
+.cell-year { width: 65px; }
+.cell-agency { width: 165px; }
+.cell-description { width: 205px; }
+.cell-amount { width: 95px; }
+
+.inArticle { float: left; width: 130px; background-color: #f9ea99; padding: 10px 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px;  border:1px solid #EFCB01; }
+.inArticle li { float: left; margin-right: 5px; margin-bottom: 8px; font-family: Georgia, Times New Roman, Times, serif; font-style: italic;}
+.articleGraph { float: none; width: auto;}
+.insideModule { padding-bottom: 40px; margin-bottom: 40px; border-bottom: 1px dotted #dbdbda;}
+.section { margin-bottom: 30px;}
+
+#articleContent { float: left; margin-right: 25px; width: 365px;}
+
+.inArticle_sm { margin-top: 8px; font-size: 92%; margin-left: 25px;}
+.inArticle_sm h6 { float: left; margin-right: 10px;}
+#moreNews .inArticle_sm li { float: left; margin-right: 5px; margin-bottom: 0;}
+#moreNews li { margin-bottom: 15px;}
+.articleMetaData { margin-bottom: 25px;}
+#moreNews { margin-top: 25px;}
+
+.moneyTitle { margin-top: 6px; font-size: 105%;}
+dt.moneyTitle { margin-top: 8px;}
+
+.topPages li { height: 25px; position: relative; margin: 5px; width: 255px; }
+.topPages li a:link, .topPages li a:active, .topPages li a:visited, .inArticle li a:link, .inArticle li a:active, .inArticle li a:visited  { color: #666666; font-size: 95%;}
+.topPages li a { float: left;}
+.topPages li .rankBar { position: absolute; height: 25px; top: 0px; left: 0px; background: #efcb01; }
+.topPages li .rankItem { position: absolute; height: 25px; top: 0px; left: 0px; line-height: 25px; overflow: hidden; white-space: nowrap; padding-left: 5px; }
+.topPages .results { position: absolute; left: 200px; font-size: 92%;}
+.percent0 { width: 0%;} .percent1{width: 1%;} .percent2{width: 2%;} .percent3{width: 3%;} .percent4{width: 4%;} .percent5{width: 5%;} .percent6{width: 6%;} .percent7{width: 7%;} .percent8{width: 8%;} .percent9{width: 9%;} .percent10{width: 10%;} .percent11{width: 11%;} .percent12{width: 12%;} .percent13{width: 13%;} .percent14{width: 14%;} .percent15{width: 15%;} .percent16{width: 16%;} .percent17{width: 17%;} .percent18{width: 18%;} .percent19{width: 19%;} .percent20{width: 20%;} .percent21{width: 21%;} .percent22{width: 22%;} .percent23{width: 23%;} .percent24{width: 24%;} .percent25{width: 25%;} .percent26{width: 26%;} .percent27{width: 27%;} .percent28{width: 28%;} .percent29{width: 29%;} .percent30{width: 30%;} .percent31{width: 31%;} .percent32{width: 32%;} .percent33{width: 33%;} .percent34{width: 34%;} .percent35{width: 35%;} .percent36{width: 36%;} .percent37{width: 37%;} .percent38{width: 38%;} .percent39{width: 39%;} .percent40{width: 40%;} .percent41{width: 41%;} .percent42{width: 42%;} .percent43{width: 43%;} .percent44{width: 44%;} .percent45{width: 45%;} .percent46{width: 46%;} .percent47{width: 47%;} .percent48{width: 48%;} .percent49{width: 49%;} .percent50{width: 50%;} .percent51{width: 51%;} .percent52{width: 52%;} .percent53{width: 53%;} .percent54{width: 54%;} .percent55{width: 55%;} .percent56{width: 56%;} .percent57{width: 57%;} .percent58{width: 58%;} .percent59{width: 59%;} .percent60{width: 60%;} .percent61{width: 61%;} .percent62{width: 62%;} .percent63{width: 63%;} .percent64{width: 64%;} .percent65{width: 65%;} .percent66{width: 66%;} .percent67{width: 67%;} .percent68{width: 68%;} .percent69{width: 69%;} .percent70{width: 70%;} .percent71{width: 71%;} .percent72{width: 72%;} .percent73{width: 73%;} .percent74{width: 74%;} .percent75{width: 75%;} .percent76{width: 76%;} .percent77{width: 77%;} .percent78{width: 78%;} .percent79{width: 79%;} .percent80{width: 80%;} .percent81{width: 81%;} .percent82{width: 82%;} .percent83{width: 83%;} .percent84{width: 84%;} .percent85{width: 85%;} .percent86{width: 86%;} .percent87{width: 87%;} .percent88{width: 88%;} .percent89{width: 89%;} .percent90{width: 90%;} .percent91{width: 91%;} .percent92{width: 92%;} .percent93{width: 93%;} .percent94{width: 94%;} .percent95{width: 95%;} .percent96{width: 96%;} .percent97{width: 97%;} .percent98{width: 98%;} .percent99{width: 99%;} .percent100{width: 100%;}
+.topPages { margin-bottom: 20px; }
+
+.politicianDetails { float: left; width: 190px;}
+
+.reps img { width: 50px;}
+.reps li{ margin-bottom: 40px;}
+.reps dl { margin-top: 0;}
+.reps .moreLink { margin-top: 15px;}
+
+#id_states { display: none;  margin-top: 15px;}
+
+#changeLocation, .tipHeight { margin-bottom: 25px; display: block;}
+
+#postcardBox { background: url(../images/bg_postcard.jpg) center top repeat-y; padding: 40px 0;}
+.home #postcardBox  { padding: 0 0 40px;}
+#postcardSearch { background: url(../images/bg_postcardSearch.jpg) center top no-repeat; height: 42px; padding-top: 15px; margin: 25px 0;}
+#postcardBox #postcardSearch label { color: #827d7d; width: auto; margin: 6px 15px 0 0;}
+#postcardSearch input { float: left; width: 200px; margin-right: 10px;}
+#postcardBox label { width: 225px;}
+
+.postcardImage { float: left; }
+.postcardImage img { height: 244px; width: 176px; border: 1px solid #aaaaaa; }
+
+.errorlist {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
+.errorlist li { margin-bottom: 0px !important; }
+
+.cardFront, .cardBack { float: left; margin-right: 25px; margin-bottom: 30px;}
+.cardFront a { width: 227px; height: 315px; position: relative; display: block; }
+.cardBack a { height: 315px; width: 437px; position: relative; display: block; }
+.cardFront img, .cardBack img { border: 1px solid #aaaaaa; }
+.cardFront a:hover img, .cardBack a:hover img { border-color: #dadbd6; }
+.cardFront .plus, .cardBack .plus { border: 0px; display: none; position: absolute; bottom: 10px; right: 10px; }
+.cardFront a:hover .plus, .cardBack a:hover .plus { display: block; }
+.candidate-loading { padding-left: 10px; display: none; height: 12px; width: 12px; }
+
+#postcardBox #beforeVoteLogo { width: 381px; height: 115px; background: url(../images/logo_beforeyouvote.png) top left no-repeat; text-indent: -9999em; display: block; margin-bottom: 25px;}
+.beforeyouvote { background: url(../images/header_beforeyouvote.png) top center no-repeat; padding-top: 30px;}
+.beforeyouvote .chart { height: 210px;}
+.beforeyouvote .oneColumn p { font-size: 115%; line-height: 23px;}
+.beforeyouvote .oneColumn p.tip { font-size: 95%; line-height: 18px;}
+
+#postcardBox h2 { margin-bottom: 15px;}
+
+#postcards img { float: left; margin-right: 30px;}
+#postcards p, #postcardDescription p { margin-bottom: 1em;}
+#postcards h2 { font-size: 240%;}
+#postcards span { font-size: 180%; color: #bc4c22; text-transform: uppercase;}
+#postcardDescrition { float: left; width: 545px; margin-left: 40px;}
+
+#postcardBox input[type=image] { width: auto; height: auto; border: 0; margin-left: 150px;}
+.payment-info { text-transform: none; margin-bottom: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; }
+#payment label { width: 150px;}
+#payment form { margin-top: 20px;}
+
+#postcardBox h4 img { width: 24px; height: 24px; }
+#postcardBox div.tip { margin-bottom: 15px; }
+
+#cardOptions li { margin: 0; float: left;}
+#cardOptions li label { float: none;}
+
+#grantsContracts { margin-bottom: 55px;}
+#orderPostcards { margin-top: 10px; padding-top: 40px; border-top: 1px dashed #DCDCD8; }
+
+.electionChart { float: left; margin-right: 10px; font-size: 86%; width: 143px;}
+.electionChart li { line-height: 24px;}
+.electionChart li a:link, .electionChart li a:visited, .electionChart li a:hover, .electionChart li a:active { text-decoration: none;}
+.electionChart li a { overflow: hidden;}

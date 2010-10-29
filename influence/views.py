@@ -1,7 +1,8 @@
 # coding=utf-8
 
 import urllib, re, datetime
-import api, external_sites
+import external_sites
+from api               import api
 from api               import DEFAULT_CYCLE
 from django.http       import HttpResponseRedirect, HttpResponse
 from django.shortcuts  import render_to_response
@@ -15,6 +16,9 @@ try:
     import json
 except:
     import simplejson as json
+
+from django.template.defaultfilters import pluralize
+from django.contrib.humanize.templatetags.humanize import apnumber
 
 
 def brisket_context(request):
@@ -72,7 +76,7 @@ def search(request):
             kwargs['sorted_results'] = None
         else:
             # sort the results by type
-            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': []}
+            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': [], 'industry': []}
             for result in entity_results:
                 if result['type'] == 'organization' and result['lobbying_firm'] == True:
                     sorted_results['lobbying_firm'].append(result)
@@ -80,12 +84,14 @@ def search(request):
                     sorted_results[result['type']].append(result)
 
             # sort each type by amount
+            sorted_results['industry']      = sorted(sorted_results['industry'],      key=lambda x: float(x['total_given']), reverse=True)
             sorted_results['organization']  = sorted(sorted_results['organization'],  key=lambda x: float(x['total_given']), reverse=True)
             sorted_results['individual']    = sorted(sorted_results['individual'],    key=lambda x: float(x['total_given']), reverse=True)
             sorted_results['politician']    = sorted(sorted_results['politician'],    key=lambda x: float(x['total_received']), reverse=True)
             sorted_results['lobbying_firm'] = sorted(sorted_results['lobbying_firm'], key=lambda x: float(x['firm_income']), reverse=True)
 
             # keep track of how many there are of each type of result
+            kwargs['num_industries']   = len(sorted_results['industry'])
             kwargs['num_orgs']   = len(sorted_results['organization'])
             kwargs['num_pols']   = len(sorted_results['politician'])
             kwargs['num_indivs'] = len(sorted_results['individual'])
@@ -117,31 +123,51 @@ def politician_landing(request):
     context['cycle'] = LATEST_CYCLE
     return render_to_response('pol_landing.html', context, brisket_context(request))
 
-def organization_entity(request, entity_id):
+def industry_landing(request):
+    context = {}
+    context['top_n_industries'] = api.top_n_industries(cycle=LATEST_CYCLE, limit=50)
+    context['num_industries'] = len(context['top_n_industries'])
+    context['cycle'] = LATEST_CYCLE
+    return render_to_response('industry_landing.html', context, brisket_context(request))
+
+def org_industry_entity(request, entity_id, type='organization'):
     cycle = request.GET.get('cycle', DEFAULT_CYCLE)
     context = {}
     context['entity_id'] = entity_id
     context['cycle'] = cycle
 
-    metadata = get_metadata(entity_id, cycle, "organization")
+    metadata = get_metadata(entity_id, cycle, type)
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
     context['entity_info'] = entity_info
     
     # a little error-checking now that we have the entity info
-    check_entity(entity_info, cycle, 'organization')
+    check_entity(entity_info, cycle, type)
 
     entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
-
-    context['external_links'] = external_sites.get_organization_links(standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
-
+    
+    standardized_name = standardize_organization_name(entity_info['name']) if type == 'organization' else standardize_industry_name(entity_info['name'])
+    
+    context['external_links'] = external_sites.get_links(type, standardized_name, entity_info['external_ids'], cycle)
+    
+    if type == 'industry':
+        context['top_orgs'] = json.dumps([
+            {
+                'key': generate_label(standardize_organization_name(org['name'])),
+                'value': org['total_amount'],
+                'value_employee': org['employee_amount'],
+                'value_pac': org['direct_amount'],
+                'href' : barchart_href(org, cycle, 'organization')
+            } for org in api.industry_orgs(entity_id, cycle, limit=10)
+        ])
+    
     # get contributions data if it exists for this entity
     if metadata['contributions']:
         context['contributions_data'] = True
-        org_recipients = api.org_recipients(entity_id, cycle=cycle)
+        recipients = api.org_recipients(entity_id, cycle=cycle)
 
         recipients_barchart_data = []
-        for record in org_recipients:
+        for record in recipients:
             recipients_barchart_data.append({
                     'key': generate_label(standardize_politician_name_with_metadata(record['name'], record['party'], record['state'])),
                     'value' : record['total_amount'],
@@ -204,9 +230,34 @@ def organization_entity(request, entity_id):
             context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
             context['lobbying_links'] = external_sites.get_lobbying_links('client', standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
+    # Grants and Contracts
+    spending = api.org_fed_spending(entity_id, cycle)
+            
+    if spending:
+        filter_bad_spending_descriptions(spending)
+        
+        context['grants_and_contracts'] = spending
+        context['gc_links'] = external_sites.get_gc_links(standardize_organization_name(entity_info['name']), cycle)
+        
+        gc_found_things = []
+        for gc_type in ['grant', 'contract', 'loan']:
+            if '%s_count' % gc_type in context['entity_info']['totals']:
+                gc_found_things.append('%s %s%s' % (
+                    apnumber(context['entity_info']['totals']['%s_count' % gc_type]),
+                    gc_type,
+                    pluralize(context['entity_info']['totals']['%s_count' % gc_type])
+                ))
+        
+        context['gc_found_things'] = gc_found_things
 
-    return render_to_response('organization.html', context,
+    return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
+
+def organization_entity(request, entity_id):
+    return org_industry_entity(request, entity_id, 'organization')
+
+def industry_entity(request, entity_id):
+    return org_industry_entity(request, entity_id, 'industry')
 
 
 def politician_entity(request, entity_id):
@@ -248,7 +299,8 @@ def politician_entity(request, entity_id):
         industries_barchart_data = []
         for record in top_industries:
             industries_barchart_data.append({
-                'key': generate_label(record['industry']),
+                'key': generate_label(standardize_industry_name(record['name'])),
+                'href': barchart_href(record, cycle, 'industry'),
                 'value' : record['amount'],
             })
         context['industries_barchart_data'] = json.dumps(bar_validate(industries_barchart_data))

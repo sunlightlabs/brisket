@@ -2,8 +2,8 @@
 
 from django.test import TestCase
 
-from influence import api, helpers
-
+from influence import helpers
+from api import api
 
 CYCLE = 2008
 
@@ -40,13 +40,13 @@ class ContributionsAPITests(APITest):
         self.assertLength(2, api.pol_contributor_type_breakdown(self.PELOSI, CYCLE))
 
     def test_indiv_org_recipients(self):
-        self.assertLength(7, api.indiv_org_recipients(self.PICKENS, CYCLE))
+        self.assertLength(8, api.indiv_org_recipients(self.PICKENS, CYCLE))
 
     def test_indiv_pol_recipients(self):
         self.assertLength(10, api.indiv_pol_recipients(self.PICKENS, CYCLE))
 
     def test_indiv_party_breakdown(self):
-        self.assertLength(1, api.indiv_party_breakdown(self.PICKENS, CYCLE))
+        self.assertLength(2, api.indiv_party_breakdown(self.PICKENS, CYCLE))
 
     def test_org_recipients(self):
         self.assertLength(10, api.org_recipients(self.BANKERS, CYCLE))
@@ -67,16 +67,23 @@ class EntityAPITests(APITest):
         self.assertLength(2, api.entity_search('pelosi'))
 
     def test_entity_metadata(self):
-        bankers = api.entity_metadata(self.BANKERS, CYCLE)
-        self.assertLength(7, bankers)
+        bankers = api.entity_metadata(self.BANKERS)
+
+        self.assertLength(10, bankers)
         self.assertFalse(bankers['metadata']['lobbying_firm'])
 
-        nickles = api.entity_metadata(self.NICKLES, CYCLE)
+        nickles = api.entity_metadata(self.NICKLES)
         self.assertTrue(nickles['metadata']['lobbying_firm'])
 
+    def test_entity_year_range(self):
+        bankers = api.entity_metadata(self.BANKERS)
+        self.assertEqual(dict(start='1990', end='2010'), bankers['years'])
+        self.assertEqual(dict(start='1990', end='2010'), bankers['camp_fin_years'])        
+        self.assertEqual(dict(start='1998', end='2010'), bankers['lobbying_years'])
+        self.assertEqual(dict(start='2006', end='2010'), bankers['spending_years'])
 
     def test_id_lookup(self):
-        self.assertEqual([{"id": self.PELOSI}], api.entity_id_lookup('urn:crp:recipient', self.PELOSI_CRP_ID))
+        self.assertEqual([{"id": str(self.PELOSI)}], api.entity_id_lookup('urn:crp:recipient', self.PELOSI_CRP_ID))
 
 
 class LobbyingAPITests(APITest):
@@ -190,4 +197,8 @@ class OrganizationNameStandardizationTests(TestCase):
 
     def test_doesnt_bother_names_containing_string_pac(self):
         self.assertEqual('Pacific Trust', helpers.standardize_organization_name('PACIFIC TRUST'))
+
+    def test_capitalize_scottish_names(self):
+        self.assertEqual('McDonnell Douglas', helpers.standardize_individual_name('MCDONNELL DOUGLAS'))
+        self.assertEqual('MacDonnell Douglas', helpers.standardize_individual_name('MACDONNELL DOUGLAS'))
 
