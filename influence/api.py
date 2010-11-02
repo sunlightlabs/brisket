@@ -47,7 +47,10 @@ class TransparencyDataAPI(object):
             else:
                 return fp.read()
         except urllib2.HTTPError, e:
-            raise Http404
+            if e.code == 404:
+                raise Http404
+            else:
+                raise e
 
     def entity_search(self, query):
         return self._get_url_json('entities.json', search=query, parse_json=True)
