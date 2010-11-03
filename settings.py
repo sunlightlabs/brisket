@@ -98,7 +98,6 @@ INSTALLED_APPS = (
     'simplepay',
     'brisket.influence',
     'brisket.util',
-    'brisket.metadata',
     'brisket.postcards',
     'django.contrib.admin',
     'django_nose',
