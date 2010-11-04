@@ -1,5 +1,7 @@
 from regression import *
 from influence.api import TransparencyDataAPI
+from nose.plugins.attrib import attr
+from nose.tools import assert_equal
 
 
 
@@ -80,9 +82,19 @@ calls = \
     cross_calls(entity_methods, entities)
 
 
+@attr('regression')
 def test_all():
     production_api = TransparencyDataAPI("http://transparencydata.com/api/1.0/")
     staging_api = TransparencyDataAPI("http://staging.influenceexplorer.com:8000/api/1.0/")
 
-    run_regression(production_api, staging_api, calls)
-    
+    for (label, func) in calls:
+        check_sites.description = label
+        yield check_sites, func, production_api, staging_api
+
+
+def check_sites(func, production, staging):
+    production_result = func(production)
+    staging_result = func(staging)
+
+    assert_equal(production_result, staging_result)
+

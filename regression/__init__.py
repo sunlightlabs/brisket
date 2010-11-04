@@ -24,14 +24,3 @@ def cross_calls(methods, *arg_lists):
 
     return result
 
-def run_regression(production, staging, methods):
-    for (label, func) in methods:
-        print "testing %s" % label
-        
-        production_result = func(production)
-        staging_result = func(staging)
-        
-        if production_result == staging_result:
-            print "identical"
-        else:
-            print "different"
