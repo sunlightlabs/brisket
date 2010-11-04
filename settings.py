@@ -137,6 +137,12 @@ SIMPLEPAY_COMPLETE_REDIRECT = '/postcard/thanks'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
+SELENIUM_HOST = '0.0.0.0'
+SELENIUM_PORT = 4444 # default
+SELENIUM_BROWSER_COMMAND = 'firefox'
+SELENIUM_URL_ROOT = 'http://localhost:8001'
+#FORCE_SELENIUM_TESTS = False # default
+
 try:
     from local_settings import *
 except:
