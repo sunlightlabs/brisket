@@ -14,12 +14,15 @@ def cross_calls(methods, *arg_lists):
         The functions are not bound to an instance--they expect self as the only argument.
         
     """
+    def bind(method, args):
+        return lambda api: method(api, *args)
+    
     result = []
     for call in cross(methods, *arg_lists):
         method = call[0]
         args = call[1:]
         label = "%s(%s)" % (method.__name__, ", ".join(map(str, args)))
-        func = lambda api: method(api, *args)
+        func = bind(method, args)
         result.append((label, func))
 
     return result

@@ -40,7 +40,7 @@ class TransparencyDataAPI(object):
         params.update({'apikey': settings.API_KEY})
 
         try:
-            fp = urllib2.urlopen(API_BASE_URL + path + '?' + urllib.urlencode(params))
+            fp = urllib2.urlopen(self.base_url + path + '?' + urllib.urlencode(params))
     
             if parse_json:
                 return json.loads(fp.read())

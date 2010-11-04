@@ -5,7 +5,7 @@ from nose.tools import assert_equal
 
 
 
-cycles = [2008, 2010, -1]
+cycles = [2008]
 
 
 politician_methods = [
@@ -87,14 +87,13 @@ def test_all():
     production_api = TransparencyDataAPI("http://transparencydata.com/api/1.0/")
     staging_api = TransparencyDataAPI("http://staging.influenceexplorer.com:8000/api/1.0/")
 
-    for (label, func) in calls:
-        check_sites.description = label
-        yield check_sites, func, production_api, staging_api
+    def runner(label, api_call):
+        f = lambda: assert_equal(api_call(production_api), api_call(staging_api))
+        f.description = label # used in nose's output
+        return f
+
+    for (label, api_call) in calls:
+        yield runner(label, api_call)
 
 
-def check_sites(func, production, staging):
-    production_result = func(production)
-    staging_result = func(staging)
-
-    assert_equal(production_result, staging_result)
 
