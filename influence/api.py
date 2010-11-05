@@ -71,6 +71,7 @@ class TransparencyDataAPI(object):
 
     def _entity_years(self, totals, keys):
         years = [year for (year, values) in totals.items() if any([v for (k,v) in values.items() if k in keys]) and year != "-1"]
+        years.sort()
         if years:
             return dict(start=years[0], end=years[-1])
         else:
