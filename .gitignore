@@ -5,6 +5,7 @@
 local_settings.py
 fabfile.py
 media/sitemaps
+.settings
 postcards/static/svg/candidate*.svg
 postcards/static/svg/race*.svg
 postcards/static/svg/resources/Univers*
