@@ -315,8 +315,8 @@ dt.moneyTitle { margin-top: 8px;}
 .cardFront a:hover .plus, .cardBack a:hover .plus { display: block; }
 .candidate-loading { padding-left: 10px; display: none; height: 12px; width: 12px; }
 
-#postcardBox #beforeVoteLogo { width: 381px; height: 115px; background: url(../images/logo_beforeyouvote.png) top left no-repeat; text-indent: -9999em; display: block; margin-bottom: 25px;}
-.beforeyouvote { background: url(../images/header_beforeyouvote.png) top center no-repeat; padding-top: 30px;}
+#postcardBox #beforeVoteLogo { width: 304px; height: 64px; background: url(../images/election_title.png) top left no-repeat; text-indent: -9999em; display: block; margin-bottom: 30px;}
+.beforeyouvote { background: url(../images/header_beforeyouvote.png) top center no-repeat; padding-top: 23px;}
 .beforeyouvote .chart { height: 210px;}
 .beforeyouvote .oneColumn p { font-size: 115%; line-height: 23px;}
 .beforeyouvote .oneColumn p.tip { font-size: 95%; line-height: 18px;}
