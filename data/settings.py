@@ -74,6 +74,7 @@ INSTALLED_APPS = (
     'dcapi.aggregates',
     'dcapi.rapportive',
     'dc_web.public',
+    'sentry.client',
 )
 
 DATABASE_ROUTERS = ['db_router.DataCommonsDBRouter']
