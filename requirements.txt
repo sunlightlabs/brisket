@@ -5,3 +5,8 @@ boto
 -e git+http://github.com/sunlightlabs/django-mediasync.git#egg=mediasync
 nose
 django-nose
+django-nose-selenium
+selenium
+django-indexer
+django-paging
+django-sentry
