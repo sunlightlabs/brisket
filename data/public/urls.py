@@ -1,10 +1,6 @@
-from dcapi.contracts.handlers import load_contracts
 from dcapi.contracts.urls import contractsfilter_handler
-from dcapi.contributions.handlers import load_contributions
 from dcapi.contributions.urls import contributionfilter_handler
-from dcapi.grants.handlers import load_grants
 from dcapi.grants.urls import grantsfilter_handler
-from dcapi.lobbying.handlers import load_lobbying
 from dcapi.lobbying.urls import lobbyingfilter_handler
 from django.conf.urls.defaults import patterns, url
 
@@ -18,25 +14,25 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^contracts/$', 'filter_contracts', name="filter_contracts"),
     url(r'^contracts/download/$', 'search_download', {'search_resource': contractsfilter_handler},  name="data_contracts_download"),
     url(r'^data/contracts/$', 'search_preview', {'search_resource': contractsfilter_handler}, name="data_contracts"),
-    url(r'^data/contracts/count/$', 'search_count', {'search_resource': load_contracts}, name="data_contracts_count"),
+    url(r'^data/contracts/count/$', 'search_count', {'search_resource': contractsfilter_handler}, name="data_contracts_count"),
     
     # contributions
     url(r'^contributions/$', 'filter_contributions', name="filter_contributions"),
     url(r'^contributions/download/$', 'search_download', {'search_resource': contributionfilter_handler},  name="data_contributions_download"),
     url(r'^data/contributions/$', 'search_preview', {'search_resource': contributionfilter_handler}, name="data_contributions"),
-    url(r'^data/contributions/count/$', 'search_count', {'search_resource': load_contributions}, name="data_contributions_count"),
+    url(r'^data/contributions/count/$', 'search_count', {'search_resource': contributionfilter_handler}, name="data_contributions_count"),
     
     # grants
     url(r'^grants/$', 'filter_grants', name="filter_grants"),
     url(r'^grants/download/$', 'search_download', {'search_resource': grantsfilter_handler},  name="data_grants_download"),
     url(r'^data/grants/$', 'search_preview', {'search_resource': grantsfilter_handler}, name="data_grants"),
-    url(r'^data/grants/count/$', 'search_count', {'search_resource': load_grants}, name="data_grants_count"),
+    url(r'^data/grants/count/$', 'search_count', {'search_resource': grantsfilter_handler}, name="data_grants_count"),
 
     # lobbying
     url(r'^lobbying/$', 'filter_lobbying', name="filter_lobbying"),
     url(r'^lobbying/download/$', 'search_download', {'search_resource': lobbyingfilter_handler},  name="data_lobbying_download"),
     url(r'^data/lobbying/$', 'search_preview', {'search_resource': lobbyingfilter_handler}, name="data_lobbying"),
-    url(r'^data/lobbying/count/$', 'search_count', {'search_resource': load_lobbying}, name="data_lobbying_count"),
+    url(r'^data/lobbying/count/$', 'search_count', {'search_resource': lobbyingfilter_handler}, name="data_lobbying_count"),
     
     # doc lookups
     url(r'^docs/lookup/(?P<dataset>\w+)/(?P<field>[\w\-_]+)/$', 'lookup', name="doc_lookup"),
