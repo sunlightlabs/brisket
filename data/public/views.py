@@ -1,18 +1,10 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.db import connection
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, Http404
+from django.http import HttpResponse, HttpResponsePermanentRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from dcdata import contracts
-from dcapi.contracts.handlers import load_contracts
-from dcapi.contracts.urls import contractsfilter_handler
-from dcapi.contributions.handlers import load_contributions
-from dcapi.contributions.urls import contributionfilter_handler
-from dcapi.grants.handlers import load_grants
-from dcapi.grants.urls import grantsfilter_handler
-from dcapi.lobbying.handlers import load_lobbying
-from dcapi.lobbying.urls import lobbyingfilter_handler
+
 from locksmith.auth.models import ApiKey
 
 API_KEY = getattr(settings, 'SYSTEM_API_KEY', None)
@@ -69,7 +61,7 @@ def lookup(self, dataset, field):
 # then call a queryset() method on the handler.
 def search_count(request, search_resource):
     params = request.GET.copy()
-    c = search_resource(params, nolimit=True).order_by().count() 
+    c = search_resource.handler.queryset(params).order_by().count() 
     return HttpResponse("%i" % c, content_type='text/plain')
     
     
