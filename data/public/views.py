@@ -57,8 +57,6 @@ def lookup(self, dataset, field):
     raise Http404()
 
 
-# todo: should be passed a search_resource like the others,
-# then call a queryset() method on the handler.
 def search_count(request, search_resource):
     params = request.GET.copy()
     c = search_resource.handler.queryset(params).order_by().count() 
