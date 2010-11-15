@@ -4,7 +4,7 @@ import os
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
+TEMPLATE_DEBUG = True
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -101,6 +101,10 @@ INSTALLED_APPS = (
     'brisket.postcards',
     'django.contrib.admin',
     'django_nose',
+    'sentry',
+    'sentry.client',
+    'indexer',
+    'paging',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -136,6 +140,14 @@ SESSION_COOKIE_NAME = 'brisket_session'
 SIMPLEPAY_COMPLETE_REDIRECT = '/postcard/thanks'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+SENTRY_TESTING = True
+#SENTRY_REMOTE_URL = 'http://localhost:8001/sentry/store/'
+
+SELENIUM_HOST = '0.0.0.0'
+SELENIUM_PORT = 4444 # default
+SELENIUM_BROWSER_COMMAND = 'firefox'
+SELENIUM_URL_ROOT = 'http://localhost:8001'
+#FORCE_SELENIUM_TESTS = False # default
 
 try:
     from local_settings import *

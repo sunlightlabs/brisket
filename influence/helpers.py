@@ -255,7 +255,9 @@ def check_entity(entity_info, cycle, entity_type):
         icycle = int(cycle)
     except:
         raise Http404
-    if (icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end']))) or entity_info['type'] != entity_type:
+    if not entity_info['years'] or \
+        (icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end']))) or \
+        entity_info['type'] != entity_type:
         raise Http404
         
         

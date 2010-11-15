@@ -1,5 +1,6 @@
 import re
 from influence.models import PageRequest
+from django.core.signals import got_request_exception
 
 def trunc(s):
     return s[:255] if s is not None else None
@@ -39,6 +40,8 @@ class RequestLoggingMiddleware():
 
 
     def process_exception(self, request, exception):
+        got_request_exception.send(sender=self, request=request)
+
         if not self.should_log(request):
             return None
 
