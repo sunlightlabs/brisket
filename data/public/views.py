@@ -76,7 +76,7 @@ def search_download(request, search_resource):
     request.GET['per_page'] = 1000000
     request.GET['format'] = 'xls'
     response = search_resource(request)
-    response['Content-Disposition'] = "attachment; filename=%s.xls" % search_resource.handler.filename # todo: get filename from handler class
+    response['Content-Disposition'] = "attachment; filename=%s.xls" % search_resource.handler.filename
     response['Content-Type'] = "application/vnd.ms-excel; charset=utf-8"
     return response
 
