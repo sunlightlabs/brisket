@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'dcapi.rapportive',
     'dc_web.public',
     'sentry.client',
+    'django_nose',
 )
 
 DATABASE_ROUTERS = ['db_router.DataCommonsDBRouter']
@@ -87,6 +88,8 @@ PISTON_STREAM_OUTPUT = True
 LOCKSMITH_STATS_APP = "dcapi"
 LOCKSMITH_STATS_MODEL = "Invocation"
 LOCKSMITH_HUB_URL = "http://services.sunlightlabs.com/analytics/"
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 INTERNAL_IPS = ('127.0.0.1','209.190.229.199')
 DEBUG_TOOLBAR_CONFIG = {
