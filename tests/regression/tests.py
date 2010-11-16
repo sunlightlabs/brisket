@@ -1,4 +1,4 @@
-from regression import *
+from . import *
 from influence.api import TransparencyDataAPI
 from nose.plugins.attrib import attr
 from nose.tools import assert_equal
