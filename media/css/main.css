@@ -127,9 +127,10 @@ a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style:
 .module { padding: 0 40px;}
 .chartModule { padding: 0 5px 30px 40px; }
 
-#ltColumn { padding: 0 30px 0 40px; width: 650px;}
-body.home #ltColumn { width: 565px; float: left; padding: 0 25px 0 40px;}
-body.home #rtColumn { width: 265px; float: left; padding: 0 40px 0 25px;}
+#ltColumn { padding: 0 30px 0 40px; width: 650px; float: left;}
+#rtColumn { padding: 0 40px 0 30px; width: 170px; float: left;}
+body.home #ltColumn { width: 565px; padding: 0 25px 0 40px;}
+body.home #rtColumn { width: 265px; padding: 0 40px 0 25px;}
 
 div.chartWrapper {   margin-right: 35px; margin-bottom: 55px;}
 div.oneColumn { width: 270px; float: left;}
@@ -153,7 +154,7 @@ div.descriptorText a { float: none; }
 
 body.flatText div#mainContent ul li, body.flatText div#mainContent ol li { margin-bottom: 10px;}
 body.flatText div#mainContent ul, body.flatText div#mainContent ol { margin-bottom: 20px;}
-strong, b { font-weight: bold; }
+strong, b { font-weight: bold; color: #3b3130;}
 i, em{ font-style: oblique; }
 
 dl.key { margin-top: 0px; padding-top: 2px;}
@@ -206,6 +207,8 @@ button.searchPostcardBtn { background: url(../images/btn_postcardSearch.png) lef
 button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.png) left bottom no-repeat;  }
 #postcardBtn { background: url(../images/btn_sendPostcard.png) left top no-repeat; width: 259px; height: 46px; }
 #postcardBtn:hover { background: url(../images/btn_sendPostcard.png) left bottom no-repeat; }
+#checkingBtn { background: url(../images/btn_bookmarklet.jpg) left top no-repeat; width: 169px; height: 60px; float: right; margin-top: 20px;}
+#checkingBtn:hover { background: url(../images/btn_bookmarklet.jpg) left bottom no-repeat; }
 
 form#contact { margin-top: 45px;}
 label { color: #0A6E92; width: 120px; display: block; float: left;}
@@ -347,3 +350,9 @@ dt.moneyTitle { margin-top: 8px;}
 .electionChart li { line-height: 24px;}
 .electionChart li a:link, .electionChart li a:visited, .electionChart li a:hover, .electionChart li a:active { text-decoration: none;}
 .electionChart li a { overflow: hidden;}
+
+#checkingLogo { background: url(../images/logo_checking.jpg) top left no-repeat; width: 211px; height: 80px; text-indent: -9999em; display: block; float: left;}
+.standOut { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 180%; color: #3b3130; line-height: 30px; width: 520px;}
+#checkingPrivacy { margin-top: 40px;}
+#checkingImage, #bookmarkbarImage { border: 1px solid #e2dfdf; margin-bottom: 25px;}
+#bookmarkTitle { margin-top: 40px;}
