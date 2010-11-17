@@ -129,9 +129,10 @@ a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style:
 
 #ltColumn { padding: 0 30px 0 40px; width: 650px; float: left;}
 #rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left;}
-body.home #ltColumn { width: 565px; padding: 0 25px 0 40px;}
-body.home #rtColumn { width: 265px; padding: 0 40px 0 25px;}
+body.home #ltColumn { width: 260px; padding: 0 30px 0 40px;}
+body.home #rtColumn { width: 560px; padding: 0 40px 0 30px;}
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
+#mainContent .withBgLeft { background: url(../images/bg_postcard.jpg) top left repeat-y; }
 
 div.chartWrapper {   margin-right: 35px; margin-bottom: 55px;}
 div.oneColumn { width: 270px; float: left;}
@@ -210,6 +211,8 @@ button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.pn
 #postcardBtn:hover { background: url(../images/btn_sendPostcard.png) left bottom no-repeat; }
 #checkingBtn { background: url(../images/btn_bookmarklet.jpg) left top no-repeat; width: 169px; height: 60px; float: right; margin-top: 20px;}
 #checkingBtn:hover { background: url(../images/btn_bookmarklet.jpg) left bottom no-repeat; }
+#learnMore { background: url(../images/btn_learnMore.png) left top no-repeat; width: 150px; height: 46px; margin-top: 20px; margin-bottom: 30px;}
+#learnMore:hover { background: url(../images/btn_learnMore.png) left bottom no-repeat; }
 
 form#contact { margin-top: 45px;}
 label { color: #0A6E92; width: 120px; display: block; float: left;}
@@ -319,27 +322,16 @@ dt.moneyTitle { margin-top: 8px;}
 .cardFront a:hover .plus, .cardBack a:hover .plus { display: block; }
 .candidate-loading { padding-left: 10px; display: none; height: 12px; width: 12px; }
 
-#postcardBox #beforeVoteLogo { width: 304px; height: 64px; background: url(../images/election_title.png) top left no-repeat; text-indent: -9999em; display: block; margin-bottom: 30px;}
-.beforeyouvote { background: url(../images/header_beforeyouvote.png) top center no-repeat; padding-top: 23px;}
 .beforeyouvote .chart { height: 210px;}
-.beforeyouvote .oneColumn p { font-size: 115%; line-height: 23px;}
-.beforeyouvote .oneColumn p.tip { font-size: 95%; line-height: 18px;}
-
-#postcardBox h2 { margin-bottom: 15px;}
-
-#postcards img { float: left; margin-right: 30px;}
-#postcards p, #postcardDescription p { margin-bottom: 1em;}
-#postcards h2 { font-size: 240%;}
-#postcards span { font-size: 180%; color: #bc4c22; text-transform: uppercase;}
-#postcardDescrition { float: left; width: 545px; margin-left: 40px;}
+.beforeyouvote p { font-size: 115%; line-height: 23px;}
+.home p { margin-bottom: 1em;}
+.beforeyouvote p.tip { font-size: 95%; line-height: 18px;}
+#electionDescription { margin-bottom: 30px;}
 
 #postcardBox input[type=image] { width: auto; height: auto; border: 0; margin-left: 150px;}
 .payment-info { text-transform: none; margin-bottom: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; }
 #payment label { width: 150px;}
 #payment form { margin-top: 20px;}
-
-#postcardBox h4 img { width: 24px; height: 24px; }
-#postcardBox div.tip { margin-bottom: 15px; }
 
 #cardOptions li { margin: 0; float: left;}
 #cardOptions li label { float: none;}
@@ -352,8 +344,10 @@ dt.moneyTitle { margin-top: 8px;}
 .electionChart li a:link, .electionChart li a:visited, .electionChart li a:hover, .electionChart li a:active { text-decoration: none;}
 .electionChart li a { overflow: hidden;}
 
-#checkingLogo { background: url(../images/logo_checking.jpg) top left no-repeat; width: 211px; height: 80px; text-indent: -9999em; display: block; float: left;}
+#checkingLogo { background: url(../images/logo_checking.png) top left no-repeat; width: 211px; height: 80px; text-indent: -9999em; display: block; float: left;}
+.home #checkingLogo { float: none; margin-bottom: 15px; margin-top: 30px;}
 .standOut { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 180%; color: #3b3130; line-height: 30px; width: 520px;}
+.home .standOut { width: auto; font-size: 160%;}
 #checkingPrivacy { margin-top: 30px; padding-top: 30px; border-top: 1px dashed #E2DFDF; color: #827d7d;}
 #checkingPrivacy p { font-size: 88%;}
 #checkingImage, #bookmarkbarImage { border: 1px solid #e2dfdf; margin-bottom: 25px;}
