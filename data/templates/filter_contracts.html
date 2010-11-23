@@ -4,41 +4,20 @@
 {% block bodyid %}contracts{% endblock %}
 {% block dataset_name %}Federal Contracts{% endblock %}
 
-{% block content %}
-	{{ block.super }}
-    <div class="module">
-	    <div id="tableScroll">
-	        <p>Displaying <span id="previewCount"></span> of <span id="recordCount"></span> records</p>
-            <table id="mainTable">
-            	<thead>
-            		<tr id="titles">
-                   		<th>Fiscal Year</th>
-                   		<th>Current Amount</th>
-                   		<th>Vendor</th>
-                   		<th>Program</th>
-                   		<th>Agency</th>
-                   	</tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-		</div>
-		<div id="nodata">No contracts match your filter criteria.</div>
-		<div id="loading">Loading a few records to preview your filter...</div>
-		<div id="downloading" class="dialog">
-			<p>
-				Complex queries may take a few minutes to process.
-				You may close this dialog once your download completes.
-			</p>
-		</div>
-		<div id="suggestbulk" class="dialog">
-			<p>Your selected filters will return a very large amount of data. We appreciate your zeal for transparency, but our database can't handle the load. Please add additional filters or see our <a href="/bulk/">bulk download</a> page.</p>
-		</div>
-		<div class="license">
-			<p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribution to <a href="http://usaspending.gov">USASpending.gov</a>.</p>
-			<p>By downloading data, you are agreeing to the terms of the license.</p>
-		</div>
-        <div class="clear"></div>
-	</div>
+{% block table_header %}
+	<th>Fiscal Year</th>
+	<th>Current Amount</th>
+	<th>Vendor</th>
+	<th>Program</th>
+	<th>Agency</th>
+{% endblock %}
+
+{% block dataset_license %}
+	<p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribution to <a href="http://usaspending.gov">USASpending.gov</a>.</p>
+	<p>By downloading data, you are agreeing to the terms of the license.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
     {% js "contracts.js" %}
 	<script type="text/javascript">
 		$().ready(function() {

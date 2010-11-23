@@ -33,4 +33,33 @@
 	    <a id="previewButton" href="#" class="previewButton">Preview Data</a>
 	    <a id="downloadButton" href="#" class="downloadButton">Download </a>
     </div>
+    <div class="module">
+	    <div id="tableScroll">
+	        <p>Displaying <span id="previewCount"></span> of <span id="recordCount"></span> records</p>
+            <table id="mainTable">
+            	<thead>
+            		<tr id="titles">
+						{% block table_header %}{% endblock %}
+                   	</tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+		</div>
+		<div id="nodata">No records match your filter criteria.</div>
+		<div id="loading">Loading a few records to preview your filter...</div>
+		<div id="downloading" class="dialog">
+			<p>
+				Complex queries may take a few minutes to process.
+				You may close this dialog once your download completes.
+			</p>
+		</div>
+		<div id="suggestbulk" class="dialog">
+			<p>Your selected filters will return a very large amount of data. We appreciate your zeal for transparency, but our database can't handle the load. Please add additional filters or see our <a href="/bulk/">bulk download</a> page.</p>
+		</div>
+		<div class="license">		
+			{% block dataset_license %}{% endblock %}
+    	</div>
+        <div class="clear"></div>
+	</div>
+	{% block dataset_scripts %}{% endblock %}
 {% endblock %}
