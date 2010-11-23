@@ -131,7 +131,6 @@ var TD = {
 }
 
 TD.DataFilter = function() {
-    var that = this;
     this.registry = {};
     this.node = $();
     this.downloadNode = $();
