@@ -127,7 +127,24 @@ var TD = {
             var mdyParts = mdy.split('/');
             return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1]
         }
-    }
+    },
+    
+    STATES: [
+             ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
+             ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
+             ['DC', 'District of Columbia'],
+             ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
+             ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
+             ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
+             ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
+             ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
+             ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
+             ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
+             ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
+             ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
+             ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
+             ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
+         ]
 }
 
 TD.DataFilter = function() {
@@ -162,7 +179,7 @@ TD.DataFilter.prototype.bindPreview = function(sel) {
             // no main table, forward to filter page
             var qs = TD.Utils.toQueryString(that.values());
             var hash = window.btoa(qs);
-            window.location.replace("/" + that.specificPath + "/#" + hash);
+            window.location.replace("/" + that.path + "/#" + hash);
         } else if ($(this).hasClass('enabled')) {
             that.preview();
         }
@@ -179,7 +196,7 @@ TD.DataFilter.prototype.bindDownload = function(sel) {
             if (!that.shouldUseBulk()) {
                 $('#downloading').dialog('open');
                 var qs = TD.Utils.toQueryString(that.values());
-                window.location.replace("/" + that.specificPath + "/download/?" + qs);
+                window.location.replace("/" + that.path + "/download/?" + qs);
             }
         }
         return false;
@@ -276,7 +293,7 @@ TD.DataFilter.prototype.preview = function() {
             $('#mainTable tbody').empty();
             $('span#previewCount').html('...');
             $('span#recordCount').html('...');
-            $.getJSON('/data/' + this.specificPath, params, function(data) {
+            $.getJSON('/data/' + this.path, params, function(data) {
                 if (data.length === 0) {
                     $('div#nodata').show();
                 } else {
@@ -296,11 +313,21 @@ TD.DataFilter.prototype.preview = function() {
                 if (data.length < 30) {
                     $('span#recordCount').html(data.length);
                 } else {
-                    $.get("/data/" + that.specificPath + "/count/", params, function(data) {
+                    $.get("/data/" + that.path + "/count/", params, function(data) {
                         $('span#recordCount').html(data);
                     });
                 }
             });
         }
     }
+};
+TD.DataFilter.prototype.shouldUseBulk = function() {
+    var values = _.keys(this.values());
+    values = _.without.apply(_, [values].concat(this.ignoreForBulk));
+
+    var useBulk = values.length == 0;
+    if (useBulk) {
+        $('#suggestbulk').dialog('open');    
+    }
+    return useBulk;
 };

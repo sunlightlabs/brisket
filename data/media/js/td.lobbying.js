@@ -2,17 +2,8 @@ $().ready(function() {
     
     TD.LobbyingFilter = new TD.DataFilter();
     
-    TD.LobbyingFilter.specificPath = 'lobbying';
-    
-    TD.LobbyingFilter.shouldUseBulk = function() {
-        var values = _.keys(this.values());
-        values = _.without(values, 'year');
-        var useBulk = values.length == 0;
-        if (useBulk) {
-            $('#suggestbulk').dialog('open');    
-        }
-        return useBulk;
-    };
+    TD.LobbyingFilter.path = 'lobbying';
+    TD.LobbyingFilter.ignoreForBulk = ['year'];
     
     TD.LobbyingFilter.row_content = function(row) {
         var content = '<td class="year">' + row.year + '</td>';
