@@ -3,11 +3,7 @@ $().ready(function() {
     TD.ContributionFilter = new TD.DataFilter();
     
     TD.ContributionFilter.specificPath = 'contributions'
-    
-    TD.ContributionFilter.countPath = "/data/contributions/count/";
-    TD.ContributionFilter.downloadPath = "/contributions/download/";
-    TD.ContributionFilter.previewPath = "/contributions/";    
-    
+        
     TD.ContributionFilter.shouldUseBulk = function() {
         var values = _.keys(this.values());
         values = _.without(values, 'for_against', 'cycle', 'transaction_namespace');
@@ -30,48 +26,6 @@ $().ready(function() {
         return content;
     };
     
-    TD.ContributionFilter.preview = function() {
-        if ($('#mainTable').length > 0) {
-            if (!this.shouldUseBulk()) {
-                var that = this;
-                var params = this.values();
-                var qs = TD.Utils.toQueryString(params);
-                TD.HashMonitor.setAnchor(qs);
-                this.previewNode.removeClass('enabled');
-                $('div#tableScroll').hide();
-                $('div#nodata').hide();
-                $('div#loading').show();
-                $('#mainTable tbody').empty();
-                $('span#previewCount').html('...');
-                $('span#recordCount').html('...');
-                $.getJSON('/data/' + this.specificPath, params, function(data) {
-                    if (data.length === 0) {
-                        $('div#nodata').show();
-                    } else {
-                        for (var i = 0; i < data.length; i++) {
-                            var className = (i % 2 == 0) ? 'even' : 'odd';
-                            var content = '<tr class="' + className + '">';
-                            content += that.row_content(data[i]);
-                            content += '</tr>';
-                            $('#mainTable tbody').append(content);
-                        }
-                        $('span#previewCount').html(data.length);
-                        TD.ContributionFilter.downloadNode.addClass('enabled');
-                        $('div#nodata').hide();
-                        $('div#tableScroll').show();
-                    }    
-                    $('div#loading').hide();
-                    if (data.length < 30) {
-                        $('span#recordCount').html(data.length);
-                    } else {
-                        $.get(that.countPath, params, function(data) {
-                            $('span#recordCount').html(data);
-                        });
-                    }
-                });
-            }
-        }
-    };
 
     TD.ContributionFilter.init = function() {
 

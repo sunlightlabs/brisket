@@ -2,8 +2,7 @@ $().ready(function() {
     
     TD.LobbyingFilter = new TD.DataFilter();
     
-    TD.LobbyingFilter.downloadPath = "/lobbying/download/";
-    TD.LobbyingFilter.previewPath = "/lobbying/";    
+    TD.LobbyingFilter.specificPath = 'lobbying';
     
     TD.LobbyingFilter.shouldUseBulk = function() {
         var values = _.keys(this.values());
@@ -15,59 +14,20 @@ $().ready(function() {
         return useBulk;
     };
     
-    TD.LobbyingFilter.preview = function() {
-        if ($('#mainTable').length > 0) {
-            if (!this.shouldUseBulk()) {
-                var params = this.values();
-                var qs = TD.Utils.toQueryString(params);
-                TD.HashMonitor.setAnchor(qs);
-                this.previewNode.removeClass('enabled');
-                $('div#tableScroll').hide();
-                $('div#nodata').hide();
-                $('div#loading').show();
-                $('#mainTable tbody').empty();
-                $('span#previewCount').html('...');
-                $('span#recordCount').html('...');
-                $.getJSON('/data/lobbying/', params, function(data) {
-                    if (data.length === 0) {
-                        $('div#nodata').show();
-                    } else {
-                        for (var i = 0; i < data.length; i++) {
-                            var lob = data[i];
-                            var className = (i % 2 == 0) ? 'even' : 'odd';
-                            // var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
-                            var content = '<tr class="' + className + '">';
-                            content += '<td class="year">' + lob.year + '</td>';
-                            content += '<td class="amount">$' + TD.Utils.currencyFormat(lob.amount) + '</td>';
-                            content += '<td class="registrant_name">' + lob.registrant_name + '</td>';
-                            content += '<td class="client_name">' + lob.client_name + '</td>';
-                            content += '<td class="client_parent_name">' + (lob.client_parent_name || '&nbsp;') + '</td>';
-                            content += '<td class="lobbyists">';
-                            for (var j = 0; j < lob.lobbyists.length; j++) {
-                                var lobbyist = lob.lobbyists[j];
-                                content += '<p>' + lobbyist.lobbyist_name + '</p>';
-                            }
-                            content += '</td>';
-                            content += '</tr>';
-                            $('#mainTable tbody').append(content);
-                        }
-                        $('span#previewCount').html(data.length);
-                        TD.LobbyingFilter.downloadNode.addClass('enabled');
-                        $('div#nodata').hide();
-                        $('div#tableScroll').show();
-                    }
-                    $('div#loading').hide();
-                    if (data.length < 30) {
-                        $('span#recordCount').html(data.length);
-                    } else {
-                        $.get('/data/lobbying/count/', params, function(data) {
-                            $('span#recordCount').html(data);
-                        });
-                    }
-                });
-            }
+    TD.LobbyingFilter.row_content = function(row) {
+        var content = '<td class="year">' + row.year + '</td>';
+        content += '<td class="amount">$' + TD.Utils.currencyFormat(row.amount) + '</td>';
+        content += '<td class="registrant_name">' + row.registrant_name + '</td>';
+        content += '<td class="client_name">' + row.client_name + '</td>';
+        content += '<td class="client_parent_name">' + (row.client_parent_name || '&nbsp;') + '</td>';
+        content += '<td class="lobbyists">';
+        for (var j = 0; j < row.lobbyists.length; j++) {
+            var lobbyist = row.lobbyists[j];
+            content += '<p>' + lobbyist.lobbyist_name + '</p>';
         }
-    };
+        content += '</td>';
+        return content;
+    }
 
     TD.LobbyingFilter.init = function() {
 
