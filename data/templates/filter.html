@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
+{% block sidebar %}
+	<div id="datafilter" class="module datafilter">
+		<h2>Search {% block dataset_name %}{% endblock %} for</h2>
+		<span class="helper">Add additional fields to refine your search.</span>
+		<form>
+			<select id="filterselect">
+				<option value="">Select a filter to add...</option>
+		    </select>
+			<ul id="filters"></ul>
+		</form>
+	</div>
+{% endblock %}
+
 {% block bodyclass %}filteredSearch{% endblock %}
 
 {% block content_container %}

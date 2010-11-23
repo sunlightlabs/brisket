@@ -2,19 +2,7 @@
 {% load media %}
 
 {% block bodyid %}grants{% endblock %}
-
-{% block sidebar %}
-	<div id="datafilter" class="module datafilter">
-		<h2>Search Federal Grants for</h2>
-		<span class="helper">Add additional fields to refine your search.</span>
-		<form>
-			<select id="filterselect">
-				<option value="">Select a filter to add...</option>
-		    </select>
-			<ul id="filters"></ul>
-		</form>
-	</div>
-{% endblock %}
+{% block dataset_name %}Federal Grants{% endblock %}
 
 {% block content %}
 	{{ block.super }}
