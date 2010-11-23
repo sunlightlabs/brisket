@@ -162,7 +162,7 @@ TD.DataFilter.prototype.bindPreview = function(sel) {
             // no main table, forward to filter page
             var qs = TD.Utils.toQueryString(that.values());
             var hash = window.btoa(qs);
-            window.location.replace(that.previewPath + "#" + hash);
+            window.location.replace("/" + that.specificPath + "/#" + hash);
         } else if ($(this).hasClass('enabled')) {
             that.preview();
         }
@@ -179,7 +179,7 @@ TD.DataFilter.prototype.bindDownload = function(sel) {
             if (!that.shouldUseBulk()) {
                 $('#downloading').dialog('open');
                 var qs = TD.Utils.toQueryString(that.values());
-                window.location.replace(that.downloadPath + "?" + qs);
+                window.location.replace("/" + that.specificPath + "/download/?" + qs);
             }
         }
         return false;
@@ -259,6 +259,48 @@ TD.DataFilter.prototype.loadHash = function() {
                     field.loadValue(values[i]);
                 }
             }
+        }
+    }
+};
+TD.DataFilter.prototype.preview = function() {
+    if ($('#mainTable').length > 0) {
+        if (!this.shouldUseBulk()) {
+            var that = this;
+            var params = this.values();
+            var qs = TD.Utils.toQueryString(params);
+            TD.HashMonitor.setAnchor(qs);
+            this.previewNode.removeClass('enabled');
+            $('div#tableScroll').hide();
+            $('div#nodata').hide();
+            $('div#loading').show();
+            $('#mainTable tbody').empty();
+            $('span#previewCount').html('...');
+            $('span#recordCount').html('...');
+            $.getJSON('/data/' + this.specificPath, params, function(data) {
+                if (data.length === 0) {
+                    $('div#nodata').show();
+                } else {
+                    for (var i = 0; i < data.length; i++) {
+                        var className = (i % 2 == 0) ? 'even' : 'odd';
+                        var content = '<tr class="' + className + '">';
+                        content += that.row_content(data[i]);
+                        content += '</tr>';
+                        $('#mainTable tbody').append(content);
+                    }
+                    $('span#previewCount').html(data.length);
+                    that.downloadNode.addClass('enabled');
+                    $('div#nodata').hide();
+                    $('div#tableScroll').show();
+                }    
+                $('div#loading').hide();
+                if (data.length < 30) {
+                    $('span#recordCount').html(data.length);
+                } else {
+                    $.get("/data/" + that.specificPath + "/count/", params, function(data) {
+                        $('span#recordCount').html(data);
+                    });
+                }
+            });
         }
     }
 };
