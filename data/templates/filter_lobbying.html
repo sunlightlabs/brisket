@@ -4,50 +4,21 @@
 {% block bodyid %}lobbying{% endblock %}
 {% block dataset_name %}Federal Lobbying{% endblock %}
 
-{% block content %}
-	{{ block.super }}
-    <div class="module">
-	    <div id="tableScroll">
-	        <p>Displaying <span id="previewCount"></span> of <span id="recordCount"></span> records</p>
-            <table id="mainTable">
-            	<thead>
-            		<tr id="titles">
-                   		<th>Year</th>
-                   		<th>Amount</th>
-                   		<th>Registrant</th>
-                   		<th>Client</th>
-                   		<th>Client Parent</th>
-                   		<th>Lobbyists</th>
-                   	</tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <!--
-            <div class="paginator">
-            	<span>Page</span>
-            	<a href="#">1</a>
-				<a href="#">2</a>
-				<a href="#">3</a>
-			</div>
-			-->
-		</div>
-		<div id="nodata">No lobbying registrations match your filter criteria.</div>
-		<div id="loading">Loading a few records to preview your filter...</div>
-		<div id="downloading" class="dialog">
-			<p>
-				Complex queries may take a few minutes to process.
-				You may close this dialog once your download completes.
-			</p>
-		</div>
-		<div id="suggestbulk" class="dialog">
-			<p>Your selected filters will return a very large amount of data. We appreciate your zeal for transparency, but our database can't handle the load. Please add additional filters or see our <a href="/bulk/">bulk download</a> page.</p>
-		</div>
-		<div class="license">
-			<p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribute to <a href="http://opensecrets.org">OpenSecrets.org</a>.</p>
-			<p>By downloading data, you are agreeing to the terms of the license.</p>
-		</div>
-        <div class="clear"></div>
-	</div>
+{% block table_header %}
+	<th>Year</th>
+	<th>Amount</th>
+	<th>Registrant</th>
+	<th>Client</th>
+	<th>Client Parent</th>
+	<th>Lobbyists</th>
+{% endblock %}
+
+{% block dataset_license %}
+	<p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribute to <a href="http://opensecrets.org">OpenSecrets.org</a>.</p>
+	<p>By downloading data, you are agreeing to the terms of the license.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
     {% js "lobbying.js" %}
 	<script type="text/javascript">
 		$().ready(function() {
