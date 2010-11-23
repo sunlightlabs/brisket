@@ -23,6 +23,9 @@ def filter_contracts(request):
 def filter_contributions(request):
     return render_to_response('filter_contributions.html', context_instance=RequestContext(request))
 
+def filter_earmarks(request):
+    return render_to_response('filter_earmarks.html', context_instance=RequestContext(request))
+
 def filter_grants(request):
     return render_to_response('filter_grants.html', context_instance=RequestContext(request))
 

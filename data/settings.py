@@ -119,6 +119,11 @@ MEDIASYNC = {
             'js/td.fields.js',
             'js/td.contributions.js'
         ],
+        'earmarks.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.earmarks.js'
+        ],
         'grants.js': [
             'js/td.js',
             'js/td.fields.js',
@@ -133,6 +138,7 @@ MEDIASYNC = {
             'js/td.js',
             'js/td.fields.js',
             'js/td.contracts.js',
+            'js/td.earmarks.js',
             'js/td.grants.js',
             'js/td.lobbying.js',
             'js/td.contributions.js'

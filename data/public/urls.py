@@ -1,5 +1,6 @@
 from dcapi.contracts.urls import contractsfilter_handler
 from dcapi.contributions.urls import contributionfilter_handler
+from dcapi.earmarks.urls import earmarkfilter_handler
 from dcapi.grants.urls import grantsfilter_handler
 from dcapi.lobbying.urls import lobbyingfilter_handler
 from django.conf.urls.defaults import patterns, url
@@ -22,6 +23,12 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^data/contributions/$', 'search_preview', {'search_resource': contributionfilter_handler}, name="data_contributions"),
     url(r'^data/contributions/count/$', 'search_count', {'search_resource': contributionfilter_handler}, name="data_contributions_count"),
     
+    # earmarks
+    url(r'^earmarks/$', 'filter_earmarks', name="filter_earmarks"),
+    url(r'^earmarks/download/$', 'search_download', {'search_resource': earmarkfilter_handler},  name="data_earmarks_download"),
+    url(r'^data/earmarks/$', 'search_preview', {'search_resource': earmarkfilter_handler}, name="data_earmarks"),
+    url(r'^data/earmarks/count/$', 'search_count', {'search_resource': earmarkfilter_handler}, name="data_earmarks_count"),
+     
     # grants
     url(r'^grants/$', 'filter_grants', name="filter_grants"),
     url(r'^grants/download/$', 'search_download', {'search_resource': grantsfilter_handler},  name="data_grants_download"),
