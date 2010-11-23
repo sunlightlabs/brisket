@@ -9,20 +9,16 @@ CYCLE = 2008
 
 
 class APITest(TestCase):
-    is_initialized = False
+    def setUp(self):
+        APITest.PELOSI_CRP_ID = 'N00007360'
+        APITest.PELOSI = self.find_exact_name_match('Nancy Pelosi (D)')
+        APITest.PICKENS = self.find_exact_name_match('MR T BOONE PICKENS')
+        APITest.BANKERS = self.find_exact_name_match('American Bankers Assn')
+        APITest.VAN_SCOYOC = self.find_exact_name_match('Van Scoyoc, H Stewart')
+        APITest.NICKLES = self.find_exact_name_match('Nickles Group')
 
-    def __init__(self, *args, **kwargs):
-        super(APITest, self).__init__(*args, **kwargs)
-
-        if not APITest.is_initialized:
-            APITest.PELOSI_CRP_ID = 'N00007360'
-            APITest.PELOSI = api.entity_search('Nancy Pelosi (D)')[0]['id']
-            APITest.PICKENS = api.entity_search('T. Boone Pickens')[0]['id']
-            APITest.BANKERS = api.entity_search('American Bankers Assn')[0]['id']
-            APITest.VAN_SCOYOC = api.entity_search('Stewart Van Scoyoc')[0]['id']
-            APITest.NICKLES = api.entity_search('Nickles Group')[0]['id']
-
-            APITest.is_initialized = True
+    def find_exact_name_match(self, name):
+        return [ x['id'] for x in api.entity_search(name) if x['name'] == name ][0]
 
     def assertLength(self, length, results):
         self.assertEqual(length, len(results))
@@ -78,7 +74,7 @@ class EntityAPITests(APITest):
     def test_entity_year_range(self):
         bankers = api.entity_metadata(self.BANKERS)
         self.assertEqual(dict(start='1990', end='2010'), bankers['years'])
-        self.assertEqual(dict(start='1990', end='2010'), bankers['camp_fin_years'])        
+        self.assertEqual(dict(start='1990', end='2010'), bankers['camp_fin_years'])
         self.assertEqual(dict(start='1998', end='2010'), bankers['lobbying_years'])
         self.assertEqual(dict(start='2006', end='2010'), bankers['spending_years'])
 

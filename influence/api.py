@@ -8,12 +8,12 @@ try:
     import json
 except:
     import simplejson as json
-    
-    
+
+
 # to do:
-# - remove parse_json flag. Should always be true    
-    
-    
+# - remove parse_json flag. Should always be true
+
+
 API_BASE_URL = settings.AGGREGATES_API_BASE_URL.strip('/')+'/'
 
 # defaults of None don't mean that there is not default or no limit--
@@ -26,7 +26,7 @@ DEFAULT_CYCLE = "-1" # -1 will return career totals.
 
 
 class TransparencyDataAPI(object):
-    
+
     def __init__(self, base_url):
         self.base_url = base_url
 
@@ -41,7 +41,7 @@ class TransparencyDataAPI(object):
 
         try:
             fp = urllib2.urlopen(self.base_url + path + '?' + urllib.urlencode(params))
-    
+
             if parse_json:
                 return json.loads(fp.read())
             else:
@@ -61,7 +61,7 @@ class TransparencyDataAPI(object):
 
     def entity_metadata(self, entity_id):
         results = self._get_url_json('entities/%s.json' % entity_id, parse_json=True)
-        
+
         results['years'] = self._entity_years(results['totals'], self._camp_fin_markers + self._lobbying_markers + self._spending_markers)
         results['camp_fin_years'] = self._entity_years(results['totals'], self._camp_fin_markers)
         results['lobbying_years'] = self._entity_years(results['totals'], self._lobbying_markers)
@@ -75,7 +75,7 @@ class TransparencyDataAPI(object):
         if years:
             return dict(start=years[0], end=years[-1])
         else:
-            return {}        
+            return {}
 
     def entity_id_lookup(self, namespace, id, parse_json=True):
         return self._get_url_json('entities/id_lookup.json', namespace=namespace, id=id, parse_json=parse_json)
@@ -94,7 +94,7 @@ class TransparencyDataAPI(object):
             params['type'] = type
         return self._get_url_json('entities/list.json', parse_json=True, **params)
 
-    
+
     def pol_contributors(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/pol/%s/contributors.json' % entity_id, cycle, limit, parse_json)
 
@@ -206,7 +206,7 @@ class TransparencyDataAPI(object):
 
     def indiv_sparkline(self, entity_id, cycle=DEFAULT_CYCLE):
         return self._get_url_json('aggregates/indiv/%s/sparkline.json' % entity_id, cycle)
-    
+
     def org_fed_spending(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/org/%s/fed_spending.json' % entity_id, cycle, limit, parse_json=parse_json)
 
