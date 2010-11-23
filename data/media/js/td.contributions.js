@@ -2,17 +2,8 @@ $().ready(function() {
     
     TD.ContributionFilter = new TD.DataFilter();
     
-    TD.ContributionFilter.specificPath = 'contributions'
-        
-    TD.ContributionFilter.shouldUseBulk = function() {
-        var values = _.keys(this.values());
-        values = _.without(values, 'for_against', 'cycle', 'transaction_namespace');
-        var useBulk = values.length == 0;
-        if (useBulk) {
-            $('#suggestbulk').dialog('open');    
-        }
-        return useBulk;
-    };
+    TD.ContributionFilter.path = 'contributions';
+    TD.ContributionFilter.ignoreForBulk = ['for_against', 'cycle', 'transaction_namespace'];
     
     TD.ContributionFilter.row_content = function(row) {
         var jurisdiction = (row.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
@@ -383,22 +374,7 @@ $().ready(function() {
             help: 'State from which the contribution was made',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
-            options: [
-                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
-                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
-                ['DC', 'District of Columbia'],
-                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
-                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
-                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
-                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
-                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
-                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
-                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
-                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
-                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
-                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
-                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
-            ]
+            options: TD.STATES
         });
 
         TD.ContributionFilter.registerFilter({
@@ -470,22 +446,7 @@ $().ready(function() {
             help: 'The state in which the recipient is running or is located',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
-            options: [
-                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
-                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
-                ['DC', 'District of Columbia'],
-                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
-                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
-                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
-                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
-                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
-                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
-                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
-                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
-                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
-                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
-                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
-            ]
+            options: TD.STATES
         });
 
         TD.ContributionFilter.registerFilter({

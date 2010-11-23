@@ -2,17 +2,8 @@ $().ready(function() {
     
     TD.ContractsFilter = new TD.DataFilter();
     
-    TD.ContractsFilter.specificPath = 'contracts';
-        
-    TD.ContractsFilter.shouldUseBulk = function() {
-        var values = _.keys(this.values());
-        values = _.without(values, 'fiscal_year');
-        var useBulk = values.length == 0;
-        if (useBulk) {
-            $('#suggestbulk').dialog('open');    
-        }
-        return useBulk;
-    };
+    TD.ContractsFilter.path = 'contracts';
+    TD.ContractsFilter.ignoreForBulk = ['fiscal_year'];
     
     TD.ContractsFilter.row_content = function(row) {
         var content = '<td class="fiscal_year">' + row.fiscal_year + '</td>';
@@ -93,22 +84,7 @@ $().ready(function() {
             help: 'The state in which the contract action will be performed.',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
-            options: [
-                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
-                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
-                ['DC', 'District of Columbia'],
-                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
-                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
-                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
-                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
-                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
-                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
-                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
-                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
-                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
-                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
-                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
-            ]
+            options: TD.STATES
         });
 
 		TD.ContractsFilter.registerFilter({
@@ -149,22 +125,7 @@ $().ready(function() {
             help: 'The state of the organization that received the contract.',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
-            options: [
-                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
-                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
-                ['DC', 'District of Columbia'],
-                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
-                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
-                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
-                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
-                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
-                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
-                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
-                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
-                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
-                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
-                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
-            ]
+            options: TD.STATES
         });
 
 		TD.ContractsFilter.registerFilter({
