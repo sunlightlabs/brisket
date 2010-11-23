@@ -2,6 +2,8 @@ $().ready(function() {
     
     TD.ContributionFilter = new TD.DataFilter();
     
+    TD.ContributionFilter.specificPath = 'contributions'
+    
     TD.ContributionFilter.countPath = "/data/contributions/count/";
     TD.ContributionFilter.downloadPath = "/contributions/download/";
     TD.ContributionFilter.previewPath = "/contributions/";    
@@ -14,6 +16,18 @@ $().ready(function() {
             $('#suggestbulk').dialog('open');    
         }
         return useBulk;
+    };
+    
+    TD.ContributionFilter.row_content = function(row) {
+        var jurisdiction = (row.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
+        var content = '<td class="jurisdiction">' + jurisdiction + '</td>';
+        content += '<td class="datestamp">' + (row.date || '&nbsp;') + '</td>';
+        content += '<td class="amount">$' + TD.Utils.currencyFormat(row.amount) + '</td>';
+        content += '<td class="contributor_name">' + row.contributor_name + '</td>';
+        content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(row.contributor_city, row.contributor_state) + '</td>';
+        content += '<td class="organization_name">' + (row.organization_name || '&nbsp;') + '</td>';
+        content += '<td class="recipient_name">' + row.recipient_name + '</td>';   
+        return content;
     };
     
     TD.ContributionFilter.preview = function() {
@@ -30,22 +44,14 @@ $().ready(function() {
                 $('#mainTable tbody').empty();
                 $('span#previewCount').html('...');
                 $('span#recordCount').html('...');
-                $.getJSON('/data/contributions/', params, function(data) {
+                $.getJSON('/data/' + this.specificPath, params, function(data) {
                     if (data.length === 0) {
                         $('div#nodata').show();
                     } else {
                         for (var i = 0; i < data.length; i++) {
-                            var contrib = data[i];
                             var className = (i % 2 == 0) ? 'even' : 'odd';
-                            var jurisdiction = (contrib.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
                             var content = '<tr class="' + className + '">';
-                            content += '<td class="jurisdiction">' + jurisdiction + '</td>';
-                            content += '<td class="datestamp">' + (contrib.date || '&nbsp;') + '</td>';
-                            content += '<td class="amount">$' + TD.Utils.currencyFormat(contrib.amount) + '</td>';
-                            content += '<td class="contributor_name">' + contrib.contributor_name + '</td>';
-                            content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(contrib.contributor_city, contrib.contributor_state) + '</td>';
-                            content += '<td class="organization_name">' + (contrib.organization_name || '&nbsp;') + '</td>';
-                            content += '<td class="recipient_name">' + contrib.recipient_name + '</td>';
+                            content += that.row_content(data[i]);
                             content += '</tr>';
                             $('#mainTable tbody').append(content);
                         }
