@@ -8,7 +8,7 @@ $().ready(function() {
 	TD.EarmarksFilter.row_content = function(row) {
 		var content = '<td class="fiscal_year">' + row.fiscal_year + '</td>';
         content += '<td class="final_amount">$' + TD.Utils.currencyFormat(row.final_amount) + '</td>';
-        content += '<td class="location">' + row.location + '</td>';
+        content += '<td class="location">' + row.locations + '</td>';
         content += '<td class="description">' + row.description + '</td>';
         content += '<td class="members">' + row.members + '</td>';
         return content;
