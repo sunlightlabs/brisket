@@ -13,7 +13,7 @@ a:active { outline: none; color: #0a6e92; }
 
 body {
     color: #666666;
-    background: url(../images/bg.jpg) top left repeat-x #edede6;
+    background: #edede6;
     font-size: 82%;
     line-height: 20px;
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -86,7 +86,8 @@ li#industries a:hover, body.industry li#industries a { background: url(../images
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 input#id_search { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
-div#wrapper { background: url(../images/corner.jpg) right -30px no-repeat;}
+div#outerwrapper { background: url(../images/bg.jpg) top left repeat-x #edede6; }
+div#wrapper { background: url(../images/corner.jpg) top right no-repeat;}
 
 div#mainContent_top { background: url(../images/whitebox_top.png) top left no-repeat; height: 10px; margin-top: 4px; }
 div#mainContent { background: url(../images/whitebox_middle.png) top left repeat-y; padding-top: 25px; padding-bottom: 55px;}
