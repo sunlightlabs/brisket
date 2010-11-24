@@ -86,7 +86,7 @@ $().ready(function() {
 			label: 'Member Party',
 			help: 'The party of the member requesting the earmark.',
 			field: TD.DataFilter.DropDownField,
-			options: [['d', 'Democrat'], ['r', 'Republican']]
+			options: [['D', 'Democrat'], ['R', 'Republican']]
 		});
 		
         TD.EarmarksFilter.registerFilter({
