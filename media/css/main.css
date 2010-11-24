@@ -297,6 +297,8 @@ dt.moneyTitle { margin-top: 8px;}
 .reps dl { margin-top: 0;}
 .reps .moreLink { margin-top: 15px;}
 
+#fdbk-contact-widget { margin-left: 40px; margin-right: 40px; margin-top: 20px; }
+
 #id_states { display: none;  margin-top: 15px;}
 
 #changeLocation, .tipHeight { margin-bottom: 25px; display: block;}

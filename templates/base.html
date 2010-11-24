@@ -99,6 +99,7 @@
     </div><!-- end pageMain -->
     {% js "js/brisket-all.js" %}
 
+	{% block gsfn %}
     <script type="text/javascript" charset="utf-8">
       var is_ssl = ("https:" == document.location.protocol);
       var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -116,5 +117,6 @@
 
       var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
     </script>
+	{% endblock %}
   </body>
 </html>
