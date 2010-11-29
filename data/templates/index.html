@@ -14,7 +14,7 @@
 			<embed src="http://www.youtube.com/v/pf0kRYHiwi0&amp;hl=en_US&amp;fs=1&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="275" height="180"></embed>
 		</object>
 	<p id="intro">
-	    Transparency Data is a central source for <b>federal lobbyist registrations</b>, <b>federal grants</b>, and <b>federal and state campaign contributions</b>.
+	    Transparency Data is a central source for <b>federal lobbying disclosure</b>, <b>federal grants and contracts</b>, <b>earmarks</b> and <b>federal and state campaign contributions</b>.
 	    Here you can begin your search, find the information you need, and then download records of what a <b>candidate</b> has received, what an <b>individual</b> has given, how much an <b>organization</b> has spent on lobbying, and many other queries.
 	</p>
 {% endblock %}
@@ -22,11 +22,11 @@
 {% block content %}
 	<div id="dataTabs">
 		<ul>
-			<li id="contributionsTab"><a href="/contributions/" class="contributions">Contribution Data</a></li>
+			<li id="contributionsTab"><a href="/contributions/">Campaign Contributions</a></li>
 			<li id="earmarksTab"><a href="/earmarks/">Earmarks</a></li>
-			<li id="lobbyingTab"><a href="/lobbying/" class="lobbying">Lobbying Data</a></li>
-			<li id="grantsTab"><a href="/grants/" class="grants">Grant Data</a></li>
-			<li id="contractsTab"><a href="/contracts/" class="contracts">Contracting Data</a></li>
+			<li id="lobbyingTab"><a href="/lobbying/">Lobbying</a></li>
+			<li id="grantsTab"><a href="/grants/">Grants</a></li>
+			<li id="contractsTab"><a href="/contracts/">Contracts</a></li>
 		</ul>
 	</div>
 	<div class="introbox" id="intro-contributions">
@@ -46,6 +46,26 @@
 		<div id="rightIntro">
 			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
 			<a id="contributionPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+	
+	<div class="introbox" id="intro-earmarks">
+		<h4>Search Earmarks</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific member of congress, state or bill? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="earmarksDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="earmarksPreviewButton" class="previewButton" href="#">Preview Data</a>
 		</div>
 	</div>
 	
@@ -119,6 +139,8 @@
 				TD.HashMonitor.setAnchor('');
 				if (df == 'contributions') {
 					TD.activeFilter = TD.ContributionFilter;
+				} else if (df =='earmarks') {
+					TD.activeFilter = TD.EarmarksFilter;
 				} else if (df == 'lobbying') {
 					TD.activeFilter = TD.LobbyingFilter;
 				} else if (df == 'grants') {
@@ -135,6 +157,12 @@
 		
 			TD.HashMonitor.setAnchor('');
 
+			TD.EarmarksFilter.bindDataFilter('#earmarksDataFilter');
+			TD.EarmarksFilter.bindPreview('#earmarksPreviewButton');
+		    TD.EarmarksFilter.init();
+		
+			TD.HashMonitor.setAnchor('');
+			
 			TD.GrantsFilter.bindDataFilter('#grantsDataFilter');
 			TD.GrantsFilter.bindPreview('#grantsPreviewButton');
 		    TD.GrantsFilter.init();
