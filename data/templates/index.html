@@ -22,11 +22,11 @@
 {% block content %}
 	<div id="dataTabs">
 		<ul>
-			<li id="contributionsTab"><a href="/contributions/">Campaign Contributions</a></li>
-			<li id="earmarksTab"><a href="/earmarks/">Earmarks</a></li>
-			<li id="lobbyingTab"><a href="/lobbying/">Lobbying</a></li>
-			<li id="grantsTab"><a href="/grants/">Grants</a></li>
-			<li id="contractsTab"><a href="/contracts/">Contracts</a></li>
+			<li id="contributionsTab"><a href="/contributions/" class="contributions">Campaign Contributions</a></li>
+			<li id="earmarksTab"><a href="/earmarks/" class="earmarks">Earmarks</a></li>
+			<li id="lobbyingTab"><a href="/lobbying/" class="lobbying">Lobbying</a></li>
+			<li id="grantsTab"><a href="/grants/" class="grants">Grants</a></li>
+			<li id="contractsTab"><a href="/contracts/" class="contracts">Contracts</a></li>
 		</ul>
 	</div>
 	<div class="introbox" id="intro-contributions">
@@ -135,6 +135,7 @@
 		$().ready(function() {
 			$('#dataTabs li a').bind('click', function() {
 				var df = $(this).attr('class');
+				console.log(df);
 				$('body').attr('id', df);
 				TD.HashMonitor.setAnchor('');
 				if (df == 'contributions') {
