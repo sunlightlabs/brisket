@@ -293,7 +293,7 @@ TD.DataFilter.prototype.preview = function() {
             $('#mainTable tbody').empty();
             $('span#previewCount').html('...');
             $('span#recordCount').html('...');
-            $.getJSON('/data/' + this.path, params, function(data) {
+            $.getJSON('/data/' + this.path + '/', params, function(data) {
                 if (data.length === 0) {
                     $('div#nodata').show();
                 } else {
