@@ -135,7 +135,6 @@
 		$().ready(function() {
 			$('#dataTabs li a').bind('click', function() {
 				var df = $(this).attr('class');
-				console.log(df);
 				$('body').attr('id', df);
 				TD.HashMonitor.setAnchor('');
 				if (df == 'contributions') {
