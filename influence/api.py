@@ -40,7 +40,8 @@ class TransparencyDataAPI(object):
         params.update({'apikey': settings.API_KEY})
 
         # avoid unicode errors
-        params['search'] = params['search'].encode('ascii', 'ignore')
+        if params.has_key('search'):
+            params['search'] = params['search'].encode('ascii', 'ignore')
 
         try:
             fp = urllib2.urlopen(self.base_url + path + '?' + urllib.urlencode(params))
