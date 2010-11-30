@@ -1,14 +1,28 @@
 {% extends "base.html" %}
 
+{% block sidebar %}
+	<div id="datafilter" class="module datafilter">
+		<h2>Search {% block dataset_name %}{% endblock %} for</h2>
+		<span class="helper">Add additional fields to refine your search.</span>
+		<form>
+			<select id="filterselect">
+				<option value="">Select a filter to add...</option>
+		    </select>
+			<ul id="filters"></ul>
+		</form>
+	</div>
+{% endblock %}
+
 {% block bodyclass %}filteredSearch{% endblock %}
 
 {% block content_container %}
 	<div id="dataTabs">
 		<ul>
 			<li id="contributionsTab"><a href="/contributions/">Campaign Contributions</a></li>
-			<li id="lobbyingTab"><a href="/lobbying/">Federal Lobbying</a></li>
-			<li id="grantsTab"><a href="/grants/">Federal Grants</a></li>
-			<li id="contractsTab"><a href="/contracts/">Federal Contracts</a></li>
+			<li id="earmarksTab"><a href="/earmarks/">Earmarks</a></li>
+			<li id="lobbyingTab"><a href="/lobbying/">Lobbying</a></li>
+			<li id="grantsTab"><a href="/grants/">Grants</a></li>
+			<li id="contractsTab"><a href="/contracts/">Contracts</a></li>
 		</ul>
 	</div>
 	<div class="clear"></div>
@@ -20,4 +34,36 @@
 	    <a id="previewButton" href="#" class="previewButton">Preview Data</a>
 	    <a id="downloadButton" href="#" class="downloadButton">Download </a>
     </div>
+    <div class="module">
+	    <div id="tableScroll">
+	        <p>Displaying <span id="previewCount"></span> of <span id="recordCount"></span> records</p>
+            <table id="mainTable">
+            	<thead>
+            		<tr id="titles">
+						{% block table_header %}{% endblock %}
+                   	</tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+		</div>
+		<div id="nodata">No records match your filter criteria.</div>
+		<div id="loading">Loading a few records to preview your filter...</div>
+		<div id="downloading" class="dialog">
+			<p>
+				Complex queries may take a few minutes to process.
+				You may close this dialog once your download completes.
+			</p>
+		</div>
+		<div id="suggestbulk" class="dialog">
+			<p>Your selected filters will return a very large amount of data. We appreciate your zeal for transparency, but our database can't handle the load. Please add additional filters or see our <a href="/bulk/">bulk download</a> page.</p>
+		</div>
+		<div id="excellimit" class="dialog">
+			<p>We return data in Excel 2000-compatible format. Unfortunately, this format can only support sheets with up to 65,536 rows, and your selected filters will return more data than this. Please add additional filters or see our <a href="/bulk/">bulk download</a> page for data in CSV format.</p>
+		</div>
+		<div class="license">		
+			{% block dataset_license %}{% endblock %}
+    	</div>
+        <div class="clear"></div>
+	</div>
+	{% block dataset_scripts %}{% endblock %}
 {% endblock %}

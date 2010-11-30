@@ -101,7 +101,7 @@ div.introbox {
 	border: solid 2px #A59C82;
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
-	display: block;
+	display: none;
 	float: left;
 	margin-top: -2px;
 }
@@ -390,42 +390,12 @@ li.filter{
 	background-color: #FFF;
 }
 
-body#contracts #dataTabs li#contractsTab a {
+body#contracts #dataTabs li#contractsTab a, body#contributions #dataTabs li#contributionsTab a, body#grants #dataTabs li#grantsTab a, body#lobbying #dataTabs li#lobbyingTab a, body#earmarks #dataTabs li#earmarksTab a {
     background-color: #ECEBE6;
     border-bottom: 2px solid #ECEBE6;
 }
 
-body#contracts.index #dataTabs li#contractsTab a {
-    background-color: #FFF;
-    border-bottom: 2px solid #FFF;
-}
-
-body#contributions #dataTabs li#contributionsTab a {
-    background-color: #ECEBE6;
-    border-bottom: 2px solid #ECEBE6;
-}
-
-body#contributions.index #dataTabs li#contributionsTab a {
-    background-color: #FFF;
-    border-bottom: 2px solid #FFF;
-}
-
-body#grants #dataTabs li#grantsTab a {
-    background-color: #ECEBE6;
-    border-bottom: 2px solid #ECEBE6;
-}
-
-body#grants.index #dataTabs li#grantsTab a {
-    background-color: #FFF;
-    border-bottom: 2px solid #FFF;
-}
-
-body#lobbying #dataTabs li#lobbyingTab a {
-    background-color: #ECEBE6;
-    border-bottom: 2px solid #ECEBE6;
-}
-
-body#lobbying.index #dataTabs li#lobbyingTab a {
+body#contracts.index #dataTabs li#contractsTab a, body#contributions.index #dataTabs li#contributionsTab a, body#grants.index #dataTabs li#grantsTab a, body#lobbying.index #dataTabs li#lobbyingTab a, body#earmarks.index #dataTabs li#earmarksTab a {
     background-color: #FFF;
     border-bottom: 2px solid #FFF;
 }
@@ -447,18 +417,11 @@ body.filteredSearch #contribution {
 	margin-left: 25px;
 }
 
-body#contracts #intro-contributions { display: none; }
-body#contracts #intro-grants { display: none; }
-body#contracts #intro-lobbying { display: none; }
-body#contributions #intro-contracts { display: none; }
-body#contributions #intro-grants { display: none; }
-body#contributions #intro-lobbying { display: none; }
-body#lobbying #intro-contracts { display: none; }
-body#lobbying #intro-contributions { display: none; }
-body#lobbying #intro-grants { display: none; }
-body#grants #intro-contracts { display: none; }
-body#grants #intro-contributions { display: none; }
-body#grants #intro-lobbying { display: none; }
+body#contracts #intro-contracts { display: block; }
+body#contributions #intro-contributions { display: block; }
+body#lobbying #intro-lobbying { display: block; }
+body#grants #intro-grants { display: block; }
+body#earmarks #intro-earmarks { display: block; }
 
 /*single column-------------------------------------------------*/
 
@@ -878,6 +841,10 @@ a.downloadButton.enabled:hover{
 	background: url(../images/button-downloadData.png) left -122px no-repeat;
 }
 
+a.downloadButton.calculating {
+    background: url(../images/button-downloadData.png) left -183px no-repeat;
+}
+
 a.previewButton {
     background: url(../images/button-previewData.png) top left no-repeat;
 	width: 243px;
@@ -1097,6 +1064,10 @@ p#footerText {
 }
 
 .dialog#downloading {
+    display: none;
+}
+
+.dialog#excellimit {
     display: none;
 }
 

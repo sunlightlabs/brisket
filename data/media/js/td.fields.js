@@ -182,7 +182,9 @@ TD.DataFilter.DualDropDownField.render = function() {
     
 };
 TD.DataFilter.DualDropDownField.value = function() {
-    return this.node.find('select.first').val() + ',' + this.node.find('select.second').val(); 
+	var first = this.node.find('select.first').val();
+	var second = this.node.find('select.second').val();
+    return (first ? first : '') + ',' + (second ? second : '');
 };
 TD.DataFilter.DualDropDownField.parseValues = function(v) {
     return v.split('|');

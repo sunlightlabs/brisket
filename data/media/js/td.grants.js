@@ -2,64 +2,16 @@ $().ready(function() {
     
     TD.GrantsFilter = new TD.DataFilter();
     
-    TD.GrantsFilter.downloadPath = "/grants/download/";
-    TD.GrantsFilter.previewPath = "/grants/";
+    TD.GrantsFilter.path = 'grants';
+    TD.GrantsFilter.ignoreForBulk = ['fiscal_year'];
     
-    TD.GrantsFilter.shouldUseBulk = function() {
-        var values = _.keys(this.values());
-        values = _.without(values, 'fiscal_year');
-        var useBulk = values.length == 0;
-        if (useBulk) {
-            $('#suggestbulk').dialog('open');    
-        }
-        return useBulk;
-    };
-    
-    TD.GrantsFilter.preview = function() {
-        if ($('#mainTable').length > 0) {
-            if (!this.shouldUseBulk()) {
-                var params = this.values();
-                var qs = TD.Utils.toQueryString(params);
-                TD.HashMonitor.setAnchor(qs);
-                this.previewNode.removeClass('enabled');
-                $('div#tableScroll').hide();
-                $('div#nodata').hide();
-                $('div#loading').show();
-                $('#mainTable tbody').empty();
-                $('span#previewCount').html('...');
-                $('span#recordCount').html('...');
-                $.getJSON('/data/grants/', params, function(data) {
-                    if (data.length === 0) {
-                        $('div#nodata').show();
-                    } else {
-                        for (var i = 0; i < data.length; i++) {
-                            var grant = data[i];
-                            var className = (i % 2 == 0) ? 'even' : 'odd';
-                            var content = '<tr class="' + className + '">';
-                            content += '<td class="fiscal_year">' + grant.fiscal_year + '</td>';
-                            content += '<td class="amount_total">$' + TD.Utils.currencyFormat(grant.amount_total) + '</td>';
-                            content += '<td class="recipient_name">' + grant.recipient_name + '</td>';
-                            content += '<td class="cfda_program_title">' + grant.cfda_program_title + '</td>';
-                            content += '<td class="agency_name">' + grant.agency_name + '</td>';
-                            content += '</tr>';
-                            $('#mainTable tbody').append(content);
-                        }
-                        $('span#previewCount').html(data.length);
-                        TD.GrantsFilter.downloadNode.addClass('enabled');
-                        $('div#nodata').hide();
-                        $('div#tableScroll').show();
-                    }
-                    $('div#loading').hide();
-                    if (data.length < 30) {
-                        $('span#recordCount').html(data.length);
-                    } else {
-                        $.get('/data/grants/count/', params, function(data) {
-                            $('span#recordCount').html(data);
-                        });
-                    }
-                });
-            }
-        }
+    TD.GrantsFilter.row_content = function(row) {
+        var content = '<td class="fiscal_year">' + row.fiscal_year + '</td>';
+        content += '<td class="amount_total">$' + TD.Utils.currencyFormat(row.amount_total) + '</td>';
+        content += '<td class="recipient_name">' + row.recipient_name + '</td>';
+        content += '<td class="cfda_program_title">' + row.cfda_program_title + '</td>';
+        content += '<td class="agency_name">' + row.agency_name + '</td>';
+        return content
     };
 
     TD.GrantsFilter.init = function() {
@@ -130,22 +82,7 @@ $().ready(function() {
             help: 'State in which the recipient resides.',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
-            options: [
-                ['AL', 'Alabama'],          ['AK', 'Alaska'],       ['AZ', 'Arizona'],      ['AR', 'Arkansas'],
-                ['CA', 'California'],       ['CO', 'Colorado'],     ['CT', 'Connecticut'],  ['DE', 'Delaware'],
-                ['DC', 'District of Columbia'],
-                ['FL', 'Florida'],          ['GA', 'Georgia'],      ['HI', 'Hawaii'],       ['ID', 'Idaho'],
-                ['IL', 'Illinois'],         ['IN', 'Indiana'],      ['IA', 'Iowa'],         ['KS', 'Kansas'],
-                ['KY', 'Kentucky'],         ['LA', 'Louisiana'],    ['ME', 'Maine'],        ['MD', 'Maryland'],
-                ['MA', 'Massachusetts'],    ['MI', 'Michigan'],     ['MN', 'Minnesota'],    ['MS', 'Mississippi'],
-                ['MO', 'Missouri'],         ['MT', 'Montana'],      ['NE', 'Nebraska'],     ['NV', 'Nevada'],
-                ['NH', 'New Hampshire'],    ['NJ', 'New Jersey'],   ['NM', 'New Mexico'],   ['NY', 'New York'],
-                ['NC', 'North Carolina'],   ['ND', 'North Dakota'], ['OH', 'Ohio'],         ['OK', 'Oklahoma'],
-                ['OR', 'Oregon'],           ['PA', 'Pennsylvania'], ['RI', 'Rhode Island'], ['SC', 'South Carolina'],
-                ['SD', 'South Dakota'],     ['TN', 'Tennessee'],    ['TX', 'Texas'],        ['UT', 'Utah'],
-                ['VT', 'Vermont'],          ['VA', 'Virginia'],     ['WA', 'Washington'],   ['WV', 'West Virginia'],
-                ['WI', 'Wisconsin'],        ['WY', 'Wyoming']
-            ]
+            options: TD.STATES
         });
 
         TD.GrantsFilter.registerFilter({
