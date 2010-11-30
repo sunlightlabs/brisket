@@ -90,6 +90,6 @@ class TestSelenium(unittest.TestCase, SeleniumTestCaseMixin):
     def do_entity_page(self, url, name):
         self.selenium.open(url)
         self.selenium.wait_for_page_to_load(30000)
-        assert_equal(name, self.selenium.get_text("xpath=/html/body/div[3]/div/div[3]/div/h2"))
+        assert_equal(name, self.selenium.get_text("xpath=/html/body/div[3]/div/div/div[3]/div/h2"))
         assert_false(self.selenium.is_visible('xpath=//*[@id="cycle_submit"]')) # this is the button that shows up if JS is broken
 
