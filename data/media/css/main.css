@@ -841,6 +841,10 @@ a.downloadButton.enabled:hover{
 	background: url(../images/button-downloadData.png) left -122px no-repeat;
 }
 
+a.downloadButton.calculating {
+    background: url(../images/button-downloadData.png) left -183px no-repeat;
+}
+
 a.previewButton {
     background: url(../images/button-previewData.png) top left no-repeat;
 	width: 243px;
@@ -1060,6 +1064,10 @@ p#footerText {
 }
 
 .dialog#downloading {
+    display: none;
+}
+
+.dialog#excellimit {
     display: none;
 }
 
