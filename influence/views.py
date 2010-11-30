@@ -47,17 +47,17 @@ def search(request):
         kwargs = {}
         query = submitted_form.cleaned_data['query'].strip()
         cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-        
+
         # see ticket #545
         query = query.replace(u"’", "'")
-                
+
         # if a user submitted the search value from the form, then
         # treat the hyphens as intentional. if it was from a url, then
         # the name has probably been slug-ized and we need to remove
         # any single occurences of hyphens.
         if not request.GET.get('from_form', None):
             query = query.replace('-', ' ')
-                    
+
         results = api.entity_search(query)
 
         # limit the results to only those entities with an ID.
@@ -140,16 +140,16 @@ def org_industry_entity(request, entity_id, type='organization'):
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
     context['entity_info'] = entity_info
-    
+
     # a little error-checking now that we have the entity info
     check_entity(entity_info, cycle, type)
 
     entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
-    
+
     standardized_name = standardize_organization_name(entity_info['name']) if type == 'organization' else standardize_industry_name(entity_info['name'])
-    
+
     context['external_links'] = external_sites.get_links(type, standardized_name, entity_info['external_ids'], cycle)
-    
+
     if type == 'industry':
         context['top_orgs'] = json.dumps([
             {
@@ -160,7 +160,7 @@ def org_industry_entity(request, entity_id, type='organization'):
                 'href' : barchart_href(org, cycle, 'organization')
             } for org in api.industry_orgs(entity_id, cycle, limit=10)
         ])
-    
+
     # get contributions data if it exists for this entity
     if metadata['contributions']:
         context['contributions_data'] = True
@@ -232,13 +232,13 @@ def org_industry_entity(request, entity_id, type='organization'):
 
     # Grants and Contracts
     spending = api.org_fed_spending(entity_id, cycle)
-            
+
     if spending:
         filter_bad_spending_descriptions(spending)
-        
+
         context['grants_and_contracts'] = spending
         context['gc_links'] = external_sites.get_gc_links(standardize_organization_name(entity_info['name']), cycle)
-        
+
         gc_found_things = []
         for gc_type in ['grant', 'contract', 'loan']:
             if '%s_count' % gc_type in context['entity_info']['totals']:
@@ -247,7 +247,7 @@ def org_industry_entity(request, entity_id, type='organization'):
                     gc_type,
                     pluralize(context['entity_info']['totals']['%s_count' % gc_type])
                 ))
-        
+
         context['gc_found_things'] = gc_found_things
 
     return render_to_response('%s.html' % type, context,
@@ -269,7 +269,7 @@ def politician_entity(request, entity_id):
     metadata = get_metadata(entity_id, cycle, "politician")
     context['available_cycles'] = metadata['available_cycles']
     entity_info = metadata['entity_info']
-    
+
     # a little error-checking now that we have the entity info
     check_entity(entity_info, cycle, 'politician')
 
@@ -348,7 +348,7 @@ def individual_entity(request, entity_id):
     metadata = get_metadata(entity_id, cycle, "individual")
     available_cycles = metadata['available_cycles']
     entity_info = metadata['entity_info']
-    
+
     # a little error-checking now that we have the entity info
     check_entity(entity_info, cycle, 'individual')
 

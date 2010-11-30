@@ -39,6 +39,9 @@ class TransparencyDataAPI(object):
             params.update({'limit': limit})
         params.update({'apikey': settings.API_KEY})
 
+        # avoid unicode errors
+        params['search'] = params['search'].encode('ascii', 'ignore')
+
         try:
             fp = urllib2.urlopen(self.base_url + path + '?' + urllib.urlencode(params))
 
