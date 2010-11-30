@@ -44,6 +44,15 @@ $().ready(function() {
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
+        
+        TD.LobbyingFilter.registerFilter({
+            name: 'industry',
+            label: 'Client Industry',
+            help: 'The industry in which the lobbying client is involved',
+            field: TD.DataFilter.DualDropDownField,
+            allowMultipleFields: true,
+            options: TD.INDUSTRIES
+        });
 
         TD.LobbyingFilter.registerFilter({
             name: 'issue',
