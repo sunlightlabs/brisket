@@ -59,6 +59,9 @@ class OrganizationSitemap(EntitySitemap):
 class PoliticianSitemap(EntitySitemap):
     entity_type = "politician"
 
+class IndustrySitemap(EntitySitemap):
+    entity_type = "industry"
+
 def index_wrapper(request, sitemaps):
     path = os.path.join(settings.MEDIA_ROOT, "sitemaps", "sitemap.xml")
     if os.path.exists(path):
@@ -80,4 +83,5 @@ sitemaps = {
     'individual': IndividualSitemap,
     'organization': OrganizationSitemap,
     'politician': PoliticianSitemap,
+    'industry': IndustrySitemap,
 }

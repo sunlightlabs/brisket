@@ -228,7 +228,7 @@ def org_industry_entity(request, entity_id, type='organization'):
             context['lobbying_clients'] = api.org_registrants(entity_id, cycle)
             context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
             context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
-            context['lobbying_links'] = external_sites.get_lobbying_links('client', standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
+            context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', standardize_organization_name(entity_info['name']), entity_info['external_ids'], cycle)
 
     # Grants and Contracts
     spending = api.org_fed_spending(entity_id, cycle)
