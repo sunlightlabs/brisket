@@ -6,7 +6,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="keywords" content="campaign contributions, sunlight foundation, influence explorer, politics, government, influence" />
     <meta name="description" content="{% block metadesc %}Influence Explorer is the central source for information on money and influence in politics. From here you can explore who the big donors to a politician are, how companies and whole industries spend their political money, and who politically connected individuals have given money to.{% endblock %}" />
-
+	
+	<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+	
 	<link rel="icon" href="{% media_url %}/images/favicon.ico" type="image/x-icon">
 	<link rel="canonical" rel="{% block canonicalurl %}{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}{% endblock %}" />
 
@@ -118,5 +120,24 @@
       var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
     </script>
 	{% endblock %}
+	
+	<script type="text/javascript">
+        var _sf_async_config={uid:980,domain:"influenceexplorer.com"};
+        (function(){
+          function loadChartbeat() {
+            window._sf_endpt=(new Date()).getTime();
+            var e = document.createElement('script');
+            e.setAttribute('language', 'javascript');
+            e.setAttribute('type', 'text/javascript');
+            e.setAttribute('src',
+               (("https:" == document.location.protocol) ? "https://s3.amazonaws.com/" : "http://") +
+               "static.chartbeat.com/js/chartbeat.js");
+            document.body.appendChild(e);
+          }
+          var oldonload = window.onload;
+          window.onload = (typeof window.onload != 'function') ?
+             loadChartbeat : function() { oldonload(); loadChartbeat(); };
+        })();
+    </script>
   </body>
 </html>
