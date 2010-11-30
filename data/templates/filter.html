@@ -57,6 +57,9 @@
 		<div id="suggestbulk" class="dialog">
 			<p>Your selected filters will return a very large amount of data. We appreciate your zeal for transparency, but our database can't handle the load. Please add additional filters or see our <a href="/bulk/">bulk download</a> page.</p>
 		</div>
+		<div id="excellimit" class="dialog">
+			<p>We return data in Excel 2000-compatible format. Unfortunately, this format can only support sheets with up to 65,536 rows, and your selected filters will return more data than this. Please add additional filters or see our <a href="/bulk/">bulk download</a> page for data in CSV format.</p>
+		</div>
 		<div class="license">		
 			{% block dataset_license %}{% endblock %}
     	</div>

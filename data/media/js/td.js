@@ -41,6 +41,14 @@ var TD = {
             resizable: false,
             title: 'Bulk Downloads'
         });
+        $('#excellimit').dialog({
+            autoOpen: false,
+            buttons: { "OK": function() { $(this).dialog("close"); } },
+            draggable: false,
+            modal: true,
+            resizable: false,
+            title: 'Bulk Downloads'
+        });
 
         // run hashmonitor
         TD.HashMonitor.init();
@@ -463,6 +471,7 @@ TD.DataFilter = function() {
     this.node = $();
     this.downloadNode = $();
     this.previewNode = $();
+    this.recordCount = 0;
 };
 TD.DataFilter.prototype.bindDataFilter = function(sel) {
     var that = this;
@@ -474,7 +483,7 @@ TD.DataFilter.prototype.bindDataFilter = function(sel) {
             return false;
         }
     }).bind('filterchange', function() {
-        that.downloadNode.removeClass('enabled');
+        that.downloadNode.removeClass('calculating enabled');
         that.previewNode.addClass('enabled');
     }).find('select#filterselect').bind('change', function() {
         that.addFilter(this.value);
@@ -504,7 +513,7 @@ TD.DataFilter.prototype.bindDownload = function(sel) {
         var node = $(this);
         if (node.hasClass('enabled')) {
             node.removeClass('enabled');
-            if (!that.shouldUseBulk()) {
+            if (!that.shouldUseBulk() && !that.exceedsExcelLimit()) {
                 $('#downloading').dialog('open');
                 var qs = TD.Utils.toQueryString(that.values());
                 window.location.replace("/" + that.path + "/download/?" + qs);
@@ -598,12 +607,14 @@ TD.DataFilter.prototype.preview = function() {
             var qs = TD.Utils.toQueryString(params);
             TD.HashMonitor.setAnchor(qs);
             this.previewNode.removeClass('enabled');
+            this.downloadNode.removeClass('calculating');
             $('div#tableScroll').hide();
             $('div#nodata').hide();
             $('div#loading').show();
             $('#mainTable tbody').empty();
             $('span#previewCount').html('...');
             $('span#recordCount').html('...');
+            that.recordCount = 0;
             $.getJSON('/data/' + this.path + '/', params, function(data) {
                 if (data.length === 0) {
                     $('div#nodata').show();
@@ -616,15 +627,19 @@ TD.DataFilter.prototype.preview = function() {
                         $('#mainTable tbody').append(content);
                     }
                     $('span#previewCount').html(data.length);
-                    that.downloadNode.addClass('enabled');
                     $('div#nodata').hide();
                     $('div#tableScroll').show();
                 }    
                 $('div#loading').hide();
                 if (data.length < 30) {
+                    that.downloadNode.addClass('enabled');
+                    that.recordCount = data.length;
                     $('span#recordCount').html(data.length);
                 } else {
+                    that.downloadNode.addClass('calculating');
                     $.get("/data/" + that.path + "/count/", params, function(data) {
+                        that.downloadNode.removeClass('calculating').addClass('enabled');
+                        that.recordCount = parseInt(data);
                         $('span#recordCount').html(data);
                     });
                 }
@@ -641,4 +656,11 @@ TD.DataFilter.prototype.shouldUseBulk = function() {
         $('#suggestbulk').dialog('open');    
     }
     return useBulk;
+};
+TD.DataFilter.prototype.exceedsExcelLimit = function() {
+    var exceedsLimit = this.recordCount && this.recordCount > 65536;
+    if (exceedsLimit) {
+        $('#excellimit').dialog('open');    
+    }
+    return exceedsLimit;
 };
