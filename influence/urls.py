@@ -8,7 +8,7 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^search', 'search', name='search'),
 
     # industry
-    # url(r'^sector/[\w\-]+/(?P<entity_id>\w+)', 'sector_detail',
+    # url(r'^sector/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'sector_detail',
     #     name='sector_detail'),
 
     # landing pages
@@ -18,13 +18,13 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^industries$',    'industry_landing'),
 
     # entity pages
-    url(r'^organization/[\w\-]+/(?P<entity_id>\w+)', 'organization_entity',
+    url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'organization_entity',
         name='organization_entity'),
-    url(r'^politician/[\w\-]+/(?P<entity_id>\w+)', 'politician_entity',
+    url(r'^politician/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'politician_entity',
         name='politician_entity'),
-    url(r'^individual/[\w\-]+/(?P<entity_id>\w+)', 'individual_entity',
+    url(r'^individual/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'individual_entity',
         name='individual_entity'),
-    url(r'^industry/[\w\-]+/(?P<entity_id>\w+)', 'industry_entity',
+    url(r'^industry/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'industry_entity',
         name='industry_entity'),
 
     # utility
