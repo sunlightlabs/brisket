@@ -45,7 +45,6 @@ def page_not_found(request, template_name='404.html'):
     t = loader.get_template(template_name)
     search = SearchForm()
     matches = re.findall('^/(organization|individual|politician)/([a-zA-Z0-9\-]*?)/', request.path)
-    print request.path
     if matches:
         search.fields['query'].initial = matches[0][1].replace('-', ' ').title()
     return http.HttpResponseNotFound(t.render(RequestContext(request, {'request_page': request.path, 'search_form_ext': search})))

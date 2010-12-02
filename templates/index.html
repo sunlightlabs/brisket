@@ -2,17 +2,45 @@
 {% block body_class %}home{% endblock %}
 
 {% block main %}
-<div class="module" id="featureBox">
-  <h2>Start Your Search</h2>
-  <form id="searchForm" action="/search" method="get">
-      {{ search_form.query }}
-      <input type="hidden" name="from_form" value="1">
-      <button class="searchBtn" type="submit">
-        <span>Go</span>
-      </button>
-    </form>
-  <p class="clear">Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span> or a prominent <span class="differentText">individual</span>, and see how they're influencing the political system.</p>
-  <div class="clear"></div>
+<div id="featureBox">
+  <div id="featureImage">
+    <div id="featureSearch">
+      <h2>Start Your Search</h2>
+      <form id="searchForm" action="/search" method="get">
+          {{ search_form.query }}
+          <input type="hidden" name="from_form" value="1">
+          <button class="searchBtn" type="submit">
+            <span>Go</span>
+          </button>
+        </form>
+      <p class="clear">Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span> or a prominent <span class="differentText">individual</span>, and see how they're influencing the political system.</p>
+      <div class="clear"></div>
+    </div>
+    <div id="sunlightRequests">
+      <span id="badge">A Product of the Sunlight Foundation</span>
+      <p>Like this product? <b>Donate to the Sunlight Foundation to support future products</b> like it or become part of our community to get regular updates and <b>find out how you can help open up your government by signing up below</b>.</p>
+      <a id="donateBtn" class="linkBtn" href="http://www.sunlightfoundation.com/donate">Dontate</a>
+      <div class="clear"></div>
+      <form id="signupForm" action="" method="get">
+        <ul>
+          <li>
+            <label>Email</label>
+            <input id="id_email" type="text" name="skills"/>
+          </li>
+          <li>
+            <label>Zip Code</label>
+            <input id="id_zip" type="text" name="skills"/>
+          </li>
+          <li>
+            <button class="signupBtn" type="submit">
+              <span>Sign Up</span>
+            </button>
+          </li>
+        </ul>
+        <div class="clear"></div>
+        </form>
+    </div>
+  </div>
 </div>
 <div id="ltColumn" class="withBgLeft">
     <h2 id="checkingLogo_home"><a href="http://checking.influenceexplorer.com">Checking Influence</a></h2>
