@@ -46,11 +46,24 @@ h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 130%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; }
 h6, .h6 { font-size: 110%; font-weight: bold;}
 
-div#featureBox { background: url(../images/feature_bgSm.jpg) top left no-repeat; height: 155px; padding-top: 30px; margin-bottom: 50px;}
+div#featureBox { background: url(../images/bg_postcard.jpg) top left repeat-y; padding-top: 30px; margin-bottom: 50px; border-top: 1px dashed #d9d9d7; border-bottom: 1px dashed #d9d9d7;}
 div#featureBox h2 { text-transform: uppercase; margin-bottom: 25px; float: left; margin-right: 20px; margin-top: 10px;}
-div#featureBox input { background: url(../images/searchBox_feature.png) top left no-repeat; width: 400px; height: 40px;}
-div#featureBox p { color: #989393; font-size: 120%; width: 620px; margin-bottom: 30px; line-height: 24px;}
-div#featureBox p span { color: #666666; font-size: 160%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
+div#featureSearch input { background: url(../images/searchBox_feature.png) top left no-repeat; width: 400px; height: 40px;}
+div#featureBox p { color: #7d7777; font-size: 120%; width: 620px; margin-bottom: 0px; line-height: 24px;}
+div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
+
+div#featureBox #sunlightRequests p { float: left; font-size: 95%; line-height: 18px; color: #999292;}
+#featureSearch { border-bottom: 1px dotted #E2DFDF; padding: 0 40px 25px;}
+#sunlightRequests b { color: #7D7777; }
+div#featureBox #sunlightRequests p { width: 495px;}
+#sunlightRequests { background: url(../images/bg_whiteGradient.png) top left no-repeat; padding: 15px 25px 20px 90px; margin: 0 10px;}
+#sunlightRequests li { float: left; margin-right: 20px;}
+#sunlightRequests label { width: auto; margin-top: 5px; margin-right: 10px;}
+#sunlightRequests input { width: 100px;}
+#sunlightRequests form { margin-top: 10px;}
+#featureImage { background: url(../images/feature_img.png) bottom right no-repeat; }
+
+#badge { text-indent: -9999em; display: block; background: url(../images/badge.png) top left no-repeat; position: absolute; width: 90px; height: 90px; margin: -30px 0 0 -105px;}
 
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img, .reps img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
@@ -215,6 +228,10 @@ button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.pn
 #checkingBtn:hover { background: url(../images/btn_bookmarklet.jpg) left bottom no-repeat; }
 #learnMore { background: url(../images/btn_learnMore.png) left top no-repeat; width: 150px; height: 46px; margin-top: 20px; margin-bottom: 30px;}
 #learnMore:hover { background: url(../images/btn_learnMore.png) left bottom no-repeat; }
+#donateBtn { background: url(../images/btn_donate.png) left top no-repeat; width: 145px; height: 60px; float: left; margin-left: 20px;}
+#donateBtn:hover { background: url(../images/btn_donate.png) left bottom no-repeat; }
+.signupBtn { background: url(../images/btn_signup.png) left top no-repeat; width: 90px; height: 30px; float: left; margin-top: 2px;}
+.signupBtn:hover { background: url(../images/btn_signup.png) left bottom no-repeat; }
 
 form#contact { margin-top: 45px;}
 label { color: #0A6E92; width: 120px; display: block; float: left;}
@@ -331,6 +348,7 @@ dt.moneyTitle { margin-top: 8px;}
 .home p { margin-bottom: 1em;}
 .beforeyouvote p.tip { font-size: 95%; line-height: 18px;}
 #electionDescription { margin-bottom: 30px;}
+.beforeyouvote h2 { margin-bottom: 25px;}
 
 #postcardBox input[type=image] { width: auto; height: auto; border: 0; margin-left: 150px;}
 .payment-info { text-transform: none; margin-bottom: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; }
