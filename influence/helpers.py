@@ -265,3 +265,9 @@ def filter_bad_spending_descriptions(spending):
     for r in spending:
         if r['description'].count('!') > 10:
             r['description'] = ''
+
+
+def get_source_display_name(metadata):
+    source_display_names = {'wikipedia_info': 'Wikipedia', 'bioguide_info': 'Bioguide', 'sunlight_info': 'Sunlight'}
+    return source_display_names.get(metadata.get('source_name', ''), '')
+
