@@ -286,7 +286,7 @@ def politician_entity(request, entity_id):
 
     metadata['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
 
-    context['external_links'] = external_sites.get_politician_links(standardize_politician_name(metadata['entity_info']['name']), metadata['entity_info']['external_ids'], cycle)
+    context['external_links'] = external_sites.get_links('politician', standardize_politician_name(metadata['entity_info']['name']), metadata['entity_info']['external_ids'], cycle)
 
     context['entity_info'] = metadata['entity_info']
 
@@ -358,18 +358,15 @@ def individual_entity(request, entity_id):
     context['entity_id'] = entity_id
     context['cycle'] = cycle
 
-    # get entity metadata
     metadata = get_metadata(entity_id, cycle, "individual")
 
-    # a little error-checking now that we have the entity info
     check_entity(metadata['entity_info'], cycle, 'individual')
 
     name = standardize_name(metadata['entity_info']['name'], 'individual'),
 
     context['entity_info'] = metadata['entity_info']
-    context['external_links'] = external_sites.get_individual_links(name, metadata['entity_info']['external_ids'], cycle)
+    context['external_links'] = external_sites.get_links('individual', name, metadata['entity_info']['external_ids'], cycle)
 
-    # get contributions information if it is available for this entity
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
         indiv_contribution_section(entity_id, cycle, amount, context)
