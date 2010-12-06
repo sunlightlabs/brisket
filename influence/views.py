@@ -153,7 +153,7 @@ def org_industry_entity(request, entity_id, type='organization'):
 
     if metadata['contributions']:
         amount = int(float(entity_info['totals']['contributor_amount']))
-        org_contribution_section(entity_id, cycle, amount, context)
+        org_contribution_section(entity_id, cycle, amount, type, context)
     
     if metadata['lobbying']:
         is_lobbying_firm = bool(entity_info['metadata'].get('lobbying_firm', False))
@@ -164,7 +164,7 @@ def org_industry_entity(request, entity_id, type='organization'):
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
-def org_contribution_section(entity_id, cycle, amount, context):
+def org_contribution_section(entity_id, cycle, amount, type, context):
     if type == 'industry':
         context['top_orgs'] = json.dumps([
             {
