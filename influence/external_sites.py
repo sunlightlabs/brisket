@@ -119,10 +119,15 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
         industry_ids = filter(lambda s: s['namespace'] == 'urn:crp:industry', ids)
         if industry_ids:
             os_params = {'lname': industry_ids[0]['id']}
+            td_params = {'industry': industry_ids[0]['id']}
             if cycle != '-1':
                 os_params['year'] = cycle
+                td_params['year'] = cycle
             links.append(
                 dict(text='OpenSecrets.orgs', url="http://www.opensecrets.org/lobby/indusclient.php?%s" % urllib.urlencode(os_params))
+            )
+            links.append(
+                dict(text='TransparencyData.com', url="http://transparencydata.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))
             )
     
     else:
