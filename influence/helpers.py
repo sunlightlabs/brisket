@@ -49,6 +49,16 @@ def standardize_industry_name(name):
     
     return name
 
+_standardizers = {
+    'politician': standardize_politician_name,
+    'individual': standardize_individual_name,
+    'industry': standardize_industry_name,
+    'organization': standardize_organization_name,
+}
+
+def standardize_name(name, type):
+    return _standardizers[type](name)
+
 def separate_affixes(name):
     # this should match both honorifics (mr/mrs/ms) and jr/sr/II/III
     matches = re.search(r'^\s*(?P<name>.*)\b((?P<honorific>m[rs]s?.?)|(?P<suffix>([js]r|I{2,})))[.,]?\s*$', name, re.IGNORECASE)

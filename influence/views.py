@@ -139,25 +139,24 @@ def org_industry_entity(request, entity_id, type='organization'):
 
     metadata = get_metadata(entity_id, cycle, type)
     context['available_cycles'] = metadata['available_cycles']
-    entity_info = metadata['entity_info']
-    context['entity_info'] = entity_info
+    context['entity_info'] = metadata['entity_info']
 
     # a little error-checking now that we have the entity info
-    check_entity(entity_info, cycle, type)
+    check_entity(metadata['entity_info'], cycle, type)
 
-    entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
+    metadata['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
 
-    standardized_name = standardize_organization_name(entity_info['name']) if type == 'organization' else standardize_industry_name(entity_info['name'])
+    standardized_name = standardize_name(metadata['entity_info']['name'], type)
 
-    context['external_links'] = external_sites.get_links(type, standardized_name, entity_info['external_ids'], cycle)
+    context['external_links'] = external_sites.get_links(type, standardized_name, metadata['entity_info']['external_ids'], cycle)
 
     if metadata['contributions']:
-        amount = int(float(entity_info['totals']['contributor_amount']))
+        amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
         org_contribution_section(entity_id, cycle, amount, type, context)
     
     if metadata['lobbying']:
-        is_lobbying_firm = bool(entity_info['metadata'].get('lobbying_firm', False))
-        org_lobbying_section(entity_id, standardized_name, cycle, entity_info['external_ids'], is_lobbying_firm, context)
+        is_lobbying_firm = bool(metadata['entity_info']['metadata'].get('lobbying_firm', False))
+        org_lobbying_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], is_lobbying_firm, context)
 
     org_spending_section(entity_id, standardized_name, cycle, context)
 
@@ -281,19 +280,18 @@ def politician_entity(request, entity_id):
 
     metadata = get_metadata(entity_id, cycle, "politician")
     context['available_cycles'] = metadata['available_cycles']
-    entity_info = metadata['entity_info']
 
     # a little error-checking now that we have the entity info
-    check_entity(entity_info, cycle, 'politician')
+    check_entity(metadata['entity_info'], cycle, 'politician')
 
-    entity_info['metadata']['source_display_name'] = get_source_display_name(entity_info['metadata'])
+    metadata['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
 
-    context['external_links'] = external_sites.get_politician_links(standardize_politician_name(entity_info['name']), entity_info['external_ids'], cycle)
+    context['external_links'] = external_sites.get_politician_links(standardize_politician_name(metadata['entity_info']['name']), metadata['entity_info']['external_ids'], cycle)
 
-    context['entity_info'] = entity_info
+    context['entity_info'] = metadata['entity_info']
 
     if metadata['contributions']:
-        amount = int(float(entity_info['totals']['recipient_amount']))
+        amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
         pol_contribution_section(entity_id, cycle, amount, context)
 
     return render_to_response('politician.html', context,
@@ -362,27 +360,25 @@ def individual_entity(request, entity_id):
 
     # get entity metadata
     metadata = get_metadata(entity_id, cycle, "individual")
-    available_cycles = metadata['available_cycles']
-    entity_info = metadata['entity_info']
 
     # a little error-checking now that we have the entity info
-    check_entity(entity_info, cycle, 'individual')
+    check_entity(metadata['entity_info'], cycle, 'individual')
 
-    name = standardize_individual_name(entity_info['name']),
+    name = standardize_name(metadata['entity_info']['name'], 'individual'),
 
-    context['entity_info'] = entity_info
-    context['external_links'] = external_sites.get_individual_links(name, entity_info['external_ids'], cycle)
+    context['entity_info'] = metadata['entity_info']
+    context['external_links'] = external_sites.get_individual_links(name, metadata['entity_info']['external_ids'], cycle)
 
     # get contributions information if it is available for this entity
     if metadata['contributions']:
-        amount = int(float(entity_info['totals']['contributor_amount']))
+        amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
         indiv_contribution_section(entity_id, cycle, amount, context)
 
     if metadata['lobbying']:
-        indiv_lobbying_section(entity_id, name, cycle, entity_info['external_ids'], context)
+        indiv_lobbying_section(entity_id, name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('individual.html', context,
-                              entity_context(request, cycle, available_cycles))
+                              entity_context(request, cycle, metadata['available_cycles']))
 
 
 def indiv_contribution_section(entity_id, cycle, amount, context):
