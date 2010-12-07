@@ -62,6 +62,7 @@ class TransparencyDataAPI(object):
     _camp_fin_markers = ['contributor_count', 'recipient_count']
     _lobbying_markers = ['lobbying_count']
     _spending_markers = ['grant_count', 'loan_count', 'contract_count']
+    _earmark_markers = ['earmark_count']
 
     def entity_metadata(self, entity_id):
         results = self._get_url_json('entities/%s.json' % entity_id, parse_json=True)
@@ -70,6 +71,7 @@ class TransparencyDataAPI(object):
         results['camp_fin_years'] = self._entity_years(results['totals'], self._camp_fin_markers)
         results['lobbying_years'] = self._entity_years(results['totals'], self._lobbying_markers)
         results['spending_years'] = self._entity_years(results['totals'], self._spending_markers)
+        results['earmark_years'] = self._entity_years(results['totals'], self._earmark_markers)
 
         return results
 
