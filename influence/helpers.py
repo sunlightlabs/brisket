@@ -1,8 +1,12 @@
-import re, string, datetime
 from api import api
-from util import catcodes
-from django.template.defaultfilters import slugify
 from django.http import Http404
+from django.template.defaultfilters import slugify
+from influence import external_sites
+from influence.api import DEFAULT_CYCLE
+from util import catcodes
+import re
+import string
+import datetime
 
 def standardize_politician_name_with_metadata(name, party, state):
     party_state = "-".join([x for x in [party, state] if x]) # because presidential candidates are listed without a state
@@ -281,3 +285,22 @@ def get_source_display_name(metadata):
     source_display_names = {'wikipedia_info': 'Wikipedia', 'bioguide_info': 'Bioguide', 'sunlight_info': 'Sunlight'}
     return source_display_names.get(metadata.get('source_name', ''), '')
 
+def prepare_entity_view(request, entity_id, type):
+    cycle = request.GET.get('cycle', DEFAULT_CYCLE)
+    
+    metadata = get_metadata(entity_id, cycle, type)
+    check_entity(metadata['entity_info'], cycle, type)
+    standardized_name = standardize_name(metadata['entity_info']['name'], type),
+
+    context = {}
+    context['entity_id'] = entity_id
+    context['cycle'] = cycle
+    context['entity_info'] = metadata['entity_info']
+    context['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
+    context['external_links'] = external_sites.get_links('individual', standardized_name, metadata['entity_info']['external_ids'], cycle)
+
+
+    return cycle, standardized_name, metadata, context
+    
+    
+    

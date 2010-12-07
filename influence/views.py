@@ -131,25 +131,9 @@ def industry_landing(request):
     context['cycle'] = LATEST_CYCLE
     return render_to_response('industry_landing.html', context, brisket_context(request))
 
-def org_industry_entity(request, entity_id, type='organization'):
-    cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-    context = {}
-    context['entity_id'] = entity_id
-    context['cycle'] = cycle
-
-    metadata = get_metadata(entity_id, cycle, type)
-    context['available_cycles'] = metadata['available_cycles']
-    context['entity_info'] = metadata['entity_info']
-
-    # a little error-checking now that we have the entity info
-    check_entity(metadata['entity_info'], cycle, type)
-
-    metadata['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
-
-    standardized_name = standardize_name(metadata['entity_info']['name'], type)
-
-    context['external_links'] = external_sites.get_links(type, standardized_name, metadata['entity_info']['external_ids'], cycle)
-
+def org_industry_entity(request, entity_id, type):
+    cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
+    
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
         org_contribution_section(entity_id, cycle, amount, type, context)
@@ -273,22 +257,7 @@ def industry_entity(request, entity_id):
 
 
 def politician_entity(request, entity_id):
-    cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-    context = {}
-    context['entity_id'] = entity_id
-    context['cycle'] = cycle
-
-    metadata = get_metadata(entity_id, cycle, "politician")
-    context['available_cycles'] = metadata['available_cycles']
-
-    # a little error-checking now that we have the entity info
-    check_entity(metadata['entity_info'], cycle, 'politician')
-
-    metadata['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
-
-    context['external_links'] = external_sites.get_links('politician', standardize_politician_name(metadata['entity_info']['name']), metadata['entity_info']['external_ids'], cycle)
-
-    context['entity_info'] = metadata['entity_info']
+    cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
@@ -353,26 +322,14 @@ def pol_contribution_section(entity_id, cycle, amount, context):
 
 
 def individual_entity(request, entity_id):
-    cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-    context = {}
-    context['entity_id'] = entity_id
-    context['cycle'] = cycle
-
-    metadata = get_metadata(entity_id, cycle, "individual")
-
-    check_entity(metadata['entity_info'], cycle, 'individual')
-
-    name = standardize_name(metadata['entity_info']['name'], 'individual'),
-
-    context['entity_info'] = metadata['entity_info']
-    context['external_links'] = external_sites.get_links('individual', name, metadata['entity_info']['external_ids'], cycle)
+    cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'individual')
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
         indiv_contribution_section(entity_id, cycle, amount, context)
 
     if metadata['lobbying']:
-        indiv_lobbying_section(entity_id, name, cycle, metadata['entity_info']['external_ids'], context)
+        indiv_lobbying_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('individual.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
