@@ -233,11 +233,20 @@ def get_metadata(entity_id, cycle, entity_type):
 
     # check the metadata to see which of the fields are present. this
     # determines which sections to display on the entity page.
-    section_indicators = {\
-        'individual':   {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
-        'organization': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
-        'industry': {'contributions': ['contributor_amount'], 'lobbying': ['lobbying_count']},\
-        'politician':   {'contributions': ['recipient_amount']}\
+    section_indicators = {
+        'individual':   {
+            'contributions': ['contributor_count'], 
+            'lobbying': ['lobbying_count']},
+        'organization': {
+            'contributions': ['contributor_count'], 
+            'lobbying': ['lobbying_count'], 
+            'fed_spending':['loan_count', 'grant_count', 'contract_count']},
+        'industry': {
+            'contributions': ['contributor_count'], 
+            'lobbying': ['lobbying_count'],
+            'fed_spending':['loan_count', 'grant_count', 'contract_count']},
+        'politician':   {
+            'contributions': ['recipient_count']}
     }
 
     entity_info = api.entity_metadata(entity_id)
@@ -245,7 +254,7 @@ def get_metadata(entity_id, cycle, entity_type):
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():
         if (entity_info['totals'].get(cycle_str, False) and
-            [True for ind in indicators if entity_info['totals'][cycle_str][ind] ]):
+            [True for ind in indicators if entity_info['totals'][cycle_str][ind]]):
             data[data_type] = True
         else:
             data[data_type] = False
@@ -297,8 +306,7 @@ def prepare_entity_view(request, entity_id, type):
     context['cycle'] = cycle
     context['entity_info'] = metadata['entity_info']
     context['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
-    context['external_links'] = external_sites.get_links('individual', standardized_name, metadata['entity_info']['external_ids'], cycle)
-
+    context['external_links'] = external_sites.get_contribution_links(type, standardized_name, metadata['entity_info']['external_ids'], cycle)
 
     return cycle, standardized_name, metadata, context
     

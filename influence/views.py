@@ -142,7 +142,8 @@ def org_industry_entity(request, entity_id, type):
         is_lobbying_firm = bool(metadata['entity_info']['metadata'].get('lobbying_firm', False))
         org_lobbying_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], is_lobbying_firm, context)
 
-    org_spending_section(entity_id, standardized_name, cycle, context)
+    if metadata['fed_spending']:
+        org_spending_section(entity_id, standardized_name, cycle, context)
 
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -228,25 +229,23 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
 
 
 def org_spending_section(entity_id, name, cycle, context):
-    # Grants and Contracts
     spending = api.org_fed_spending(entity_id, cycle)
 
-    if spending:
-        filter_bad_spending_descriptions(spending)
+    filter_bad_spending_descriptions(spending)
 
-        context['grants_and_contracts'] = spending
-        context['gc_links'] = external_sites.get_gc_links(name, cycle)
+    context['grants_and_contracts'] = spending
+    context['gc_links'] = external_sites.get_gc_links(name, cycle)
 
-        gc_found_things = []
-        for gc_type in ['grant', 'contract', 'loan']:
-            if '%s_count' % gc_type in context['entity_info']['totals']:
-                gc_found_things.append('%s %s%s' % (
-                    apnumber(context['entity_info']['totals']['%s_count' % gc_type]),
-                    gc_type,
-                    pluralize(context['entity_info']['totals']['%s_count' % gc_type])
-                ))
+    gc_found_things = []
+    for gc_type in ['grant', 'contract', 'loan']:
+        if '%s_count' % gc_type in context['entity_info']['totals']:
+            gc_found_things.append('%s %s%s' % (
+                apnumber(context['entity_info']['totals']['%s_count' % gc_type]),
+                gc_type,
+                pluralize(context['entity_info']['totals']['%s_count' % gc_type])
+            ))
 
-        context['gc_found_things'] = gc_found_things
+    context['gc_found_things'] = gc_found_things
         
 
 def organization_entity(request, entity_id):
