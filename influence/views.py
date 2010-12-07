@@ -1,20 +1,21 @@
 # coding=utf-8
 
-from api import DEFAULT_CYCLE, api
 from django.contrib.humanize.templatetags.humanize import apnumber
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.template.defaultfilters import pluralize
+from django.template.defaultfilters import pluralize, slugify
+from influence import external_sites
+from influence.api import DEFAULT_CYCLE, api
 from influence.forms import SearchForm, ElectionCycle
-from influence.helpers import *
-from operator import itemgetter
+from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
+    bar_validate, pie_validate, months_into_cycle_for_date, \
+    filter_bad_spending_descriptions
+from influence.names import standardize_organization_name, \
+    standardize_politician_name_with_metadata, standardize_industry_name
 from settings import LATEST_CYCLE
-from util import catcodes
-import external_sites
-import urllib
-import re
 import datetime
+import urllib
 try:
     import json
 except:

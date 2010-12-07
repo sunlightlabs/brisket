@@ -1,28 +1,30 @@
-from django.template.defaultfilters import stringfilter
 from django import template
-from influence import helpers
+from django.template.defaultfilters import stringfilter
+from influence.names import standardize_politician_name, \
+    standardize_individual_name, standardize_organization_name, \
+    standardize_industry_name
 
 register = template.Library()
 
 @register.filter(name='standardize_politician_name')
 @stringfilter
 def standardize_politician_name_filter(name):
-    return helpers.standardize_politician_name(name)
+    return standardize_politician_name(name)
 
 @register.filter(name='standardize_individual_name')
 @stringfilter
 def standardize_individual_name_filter(name):
-    return helpers.standardize_individual_name(name)
+    return standardize_individual_name(name)
 
 @register.filter(name='standardize_organization_name')
 @stringfilter
 def standardize_organization_name_filter(name):
-    return helpers.standardize_organization_name(name)
+    return standardize_organization_name(name)
 
 @register.filter(name='standardize_industry_name')
 @stringfilter
 def standardize_industry_name_filter(name):
-    return helpers.standardize_industry_name(name)
+    return standardize_industry_name(name)
 
 
 seat_labels = {'federal:senate': 'US Senate',
