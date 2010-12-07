@@ -63,7 +63,8 @@ def get_metadata(entity_id, cycle, entity_type):
         'organization': {
             'contributions': ['contributor_count'], 
             'lobbying': ['lobbying_count'], 
-            'fed_spending':['loan_count', 'grant_count', 'contract_count']},
+            'fed_spending':['loan_count', 'grant_count', 'contract_count'],
+            'earmarks': ['earmark_count']},
         'industry': {
             'contributions': ['contributor_count'], 
             'lobbying': ['lobbying_count'],

@@ -69,6 +69,12 @@ $(document).ready(function() {
 {% endif %}
 {% endblock %}
 
+{% block earmarks %}
+{% if earmarks %}
+	{% include "org_earmarks.html" %}
+{% endif %}
+{% endblock %}
+
 {% block grants_and_contracts %}
 {% if grants_and_contracts %}
   {% include "org_grants_and_contracts.html" %}

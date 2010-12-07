@@ -214,6 +214,9 @@ class TransparencyDataAPI(object):
     def org_fed_spending(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/org/%s/fed_spending.json' % entity_id, cycle, limit, parse_json=parse_json)
 
+    def org_earmarks(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+        return self._get_url_json('aggregates/org/%s/earmarks.json' % entity_id, cycle, limit, parse_json)
+
     def candidates_by_location(self, location, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('entities/race/%s.json' % location, cycle, parse_json=parse_json)
 

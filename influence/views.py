@@ -145,6 +145,9 @@ def org_industry_entity(request, entity_id, type):
 
     if metadata['fed_spending']:
         org_spending_section(entity_id, standardized_name, cycle, context)
+        
+    if metadata['earmarks']:
+        org_earmarks_section(entity_id, cycle, context)
 
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -227,6 +230,11 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
         context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
         context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
+
+
+def org_earmarks_section(entity_id, cycle, context):
+    print "!!! Found Earmarks !!!"
+    context['earmarks'] = api.org_earmarks(entity_id, cycle)
 
 
 def org_spending_section(entity_id, name, cycle, context):

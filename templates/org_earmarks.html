@@ -1,0 +1,45 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar">
+  <a class="toggle">Toggle</a>
+  <h3 class="insideBar">Earmarks (todo: years & totals)</h3>
+      <div class="insideBar amount">
+          <a class="descriptor" title="More Information" href="#earmarkDescriptor">Information</a>
+          <div class="clear"></div>      
+          <div class="descriptorText" id='earmarksDescriptor'>
+              <p>todo: description</p>
+          </div>      
+    </div>
+</div>
+
+<div class="chartModule">
+
+  <table class="threeColumn" id="earmarksTable">
+    <thead>
+      <tr>
+        <th>Fiscal Year</th>
+        <th>Amount</th>
+		<th>Description</th>
+		<th>Requesting Members</th>
+    </thead>
+    <tbody>
+    {% for row in earmarks %}
+      <tr class="{% cycle 'even' 'odd' %}">
+      	<td>{{ row.fiscal_year }}</td>
+      	<td>{{ row.amount|floatformat:0|intcomma }}</td>
+      	<td>{{ row.description }}</td>
+      	<td>{{ row.members }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  
+  <div class="clear"></div>
+  
+  <div class="external">
+	todo: external links
+  </div>
+  
+  <div class="clear"></div>
+</div><!-- end chartModule -->
