@@ -233,7 +233,6 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
 
 
 def org_earmarks_section(entity_id, cycle, context):
-    print "!!! Found Earmarks !!!"
     context['earmarks'] = api.org_earmarks(entity_id, cycle)
 
 
@@ -270,6 +269,9 @@ def politician_entity(request, entity_id):
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
         pol_contribution_section(entity_id, cycle, amount, context)
+        
+    if metadata['earmarks']:
+        pol_earmarks_section(entity_id, cycle, context)
 
     return render_to_response('politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -327,6 +329,10 @@ def pol_contribution_section(entity_id, cycle, amount, context):
         context['reason'] = 'empty'
 
     context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
+
+def pol_earmarks_section(entity_id, cycle, context):
+    context['earmarks'] = api.pol_earmarks(entity_id, cycle)
+
 
 
 def individual_entity(request, entity_id):

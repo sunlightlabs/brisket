@@ -89,6 +89,9 @@ $(document).ready(function() {
 {% endblock %} <!-- end charts block -->
 
 
-{% block lobbying %}
+{% block earmarks %}
+{% if earmarks %}
+	{% include "pol_earmarks.html" %}
+{% endif %}
 {% endblock %}
 

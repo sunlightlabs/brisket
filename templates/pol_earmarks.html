@@ -12,7 +12,7 @@
   </h3>
       <div class="insideBar amount">
           <span class="amount">
-      		${{ entity_info.totals.earmark_amount|floatformat:0|intcomma }} Received
+      		${{ entity_info.totals.earmark_amount|floatformat:0|intcomma }} Allocated
       	  </span>
           <a class="descriptor" title="More Information" href="#earmarksDescriptor">Information</a>
           <div class="clear"></div>      
@@ -31,6 +31,7 @@
         <th>Amount</th>
 		<th>Description</th>
 		<th>Requesting Members</th>
+		<th>Recipients</th>
     </thead>
     <tbody>
     {% for row in earmarks %}
@@ -51,6 +52,19 @@
    			{% endfor %}      		
       		</ul>
       	</td>
+      	<td>
+      		<ul>
+      		{% for recipient in row.recipients %}
+	          <li>
+	          {% if recipient.id %}
+	            <a href="/organization/{{ recipient.name|standardize_organization_name|slugify }}/{{ recipient.id }}{{cycle|pretty_cycle}}">{{ recipient.name|standardize_organization_name }}</a>
+	          {% else %}
+	          	{{ recipient.name|standardize_organization_name }}
+	          {% endif %}
+	          </li>
+   			{% endfor %}      		
+      		</ul>
+      	</td>      
       </tr>
     {% endfor %}
     </tbody>

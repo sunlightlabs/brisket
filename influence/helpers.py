@@ -70,7 +70,8 @@ def get_metadata(entity_id, cycle, entity_type):
             'lobbying': ['lobbying_count'],
             'fed_spending':['loan_count', 'grant_count', 'contract_count']},
         'politician':   {
-            'contributions': ['recipient_count']}
+            'contributions': ['recipient_count'],
+            'earmarks': ['earmark_count']}
     }
 
     entity_info = api.entity_metadata(entity_id)
