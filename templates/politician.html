@@ -22,7 +22,7 @@
 
 {% block extrajs %}
 {% if not suppress_contrib_graphs %}
-<script type="text/javascript" src="/media/js/jquery.multiellipsis.js"></script>
+<script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
     sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
