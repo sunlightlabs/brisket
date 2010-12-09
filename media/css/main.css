@@ -276,10 +276,15 @@ form#contact li, #postcardBox form li { margin-bottom: 15px;}
 
 .cell-type { width: 65px; }
 .cell-recipient { width: 165px; }
-.cell-year { width: 65px; }
+.cell-year, .cell-earmark-year { width: 65px; }
 .cell-agency { width: 165px; }
 .cell-description { width: 205px; }
-.cell-amount { width: 95px; }
+.cell-amount, .cell-earmark-amount { width: 95px; }
+.cell-earmark-description { width: 480px; }
+.cell-earmark-members { width: 160px; vertical-align: top; }
+.cell-earmark-members li { list-style: square; margin-left: 15px;}
+li.lesslink { list-style-image: url(../images/tiny_minus.png); }
+li.morelink { list-style-image: url(../images/tiny_plus.png); }
 
 .inArticle { float: left; width: 130px; background-color: #f9ea99; padding: 10px 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px;  border:1px solid #EFCB01; }
 .inArticle li { float: left; margin-right: 5px; margin-bottom: 8px; font-family: Georgia, Times New Roman, Times, serif; font-style: italic;}

@@ -1,0 +1,47 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<table class="threeColumn" id="earmarksTable">
+  <thead>
+	<tr>
+	  <th>Fiscal Year</th>
+	  <th>Amount</th>
+	  <th>Description</th>
+	  <th>Requesting Members</th>
+  </thead>
+  <tbody>
+  {% for row in earmarks %}
+	<tr class="{% cycle 'even' 'odd' %}">
+	  <td class='cell-earmark-year'>{{ row.fiscal_year }}</td>
+	  <td class='cell-earmark-amount'>${{ row.amount|floatformat:0|intcomma }}</td>
+	  <td class='cell-earmark-description'>
+		{% for recipient in row.recipients %}
+		  {% if recipient.id %}
+		    {% if recipient.id == entity_info.id %}
+			  <em>{{ recipient.name|standardize_organization_name }}</em>{{ forloop|earpunc:row.description }}
+			{% else %}
+			  <a href="/organization/{{ recipient.name|standardize_organization_name|slugify }}/{{ recipient.id }}{{cycle|pretty_cycle}}">{{ recipient.name|standardize_organization_name }}</a>{{ forloop|earpunc:row.description }}
+		    {% endif %}
+		  {% else %}
+			{{ recipient.name|standardize_organization_name }}{{ forloop|earpunc:row.description }}
+		  {% endif %}
+		{% endfor %}
+		{{ row.description }}
+	  </td>
+	  <td class='cell-earmark-members'>
+		  <ul>
+		  {% for member in row.members %}
+			<li>
+			{% if member.id %}
+			  <a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name|standardize_politician_name }}</a>
+			{% else %}
+			  {{ member.name|standardize_politician_name }}
+			{% endif %}
+			</li>
+		  {% endfor %}      		
+		  </ul>
+	  </td>    
+	</tr>
+  {% endfor %}
+  </tbody>
+</table>
