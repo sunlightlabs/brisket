@@ -134,10 +134,8 @@ class TransparencyDataAPI(object):
     def org_level_breakdown(self, entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('aggregates/org/%s/recipients/level_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
-
     def pol_local_breakdown(self, entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('aggregates/pol/%s/contributors/local_breakdown.json' % entity_id, cycle, parse_json=parse_json)
-
 
     def pol_contributor_type_breakdown(self, entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('aggregates/pol/%s/contributors/type_breakdown.json' % entity_id, cycle, parse_json=parse_json)
@@ -222,6 +220,9 @@ class TransparencyDataAPI(object):
     def pol_earmarks(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/pol/%s/earmarks.json' % entity_id, cycle, limit, parse_json)
     
+    def pol_earmarks_local_breakdown(self, entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
+        return self._get_url_json('aggregates/pol/%s/earmarks/local_breakdown.json' % entity_id, cycle, parse_json=parse_json)
+
     def candidates_by_location(self, location, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('entities/race/%s.json' % location, cycle, parse_json=parse_json)
 

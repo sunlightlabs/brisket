@@ -30,7 +30,7 @@ $(document).ready(function() {
     piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
     barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
     barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
-	
+	piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
     $('table td.cell-earmark-members').expando(4);
 });
 </script>

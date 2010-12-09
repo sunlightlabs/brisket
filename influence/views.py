@@ -330,8 +330,13 @@ def pol_contribution_section(entity_id, cycle, amount, context):
 
     context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
 
+
 def pol_earmarks_section(entity_id, cycle, context):
     context['earmarks'] = api.pol_earmarks(entity_id, cycle)
+    
+    local_breakdown = api.pol_earmarks_local_breakdown(entity_id, cycle)
+    local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
+    context['earmarks_local'] = json.dumps(pie_validate(local_breakdown))
 
 
 
