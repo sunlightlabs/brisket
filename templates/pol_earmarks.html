@@ -24,51 +24,7 @@
 
 <div class="chartModule">
 
-  <table class="threeColumn" id="earmarksTable">
-    <thead>
-      <tr>
-        <th>Fiscal Year</th>
-        <th>Amount</th>
-		<th>Description</th>
-		<th>Requesting Members</th>
-		<th>Recipients</th>
-    </thead>
-    <tbody>
-    {% for row in earmarks %}
-      <tr class="{% cycle 'even' 'odd' %}">
-      	<td>{{ row.fiscal_year }}</td>
-      	<td>${{ row.amount|floatformat:0|intcomma }}</td>
-      	<td>{{ row.description }}</td>
-      	<td>
-      		<ul>
-      		{% for member in row.members %}
-	          <li>
-	          {% if member.id %}
-	            <a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name|standardize_politician_name }}</a>
-	          {% else %}
-	          	{{ member.name|standardize_politician_name }}
-	          {% endif %}
-	          </li>
-   			{% endfor %}      		
-      		</ul>
-      	</td>
-      	<td>
-      		<ul>
-      		{% for recipient in row.recipients %}
-	          <li>
-	          {% if recipient.id %}
-	            <a href="/organization/{{ recipient.name|standardize_organization_name|slugify }}/{{ recipient.id }}{{cycle|pretty_cycle}}">{{ recipient.name|standardize_organization_name }}</a>
-	          {% else %}
-	          	{{ recipient.name|standardize_organization_name }}
-	          {% endif %}
-	          </li>
-   			{% endfor %}      		
-      		</ul>
-      	</td>      
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  {% include "earmarks_table.html" %}
   
   <div class="clear"></div>
   
