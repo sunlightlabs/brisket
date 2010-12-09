@@ -124,7 +124,7 @@ def prepare_entity_view(request, entity_id, type):
     
     metadata = get_metadata(entity_id, cycle, type)
     check_entity(metadata['entity_info'], cycle, type)
-    standardized_name = standardize_name(metadata['entity_info']['name'], type),
+    standardized_name = standardize_name(metadata['entity_info']['name'], type)
 
     context = {}
     context['entity_id'] = entity_id
