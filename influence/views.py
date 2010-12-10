@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
+from django.utils.datastructures import SortedDict
 from influence import external_sites
 from influence.api import DEFAULT_CYCLE, api
 from influence.forms import SearchForm, ElectionCycle
@@ -336,7 +337,8 @@ def pol_earmarks_section(entity_id, cycle, context):
     
     local_breakdown = api.pol_earmarks_local_breakdown(entity_id, cycle)
     local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
-    context['earmarks_local'] = json.dumps(pie_validate(local_breakdown))
+    ordered_pie = SortedDict([(key, local_breakdown[key]) for key in ['unknown', 'in-state', 'out-of-state']])
+    context['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
 
 
 
