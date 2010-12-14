@@ -147,7 +147,7 @@ def org_industry_entity(request, entity_id, type):
         org_spending_section(entity_id, standardized_name, cycle, context)
         
     if metadata['earmarks']:
-        org_earmarks_section(entity_id, cycle, context)
+        org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -232,8 +232,9 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
 
 
-def org_earmarks_section(entity_id, cycle, context):
+def org_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmarks'] = api.org_earmarks(entity_id, cycle)
+    context['earmark_links'] = external_sites.get_earmark_links('organization', name, external_ids, cycle)
 
 
 def org_spending_section(entity_id, name, cycle, context):
@@ -271,7 +272,7 @@ def politician_entity(request, entity_id):
         pol_contribution_section(entity_id, cycle, amount, context)
         
     if metadata['earmarks']:
-        pol_earmarks_section(entity_id, cycle, context)
+        pol_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -331,12 +332,13 @@ def pol_contribution_section(entity_id, cycle, amount, context):
     context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
 
 
-def pol_earmarks_section(entity_id, cycle, context):
+def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmarks'] = api.pol_earmarks(entity_id, cycle)
     
     local_breakdown = api.pol_earmarks_local_breakdown(entity_id, cycle)
     local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
     context['earmarks_local'] = json.dumps(pie_validate(local_breakdown))
+    context['earmark_links'] = external_sites.get_earmark_links('politician', name, external_ids, cycle)
 
 
 
