@@ -40,7 +40,12 @@
   <div class="clear"></div>
   
   <div class="external">
-	todo: external links
+	{% if earmark_links %}
+    For more information on earmarks:
+    {% for link in earmark_links %}
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+    {% endfor %}
+    {% endif %}
   </div>
   
   <div class="clear"></div>

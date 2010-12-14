@@ -131,3 +131,31 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
         )
     
     return links
+
+def get_earmark_links(type, standardized_name, ids, cycle):
+    links = []
+    
+    # TD
+    td_types = {'organization': 'recipient', 'politician': 'member'}
+    td_params = {}
+    if cycle != '-1':
+        td_params['year'] = "%s|%s" % (int(cycle) - 1, cycle)
+    
+    if type in td_types:
+        td_params[td_types[type]] = standardized_name
+        
+        links.append(
+            dict(text='TransparencyData.com', url="http://transparencydata.com/earmarks/#%s" % base64.b64encode(urllib.urlencode(td_params)))
+        )
+    
+    # OpenSecrets
+    politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
+    if politician_ids:
+        os_params = {'cid': politician_ids[0]['id']}
+        if cycle != '-1':
+            os_params['year'] = cycle
+        links.append(
+            dict(text='OpenSecrets.org', url="http://www.opensecrets.org/politicians/earmarks.php?%s" % urllib.urlencode(os_params))
+        )
+    
+    return links
