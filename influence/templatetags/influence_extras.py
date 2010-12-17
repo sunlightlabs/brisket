@@ -1,15 +1,15 @@
 from django import template
 from django.template.defaultfilters import stringfilter
-from influence.names import standardize_politician_name, \
-    standardize_individual_name, standardize_organization_name, \
+from influence.names import standardize_individual_name, standardize_organization_name, \
     standardize_industry_name
+from name_cleaver.name_cleaver import PoliticianNameCleaver
 
 register = template.Library()
 
 @register.filter(name='standardize_politician_name')
 @stringfilter
 def standardize_politician_name_filter(name):
-    return standardize_politician_name(name)
+    return str(PoliticianNameCleaver(name).parse())
 
 @register.filter(name='standardize_individual_name')
 @stringfilter

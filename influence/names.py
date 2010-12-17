@@ -1,18 +1,7 @@
 import re
 import string
+from name_cleaver.name_cleaver import PoliticianNameCleaver
 
-
-def standardize_politician_name_with_metadata(name, party, state):
-    party_state = "-".join([x for x in [party, state] if x]) # because presidential candidates are listed without a state
-    name = "{0} ({1})".format(standardize_politician_name(name), party_state)
-
-    return name
-
-def standardize_politician_name(name):
-    name = strip_party(name)
-    name = convert_to_standard_order(name)
-
-    return convert_case(name)
 
 def standardize_individual_name(name):
     name, honorific, suffix = separate_affixes(name)
@@ -44,11 +33,11 @@ def standardize_industry_name(name):
     name = name.strip()
     name = re.sub(r'/([a-z])', lambda s: s.group().upper(), name)
     name = re.sub(r'-([a-z])', lambda s: s.group().upper(), name)
-    
+
     return name
 
 _standardizers = {
-    'politician': standardize_politician_name,
+    'politician': PoliticianNameCleaver,
     'individual': standardize_individual_name,
     'industry': standardize_industry_name,
     'organization': standardize_organization_name,
@@ -64,9 +53,6 @@ def separate_affixes(name):
         return matches.group('name', 'honorific', 'suffix')
     else:
         return name, None, None
-
-def strip_party(name):
-    return re.sub(r'\s*\(\w+\)\s*$', '', name)
 
 def convert_case(name):
     name = name if is_mixed_case(name) else string.capwords(name)
@@ -93,12 +79,6 @@ def uppercase_the_scots(name):
 def is_mixed_case(name):
     return re.search(r'[A-Z][a-z]', name)
 
-def convert_to_standard_order(name):
-    if '&' in name:
-        return convert_running_mates(name)
-    else:
-        return convert_name_to_first_last(name)
-
 def convert_name_to_first_last(name):
     split = name.split(',')
     if len(split) == 1: return split[0]
@@ -107,12 +87,4 @@ def convert_name_to_first_last(name):
 
     trimmed_split.reverse()
     return ' '.join(trimmed_split)
-
-def convert_running_mates(name):
-    mates = name.split('&')
-    fixed_mates = []
-    for name in mates:
-        fixed_mates.append(convert_name_to_first_last(name))
-
-    return ' & '.join(fixed_mates).strip()
 

@@ -9,7 +9,8 @@ from gevent.pool import Pool
 from gevent import monkey
 import gevent
 from django.utils.datastructures import SortedDict
-from influence.helpers import standardize_organization_name, standardize_industry_name, standardize_politician_name
+from influence.helpers import standardize_organization_name, standardize_industry_name
+from name_cleaver.name_cleaver import PoliticianNameCleaver
 from django.template.defaultfilters import slugify
 import urllib2
 import re
@@ -179,16 +180,11 @@ class Command(BaseCommand):
                                     industries[standardize_industry_name(cont['name'])] = cont['amount']
                             
                             #deal with the name
-                            candidate['standard_name'] = standardize_politician_name(candidate['name'])
-                            name_components = candidate['standard_name'].split(' ')
-                            candidate['first_name'] = name_components[0]
-                            if len(name_components) > 2 and len(name_components[-1]) < 4:
-                                candidate['last_name'] = name_components[-2]
-                                candidate['suffix'] = name_components[-1]
-                            else:
-                                candidate['last_name'] = name_components[-1]
-                                candidate['suffix'] = None
-                            
+                            name_obj = PoliticianNameCleaver(candidate['name']).parse()
+                            candidate['standard_name'] = str(name_obj)
+                            candidate['first_name'] = name_obj.first
+                            candidate['last_name'] = name_obj.last
+                            candidate['suffix'] = name_obj.suffix
                             
                             if len(candidate['standard_name']) > 24:
                                 candidate['standard_name'] = '%s %s %s' % (candidate['first_name'], candidate['last_name'], candidate['suffix']) if candidate['suffix'] else '%s %s' % (candidate['first_name'], candidate['last_name'])

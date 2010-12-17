@@ -1,5 +1,3 @@
-
-
 from django.test import TestCase
 
 from influence import names
@@ -110,44 +108,6 @@ class LobbyingAPITests(APITest):
 
     def test_reg_issues(self):
         self.assertLength(10, api.org_registrant_issues(self.NICKLES, CYCLE))
-
-
-class PoliticianNameStandardizationTests(TestCase):
-
-    def test_strip_party_affiliation(self):
-        self.assertEqual('Nancy Pelosi', names.strip_party('Nancy Pelosi (D)'))
-
-    def test_convert_to_title_case_converts_non_mixed_case_names_only(self):
-        self.assertEqual('Emory MacDonald', names.convert_case('EMORY MACDONALD'))
-        self.assertEqual('Antonio dAlesio', names.convert_case('Antonio dAlesio'))
-
-    def test_change_last_first_to_first_last(self):
-        self.assertEqual('Nancy Pelosi', names.convert_name_to_first_last('Pelosi, Nancy'))
-
-    def test_standardize_politician_name(self):
-        self.assertEqual('Emory MacDonald', names.standardize_politician_name('MACDONALD, EMORY (R)'))
-        self.assertEqual('Emory MacDonald', names.standardize_politician_name('MacDonald, Emory (R)'))
-        self.assertEqual('Nancy Pelosi', names.standardize_politician_name('Nancy Pelosi (D)'))
-        self.assertEqual('Albert Gore', names.standardize_politician_name('Gore, Albert'))
-
-    def test_standardize_running_mate_names(self):
-        self.assertEqual('John Kasich & Mary Taylor', names.standardize_politician_name('Kasich, John & Taylor, Mary'))
-
-    def test_we_dont_need_no_steeenking_nicknames(self):
-        self.assertEqual('Robert M McDonnell', names.standardize_politician_name('McDonnell, Robert M (Bob)'))
-        self.assertEqual('Christopher Bond', names.standardize_politician_name('Christopher "Kit" Bond'))
-
-    def test_with_metadata__party_and_state_present(self):
-        self.assertEqual('Charles Schumer (D-NY)', names.standardize_politician_name_with_metadata('Charles Schumer', 'D', 'NY'))
-        self.assertEqual('Barack Obama (D)', names.standardize_politician_name_with_metadata('Barack Obama', 'D', ''))
-        self.assertEqual('Charles Schumer (NY)', names.standardize_politician_name_with_metadata('Charles Schumer', '', 'NY'))
-        self.assertEqual('Jerry Leon Carroll ()', names.standardize_politician_name_with_metadata('Jerry Leon Carroll', '', '')) # only this one guy is missing both, so not writing a special case for it right now
-
-    def test_capitalize_roman_numeral_suffixes(self):
-        self.assertEqual('Ken Cuccinelli II', names.standardize_politician_name('KEN CUCCINELLI II'))
-        self.assertEqual('Ken Cuccinelli II', names.standardize_politician_name('CUCCINELLI II, KEN'))
-        self.assertEqual('Ken Cuccinelli IV', names.standardize_politician_name('CUCCINELLI IV, KEN'))
-        self.assertEqual('Ken Cuccinelli IX', names.standardize_politician_name('CUCCINELLI IX, KEN'))
 
 
 class IndividualNameStandardizationTests(TestCase):

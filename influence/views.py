@@ -9,13 +9,11 @@ from influence import external_sites
 from influence.api import DEFAULT_CYCLE, api
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
-    bar_validate, pie_validate, months_into_cycle_for_date, \
-    filter_bad_spending_descriptions
-from influence.names import standardize_organization_name, \
-    standardize_politician_name_with_metadata, standardize_industry_name
+    bar_validate, pie_validate, months_into_cycle_for_date, filter_bad_spending_descriptions
+from influence.names import standardize_organization_name, standardize_industry_name
+from name_cleaver.name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE
 import datetime
-import urllib
 try:
     import json
 except:
@@ -167,7 +165,7 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
     recipients_barchart_data = []
     for record in recipients:
         recipients_barchart_data.append({
-                'key': generate_label(standardize_politician_name_with_metadata(record['name'], record['party'], record['state'])),
+                'key': generate_label(str(PoliticianNameCleaver(record['name']).parse().plus_metadata(record['party'], record['state']))),
                 'value' : record['total_amount'],
                 'value_employee' : record['employee_amount'],
                 'value_pac' : record['direct_amount'],
@@ -343,7 +341,7 @@ def indiv_contribution_section(entity_id, cycle, amount, context):
     candidates_barchart_data = []
     for record in recipient_candidates:
         candidates_barchart_data.append({
-                'key': generate_label(standardize_politician_name_with_metadata(record['recipient_name'], record['party'], record['state'])),
+                'key': generate_label(str(PoliticianNameCleaver(record['recipient_name']).parse().plus_metadata(record['party'], record['state']))),
                 'value' : record['amount'],
                 'href' : barchart_href(record, cycle, entity_type="politician"),
                 })
