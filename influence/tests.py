@@ -2,7 +2,7 @@
 
 from django.test import TestCase
 
-from influence import helpers
+from influence import names
 from api import api
 
 CYCLE = 2008
@@ -115,86 +115,87 @@ class LobbyingAPITests(APITest):
 class PoliticianNameStandardizationTests(TestCase):
 
     def test_strip_party_affiliation(self):
-        self.assertEqual('Nancy Pelosi', helpers.strip_party('Nancy Pelosi (D)'))
+        self.assertEqual('Nancy Pelosi', names.strip_party('Nancy Pelosi (D)'))
 
     def test_convert_to_title_case_converts_non_mixed_case_names_only(self):
-        self.assertEqual('Emory MacDonald', helpers.convert_case('EMORY MACDONALD'))
-        self.assertEqual('Antonio dAlesio', helpers.convert_case('Antonio dAlesio'))
+        self.assertEqual('Emory MacDonald', names.convert_case('EMORY MACDONALD'))
+        self.assertEqual('Antonio dAlesio', names.convert_case('Antonio dAlesio'))
 
     def test_change_last_first_to_first_last(self):
-        self.assertEqual('Nancy Pelosi', helpers.convert_name_to_first_last('Pelosi, Nancy'))
+        self.assertEqual('Nancy Pelosi', names.convert_name_to_first_last('Pelosi, Nancy'))
 
     def test_standardize_politician_name(self):
-        self.assertEqual('Emory MacDonald', helpers.standardize_politician_name('MACDONALD, EMORY (R)'))
-        self.assertEqual('Emory MacDonald', helpers.standardize_politician_name('MacDonald, Emory (R)'))
-        self.assertEqual('Nancy Pelosi', helpers.standardize_politician_name('Nancy Pelosi (D)'))
-        self.assertEqual('Albert Gore', helpers.standardize_politician_name('Gore, Albert'))
+        self.assertEqual('Emory MacDonald', names.standardize_politician_name('MACDONALD, EMORY (R)'))
+        self.assertEqual('Emory MacDonald', names.standardize_politician_name('MacDonald, Emory (R)'))
+        self.assertEqual('Nancy Pelosi', names.standardize_politician_name('Nancy Pelosi (D)'))
+        self.assertEqual('Albert Gore', names.standardize_politician_name('Gore, Albert'))
 
     def test_standardize_running_mate_names(self):
-        self.assertEqual('John Kasich & Mary Taylor', helpers.standardize_politician_name('Kasich, John & Taylor, Mary'))
+        self.assertEqual('John Kasich & Mary Taylor', names.standardize_politician_name('Kasich, John & Taylor, Mary'))
 
     def test_we_dont_need_no_steeenking_nicknames(self):
-        self.assertEqual('Robert M McDonnell', helpers.standardize_politician_name('McDonnell, Robert M (Bob)'))
+        self.assertEqual('Robert M McDonnell', names.standardize_politician_name('McDonnell, Robert M (Bob)'))
+        self.assertEqual('Christopher Bond', names.standardize_politician_name('Christopher "Kit" Bond'))
 
     def test_with_metadata__party_and_state_present(self):
-        self.assertEqual('Charles Schumer (D-NY)', helpers.standardize_politician_name_with_metadata('Charles Schumer', 'D', 'NY'))
-        self.assertEqual('Barack Obama (D)', helpers.standardize_politician_name_with_metadata('Barack Obama', 'D', ''))
-        self.assertEqual('Charles Schumer (NY)', helpers.standardize_politician_name_with_metadata('Charles Schumer', '', 'NY'))
-        self.assertEqual('Jerry Leon Carroll ()', helpers.standardize_politician_name_with_metadata('Jerry Leon Carroll', '', '')) # only this one guy is missing both, so not writing a special case for it right now
+        self.assertEqual('Charles Schumer (D-NY)', names.standardize_politician_name_with_metadata('Charles Schumer', 'D', 'NY'))
+        self.assertEqual('Barack Obama (D)', names.standardize_politician_name_with_metadata('Barack Obama', 'D', ''))
+        self.assertEqual('Charles Schumer (NY)', names.standardize_politician_name_with_metadata('Charles Schumer', '', 'NY'))
+        self.assertEqual('Jerry Leon Carroll ()', names.standardize_politician_name_with_metadata('Jerry Leon Carroll', '', '')) # only this one guy is missing both, so not writing a special case for it right now
 
     def test_capitalize_roman_numeral_suffixes(self):
-        self.assertEqual('Ken Cuccinelli II', helpers.standardize_politician_name('KEN CUCCINELLI II'))
-        self.assertEqual('Ken Cuccinelli II', helpers.standardize_politician_name('CUCCINELLI II, KEN'))
-        self.assertEqual('Ken Cuccinelli IV', helpers.standardize_politician_name('CUCCINELLI IV, KEN'))
-        self.assertEqual('Ken Cuccinelli IX', helpers.standardize_politician_name('CUCCINELLI IX, KEN'))
+        self.assertEqual('Ken Cuccinelli II', names.standardize_politician_name('KEN CUCCINELLI II'))
+        self.assertEqual('Ken Cuccinelli II', names.standardize_politician_name('CUCCINELLI II, KEN'))
+        self.assertEqual('Ken Cuccinelli IV', names.standardize_politician_name('CUCCINELLI IV, KEN'))
+        self.assertEqual('Ken Cuccinelli IX', names.standardize_politician_name('CUCCINELLI IX, KEN'))
 
 
 class IndividualNameStandardizationTests(TestCase):
 
     def test_all_kinds_of_crazy(self):
-        self.assertEqual('Stanford Z Rothschild', helpers.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MR'))
+        self.assertEqual('Stanford Z Rothschild', names.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MR'))
 
     def test_jr_and_the_like_end_up_at_the_end(self):
-        self.assertEqual('Frederick A "Tripp" Baird III', helpers.standardize_individual_name('Baird, Frederick A "Tripp" III'))
+        self.assertEqual('Frederick A "Tripp" Baird III', names.standardize_individual_name('Baird, Frederick A "Tripp" III'))
 
     def test_throw_out_mr(self):
-        self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Mr T Boone Pickens'))
-        self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Mr. T Boone Pickens'))
-        self.assertEqual('T Boone Pickens', helpers.standardize_individual_name('Pickens, T Boone Mr'))
-        self.assertEqual('John L Nau', helpers.standardize_individual_name(' MR JOHN L NAU,'))
+        self.assertEqual('T Boone Pickens', names.standardize_individual_name('Mr T Boone Pickens'))
+        self.assertEqual('T Boone Pickens', names.standardize_individual_name('Mr. T Boone Pickens'))
+        self.assertEqual('T Boone Pickens', names.standardize_individual_name('Pickens, T Boone Mr'))
+        self.assertEqual('John L Nau', names.standardize_individual_name(' MR JOHN L NAU,'))
 
     def test_keep_the_mrs(self):
-        self.assertEqual('Mrs T Boone Pickens', helpers.standardize_individual_name('Mrs T Boone Pickens'))
-        self.assertEqual('Mrs. T Boone Pickens', helpers.standardize_individual_name('Mrs. T Boone Pickens'))
-        self.assertEqual('Mrs Stanford Z Rothschild', helpers.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MRS'))
+        self.assertEqual('Mrs T Boone Pickens', names.standardize_individual_name('Mrs T Boone Pickens'))
+        self.assertEqual('Mrs. T Boone Pickens', names.standardize_individual_name('Mrs. T Boone Pickens'))
+        self.assertEqual('Mrs Stanford Z Rothschild', names.standardize_individual_name('ROTHSCHILD 212, STANFORD Z MRS'))
 
     def test_capitalize_roman_numeral_suffixes(self):
-        self.assertEqual('Ken Cuccinelli II', helpers.standardize_individual_name('KEN CUCCINELLI II'))
-        self.assertEqual('Ken Cuccinelli II', helpers.standardize_individual_name('CUCCINELLI II, KEN'))
-        self.assertEqual('Ken Cuccinelli IV', helpers.standardize_individual_name('CUCCINELLI IV, KEN'))
-        self.assertEqual('Ken Cuccinelli IX', helpers.standardize_individual_name('CUCCINELLI IX, KEN'))
+        self.assertEqual('Ken Cuccinelli II', names.standardize_individual_name('KEN CUCCINELLI II'))
+        self.assertEqual('Ken Cuccinelli II', names.standardize_individual_name('CUCCINELLI II, KEN'))
+        self.assertEqual('Ken Cuccinelli IV', names.standardize_individual_name('CUCCINELLI IV, KEN'))
+        self.assertEqual('Ken Cuccinelli IX', names.standardize_individual_name('CUCCINELLI IX, KEN'))
 
     def test_capitalize_scottish_last_names(self):
-        self.assertEqual('Ronald McDonald', helpers.standardize_individual_name('RONALD MCDONALD'))
-        self.assertEqual('Old MacDonald', helpers.standardize_individual_name('OLD MACDONALD'))
+        self.assertEqual('Ronald McDonald', names.standardize_individual_name('RONALD MCDONALD'))
+        self.assertEqual('Old MacDonald', names.standardize_individual_name('OLD MACDONALD'))
 
 
 class OrganizationNameStandardizationTests(TestCase):
 
     def test_capitalize_pac(self):
-        self.assertEqual('Nancy Pelosi Leadership PAC', helpers.standardize_organization_name('NANCY PELOSI LEADERSHIP PAC'))
+        self.assertEqual('Nancy Pelosi Leadership PAC', names.standardize_organization_name('NANCY PELOSI LEADERSHIP PAC'))
 
     def test_make_single_word_names_ending_in_pac_all_uppercase(self):
-        self.assertEqual('ECEPAC', helpers.standardize_organization_name('ECEPAC'))
+        self.assertEqual('ECEPAC', names.standardize_organization_name('ECEPAC'))
 
     def test_names_starting_with_PAC(self):
-        self.assertEqual('PAC For Engineers', helpers.standardize_organization_name('PAC FOR ENGINEERS'))
-        self.assertEqual('PAC 102', helpers.standardize_organization_name('PAC 102'))
+        self.assertEqual('PAC For Engineers', names.standardize_organization_name('PAC FOR ENGINEERS'))
+        self.assertEqual('PAC 102', names.standardize_organization_name('PAC 102'))
 
     def test_doesnt_bother_names_containing_string_pac(self):
-        self.assertEqual('Pacific Trust', helpers.standardize_organization_name('PACIFIC TRUST'))
+        self.assertEqual('Pacific Trust', names.standardize_organization_name('PACIFIC TRUST'))
 
     def test_capitalize_scottish_names(self):
-        self.assertEqual('McDonnell Douglas', helpers.standardize_individual_name('MCDONNELL DOUGLAS'))
-        self.assertEqual('MacDonnell Douglas', helpers.standardize_individual_name('MACDONNELL DOUGLAS'))
+        self.assertEqual('McDonnell Douglas', names.standardize_individual_name('MCDONNELL DOUGLAS'))
+        self.assertEqual('MacDonnell Douglas', names.standardize_individual_name('MACDONNELL DOUGLAS'))
 
