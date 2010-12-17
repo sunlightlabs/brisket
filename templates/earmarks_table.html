@@ -1,0 +1,67 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="clear"></div>
+<h4>Top Earmarks</h4>
+
+<table class="threeColumn sortable" id="earmarksTable">
+    <thead>
+    	<tr id="titles">
+    	  <th class="sort">Fiscal Year</th>
+    	  <th class="sort">Amount</th>
+    	  <th>Description</th>
+    </thead>
+    <tbody>
+        {% for row in earmarks %}
+        <tr class="{% cycle 'even' 'odd' %}">
+            <td class='cell-earmark-year'>{{ row.fiscal_year }}</td>
+            <td class='cell-earmark-amount'>${{ row.amount|floatformat:0|intcomma }}</td>
+            <td class='cell-earmark-description'>
+                <p class="earmark_mainDescription">
+                    {% for recipient in row.recipients %}
+                    {% if recipient.id %}
+                    {% if recipient.id == entity_info.id %}
+                        <em>{{ recipient.name|standardize_organization_name }}</em>{{ forloop|earpunc:row.description }}
+                    {% else %}
+                        <a href="/organization/{{ recipient.name|standardize_organization_name|slugify }}/{{ recipient.id }}{{cycle|pretty_cycle}}">{{ recipient.name|standardize_organization_name }}</a>{{ forloop|earpunc:row.description }}
+                    {% endif %}
+                    {% else %}
+                        {{ recipient.name|standardize_organization_name }}{{ forloop|earpunc:row.description }}
+                    {% endif %}
+                    {% endfor %}
+                    {{ row.description }}
+                </p>
+                <p>
+                    <span><b>Requested by</b></span> 
+                    {% for member in row.members %}
+                    {% if forloop.last %}and{% endif %}
+                    <span class="requestedList">
+           		        {% if member.id %}
+           			        <a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name|standardize_politician_name }}</a>{% if not forloop.last %},{% endif %}
+           			    {% else %}
+           			        {{ member.name|standardize_politician_name }}{% if not forloop.last %},{% endif %}
+           			    {% endif %}
+       			    </span>
+                    {% endfor %}
+                    <a class="moreEarmarks" href="#">and 53 more »</a>
+                </p>    
+            </td>
+	  
+	  {% comment %}<td class='cell-earmark-members'>
+		  <ul>
+		  {% for member in row.members %}
+			<li>
+			{% if member.id %}
+			  <a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name|standardize_politician_name }}</a>
+			{% else %}
+			  {{ member.name|standardize_politician_name }}
+			{% endif %}
+			</li>
+		  {% endfor %}      		
+		  </ul>
+	  </td>{% endcomment %}
+	  
+    </tr>
+    {% endfor %}
+</tbody>
+</table>

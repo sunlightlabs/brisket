@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
+from django.utils.datastructures import SortedDict
 from influence import external_sites
 from influence.api import DEFAULT_CYCLE, api
 from influence.forms import SearchForm, ElectionCycle
@@ -143,6 +144,9 @@ def org_industry_entity(request, entity_id, type):
 
     if metadata['fed_spending']:
         org_spending_section(entity_id, standardized_name, cycle, context)
+        
+    if metadata['earmarks']:
+        org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -227,6 +231,11 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
 
 
+def org_earmarks_section(entity_id, name, cycle, external_ids, context):
+    context['earmarks'] = api.org_earmarks(entity_id, cycle)
+    context['earmark_links'] = external_sites.get_earmark_links('organization', name, external_ids, cycle)
+
+
 def org_spending_section(entity_id, name, cycle, context):
     spending = api.org_fed_spending(entity_id, cycle)
 
@@ -260,6 +269,9 @@ def politician_entity(request, entity_id):
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
         pol_contribution_section(entity_id, cycle, amount, context)
+        
+    if metadata['earmarks']:
+        pol_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -317,6 +329,18 @@ def pol_contribution_section(entity_id, cycle, amount, context):
         context['reason'] = 'empty'
 
     context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
+
+
+def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
+    context['earmarks'] = api.pol_earmarks(entity_id, cycle)
+    
+    local_breakdown = api.pol_earmarks_local_breakdown(entity_id, cycle)
+    local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
+
+    context['earmark_links'] = external_sites.get_earmark_links('politician', name, external_ids, cycle)
+
+    ordered_pie = SortedDict([(key, local_breakdown.get(key, 0)) for key in ['unknown', 'in-state', 'out-of-state']])
+    context['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
 
 
 def individual_entity(request, entity_id):

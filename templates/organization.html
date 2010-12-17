@@ -12,7 +12,7 @@
 {% block metadesc %}{{ entity_info.name|standardize_organization_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" src="/media/js/jquery.multiellipsis.js"></script>
+<script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   sparkline_by_party("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}, {{ cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
@@ -20,7 +20,9 @@ $(document).ready(function() {
   piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
   barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
   
-  $('table.threeColumn td').multiellipsis(3);
+  $('table#grantsContracts td').multiellipsis(3);
+  $('td.cell-earmark-description').multiellipsis(4);
+  $('table td.cell-earmark-members').expando(4);
 });
 </script>
 {% endblock %}
@@ -66,6 +68,12 @@ $(document).ready(function() {
 {% block lobbying %}
 {% if lobbying_data %}
    {% include "org_lobbying.html" %}
+{% endif %}
+{% endblock %}
+
+{% block earmarks %}
+{% if earmarks %}
+	{% include "org_earmarks.html" %}
 {% endif %}
 {% endblock %}
 

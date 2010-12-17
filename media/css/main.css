@@ -129,7 +129,6 @@ li#sparklines_legend_r { color: #e60002; }
 li#sparklines_legend_d { color: #186582; }
 .overviewBar a { float: right;}
 .insideBar { padding: 18px 0 13px; }
-		
 
 .overviewBar.active .toggle { background: url(../images/toggle.png) bottom left no-repeat;}
 .overviewBar .toggle { float: left; font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 22px;}
@@ -197,9 +196,8 @@ table#mainPageTable { width: 650px; margin-top: 30px;}
 table#mainPageTable img { border: 2px solid #e0e0df; width: 40px; }
 td.photo { width: 50px;}
 tr#titles th.photo { text-indent: -9999em;}
-table#mainPageTable th { padding: 0 10px 10px 15px;}
+table#mainPageTable th, #earmarksTable th { padding: 0 10px 10px 15px;}
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
-
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
 body.search dt a { margin-right: 10px;}
@@ -274,12 +272,9 @@ form#contact li, #postcardBox form li { margin-bottom: 15px;}
 
 .fulltext-disclaimer { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; margin-top: -1.5em; margin-bottom: 1.5em; }
 
-.cell-type { width: 65px; }
-.cell-recipient { width: 165px; }
-.cell-year { width: 65px; }
-.cell-agency { width: 165px; }
-.cell-description { width: 205px; }
-.cell-amount { width: 95px; }
+.cell-earmark-members li { list-style-type: disc; }
+.earmark_mainDescription { margin-bottom: 15px;}
+.moreEarmarks { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-left: 15px;}
 
 .inArticle { float: left; width: 130px; background-color: #f9ea99; padding: 10px 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px;  border:1px solid #EFCB01; }
 .inArticle li { float: left; margin-right: 5px; margin-bottom: 8px; font-family: Georgia, Times New Roman, Times, serif; font-style: italic;}
@@ -358,7 +353,7 @@ dt.moneyTitle { margin-top: 8px;}
 #cardOptions li { margin: 0; float: left;}
 #cardOptions li label { float: none;}
 
-#grantsContracts { margin-bottom: 55px;}
+#grantsContracts, #earmarksTable { margin-bottom: 55px;}
 #orderPostcards { margin-top: 10px; padding-top: 40px; border-top: 1px dashed #DCDCD8; }
 
 .electionChart { float: left; margin-right: 10px; font-size: 86%; width: 143px;}
