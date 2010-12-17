@@ -341,7 +341,7 @@ def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
 
     context['earmark_links'] = external_sites.get_earmark_links('politician', name, external_ids, cycle)
 
-    ordered_pie = SortedDict([(key, local_breakdown[key]) for key in ['unknown', 'in-state', 'out-of-state']])
+    ordered_pie = SortedDict([(key, local_breakdown.get(key, 0)) for key in ['unknown', 'in-state', 'out-of-state']])
     context['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
 
 
