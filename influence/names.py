@@ -37,7 +37,7 @@ def standardize_industry_name(name):
     return name
 
 _standardizers = {
-    'politician': PoliticianNameCleaver,
+    'politician': lambda n: PoliticianNameCleaver(n).parse(),
     'individual': standardize_individual_name,
     'industry': standardize_industry_name,
     'organization': standardize_organization_name,
