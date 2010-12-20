@@ -272,6 +272,15 @@ form#contact li, #postcardBox form li { margin-bottom: 15px;}
 
 .fulltext-disclaimer { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; margin-top: -1.5em; margin-bottom: 1.5em; }
 
+.cell-type { width: 65px; }
+.cell-recipient { width: 165px; }
+.cell-year { width: 65px; }
+.cell-agency { width: 165px; }
+.cell-description { width: 205px; }
+.cell-amount { width: 95px; }
+
+.cell-earmark-description { width: 690px; }
+
 .cell-earmark-members li { list-style-type: disc; }
 .earmark_mainDescription { margin-bottom: 15px;}
 .moreEarmarks { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-left: 15px;}

@@ -21,7 +21,7 @@
                     {% for recipient in row.recipients %}
                     {% if recipient.id %}
                     {% if recipient.id == entity_info.id %}
-                        <em>{{ recipient.name|standardize_organization_name }}</em>{{ forloop|earpunc:row.description }}
+                        {{ recipient.name|standardize_organization_name }}{{ forloop|earpunc:row.description }}
                     {% else %}
                         <a href="/organization/{{ recipient.name|standardize_organization_name|slugify }}/{{ recipient.id }}{{cycle|pretty_cycle}}">{{ recipient.name|standardize_organization_name }}</a>{{ forloop|earpunc:row.description }}
                     {% endif %}
@@ -31,20 +31,21 @@
                     {% endfor %}
                     {{ row.description }}
                 </p>
-                <p>
-                    <span><b>Requested by</b></span> 
-                    {% for member in row.members %}
-                    {% if forloop.last %}and{% endif %}
-                    <span class="requestedList">
-           		        {% if member.id %}
-           			        <a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name|standardize_politician_name }}</a>{% if not forloop.last %},{% endif %}
-           			    {% else %}
-           			        {{ member.name|standardize_politician_name }}{% if not forloop.last %},{% endif %}
-           			    {% endif %}
-       			    </span>
-                    {% endfor %}
-                    <a class="moreEarmarks" href="#">and 53 more »</a>
-                </p>    
+				<div class='expandable'>
+					<p class='earmark-requests'>
+						<span><b>Requested by</b></span> 
+						{% for member in row.members %}
+						<span class="requestedList">
+							{% if forloop.last and forloop.counter0 != 0 %}and{% endif %}
+							{% if member.id %}
+								<a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name|standardize_politician_name }}</a>{% if not forloop.last %},{% endif %}
+							{% else %}
+								{{ member.name|standardize_politician_name }}{% if not forloop.last %},{% endif %}
+							{% endif %}
+						</span>
+						{% endfor %}
+					</p>
+				</div>
             </td>
 	  
 	  {% comment %}<td class='cell-earmark-members'>

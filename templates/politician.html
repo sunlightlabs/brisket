@@ -31,7 +31,9 @@ $(document).ready(function() {
     barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
     barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
 	piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
-    $('table td.cell-earmark-members').expando(4);
+    
+	$('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+    $('table td.cell-earmark-description').expando(5, '.earmark-requests', 'span.requestedList', 'moreEarmarks');
 });
 </script>
 {% endif %}

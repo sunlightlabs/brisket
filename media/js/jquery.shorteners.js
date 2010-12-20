@@ -18,19 +18,23 @@
             }
         })
     }
-    $.fn.expando = function(itemCount) {
+    $.fn.expando = function(itemCount, parent, child, moreClass) {
+        if (!parent) parent = 'ul';
+        if (!child) child = 'li';
+        moreClass = moreClass ? moreClass + ' ' : '';
         return this.each(function() {
             var $this = $(this);
-            var $ul = $this.find('ul').eq(0);
-            var $lis = $ul.find('li');
+            var $ul = $this.find(parent).eq(0);
+            var $lis = $ul.find(child);
             if ($lis.length > itemCount) {
+                var contents = $this.html();
                 var $outer = $('<div><div></div></div>').css({'display': 'none', 'position': 'relative'}).prependTo($this);
                 var $inner = $outer.find('div').css({'position': 'absolute', 'top': 0, 'left': 0, 'opacity': 0, 'overflow': 'hidden'});
-                $inner.append($ul.clone())
+                $inner.append(contents)
                 var removed = $lis.slice(itemCount).remove();
                 var moreTotal = removed.length + 1;
                 
-                $lis.eq(itemCount - 1).addClass('morelink').html('<a href="javascript:void(0)">' + moreTotal + ' more</a>').click(function() {
+                $lis.eq(itemCount - 1).addClass(moreClass + 'morelink').html('<a href="javascript:void(0)">and ' + moreTotal + ' more &raquo;</a>').click(function() {
                     $outer.show();
                     $inner.offset($this.offset());
                     var padding = -1 * parseInt($inner.css('top'));
@@ -51,7 +55,10 @@
                     $inner.addClass('expanded');
                 })
                 
-                $inner.find('ul').append('<li class="lesslink"><a href="javascript:void(0)">less</a></li>').find('li').eq(-1).click(function() {
+                var childSplit = child.split('.');
+                var childTag = childSplit[0];
+                var childClass = childSplit.length > 1 ? childSplit[1] + " " : "";
+                $inner.find(parent).append('<' + childTag + ' class="' + moreClass + childClass + 'lesslink"><a href="javascript:void(0)">&laquo; view less</a></' + childTag + '>').find(child).eq(-1).click(function() {
                     $inner.css('overflow', 'hidden').removeClass('expanded');
                     $inner.animate({'height': $this.height()}, 'fast', function() {
                         $inner.animate({'opacity': 0}, 'fast', function() {
