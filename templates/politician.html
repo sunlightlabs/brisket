@@ -22,6 +22,7 @@
 
 {% block extrajs %}
 {% if not suppress_contrib_graphs %}
+<script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
     sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
@@ -29,6 +30,10 @@ $(document).ready(function() {
     piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
     barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
     barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
+	piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
+    
+	$('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+    $('table td.cell-earmark-description').expando(5, '.earmark-requests', 'span.requestedList', 'moreEarmarks');
 });
 </script>
 {% endif %}
@@ -89,6 +94,9 @@ $(document).ready(function() {
 {% endblock %} <!-- end charts block -->
 
 
-{% block lobbying %}
+{% block earmarks %}
+{% if earmarks %}
+	{% include "pol_earmarks.html" %}
+{% endif %}
 {% endblock %}
 

@@ -62,6 +62,7 @@ class TransparencyDataAPI(object):
     _camp_fin_markers = ['contributor_count', 'recipient_count']
     _lobbying_markers = ['lobbying_count']
     _spending_markers = ['grant_count', 'loan_count', 'contract_count']
+    _earmark_markers = ['earmark_count']
 
     def entity_metadata(self, entity_id):
         results = self._get_url_json('entities/%s.json' % entity_id, parse_json=True)
@@ -70,6 +71,7 @@ class TransparencyDataAPI(object):
         results['camp_fin_years'] = self._entity_years(results['totals'], self._camp_fin_markers)
         results['lobbying_years'] = self._entity_years(results['totals'], self._lobbying_markers)
         results['spending_years'] = self._entity_years(results['totals'], self._spending_markers)
+        results['earmark_years'] = self._entity_years(results['totals'], self._earmark_markers)
 
         return results
 
@@ -132,10 +134,8 @@ class TransparencyDataAPI(object):
     def org_level_breakdown(self, entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('aggregates/org/%s/recipients/level_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
-
     def pol_local_breakdown(self, entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('aggregates/pol/%s/contributors/local_breakdown.json' % entity_id, cycle, parse_json=parse_json)
-
 
     def pol_contributor_type_breakdown(self, entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('aggregates/pol/%s/contributors/type_breakdown.json' % entity_id, cycle, parse_json=parse_json)
@@ -213,6 +213,15 @@ class TransparencyDataAPI(object):
 
     def org_fed_spending(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/org/%s/fed_spending.json' % entity_id, cycle, limit, parse_json=parse_json)
+
+    def org_earmarks(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+        return self._get_url_json('aggregates/org/%s/earmarks.json' % entity_id, cycle, limit, parse_json)
+
+    def pol_earmarks(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+        return self._get_url_json('aggregates/pol/%s/earmarks.json' % entity_id, cycle, limit, parse_json)
+    
+    def pol_earmarks_local_breakdown(self, entity_id, cycle=DEFAULT_CYCLE, parse_json=True):
+        return self._get_url_json('aggregates/pol/%s/earmarks/local_breakdown.json' % entity_id, cycle, parse_json=parse_json)
 
     def candidates_by_location(self, location, cycle=DEFAULT_CYCLE, parse_json=True):
         return self._get_url_json('entities/race/%s.json' % location, cycle, parse_json=parse_json)

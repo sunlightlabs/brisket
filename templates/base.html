@@ -2,6 +2,7 @@
 {% load media %}
 <html xmlns="http://www.w3.org/1999/xhtml" >
   <head>
+	<title>{% block pagetitle %}{% endblock %}Influence Explorer</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="keywords" content="campaign contributions, sunlight foundation, influence explorer, politics, government, influence" />
@@ -34,9 +35,7 @@
 	  })();
 
 	</script>
-    <title>{% block pagetitle %}{% endblock %}Influence Explorer</title>
     
-    <script src="http://services.sunlightlabs.com/brandingbar/hat_js/influenceexplorer/" type="text/javascript"></script>    
   </head>
 
   <body class="{% block body_class %}{% endblock %}">
@@ -99,6 +98,7 @@
     </div><!-- end footer -->
 
     </div></div><!-- end wrapper, outerwrapper -->
+	<img height="1" border="0" width="1" alt="" src="http://ad.doubleclick.net/activity;src=1379696;dcnet=4155;boom=41134;sz=1x1;ord=1?" />
     {% js "js/brisket-all.js" %}
 	
 	{% block gsfn %}
