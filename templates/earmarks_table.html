@@ -38,9 +38,9 @@
 						<span class="requestedList">
 							{% if forloop.last and forloop.counter0 != 0 %}and{% endif %}
 							{% if member.id %}
-								<a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name|standardize_politician_name }}</a>{% if not forloop.last %},{% endif %}
+								<a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name }}</a>{% if not forloop.last %},{% endif %}
 							{% else %}
-								{{ member.name|standardize_politician_name }}{% if not forloop.last %},{% endif %}
+								{{ member.name }}{% if not forloop.last %},{% endif %}
 							{% endif %}
 						</span>
 						{% endfor %}
@@ -53,9 +53,9 @@
 		  {% for member in row.members %}
 			<li>
 			{% if member.id %}
-			  <a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name|standardize_politician_name }}</a>
+			  <a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name }}</a>
 			{% else %}
-			  {{ member.name|standardize_politician_name }}
+			  {{ member.name }}
 			{% endif %}
 			</li>
 		  {% endfor %}      		

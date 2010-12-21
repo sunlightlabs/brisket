@@ -232,7 +232,7 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
 
 
 def org_earmarks_section(entity_id, name, cycle, external_ids, context):
-    context['earmarks'] = api.org_earmarks(entity_id, cycle)
+    context['earmarks'] = earmarks_table_data(entity_id, cycle)
     context['earmark_links'] = external_sites.get_earmark_links('organization', name, external_ids, cycle)
 
 
@@ -331,8 +331,17 @@ def pol_contribution_section(entity_id, cycle, amount, context):
     context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
 
 
+def earmarks_table_data(entity_id, cycle):
+    rows = api.pol_earmarks(entity_id, cycle)
+    for row in rows:
+        for member in row['members']:
+            member['name'] = str(PoliticianNameCleaver(member['name']).parse().plus_metadata(member['party'], member['state']))
+            
+    return rows
+
+
 def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
-    context['earmarks'] = api.pol_earmarks(entity_id, cycle)
+    context['earmarks'] = earmarks_table_data(entity_id, cycle)
     
     local_breakdown = api.pol_earmarks_local_breakdown(entity_id, cycle)
     local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
