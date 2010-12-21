@@ -36,10 +36,10 @@ presidential
     Value Meaning
     ===== =======
     blank Not in the President's budget.
-    ``p`` Included in the President's budget.
-    ``u`` Included in the President's budget and undisclosed.
+    ``p`` Included in the President's budget and disclosed by congress.
+    ``u`` Included in the President's budget and not disclosed by congress.
     ``m`` Included in the President's budget and sponsored by members.
-    ``j`` Judiciary.
+    ``j`` Included at the request of the judiciary.
     ===== =======
 
 undisclosed
@@ -51,8 +51,8 @@ undisclosed
     blank Disclosed in congressional earmark reports.
     ``u`` Not disclosed by congress but found in bill text.
     ``p`` Not disclosed and in President's budget.
-    ``o`` O & M-Disclosed
-    ``m`` O & M-Undisclosed
+    ``o`` Disclosed Operations & Maintence earmark.
+    ``m`` Undisclosed Operations & Maintence earmark.
     ===== =======
     
 members
