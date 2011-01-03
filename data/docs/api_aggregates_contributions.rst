@@ -406,7 +406,7 @@ End Point
 Example
 ~~~~~~~
 
-``http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients/party_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce&limit=3``
+``http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients/party_breakdown.json?apikey=<your-key>``
 
 ::
 
