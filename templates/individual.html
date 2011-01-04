@@ -29,7 +29,22 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contentHeader %}
-<h2>{{ entity_info.name|standardize_individual_name }}</h2>
+<h2 class="individualName">{{ entity_info.name|standardize_individual_name }}</h2>
+<div id="individualDisclaimer">
+    <a class="descriptor" href="#individualDescriptor">Not seeing what you expected?</a>
+    <div class="descriptorText" id="individualDescriptor">
+    	<p>We rely on our partner organization, Center for Responsive Politics (CRP), to uniquely identify campaign finance and lobbying activity of individuals. If data appears to be missing, it may be that CRP has not identified all influence activity for this individual. If the data is completely different than you expect, it may be that you're looking at a different individual with the same name.</p>
+    	<p>In these cases we suggest using our companion site, <a href="http://transparencydata.com">TransparencyData.com</a> to search the underlying databases. TransparencyData provides extra information about each transaction, such as the city, state and employer, that allows you to judge for yourself if the contribution came from the individual you are interested in.</p>
+    	{% if external_links %}
+    	    {% for link in external_links %}
+    	    	{% if link.text == "TransparencyData.com" %}
+    				<p><a href="{{ link.url }}" class="external" target="_blank">Click here for campaign contributions with the name "{{ entity_info.name|standardize_individual_name }}".</a></p>
+    	    	{% endif %}
+    	    {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="clear"></div>
   {% if entity_info.metadata.affiliated_organizations %}
   <div class="relationships">
     <div class="relationship">
@@ -39,21 +54,7 @@ $(document).ready(function() {
       {% endfor %}
     </div>
   </div>
-  {% endif %}
-  
-    <a class="descriptor" title="More Information" href="#individualDescriptor">Not seeing what you expected?</a>
-    <div class="clear"></div>
-    <div class="descriptorText" id="individualDescriptor">
-		<p>We rely on our partner organization, Center for Responsive Politics (CRP), to uniquely identify campaign finance and lobbying activity of individuals. If data appears to be missing, it may be that CRP has not identified all influence activity for this individual. If the data is completely different than you expect, it may be that you're looking at a different individual with the same name.</p>
-    	<p>In these cases we suggest using our companion site, <a href="http://transparencydata.com">TransparencyData.com</a> to search the underlying databases. TransparencyData provides extra information about each transaction, such as the city, state and employer, that allows you to judge for yourself if the contribution came from the individual you are interested in.</p>
-		{% if external_links %}
-		    {% for link in external_links %}
-		    	{% if link.text == "TransparencyData.com" %}
-					<p><a href="{{ link.url }}" class="external" target="_blank">Click here for campaign contributions with the name "{{ entity_info.name|standardize_individual_name }}".</a></p>
-		    	{% endif %}
-		    {% endfor %}
-	    {% endif %}
-    </div>  
+  {% endif %} 
   
 {% endblock %}
 
