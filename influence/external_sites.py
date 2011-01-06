@@ -86,6 +86,14 @@ def get_gc_links(standardized_name, cycle):
 def get_lobbying_links(type, standardized_name, ids, cycle):
     links = []
     
+    # Reporting's Lobbyist Registration Tracker
+    if type in ('firm', 'client'):
+        tracker_urls = filter(lambda s: s['namespace'] == 'urn:sunlight:lobbyist_registration_tracker_url', ids)
+        if tracker_urls:
+            links.append(
+                dict(text='Lobbyist Registration Tracker', url="http://reporting.sunlightfoundation.com" + tracker_urls[0]['id'])
+            )
+    
     # TD
     td_types = {'firm': 'registrant_ft', 'lobbyist': 'lobbyist_ft', 'client': 'client_ft'}
     td_params = {}
