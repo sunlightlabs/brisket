@@ -99,6 +99,7 @@ INSTALLED_APPS = (
     'brisket.influence',
     'brisket.util',
     'brisket.postcards',
+    'oxtail',
     'django.contrib.admin',
     'django_nose',
     'sentry',
