@@ -7,7 +7,7 @@ $().ready(function() {
     
     TD.GrantsFilter.row_content = function(row) {
         var content = '<td class="fiscal_year">' + row.fiscal_year + '</td>';
-        content += '<td class="amount_total">$' + TD.Utils.currencyFormat(row.amount_total) + '</td>';
+        content += '<td class="amount_total">$' + TD.Utils.currencyFormat(row.total_funding_amount) + '</td>';
         content += '<td class="recipient_name">' + row.recipient_name + '</td>';
         content += '<td class="cfda_program_title">' + row.cfda_program_title + '</td>';
         content += '<td class="agency_name">' + row.agency_name + '</td>';
