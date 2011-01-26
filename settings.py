@@ -94,6 +94,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates
     'django.contrib.sitemaps',
+    'django.contrib.auth',
     'mediasync',
     'simplepay',
     'brisket.influence',
@@ -106,6 +107,8 @@ INSTALLED_APPS = (
     'sentry.client',
     'indexer',
     'paging',
+    'djcelery',
+    'djkombu'
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -149,6 +152,11 @@ SELENIUM_PORT = 4444 # default
 SELENIUM_BROWSER_COMMAND = 'firefox'
 SELENIUM_URL_ROOT = 'http://localhost:8001'
 #FORCE_SELENIUM_TESTS = False # default
+
+import djcelery
+djcelery.setup_loader()
+
+BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
 
 try:
     from local_settings import *
