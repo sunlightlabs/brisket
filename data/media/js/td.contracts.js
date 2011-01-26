@@ -7,9 +7,9 @@ $().ready(function() {
     
     TD.ContractsFilter.row_content = function(row) {
         var content = '<td class="fiscal_year">' + row.fiscal_year + '</td>';
-        content += '<td class="current_amount">$' + TD.Utils.currencyFormat(row.current_amount) + '</td>';
-        content += '<td class="vendor_name">' + row.vendor_name + '</td>';
-        content += '<td class="contract_description">' + row.contract_description + '</td>';
+        content += '<td class="current_amount">$' + TD.Utils.currencyFormat(row.baseandexercisedoptionsvalue) + '</td>';
+        content += '<td class="vendor_name">' + row.vendorname + '</td>';
+        content += '<td class="contract_description">' + row.descriptionofcontractrequirement + '</td>';
         content += '<td class="agency_name">' + row.agency_name + '</td>';
         return content;
     };
