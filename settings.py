@@ -156,7 +156,11 @@ SELENIUM_URL_ROOT = 'http://localhost:8001'
 import djcelery
 djcelery.setup_loader()
 
-BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
+BROKER_HOST = "127.0.0.1"
+BROKER_PORT = 5672
+BROKER_VHOST = "/brisket"
+BROKER_USER = "brisket"
+BROKER_PASSWORD = "brisket"
 
 try:
     from local_settings import *
