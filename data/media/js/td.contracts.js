@@ -10,35 +10,10 @@ $().ready(function() {
         content += '<td class="current_amount">$' + TD.Utils.currencyFormat(row.baseandexercisedoptionsvalue) + '</td>';
         content += '<td class="vendor_name">' + row.vendorname + '</td>';
         content += '<td class="contract_description">' + row.descriptionofcontractrequirement + '</td>';
-        content += '<td class="agency_name">' + row.agency_name + '</td>';
         return content;
     };
     
     TD.ContractsFilter.init = function() {
-
-        TD.ContractsFilter.registerFilter({
-            name: 'agency_name',
-            label: 'Agency',
-            help: 'The name of the agency that awarded the contract.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
-
-		TD.ContractsFilter.registerFilter({
-            name: 'contracting_agency_name',
-            label: 'Agency (contracting)',
-            help: 'The name of the contracting agency.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
-
-		TD.ContractsFilter.registerFilter({
-            name: 'requesting_agency_name',
-            label: 'Agency (requesting)',
-            help: 'The name of the requesting agency.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
 
         TD.ContractsFilter.registerFilter({
             name: 'obligated_amount',
