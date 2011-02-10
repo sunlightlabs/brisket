@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^', include('brisket.influence.urls')),
     url(r'^postcard', direct_to_template, {'template': 'postcards_gone.html'}),
     url(r'^sentry/', include('sentry.urls')),
+    url('^valentines/', include('ecards.urls')),
 )
 
 if settings.DEBUG:
