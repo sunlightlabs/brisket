@@ -34,7 +34,7 @@ $(document).ready(function() {
     {% if entity_info.metadata.parent_entity %}
       <div class="relationship">
         <span class="relationshipTitle">Parent Organization:</span>
-        <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{{cycle|pretty_cycle}}">{{ entity_info.metadata.parent_entity.name }}</a>
+        <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{{cycle|pretty_cycle}}">{{ entity_info.metadata.parent_entity.name|standardize_organization_name }}</a>
       </div>
     {% endif %}
     {% if entity_info.metadata.child_entities %}
