@@ -10,6 +10,7 @@ from django.conf import settings
 class SendForm(forms.ModelForm):
     class Meta:
         model = Send
+        exclude = ('ip',)
 
 PostmarkBackend = EmailBackend(apikey=settings.POSTMARK_API_KEY)
 
@@ -17,7 +18,9 @@ def send_card(request):
     if request.method == 'POST':
         form = SendForm(request.POST)
         if form.is_valid():
-            send = form.save()
+            send = form.save(commit=False)
+            send.ip = request.META['REMOTE_ADDR']
+            send.save()
             
             subject = '%s sent you an e-card' % send.sender_name
             context = {'message': send.message, 'sender_name': send.sender_name, 'card_url': 'http://%s/media/images/ecards/%s.png' % (request.META['HTTP_HOST'], send.card)}
