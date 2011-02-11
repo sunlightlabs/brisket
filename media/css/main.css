@@ -232,7 +232,7 @@ button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.pn
 #learnMore:hover { background: url(../images/btn_learnMore.png) left bottom no-repeat; }
 #donateBtn { background: url(../images/btn_donate.png) left top no-repeat; width: 145px; height: 60px; float: left; margin-left: 20px;}
 #donateBtn:hover { background: url(../images/btn_donate.png) left bottom no-repeat; }
-#ltColumn #donateBtn { margin-left: 0; margin-top: 30px;}
+#ltColumn #donateBtn { margin-left: 0; margin-top: 30px; float: none; margin-bottom: 30px;}
 .signupBtn { background: url(../images/btn_signup.png) left top no-repeat; width: 90px; height: 30px; float: left; margin-top: 2px;}
 .signupBtn:hover { background: url(../images/btn_signup.png) left bottom no-repeat; }
 .sendCardBtn { background: url(../images/btn_ecard.png) left top no-repeat; width: 259px; height: 45px; margin-left: 120px; margin-top: 20px;}
@@ -243,6 +243,8 @@ input, textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
 select { width: 310px;}
 form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 #postcardBox form { margin-bottom: 35px;}
+.checkbox { width: 15px; margin-right: 10px; float: left; margin-top: 2px;}
+.checkLabel { display: block; width: auto;  margin: 10px 0 0 120px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 
 .radio { display: block; float: left; width: 15px; margin-right: 10px;}
 
