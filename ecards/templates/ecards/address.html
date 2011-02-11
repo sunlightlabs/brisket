@@ -1,11 +1,19 @@
 {% extends "search_base.html" %}
 
 {% block main %}
-<div id="ltColumn">
-    <img src="{{ card_url }}" />
-    <form method='POST'>
-    {{ form.as_ul }}
-    <input type='submit' />
+<div class="module">
+    <img class="vdayImg" src="{{ card_url }}" />
+    
+    <h3>Send this card now!</h3>
+    <form id="vdayForm" method='POST'>
+        <ul>
+            {{ form.as_ul }}
+            <li>
+                <button class="sendCardBtn" type="submit">
+                    <span>Send Your Card</span>
+                </button>
+            </li>
+        </ul>
     </form>
 </div>
 {% endblock %}

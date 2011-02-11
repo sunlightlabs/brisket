@@ -185,7 +185,7 @@ dt.pac { background-color: #f27e01;}
 
 .secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
 .lobbyistsOrgs li, .issuesLobbied li { float: left; margin-right: 10px;}
-.lobbyistsOrgs { margin-bottom: 30px;}
+.lobbyistsOrgs, .ecards li { margin-bottom: 30px;}
 
 table .even, li.even { background-color: #f5f4f4;}
 td { padding: 10px;}
@@ -232,14 +232,16 @@ button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.pn
 #learnMore:hover { background: url(../images/btn_learnMore.png) left bottom no-repeat; }
 #donateBtn { background: url(../images/btn_donate.png) left top no-repeat; width: 145px; height: 60px; float: left; margin-left: 20px;}
 #donateBtn:hover { background: url(../images/btn_donate.png) left bottom no-repeat; }
+#ltColumn #donateBtn { margin-left: 0; margin-top: 30px;}
 .signupBtn { background: url(../images/btn_signup.png) left top no-repeat; width: 90px; height: 30px; float: left; margin-top: 2px;}
 .signupBtn:hover { background: url(../images/btn_signup.png) left bottom no-repeat; }
+.sendCardBtn { background: url(../images/btn_ecard.png) left top no-repeat; width: 259px; height: 45px; margin-left: 120px; margin-top: 20px;}
 
 form#contact { margin-top: 45px;}
 label { color: #0A6E92; width: 120px; display: block; float: left;}
 input, textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
 select { width: 310px;}
-form#contact li, #postcardBox form li { margin-bottom: 15px;}
+form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 #postcardBox form { margin-bottom: 35px;}
 
 .radio { display: block; float: left; width: 15px; margin-right: 10px;}
@@ -379,9 +381,13 @@ dt.moneyTitle { margin-top: 8px;}
 #checkingLogo_home a { width: 211px; height: 80px; text-indent: -9999em; display: block; background: url(../images/logo_checking.png) top left no-repeat;}
 .standOut, .beforeyouvote .standOut { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 180%; color: #3b3130; line-height: 30px; width: 520px;}
 .home .standOut { width: auto; font-size: 160%;}
+#vdayStandout { width: auto; margin-bottom: 40px;}
 #checkingPrivacy { margin-top: 30px; padding-top: 30px; border-top: 1px dashed #E2DFDF; color: #827d7d;}
 #checkingPrivacy p { font-size: 88%;}
 #checkingImage { border: 3px solid #e2dfdf; margin-bottom: 25px;}
 #bookmarkbarImage { border: 1px solid #e2dfdf; margin-bottom: 25px;}
 #bookmarkTitle { margin-top: 40px;}
 #mainContent .biggerBreak { margin-bottom: 25px;}
+
+.vdayImg { margin: 0 auto 40px; display: block;}
+#vdayForm { margin: 0 auto; list-style-type: none;}
