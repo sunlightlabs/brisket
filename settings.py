@@ -105,6 +105,7 @@ INSTALLED_APPS = (
     'sentry.client',
     'indexer',
     'paging',
+    'ecards',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']

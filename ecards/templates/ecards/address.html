@@ -1,0 +1,23 @@
+{% extends "search_base.html" %}
+
+{% block main %}
+<div class="module">
+    <img class="vdayImg" src="{{ card_url }}" />
+    
+    <h3 id="vdayHeader">Have someone special in mind to send this card to?</h3>
+    <form id="vdayForm" method='POST'>
+        <ul>
+            {{ form.as_ul }}
+            <li>
+                <label class="checkLabel"><input class="checkbox" type="checkbox" name="signup" />Yes, I want to join the transparency movement. Please sign me up for email updates.</label>
+                <div class="clear"></div>
+            </li>    
+            <li>
+                <button class="sendCardBtn" type="submit">
+                    <span>Send Your Card</span>
+                </button>
+            </li>
+        </ul>
+    </form>
+</div>
+{% endblock %}
