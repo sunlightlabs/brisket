@@ -1,13 +1,17 @@
 {% extends "search_base.html" %}
 
 {% block main %}
-    {% if message %}
-    <div class="message">
-        {{ message.message|linebreaksbr }}
-    </div>
-    {% endif %}
+<div class="module">
     <img class="vdayImg" src="{{ card_url }}" />
-    {% if info_url %}
-        <a class="callOut" href="{{ info_url }}">See more details on the {{ name }} industry.</a>
-    {% endif %}
+    <div id="vdayMessage">
+        {% if info_url %}
+            <a class="standOut" href="{{ info_url }}">See more details on the {{ name }} industry.</a>
+        {% endif %}
+        {% if message %}
+        <div class="message">
+            {{ message.message|linebreaksbr }}
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
