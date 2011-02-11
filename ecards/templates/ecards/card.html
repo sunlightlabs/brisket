@@ -1,10 +1,22 @@
 {% extends "search_base.html" %}
 
+{% block js %}
+{{ block.super }}
+
+<meta name="og:title" content="Sunlight Foundation's Valentine's E-cards">
+<meta name="og:description" content="">
+<meta name="og:type" content="cause">
+<meta name="og:image" content="{{ card_url }}">
+<meta name="og:url" content="http://influenceexplorer.com/valentines/ecard/{{ label }}/">
+<meta name="og:site_name" content="Influence Explorer">
+<meta name="fb:admins" content="7812952">
+{% endblock %}
+
 {% block main %}
 <div class="module">
     <div class="vdayShareLinks">
-        <a id="facebookShare" href="#">Share on Facebook</a>
-        <a id="twitterShare" href="#">Share on Twitter</a>
+        <a id="facebookShare" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Finfluenceexplorer.com%2Fvalentines%2Fecard%2F{{ label }}%2F&t=Check%20out%20this%20Sunlight%20Foundation%20Valentine%27s%20e-card%21">Share on Facebook</a>
+        <a id="twitterShare" href="http://twitter.com/?status=Check%20out%20this%20Sunlight%20Foundation%20Valentine%27s%20e-card%21%20http%3A%2F%2Finfluenceexplorer.com%2Fvalentines%2Fecard%2F{{ label }}%2F">Share on Twitter</a>
     </div>
     <div class="clear"></div>
     <img class="vdayImg" src="{{ card_url }}" />

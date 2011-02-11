@@ -78,7 +78,7 @@ def ecard(request, card, message_id=None, message_hash=None):
     info_url = info_urls.get(card, None)
     card_url = '/media/images/ecards/%s.jpg' % card
     name = card[:-1] if card[-1] == 's' else card
-    return direct_to_template(request, 'ecards/card.html', extra_context={'card_url': card_url, 'message': message, 'info_url': info_url, 'name': name, 'email': request.GET.get('email', False)})
+    return direct_to_template(request, 'ecards/card.html', extra_context={'card_url': card_url, 'message': message, 'info_url': info_url, 'name': name, 'email': request.GET.get('email', False), 'label': card})
     
 def signup_simple(request):
     email = request.POST.get('email', '')
