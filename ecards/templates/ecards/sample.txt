@@ -1,3 +1,0 @@
-{{ message }}
-
-View the e-card at {{ card_url }}

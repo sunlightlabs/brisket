@@ -16,7 +16,8 @@ class SendForm(forms.ModelForm):
 PostmarkBackend = EmailBackend(apikey=settings.POSTMARK_API_KEY)
 
 def send_card(request, card):
-    card_url = 'http://%s/media/images/ecards/%s.png' % (request.META['HTTP_HOST'], card)
+    card_url = 'http://%s/media/images/ecard/%s.jpg' % (request.META['HTTP_HOST'], card)
+    card_page_url = 'http://%s/valentines/ecards/%s/' % (request.META['HTTP_HOST'], card)
     if request.method == 'POST':
         form = SendForm(request.POST)
         if form.is_valid():
@@ -26,9 +27,9 @@ def send_card(request, card):
             send.save()
             
             subject = '%s sent you an e-card' % send.sender_name
-            context = {'message': send.message, 'sender_name': send.sender_name, 'card_url': card_url}
-            text_content = render_to_string('ecards/%s.txt' % send.card, context)
-            html_content = render_to_string('ecards/%s.html' % send.card, context)
+            context = {'message': send.message, 'sender_name': send.sender_name, 'card_url': card_url, 'card_page_url': card_page_url}
+            text_content = render_to_string('ecards/email.txt', context)
+            html_content = render_to_string('ecards/email.html', context)
             
             msg = EmailMultiAlternatives(subject, text_content, settings.ECARD_FROM, [send.recipient_address], connection=PostmarkBackend)
             msg.attach_alternative(html_content, 'text/html')
@@ -45,3 +46,7 @@ def choose_card(request):
 
 def thanks(request):
     return direct_to_template(request, 'ecards/thanks.html')
+
+def ecard(request, card):
+    card_url = '/media/images/ecards/%s.jpg' % card
+    return direct_to_template(request, 'ecards/card.html', extra_context={'card_url': card_url})
