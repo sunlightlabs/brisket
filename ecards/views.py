@@ -50,7 +50,9 @@ def send_card(request, card):
             text_content = render_to_string('ecards/email.txt', context)
             html_content = render_to_string('ecards/email.html', context)
             
-            msg = EmailMultiAlternatives(subject, text_content, settings.ECARD_FROM, [send.recipient_address], connection=PostmarkBackend)
+            msg = EmailMultiAlternatives(subject, text_content, settings.ECARD_FROM, [send.recipient_address], connection=PostmarkBackend,
+                headers = {'Reply-To': send.sender_address}
+            )
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
             
