@@ -1,8 +1,10 @@
 from django.db import models
 
 cards = (
-    ('sample', 'Sample'),
-    ('sample2', 'Sample 2'),
+    ('movies', 'Movies'),
+    ('candy', 'Candy'),
+    ('flowers', 'Flowers'),
+    ('jewelry', 'Jewelry')
 )
 
 class Send(models.Model):
