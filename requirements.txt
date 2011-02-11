@@ -2,7 +2,7 @@ psycopg2
 django==1.2.3
 BeautifulSoup
 boto
--e git+http://github.com/sunlightlabs/django-mediasync.git#egg=mediasync
+-e git+http://github.com/sunlightlabs/django-mediasync.git@2.0.0#egg=mediasync
 nose
 django-nose
 django-nose-selenium
