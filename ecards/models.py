@@ -4,7 +4,8 @@ cards = (
     ('movies', 'Movies'),
     ('candy', 'Candy'),
     ('flowers', 'Flowers'),
-    ('jewelry', 'Jewelry')
+    ('jewelry', 'Jewelry'),
+    ('restaurants', 'Restaurants')
 )
 
 class Send(models.Model):
