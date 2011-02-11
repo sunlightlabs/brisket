@@ -1,12 +1,10 @@
-<html>
-    <head>
-        <title>Ecards</title>
-    </head>
-    <body>
-        <ul>
-            <li><a href="sample/">First sample card: <img src="/media/images/ecards/sample.png" /></a></li>
-            <li><a href="sample2/">Second sample card: <img src="/media/images/ecards/sample2.png" /></a></li>
-        </ul>
-        </form>
-    </body>
-</html>
+{% extends "search_base.html" %}
+
+{% block main %}
+<div id="ltColumn">
+    <ul>
+        <li><a href="sample/">First sample card: <img src="/media/images/ecards/sample.png" /></a></li>
+        <li><a href="sample2/">Second sample card: <img src="/media/images/ecards/sample2.png" /></a></li>
+    </ul>
+</div>
+{% endblock %}

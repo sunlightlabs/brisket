@@ -8,6 +8,7 @@ from postmark.django_backend import EmailBackend
 from django.conf import settings
 
 class SendForm(forms.ModelForm):
+    message = forms.CharField(max_length=1024, widget=forms.Textarea())
     class Meta:
         model = Send
         exclude = ('ip', 'card')
