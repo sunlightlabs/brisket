@@ -2,6 +2,11 @@
 
 {% block main %}
 <div class="module">
+    <div class="vdayShareLinks">
+        <a id="facebookShare" href="#">Share on Facebook</a>
+        <a id="twitterShare" href="#">Share on Twitter</a>
+    </div>
+    <div class="clear"></div>
     <img class="vdayImg" src="{{ card_url }}" />
     <div id="vdayMessage">
         {% if info_url %}

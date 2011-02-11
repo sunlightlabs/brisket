@@ -402,3 +402,7 @@ dt.moneyTitle { margin-top: 8px;}
 #vdaySignup p { width: 600px; margin-bottom: 15px;}
 #vdaySignup li { margin-bottom: 15px;}
 #vdayLink { margin-bottom: 15px; display: block;}
+
+.vdayShareLinks { float: right; margin-bottom: 15px; width: 50px; }
+#facebookShare { width: 16px; height: 16px; background: url(../images/facebook.png) top left no-repeat; display: block; text-indent: -9999em; float: left; margin-right: 15px;}
+#twitterShare { width: 16px; height: 16px;background: url(../images/twitter.png) top left no-repeat; display: block; text-indent: -9999em; float: left;}
