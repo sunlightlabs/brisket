@@ -390,4 +390,5 @@ dt.moneyTitle { margin-top: 8px;}
 #mainContent .biggerBreak { margin-bottom: 25px;}
 
 .vdayImg { margin: 0 auto 40px; display: block;}
-#vdayForm { margin: 0 auto; list-style-type: none;}
+#vdayForm { margin-left: 200px; list-style-type: none;}
+#vdayHeader { text-align: center;}
