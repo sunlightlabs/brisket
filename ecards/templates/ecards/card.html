@@ -13,5 +13,28 @@
         </div>
         {% endif %}
     </div>
+    
+    <div id="vdaySignup">
+        <a class="standOut" id="vdayLink" href="/valentines">Send your own ecard!</a>
+        <p>Like this product? Become part of our community to get regular updates and find out how you can help open up your government by signing up below.</p>
+        <form id="signupForm" action="" method="post">
+            <ul>
+              <li>
+                <label>Email</label>
+                <input id="id_email" type="text" name="email"/>
+              </li>
+              <li>
+                <label>Zip Code</label>
+                <input id="id_zip" type="text" name="zipcode"/>
+              </li>
+              <li>
+                <button class="signupBtn" type="submit">
+                  <span>Sign Up</span>
+                </button>
+              </li>
+            </ul>
+            <div class="clear"></div>
+            </form>
+    </div>
 </div>
 {% endblock %}

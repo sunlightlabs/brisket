@@ -397,3 +397,8 @@ dt.moneyTitle { margin-top: 8px;}
 #vdayMessage { text-align: center;}
 #vdayMessage .standOut { display: block; margin: 0 auto 15px;}
 #vdayMessage .message { width: 600px; margin: 0 auto;}
+
+#vdaySignup { margin-top: 50px; background-color: #f2f3ee; padding: 20px;}
+#vdaySignup p { width: 600px; margin-bottom: 15px;}
+#vdaySignup li { margin-bottom: 15px;}
+#vdayLink { margin-bottom: 15px; display: block;}
