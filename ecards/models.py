@@ -2,6 +2,7 @@ from django.db import models
 
 cards = (
     ('sample', 'Sample'),
+    ('sample2', 'Sample 2'),
 )
 
 class Send(models.Model):

@@ -1,0 +1,11 @@
+{% extends "search_base.html" %}
+
+{% block main %}
+<div id="ltColumn">
+    <img src="{{ card_url }}" />
+    <form method='POST'>
+    {{ form.as_ul }}
+    <input type='submit' />
+    </form>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('brisket.ecards.views',
-    url(r'^$', 'send_card'),
+    url(r'^$', 'choose_card'),
     url('^thanks/$', 'thanks'),
+    url('^(?P<card>\w+)/', 'send_card'),
 )
