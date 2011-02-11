@@ -1,3 +1,9 @@
+Dear {{ recipient_name }},
+
+{{ sender_name }} sent you a special interest Valentine's Day card from the Sunlight Foundation. Industries that profit from Valentine's Day spend hundreds of thousands of dollars on lobbying and campaign contributions. Pick up your card to learn more. 
+
+{{ sender_name }}'s special Valentine's Day message for you:
+
 {{ message }}
 
 Visit {{ card_page_url }}{{ id }}/{{ hash }}/ to view your e-card.
