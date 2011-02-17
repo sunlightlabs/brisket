@@ -212,7 +212,7 @@ function barchart(div, data) {
 
 
 function sparkline(div, data) {
-    if (data.length === 0) {
+    if (data.length < 2) {
         return;
     }
 
@@ -226,10 +226,6 @@ function sparkline(div, data) {
 }
 
 function sparkline_by_party(div, data, cut_off_point) {
-    if (data.length === 0) {
-        return;
-    }
-
     // data => { 'R': [{'step': 1, 'amount': 100}, {...}], 'D': [{...},], 'O': [{...},] }
 
     var party_colors = ["#186582", "#E60002"];
@@ -248,6 +244,11 @@ function sparkline_by_party(div, data, cut_off_point) {
         y[key] = [];
 
         stop_at = data[key].length
+        
+        if (stop_at < 2) {
+            // we need at least two points to draw a line
+            return;
+        }
 
         if (cut_off_point < stop_at) {
             stop_at = cut_off_point
