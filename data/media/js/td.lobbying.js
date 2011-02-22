@@ -53,7 +53,15 @@ $().ready(function() {
             allowMultipleFields: true,
             options: TD.INDUSTRIES
         });
-
+        
+        TD.LobbyingFilter.registerFilter({
+        	name: 'issue_ft',
+        	label: 'Bill/Issue Description',
+        	help: 'Extended description of issue. Often includes bill title and number.',
+        	field: TD.DataFilter.TextField,
+        	allowMultipleFields: true
+        });
+        
         TD.LobbyingFilter.registerFilter({
             name: 'issue',
             label: 'Issue',
