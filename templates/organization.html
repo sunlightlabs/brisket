@@ -28,6 +28,11 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contentHeader %}
+
+{% if entity_info.metadata.photo_url %}
+<img alt="corporate logo" src="{{ entity_info.metadata.photo_url }}"/>
+{% endif %}
+
 <h2>{{ entity_info.name|standardize_organization_name }}</h2>
   {% if entity_info.metadata.child_entities or entity_info.metadata.parent_entity %}
   <div class="relationships">
