@@ -30,7 +30,7 @@ $(document).ready(function() {
 {% block contentHeader %}
 
 {% if entity_info.metadata.photo_url %}
-<img alt="corporate logo" src="{{ entity_info.metadata.photo_url }}"/>
+<div class="corporateLogo"><div><img alt="corporate logo" src="{{ entity_info.metadata.photo_url }}"/></div></div>
 {% endif %}
 
 <h2>{{ entity_info.name|standardize_organization_name }}</h2>
@@ -52,6 +52,7 @@ $(document).ready(function() {
     {% endif %}
   </div>
   {% endif %}
+<div class="clear"></div>
 {% endblock %}
 
 {% if entity_info.metadata.bio %}

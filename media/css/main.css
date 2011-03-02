@@ -68,6 +68,10 @@ div#featureBox #sunlightRequests p { width: 495px;}
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img, .reps img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
 
+#contentHeader .corporateLogo { float: left; }
+#contentHeader .corporateLogo div { display: table-cell; vertical-align: middle; height: 45px; }
+#contentHeader .corporateLogo img { float: none; display: block; border: 0px; width: auto; max-width: 180px; max-height: 80px; }
+
 div.searchBox ul { margin-top: 15px; }
 div.searchBox li { padding: 10px;}
 div.searchBox a { float: left; margin-right: 10px;}
