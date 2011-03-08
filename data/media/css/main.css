@@ -1078,3 +1078,8 @@ p#footerText {
 .license p {
     margin: 1em 0;
 }
+
+.errorMessage ul {
+    list-style: disc outside;
+    margin-left: 30px;
+}

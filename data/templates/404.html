@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Page Not Found |
+{% endblock %}
+
+{% block body_class %}error{% endblock %}
+
+{% block content %}
+    <div id="contentHeader">
+        <h2>Page Not Found</h2>
+    </div>
+    <div class="errorMessage">
+        <p>We're sorry, but we were unable to locate the page you requested.  Some things you might like to try include:</p>
+        <ul style="">
+            <li>Returning to the <a href="/">home page</a></li>
+            <li><a href="#" onclick="$('#fdbk_tab').click(); return false;">Contacting us</a> to let us know about the problem</li>
+        </ul>
+    </div>
+{% endblock %}
