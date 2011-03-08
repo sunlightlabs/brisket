@@ -33,10 +33,14 @@
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
     sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+
+    {% if not suppress_contrib_graphs %}
     piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
     piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
     barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
     barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    {% endif %}
+    
     piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
     
     $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
