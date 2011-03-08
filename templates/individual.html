@@ -6,6 +6,13 @@
     {{ entity_info.name|standardize_individual_name }} | 
 {% endblock %}
 
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% if contributions_data %}Campaign Contributions{% endif %}
+		{% if lobbying_data %}Lobbying{% endif %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
 {% block canonicalurl %}/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_individual_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}

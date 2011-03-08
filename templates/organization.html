@@ -7,6 +7,15 @@
     {{ entity_info.name|standardize_organization_name}} | 
 {% endblock %}
 
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% if contributions_data %}Campaign Contributions{% endif %}
+		{% if lobbying_data %}Lobbying{% endif %}
+        {% if earmarks %}Earmarks{% endif %}
+		{% if grants_and_contracts %}Grants &amp; Contracts{% endif %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
 {% block canonicalurl %}/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_organization_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
@@ -85,6 +94,6 @@ $(document).ready(function() {
 
 {% block grants_and_contracts %}
 {% if grants_and_contracts %}
-  {% include "org_grants_and_contracts.html" %}
+    {% include "org_grants_and_contracts.html" %}
 {% endif %}
 {% endblock %}

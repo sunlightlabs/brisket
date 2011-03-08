@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load influence_extras %}
 
-{% block pagetitle %}
+{% block pagetitle %}{% spaceless %}
     {{ entity_info.name|standardize_politician_name }}
     {% if entity_info.metadata.party %}
         ({{entity_info.metadata.party}})
@@ -11,8 +11,15 @@
     {% if entity_info.metadata.yrs_of_service %}
         {{entity_info.metadata.yrs_of_service}}
     {% endif %}
-    | 
-{% endblock %}
+    |
+{% endspaceless %} {% endblock %}
+    
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% if contributions_data %}Campaign Contributions{% endif %}
+        {% if earmarks %}Earmarks{% endif %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
 
 {% block canonicalurl %}/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
@@ -30,9 +37,9 @@ $(document).ready(function() {
     piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
     barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
     barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
-	piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
+    piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
     
-	$('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+    $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
     $('table td.cell-earmark-description').expando(5, '.earmark-requests', 'span.requestedList', 'moreEarmarks');
 });
 </script>
@@ -96,7 +103,7 @@ $(document).ready(function() {
 
 {% block earmarks %}
 {% if earmarks %}
-	{% include "pol_earmarks.html" %}
+    {% include "pol_earmarks.html" %}
 {% endif %}
 {% endblock %}
 
