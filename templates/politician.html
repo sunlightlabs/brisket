@@ -77,7 +77,7 @@ $(document).ready(function() {
 {% if entity_info.metadata.bio %}
 {% block description %}
 {{ entity_info.metadata.bio|safe }}
-{% if entity_info.metadata.bio_url and entity_info.meta.source_display_name != "Sunlight" %}
+{% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
 <p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_new">{{ entity_info.metadata.source_display_name }}</a></p>
 {% endif %}
 {% endblock %}
