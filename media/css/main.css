@@ -68,6 +68,10 @@ div#featureBox #sunlightRequests p { width: 495px;}
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img, .reps img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
 
+#contentHeader .corporateLogo { float: left; }
+#contentHeader .corporateLogo div { display: table-cell; vertical-align: middle; height: 45px; }
+#contentHeader .corporateLogo img { float: none; display: block; border: 0px; width: auto; max-width: 180px; max-height: 80px; }
+
 div.searchBox ul { margin-top: 15px; }
 div.searchBox li { padding: 10px;}
 div.searchBox a { float: left; margin-right: 10px;}
@@ -373,7 +377,7 @@ dt.moneyTitle { margin-top: 8px;}
 #grantsContracts, #earmarksTable { margin-bottom: 55px;}
 #orderPostcards { margin-top: 10px; padding-top: 40px; border-top: 1px dashed #DCDCD8; }
 
-.electionChart { float: left; margin-right: 10px; font-size: 86%; width: 143px;}
+.electionChart { float: left; margin-right: 10px; font-size: 86%; width: 170px;}
 .electionChart li { line-height: 24px;}
 .electionChart li a:link, .electionChart li a:visited, .electionChart li a:hover, .electionChart li a:active { text-decoration: none;}
 .electionChart li a { overflow: hidden;}

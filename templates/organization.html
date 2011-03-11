@@ -7,6 +7,15 @@
     {{ entity_info.name|standardize_organization_name}} | 
 {% endblock %}
 
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% if contributions_data %}Campaign Contributions{% endif %}
+		{% if lobbying_data %}Lobbying{% endif %}
+        {% if earmarks %}Earmarks{% endif %}
+		{% if grants_and_contracts %}Grants &amp; Contracts{% endif %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
 {% block canonicalurl %}/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_organization_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
@@ -16,9 +25,11 @@
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   sparkline_by_party("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}, {{ cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
+  {% if not suppress_contrib_graphs %}
   piechart("piechart_level", {% if level_breakdown %}{{ level_breakdown|safe }}{% else %}{}{% endif %});
   piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
   barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
+  {% endif %}
   
   $('table#grantsContracts td').multiellipsis(3);
   $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
@@ -30,7 +41,7 @@ $(document).ready(function() {
 {% block contentHeader %}
 
 {% if entity_info.metadata.photo_url %}
-<img alt="corporate logo" src="{{ entity_info.metadata.photo_url }}"/>
+<div class="corporateLogo"><div><img alt="corporate logo" src="{{ entity_info.metadata.photo_url }}"/></div></div>
 {% endif %}
 
 <h2>{{ entity_info.name|standardize_organization_name }}</h2>
@@ -52,12 +63,13 @@ $(document).ready(function() {
     {% endif %}
   </div>
   {% endif %}
+<div class="clear"></div>
 {% endblock %}
 
 {% if entity_info.metadata.bio %}
 {% block description %}
 {{ entity_info.metadata.bio|safe }}
-{% if entity_info.metadata.bio_url and entity_info.meta.source_display_name != "Sunlight" %}
+{% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
 <p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_new">{{ entity_info.metadata.source_display_name }}</a></p>
 {% endif %}
 {% endblock %}
@@ -84,6 +96,6 @@ $(document).ready(function() {
 
 {% block grants_and_contracts %}
 {% if grants_and_contracts %}
-  {% include "org_grants_and_contracts.html" %}
+    {% include "org_grants_and_contracts.html" %}
 {% endif %}
 {% endblock %}
