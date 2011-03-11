@@ -49,14 +49,6 @@ $(document).ready(function() {
 <h2>{{ entity_info.name|standardize_politician_name }}</h2>
 <dl>
   <dt class="noshow">Party</dt>
-
-  <dt class="noshow">State</dt>
-  <dd>{{entity_info.metadata.state}}</dd>
-
-  {% if entity_info.metadata.seat %}
-  <dt class="noshow">Seat</dt><dd>{{ entity_info.metadata.seat|seat_label }}</dd>
-  {% endif %}
-
   {% if entity_info.metadata.party == 'D' %}
   <dd>Democrat</dd>
   {% else %}{% if entity_info.metadata.party == 'R' %}
@@ -65,11 +57,17 @@ $(document).ready(function() {
   <dd>{{ entity_info.metadata.party }}</dd>
   {% endif %}{% endif %}
 
+  {% if entity_info.metadata.seat_held and should_show_seat_context %}
+  <dt>Seat:</dt>
+  <dd>{{ entity_info.metadata.seat_held|seat_label }}{% if entity_info.metadata.state_held %}, {{ entity_info.metadata.state_held }}{% endif %}</dd>
+  {% endif %}
+  <dt>Ran For:</dt>
+  <dd>{{ entity_info.metadata.seat|seat_label }}{% if entity_info.metadata.state %}, {{ entity_info.metadata.state }}{% endif %}</dd>
+
   {% if entity_info.metadata.yrs_of_service %}
   <dt>Years of Service:</dt>
   <dd>{{entity_info.metadata.yrs_of_service}}</dd>
   {% endif %}
-
 </dl>
 <div class="clear"></div>
 {% endblock %}
