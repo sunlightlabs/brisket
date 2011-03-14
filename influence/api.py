@@ -4,6 +4,7 @@ from django.http import Http404
 import urllib2
 import urllib
 import re
+import os.path
 try:
     import json
 except:
@@ -44,7 +45,7 @@ class TransparencyDataAPI(object):
             params['search'] = params['search'].encode('ascii', 'ignore')
 
         try:
-            fp = urllib2.urlopen(self.base_url + path + '?' + urllib.urlencode(params))
+            fp = urllib2.urlopen(os.path.join(self.base_url, path) + '?' + urllib.urlencode(params))
 
             if parse_json:
                 return json.loads(fp.read())
@@ -153,6 +154,10 @@ class TransparencyDataAPI(object):
     def org_issues(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/org/%s/issues.json' % entity_id, cycle, limit, parse_json=parse_json)
 
+    # bills this org hired lobbying for
+    def org_bills(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+        return self._get_url_json('aggregates/org/%s/bills.json' % entity_id, cycle, limit, parse_json=parse_json)
+
     # lobbyists who lobbied for this org (?)
     def org_lobbyists(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/org/%s/lobbyists.json' % entity_id, cycle, limit, parse_json=parse_json)
@@ -172,6 +177,10 @@ class TransparencyDataAPI(object):
     # issues this org was hired to lobby for
     def org_registrant_issues(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
         return self._get_url_json('aggregates/org/%s/registrant/issues.json' % entity_id, cycle, limit, parse_json=parse_json)
+
+    # bills this org was hired to lobby for
+    def org_registrant_bills(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):
+        return self._get_url_json('aggregates/org/%s/registrant/bills.json' % entity_id, cycle, limit, parse_json=parse_json)
 
     # clients of the org as a registrant
     def org_registrant_clients(self, entity_id, cycle=DEFAULT_CYCLE, limit=DEFAULT_LIMIT, parse_json=True):

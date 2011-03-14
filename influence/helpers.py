@@ -134,6 +134,15 @@ def prepare_entity_view(request, entity_id, type):
     context['external_links'] = external_sites.get_contribution_links(type, standardized_name, metadata['entity_info']['external_ids'], cycle)
 
     return cycle, standardized_name, metadata, context
-    
+
+
+def make_bill_link(bill):
+    additional_designator_map = { 'CON.RES': 'c', 'J': 'j' }
+    additional_designator_matches = [ additional_designator_map[x] \
+            for x in additional_designator_map.keys() \
+            if x in bill['bill_name'] ]
+    additional_designator = additional_designator_matches[0] if len(additional_designator_matches) else ''
+    if bill['congress_no'] and int(bill['congress_no']) >= 109:
+        return 'http://www.opencongress.org/bill/{0}-{1}{2}{3}/show'.format(bill['congress_no'], bill['chamber'].lower(), additional_designator, bill['bill_no'])
     
     

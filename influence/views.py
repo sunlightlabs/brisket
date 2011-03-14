@@ -10,7 +10,8 @@ from influence import external_sites
 from influence.api import DEFAULT_CYCLE, api
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
-    bar_validate, pie_validate, months_into_cycle_for_date, filter_bad_spending_descriptions
+    bar_validate, pie_validate, months_into_cycle_for_date, \
+    filter_bad_spending_descriptions, make_bill_link
 from influence.names import standardize_organization_name, standardize_industry_name
 from name_cleaver.name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE
@@ -223,11 +224,15 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
         context['lobbying_lobbyists'] = api.org_registrant_lobbyists(entity_id, cycle)
         context['lobbying_issues'] =  [item['issue'] for item in
                                        api.org_registrant_issues(entity_id, cycle)]
+        context['lobbying_bills'] = [ { 'bill': bill['bill_name'], 'link': make_bill_link(bill) } \
+                for bill in api.org_registrant_bills(entity_id, cycle) ]
         context['lobbying_links'] = external_sites.get_lobbying_links('firm', name, external_ids, cycle)
     else:
         context['lobbying_clients'] = api.org_registrants(entity_id, cycle)
         context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
         context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
+        context['lobbying_bills'] = [ { 'bill': bill['bill_name'], 'link': make_bill_link(bill) } \
+                for bill in api.org_bills(entity_id, cycle) ]
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
 
 

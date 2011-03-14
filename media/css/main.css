@@ -188,8 +188,8 @@ dt.employees { background-color: #efcc01;}
 dt.pac { background-color: #f27e01;}
 
 .secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
-.lobbyistsOrgs li, .issuesLobbied li { float: left; margin-right: 10px;}
-.lobbyistsOrgs, .ecards li { margin-bottom: 30px;}
+.lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li { float: left; margin-right: 10px;}
+.lobbyistsOrgs, .ecards li, .issuesLobied { margin-bottom: 30px;}
 
 table .even, li.even { background-color: #f5f4f4;}
 td { padding: 10px;}
