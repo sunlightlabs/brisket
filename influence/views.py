@@ -210,7 +210,7 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
         cut_off_at_step = 9999
 
     context['cut_off_sparkline_at_step'] = cut_off_at_step
-    context['sparkline_data'] = api.org_sparkline_by_party(entity_id, cycle)
+    context['sparkline_data'] = json.dumps(api.org_sparkline_by_party(entity_id, cycle))
 
 
 
@@ -328,7 +328,7 @@ def pol_contribution_section(entity_id, cycle, amount, context):
         context['suppress_contrib_graphs'] = True
         context['reason'] = 'empty'
 
-    context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
+    context['sparkline_data'] = json.dumps(api.pol_sparkline(entity_id, cycle))
 
 
 def earmarks_table_data(entity_id, cycle):
@@ -394,7 +394,7 @@ def indiv_contribution_section(entity_id, cycle, amount, context):
         party_breakdown[key] = float(values[1])
     context['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
 
-    context['sparkline_data'] = api.indiv_sparkline(entity_id, cycle)
+    context['sparkline_data'] = json.dumps(api.indiv_sparkline(entity_id, cycle))
 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
