@@ -33,6 +33,7 @@ seat_labels = {'federal:senate': 'US Senate',
                'state:upper': 'State Upper Chamber',
                'state:lower': 'State Lower Chamber',
                'state:governor': 'Governor',
+               'state:ltgovernor': 'Lt. Governor',
                'state:judicial': 'State Judiciary',
                'state:office': 'Other State Office'
                }
