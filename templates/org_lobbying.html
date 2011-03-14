@@ -82,7 +82,7 @@
         <ul>
       {% for bill in lobbying_bills %}
       <li>
-        <a href="{{bill.link}}">{{bill.bill}}</a>{% if forloop.last %}{% else %},{% endif %}
+        <a href="{{bill.link}}" target="_blank">{{bill.bill}}</a>{% if forloop.last %}{% else %},{% endif %}
       </li>
       {% endfor %}
         </ul>
@@ -159,7 +159,7 @@
           <ul>
         {% for bill in lobbying_bills %}
         <li>
-          <a href="{{bill.link}}">{{bill.bill}}</a>{% if forloop.last %}{% else %},{% endif %}
+          <a href="{{bill.link}}" target="_blank">{{bill.bill}}</a>{% if forloop.last %}{% else %},{% endif %}
         </li>
         {% endfor %}
           </ul>
