@@ -1,8 +1,7 @@
-from api import api
+from transparencydata import api, DEFAULT_CYCLE
 from django.http import Http404
 from django.template.defaultfilters import slugify
 from influence import external_sites
-from influence.api import DEFAULT_CYCLE
 from influence.names import standardize_name
 import datetime
 

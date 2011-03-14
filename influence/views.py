@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
 from django.utils.datastructures import SortedDict
 from influence import external_sites
-from influence.api import DEFAULT_CYCLE, api
+from transparencydata import api, DEFAULT_CYCLE
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, months_into_cycle_for_date, filter_bad_spending_descriptions

@@ -13,7 +13,7 @@ import os
 import hashlib
 import urllib2
 import json
-from influence.api import api
+from transparencydata import api
 
 class PostcardForm(forms.ModelForm):
     office = forms.ChoiceField(choices=(('', '---------'), ('house', 'House'), ('senate', 'Senate')), required=False)
