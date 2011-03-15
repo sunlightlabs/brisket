@@ -1,25 +1,42 @@
 # coding=utf-8
 
 from django.contrib.humanize.templatetags.humanize import apnumber
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
 from django.utils.datastructures import SortedDict
 from influence import external_sites
-from transparencydata import DEFAULT_CYCLE
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
-    bar_validate, pie_validate, months_into_cycle_for_date, filter_bad_spending_descriptions
-from influence.names import standardize_organization_name, standardize_industry_name
+    bar_validate, pie_validate, months_into_cycle_for_date, \
+    filter_bad_spending_descriptions
+from influence.names import standardize_organization_name, \
+    standardize_industry_name
 from name_cleaver.name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE, api
+from transparencydata import DEFAULT_CYCLE
+from urllib2 import HTTPError
 import datetime
 try:
     import json
 except:
     import simplejson as json
 
+
+
+def urllib_2_django_error(f):
+    def wrapped_f(*args, **params):
+        try:
+            return f(*args, **params)
+        except HTTPError as e:
+            if e.code == 404:
+                raise Http404
+
+            # should we do more specific handling of other error types here?
+            raise e
+    
+    return wrapped_f
 
 
 def brisket_context(request):
@@ -131,6 +148,7 @@ def industry_landing(request):
     context['cycle'] = LATEST_CYCLE
     return render_to_response('industry_landing.html', context, brisket_context(request))
 
+@urllib_2_django_error
 def org_industry_entity(request, entity_id, type):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
     
@@ -262,7 +280,7 @@ def organization_entity(request, entity_id):
 def industry_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'industry')
 
-
+@urllib_2_django_error
 def politician_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
 
@@ -352,6 +370,7 @@ def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
 
 
+@urllib_2_django_error
 def individual_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'individual')
 
