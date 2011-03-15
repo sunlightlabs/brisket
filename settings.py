@@ -155,5 +155,5 @@ try:
 except:
     pass
 
-from api import TransparencyDataAPI
-api = TransparencyDataAPI(API_KEY, AGGREGATES_API_BASE_URL)
+from influenceexplorer import InfluenceExplorer
+api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)

@@ -60,7 +60,7 @@ def order(request):
                 if district == 0:
                     district = 1
                 district = "%02d" % district
-                congress = api.candidates_by_location("%s-%s" % (state, district))
+                congress = api.entities.candidates_by_location("%s-%s" % (state, district))
                 house = filter(lambda s: s['seat'] == 'federal:house', congress)
                 inc = filter(lambda s: s['seat_status'] == 'I', house)
                 

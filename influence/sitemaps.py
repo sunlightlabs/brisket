@@ -25,10 +25,10 @@ class EntityList:
             self.params['type'] = type
     
     def __len__(self):
-        return api.entity_count(**self.params)
+        return api.entities.count(**self.params)
     
     def __getslice__(self, start, end):
-        return api.entity_list(start, end, **self.params)
+        return api.entities.list(start, end, **self.params)
     
 
 class EntitySitemap(Sitemap):
