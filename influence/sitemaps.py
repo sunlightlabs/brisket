@@ -1,11 +1,11 @@
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import index, sitemap
-from transparencydata import api
 from django.conf import settings
 from influence import helpers
 from django.template.defaultfilters import slugify
 from django.http import HttpResponse
 import os
+from settings import api
 
 class LandingSitemap(Sitemap):
     changefreq = "monthly"

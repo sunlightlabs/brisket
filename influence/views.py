@@ -7,13 +7,13 @@ from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
 from django.utils.datastructures import SortedDict
 from influence import external_sites
-from transparencydata import api, DEFAULT_CYCLE
+from transparencydata import DEFAULT_CYCLE
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, months_into_cycle_for_date, filter_bad_spending_descriptions
 from influence.names import standardize_organization_name, standardize_industry_name
 from name_cleaver.name_cleaver import PoliticianNameCleaver
-from settings import LATEST_CYCLE
+from settings import LATEST_CYCLE, api
 import datetime
 try:
     import json

@@ -154,3 +154,6 @@ try:
     from local_settings import *
 except:
     pass
+
+from api import TransparencyDataAPI
+api = TransparencyDataAPI(API_KEY, AGGREGATES_API_BASE_URL)

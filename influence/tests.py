@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from influence import names
-from transparencydata import api
+from settings import api
 
 CYCLE = 2008
 

@@ -1,9 +1,10 @@
-from transparencydata import api, DEFAULT_CYCLE
+from transparencydata import DEFAULT_CYCLE
 from django.http import Http404
 from django.template.defaultfilters import slugify
 from influence import external_sites
 from influence.names import standardize_name
 import datetime
+from settings import api
 
 def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
