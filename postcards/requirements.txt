@@ -1,3 +1,2 @@
 reportlab
 -e git+http://github.com/sunlightlabs/django-simplepay.git#egg=simplepay
--e git+http://github.com/sunlightlabs/python-transparencydata.git#egg=transparencydata
