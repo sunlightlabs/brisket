@@ -154,3 +154,6 @@ try:
     from local_settings import *
 except:
     pass
+
+from influenceexplorer import InfluenceExplorer
+api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)

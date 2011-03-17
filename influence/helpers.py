@@ -1,10 +1,10 @@
-from api import api
+from influenceexplorer import DEFAULT_CYCLE
 from django.http import Http404
 from django.template.defaultfilters import slugify
 from influence import external_sites
-from influence.api import DEFAULT_CYCLE
 from influence.names import standardize_name
 import datetime
+from settings import api
 
 def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
@@ -74,7 +74,7 @@ def get_metadata(entity_id, cycle, entity_type):
             'earmarks': ['earmark_count']}
     }
 
-    entity_info = api.entity_metadata(entity_id)
+    entity_info = api.entities.metadata(entity_id)
 
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():

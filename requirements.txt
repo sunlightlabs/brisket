@@ -11,3 +11,4 @@ django-indexer
 django-paging
 django-sentry
 -e git+http://github.com/sunlightlabs/name-cleaver.git#egg=name-cleaver
+-e git+http://github.com/sunlightlabs/python-transparencydata.git#egg=transparencydata

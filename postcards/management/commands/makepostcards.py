@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 from optparse import make_option
 import os, sys
 import postcards
-from influence.api import api
+from settings import api
 from django.conf import settings
 from django.template.loader import render_to_string
 from gevent.pool import Pool
@@ -80,7 +80,7 @@ class Command(BaseCommand):
             def get_district(district):
                 state = district.split('-')[0]
                 sys.stdout.write('Fetching candidates for %s...\n' % district)
-                candidates = api.candidates_by_location(district)
+                candidates = api.entities.candidates_by_location(district)
                 
                 for chamber in congress.keys():
                     key = district if chamber == 'federal:house' else state
@@ -98,9 +98,9 @@ class Command(BaseCommand):
                         if self.svg:
                             for candidate in selected:
                                 sys.stdout.write('Fetching metadata for %s...\n' % candidate['name'])
-                                candidate['entity_info'] = api.entity_metadata(candidate['entity_id'], cycle=settings.LATEST_CYCLE)
-                                candidate['contributions'] = api.pol_contributors(candidate['entity_id'], cycle=settings.LATEST_CYCLE)
-                                candidate['industries'] = api.pol_industries(candidate['entity_id'], cycle=settings.LATEST_CYCLE)
+                                candidate['entity_info'] = api.entities.metadata(candidate['entity_id'], cycle=settings.LATEST_CYCLE)
+                                candidate['contributions'] = api.pol.contributors(candidate['entity_id'], cycle=settings.LATEST_CYCLE)
+                                candidate['industries'] = api.pol.industries(candidate['entity_id'], cycle=settings.LATEST_CYCLE)
                                 if str(settings.LATEST_CYCLE) in candidate['entity_info']['totals']:
                                     candidate['total'] = candidate['entity_info']['totals'][str(settings.LATEST_CYCLE)]['recipient_amount']
                                 else:
@@ -257,7 +257,7 @@ class Command(BaseCommand):
             batik.wait()
     
     def get_districts(self):
-        return [item['district'] for item in api.election_districts()]
+        return [item['district'] for item in api.entities.election_districts()]
 
 def cmp_candidates(a, b):
     status_cmp = -1 * cmp(a['district_info']['seat_status'], b['district_info']['seat_status'])

@@ -13,7 +13,8 @@ import os
 import hashlib
 import urllib2
 import json
-from influence.api import api
+from settings import api
+
 
 class PostcardForm(forms.ModelForm):
     office = forms.ChoiceField(choices=(('', '---------'), ('house', 'House'), ('senate', 'Senate')), required=False)
@@ -59,7 +60,7 @@ def order(request):
                 if district == 0:
                     district = 1
                 district = "%02d" % district
-                congress = api.candidates_by_location("%s-%s" % (state, district))
+                congress = api.entities.candidates_by_location("%s-%s" % (state, district))
                 house = filter(lambda s: s['seat'] == 'federal:house', congress)
                 inc = filter(lambda s: s['seat_status'] == 'I', house)
                 

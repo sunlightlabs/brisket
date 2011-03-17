@@ -1,26 +1,43 @@
 # coding=utf-8
 
 from django.contrib.humanize.templatetags.humanize import apnumber
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
 from django.utils.datastructures import SortedDict
 from influence import external_sites
-from influence.api import DEFAULT_CYCLE, api
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, months_into_cycle_for_date, \
     filter_bad_spending_descriptions, make_bill_link
-from influence.names import standardize_organization_name, standardize_industry_name
+from influence.names import standardize_organization_name, \
+    standardize_industry_name
+from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver.name_cleaver import PoliticianNameCleaver
-from settings import LATEST_CYCLE
+from settings import LATEST_CYCLE, api
+from urllib2 import HTTPError
 import datetime
+
 try:
     import json
 except:
     import simplejson as json
 
+
+
+def urllib_2_django_error(f):
+    def wrapped_f(*args, **params):
+        try:
+            return f(*args, **params)
+        except HTTPError as e:
+            if e.code == 404:
+                raise Http404
+
+            # should we do more specific handling of other error types here?
+            raise e
+    
+    return wrapped_f
 
 
 def brisket_context(request):
@@ -60,7 +77,7 @@ def search(request):
         if not request.GET.get('from_form', None):
             query = query.replace('-', ' ')
 
-        results = api.entity_search(query)
+        results = api.entities.search(query)
 
         # limit the results to only those entities with an ID.
         entity_results = [result for result in results if result['id']]
@@ -106,32 +123,33 @@ def search(request):
 
 def organization_landing(request):
     context = {}
-    context['top_n_organizations'] = api.top_n_organizations(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_organizations'] = api.entities.top_n_organizations(cycle=LATEST_CYCLE, limit=50)
     context['num_orgs'] = len(context['top_n_organizations'])
     context['cycle'] = LATEST_CYCLE
     return render_to_response('org_landing.html', context, brisket_context(request))
 
 def people_landing(request):
     context = {}
-    context['top_n_individuals'] = api.top_n_individuals(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_individuals'] = api.entities.top_n_individuals(cycle=LATEST_CYCLE, limit=50)
     context['num_indivs'] = len(context['top_n_individuals'])
     context['cycle'] = LATEST_CYCLE
     return render_to_response('indiv_landing.html', context, brisket_context(request))
 
 def politician_landing(request):
     context = {}
-    context['top_n_politicians'] = api.top_n_politicians(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_politicians'] = api.entities.top_n_politicians(cycle=LATEST_CYCLE, limit=50)
     context['num_pols'] = len(context['top_n_politicians'])
     context['cycle'] = LATEST_CYCLE
     return render_to_response('pol_landing.html', context, brisket_context(request))
 
 def industry_landing(request):
     context = {}
-    context['top_n_industries'] = api.top_n_industries(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_industries'] = api.entities.top_n_industries(cycle=LATEST_CYCLE, limit=50)
     context['num_industries'] = len(context['top_n_industries'])
     context['cycle'] = LATEST_CYCLE
     return render_to_response('industry_landing.html', context, brisket_context(request))
 
+@urllib_2_django_error
 def org_industry_entity(request, entity_id, type):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
     
@@ -161,11 +179,11 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
                 'value_employee': org['employee_amount'],
                 'value_pac': org['direct_amount'],
                 'href' : barchart_href(org, cycle, 'organization')
-            } for org in api.industry_orgs(entity_id, cycle, limit=10)
+            } for org in api.org.industry_orgs(entity_id, cycle, limit=10)
         ])
     
     context['contributions_data'] = True
-    recipients = api.org_recipients(entity_id, cycle=cycle)
+    recipients = api.org.recipients(entity_id, cycle=cycle)
 
     recipients_barchart_data = []
     for record in recipients:
@@ -178,12 +196,12 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
                 })
     context['recipients_barchart_data'] = json.dumps(bar_validate(recipients_barchart_data))
 
-    party_breakdown = api.org_party_breakdown(entity_id, cycle)
+    party_breakdown = api.org.party_breakdown(entity_id, cycle)
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
     context['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
 
-    level_breakdown = api.org_level_breakdown(entity_id, cycle)
+    level_breakdown = api.org.level_breakdown(entity_id, cycle)
     for key, values in level_breakdown.iteritems():
         level_breakdown[key] = float(values[1])
     context['level_breakdown'] = json.dumps(pie_validate(level_breakdown))
@@ -211,7 +229,7 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
         cut_off_at_step = 9999
 
     context['cut_off_sparkline_at_step'] = cut_off_at_step
-    context['sparkline_data'] = api.org_sparkline_by_party(entity_id, cycle)
+    context['sparkline_data'] = json.dumps(api.org.sparkline_by_party(entity_id, cycle))
 
 
 
@@ -220,27 +238,28 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
     context['is_lobbying_firm'] = is_lobbying_firm
 
     if is_lobbying_firm:
-        context['lobbying_clients']   = api.org_registrant_clients(entity_id, cycle)
-        context['lobbying_lobbyists'] = api.org_registrant_lobbyists(entity_id, cycle)
+        context['lobbying_clients']   = api.org.registrant_clients(entity_id, cycle)
+        context['lobbying_lobbyists'] = api.org.registrant_lobbyists(entity_id, cycle)
         context['lobbying_issues']    =  [item['issue'] for item in
-                                       api.org_registrant_issues(entity_id, cycle)]
+                                       api.org.registrant_issues(entity_id, cycle)]
         context['lobbying_bills']     = [ {
             'bill': bill['bill_name'],
             'title': bill['title'],
             'link': make_bill_link(bill),
             'congress': bill['congress_no'],
-        } for bill in api.org_registrant_bills(entity_id, cycle) ]
+        } for bill in api.org.registrant_bills(entity_id, cycle) ]
         context['lobbying_links'] = external_sites.get_lobbying_links('firm', name, external_ids, cycle)
     else:
-        context['lobbying_clients']   = api.org_registrants(entity_id, cycle)
-        context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
-        context['lobbying_issues']    =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
+        context['lobbying_clients']   = api.org.registrants(entity_id, cycle)
+        context['lobbying_lobbyists'] = api.org.lobbyists(entity_id, cycle)
+        context['lobbying_issues']    =  [item['issue'] for item in api.org.issues(entity_id, cycle)]
         context['lobbying_bills']     = [ {
             'bill': bill['bill_name'],
             'title': bill['title'],
             'link': make_bill_link(bill),
             'congress': bill['congress_no'],
-        } for bill in api.org_registrant_bills(entity_id, cycle) ]
+        } for bill in api.org.registrant_bills(entity_id, cycle) ]
+
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
 
 
@@ -250,7 +269,7 @@ def org_earmarks_section(entity_id, name, cycle, external_ids, context):
 
 
 def org_spending_section(entity_id, name, cycle, context):
-    spending = api.org_fed_spending(entity_id, cycle)
+    spending = api.org.fed_spending(entity_id, cycle)
 
     filter_bad_spending_descriptions(spending)
 
@@ -275,7 +294,7 @@ def organization_entity(request, entity_id):
 def industry_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'industry')
 
-
+@urllib_2_django_error
 def politician_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
 
@@ -292,8 +311,8 @@ def politician_entity(request, entity_id):
 def pol_contribution_section(entity_id, cycle, amount, context):
     context['contributions_data'] = True
 
-    top_contributors = api.pol_contributors(entity_id, cycle)
-    top_industries = api.pol_industries(entity_id, cycle=cycle)
+    top_contributors = api.pol.contributors(entity_id, cycle)
+    top_industries = api.pol.industries(entity_id, cycle=cycle)
 
     contributors_barchart_data = []
     for record in top_contributors:
@@ -315,13 +334,13 @@ def pol_contribution_section(entity_id, cycle, amount, context):
         })
     context['industries_barchart_data'] = json.dumps(bar_validate(industries_barchart_data))
 
-    local_breakdown = api.pol_local_breakdown(entity_id, cycle)
+    local_breakdown = api.pol.local_breakdown(entity_id, cycle)
     for key, values in local_breakdown.iteritems():
         # values is a list of [count, amount]
         local_breakdown[key] = float(values[1])
     context['local_breakdown'] = json.dumps(pie_validate(local_breakdown))
 
-    entity_breakdown = api.pol_contributor_type_breakdown(entity_id, cycle)
+    entity_breakdown = api.pol.contributor_type_breakdown(entity_id, cycle)
     for key, values in entity_breakdown.iteritems():
         # values is a list of [count, amount]
         entity_breakdown[key] = float(values[1])
@@ -341,11 +360,11 @@ def pol_contribution_section(entity_id, cycle, amount, context):
         context['suppress_contrib_graphs'] = True
         context['reason'] = 'empty'
 
-    context['sparkline_data'] = api.pol_sparkline(entity_id, cycle)
+    context['sparkline_data'] = json.dumps(api.pol.sparkline(entity_id, cycle))
 
 
 def earmarks_table_data(entity_id, cycle):
-    rows = api.pol_earmarks(entity_id, cycle)
+    rows = api.pol.earmarks(entity_id, cycle)
     for row in rows:
         for member in row['members']:
             member['name'] = str(PoliticianNameCleaver(member['name']).parse().plus_metadata(member['party'], member['state']))
@@ -356,7 +375,7 @@ def earmarks_table_data(entity_id, cycle):
 def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmarks'] = earmarks_table_data(entity_id, cycle)
     
-    local_breakdown = api.pol_earmarks_local_breakdown(entity_id, cycle)
+    local_breakdown = api.pol.earmarks_local_breakdown(entity_id, cycle)
     local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
 
     context['earmark_links'] = external_sites.get_earmark_links('politician', name, external_ids, cycle)
@@ -365,6 +384,7 @@ def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
 
 
+@urllib_2_django_error
 def individual_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'individual')
 
@@ -381,8 +401,8 @@ def individual_entity(request, entity_id):
 
 def indiv_contribution_section(entity_id, cycle, amount, context):
     context['contributions_data'] = True
-    recipient_candidates = api.indiv_pol_recipients(entity_id, cycle)
-    recipient_orgs = api.indiv_org_recipients(entity_id, cycle)
+    recipient_candidates = api.indiv.pol_recipients(entity_id, cycle)
+    recipient_orgs = api.indiv.org_recipients(entity_id, cycle)
 
     candidates_barchart_data = []
     for record in recipient_candidates:
@@ -402,12 +422,12 @@ def indiv_contribution_section(entity_id, cycle, amount, context):
                 })
     context['orgs_barchart_data'] = json.dumps(bar_validate(orgs_barchart_data))
 
-    party_breakdown = api.indiv_party_breakdown(entity_id, cycle)
+    party_breakdown = api.indiv.party_breakdown(entity_id, cycle)
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
     context['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
 
-    context['sparkline_data'] = api.indiv_sparkline(entity_id, cycle)
+    context['sparkline_data'] = json.dumps(api.indiv.sparkline(entity_id, cycle))
 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
@@ -425,9 +445,9 @@ def indiv_contribution_section(entity_id, cycle, amount, context):
 
 def indiv_lobbying_section(entity_id, name, cycle, external_ids, context):
     context['lobbying_data'] = True
-    context['lobbying_with_firm'] = api.indiv_registrants(entity_id, cycle)
-    context['issues_lobbied_for'] =  [item['issue'] for item in api.indiv_issues(entity_id, cycle)]
-    context['lobbying_for_clients'] = api.indiv_clients(entity_id, cycle)
+    context['lobbying_with_firm'] = api.indiv.registrants(entity_id, cycle)
+    context['issues_lobbied_for'] =  [item['issue'] for item in api.indiv.issues(entity_id, cycle)]
+    context['lobbying_for_clients'] = api.indiv.clients(entity_id, cycle)
     context['lobbying_links'] = external_sites.get_lobbying_links('lobbyist', name, external_ids, cycle)
 
 
