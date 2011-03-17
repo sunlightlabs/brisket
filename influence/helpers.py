@@ -137,12 +137,8 @@ def prepare_entity_view(request, entity_id, type):
 
 
 def make_bill_link(bill):
-    additional_designator_map = { 'CON.RES': 'c', 'J': 'j' }
-    additional_designator_matches = [ additional_designator_map[x] \
-            for x in additional_designator_map.keys() \
-            if x in bill['bill_name'] ]
-    additional_designator = additional_designator_matches[0] if len(additional_designator_matches) else ''
-    if bill['congress_no'] and int(bill['congress_no']) >= 109:
-        return 'http://www.opencongress.org/bill/{0}-{1}{2}{3}/show'.format(bill['congress_no'], bill['chamber'].lower(), additional_designator, bill['bill_no'])
-    
-    
+    if bill['bill_type'] in 'h hr hc hj s sr sc sj'.split():
+        if bill['congress_no'] and int(bill['congress_no']) >= 109:
+            return 'http://www.opencongress.org/bill/{0}-{1}{2}/show'.format(bill['congress_no'], bill['bill_type'], bill['bill_no'])
+
+

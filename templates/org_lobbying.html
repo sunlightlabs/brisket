@@ -76,18 +76,6 @@
       </div>
       {% endif %}
 
-      {% if lobbying_bills %}
-      <div class="billsLobbied chartWrapper">
-        <span class="secondaryTitle">Most Frequently Disclosed Bills:</span>
-        <ul>
-      {% for bill in lobbying_bills %}
-      <li>
-        <a href="{{bill.link}}" target="_blank">{{bill.bill}}</a>{% if forloop.last %}{% else %},{% endif %}
-      </li>
-      {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
     </div>
 
     {% if lobbying_clients %}
@@ -114,7 +102,33 @@
       </tbody>
     </table>
     {% endif %}
-    
+    <div class="clear"></div>
+
+      {% if lobbying_bills %}
+    <span class="secondaryTitle">Most Frequently Disclosed Bills:</span>
+    <table class="threeColumn">
+      <thead>
+        <tr id="titles">
+          <th class="right">Congress</th>
+          <th class="left">Bill</th>
+          <th class="left">Title</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for bill in lobbying_bills %}
+      <tr class="{% cycle 'even' 'odd' %}">
+          <td class="right">{{bill.congress}}<sup>th</sup></td>
+          {% if bill.link %}
+          <td><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></td>
+          {% else %}
+          <td>{{bill.bill}}</td>
+          {% endif %}
+          <td>{{bill.title}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+      </table>
+      {% endif %}
     <div class="clear"></div>
   </div>
   {% else %}  
@@ -153,18 +167,6 @@
         </div>
         {% endif %}
 
-        {% if lobbying_bills %}
-        <div class="billsLobbied oneColumn chartWrapper">
-          <span class="secondaryTitle">Most Frequently Disclosed Bills:</span>
-          <ul>
-        {% for bill in lobbying_bills %}
-        <li>
-          <a href="{{bill.link}}" target="_blank">{{bill.bill}}</a>{% if forloop.last %}{% else %},{% endif %}
-        </li>
-        {% endfor %}
-          </ul>
-        </div>
-        {% endif %}
     </div>
 
     {% if lobbying_clients %}
@@ -191,7 +193,33 @@
       </tbody>
     </table>
     {% endif %}
+    <div class="clear"></div>
     
+      {% if lobbying_bills %}
+    <span class="secondaryTitle">Most Frequently Disclosed Bills:</span>
+    <table class="threeColumn">
+      <thead>
+        <tr id="titles">
+          <th class="right">Congress</th>
+          <th class="left">Bill No.</th>
+          <th class="left">Title</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for bill in lobbying_bills %}
+      <tr class="{% cycle 'even' 'odd' %}">
+          <td class="right">{{bill.congress}}<sup>th</sup></td>
+          {% if bill.link %}
+          <td><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></td>
+          {% else %}
+          <td>{{bill.bill}}</td>
+          {% endif %}
+          <td>{{bill.title}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+      </table>
+      {% endif %}
     <div class="clear"></div>
   </div>
   

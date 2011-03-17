@@ -215,24 +215,32 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
 
 
 
-def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm, context):        
+def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm, context):
     context['lobbying_data'] = True
     context['is_lobbying_firm'] = is_lobbying_firm
 
     if is_lobbying_firm:
-        context['lobbying_clients'] = api.org_registrant_clients(entity_id, cycle)
+        context['lobbying_clients']   = api.org_registrant_clients(entity_id, cycle)
         context['lobbying_lobbyists'] = api.org_registrant_lobbyists(entity_id, cycle)
-        context['lobbying_issues'] =  [item['issue'] for item in
+        context['lobbying_issues']    =  [item['issue'] for item in
                                        api.org_registrant_issues(entity_id, cycle)]
-        context['lobbying_bills'] = [ { 'bill': bill['bill_name'], 'link': make_bill_link(bill) } \
-                for bill in api.org_registrant_bills(entity_id, cycle) ]
+        context['lobbying_bills']     = [ {
+            'bill': bill['bill_name'],
+            'title': bill['title'],
+            'link': make_bill_link(bill),
+            'congress': bill['congress_no'],
+        } for bill in api.org_registrant_bills(entity_id, cycle) ]
         context['lobbying_links'] = external_sites.get_lobbying_links('firm', name, external_ids, cycle)
     else:
-        context['lobbying_clients'] = api.org_registrants(entity_id, cycle)
+        context['lobbying_clients']   = api.org_registrants(entity_id, cycle)
         context['lobbying_lobbyists'] = api.org_lobbyists(entity_id, cycle)
-        context['lobbying_issues'] =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
-        context['lobbying_bills'] = [ { 'bill': bill['bill_name'], 'link': make_bill_link(bill) } \
-                for bill in api.org_bills(entity_id, cycle) ]
+        context['lobbying_issues']    =  [item['issue'] for item in api.org_issues(entity_id, cycle)]
+        context['lobbying_bills']     = [ {
+            'bill': bill['bill_name'],
+            'title': bill['title'],
+            'link': make_bill_link(bill),
+            'congress': bill['congress_no'],
+        } for bill in api.org_registrant_bills(entity_id, cycle) ]
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
 
 
