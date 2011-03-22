@@ -1,6 +1,8 @@
 from django.utils.functional import curry
-import base64, urllib
+import base64, urllib, urllib2
 import json
+from datetime import datetime, timedelta
+from django.utils.datastructures import SortedDict
 
 # contribution links
 def _get_crp_url(type, standardized_name, ids, cycle=None):
@@ -167,3 +169,30 @@ def get_earmark_links(type, standardized_name, ids, cycle):
         )
     
     return links
+
+def get_partytime_data(ids):
+    politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
+    
+    if not politician_ids:
+        return {'past': [], 'upcoming': []}
+      
+    page = urllib2.urlopen("http://politicalpartytime.org/json/%s/" % politician_ids[0]['id'])
+    records = json.loads(page.read())
+    
+    today = datetime.now()
+    cutoff = today - timedelta(days=180)
+    
+    out = SortedDict()
+    out['upcoming'] = [dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3]
+    out['past'] = [dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):]
+    
+    return out
+
+def get_lobbyist_tracker_data(ids):
+    out = []
+    tracker_urls = filter(lambda s: s['namespace'] == 'urn:sunlight:lobbyist_registration_tracker_url', ids)
+    if tracker_urls:
+        page = urllib2.urlopen("http://reporting.sunlightfoundation.com%s.json" % tracker_urls[0]['id'])
+        records = json.loads(page.read())
+        out = list(reversed(records['registrations']))[-5:]
+    return out

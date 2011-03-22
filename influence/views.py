@@ -261,6 +261,8 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
         } for bill in api.org.registrant_bills(entity_id, cycle) ]
 
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
+    
+    context['lobbyist_registration_tracker'] = external_sites.get_lobbyist_tracker_data(external_ids)
 
 
 def org_earmarks_section(entity_id, name, cycle, external_ids, context):
@@ -304,6 +306,8 @@ def politician_entity(request, entity_id):
         
     if metadata['earmarks']:
         pol_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+    
+    context['partytime_data'] = external_sites.get_partytime_data(metadata['entity_info']['external_ids'])
 
     return render_to_response('politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
