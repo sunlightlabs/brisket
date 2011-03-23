@@ -307,7 +307,7 @@ def politician_entity(request, entity_id):
     if metadata['earmarks']:
         pol_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
     
-    context['partytime_data'] = external_sites.get_partytime_data(metadata['entity_info']['external_ids'])
+    context['partytime_link'], context['partytime_data'] = external_sites.get_partytime_data(metadata['entity_info']['external_ids'])
 
     return render_to_response('politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))

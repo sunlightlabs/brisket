@@ -73,11 +73,12 @@
   <div class="clear"></div>
   
   <div class="external">
-    {% if external_links %}
+    {% if external_links or partytime_link %}
     For more information on contributions:
     {% for link in external_links %}
     <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
     {% endfor %}
+    {% if partytime_link %}<a href="{{ partytime_link }}" class="external" target="_blank">Party Time</a>{% endif %}
     {% endif %}
   </div>
   

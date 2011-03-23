@@ -178,7 +178,7 @@ def get_partytime_data(ids):
     politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
     
     if not politician_ids:
-        return {'past': [], 'upcoming': []}
+        return (None, {'past': [], 'upcoming': []})
       
     page = urllib2.urlopen("http://politicalpartytime.org/json/%s/" % politician_ids[0]['id'])
     records = json.loads(page.read())
@@ -190,7 +190,7 @@ def get_partytime_data(ids):
     out['upcoming'] = [dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3]
     out['past'] = [dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):]
     
-    return out
+    return ("http://politicalpartytime.org/pol/%s/" % politician_ids[0]['id'], out)
 
 @cache(seconds=86400)
 def get_lobbyist_tracker_data(ids):
