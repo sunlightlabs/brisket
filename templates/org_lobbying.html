@@ -109,7 +109,7 @@
     <table class="threeColumn">
       <thead>
         <tr id="titles">
-          <th class="right">Congress</th>
+          <th class="left">Congress</th>
           <th class="left">Bill</th>
           <th class="left">Title</th>
         </tr>
@@ -117,7 +117,7 @@
       <tbody>
       {% for bill in lobbying_bills %}
       <tr class="{% cycle 'even' 'odd' %}">
-          <td class="right">{{bill.congress}}<sup>th</sup></td>
+          <td class="left">{{bill.congress}}<sup>th</sup></td>
           {% if bill.link %}
           <td><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></td>
           {% else %}
@@ -235,10 +235,23 @@
 	{% for record in lobbyist_registration_tracker %}
 	<tr class="{% cycle 'even' 'odd' %}">
 		<td class="left">{{ record.date|date }}</sup></td>
-		<td class="left">{% if is_lobbying_firm %}{{ record.client.name }}{% else %}{{ record.registrant.name }}{% endif %}
+		<td class="left">
+		  {% if is_lobbying_firm %}
+			{% if record.client.ie_path %}
+			  <a href="{{ record.client.ie_path }}">{{ record.client.name }}</a>
+			{% else %}
+			  {{ record.client.name }}
+			{% endif %}
+		  {% else %}
+			{% if record.registrant.ie_path %}
+			  <a href="{{ record.registrant.ie_path }}">{{ record.registrant.name }}</a>
+			{% else %}
+			  {{ record.registrant.name }}
+			{% endif %}
+		  {% endif %}
   		<td class="left">
 		  {{ record.specific_issue }}
-		  <span class="tip"><a href="http://reporting.sunlightfoundation.com/{% if is_lobbying_firm %}{{ record.registrant.path }}{% else %}{{ record.client.path }}{% endif %}/{{ record.senate_id }}">View registration</a></span>
+		  <span class="tip"><a href="http://reporting.sunlightfoundation.com{{ record.registrant.path }}/{{ record.senate_id }}">View registration</a></span>
 		</td>
 	</tr>
 	{% endfor %}
