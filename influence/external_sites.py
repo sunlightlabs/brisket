@@ -199,7 +199,8 @@ def get_lobbyist_tracker_data(ids):
     if tracker_urls:
         page = urllib2.urlopen("http://reporting.sunlightfoundation.com%s.json" % tracker_urls[0]['id'])
         records = json.loads(page.read())
-        out = records['registrations'][:5]
+        cutoff = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')
+        out = [record for record in records['registrations'] if record['received'] >= cutoff][:5]
         item_type = 'firm' if records['path'].startswith('/lobbying/firm') else 'client'
         id_fetch_type = 'registrant' if item_type == 'client' else 'client'
     for record in out:
