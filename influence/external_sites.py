@@ -170,6 +170,9 @@ def get_earmark_links(type, standardized_name, ids, cycle):
     
     return links
 
+from influence.cache import cache
+
+@cache(seconds=86400)
 def get_partytime_data(ids):
     politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
     
@@ -188,6 +191,7 @@ def get_partytime_data(ids):
     
     return out
 
+@cache(seconds=86400)
 def get_lobbyist_tracker_data(ids):
     out = []
     tracker_urls = filter(lambda s: s['namespace'] == 'urn:sunlight:lobbyist_registration_tracker_url', ids)
@@ -195,4 +199,6 @@ def get_lobbyist_tracker_data(ids):
         page = urllib2.urlopen("http://reporting.sunlightfoundation.com%s.json" % tracker_urls[0]['id'])
         records = json.loads(page.read())
         out = list(reversed(records['registrations']))[-5:]
+    for record in out:
+        record['date'] = datetime.strptime(record['received'], '%Y-%m-%d %H:%M:%S')
     return out
