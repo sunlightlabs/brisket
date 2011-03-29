@@ -54,32 +54,37 @@
 {% if partytime_data %}
   {% if partytime_data.past or partytime_data.upcoming %}
   <div class="twoColumn chartWrapper">
-    <h4>Recent and upcoming funcraisers</h4>
+    <h4>Recent and upcoming fundraisers for</h4>
     <table class="twoColumn">
-      <tr>
-        <th>Date</th>
-        <th>Summary</th>
-      </tr>
-      {% for type, events in partytime_data.items %}
-        {% for row in events %}
-          <tr class="{% cycle 'even' 'odd' %} {{ type }}">
-            <td>{{ row.date|date }}</td>
-            <td><strong>{{ row.fields.entertainment }}</strong> at {{ row.fields.venue }}<br />
-              For:
-              {% for beneficiary in row.fields.beneficiaries %}
-                <strong>{{ beneficiary }}</strong>{% if not forloop.last %}, {% endif %}
-              {% endfor %}
-              {% if row.fields.hosts %}
-                <br />
-                Hosted by:
-                {% for host in row.fields.hosts %}
-                  <strong>{{ host }}</strong>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-              {% endif %}
-            </td>
-          </tr>
+      <thead>
+        <tr id="partyTime">
+          <th>Date</th>
+          <th>Event</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for type, events in partytime_data.items %}
+          {% for row in events %}
+            <tr class="{% cycle 'even' 'odd' %} {{ type }}">
+              <td>{{ row.date|date }}</td>
+              <td>
+                <dl>
+                  <dt>Venue:</dt> 
+                  <dd>{{ row.fields.entertainment }} at {{ row.fields.venue }}</dd>
+                  
+                  {% if row.fields.hosts %}
+                    <dt class="clear">Hosted by:</dt>
+                    <dd>
+                    {% for host in row.fields.hosts %}
+                      {{ host }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                    </dd>
+                  {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
         {% endfor %}
-      {% endfor %}
+      </tbody>
     </table>
   </div>
   {% endif %}
