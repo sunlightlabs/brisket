@@ -1,6 +1,6 @@
 import re
 import string
-from name_cleaver.name_cleaver import PoliticianNameCleaver
+from name_cleaver import PoliticianNameCleaver
 
 
 def standardize_individual_name(name):

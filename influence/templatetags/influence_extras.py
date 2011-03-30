@@ -2,7 +2,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from influence.names import standardize_individual_name, standardize_organization_name, \
     standardize_industry_name
-from name_cleaver.name_cleaver import PoliticianNameCleaver
+from name_cleaver import PoliticianNameCleaver
 
 register = template.Library()
 

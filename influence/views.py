@@ -14,7 +14,7 @@ from influence.helpers import prepare_entity_view, generate_label, barchart_href
 from influence.names import standardize_organization_name, \
     standardize_industry_name
 from influenceexplorer import DEFAULT_CYCLE
-from name_cleaver.name_cleaver import PoliticianNameCleaver
+from name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE, api
 from urllib2 import HTTPError
 import datetime

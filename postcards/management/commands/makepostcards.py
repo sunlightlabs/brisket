@@ -10,7 +10,7 @@ from gevent import monkey
 import gevent
 from django.utils.datastructures import SortedDict
 from influence.helpers import standardize_organization_name, standardize_industry_name
-from name_cleaver.name_cleaver import PoliticianNameCleaver
+from name_cleaver import PoliticianNameCleaver
 from django.template.defaultfilters import slugify
 import urllib2
 import re
