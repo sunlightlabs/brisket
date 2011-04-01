@@ -73,7 +73,7 @@ div#featureBox #sunlightRequests p { width: 495px;}
 #contentHeader .corporateLogo img { float: none; display: block; border: 0px; width: auto; max-width: 180px; max-height: 80px; }
 
 div.searchBox ul { margin-top: 15px; }
-div.searchBox li { padding: 10px;}
+div.searchBox li, #tableList li { padding: 10px;}
 div.searchBox a { float: left; margin-right: 10px;}
 div.searchBox p.description a { float: none; margin-right: 0px; }
 div.searchBox p.description, #postcardDescription { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
@@ -84,6 +84,9 @@ dl { margin-top: 15px;}
 dt.noshow { display: none;}
 dt { float: left; margin-right: 5px; font-weight: bold;}
 dd { float: left; margin-right: 15px;}
+
+table dl { margin-top: 0;}
+table dd { width: 320px;}
 
 div#search { float: right; padding-top: 20px;}
 div#search .tip { text-align: right; display: block; margin-right: 90px;}
@@ -188,8 +191,8 @@ dt.employees { background-color: #efcc01;}
 dt.pac { background-color: #f27e01;}
 
 .secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
-.lobbyistsOrgs li, .issuesLobbied li { float: left; margin-right: 10px;}
-.lobbyistsOrgs, .ecards li { margin-bottom: 30px;}
+.lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li { float: left; margin-right: 10px;}
+.lobbyistsOrgs, .ecards li, .issuesLobied { margin-bottom: 30px;}
 
 table .even, li.even { background-color: #f5f4f4;}
 td { padding: 10px;}
@@ -204,7 +207,7 @@ table#mainPageTable { width: 650px; margin-top: 30px;}
 table#mainPageTable img { border: 2px solid #e0e0df; width: 40px; }
 td.photo { width: 50px;}
 tr#titles th.photo { text-indent: -9999em;}
-table#mainPageTable th, #earmarksTable th { padding: 0 10px 10px 15px;}
+table#mainPageTable th, #earmarksTable th, #partyTime th { padding: 0 10px 10px 15px;}
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}

@@ -150,7 +150,16 @@ SELENIUM_BROWSER_COMMAND = 'firefox'
 SELENIUM_URL_ROOT = 'http://localhost:8001'
 #FORCE_SELENIUM_TESTS = False # default
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
 try:
     from local_settings import *
 except:
     pass
+
+from influenceexplorer import InfluenceExplorer
+api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)

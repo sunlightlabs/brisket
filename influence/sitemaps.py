@@ -1,11 +1,11 @@
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import index, sitemap
-from influence.api import api
 from django.conf import settings
 from influence import helpers
 from django.template.defaultfilters import slugify
 from django.http import HttpResponse
 import os
+from settings import api
 
 class LandingSitemap(Sitemap):
     changefreq = "monthly"
@@ -25,10 +25,10 @@ class EntityList:
             self.params['type'] = type
     
     def __len__(self):
-        return api.entity_count(**self.params)
+        return api.entities.count(**self.params)
     
     def __getslice__(self, start, end):
-        return api.entity_list(start, end, **self.params)
+        return api.entities.list(start, end, **self.params)
     
 
 class EntitySitemap(Sitemap):

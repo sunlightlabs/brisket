@@ -20,6 +20,16 @@
 
 {% block metadesc %}{{ entity_info.name|standardize_organization_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
 
+{% block og %}
+  <meta name="og:title" content="{{ entity_info.name|standardize_organization_name}} | Influence Explorer">
+  <meta name="og:description" content="{{ entity_info.name|standardize_organization_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+  <meta name="og:url" content="http://influenceexplorer.com/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
+  <meta name="og:site_name" content="Influence Explorer">
+  <meta name="fb:admins" content="7812952,5308565">
+{% endblock %}
+
 {% block extrajs %}
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
