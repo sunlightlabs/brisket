@@ -68,9 +68,7 @@ div#featureBox #sunlightRequests p { width: 495px;}
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img, .reps img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
 
-#contentHeader .corporateLogo { float: left; }
-#contentHeader .corporateLogo div { display: table-cell; vertical-align: middle; height: 45px; }
-#contentHeader .corporateLogo img { float: none; display: block; border: 0px; width: auto; max-width: 180px; max-height: 80px; }
+#mainContent .corporateLogo { float: right; height: 45px; border: 0px; width: auto; max-width: 180px; max-height: 80px; margin-top: -40px; margin-right: 0;}
 
 div.searchBox ul { margin-top: 15px; }
 div.searchBox li, #tableList li { padding: 10px;}
@@ -111,7 +109,7 @@ div#wrapper { background: url(../images/corner.jpg) top right no-repeat;}
 
 div#mainContent_top { background: url(../images/whitebox_top.png) top left no-repeat; height: 10px; margin-top: 4px; }
 div#mainContent { background: url(../images/whitebox_middle.png) top left repeat-y; padding-top: 25px; padding-bottom: 55px;}
-div#mainContent_bottom { background: url(../images/whitebox_bottom.png) top left no-repeat; height: 10px;}
+div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center top no-repeat; height: 10px;}
 
 div#timeSpan { font-size: 120%; background: url(../images/filter_bg.png) top left no-repeat; height: 47px; padding-top: 20px;}
 div#currentDates { float: left; width: 350px; font-style: oblique; color: ##797070;}
@@ -159,6 +157,7 @@ div.chartWrapper {   margin-right: 35px; margin-bottom: 55px;}
 div.oneColumn { width: 270px; float: left;}
 .twoColumn { width: 575px; float: right;}
 .threeColumn { width: 880px; }
+.chartWrapper table { margin-top: 15px;}
 
 div.chart { height: 250px;}
 div.chartDoubleHeight { height: 400px;}
