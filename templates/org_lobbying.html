@@ -43,37 +43,39 @@
 <div class="chartModule">
     {% if is_lobbying_firm %}
 	  <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
-	  {% if lobbying_lobbyists %}
-	  <div class="lobbyistsOrgs oneColumn chartWrapper">
-		  <span class="secondaryTitle">Lobbyists Employed:</span>
-		  <ul>
-			  {% for row in lobbying_lobbyists %}
-			  {% if row.lobbyist_entity %}
-			  <li>
-				  <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
-			  </li>
-			  {% else %}
-				  {{ row.lobbyist_name|standardize_individual_name }}
-			  {% endif %}
-			  {% endfor %}
-		  </ul>
-		  <div class="clear"></div>
-	  </div>
-	  {% endif %}
+	  <div class="oneColumn chartWrapper">
+	      {% if lobbying_lobbyists %}
+    	  <div class="lobbyistsOrgs">
+    		  <h5>Lobbyists Employed</h5>
+    		  <ul>
+    			  {% for row in lobbying_lobbyists %}
+    			  {% if row.lobbyist_entity %}
+    			  <li>
+    				  <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+    			  </li>
+    			  {% else %}
+    				  {{ row.lobbyist_name|standardize_individual_name }}
+    			  {% endif %}
+    			  {% endfor %}
+    		  </ul>
+    		  <div class="clear"></div>
+    	  </div>
+    	  {% endif %}
   
-	  {% if lobbying_issues %}
-	  <div class="issuesLobbied oneColumn chartWrapper">
-		  <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues</span>
-		  <ul>
-			  {% for issue in lobbying_issues %}
-			  <li>
-				  {{issue}}{% if forloop.last %}{% else %},{% endif %}
-			  </li>
-			  {% endfor %}
-		  </ul>
-		  <div class="clear"></div>
-	  </div>
-	  {% endif %}
+    	  {% if lobbying_issues %}
+    	  <div class="issuesLobbied">
+    		  <h5>Most Frequently Disclosed Lobbying Issues</h5>
+    		  <ul>
+    			  {% for issue in lobbying_issues %}
+    			  <li>
+    				  {{issue}}{% if forloop.last %}{% else %},{% endif %}
+    			  </li>
+    			  {% endfor %}
+    		  </ul>
+    		  <div class="clear"></div>
+    	  </div>
+    	  {% endif %}
+    </div>
   
 	  {% if lobbying_clients %}
 	  <div class="twoColumn chartWrapper">
@@ -129,9 +131,9 @@
 	  
 	  <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
 	  <div class="lobbyingColumn oneColumn chartWrapper">
-		  <div class="lobbyistsOrgs oneColumn">
+		  <div class="lobbyistsOrgs">
 			  {% if lobbying_lobbyists %}
-			  <span class="secondaryTitle">Names of Lobbyists:</span>
+			  <h5>Names of Lobbyists</h5>
 			  <ul>
 				  {% for row in lobbying_lobbyists %}
 				  {% if row.lobbyist_entity %}
@@ -143,12 +145,13 @@
 				  {% endif %}
 				  {% endfor %}
 			  </ul>
+			  <div class="clear"></div>
 			  {% endif %}
 		  </div>
   
 		  {% if lobbying_issues %}
-		  <div class="issuesLobbied oneColumn">
-			  <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>
+		  <div class="issuesLobbied">
+			  <h5>Most Frequently Disclosed Lobbying Issues</h5>
 			  <ul>
 				  {% for issue in lobbying_issues %}
 				  <li>
@@ -188,15 +191,14 @@
 	{% endif %}
   {% endif %}
   
-	 
+	<div class="clear"></div> 
 	
   {% if lobbying_bills %}
 	<div class="oneColumn chartWrapper">
-		<span class="secondaryTitle">Most Frequently Disclosed Bills:</span>
+		<h5>Most Frequently Disclosed Bills</h5>
 		<table>
 			<thead>
 				<tr class="titles">
-					<th class="left">Congress</th>
 					<th class="left">Bill No.</th>
 					<th class="left">Title</th>
 				</tr>
@@ -204,7 +206,6 @@
 			<tbody>
 				{% for bill in lobbying_bills %}
 					<tr class="{% cycle 'even' 'odd' %}">
-						<td class="left">{{bill.congress}}<sup>th</sup></td>
 						{% if bill.link %}
 							<td><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></td>
 						{% else %}
@@ -220,7 +221,7 @@
   
   {% if lobbyist_registration_tracker %}
 	<div class="twoColumn chartWrapper">
-		<h4>Recent Lobbying Contracts</h4>
+		<h5>Recent Lobbying Contracts</h5>
 		<table>
 			<thead class="titles">
 				<tr>
