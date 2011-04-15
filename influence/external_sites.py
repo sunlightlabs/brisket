@@ -187,8 +187,8 @@ def get_partytime_data(ids):
     cutoff = today - timedelta(days=180)
     
     out = SortedDict()
-    out['upcoming'] = [dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3]
-    out['past'] = [dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):]
+    out['upcoming'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3], key=lambda x: x['fields']['start_date'], reverse=True)
+    out['past'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):], key=lambda x: x['fields']['start_date'], reverse=True)
     
     return ("http://politicalpartytime.org/pol/%s/" % politician_ids[0]['id'], out)
 
