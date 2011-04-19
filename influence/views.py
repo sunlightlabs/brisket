@@ -258,8 +258,8 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
             'title': bill['title'],
             'link': make_bill_link(bill),
             'congress': bill['congress_no'],
-        } for bill in api.org.registrant_bills(entity_id, cycle) ]
-
+        } for bill in api.org.bills(entity_id, cycle) ]
+        
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
     
     context['lobbyist_registration_tracker'] = external_sites.get_lobbyist_tracker_data(external_ids)
