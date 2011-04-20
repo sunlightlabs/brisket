@@ -1,9 +1,9 @@
-from api import api
 from django.http import Http404
 from django.template.defaultfilters import slugify
 from influence import external_sites
-from influence.api import DEFAULT_CYCLE
 from influence.names import standardize_name
+from influenceexplorer import DEFAULT_CYCLE
+from settings import api, LATEST_CYCLE
 import datetime
 
 def bar_validate(data):
@@ -74,7 +74,7 @@ def get_metadata(entity_id, cycle, entity_type):
             'earmarks': ['earmark_count']}
     }
 
-    entity_info = api.entity_metadata(entity_id)
+    entity_info = api.entities.metadata(entity_id)
 
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():
@@ -84,7 +84,7 @@ def get_metadata(entity_id, cycle, entity_type):
         else:
             data[data_type] = False
 
-    data['available_cycles'] = entity_info['totals'].keys()
+    data['available_cycles'] = [c for c in entity_info['totals'].keys() if int(c) <= LATEST_CYCLE]
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
         entity_info['totals'] = entity_info['totals'][cycle_str]
@@ -105,7 +105,7 @@ def check_entity(entity_info, cycle, entity_type):
         raise Http404
     if not entity_info['years'] or \
         (icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end']))) or \
-        entity_info['type'] != entity_type:
+        icycle > LATEST_CYCLE or entity_info['type'] != entity_type:
         raise Http404
         
         
@@ -134,6 +134,9 @@ def prepare_entity_view(request, entity_id, type):
     context['external_links'] = external_sites.get_contribution_links(type, standardized_name, metadata['entity_info']['external_ids'], cycle)
 
     return cycle, standardized_name, metadata, context
-    
-    
-    
+
+
+def make_bill_link(bill):
+    if bill['bill_type'] in 'h hr hc hj s sr sc sj'.split():
+        if bill['congress_no'] and int(bill['congress_no']) >= 109:
+            return 'http://www.opencongress.org/bill/{0}-{1}{2}/show'.format(bill['congress_no'], bill['bill_type'], bill['bill_no'])

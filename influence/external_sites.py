@@ -1,6 +1,9 @@
 from django.utils.functional import curry
-import base64, urllib
+import base64, urllib, urllib2
 import json
+from datetime import datetime, timedelta
+from django.utils.datastructures import SortedDict
+from settings import api
 
 # contribution links
 def _get_crp_url(type, standardized_name, ids, cycle=None):
@@ -167,3 +170,42 @@ def get_earmark_links(type, standardized_name, ids, cycle):
         )
     
     return links
+
+from influence.cache import cache
+
+@cache(seconds=86400)
+def get_partytime_data(ids):
+    politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
+    
+    if not politician_ids:
+        return (None, {'past': [], 'upcoming': []})
+      
+    page = urllib2.urlopen("http://politicalpartytime.org/json/%s/" % politician_ids[0]['id'])
+    records = json.loads(page.read())
+    
+    today = datetime.now()
+    cutoff = today - timedelta(days=180)
+    
+    out = SortedDict()
+    out['upcoming'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3], key=lambda x: x['fields']['start_date'], reverse=True)
+    out['past'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):], key=lambda x: x['fields']['start_date'], reverse=True)
+    
+    return ("http://politicalpartytime.org/pol/%s/" % politician_ids[0]['id'], out)
+
+@cache(seconds=86400)
+def get_lobbyist_tracker_data(ids):
+    out = []
+    tracker_urls = filter(lambda s: s['namespace'] == 'urn:sunlight:lobbyist_registration_tracker_url', ids)
+    if tracker_urls:
+        page = urllib2.urlopen("http://reporting.sunlightfoundation.com%s.json" % tracker_urls[0]['id'])
+        records = json.loads(page.read())
+        cutoff = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')
+        out = [record for record in records['registrations'] if record['received'] >= cutoff][:5]
+        item_type = 'firm' if records['path'].startswith('/lobbying/firm') else 'client'
+        id_fetch_type = 'registrant' if item_type == 'client' else 'client'
+    for record in out:
+        record['date'] = datetime.strptime(record['received'], '%Y-%m-%d %H:%M:%S')
+        lookup = api.entities.id_lookup("urn:sunlight:lobbyist_registration_tracker_url", record[id_fetch_type]['path'])
+        if lookup:
+            record[id_fetch_type]['ie_path'] = '/organization/%s/%s' % (record[id_fetch_type]['path'].split('/')[-1], lookup[0]['id'])
+    return out

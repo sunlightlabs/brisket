@@ -6,19 +6,38 @@
     {{ entity_info.name|standardize_individual_name }} | 
 {% endblock %}
 
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% if contributions_data %}Campaign Contributions{% endif %}
+		{% if lobbying_data %}Lobbying{% endif %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
 {% block canonicalurl %}/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_individual_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
 
 {% block body_class %}individual{% endblock %}
 
+{% block og %}
+  <meta name="og:title" content="{{ entity_info.name|standardize_individual_name }} | Influence Explorer">
+  <meta name="og:description" content="{{ entity_info.name|standardize_individual_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+  <meta name="og:url" content="http://influenceexplorer.com/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
+  <meta name="og:site_name" content="Influence Explorer">
+  <meta name="fb:admins" content="7812952,5308565">
+{% endblock %}
+
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
   sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+  {% if not suppress_contrib_graphs %}
   piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party");
   barchart("recipients_barchart", {% if candidates_barchart_data %}{{ candidates_barchart_data|safe }}{% else %} [] {% endif %});  
   barchart("orgs_barchart", {% if orgs_barchart_data %}{{ orgs_barchart_data|safe }}{% else %} [] {% endif %});
+  {% endif %}
 });
 
 </script>

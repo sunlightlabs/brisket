@@ -2,7 +2,7 @@
 {% load media %}
 <html xmlns="http://www.w3.org/1999/xhtml" >
   <head>
-	<title>{% block pagetitle %}{% endblock %}Influence Explorer</title>
+	<title>{% block pagetitle %}{% endblock %}Influence Explorer{% block pagetopics %}{% endblock %}</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="keywords" content="campaign contributions, sunlight foundation, influence explorer, politics, government, influence" />
@@ -20,6 +20,15 @@
 	{% js "js/raphael-min.js" %}
 
     {% block js %}{% endblock %}
+	{% block og %}
+	  <meta name="og:title" content="Influence Explorer">
+	  <meta name="og:description" content="Influence Explorer connects the dots of political contributions on the federal and state level allowing you to track influence by lawmaker, company or prominent individual.">
+	  <meta name="og:type" content="cause">
+	  <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+	  <meta name="og:url" content="http://influenceexplorer.com{{ request.path }}">
+	  <meta name="og:site_name" content="Influence Explorer">
+	  <meta name="fb:admins" content="7812952,5308565">
+	{% endblock %}
     <script type="text/javascript" src="http://use.typekit.com/rum2sap.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<script type="text/javascript">

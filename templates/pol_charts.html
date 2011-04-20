@@ -1,7 +1,7 @@
 <div class="twoColumn chartWrapper">
   <div class="chart">
     {% if industries_barchart_data %}
-    <h4>Top Industries</h4>
+    <h4 class="withTip">Top Industries</h4>
     <span class="tip">OpenSecrets.org and FollowTheMoney.org classify contribution data into about 100 <a href="http://www.opensecrets.org/lobby/list_indus.php">industries</a>.</span>
     <div class="graph" id="industries_barchart">
       <!-- raphael charts -->
@@ -50,6 +50,46 @@
     {% endif %}
   </div>
 </div>
+
+{% if partytime_data %}
+  {% if partytime_data.past or partytime_data.upcoming %}
+  <div class="twoColumn chartWrapper">
+    <h4 class="withTip">Recent and upcoming fundraisers</h4>
+    <span class="tip">Full invitations can be viewed at <a href="{{ partytime_link }}">Party Time</a></span>
+    <table class="twoColumn">
+      <thead>
+        <tr id="partyTime">
+          <th>Date</th>
+          <th>Event</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for type, events in partytime_data.items %}
+          {% for row in events %}
+            <tr class="{% cycle 'even' 'odd' %} {{ type }}">
+              <td>{{ row.date|date }}</td>
+              <td>
+                <dl>
+                  <dt>Venue:</dt> 
+                  <dd>{{ row.fields.entertainment }} at {{ row.fields.venue }}</dd>
+                  
+                  {% if row.fields.hosts %}
+                    <dt class="clear">Hosted by:</dt>
+                    <dd>
+                    {% for host in row.fields.hosts %}
+                      {{ host }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                    </dd>
+                  {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+{% endif %}
 
 <div class="clear"></div>
 

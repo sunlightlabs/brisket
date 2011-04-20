@@ -4,83 +4,66 @@
 {% load influence_extras %}
 
 <div class="overviewBar">
-  <a class="toggle">Toggle</a>
-  <h3 class="insideBar">
-      Lobbying, 
-    {% ifequal cycle "-1" %} 
-      {{entity_info.lobbying_years.start|add:-1}} &#150; {{entity_info.lobbying_years.end}}
-    {% else %}  
-      {{cycle|add:-1}} &#150; {{cycle}} 
-    {% endifequal %}</h3>
-  <span class="insideBar">
-  </span>
-  <span class="insideBar">
-  </span>
-  <div id="sparklines">                
-  </div>  
+    <a class="toggle">Toggle</a>
+    <h3 class="insideBar">
+        Lobbying, 
+        {% ifequal cycle "-1" %} 
+            {{entity_info.lobbying_years.start|add:-1}} &#150; {{entity_info.lobbying_years.end}}
+        {% else %}  
+            {{cycle|add:-1}} &#150; {{cycle}} 
+        {% endifequal %}
+    </h3>
 </div>
 
 <div class="chartModule">  
-  {% if lobbying_with_firm %}
+    {% if lobbying_with_firm %}
+        <h4>Lobbying by {{ entity_info.name|standardize_individual_name }}</h4>
+        
+        <div class="twoColumn chartWrapper">
+            <h5>Lobbied with the Following Firms</h5>
+            {% for row in lobbying_with_firm %}
+            {% if row.registrant_entity %}    
+            <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}{{cycle|pretty_cycle}}">{{ row.registrant_name }}</a>{% if forloop.last %}{% else %},{% endif %}
+            {% else %}
+            {{ row.registrant_name }}{% if forloop.last %}{% else %},{% endif %}    
+            {% endif %}    
+            {% endfor %}
+        </div>
+        
+        {% if issues_lobbied_for %}
+            <div class="issuesLobbied oneColumn chartWrapper">
+	            <h5>Most Frequently Disclosed Lobbying Issues</h5>
+	            <ul>
+	                {% for issue in issues_lobbied_for %}
+	                <li>{{issue}}{% if forloop.last %}{% else %},{% endif %}</li>
+	                {% endfor %}
+	            </ul>
+            </div>
+        {% endif %}
+        <div class="clear"></div>
   
-  <div class="threeColumn chartWrapper">
-    <h4>{{ entity_info.name|standardize_individual_name }} Lobbied with the Following Firms</h4>
-    <div class="lobbyistsOrgs twoColumn">
-      {% for row in lobbying_with_firm %}
-      {% if row.registrant_entity %}    
-      <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}{{cycle|pretty_cycle}}">{{ row.registrant_name }}</a>{% if forloop.last %}{% else %},{% endif %}
-      {% else %}
-      {{ row.registrant_name }}{% if forloop.last %}{% else %},{% endif %}    
-    {% endif %}    
-      {% endfor %}
-    </div>
-    
-    {% if issues_lobbied_for %}
-    <div class="lobbyingColumn oneColumn">
-      <div class="issuesLobbied">
-	<span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>
-	<ul>
-	  {% for issue in issues_lobbied_for %}
-	  <li>{{issue}}{% if forloop.last %}{% else %},{% endif %}</li>
-	  {% endfor %}
-	</ul>
-      </div>
-    </div>
+    {% endif %} <!-- end if lobbying with firm -->
+  
+    {% if lobbying_for_clients %}
+        <div class="twoColumn chartWrapper">
+            <h5>Clients of Firms {{ entity_info.name|standardize_individual_name }} Worked For</h5>
+            {% for row in lobbying_for_clients %}
+            {% if row.client_entity %}
+            <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>{% if forloop.last %}{% else %},{% endif %}
+            {% else %}
+            {{ row.client_name }}{% if forloop.last %}{% else %},{% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
     {% endif %}
     <div class="clear"></div>
-  </div>
-  
-  {% endif %} <!-- end if lobbying with firm -->
-  
-  {% if lobbying_for_clients %}
-  
-  <div class="threeColumn chartWrapper">
-    <h4>Clients of Firms {{ entity_info.name|standardize_individual_name }} Worked For</h4>
-    <div class="lobbyistsOrgs twoColumn">
-      {% for row in lobbying_for_clients %}
-      {% if row.client_entity %}
-      <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>{% if forloop.last %}{% else %},{% endif %}
-      {% else %}
-      {{ row.client_name }}{% if forloop.last %}{% else %},{% endif %}
-      {% endif %}
-      {% endfor %}
+
+    <div class="external">
+        {% if lobbying_links %}
+            For more information on lobbying:
+            {% for link in lobbying_links %}
+            <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+            {% endfor %}
+        {% endif %}
     </div>
-  </div>
-<div class="clear"></div>
-
-<div class="external">
-  {% if lobbying_links %}
-    For more information on lobbying:
-    {% for link in lobbying_links %}
-    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
-    {% endfor %}
-  {% endif %}
 </div>
-  
-<div class="clear"></div>
-
-</div> <!-- end div chartModule -->
-{% endif %}
-
-
-

@@ -2,7 +2,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from influence.names import standardize_individual_name, standardize_organization_name, \
     standardize_industry_name
-from name_cleaver.name_cleaver import PoliticianNameCleaver
+from name_cleaver import PoliticianNameCleaver
 
 register = template.Library()
 
@@ -33,6 +33,7 @@ seat_labels = {'federal:senate': 'US Senate',
                'state:upper': 'State Upper Chamber',
                'state:lower': 'State Lower Chamber',
                'state:governor': 'Governor',
+               'state:ltgovernor': 'Lt. Governor',
                'state:judicial': 'State Judiciary',
                'state:office': 'Other State Office'
                }
@@ -85,3 +86,15 @@ def colon_filter(loop, desc):
 @register.filter(name='earpunc')
 def earpunc_filter(loop, desc):
     return comma_filter(loop) + colon_filter(loop, desc)
+
+@register.filter(name='nonempty_lines')
+def nonempty_lines_filter(text):
+    lines = [line.strip() for line in text.split('\n')]
+    return [line for line in lines if line]
+
+@register.filter(name='pretty_list')
+def pretty_list_filter(l):
+    if len(l) < 3:
+        return ' and '.join(l)
+    else:
+        return '%s and %s' % (', '.join(l[:-1]), l[-1])

@@ -7,18 +7,39 @@
     {{ entity_info.name|standardize_organization_name}} | 
 {% endblock %}
 
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% if contributions_data %}Campaign Contributions{% endif %}
+		{% if lobbying_data %}Lobbying{% endif %}
+        {% if earmarks %}Earmarks{% endif %}
+		{% if grants_and_contracts %}Grants &amp; Contracts{% endif %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
 {% block canonicalurl %}/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_organization_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
+
+{% block og %}
+  <meta name="og:title" content="{{ entity_info.name|standardize_organization_name}} | Influence Explorer">
+  <meta name="og:description" content="{{ entity_info.name|standardize_organization_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+  <meta name="og:url" content="http://influenceexplorer.com/organization/{{ entity_info.name|standardize_organization_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
+  <meta name="og:site_name" content="Influence Explorer">
+  <meta name="fb:admins" content="7812952,5308565">
+{% endblock %}
 
 {% block extrajs %}
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   sparkline_by_party("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}, {{ cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
+  {% if not suppress_contrib_graphs %}
   piechart("piechart_level", {% if level_breakdown %}{{ level_breakdown|safe }}{% else %}{}{% endif %});
   piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
   barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
+  {% endif %}
   
   $('table#grantsContracts td').multiellipsis(3);
   $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
@@ -29,29 +50,30 @@ $(document).ready(function() {
 
 {% block contentHeader %}
 
+<h2>{{ entity_info.name|standardize_organization_name }}</h2>
+
 {% if entity_info.metadata.photo_url %}
-<!--<div class="corporateLogo"><div><img alt="corporate logo" src="{{ entity_info.metadata.photo_url }}"/></div></div>-->
+    <img class="corporateLogo" alt="corporate logo" src="{{ entity_info.metadata.photo_url }}"/>
 {% endif %}
 
-<h2>{{ entity_info.name|standardize_organization_name }}</h2>
-  {% if entity_info.metadata.child_entities or entity_info.metadata.parent_entity %}
-  <div class="relationships">
-    {% if entity_info.metadata.parent_entity %}
-      <div class="relationship">
-        <span class="relationshipTitle">Parent Organization:</span>
-        <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{{cycle|pretty_cycle}}">{{ entity_info.metadata.parent_entity.name|standardize_organization_name }}</a>
-      </div>
+{% if entity_info.metadata.child_entities or entity_info.metadata.parent_entity %}
+    <div class="relationships">
+        {% if entity_info.metadata.parent_entity %}
+        <div class="relationship">
+            <span class="relationshipTitle">Parent Organization:</span>
+            <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{{cycle|pretty_cycle}}">{{ entity_info.metadata.parent_entity.name|standardize_organization_name }}</a>
+        </div>
+        {% endif %}
+        {% if entity_info.metadata.child_entities %}
+        <div class="relationship">
+            <span class="relationshipTitle">Child Organization{{ entity_info.metadata.child_entities|pluralize }}:</span>
+            {% for child_entity in entity_info.metadata.child_entities %}
+            <a href="/organization/{{ child_entity.name|standardize_organization_name|slugify }}/{{ child_entity.id }}{{cycle|pretty_cycle}}">{{ child_entity.name|standardize_organization_name }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
     {% endif %}
-    {% if entity_info.metadata.child_entities %}
-      <div class="relationship">
-        <span class="relationshipTitle">Child Organization{{ entity_info.metadata.child_entities|pluralize }}:</span>
-        {% for child_entity in entity_info.metadata.child_entities %}
-          <a href="/organization/{{ child_entity.name|standardize_organization_name|slugify }}/{{ child_entity.id }}{{cycle|pretty_cycle}}">{{ child_entity.name|standardize_organization_name }}</a>
-        {% endfor %}
-      </div>
-    {% endif %}
-  </div>
-  {% endif %}
 <div class="clear"></div>
 {% endblock %}
 
@@ -85,6 +107,6 @@ $(document).ready(function() {
 
 {% block grants_and_contracts %}
 {% if grants_and_contracts %}
-  {% include "org_grants_and_contracts.html" %}
+    {% include "org_grants_and_contracts.html" %}
 {% endif %}
 {% endblock %}

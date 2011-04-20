@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load influence_extras %}
 
-{% block pagetitle %}
+{% block pagetitle %}{% spaceless %}
     {{ entity_info.name|standardize_politician_name }}
     {% if entity_info.metadata.party %}
         ({{entity_info.metadata.party}})
@@ -11,8 +11,15 @@
     {% if entity_info.metadata.yrs_of_service %}
         {{entity_info.metadata.yrs_of_service}}
     {% endif %}
-    | 
-{% endblock %}
+    |
+{% endspaceless %} {% endblock %}
+    
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% if contributions_data %}Campaign Contributions{% endif %}
+        {% if earmarks %}Earmarks{% endif %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
 
 {% block canonicalurl %}/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
@@ -20,19 +27,43 @@
 
 {% block body_class %}politician{% endblock %}
 
+{% block og %}
+  <meta name="og:title" content="{% spaceless %}
+    {{ entity_info.name|standardize_politician_name }}
+    {% if entity_info.metadata.party %}
+        ({{entity_info.metadata.party}})
+    {% endif %}
+    {{entity_info.metadata.state}}
+    {% if entity_info.metadata.yrs_of_service %}
+        {{entity_info.metadata.yrs_of_service}}
+    {% endif %}
+    |
+{% endspaceless %} Influence Explorer">
+  <meta name="og:description" content="{% if entity_info.metadata.seat %}{{ entity_info.name|standardize_politician_name|seat_title:entity_info.metadata.seat }}{% else %}{{ entity_info.name|standardize_politician_name }}{% endif %} {% if entity_info.metadata.party %}({{entity_info.metadata.party}}{% if entity_info.metadata.state %}-{{entity_info.metadata.state}}{% endif %}){% endif %} has received ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money came from on Influence Explorer.">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="{% if entity_info.metadata.photo_url %}{{ entity_info.metadata.photo_url }}{% else %}http://influenceexplorer.com/media/images/logo.png{% endif %}">
+  <meta name="og:url" content="http://influenceexplorer.com/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
+  <meta name="og:site_name" content="Influence Explorer">
+  <meta name="fb:admins" content="7812952,5308565">
+{% endblock %}
+
 {% block extrajs %}
 {% if not suppress_contrib_graphs %}
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
     sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+
+    {% if not suppress_contrib_graphs %}
     piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
     piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
     barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
     barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
-	piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
+    {% endif %}
     
-	$('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+    piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
+    
+    $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
     $('table td.cell-earmark-description').expando(5, '.earmark-requests', 'span.requestedList', 'moreEarmarks');
 });
 </script>
@@ -96,7 +127,7 @@ $(document).ready(function() {
 
 {% block earmarks %}
 {% if earmarks %}
-	{% include "pol_earmarks.html" %}
+    {% include "pol_earmarks.html" %}
 {% endif %}
 {% endblock %}
 

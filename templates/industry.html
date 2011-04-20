@@ -7,18 +7,37 @@
     {{ entity_info.name|standardize_industry_name}} | 
 {% endblock %}
 
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% if contributions_data %}Campaign Contributions{% endif %}
+		{% if lobbying_data %}Lobbying{% endif %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
 {% block canonicalurl %}/industry/{{ entity_info.name|standardize_industry_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_industry_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
+
+{% block og %}
+  <meta name="og:title" content="{{ entity_info.name|standardize_industry_name}} | Influence Explorer">
+  <meta name="og:description" content="{{ entity_info.name|standardize_industry_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+  <meta name="og:url" content="http://influenceexplorer.com/industry/{{ entity_info.name|standardize_industry_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
+  <meta name="og:site_name" content="Influence Explorer">
+  <meta name="fb:admins" content="7812952,5308565">
+{% endblock %}
 
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   sparkline_by_party("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}, {{ cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
+  {% if not suppress_contrib_graphs %}
   piechart("piechart_level", {% if level_breakdown %}{{ level_breakdown|safe }}{% else %}{}{% endif %});
   piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
   barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
   barchart("organizations_barchart", {% if top_orgs %}{{ top_orgs|safe }} {% else %} [] {% endif %});
+  {% endif %}
 });
 </script>
 {% endblock %}
@@ -63,6 +82,6 @@ $(document).ready(function() {
 
 {% block lobbying %}
 {% if lobbying_data %}
-   {% include "industry_lobbying.html" %}
+    {% include "industry_lobbying.html" %}
 {% endif %}
 {% endblock %}
