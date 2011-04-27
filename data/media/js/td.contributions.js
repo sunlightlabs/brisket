@@ -66,6 +66,14 @@ $().ready(function() {
             allowMultipleFields: true,
             options: TD.STATES
         });
+        
+        TD.ContributionFilter.registerFilter({
+            name: 'msa_ft',
+            label: 'Contributor Metropolitan Area',
+            help: 'Metropolitan Statistical Area of the contributor',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: false
+        });
 
         TD.ContributionFilter.registerFilter({
             name: 'date',
