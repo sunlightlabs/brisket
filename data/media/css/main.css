@@ -390,12 +390,12 @@ li.filter{
 	background-color: #FFF;
 }
 
-body#contracts #dataTabs li#contractsTab a, body#contributions #dataTabs li#contributionsTab a, body#grants #dataTabs li#grantsTab a, body#lobbying #dataTabs li#lobbyingTab a, body#earmarks #dataTabs li#earmarksTab a {
+body#contracts #dataTabs li#contractsTab a, body#contributions #dataTabs li#contributionsTab a, body#grants #dataTabs li#grantsTab a, body#lobbying #dataTabs li#lobbyingTab a, body#earmarks #dataTabs li#earmarksTab a, body#contractorMisconduct #dataTabs li#contractorMisconductTab a {
     background-color: #ECEBE6;
     border-bottom: 2px solid #ECEBE6;
 }
 
-body#contracts.index #dataTabs li#contractsTab a, body#contributions.index #dataTabs li#contributionsTab a, body#grants.index #dataTabs li#grantsTab a, body#lobbying.index #dataTabs li#lobbyingTab a, body#earmarks.index #dataTabs li#earmarksTab a {
+body#contracts.index #dataTabs li#contractsTab a, body#contributions.index #dataTabs li#contributionsTab a, body#grants.index #dataTabs li#grantsTab a, body#lobbying.index #dataTabs li#lobbyingTab a, body#earmarks.index #dataTabs li#earmarksTab a, body#contractorMisconduct.index #dataTabs li#contractorMisconductTab a {
     background-color: #FFF;
     border-bottom: 2px solid #FFF;
 }
@@ -422,6 +422,7 @@ body#contributions #intro-contributions { display: block; }
 body#lobbying #intro-lobbying { display: block; }
 body#grants #intro-grants { display: block; }
 body#earmarks #intro-earmarks { display: block; }
+body#contractor-misconduct #intro-contractor-misconduct { display: block; }
 
 /*single column-------------------------------------------------*/
 

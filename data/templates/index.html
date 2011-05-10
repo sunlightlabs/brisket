@@ -5,7 +5,7 @@
 {% block bodyclass %}index{% endblock %}
 
 {% block sidebar %}
-	<h4>Welcome</h4> 
+	<h4>Welcome</h4>
 	<h2>to Transparency Data</h2>
 	<object width="275" height="180" id="screencast">
 			<param name="movie" value="http://www.youtube.com/v/pf0kRYHiwi0&amp;hl=en_US&amp;fs=1&amp;rel=0"></param>
@@ -27,6 +27,7 @@
 			<li id="lobbyingTab"><a href="/lobbying/" class="lobbying">Lobbying</a></li>
 			<li id="grantsTab"><a href="/grants/" class="grants">Grants</a></li>
 			<li id="contractsTab"><a href="/contracts/" class="contracts">Contracts</a></li>
+            <li id="contractorMisconductTab"><a href="/contractor_misconduct/" class="contractor-misconduct">Contractor Misconduct</a></li>
 		</ul>
 	</div>
 	<div class="introbox" id="intro-contributions">
@@ -48,7 +49,7 @@
 			<a id="contributionPreviewButton" class="previewButton" href="#">Preview Data</a>
 		</div>
 	</div>
-	
+
 	<div class="introbox" id="intro-earmarks">
 		<h4>Search Earmarks</h4>
 		<div id="leftIntro">
@@ -68,7 +69,7 @@
 			<a id="earmarksPreviewButton" class="previewButton" href="#">Preview Data</a>
 		</div>
 	</div>
-	
+
 	<div class="introbox" id="intro-lobbying">
 		<h4>Search Federal Lobbying</h4>
 		<div id="leftIntro">
@@ -128,10 +129,29 @@
 			<a id="contractsPreviewButton" class="previewButton" href="#">Preview Data</a>
 		</div>
 	</div>
-	
+
+	<div class="introbox" id="intro-contractor-misconduct">
+		<h4>Search Contractor Misconduct</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific contractor, contracting party or enforcement agency in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="contractorMisconductDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="contractorMisconductPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
     {% js "index.js" %}
 	<script type="text/javascript">
-	
+
 		$().ready(function() {
 			$('#dataTabs li a').bind('click', function() {
 				var df = $(this).attr('class');
@@ -147,6 +167,8 @@
 					TD.activeFilter = TD.GrantsFilter;
 				} else if (df == 'contracts') {
 					TD.activeFilter = TD.ContractsFilter;
+				} else if (df == 'contractor-misconduct') {
+					TD.activeFilter = TD.ContractorMisconductFilter;
 				}
 				return false;
 			});
@@ -154,19 +176,19 @@
 			TD.LobbyingFilter.bindDataFilter('#lobbyingDataFilter');
 			TD.LobbyingFilter.bindPreview('#lobbyingPreviewButton');
 		    TD.LobbyingFilter.init();
-		
+
 			TD.HashMonitor.setAnchor('');
 
 			TD.EarmarksFilter.bindDataFilter('#earmarksDataFilter');
 			TD.EarmarksFilter.bindPreview('#earmarksPreviewButton');
 		    TD.EarmarksFilter.init();
-		
+
 			TD.HashMonitor.setAnchor('');
-			
+
 			TD.GrantsFilter.bindDataFilter('#grantsDataFilter');
 			TD.GrantsFilter.bindPreview('#grantsPreviewButton');
 		    TD.GrantsFilter.init();
-		
+
 			TD.HashMonitor.setAnchor('');
 
 			TD.ContractsFilter.bindDataFilter('#contractsDataFilter');
@@ -180,12 +202,18 @@
 		    TD.ContributionFilter.init();
 
 			TD.HashMonitor.setAnchor('');
-			
+
+			TD.ContractorMisconductFilter.bindDataFilter('#contractorMisconductDataFilter');
+			TD.ContractorMisconductFilter.bindPreview('#contractorMisconductPreviewButton');
+		    TD.ContractorMisconductFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
 		    TD.activeFilter = TD.ContributionFilter;
-		
+
 			TD.init();
-			
+
 		});
-		
+
 	</script>
 {% endblock %}
