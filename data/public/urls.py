@@ -3,6 +3,8 @@ from dcapi.contributions.urls import contributionfilter_handler
 from dcapi.earmarks.urls import earmarkfilter_handler
 from dcapi.grants.urls import grantsfilter_handler
 from dcapi.lobbying.urls import lobbyingfilter_handler
+from dcapi.contractor_misconduct.urls import contractor_misconduct_filter_handler
+
 from django.conf.urls.defaults import patterns, url
 
 urlpatterns = patterns('dc_web.public.views',
@@ -41,6 +43,12 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^data/lobbying/$', 'search_preview', {'search_resource': lobbyingfilter_handler}, name="data_lobbying"),
     url(r'^data/lobbying/count/$', 'search_count', {'search_resource': lobbyingfilter_handler}, name="data_lobbying_count"),
     
+    # contractor_misconduct
+    url(r'^contractor_misconduct/$', 'filter_contractor_misconduct', name="filter_contractor_misconduct"),
+    url(r'^contractor_misconduct/download/$', 'search_download', {'search_resource': contractor_misconduct_filter_handler},  name="data_contractor_misconduct_download"),
+    url(r'^data/contractor_misconduct/$', 'search_preview', {'search_resource': contractor_misconduct_filter_handler}, name="data_contractor_misconduct"),
+    url(r'^data/contractor_misconduct/count/$', 'search_count', {'search_resource': contractor_misconduct_filter_handler}, name="data_contractor_misconduct_count"),
+ 
     # doc lookups
     url(r'^docs/lookup/(?P<dataset>\w+)/(?P<field>[\w\-_]+)/$', 'lookup', name="doc_lookup"),
     
