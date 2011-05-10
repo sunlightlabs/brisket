@@ -23,7 +23,22 @@ $().ready(function() {
             help: 'This is the year in which a date significant to the incident fell.',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
-            options: [ [str(x), str(x)] for x in range(1995, 2011) ]
+            options: [ ['1995', '1995'],
+                       ['1996', '1996'],
+                       ['1997', '1997'],
+                       ['1998', '1998'],
+                       ['1999', '1999'],
+                       ['2000', '2000'],
+                       ['2001', '2001'],
+                       ['2002', '2002'],
+                       ['2003', '2003'],
+                       ['2004', '2004'],
+                       ['2005', '2005'],
+                       ['2006', '2006'],
+                       ['2007', '2007'],
+                       ['2008', '2008'],
+                       ['2009', '2009'],
+                       ['2010', '2010']]
         });
 
 
@@ -35,7 +50,7 @@ $().ready(function() {
         });
 
         TD.ContractorMisconductFilter.registerFilter({
-            name: 'contractor_ft',
+            name: 'contractor',
             label: 'Contractor',
             help: 'Name of the contractor.',
             field: TD.DataFilter.TextField,
@@ -43,7 +58,7 @@ $().ready(function() {
         });
 
         TD.ContractorMisconductFilter.registerFilter({
-            name: 'contracting_party_ft',
+            name: 'contracting_party',
             label: 'Contracting Party',
             help: 'Name of the contracting party.',
             field: TD.DataFilter.TextField,
@@ -51,7 +66,7 @@ $().ready(function() {
         });
 
         TD.ContractorMisconductFilter.registerFilter({
-            name: 'instance_ft',
+            name: 'instance',
             label: 'Instance Description',
             help: 'Extended description of misconduct instance.',
             field: TD.DataFilter.TextField,
@@ -59,8 +74,8 @@ $().ready(function() {
         });
 
         TD.ContractorMisconductFilter.registerFilter({
-            name: 'enforcment_agency_ft',
-            label: 'Enforcment Agency',
+            name: 'enforcement_agency',
+            label: 'Enforcement Agency',
             help: 'The agency responsible for enforcing the laws or regulations.',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
