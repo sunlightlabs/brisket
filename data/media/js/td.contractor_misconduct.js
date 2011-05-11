@@ -3,15 +3,12 @@ $().ready(function() {
     TD.ContractorMisconductFilter = new TD.DataFilter();
 
     TD.ContractorMisconductFilter.path = 'contractor_misconduct';
-    TD.ContractorMisconductFilter.ignoreForBulk = ['date_year'];
 
     TD.ContractorMisconductFilter.row_content = function(row) {
         var content = '<td class="date_year">' + row.date_year + '</td>';
-        content += '<td class="penalty_amount">$' + TD.Utils.currencyFormat(row.penalty_amount) + '</td>';
         content += '<td class="contractor">' + row.contractor + '</td>';
-        content += '<td class="contracting_party">' + row.contracting_party + '</td>';
-        content += '<td class="enforcement_agency">' + row.enforcement_agency + '</td>';
-        content += '<td class="misconduct_type">' + row.misconduct_type + '</td>';
+        content += '<td class="instance">' + row.instance + '</td>';
+        content += '<td class="penalty_amount">' + TD.Utils.currencyFormatNonZero(row.penalty_amount, true) + '</td>';
         return content;
     }
 
@@ -41,13 +38,6 @@ $().ready(function() {
                        ['2010', '2010']]
         });
 
-
-        TD.ContractorMisconductFilter.registerFilter({
-            name: 'penalty_amount',
-            label: 'Penalty Amount',
-            help: 'This is the dollar amount of the penalty.',
-            field: TD.DataFilter.OperatorField
-        });
 
         TD.ContractorMisconductFilter.registerFilter({
             name: 'contractor',
