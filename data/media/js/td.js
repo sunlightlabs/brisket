@@ -123,6 +123,13 @@ var TD = {
         currencyFormat: function(s) {
             return $.currency(parseFloat(s));
         },
+        currencyFormatNonZero: function(s, substitute_dash) {
+            if (parseFloat(s) > 0 || parseFloat(s) < 0) {
+                return '$' + $.currency(parseFloat(s));
+            } else {
+                return substitute_dash ? '-' : '0';
+            }
+        },
         toQueryString: function(obj) {
             var qs = ''
             for (attr in obj) {
