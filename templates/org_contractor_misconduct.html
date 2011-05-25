@@ -15,7 +15,7 @@
         <div class="clear"></div>
         <div class="descriptorText" id='contractorMisconductDescriptor'>
             <p>TODO: text goes here</p>
-            <p>For more information, see our <a href="/about/methodology/contractor_misconducts/">Contractor Misconduct Methodology</a> page.</p>
+            <p>For more information, see our <a href="/about/methodology/contractor_misconduct/">Contractor Misconduct Methodology</a> page.</p>
         </div>
     </div>
 </div>
@@ -27,9 +27,9 @@
     <div class="clear"></div>
 
     <div class="external">
-        {% if contractor_misconduct_links %}
-            For more information on Contractor Misconduct:
-            {% for link in contractor_misconduct_links %}
+        {% if pogo_links %}
+            For more information:
+            {% for link in pogo_links %}
                 <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
             {% endfor %}
         {% endif %}

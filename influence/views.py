@@ -168,7 +168,7 @@ def org_industry_entity(request, entity_id, type):
         org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     if metadata['contractor_misconduct']:
-        org_contractor_misconduct_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+        org_contractor_misconduct_section(entity_id, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -273,10 +273,10 @@ def org_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmark_links'] = external_sites.get_earmark_links('organization', name, external_ids, cycle)
 
 
-def org_contractor_misconduct_section(entity_id, name, cycle, external_ids, context):
+def org_contractor_misconduct_section(entity_id, cycle, external_ids, context):
     context['contractor_misconduct'] = contractor_misconduct_table_data(entity_id, cycle)
-    #context['contractor_misconduct_links'] = external_sites.get_pogo_links
-    
+    context['pogo_links'] = external_sites.get_pogo_links(external_ids)
+
 
 def org_spending_section(entity_id, name, cycle, context):
     spending = api.org.fed_spending(entity_id, cycle)

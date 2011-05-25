@@ -1,4 +1,3 @@
-from django.utils.functional import curry
 import base64, urllib, urllib2
 import json
 from datetime import datetime, timedelta
@@ -84,7 +83,16 @@ def get_gc_links(standardized_name, cycle):
     )
     
     return links
-    
+
+def get_pogo_links(ids):
+    links = []
+
+    pogo_contractor_ids = filter(lambda s: s['namespace'] == 'urn:pogo:contractor', ids)
+    if pogo_contractor_ids:
+        links.append({'text': 'Federal Contractor Misconduct Database from POGO', 'url': 'http://www.contractormisconduct.org/index.cfm/1,73,221,html?ContractorID={0}'.format(pogo_contractor_ids[0]['id'])})
+
+    return links
+
 
 def get_lobbying_links(type, standardized_name, ids, cycle):
     links = []
@@ -130,7 +138,7 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
                 os_params['year'] = cycle
                 td_params['year'] = cycle
             links.append(
-                dict(text='OpenSecrets.orgs', url="http://www.opensecrets.org/lobby/indusclient.php?%s" % urllib.urlencode(os_params))
+                dict(text='OpenSecrets.org', url="http://www.opensecrets.org/lobby/indusclient.php?%s" % urllib.urlencode(os_params))
             )
             links.append(
                 dict(text='TransparencyData.com', url="http://transparencydata.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))

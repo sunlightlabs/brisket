@@ -6,24 +6,23 @@
 
 <table class="threeColumn sortable" id="contractorMisconductTable">
     <thead>
-    	<tr id="titles">
-    	  <th>Year</th>
-    	  <th>Contracting Party</th>
-    	  <th>Instance</th>
-    	  <th>Penalty Amount</th>
-    	  <th>Court Type</th>
-    	  <th>Misconduct Type</th>
+        <tr id="titles">
+          <th>Year</th>
+          <th>Hired By</th>
+          <th>Instance</th>
+          <th>Court Type</th>
+          <th>Misconduct Type</th>
+          <th class="right">Penalty</th>
     </thead>
     <tbody>
         {% for row in contractor_misconduct %}
         <tr class="{% cycle 'even' 'odd' %}">
             <td class='cell-misconduct-year'>{{ row.year }}</td>
             <td class='cell-misconduct-contracting-party'>{{ row.contracting_party }}</td>
-            <td class='cell-misconduct-instance'>{{ row.instance }}</td>
-            <td class='cell-misconduct-penalty-amount'>${{ row.penalty_amount|floatformat:0|intcomma }}</td>
+            <td class='cell-misconduct-instance'><a href='{{ row.misconduct_url }}'>{{ row.instance }}</a></td>
             <td class='cell-misconduct-court-type'>{{ row.court_type }}</td>
             <td class='cell-misconduct-misconduct-type'>{{ row.misconduct_type }}</td>
-	  
+            <td class='cell-misconduct-penalty-amount right'>${{ row.penalty_amount|floatformat:0|intcomma }}</td>
         </tr>
         {% endfor %}
     </tbody>
