@@ -36,7 +36,7 @@ def urllib_2_django_error(f):
 
             # should we do more specific handling of other error types here?
             raise e
-    
+
     return wrapped_f
 
 
@@ -152,20 +152,23 @@ def industry_landing(request):
 @urllib_2_django_error
 def org_industry_entity(request, entity_id, type):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
-    
+
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
         org_contribution_section(entity_id, cycle, amount, type, context)
-    
+
     if metadata['lobbying']:
         is_lobbying_firm = bool(metadata['entity_info']['metadata'].get('lobbying_firm', False))
         org_lobbying_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], is_lobbying_firm, context)
 
     if metadata['fed_spending']:
         org_spending_section(entity_id, standardized_name, cycle, context)
-        
+
     if 'earmarks' in metadata and metadata['earmarks']:
         org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+
+    if metadata['contractor_misconduct']:
+        org_contractor_misconduct_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -181,7 +184,7 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
                 'href' : barchart_href(org, cycle, 'organization')
             } for org in api.org.industry_orgs(entity_id, cycle, limit=10)
         ])
-    
+
     context['contributions_data'] = True
     recipients = api.org.recipients(entity_id, cycle=cycle)
 
@@ -259,9 +262,9 @@ def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm,
             'link': make_bill_link(bill),
             'congress': bill['congress_no'],
         } for bill in api.org.bills(entity_id, cycle) ]
-        
+
         context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
-    
+
     context['lobbyist_registration_tracker'] = external_sites.get_lobbyist_tracker_data(external_ids)
 
 
@@ -269,6 +272,11 @@ def org_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmarks'] = earmarks_table_data(entity_id, cycle)
     context['earmark_links'] = external_sites.get_earmark_links('organization', name, external_ids, cycle)
 
+
+def org_contractor_misconduct_section(entity_id, name, cycle, external_ids, context):
+    context['contractor_misconduct'] = contractor_misconduct_table_data(entity_id, cycle)
+    #context['contractor_misconduct_links'] = external_sites.get_pogo_links
+    
 
 def org_spending_section(entity_id, name, cycle, context):
     spending = api.org.fed_spending(entity_id, cycle)
@@ -288,7 +296,7 @@ def org_spending_section(entity_id, name, cycle, context):
             ))
 
     context['gc_found_things'] = gc_found_things
-        
+
 
 def organization_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'organization')
@@ -303,10 +311,10 @@ def politician_entity(request, entity_id):
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
         pol_contribution_section(entity_id, cycle, amount, context)
-        
+
     if metadata['earmarks']:
         pol_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
-    
+
     context['partytime_link'], context['partytime_data'] = external_sites.get_partytime_data(metadata['entity_info']['external_ids'])
 
     return render_to_response('politician.html', context,
@@ -372,13 +380,19 @@ def earmarks_table_data(entity_id, cycle):
     for row in rows:
         for member in row['members']:
             member['name'] = str(PoliticianNameCleaver(member['name']).parse().plus_metadata(member['party'], member['state']))
-            
+
+    return rows
+
+
+def contractor_misconduct_table_data(entity_id, cycle):
+    rows = api.org.contractor_misconduct(entity_id, cycle)
+
     return rows
 
 
 def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmarks'] = earmarks_table_data(entity_id, cycle)
-    
+
     local_breakdown = api.pol.earmarks_local_breakdown(entity_id, cycle)
     local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
 

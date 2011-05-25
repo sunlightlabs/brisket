@@ -1,0 +1,40 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar">
+    <a class="toggle">Toggle</a>
+    <h3 class="insideBar">Contractor Misconduct,
+        {% ifequal cycle "-1" %}
+            {{entity_info.contractor_misconduct_years.start|add:-1}} &#150; {{entity_info.contractor_misconduct_years.end}}
+        {% else %}
+            {{cycle|add:-1}} &#150; {{cycle}}
+        {% endifequal %}
+    </h3>
+    <div class="insideBar amount">
+        <a class="descriptor" title="More Information" href="#contractorMisconductDescriptor">Information</a>
+        <div class="clear"></div>
+        <div class="descriptorText" id='contractorMisconductDescriptor'>
+            <p>TODO: text goes here</p>
+            <p>For more information, see our <a href="/about/methodology/contractor_misconducts/">Contractor Misconduct Methodology</a> page.</p>
+        </div>
+    </div>
+</div>
+
+<div class="chartModule">
+
+    {% include "contractor_misconduct_table.html" %}
+
+    <div class="clear"></div>
+
+    <div class="external">
+        {% if contractor_misconduct_links %}
+            For more information on Contractor Misconduct:
+            {% for link in contractor_misconduct_links %}
+                <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="clear"></div>
+</div><!-- end chartModule -->
+

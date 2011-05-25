@@ -1,0 +1,30 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="clear"></div>
+<h4>Top Contractor Misconduct</h4>
+
+<table class="threeColumn sortable" id="contractorMisconductTable">
+    <thead>
+    	<tr id="titles">
+    	  <th>Year</th>
+    	  <th>Contracting Party</th>
+    	  <th>Instance</th>
+    	  <th>Penalty Amount</th>
+    	  <th>Court Type</th>
+    	  <th>Misconduct Type</th>
+    </thead>
+    <tbody>
+        {% for row in contractor_misconduct %}
+        <tr class="{% cycle 'even' 'odd' %}">
+            <td class='cell-misconduct-year'>{{ row.year }}</td>
+            <td class='cell-misconduct-contracting-party'>{{ row.contracting_party }}</td>
+            <td class='cell-misconduct-instance'>{{ row.instance }}</td>
+            <td class='cell-misconduct-penalty-amount'>${{ row.penalty_amount|floatformat:0|intcomma }}</td>
+            <td class='cell-misconduct-court-type'>{{ row.court_type }}</td>
+            <td class='cell-misconduct-misconduct-type'>{{ row.misconduct_type }}</td>
+	  
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

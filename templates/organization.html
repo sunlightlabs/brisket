@@ -101,12 +101,18 @@ $(document).ready(function() {
 
 {% block earmarks %}
 {% if earmarks %}
-	{% include "org_earmarks.html" %}
+    {% include "org_earmarks.html" %}
 {% endif %}
 {% endblock %}
 
 {% block grants_and_contracts %}
 {% if grants_and_contracts %}
     {% include "org_grants_and_contracts.html" %}
+{% endif %}
+{% endblock %}
+
+{% block contractor_misconduct %}
+{% if contractor_misconduct %}
+    {% include "org_contractor_misconduct.html" %}
 {% endif %}
 {% endblock %}
