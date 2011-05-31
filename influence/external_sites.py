@@ -84,13 +84,21 @@ def get_gc_links(standardized_name, cycle):
     
     return links
 
-def get_pogo_links(ids):
+
+def get_pogo_links(ids, standardized_name, cycle):
     links = []
 
     pogo_contractor_ids = filter(lambda s: s['namespace'] == 'urn:pogo:contractor', ids)
     if pogo_contractor_ids:
         links.append({'text': 'Federal Contractor Misconduct Database from POGO', 'url': 'http://www.contractormisconduct.org/index.cfm/1,73,221,html?ContractorID={0}'.format(pogo_contractor_ids[0]['id'])})
 
+    td_params = {}
+    if cycle != '-1':
+        td_params['date_year'] = "{0}|{1}".format(int(cycle) - 1, cycle)
+
+    td_params['contractor'] = standardized_name
+
+    links.append({ 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/contractor_misconduct/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
     return links
 
 
