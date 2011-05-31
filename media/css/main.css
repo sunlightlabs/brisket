@@ -204,6 +204,8 @@ table#mainPageTable img { border: 2px solid #e0e0df; width: 40px; }
 td.photo { width: 50px;}
 tr#titles th.photo { text-indent: -9999em;}
 table#mainPageTable th, #earmarksTable th, #partyTime th { padding: 0 10px 10px 15px;}
+.mainTable th { padding: 10px;}
+.mainTable { margin-bottom: 55px; }
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
