@@ -7,7 +7,7 @@
           <th>Year</th>
           <th>Hired By</th>
           <th>Description</th>
-          <th>Court Type</th>
+          <th>Disposition</th>
           <th>Misconduct Type</th>
           <th class="right">Penalty</th>
     </thead>
@@ -17,7 +17,7 @@
             <td class='cell-misconduct-year'>{{ row.year }}</td>
             <td class='cell-misconduct-contracting-party'>{{ row.contracting_party }}</td>
             <td class='cell-misconduct-instance'><a href='{{ row.misconduct_url }}'>{{ row.instance }}</a></td>
-            <td class='cell-misconduct-court-type'>{{ row.court_type }}</td>
+            <td class='cell-misconduct-disposistion'>{{ row.disposition }}</td>
             <td class='cell-misconduct-misconduct-type'>{{ row.misconduct_type }}</td>
             <td class='cell-misconduct-penalty-amount right'>${{ row.penalty_amount|floatformat:0|intcomma }}</td>
         </tr>
