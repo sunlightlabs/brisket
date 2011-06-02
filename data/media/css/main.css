@@ -383,7 +383,7 @@ li.filter{
 #dataTabs li a {
     background-color: #DBD7CD;
 	border-bottom: 2px solid #A59C82;
-	padding: 10px;
+	padding: 10px 8px 10px 8px;
 }
 
 #dataTabs li a:hover {
@@ -422,7 +422,7 @@ body#contributions #intro-contributions { display: block; }
 body#lobbying #intro-lobbying { display: block; }
 body#grants #intro-grants { display: block; }
 body#earmarks #intro-earmarks { display: block; }
-body#contractor-misconduct #intro-contractor-misconduct { display: block; }
+body#contractorMisconduct #intro-contractor-misconduct { display: block; }
 
 /*single column-------------------------------------------------*/
 
