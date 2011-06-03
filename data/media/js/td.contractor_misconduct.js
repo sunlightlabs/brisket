@@ -5,9 +5,10 @@ $().ready(function() {
     TD.ContractorMisconductFilter.path = 'contractor_misconduct';
 
     TD.ContractorMisconductFilter.row_content = function(row) {
-        var content = '<td class="date_year">' + row.date_year + '</td>';
+        var content = ''
         content += '<td class="contractor">' + row.contractor + '</td>';
         content += '<td class="instance">' + row.instance + '</td>';
+        content += '<td class="date_year">' + row.date_year + '</td>';
         content += '<td class="disposition">' + row.disposition + '</td>';
         content += '<td class="penalty_amount">' + TD.Utils.currencyFormatNonZero(row.penalty_amount, true) + '</td>';
         return content;
