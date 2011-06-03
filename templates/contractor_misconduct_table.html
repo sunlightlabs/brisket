@@ -1,23 +1,23 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<table class="threeColumn sortable mainTable" id="contractorMisconductTable">
+<table class="threeColumn mainTable" id="contractorMisconductTable">
     <thead>
         <tr id="titles">
-          <th>Year</th>
-          <th>Hired By</th>
-          <th>Description</th>
           <th>Misconduct Type</th>
+          <th>Hired By</th>
+          <th>Incident</th>
+          <th>Year</th>
           <th>Disposition</th>
           <th class="right">Penalty</th>
     </thead>
     <tbody>
         {% for row in contractor_misconduct %}
         <tr class="{% cycle 'even' 'odd' %}">
-            <td class='cell-misconduct-year' title="{{ row.date_significance }}">{{ row.year }}</td>
+            <td class='cell-misconduct-misconduct-type'>{{ row.misconduct_type }}</td>
             <td class='cell-misconduct-contracting-party'>{{ row.contracting_party }}</td>
             <td class='cell-misconduct-instance'><a href='{{ row.misconduct_url }}'>{{ row.instance }}</a></td>
-            <td class='cell-misconduct-misconduct-type'>{{ row.misconduct_type }}</td>
+            <td class='cell-misconduct-year' title="{{ row.date_significance }}">{{ row.year }}</td>
             <td class='cell-misconduct-disposistion'>{{ row.disposition }}</td>
             <td class='cell-misconduct-penalty-amount right'>${{ row.penalty_amount|floatformat:0|intcomma }}</td>
         </tr>
