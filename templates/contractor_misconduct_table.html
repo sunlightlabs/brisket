@@ -4,21 +4,21 @@
 <table class="threeColumn mainTable" id="contractorMisconductTable">
     <thead>
         <tr id="titles">
+          <th>Misconduct Type</th>
+          <th>Disposition</th>
           <th>Year</th>
           <th>Hired By</th>
           <th>Incident</th>
-          <th>Misconduct Type</th>
-          <th>Disposition</th>
           <th class="right">Penalty</th>
     </thead>
     <tbody>
         {% for row in contractor_misconduct %}
         <tr class="{% cycle 'even' 'odd' %}">
+            <td class='cell-misconduct-misconduct-type'>{{ row.misconduct_type }}</td>
+            <td class='cell-misconduct-disposistion'>{{ row.disposition }}</td>
             <td class='cell-misconduct-year'>{{ row.year }}</td>
             <td class='cell-misconduct-contracting-party'>{{ row.contracting_party }}</td>
             <td class='cell-misconduct-instance'><a href='{{ row.misconduct_url }}'>{{ row.instance }}</a></td>
-            <td class='cell-misconduct-misconduct-type'>{{ row.misconduct_type }}</td>
-            <td class='cell-misconduct-disposistion'>{{ row.disposition }}</td>
             <td class='cell-misconduct-penalty-amount right'>${{ row.penalty_amount|floatformat:0|intcomma }}</td>
         </tr>
         {% endfor %}
