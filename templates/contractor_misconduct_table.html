@@ -14,7 +14,7 @@
     <tbody>
         {% for row in contractor_misconduct %}
         <tr class="{% cycle 'even' 'odd' %}">
-            <td class='cell-misconduct-year'>{{ row.year }}</td>
+            <td class='cell-misconduct-year' title="{{ row.date_significance }}">{{ row.year }}</td>
             <td class='cell-misconduct-contracting-party'>{{ row.contracting_party }}</td>
             <td class='cell-misconduct-instance'><a href='{{ row.misconduct_url }}'>{{ row.instance }}</a></td>
             <td class='cell-misconduct-misconduct-type'>{{ row.misconduct_type }}</td>
