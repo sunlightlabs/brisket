@@ -387,7 +387,7 @@ li.filter{
 #dataTabs li a {
     background-color: #DBD7CD;
 	border-bottom: 2px solid #A59C82;
-	padding: 10px 8px 10px 8px;
+	padding: 10px 6px;
 }
 
 #dataTabs li a:hover {
