@@ -195,15 +195,19 @@ h4 {
 	margin-bottom: 10px;
 }
 
-h5 {
-	background: url(../images/logo-sunlight.png) top left no-repeat;
-	display: block;
-	height: 52px;
-	width: 115px;
-	text-indent: -9999em;
-	float: left;
-	margin-right: 79px;
-}
+#footer li { float: left; margin-right: 60px;}
+#footer li a { text-indent: -9999em; display: block;  }
+
+#sunlightLogo { background: url(../images/logo_sunlight.jpg) top left no-repeat; height: 59px; width: 131px;}
+#sunlightLogo:hover { background: url(../images/logo_sunlight.jpg) bottom left no-repeat;}
+
+a#openSecrets { background: url(../images/logo_opensecrets.jpg) top left no-repeat; width: 172px; height: 59px;}
+a#openSecrets:hover { background: url(../images/logo_opensecrets.jpg) bottom left no-repeat;}
+
+a#nimsp { background: url(../images/logo_followthemoney.jpg) top left no-repeat; width: 86px; height: 65px; }
+a#nimsp:hover { background: url(../images/logo_followthemoney.jpg) left -66px no-repeat; }
+
+#pogo { background: url(../images/logo_pogo.jpg) left 10px no-repeat; width: 325px; height: 66px; }
 
 em { font-weight: bold; }
 
@@ -696,12 +700,6 @@ form#filterBulk li{
 	margin-bottom: 5px;
 }
 
-div.partner a{
-	text-indent: -9999em;
-	display: block;
-	float: left;
-}
-
 p.partner a {
     text-indent: -9999em;
     display: block;
@@ -782,19 +780,6 @@ pre.literal-block {
 	color: #FFF;
 }
 
-a#openSecrets {
-	background: url(../images/logo_opensecrets_color.png) top left no-repeat;
-	width: 138px;
-	height: 52px;
-	margin-right: 78px;
-}
-
-a#nimsp {
-	background: url(../images/nimsp-logo.png) top left no-repeat;
-	width: 86px;
-	height: 67px;
-	margin-right: 78px;
-}
 
 #intro {
 	font-size: 120%;
@@ -1035,8 +1020,7 @@ span.newpass {
 /* footer ------------------------------------------------------*/
 
 #footerContainer{
-	border-top: 2px solid #71CEF5;
-	background-color: #C9C4B4;
+	background-color: #EDEDE6;
 	height: 125px;
 	margin-top: 30px;
 		
@@ -1049,14 +1033,15 @@ span.newpass {
 	padding-top: 30px;
 }
 
-p#footerText {
+#footerText {
 	font-size: 95%;
 	line-height: 150%;
 	color: #4B3905;
-	text-align: justify;
+	text-align: center;
 	display: block;
-	width: 380px;
+	width: 500px;
 	float: left;
+	margin: 30px 0 40px 220px;
 }
 
 #footerText a {
