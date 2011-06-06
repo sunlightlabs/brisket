@@ -167,7 +167,7 @@ def org_industry_entity(request, entity_id, type):
     if 'earmarks' in metadata and metadata['earmarks']:
         org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
-    if metadata['contractor_misconduct']:
+    if 'contractor_misconduct' in metadata and metadata['contractor_misconduct']:
         org_contractor_misconduct_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('%s.html' % type, context,
