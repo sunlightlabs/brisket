@@ -261,8 +261,9 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 #openSecrets:hover { background: url(../images/logo_opensecrets.jpg) left -60px no-repeat; }
 #followthemoney { background: url(../images/logo_followthemoney.jpg) top left no-repeat; width: 87px; height: 66px;}
 #followthemoney:hover { background: url(../images/logo_followthemoney.jpg) left -66px no-repeat; }
+#pogo { background: url(../images/logo_pogo.jpg) left 10px no-repeat; width: 325px; height: 66px; margin-top: 10px;}
 
-#footerPolicy p { font-size: 90%; line-height: 16px; margin: 0 30px; float: left; width: 345px;}
+#footerPolicy p { font-size: 90%; line-height: 16px; margin: 15px 0 0 220px; text-align: center; width: 500px; }
 
 .clear { clear: both;}
 
