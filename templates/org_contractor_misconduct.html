@@ -1,0 +1,40 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar">
+    <a class="toggle">Toggle</a>
+    <h3 class="insideBar">Contractor Misconduct,
+        {% ifequal cycle "-1" %}
+            {{entity_info.contractor_misconduct_years.start|add:-1}} &#150; {{entity_info.contractor_misconduct_years.end}}
+        {% else %}
+            {{cycle|add:-1}} &#150; {{cycle}}
+        {% endifequal %}
+    </h3>
+    <div class="insideBar amount">
+        <span class="amount">{{ entity_info.totals.contractor_misconduct_count|intcomma }} Instances</span>
+        <a class="descriptor" title="More Information" href="#contractorMisconductDescriptor">Information</a>
+        <div class="clear"></div>
+        <div class="descriptorText" id='contractorMisconductDescriptor'>
+<p>This information is collected by the <a href="http://www.pogo.org">Project on Government Oversight</a> from press releases, court documents, news reports and other public records. It is not meant to be an exhaustive account of all instances of federal contractor misconduct.</p
+<p>More information on each instance, including primary source documents, is available on POGO's site by clicking on the instance description. More information on POGO's methodology is available <a href="http://www.contractormisconduct.org/index.cfm/1,72,217,html">here</a>.</p>        </div>
+    </div>
+</div>
+
+<div class="chartModule">
+
+    {% include "contractor_misconduct_table.html" %}
+
+    <div class="clear"></div>
+
+    <div class="external">
+        {% if pogo_links %}
+            For more information:
+            {% for link in pogo_links %}
+                <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="clear"></div>
+</div><!-- end chartModule -->
+
