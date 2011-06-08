@@ -86,7 +86,7 @@ def get_metadata(entity_id, cycle, entity_type):
             data[data_type] = False
 
     data['available_cycles'] = [c for c in entity_info['totals'].keys() if int(c) <= LATEST_CYCLE]
-    entity_info['years']['end'] = min(LATEST_CYCLE, entity_info['years']['end'])
+    entity_info['years']['end'] = min(LATEST_CYCLE, entity_info['years'].get('end', LATEST_CYCLE))
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
         entity_info['totals'] = entity_info['totals'][cycle_str]
