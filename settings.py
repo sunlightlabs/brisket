@@ -63,9 +63,9 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
 #    'django.contrib.sessions.middleware.SessionMiddleware',
-    'postcards.cookie.SessionMiddleware',
+#    'postcards.cookie.SessionMiddleware',
     'influence.middleware.RequestLoggingMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+#    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
@@ -98,7 +98,7 @@ INSTALLED_APPS = (
     'simplepay',
     'brisket.influence',
     'brisket.util',
-    'brisket.postcards',
+#    'brisket.postcards',
     'django.contrib.admin',
     'django_nose',
     'sentry',
