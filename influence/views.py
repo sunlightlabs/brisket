@@ -16,7 +16,7 @@ from influence.names import standardize_organization_name, \
 from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE, api
-from urllib2 import HTTPError
+from urllib2 import HTTPError, URLError
 import datetime
 
 try:
@@ -24,8 +24,10 @@ try:
 except:
     import simplejson as json
 
-import logging
-logger = logging.getLogger('django.request')
+# Exceptions need a functioning unicode method
+# for Sentry. URLError and its subclass HTTPError
+# do not. So monkey patching.
+URLError.__unicode__ = lambda self: unicode(self.__str__())
 
 def handle_errors(f):
     def wrapped_f(*args, **params):
@@ -35,7 +37,7 @@ def handle_errors(f):
             if hasattr(e, 'code') and e.code == 404:
                 raise Http404
 
-            logger.error(e, exc_info=True)
+#            logger.error(e, exc_info=True)
             raise
 
     return wrapped_f
@@ -307,6 +309,8 @@ def industry_entity(request, entity_id):
 
 @handle_errors
 def politician_entity(request, entity_id):
+    raise HTTPError('http://example.com', 500, "made up error", [], None)
+    
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
 
     if metadata['contributions']:
