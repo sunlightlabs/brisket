@@ -24,25 +24,10 @@ try:
 except:
     import simplejson as json
 
-import sys
-import logging
-module_logger = logging.getLogger(__name__)
-request_logger = logging.getLogger('django.request') 
-log_num = 0
 
 def urllib_2_django_error(f):
     def wrapped_f(*args, **params):
         try:
-            global log_num
-            log_num += 1
-            print "This is output #%d from print" % log_num
-            print >> sys.stdout, "This is output #%d to stdout" % log_num
-            print >> sys.stderr, "This is output #%d to stderr" % log_num
-            module_logger.warn("This is module logger warning #%d" % log_num)
-            module_logger.error("This is module logger error #%d" % log_num)
-            request_logger.warn("This is request logger warning #%d" % log_num)
-            request_logger.error("This is request logger error #%d" % log_num)
-            
             return f(*args, **params)
         except HTTPError as e:
             if e.code == 404:
