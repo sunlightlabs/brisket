@@ -24,17 +24,19 @@ try:
 except:
     import simplejson as json
 
+import logging
+logger = logging.getLogger('django.request')
 
-def urllib_2_django_error(f):
+def handle_errors(f):
     def wrapped_f(*args, **params):
         try:
             return f(*args, **params)
-        except HTTPError as e:
-            if e.code == 404:
+        except Exception as e:
+            if hasattr(e, 'code') and e.code == 404:
                 raise Http404
 
-            # should we do more specific handling of other error types here?
-            raise e
+            logger.error(e, exc_info=True)
+            raise
 
     return wrapped_f
 
@@ -148,7 +150,7 @@ def industry_landing(request):
     context['cycle'] = LATEST_CYCLE
     return render_to_response('industry_landing.html', context, brisket_context(request))
 
-@urllib_2_django_error
+@handle_errors
 def org_industry_entity(request, entity_id, type):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
 
@@ -303,7 +305,7 @@ def organization_entity(request, entity_id):
 def industry_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'industry')
 
-@urllib_2_django_error
+@handle_errors
 def politician_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
 
@@ -401,7 +403,7 @@ def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
     context['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
 
 
-@urllib_2_django_error
+@handle_errors
 def individual_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'individual')
 
