@@ -106,6 +106,7 @@ INSTALLED_APPS = (
     'indexer',
     'paging',
     'ecards',
+    'gunicorn',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -118,21 +119,6 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
-
-MEDIASYNC = {
-    'JOINED': {
-        'js/brisket-all.js': [
-            'js/jquery.tablesorter.min.js',
-            'js/underscore-1.0.2.min.js',
-            'js/g.raphael.js',
-            'js/g.pie.js',
-            'js/g.bar.patched.js',
-            'js/g.line.js',
-            'js/brisket_charts.js',
-            'js/brisket.js',
-        ]
-    }
-}
 
 LATEST_CYCLE = 2010
 
@@ -161,10 +147,21 @@ CACHES = {
     }
 }
 
-try:
-    from local_settings import *
-except:
-    pass
+from local_settings import *
+
+MEDIASYNC['JOINED'] = {
+    'js/brisket-all.js': [
+        'js/jquery.tablesorter.min.js',
+        'js/underscore-1.0.2.min.js',
+        'js/g.raphael.js',
+        'js/g.pie.js',
+        'js/g.bar.patched.js',
+        'js/g.line.js',
+        'js/brisket_charts.js',
+        'js/brisket.js',
+    ]
+}
+    
 
 from influenceexplorer import InfluenceExplorer
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
