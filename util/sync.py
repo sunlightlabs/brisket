@@ -1,7 +1,8 @@
 import os
-from settings import MEDIASYNC, MEDIA_ROOT
 
 def cache_fix(s):
+    from settings import MEDIASYNC, MEDIA_ROOT
+
     split = s.split(MEDIASYNC['AWS_PREFIX'])
     if len(split) < 2:
         return ''
