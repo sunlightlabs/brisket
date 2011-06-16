@@ -2,7 +2,7 @@ psycopg2
 django==1.2.3
 BeautifulSoup
 boto
--e git+http://github.com/sunlightlabs/django-mediasync.git@2.0.0#egg=mediasync
+-e git://github.com/sunlightlabs/django-mediasync.git@2.1.0#egg=mediasync
 nose
 django-nose
 django-nose-selenium
@@ -10,5 +10,7 @@ selenium
 django-indexer
 django-paging
 django-sentry
--e git+http://github.com/sunlightlabs/name-cleaver.git#egg=name-cleaver
--e git+http://github.com/sunlightlabs/python-transparencydata.git#egg=transparencydata
+-e git://github.com/sunlightlabs/name-cleaver.git#egg=name-cleaver
+-e git://github.com/sunlightlabs/python-transparencydata.git#egg=transparencydata
+-e git://github.com/sunlightlabs/django-simplepay.git#egg=simplepay
+gunicorn
