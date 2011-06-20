@@ -35,10 +35,10 @@ $(function() {
     	<p class="standoutPText">Influence Explorer also now shows data from the <a href="http://contractormisconduct.org">Project On Government Oversight</a> indicating when federal contractors have a history of misconduct such as contract fraud and environmental, ethics and labor violations.</p>
     </div>
     <div class="contentModule">
-        <h2 id="header_explored">Influence Explored</h2>
-        <span class="tip tipHeight"><a href="">Influence Explored</a> takes an article from the day’s headlines and exposes the influential ways of entities mentioned in the article.</span>
-        <p>An article published yesterday in Roll Call highlights a new website published by the U.S. Chamber of Commerce—one of Washington’s most powerful players—to help them gain Congressional approval for potential trade pacts. Aside from the new slick way the Chamber intends to influence members of Congress, the article itself mentions people and organizations who take part in the traditional ways of Washington influence.</p>
-        <a class="standOut" href="http://sunlightfoundation.com/blog/2011/06/16/influence-explored/">Check Out the Latest Influence</a>
+        <h2 id="header_explored">{{entry.title}}</h2>
+        <span class="tip tipHeight"><a href="{{feed.url}}">Influence Explored</a> takes an article from the day’s headlines and exposes the influential ways of entities mentioned in the article. Names and corporations are run through Sunlight’s influence tracking tools such as Influence Explorer and Transparency Data to remind readers of the money that powers Washington.</span>
+        <p>{{entry.summary|safe|removetags:"img"}}</p>
+        <a class="standOut" href="{{entry.link}}">Check Out the Latest Influence</a>
     </div>
     <div class="contentModule">
         <h2 id="header_tools">Tools</h2>

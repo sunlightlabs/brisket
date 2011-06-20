@@ -107,6 +107,7 @@ INSTALLED_APPS = (
     'paging',
     'ecards',
     'gunicorn',
+    'feedinator'
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
