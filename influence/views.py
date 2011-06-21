@@ -15,7 +15,7 @@ from influence.names import standardize_organization_name, \
     standardize_industry_name
 from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver import PoliticianNameCleaver
-from settings import LATEST_CYCLE, api
+from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import HTTPError, URLError
 import datetime
 
@@ -126,30 +126,30 @@ def search(request):
 
 def organization_landing(request):
     context = {}
-    context['top_n_organizations'] = api.entities.top_n_organizations(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_organizations'] = api.entities.top_n_organizations(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_orgs'] = len(context['top_n_organizations'])
-    context['cycle'] = LATEST_CYCLE
+    context['cycle'] = TOP_LISTS_CYCLE
     return render_to_response('org_landing.html', context, brisket_context(request))
 
 def people_landing(request):
     context = {}
-    context['top_n_individuals'] = api.entities.top_n_individuals(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_individuals'] = api.entities.top_n_individuals(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_indivs'] = len(context['top_n_individuals'])
-    context['cycle'] = LATEST_CYCLE
+    context['cycle'] = TOP_LISTS_CYCLE
     return render_to_response('indiv_landing.html', context, brisket_context(request))
 
 def politician_landing(request):
     context = {}
-    context['top_n_politicians'] = api.entities.top_n_politicians(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_politicians'] = api.entities.top_n_politicians(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_pols'] = len(context['top_n_politicians'])
-    context['cycle'] = LATEST_CYCLE
+    context['cycle'] = TOP_LISTS_CYCLE
     return render_to_response('pol_landing.html', context, brisket_context(request))
 
 def industry_landing(request):
     context = {}
-    context['top_n_industries'] = api.entities.top_n_industries(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_industries'] = api.entities.top_n_industries(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_industries'] = len(context['top_n_industries'])
-    context['cycle'] = LATEST_CYCLE
+    context['cycle'] = TOP_LISTS_CYCLE
     return render_to_response('industry_landing.html', context, brisket_context(request))
 
 @handle_errors
