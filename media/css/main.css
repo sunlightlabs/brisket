@@ -58,7 +58,7 @@ div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: upperca
 
 #header_tools { background: url(../images/bg_tools.jpg) right 8px no-repeat; padding: 10px 0 12px; margin-bottom: 25px;}
 #header_explored { background: url(../images/bg_explored.jpg) right 8px no-repeat; padding: 10px 0 12px; }
-.toolDescription { width: 415px; float: left;}
+.toolDescription { width: 365px; float: left;}
 
 .contentModule { margin-bottom: 40px;}
 
@@ -413,3 +413,7 @@ dt.moneyTitle { margin-top: 8px;}
 .vdayShareLinks { float: right; margin-bottom: 15px; width: 50px; }
 #facebookShare { width: 16px; height: 16px; background: url(../images/facebook.png) top left no-repeat; display: block; text-indent: -9999em; float: left; margin-right: 15px;}
 #twitterShare { width: 16px; height: 16px;background: url(../images/twitter.png) top left no-repeat; display: block; text-indent: -9999em; float: left;}
+
+.entryMetaData { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-bottom: 15px; margin-top: -8px;}
+.author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
+.internalContent { margin-left: 50px;}

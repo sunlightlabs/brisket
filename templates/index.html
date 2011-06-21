@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load influence_extras %}
 {% block body_class %}home{% endblock %}
 
 {% block js %}
@@ -35,14 +36,23 @@ $(function() {
     	<p class="standoutPText">Influence Explorer also now shows data from the <a href="http://contractormisconduct.org">Project On Government Oversight</a> indicating when federal contractors have a history of misconduct such as contract fraud and environmental, ethics and labor violations.</p>
     </div>
     <div class="contentModule">
-        <h2 id="header_explored">{{entry.title}}</h2>
-        <span class="tip tipHeight"><a href="{{feed.url}}">Influence Explored</a> takes an article from the day’s headlines and exposes the influential ways of entities mentioned in the article. Names and corporations are run through Sunlight’s influence tracking tools such as Influence Explorer and Transparency Data to remind readers of the money that powers Washington.</span>
-        <p>{{entry.summary|safe|removetags:"img"}}</p>
-        <a class="standOut" href="{{entry.link}}">Check Out the Latest Influence</a>
+        <h2 id="header_explored">Influence Explored</h2>
+        <span class="tip tipHeight"><a href="{{feed.url}}">Influence Explored</a> takes an article from the day’s headlines and exposes the influential ways of entities mentioned in the article.</span>
+        <div class="internalContent">
+            <h3 class="withTip">{{entry.title}}</h3>
+            <div class="entryMetaData">
+                <address class="author">
+                    <a href="{{entry.author_name|sunlight_author_uri}}" rel="author">{{entry.author_name}}</a>
+                </address>
+                <time class="published" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
+            </div>
+            {{entry.summary|safe|removetags:"img"|truncatewords_html:65}}
+            <a class="standOut" href="{{entry.link}}">Check Out the Latest Influence</a>
+        </div>
     </div>
     <div class="contentModule">
         <h2 id="header_tools">Tools</h2>
-        <ul>
+        <ul class="internalContent">
             <li class="contentModule">
                 <a href="http://inbox.influenceexplorer.com"><img class="toolImage" alt="What Inbox Influence Looks Like" src="/media/images/img_inbox.jpg" /></a>
                 <div class="toolDescription">
