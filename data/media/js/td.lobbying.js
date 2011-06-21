@@ -1,10 +1,10 @@
 $().ready(function() {
-    
+
     TD.LobbyingFilter = new TD.DataFilter();
-    
+
     TD.LobbyingFilter.path = 'lobbying';
     TD.LobbyingFilter.ignoreForBulk = ['year'];
-    
+
     TD.LobbyingFilter.row_content = function(row) {
         var content = '<td class="year">' + row.year + '</td>';
         content += '<td class="amount">$' + TD.Utils.currencyFormat(row.amount) + '</td>';
@@ -44,7 +44,7 @@ $().ready(function() {
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
-        
+
         TD.LobbyingFilter.registerFilter({
             name: 'industry',
             label: 'Client Industry',
@@ -53,7 +53,7 @@ $().ready(function() {
             allowMultipleFields: true,
             options: TD.INDUSTRIES
         });
-        
+
         TD.LobbyingFilter.registerFilter({
         	name: 'issue_ft',
         	label: 'Bill/Issue Description',
@@ -61,7 +61,7 @@ $().ready(function() {
         	field: TD.DataFilter.TextField,
         	allowMultipleFields: true
         });
-        
+
         TD.LobbyingFilter.registerFilter({
             name: 'issue',
             label: 'Issue',
@@ -142,7 +142,7 @@ $().ready(function() {
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
-        
+
         TD.LobbyingFilter.registerFilter({
             name: 'transaction_type',
             label: 'Registration Type',
@@ -219,10 +219,10 @@ $().ready(function() {
 
         var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.HashMonitor.setAnchor('year=2008');
+            TD.HashMonitor.setAnchor('year=2011');
             this.loadHash();
         }
-        
+
     };
 
 });
