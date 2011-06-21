@@ -18,6 +18,7 @@ from name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import HTTPError, URLError
 import datetime
+from feedinator.models import *
 
 try:
     import json
@@ -57,8 +58,12 @@ def entity_context(request, cycle, available_cycles):
 
     return RequestContext(request, context_variables)
 
+#this is the index
 def index(request):
-    return render_to_response('index.html', brisket_context(request))
+    #ID of the feed is hardcoded as feed 1 since it's the only feed we're using right now. This may change!
+    feed = Feed.objects.get(pk=1)
+    entry = feed.entries.values().latest('date_published')
+    return render_to_response('index.html', {"feed":feed, "entry":entry}, brisket_context(request))
 
 def search(request):
     if not request.GET.get('query', None):
