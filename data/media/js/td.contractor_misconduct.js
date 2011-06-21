@@ -37,7 +37,8 @@ $().ready(function() {
                        ['2007', '2007'],
                        ['2008', '2008'],
                        ['2009', '2009'],
-                       ['2010', '2010']]
+                       ['2010', '2010'],
+                       ['2011', '2011'] ]
         });
 
 
@@ -75,7 +76,7 @@ $().ready(function() {
 
         var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.HashMonitor.setAnchor('date_year=2010');
+            TD.HashMonitor.setAnchor('date_year=2011');
             this.loadHash();
         }
 

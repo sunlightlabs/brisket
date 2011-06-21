@@ -77,7 +77,7 @@ TD.DataFilter.DateRangeField.render = function() {
         changeYear: true,
         defaultDate: new Date(2009, 0, 1),
         duration: '',
-        yearRange: '1990:2010',
+        yearRange: '1990:2011',
         onSelect: function(dateText, inst) {
             if (!dend.val()) {
                 dend.datepicker('setDate',
@@ -94,7 +94,7 @@ TD.DataFilter.DateRangeField.render = function() {
         changeYear: true,
         defaultDate: null,
         duration: '',
-        yearRange: '1990:2010',
+        yearRange: '1990:2011',
         onSelect: function(dateText, inst) {
             dend.trigger('change');
         }
