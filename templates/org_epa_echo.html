@@ -1,0 +1,41 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar">
+    <a class="toggle">Toggle</a>
+    <h3 class="insideBar">EPA Violations,
+        {% ifequal cycle "-1" %}
+            {{entity_info.epa_echo_years.start|add:-1}} &#150; {{entity_info.epa_echo_years.end}}
+        {% else %}
+            {{cycle|add:-1}} &#150; {{cycle}}
+        {% endifequal %}
+    </h3>
+    <div class="insideBar amount">
+        <span class="amount">{{ entity_info.totals.epa_echo_count|intcomma }} Actions</span>
+        <a class="descriptor" title="More Information" href="#epaEchoDescriptor">Information</a>
+        <div class="clear"></div>
+        <div class="descriptorText" id='epaEchoDescriptor'>
+            <p>This information is recorded and released by the <a href="http://www.epa-echo.gov">EPA</a>.</p>
+            <p>More information on each action is available on EPA's site by clicking on the instance description.</p>
+        </div>
+    </div>
+</div>
+
+<div class="chartModule">
+
+    {% include "epa_echo_table.html" %}
+
+    <div class="clear"></div>
+
+    <div class="external">
+        {% if epa_links %}
+            For more information:
+            {% for link in epa_links %}
+                <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="clear"></div>
+</div><!-- end chartModule -->
+

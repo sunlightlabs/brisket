@@ -1,0 +1,24 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<table class="threeColumn mainTable" id="epaEchoTable">
+    <thead>
+        <tr id="titles">
+          <th>Case Name</th>
+          <th>Defendant Name</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th class="right">Amount</th>
+    </thead>
+    <tbody>
+        {% for row in epa_echo %}
+        <tr class="{% cycle 'even' 'odd' %}">
+            <td class='cell-epa-case-name'>{{ row.case_name }}</td>
+            <td class='cell-epa-defendant-name'>{{ row.defendant_name }}</td>
+            <td class='cell-epa-date'>{{ row.date }}</td>
+            <td class='cell-epa-location'>{{ row.location }}</td>
+            <td class='cell-epa-amount right'>${{ row.amount|floatformat:0|intcomma }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
