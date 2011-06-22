@@ -1,0 +1,52 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar">
+  <a class="toggle">Toggle</a>
+  <h3 class="insideBar">Regulations</h3>
+      <div class="insideBar amount">
+          <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
+          <div class="clear"></div>      
+          <div class="descriptorText" id='regulationsDescriptor'>
+			<p>Methodology goes here.</p>
+          </div>      
+    </div>
+</div>
+
+<div class="chartModule">
+
+<div class="fulltext-disclaimer">Disclaimer goes here: these are full text matches against public comments on proposed regulations.</div>
+
+  <table class="threeColumn mainTable" id="regulations">
+    <thead>
+      <tr>
+        <th>Agency</th>
+		<th>Docket</th>
+		<th>Date</th>
+		<th>Count</th>
+    </thead>
+    <tbody>
+    {% for row in regulations %}
+      <tr class="{% cycle 'even' 'odd' %}">
+        <td>{{ row.agency }}</td>
+	    <td>{{ row.docket }}</td>
+	    <td>{{ row.year }}</td>
+	    <td>{{ row.count }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  
+  <div class="clear"></div>
+  
+  <div class="external">
+    {% if regs_links %}
+    For more information on regulations:
+    {% for link in regs_links %}
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+    {% endfor %}
+    {% endif %}
+  </div>
+  
+  <div class="clear"></div>
+</div><!-- end chartModule -->

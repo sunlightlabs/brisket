@@ -172,11 +172,15 @@ def org_industry_entity(request, entity_id, type):
     if metadata['fed_spending']:
         org_spending_section(entity_id, standardized_name, cycle, context)
 
-    if 'earmarks' in metadata and metadata['earmarks']:
+    if metadata.get('earmarks', False):
         org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
-    if 'contractor_misconduct' in metadata and metadata['contractor_misconduct']:
+    if metadata.get('contractor_misconduct', False):
         org_contractor_misconduct_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+        
+    if metadata.get('regulations', False):
+        print "adding regulations section"
+        org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -284,6 +288,10 @@ def org_earmarks_section(entity_id, name, cycle, external_ids, context):
 def org_contractor_misconduct_section(entity_id, name, cycle, external_ids, context):
     context['contractor_misconduct'] = contractor_misconduct_table_data(entity_id, cycle)
     context['pogo_links'] = external_sites.get_pogo_links(external_ids, name, cycle)
+    
+
+def org_regulations_section(entity_id, name, cycle, external_ids, context):
+    context['regulations'] = api.org.regulations(entity_id, cycle)
 
 
 def org_spending_section(entity_id, name, cycle, context):

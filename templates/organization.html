@@ -116,3 +116,9 @@ $(document).ready(function() {
     {% include "org_contractor_misconduct.html" %}
 {% endif %}
 {% endblock %}
+
+{% block regulations %}
+{% if regulations %}
+    {% include "org_regulations.html" %}
+{% endif %}
+{% endblock %}
