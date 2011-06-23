@@ -173,6 +173,9 @@ def org_industry_entity(request, entity_id, type):
     if 'contractor_misconduct' in metadata and metadata['contractor_misconduct']:
         org_contractor_misconduct_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
+    if 'epa_echo' in metadata and metadata['epa_echo']:
+        org_epa_echo_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
