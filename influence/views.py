@@ -319,12 +319,9 @@ def politician_entity(request, entity_id):
     if cycle != DEFAULT_CYCLE:
         metadata['entity_info']['metadata'].update(metadata['entity_info']['metadata'][unicode(str(cycle))])
 
-    actual_metadata = metadata['entity_info']['metadata']
-    seat_held = actual_metadata['seat_held']
-    seat_results = [ actual_metadata[x]['seat_result'] for x in actual_metadata.keys() if int(x) > 1988 and int(x) < 2020 ]
-    should_show_seat_held = any(seat_results, lambda x: x == 'W')
-    seat_run_for = metadata['entity_info']['metadata']['seat']
-    context['should_show_seat_context'] = cycle != DEFAULT_CYCLE and (seat_held and seat_held != seat_run_for) or (seat_run_for and not seat_held)
+    meta = metadata['entity_info']['metadata']
+    seat_held = meta['seat_held'] if meta['district_held'].strip() != '-' else ''
+    metadata['entity_info']['metadata']['seat_held'] = seat_held
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))

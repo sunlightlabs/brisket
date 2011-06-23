@@ -88,7 +88,7 @@ $(document).ready(function() {
   <dd>{{ entity_info.metadata.party }}</dd>
   {% endif %}{% endif %}
 
-  {% if entity_info.metadata.seat_held and should_show_seat_context %}
+  {% if entity_info.metadata.seat_held %}
   <dt>Seat:</dt>
   <dd>{{ entity_info.metadata.seat_held|seat_label }}{% if entity_info.metadata.state_held %}, {{ entity_info.metadata.state_held }}{% endif %}</dd>
   {% endif %}
