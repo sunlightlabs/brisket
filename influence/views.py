@@ -16,7 +16,7 @@ from influence.names import standardize_organization_name, \
 from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
-from urllib2 import HTTPError, URLError
+from urllib2 import URLError
 import datetime
 
 try:
@@ -281,6 +281,11 @@ def org_contractor_misconduct_section(entity_id, name, cycle, external_ids, cont
     context['pogo_links'] = external_sites.get_pogo_links(external_ids, name, cycle)
 
 
+def org_epa_echo_section(entity_id, name, cycle, external_ids, context):
+    context['epa_echo'] = epa_echo_table_data(entity_id, cycle)
+    #context['epa_links'] = external_sites.get_epa_links(external_ids, name, cycle)
+
+
 def org_spending_section(entity_id, name, cycle, context):
     spending = api.org.fed_spending(entity_id, cycle)
 
@@ -389,6 +394,12 @@ def earmarks_table_data(entity_id, cycle):
 
 def contractor_misconduct_table_data(entity_id, cycle):
     rows = api.org.contractor_misconduct(entity_id, cycle)
+
+    return rows
+
+
+def epa_echo_table_data(entity_id, cycle):
+    rows = api.org.epa_echo(entity_id, cycle)
 
     return rows
 
