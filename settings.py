@@ -55,8 +55,8 @@ SECRET_KEY = '(1yv=vnhqrvj%qjr%zd)fe*cr4785a#7$ju8km4%+tnscm&p_r'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.load_template_source',
 )
 
@@ -71,7 +71,7 @@ MIDDLEWARE_CLASSES = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'influence.context_processors.custom_context',
-    'django.core.context_processors.auth',
+    'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
@@ -90,22 +90,24 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+#    'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates
     'django.contrib.sitemaps',
     'mediasync',
-    'simplepay',
+#    'simplepay',
     'brisket.influence',
     'brisket.util',
-    'brisket.postcards',
-    'django.contrib.admin',
+#    'brisket.postcards',
+#    'django.contrib.admin',
     'django_nose',
     'sentry',
     'sentry.client',
     'indexer',
     'paging',
     'ecards',
+    'gunicorn',
+    'feedinator'
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -119,22 +121,8 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
-MEDIASYNC = {
-    'JOINED': {
-        'js/brisket-all.js': [
-            'js/jquery.tablesorter.min.js',
-            'js/underscore-1.0.2.min.js',
-            'js/g.raphael.js',
-            'js/g.pie.js',
-            'js/g.bar.patched.js',
-            'js/g.line.js',
-            'js/brisket_charts.js',
-            'js/brisket.js',
-        ]
-    }
-}
-
-LATEST_CYCLE = 2010
+LATEST_CYCLE = 2012
+TOP_LISTS_CYCLE = 2010
 
 SESSION_COOKIE_NAME = 'brisket_session'
 
@@ -142,6 +130,11 @@ SIMPLEPAY_COMPLETE_REDIRECT = '/postcard/thanks'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 SENTRY_TESTING = True
+SENTRY_FILTERS = (
+    'sentry.filters.StatusFilter',
+    'sentry.filters.LevelFilter',
+    'sentry.filters.ServerNameFilter',
+)
 #SENTRY_REMOTE_URL = 'http://localhost:8001/sentry/store/'
 
 SELENIUM_HOST = '0.0.0.0'
@@ -156,10 +149,21 @@ CACHES = {
     }
 }
 
-try:
-    from local_settings import *
-except:
-    pass
+from local_settings import *
+
+MEDIASYNC['JOINED'] = {
+    'js/brisket-all.js': [
+        'js/jquery.tablesorter.min.js',
+        'js/underscore-1.0.2.min.js',
+        'js/g.raphael.js',
+        'js/g.pie.js',
+        'js/g.bar.patched.js',
+        'js/g.line.js',
+        'js/brisket_charts.js',
+        'js/brisket.js',
+    ]
+}
+    
 
 from influenceexplorer import InfluenceExplorer
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)

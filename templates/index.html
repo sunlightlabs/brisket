@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load influence_extras %}
 {% block body_class %}home{% endblock %}
 
 {% block js %}
@@ -18,8 +19,6 @@ $(function() {
 
 {% block main %}
 <div id="featureBox">
-  <div id="featureImage">
-    <div id="featureSearch">
       <h2>Start Your Search</h2>
       <form id="searchForm" action="/search" method="get">
           {{ search_form.query }}
@@ -30,71 +29,89 @@ $(function() {
         </form>
       <p class="clear">Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span> or a prominent <span class="differentText">individual</span>, and see how they're influencing the political system.</p>
       <div class="clear"></div>
+</div>
+<div id="ltColumn">
+    <div class="contentModule">
+        <p class="standoutPText">Influence Explorer now integrates with three other Sunlight projects: <a href="http://politicalpartytime.org/">Party Time</a>, <a href="http://reporting.sunlightfoundation.com/lobbying/registrations">Lobbying Registration Tracker</a> and <a href="http://www.opencongress.org/">OpenCongress</a>. Check out the <a href="http://influenceexplorer.com/organization/prime-policy-group/e0add7fa6d644d41993ae2311de6d3a7">updated lobbying sections</a>, which now include links to bills lobbied on and daily updates of recent lobbying activity. The <a href="http://influenceexplorer.com/politician/kay-granger/bac9ce5a3df84c5a8bb080aca463f48c">updated politician pages</a> now include links to recent and upcoming fundraisers.</p>
+    	<p class="standoutPText">Influence Explorer also now shows data from the <a href="http://contractormisconduct.org">Project On Government Oversight</a> indicating when federal contractors have a history of misconduct such as contract fraud and environmental, ethics and labor violations.</p>
     </div>
-    <div id="sunlightRequests">
-      <span id="badge">A Product of the Sunlight Foundation</span>
-      <p>Like this product? <b>Donate to the Sunlight Foundation to support future products</b> like it or become part of our community to get regular updates and <b>find out how you can help open up your government by signing up below</b>.</p>
-      <a id="donateBtn" class="linkBtn" href="http://www.sunlightfoundation.com/donate">Dontate</a>
-      <div class="clear"></div>
-      <div id="bbjoin"></div>
-      <form id="signupForm" action="" method="post">
+    <div class="contentModule">
+        <h2 id="header_explored">Influence Explored</h2>
+        <span class="tip tipHeight"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a> takes an article from the day’s headlines and exposes the influential ways of entities mentioned in the article.</span>
+        <div class="internalContent">
+            <h3 class="withTip">{{entry.title}}</h3>
+            <div class="entryMetaData">
+                <address class="author">
+                    <a href="{{entry.author_name|sunlight_author_uri}}" rel="author">{{entry.author_name}}</a>
+                </address>
+                <time class="published" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
+            </div>
+            {{entry.summary|safe|removetags:"img"|truncatewords_html:65}}
+            <a class="standOut" href="{{entry.link}}">Check Out the Latest Influence</a>
+        </div>
+    </div>
+    <div class="contentModule">
+        <h2 id="header_tools">Tools</h2>
+        <ul class="internalContent">
+            <li class="contentModule">
+                <a href="http://inbox.influenceexplorer.com"><img class="toolImage" alt="What Inbox Influence Looks Like" src="/media/images/img_inbox.jpg" /></a>
+                <div class="toolDescription">
+                    <h3 class="withTip"><a href="http://inbox.influenceexplorer.com">Inbox Influence</a></h3>
+                    <p class="standOut">Your new favorite email tool since the spam filter</p> 
+                    <p>Inbox Influence is a new tool from the Sunlight Foundation that allows you to see the political contributions of the people and organizations that are mentioned in emails you receive. This easy-to-use tool can be used for researching influence background on corporate correspondence, adding context to newspaper headlines or discovering who is behind political fundraising solicitations.</p> 
+                    <a class="standOut" href="http://inbox.influenceexplorer.com">Learn More</a>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li class="contentModule">
+                <a href="http://checking.influenceexplorer.com"><img class="toolImage" alt="What Checking Influence Looks Like" src="/media/images/img_chutneyHome.jpg" /></a>
+                <div class="toolDescription">
+                    <h3 class="withTip"><a href="http://checking.influenceexplorer.com">Checking Influence</a></h3>
+                    <p class="standOut">When you shop, do you wonder where your money <em>really</em> goes?</p> 
+                    <p>Checking Influence shows you how companies you do business with every day are wielding political influence. By securely analyzing your online bank or credit card statement, Checking Influence shows your own spending alongside corporate spending on lobbying activities and campaign contributions, helping you be a more informed consumer and citizen.</p> 
+                    <a class="standOut" href="http://checking.influenceexplorer.com">Learn More</a>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li class="contentModule">
+                <a href="http://poligraft.com/"><img class="toolImage" alt="What Poligraft Looks Like" src="/media/images/img_poligraft.jpg" /></a>
+                <div class="toolDescription">
+                    <h3 class="withTip"><a href="http://poligraft.com">Poligraft</a></h3>
+                    <p class="standOut">Dig up political influence</p> 
+                    <p>Feed in a news article, blog post or press release, and Poligraft will present you with an enhanced view of the people, organizations and relationships described in the piece. Poligraft allows you to connect the dots between money and politics in Congress and state offices.</p> 
+                    <a class="standOut" href="http://poligraft.com">Learn More</a>
+                </div>
+                <div class="clear"></div>
+            </li>
         <ul>
-          <li>
-            <label>Email</label>
-            <input id="id_email" type="text" name="email"/>
-          </li>
-          <li>
-            <label>Zip Code</label>
-            <input id="id_zip" type="text" name="zipcode"/>
-          </li>
-          <li>
-            <button class="signupBtn" type="submit">
-              <span>Sign Up</span>
-            </button>
-          </li>
-        </ul>
-        <div class="clear"></div>
-        </form>
     </div>
-  </div>
 </div>
-<div id="ltColumn" class="withBgLeft">
-    <h2 id="checkingLogo_home"><a href="http://checking.influenceexplorer.com">Checking Influence</a></h2>
-    <p class="standOut">When you shop, do you wonder where your money <em>really</em> goes?</p> 
-    <img id="checkingImage" alt="What Checking Influence Looks Like" src="/media/images/img_chutneyHome.jpg" />
-    <p>Checking Influence is a new tool from the Sunlight Foundation that you can use to find out how companies you do business with every day are wielding political influence through lobbying and campaign contributions. Checking Influence helps you be an informed consumer and citizen.</p> 
-    <a id="learnMore" class="linkBtn" href="http://checking.influenceexplorer.com">Learn More</a>
-</div>
-<div id="rtColumn">
-    <div class="beforeyouvote">
-        <h2>The Money Behind Financial Reform</h2>
-        <div id="electionDescription">
-            <p>Financial reform continues to be an important topic in the current Congress, and the financial industry is spending huge sums on lobbying and campaign contributions. Find out who's spending the money and who's benefiting from it.</p>
-            <p class="tip">"Financial Industry" includes <a href="/industry/commercial-banks/dfad8b983a1c423897ea2c77f28a3d3d?cycle=2010">Commercial Banks</a>, <a href="/industry/savings-loans/50568b87755e45698637cea681d43c9e?cycle=2010">Savings & Loans</a>, <a href="/industry/credit-unions/8a6daf50525a4320b994ab1c2724c6db?cycle=2010">Credit Unions</a>, <a href="/industry/financecredit-companies/e69b2a41cd9645e292e66da69915ee6b?cycle=2010">Finance/Credit Companies</a> and <a href="/industry/securities-investment/0af3f418f426497e8bbf916bfc074ebc?cycle=2010">Securities & Investment</a>. All figures are for 2009-2010.</p>
+<div id="rtColumn" class="withBg">
+    <div id="sunlightRequests">
+        <div class="contentModule">
+            <span id="badgeHeader">A Product of the Sunlight Foundation</span>
+            <p>Like this product? <b>Donate to the Sunlight Foundation to support future products</b> like it or become part of our community to get regular updates and <b>find out how you can help open up your government by signing up below</b>.</p>
+            <a id="donateBtn" class="linkBtn" href="http://www.sunlightfoundation.com/donate">Dontate</a>
         </div>
-        <div class="chart">
-            <h4>Top Spending on Lobbying by Financial Industry Interests</h4>
-            <ol class="electionChart">
-                <li><a href="/organization/american-bankers-assn/5202316fe79343a09a31e8c6c31ebe3d?cycle=2010">American Bankers Assn</a></li>
-                <li><a href="/organization/jpmorgan-chase-co/bc1d056e59334c07bb0761b97efa64e4?cycle=2010">JPMorgan Chase & Co</a></li>
-                <li><a href="/organization/visa-usa/d77338766713412ca50a3e20765467bc?cycle=2010">Visa USA</a></li>
-                <li><a href="/organization/citigroup-management-corp/68e3f85d89364bf2a682faaed89b3594?cycle=2010">Citigroup Management Corp</a></li>
-                <li><a href="/organization/investment-co-institute/91f9a88888d744da8d433018cf912460?cycle=2010">Investment Co Institute </a></li>
-            </ol>
-            <img alt="chart of top spending on lobbying in the financial industry" src="/media/images/chart_industrySpending.png" />
-        </div> 
-        <div class="chart">
-            <h4>Top Recipients of Campaign Contributions from the Financial Industry</h4>
-            <ol class="electionChart">
-                <li><a href="/politician/charles-e-schumer/e708669995e844af90f205003683f2fa?cycle=2010">Sen. Charles E Schumer  (D- NY)</a></li>
-                <li><a href="/politician/perry-rick/fe45868be706433590cc96761e9aad00?cycle=2010">Gov. Rick Perry (R-TX)</a></li>
-                <li><a href="/politician/kay-bailey-hutchison/967babfa02094120af17d5b0be021f32?cycle=2010">Sen. Kay Bailey Hutchison (R-TX)</a></li>
-                <li><a href="/politician/kirsten-gillibrand/5133536fdc44445695adf6f244ee69c9?cycle=2010">Sen. Kirsten Gillibrand (D-NY)</a></li>
-                <li><a href="/politician/mark-kirk/048563d4685b4fcab08889881f066fff?cycle=2010">Sen. Mark Kirk (R-IL)</a></li>
-            </ol>
-            <img alt="chart of top recipients of donations from financial industry" src="/media/images/chart_industryDonations.png" />
-        </div>
-        <div class="clear"></div>
+        <h4>Sign Up!</h4>
+        <form id="signupForm" action="" method="post">
+            <ul>
+              <li>
+                <label>Email</label>
+                <input id="id_email" type="text" name="email"/>
+              </li>
+              <li>
+                <label>Zip Code</label>
+                <input id="id_zip" type="text" name="zipcode"/>
+              </li>
+              <li>
+                <button class="signupBtn" type="submit">
+                  <span>Sign Up</span>
+                </button>
+              </li>
+            </ul>
+            <div class="clear"></div>
+        </form>
     </div>
 </div>  
 <div class="clear"></div>

@@ -230,7 +230,7 @@ function sparkline_by_party(div, data, cut_off_point) {
 
     var party_colors = ["#186582", "#E60002"];
 
-    r = Raphael(div, 100, 30);
+    var r = Raphael(div, 100, 30);
     var x = [], y = [];
     var keys = ['D', 'R']
 
@@ -243,7 +243,7 @@ function sparkline_by_party(div, data, cut_off_point) {
         var key = keys[i];
         y[key] = [];
 
-        stop_at = data[key].length
+        var stop_at = data[key].length;
         
         if (stop_at < 2) {
             // we need at least two points to draw a line
@@ -266,7 +266,7 @@ function sparkline_by_party(div, data, cut_off_point) {
 
     // bail if we don't have a real chart to show (and to avoid having raphael break the whole page)
     if (!saw_non_zero_value) {
-        return []
+        return;
     }
 
     r.g.linechart(0, 1, 100, 30, x, [y['D'], y['R']], { colors: party_colors, width: 1, gutter: 1 });

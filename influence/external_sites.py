@@ -1,4 +1,3 @@
-from django.utils.functional import curry
 import base64, urllib, urllib2
 import json
 from datetime import datetime, timedelta
@@ -84,7 +83,24 @@ def get_gc_links(standardized_name, cycle):
     )
     
     return links
-    
+
+
+def get_pogo_links(ids, standardized_name, cycle):
+    links = []
+
+    pogo_contractor_ids = filter(lambda s: s['namespace'] == 'urn:pogo:contractor', ids)
+    if pogo_contractor_ids:
+        links.append({'text': 'Federal Contractor Misconduct Database from POGO', 'url': 'http://www.contractormisconduct.org/index.cfm/1,73,221,html?ContractorID={0}'.format(pogo_contractor_ids[0]['id'])})
+
+    td_params = {}
+    if cycle != '-1':
+        td_params['date_year'] = "{0}|{1}".format(int(cycle) - 1, cycle)
+
+    td_params['contractor'] = standardized_name
+
+    links.append({ 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/contractor_misconduct/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
+    return links
+
 
 def get_lobbying_links(type, standardized_name, ids, cycle):
     links = []
@@ -130,7 +146,7 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
                 os_params['year'] = cycle
                 td_params['year'] = cycle
             links.append(
-                dict(text='OpenSecrets.orgs', url="http://www.opensecrets.org/lobby/indusclient.php?%s" % urllib.urlencode(os_params))
+                dict(text='OpenSecrets.org', url="http://www.opensecrets.org/lobby/indusclient.php?%s" % urllib.urlencode(os_params))
             )
             links.append(
                 dict(text='TransparencyData.com', url="http://transparencydata.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))
@@ -187,8 +203,8 @@ def get_partytime_data(ids):
     cutoff = today - timedelta(days=180)
     
     out = SortedDict()
-    out['upcoming'] = [dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3]
-    out['past'] = [dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):]
+    out['upcoming'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3], key=lambda x: x['fields']['start_date'], reverse=True)
+    out['past'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):], key=lambda x: x['fields']['start_date'], reverse=True)
     
     return ("http://politicalpartytime.org/pol/%s/" % politician_ids[0]['id'], out)
 

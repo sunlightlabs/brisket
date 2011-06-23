@@ -1,10 +1,10 @@
-from influenceexplorer import DEFAULT_CYCLE
 from django.http import Http404
 from django.template.defaultfilters import slugify
 from influence import external_sites
 from influence.names import standardize_name
+from influenceexplorer import DEFAULT_CYCLE
+from settings import api, LATEST_CYCLE
 import datetime
-from settings import api
 
 def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
@@ -64,7 +64,8 @@ def get_metadata(entity_id, cycle, entity_type):
             'contributions': ['contributor_count'], 
             'lobbying': ['lobbying_count'], 
             'fed_spending':['loan_count', 'grant_count', 'contract_count'],
-            'earmarks': ['earmark_count']},
+            'earmarks': ['earmark_count'],
+            'contractor_misconduct': ['contractor_misconduct_count']},
         'industry': {
             'contributions': ['contributor_count'], 
             'lobbying': ['lobbying_count'],
@@ -84,7 +85,8 @@ def get_metadata(entity_id, cycle, entity_type):
         else:
             data[data_type] = False
 
-    data['available_cycles'] = entity_info['totals'].keys()
+    data['available_cycles'] = [c for c in entity_info['totals'].keys() if int(c) <= LATEST_CYCLE]
+    entity_info['years']['end'] = min(LATEST_CYCLE, entity_info['years']['end'])
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
         entity_info['totals'] = entity_info['totals'][cycle_str]
@@ -105,7 +107,7 @@ def check_entity(entity_info, cycle, entity_type):
         raise Http404
     if not entity_info['years'] or \
         (icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end']))) or \
-        entity_info['type'] != entity_type:
+        icycle > LATEST_CYCLE or entity_info['type'] != entity_type:
         raise Http404
         
         

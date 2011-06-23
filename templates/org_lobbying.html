@@ -4,265 +4,270 @@
 {% load influence_extras %}
 
 <div class="overviewBar">
-  <a class="toggle">Toggle</a>
-  <h3 class="insideBar">Lobbying, 
-      {% ifequal cycle "-1" %} 
-        {{entity_info.lobbying_years.start|add:-1}} &#150; {{entity_info.lobbying_years.end}}
-      {% else %}  
-        {{cycle|add:-1}} &#150; {{cycle}} 
-      {% endifequal %}</h3>
-  <div class="insideBar amount">
-    <span class="amount">
-    {% if is_lobbying_firm %} 
-	    {% if entity_info.totals.firm_income %}
-	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
-	    {% endif %}
-    {% else %}
-    	{% if entity_info.totals.non_firm_spending %}
-    		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
-    	{% endif %}
-    {% endif %}
-    </span>
-    <a class="descriptor" title="More Information" href="#lobbyingDescriptor">Information</a>
-    <div class="clear"></div>
-    <div class="descriptorText" id="lobbyingDescriptor">
-  		<p>Figures are based on lobbying activity reported to the Senate Office of Public Records. Reported dollar amounts are required to be accurate only to the nearest $20,000. For organizations whose primary business is lobbying, we display total income and top clients. For organizations that are not primarily lobbying firms, we display total amount spent on lobbying and top lobbying firms hired.</p>
-  		<p>For more information, please see our <a href="/about/methodology/lobbying">lobbying methodology</a> page.</p>
-    </div> 
-  </div>
-  <div id="sparklines">                
-    {% block lobbying_sparkline %}
+    <a class="toggle">Toggle</a>
+    <h3 class="insideBar">Lobbying, 
+        {% ifequal cycle "-1" %} 
+            {{entity_info.lobbying_years.start|add:-1}} &#150; {{entity_info.lobbying_years.end}}
+        {% else %}  
+            {{cycle|add:-1}} &#150; {{cycle}} 
+        {% endifequal %}
+    </h3>
+    <div class="insideBar amount">
+        <span class="amount">
+            {% if is_lobbying_firm %} 
+        	    {% if entity_info.totals.firm_income %}
+        	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
+        	    {% endif %}
+            {% else %}
+            	{% if entity_info.totals.non_firm_spending %}
+            		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
+            	{% endif %}
+            {% endif %}
+        </span>
+        <a class="descriptor" title="More Information" href="#lobbyingDescriptor">Information</a>
+        <div class="clear"></div>
+        <div class="descriptorText" id="lobbyingDescriptor">
+      		<p>Figures are based on lobbying activity reported to the Senate Office of Public Records. Reported dollar amounts are required to be accurate only to the nearest $20,000. For organizations whose primary business is lobbying, we display total income and top clients. For organizations that are not primarily lobbying firms, we display total amount spent on lobbying and top lobbying firms hired.</p>
+      		<p>For more information, please see our <a href="/about/methodology/lobbying">lobbying methodology</a> page.</p>
+        </div> 
+    </div>
+    <div id="sparklines">                
+        {% block lobbying_sparkline %}
+        {% endblock %}
+    </div>  
+    {% block lobbying_details_link %}
     {% endblock %}
-  </div>  
-  {% block lobbying_details_link %}
-  {% endblock %}
 </div>
 
 
 <div class="chartModule">
-  <div class="threeColumn chartWrapper">
-  {% if is_lobbying_firm %}
-    <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
-    <div class="lobbyingColumn oneColumn">
-      {% if lobbying_lobbyists %}
-      <div class="lobbyistsOrgs chartWrapper">
-        <span class="secondaryTitle">Lobbyists Employed:</span>
-        <ul>
-          {% for row in lobbying_lobbyists %}
-          {% if row.lobbyist_entity %}
-          <li>
-            <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
-          </li>
-          {% else %}
-          {{ row.lobbyist_name|standardize_individual_name }}
-          {% endif %}
-          {% endfor %}
-        </ul>
-        <div class="clear"></div>
-      </div>
-      {% endif %}
-
-      {% if lobbying_issues %}
-      <div class="issuesLobbied chartWrapper">
-        <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues</span>
-        <ul>
-          {% for issue in lobbying_issues %}
-          <li>
-            {{issue}}{% if forloop.last %}{% else %},{% endif %}
-          </li>
-          {% endfor %}
-        </ul>
-        <div class="clear"></div>
-      </div>
-      {% endif %}
-
+    {% if is_lobbying_firm %}
+	  <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
+	  <div class="oneColumn chartWrapper">
+	      {% if lobbying_lobbyists %}
+    	  <div class="lobbyistsOrgs">
+    		  <h5>Lobbyists Employed</h5>
+    		  <ul>
+    			  {% for row in lobbying_lobbyists %}
+    			  {% if row.lobbyist_entity %}
+    			  <li>
+    				  <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+    			  </li>
+    			  {% else %}
+    				  {{ row.lobbyist_name|standardize_individual_name }}
+    			  {% endif %}
+    			  {% endfor %}
+    		  </ul>
+    		  <div class="clear"></div>
+    	  </div>
+    	  {% endif %}
+  
+    	  {% if lobbying_issues %}
+    	  <div class="issuesLobbied">
+    		  <h5>Most Frequently Disclosed Lobbying Issues</h5>
+    		  <ul>
+    			  {% for issue in lobbying_issues %}
+    			  <li>
+    				  {{issue}}{% if forloop.last %}{% else %},{% endif %}
+    			  </li>
+    			  {% endfor %}
+    		  </ul>
+    		  <div class="clear"></div>
+    	  </div>
+    	  {% endif %}
     </div>
-
-    {% if lobbying_clients %}
-    <table class="twoColumn">
-      <thead>
-        <tr id="titles">
-          <th class="left">Client</th>
-          <th class="right">Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for row in lobbying_clients %}
-        <tr class="{% cycle 'even' 'odd' %}">
-          <td>	    
-            {% if row.client_entity %}
-            <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>
-            {% else %}
-            {{ row.client_name }}
-            {% endif %} 
-          </td>
-          <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% endif %}
-    <div class="clear"></div>
-</div>
-
-{% if lobbying_bills %}
-  <div class="chartWrapper oneColumn">
-    <h4>Most Frequently Disclosed Bills</h4>
-    <ul id="tableList">
-      {% for bill in lobbying_bills %}
-        <li class="{% cycle 'even' 'odd' %}">
-          {% if bill.link %}
-            <span><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></span>
-            <span>{{bill.title}}</span>
-          {% else %}
-            <span>{{bill.bill}}</span>
-            <span>{{bill.title}}</span>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>  
-  </div>
-{% endif %}
-{% else %}  
-  <div class="chartWrapper oneColumn">
-    <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
-    {% if lobbying_lobbyists %}
-      <span class="secondaryTitle">Names of Lobbyists:</span>
-      <ul>
-        {% for row in lobbying_lobbyists %}
-        {% if row.lobbyist_entity %}
-        <li>
-          <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
-        </li>
-        {% else %}
-        {{ row.lobbyist_name|standardize_individual_name }}
-        {% endif %}
-      </ul>
-    {% endfor %}
-  </div>
-{% endif %}
-
-{% if lobbying_issues %}
-  <div class="issuesLobbied oneColumn chartWrapper">
-    <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>
-    <ul>
-      {% for issue in lobbying_issues %}
-      <li>
-        {{issue}}{% if forloop.last %}{% else %},{% endif %}
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
-
-{% if lobbying_clients %}
-  <table class="twoColumn">
-    <thead>
-      <tr id="titles">
-        <th class="left">Firm Hired</th>
-        <th class="right">Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in lobbying_clients %}
-      <tr class="{% cycle 'even' 'odd' %}">
-        <td>	    
-          {% if row.registrant_entity %}
-          <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}{{cycle|pretty_cycle}}">{{ row.registrant_name }}</a>
-          {% else %}
-          {{ row.registrant_name }}
-          {% endif %} 
-        </td>
-        <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% endif %}
-    <div class="clear"></div>
-   
-<!--    
-    {% if lobbying_bills %}
-    <span class="secondaryTitle">Most Frequently Disclosed Bills:</span>
-    <table>
-      <thead>
-        <tr class="titles">
-          <th class="left">Congress</th>
-          <th class="left">Bill No.</th>
-          <th class="left">Title</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for bill in lobbying_bills %}
-      <tr class="{% cycle 'even' 'odd' %}">
-          <td class="left">{{bill.congress}}<sup>th</sup></td>
-          {% if bill.link %}
-          <td><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></td>
-          {% else %}
-          <td>{{bill.bill}}</td>
-          {% endif %}
-          <td>{{bill.title}}</td>
-      </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-    {% endif %}
-    <div class="clear"></div>
-  {% endif %}-->
-
   
-{% if lobbyist_registration_tracker %}
-  <div class="twoColumn chartWrapper">
-    <h4>Recent Lobbying Contracts</h4>
-    <table>
-  	  <thead class="titles">
-    	  <tr>
-      		<th>Date</th>
-      		<th>{% if is_lobbying_firm %}Client{% else %}Registrant{% endif %}</th>
-      		<th>Summary</th>
-    	  </tr>
-    	</thead>
-    	<tbody>
-    	  {% for record in lobbyist_registration_tracker %}
-      	<tr class="{% cycle 'even' 'odd' %}">
-      		<td>{{ record.date|date }}</sup></td>
-      		<td>
-      		  {% if is_lobbying_firm %}
-      			{% if record.client.ie_path %}
-      			  <a href="{{ record.client.ie_path }}">{{ record.client.name }}</a>
-      			{% else %}
-      			  {{ record.client.name }}
-      			{% endif %}
-      		  {% else %}
-      			{% if record.registrant.ie_path %}
-      			  <a href="{{ record.registrant.ie_path }}">{{ record.registrant.name }}</a>
-      			{% else %}
-      			  {{ record.registrant.name }}
-      			{% endif %}
-      		  {% endif %}
-          </td>
-          <td>
-    		    {{ record.specific_issue }}
-    		    <span class="tip"><a href="http://reporting.sunlightfoundation.com{{ record.registrant.path }}/{{ record.senate_id }}">View registration</a></span>
-      		</td>
-      	</tr>
-      	{% endfor %}
-    	</tbody>
-    </table>
-  </div>
-{% endif %}
+	  {% if lobbying_clients %}
+	  <div class="twoColumn chartWrapper">
+		  <table class="twoColumn">
+			  <thead>
+				  <tr id="titles">
+					  <th class="left">Client</th>
+					  <th class="right">Amount</th>
+				  </tr>
+			  </thead>
+			  <tbody>
+				  {% for row in lobbying_clients %}
+				  <tr class="{% cycle 'even' 'odd' %}">
+					  <td>	    
+						  {% if row.client_entity %}
+						  <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>
+						  {% else %}
+						  {{ row.client_name }}
+						  {% endif %} 
+					  </td>
+					  <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
+				  </tr>
+				  {% endfor %}
+			  </tbody>
+		  </table>
+	  </div>
+	  {% endif %}
+	  
+	  <!--
+	  It looks like this table is a copy of the one that appears further down, so I'm commenting out this one for now.
+	  If this is the way it should look, this chunk should probably replace the one further down, also wrapped in "if lobbying_bills"
+	  {% if lobbying_bills %}
+	  <div class="chartWrapper oneColumn">
+		  <h4>Most Frequently Disclosed Bills</h4>
+		  <ul id="tableList">
+			  {% for bill in lobbying_bills %}
+			  <li class="{% cycle 'even' 'odd' %}">
+				  {% if bill.link %}
+				  <span><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></span>
+				  <span>{{bill.title}}</span>
+				  {% else %}
+				  <span>{{bill.bill}}</span>
+				  <span>{{bill.title}}</span>
+				  {% endif %}
+			  </li>
+			  {% endfor %}
+		  </ul>  
+	  </div>
+	  {% endif %}
+	  -->
+    
+	{% else %}
+	  
+	  <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
+	  <div class="lobbyingColumn oneColumn chartWrapper">
+		  <div class="lobbyistsOrgs">
+			  {% if lobbying_lobbyists %}
+			  <h5>Names of Lobbyists</h5>
+			  <ul>
+				  {% for row in lobbying_lobbyists %}
+				  {% if row.lobbyist_entity %}
+				  <li>
+					  <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+				  </li>
+				  {% else %}
+				  {{ row.lobbyist_name|standardize_individual_name }}
+				  {% endif %}
+				  {% endfor %}
+			  </ul>
+			  <div class="clear"></div>
+			  {% endif %}
+		  </div>
+  
+		  {% if lobbying_issues %}
+		  <div class="issuesLobbied">
+			  <h5>Most Frequently Disclosed Lobbying Issues</h5>
+			  <ul>
+				  {% for issue in lobbying_issues %}
+				  <li>
+					  {{issue}}{% if forloop.last %}{% else %},{% endif %}
+				  </li>
+				  {% endfor %}
+			  </ul>
+		  </div>
+		  {% endif %}
+	  </div>
+  
+	  {% if lobbying_clients %}
+	  <div class="twoColumn chartWrapper">
+		  <table class="twoColumn">
+			  <thead>
+				  <tr id="titles">
+					  <th class="left">Firm Hired</th>
+					  <th class="right">Amount</th>
+				  </tr>
+			  </thead>
+			  <tbody>
+				  {% for row in lobbying_clients %}
+				  <tr class="{% cycle 'even' 'odd' %}">
+					  <td>	    
+						  {% if row.registrant_entity %}
+						  <a href="/organization/{{ row.registrant_name|slugify }}/{{ row.registrant_entity }}{{cycle|pretty_cycle}}">{{ row.registrant_name }}</a>
+						  {% else %}
+							  {{ row.registrant_name }}
+						  {% endif %} 
+					  </td>
+					  <td class="right">${{ row.amount|floatformat:0|intcomma }}</td>
+				  </tr>
+				  {% endfor %}
+			  </tbody>
+		  </table>
+	  </div>
+	{% endif %}
+  {% endif %}
+  
+	<div class="clear"></div> 
+	
+  {% if lobbying_bills %}
+	<div class="oneColumn chartWrapper">
+		<h5>Most Frequently Disclosed Bills</h5>
+		<table>
+			<thead>
+				<tr class="titles">
+					<th class="left">Bill No.</th>
+					<th class="left">Title</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for bill in lobbying_bills %}
+					<tr class="{% cycle 'even' 'odd' %}">
+						{% if bill.link %}
+							<td><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></td>
+						{% else %}
+							<td>{{bill.bill}}</td>
+						{% endif %}
+							<td>{{bill.title}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+  {% endif %}
+  
+  {% if lobbyist_registration_tracker %}
+	<div class="twoColumn chartWrapper">
+		<h5>Recent Lobbying Contracts</h5>
+		<table>
+			<thead class="titles">
+				<tr>
+					<th>Date</th>
+					<th>{% if is_lobbying_firm %}Client{% else %}Registrant{% endif %}</th>
+					<th>Summary</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for record in lobbyist_registration_tracker %}
+					<tr class="{% cycle 'even' 'odd' %}">
+						<td>{{ record.date|date }}</sup></td>
+						<td>
+							{% if is_lobbying_firm %}
+							{% if record.client.ie_path %}
+							<a href="{{ record.client.ie_path }}">{{ record.client.name }}</a>
+							{% else %}
+								{{ record.client.name }}
+							{% endif %}
+							{% else %}
+							{% if record.registrant.ie_path %}
+								<a href="{{ record.registrant.ie_path }}">{{ record.registrant.name }}</a>
+								{% else %}
+								{{ record.registrant.name }}
+								{% endif %}
+							{% endif %}
+						</td>
+						<td>
+							{{ record.specific_issue }}
+							<span class="tip"><a href="http://reporting.sunlightfoundation.com{{ record.registrant.path }}/{{ record.senate_id }}">View registration</a></span>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+  {% endif %}
 
-  
-  
-  <div class="clear"></div>
   
   <div class="external">
-    {% if lobbying_links %}
-      For more information on lobbying:
-      {% for link in lobbying_links %}
-      <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
-      {% endfor %}
-    {% endif %}
+	  {% if lobbying_links %}
+		  For more information on lobbying:
+	  {% for link in lobbying_links %}
+	  <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+	  {% endfor %}
+	  {% endif %}
   </div>
   
   <div class="clear"></div>
