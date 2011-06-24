@@ -16,9 +16,9 @@ from influence.names import standardize_organization_name, \
 from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
-from urllib2 import HTTPError, URLError
+from urllib2 import URLError
 import datetime
-from feedinator.models import *
+from feedinator.models import Feed
 
 try:
     import json
