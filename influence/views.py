@@ -63,7 +63,7 @@ def index(request):
     #ID of the feed is hardcoded as feed 1 since it's the only feed we're using right now. This may change!
     feed = Feed.objects.get(pk=1)
     entry = feed.entries.values().latest('date_published')
-    entry.title = entry.title.replace('Influence Explored: ', '')
+    entry['title'] = entry['title'].replace('Influence Explored: ', '')
     return render_to_response('index.html', {"feed":feed, "entry":entry}, brisket_context(request))
 
 def search(request):
