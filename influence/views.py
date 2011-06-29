@@ -16,9 +16,9 @@ from influence.names import standardize_organization_name, \
 from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
-from urllib2 import HTTPError, URLError
+from urllib2 import URLError
 import datetime
-from feedinator.models import *
+from feedinator.models import Feed
 
 try:
     import json
@@ -310,12 +310,34 @@ def org_spending_section(entity_id, name, cycle, context):
 def organization_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'organization')
 
+
 def industry_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'industry')
+
 
 @handle_errors
 def politician_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
+
+    if cycle != DEFAULT_CYCLE:
+        # copy the current cycle's metadata into the generic metadata spot
+        metadata['entity_info']['metadata'].update(metadata['entity_info']['metadata'][unicode(str(cycle))])
+    else:
+        # get just the metadata that is the by cycle stuff
+        cycle_info = [ (k,v) for k,v in metadata['entity_info']['metadata'].items() if k.isdigit() ]
+        # again, district_held is a temporary workaround
+        sorted_cycles = sorted(cycle_info, key=lambda x: x[0] if x[1]['district_held'].strip() != '-' else 0)
+        max_year_with_seat_held = sorted_cycles[-1][0]
+
+        metadata['entity_info']['metadata']['seat_held']     = metadata['entity_info']['metadata'][max_year_with_seat_held]['seat_held']
+        metadata['entity_info']['metadata']['district_held'] = metadata['entity_info']['metadata'][max_year_with_seat_held]['district_held']
+        metadata['entity_info']['metadata']['state_held']    = metadata['entity_info']['metadata'][max_year_with_seat_held]['state_held']
+
+    # make a shorter-named copy
+    meta = metadata['entity_info']['metadata']
+    # check that seat_held is properly defined and zero it out if not
+    seat_held = meta['seat_held'] if meta['district_held'].strip() != '-' else ''
+    metadata['entity_info']['metadata']['seat_held'] = seat_held
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
@@ -328,6 +350,7 @@ def politician_entity(request, entity_id):
 
     return render_to_response('politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
+
 
 def pol_contribution_section(entity_id, cycle, amount, context):
     context['contributions_data'] = True

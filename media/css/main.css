@@ -80,7 +80,7 @@ span.transactions { float: left; font-style: oblique; color: #827D7D; font-famil
 
 dl { margin-top: 15px;}
 dt.noshow { display: none;}
-dt { float: left; margin-right: 5px; font-weight: bold;}
+dt { float: left; margin-right: 5px; font-weight: bold; margin-top: 1px;}
 dd { float: left; margin-right: 15px;}
 
 table dl { margin-top: 0;}
