@@ -12,6 +12,7 @@
         <tr id="titles">
           <th>Case Name</th>
           <th>Defendant Name</th>
+          <th># of Defendants</th>
           <th>Date</th>
           <th>Location</th>
           <th class="right">Amount</th>
@@ -19,11 +20,12 @@
     <tbody>
         {% for row in epa_echo %}
         <tr class="{% cycle 'even' 'odd' %}">
-            <td class='cell-epa-case-name'>{{ row.case_name|title }}</td>
-            <td class='cell-epa-defendant-name'>{{ row.defendant_name|standardize_organization_name }}</td>
-            <td class='cell-epa-year'>{{ row.year }}</td>
-            <td class='cell-epa-location'>{{ row.location }}</td>
-            <td class='cell-epa-amount right'>${{ row.amount|floatformat:0|intcomma }}</td>
+            <td class="cell-epa-case-name">{{ row.case_name|title }}</td>
+            <td class="cell-epa-defendant-name">{{ row.defendant_name|standardize_organization_name }}</td>
+            <td class="cell-other-defendants" title="{{ row.other_defendants|truncatewords:50 }}">{{ row.defendants_count }}</td>
+            <td class="cell-epa-year">{{ row.year }}</td>
+            <td class="cell-epa-location">{{ row.location }}</td>
+            <td class="cell-epa-amount right">${{ row.amount|floatformat:0|intcomma }}</td>
         </tr>
         {% endfor %}
     </tbody>
