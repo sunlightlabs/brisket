@@ -2,7 +2,7 @@
 {% load influence_extras %}
 
 {% if entity_info.totals.epa_actions_count %}
-<div class="fulltext-disclaimer">Found {{ entity_info.totals.epa_actions_count }} actions
+<div class="fulltext-disclaimer">Found {{ entity_info.totals.epa_actions_count|apnumber }} actions
      containing the words &ldquo;{{ entity_info.name|standardize_organization_name }}&rdquo;
 </div>
 {% endif %}
