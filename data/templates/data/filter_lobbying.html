@@ -1,4 +1,4 @@
-{% extends "filter.html" %}
+{% extends "data/filter.html" %}
 {% load media %}
 
 {% block bodyid %}lobbying{% endblock %}
@@ -20,6 +20,7 @@
 
 {% block dataset_scripts %}
     {% js "data/lobbying.js" %}
+    {{ block.super }}
 	<script type="text/javascript">
 		$().ready(function() {
 			TD.LobbyingFilter.bindDataFilter('#datafilter');

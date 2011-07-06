@@ -1,4 +1,4 @@
-{% extends "filter.html" %}
+{% extends "data/filter.html" %}
 {% load media %}
 
 {% block bodyid %}earmarks{% endblock %}
@@ -19,6 +19,7 @@
 
 {% block dataset_scripts %}
     {% js "data/earmarks.js" %}
+    {{ block.super }}
 	<script type="text/javascript">
 		$().ready(function() {
 			TD.EarmarksFilter.bindDataFilter('#datafilter');

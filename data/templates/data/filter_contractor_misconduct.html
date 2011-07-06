@@ -1,4 +1,4 @@
-{% extends "filter.html" %}
+{% extends "data/filter.html" %}
 {% load media %}
 
 {% block bodyid %}contractorMisconduct{% endblock %}
@@ -19,6 +19,7 @@
 
 {% block dataset_scripts %}
     {% js "data/contractor_misconduct.js" %}
+    {{ block.super }}
     <script type="text/javascript">
         $().ready(function() {
             TD.ContractorMisconductFilter.bindDataFilter('#datafilter');
