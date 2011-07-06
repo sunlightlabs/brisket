@@ -66,6 +66,7 @@ MIDDLEWARE_CLASSES = (
 #    'django.contrib.sessions.middleware.SessionMiddleware',
     'postcards.cookie.SessionMiddleware',
     'influence.middleware.RequestLoggingMiddleware',
+    'influence.middleware.DataRedirectMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -80,7 +81,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
-ROOT_URLCONF = 'brisket.data.urls'
+ROOT_URLCONF = 'brisket.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
