@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load media %}
+
+{% block bodyid %}contributions{% endblock %}
+{% block bodyclass %}index{% endblock %}
+
+{% block sidebar %}
+	<object width="275" height="180" id="screencast">
+			<param name="movie" value="http://www.youtube.com/v/pf0kRYHiwi0&amp;hl=en_US&amp;fs=1&amp;rel=0"></param>
+			<param name="allowFullScreen" value="true"></param>
+			<param name="allowscriptaccess" value="always"></param>
+			<embed src="http://www.youtube.com/v/pf0kRYHiwi0&amp;hl=en_US&amp;fs=1&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="275" height="180"></embed>
+		</object>
+	<p id="intro">
+	    Transparency Data is a central source for <b>federal lobbying disclosure</b>, <b>federal grants and contracts</b>, <b>earmarks</b> and <b>federal and state campaign contributions</b>.
+	    Here you can begin your search, find the information you need, and then download records of what a <b>candidate</b> has received, what an <b>individual</b> has given, how much an <b>organization</b> has spent on lobbying, and many other queries.
+	</p>
+{% endblock %}
+
+{% block content %}
+	<div id="dataTabs">
+		<ul>
+			<li id="contributionsTab"><a href="/contributions/" class="contributions">Campaign Contributions</a></li>
+			<li id="earmarksTab"><a href="/earmarks/" class="earmarks">Earmarks</a></li>
+			<li id="lobbyingTab"><a href="/lobbying/" class="lobbying">Lobbying</a></li>
+			<li id="grantsTab"><a href="/grants/" class="grants">Grants</a></li>
+			<li id="contractsTab"><a href="/contracts/" class="contracts">Contracts</a></li>
+            <li id="contractorMisconductTab"><a href="/contractor_misconduct/" class="contractorMisconduct">Contractor Misconduct</a></li>
+		</ul>
+	</div>
+	<div class="introbox" id="intro-contributions">
+		<h4>Search Campaign Contributions</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific committee, recipient or date in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="contributionDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="contributionPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+
+	<div class="introbox" id="intro-earmarks">
+		<h4>Search Earmarks</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific member of congress, state or bill? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="earmarksDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="earmarksPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+
+	<div class="introbox" id="intro-lobbying">
+		<h4>Search Federal Lobbying</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific organization or issue in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="lobbyingDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="lobbyingPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+
+	<div class="introbox" id="intro-grants">
+		<h4>Search Federal Grants</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific organization or agency in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="grantsDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="grantsPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+
+	<div class="introbox" id="intro-contracts">
+		<h4>Search Federal Contracts</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific organization or agency in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="contractsDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="contractsPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+
+	<div class="introbox" id="intro-contractor-misconduct">
+		<h4>Search Contractor Misconduct</h4>
+		<div id="leftIntro">
+			<p class="introText">Have a specific contractor, contracting party or enforcement agency in mind? Add some filters below to search them</p>
+			<h3>Search for</h3>
+			<div id="contractorMisconductDataFilter" class="datafilter">
+				<form>
+					<select id="filterselect">
+						<option value="">Select a field to search...</option>
+					</select>
+					<ul id="filters"></ul> <!-- end filters -->
+				</form>
+			</div>
+		</div>
+		<div id="rightIntro">
+			<span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+			<a id="contractorMisconductPreviewButton" class="previewButton" href="#">Preview Data</a>
+		</div>
+	</div>
+    {% js "index.js" %}
+	<script type="text/javascript">
+
+		$().ready(function() {
+			$('#dataTabs li a').bind('click', function() {
+				var df = $(this).attr('class');
+				$('body').attr('id', df);
+				TD.HashMonitor.setAnchor('');
+				if (df == 'contributions') {
+					TD.activeFilter = TD.ContributionFilter;
+				} else if (df =='earmarks') {
+					TD.activeFilter = TD.EarmarksFilter;
+				} else if (df == 'lobbying') {
+					TD.activeFilter = TD.LobbyingFilter;
+				} else if (df == 'grants') {
+					TD.activeFilter = TD.GrantsFilter;
+				} else if (df == 'contracts') {
+					TD.activeFilter = TD.ContractsFilter;
+				} else if (df == 'contractorMisconduct') {
+					TD.activeFilter = TD.ContractorMisconductFilter;
+				}
+				return false;
+			});
+
+			TD.LobbyingFilter.bindDataFilter('#lobbyingDataFilter');
+			TD.LobbyingFilter.bindPreview('#lobbyingPreviewButton');
+		    TD.LobbyingFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
+			TD.EarmarksFilter.bindDataFilter('#earmarksDataFilter');
+			TD.EarmarksFilter.bindPreview('#earmarksPreviewButton');
+		    TD.EarmarksFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
+			TD.GrantsFilter.bindDataFilter('#grantsDataFilter');
+			TD.GrantsFilter.bindPreview('#grantsPreviewButton');
+		    TD.GrantsFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
+			TD.ContractsFilter.bindDataFilter('#contractsDataFilter');
+			TD.ContractsFilter.bindPreview('#contractsPreviewButton');
+		    TD.ContractsFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
+			TD.ContributionFilter.bindDataFilter('#contributionDataFilter');
+			TD.ContributionFilter.bindPreview('#contributionPreviewButton');
+		    TD.ContributionFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
+			TD.ContractorMisconductFilter.bindDataFilter('#contractorMisconductDataFilter');
+			TD.ContractorMisconductFilter.bindPreview('#contractorMisconductPreviewButton');
+		    TD.ContractorMisconductFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
+		    TD.activeFilter = TD.ContributionFilter;
+
+			TD.init();
+
+		});
+
+	</script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "filter.html" %}
+{% load media %}
+
+{% block bodyid %}lobbying{% endblock %}
+{% block dataset_name %}Federal Lobbying{% endblock %}
+
+{% block table_header %}
+	<th>Year</th>
+	<th>Amount</th>
+	<th>Registrant</th>
+	<th>Client</th>
+	<th>Client Parent</th>
+	<th>Lobbyists</th>
+{% endblock %}
+
+{% block dataset_license %}
+	<p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribution to <a href="http://opensecrets.org">OpenSecrets.org</a>.</p>
+	<p>By downloading data, you are agreeing to the terms of the license.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
+    {% js "lobbying.js" %}
+	<script type="text/javascript">
+		$().ready(function() {
+			TD.LobbyingFilter.bindDataFilter('#datafilter');
+			TD.LobbyingFilter.bindPreview('#previewButton');
+			TD.LobbyingFilter.bindDownload('#downloadButton');
+		    TD.LobbyingFilter.init();
+			
+		    TD.activeFilter = TD.LobbyingFilter;
+		
+			TD.init();
+		});
+	</script>
+{% endblock %}

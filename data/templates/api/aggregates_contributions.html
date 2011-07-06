@@ -1,0 +1,425 @@
+{% extends "api/index.html" %}
+
+{% block docs %}
+<h1 class="title">Contribution Aggregates API</h1>
+
+<div class="section" id="search-methods">
+<h1>Search Methods</h1>
+<div class="section" id="search-by-name">
+<h2>Search by Name</h2>
+<p>Search for entities--that is, politicians, individuals, or organizations--with the given name. Returns basic information about the the contributions to and from each entity, as well as an ID that can be used in other API methods to retrieve more information.</p>
+<div class="section" id="end-point">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/entities.json</span></tt></p>
+</div>
+<div class="section" id="parameters">
+<h3>Parameters</h3>
+<dl class="docutils">
+<dt>search</dt>
+<dd>The query string. Spaces should be URL-encoded or represented as <tt class="docutils literal">+</tt>. There are no logic operators or grouping.</dd>
+</dl>
+</div>
+<div class="section" id="example">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/entities.json?apikey=&lt;your-key&gt;&amp;search=nancy+pelosi</span></tt></p>
+<pre class="literal-block">
+[{&quot;name&quot;: &quot;Nancy Pelosi for Congress&quot;,
+  &quot;type&quot;: &quot;organization&quot;,
+  &quot;total_received&quot;: &quot;0&quot;,
+  &quot;count_received&quot;: 0,
+  &quot;total_given&quot;: &quot;8625826.00&quot;,
+  &quot;count_given&quot;: 1319,
+  &quot;id&quot;: &quot;8b2fed0a4a7e47e98147cdc2b335e614&quot;},
+ {&quot;name&quot;: &quot;Nancy Pelosi (D)&quot;,
+  &quot;type&quot;: &quot;politician&quot;,
+  &quot;total_received&quot;: &quot;11749535.00&quot;,
+  &quot;count_received&quot;: 9320,
+  &quot;total_given&quot;: &quot;0&quot;,
+  &quot;count_given&quot;: 0,
+  &quot;id&quot;: &quot;ff96aa62d48f48e5a1e284efe74a0ba8&quot;}]
+</pre>
+</div>
+</div>
+<div class="section" id="id-lookup">
+<h2>ID Lookup</h2>
+<p>Look up the entity ID based on an ID from a different data set. Currently we provide a mapping from the ID schemes used by Center for Reponsive Politics (CRP) and the National Institute for Money in State Politics (NIMSP). The result is a JSON object listing the TransparencyData IDs matching the given external ID.</p>
+<div class="section" id="id1">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/entities/id_lookup.json</span></tt></p>
+</div>
+<div class="section" id="id2">
+<h3>Parameters</h3>
+<dl class="docutils">
+<dt>namespace</dt>
+<dd><p class="first">The dataset and data type of the ID. Currently allowed values are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">namespace</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">urn:crp:individual</tt></td>
+<td>A CRP ID for an individual contributor or lobbyist. Begins with <tt class="docutils literal">U</tt> or <tt class="docutils literal">C</tt>.</td>
+</tr>
+<tr><td><tt class="docutils literal">urn:crp:organization</tt></td>
+<td>A CRP ID for an organization. Begins with <tt class="docutils literal">D</tt>.</td>
+</tr>
+<tr><td><tt class="docutils literal">urn:crp:recipient</tt></td>
+<td>A CRP ID for a politician. Begins with <tt class="docutils literal">N</tt>.</td>
+</tr>
+<tr><td><tt class="docutils literal">urn:nimsp:organization</tt></td>
+<td>A NIMSP ID for an organization. Integer-valued.</td>
+</tr>
+<tr><td><tt class="docutils literal">urn:nimsp:recipient</tt></td>
+<td>A NIMSP ID for a politician. Integer-valued.</td>
+</tr>
+</tbody>
+</table>
+<p class="last">More namespaces may be added in the future as other ID schemes are reconciled with the TransparencyData dataset.</p>
+</dd>
+<dt>id</dt>
+<dd>The ID of the entity in the given namespace.</dd>
+</dl>
+</div>
+<div class="section" id="id3">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/entities/id_lookup.json?apikey=&lt;your-key&gt;&amp;namespace=urn:crp:recipient&amp;id=N00007360</span></tt></p>
+<pre class="literal-block">
+[{&quot;id&quot;: &quot;ff96aa62d48f48e5a1e284efe74a0ba8&quot;}]
+</pre>
+</div>
+</div>
+<div class="section" id="entity-overview">
+<h2>Entity Overview</h2>
+<p>Return general information about a particular entity.</p>
+<div class="section" id="id4">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/entities/&lt;entity</span> <span class="pre">ID&gt;.json</span></tt></p>
+</div>
+<div class="section" id="id5">
+<h3>Parameters</h3>
+<dl class="docutils">
+<dt>cycle</dt>
+<dd>Return contribution totals for the given cycle. When not given, returns totals for all cycles.</dd>
+</dl>
+</div>
+<div class="section" id="id6">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/entities/ff96aa62d48f48e5a1e284efe74a0ba8.json?apikey=&lt;your-key&gt;</span></tt></p>
+<pre class="literal-block">
+{&quot;external_ids&quot;: [{&quot;namespace&quot;: &quot;urn:crp:recipient&quot;, &quot;id&quot;: &quot;N00007360&quot;}],
+ &quot;contributions&quot;: {&quot;contributor_amount&quot;: &quot;0&quot;,
+                   &quot;contributor_count&quot;: 0,
+                   &quot;recipient_amount&quot;: &quot;11749535.00&quot;,
+                   &quot;recipient_count&quot;: 9320},
+ &quot;name&quot;: &quot;Nancy Pelosi (D)&quot;,
+ &quot;id&quot;: &quot;ff96aa62d48f48e5a1e284efe74a0ba8&quot;}
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="politician-methods">
+<h1>Politician Methods</h1>
+<p>These methods return information about a particular politician, specified by entity ID.</p>
+<div class="section" id="top-contributors">
+<h2>Top Contributors</h2>
+<p>Return the top contributoring organizations, ranked by total dollars given. An organization's giving is broken down into money given directly (by the organization's PAC) versus money given by individuals employed by or associated with the organization.</p>
+<div class="section" id="id7">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/&lt;entity</span> <span class="pre">ID&gt;/contributors.json</span></tt></p>
+</div>
+<div class="section" id="id8">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors.json?apikey=&lt;you-key&gt;&amp;limit=3</span></tt></p>
+<pre class="literal-block">
+[{&quot;employee_amount&quot;: &quot;54800.00&quot;,
+  &quot;total_amount&quot;: &quot;87100.00&quot;,
+  &quot;total_count&quot;: 74,
+  &quot;name&quot;: &quot;Akin, Gump et al&quot;,
+  &quot;direct_count&quot;: 16,
+  &quot;employee_count&quot;: 58,
+  &quot;id&quot;: &quot;2c6f93b70b1d4e5eaa942ab9c83a21c0&quot;,
+  &quot;direct_amount&quot;: &quot;32300.00&quot;},
+ {&quot;employee_amount&quot;: &quot;3500.00&quot;,
+  &quot;total_amount&quot;: &quot;86000.00&quot;,
+  &quot;total_count&quot;: 29,
+  &quot;name&quot;: &quot;American Fedn of St/Cnty/Munic Employees&quot;,
+  &quot;direct_count&quot;: 25,
+  &quot;employee_count&quot;: 4,
+  &quot;id&quot;: &quot;dbc095a6bc9343f5a9867352a1a00dae&quot;,
+  &quot;direct_amount&quot;: &quot;82500.00&quot;},
+ {&quot;employee_amount&quot;: &quot;0&quot;,
+  &quot;total_amount&quot;: &quot;82000.00&quot;,
+  &quot;total_count&quot;: 31,
+  &quot;name&quot;: &quot;United Auto Workers&quot;,
+  &quot;direct_count&quot;: 31,
+  &quot;employee_count&quot;: 0,
+  &quot;id&quot;: &quot;1108378c9e4344cb9f86473b4d5621f1&quot;,
+  &quot;direct_amount&quot;: &quot;82000.00&quot;}]
+</pre>
+</div>
+</div>
+<div class="section" id="top-sectors">
+<h2>Top Sectors</h2>
+<p>Return what each sector gave to the politician.</p>
+<div class="section" id="id9">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/&lt;entity</span> <span class="pre">ID&gt;/contributors/sectors.json</span></tt></p>
+<p>The sectors are identified by a single-letter code, as coded by CRP. The sector codes are:</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Code</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">A</tt></td>
+<td>Agribusiness</td>
+</tr>
+<tr><td><tt class="docutils literal">B</tt></td>
+<td>Communications/Electronics</td>
+</tr>
+<tr><td><tt class="docutils literal">C</tt></td>
+<td>Construction</td>
+</tr>
+<tr><td><tt class="docutils literal">D</tt></td>
+<td>Defense</td>
+</tr>
+<tr><td><tt class="docutils literal">E</tt></td>
+<td>Energy/Natural Resources</td>
+</tr>
+<tr><td><tt class="docutils literal">F</tt></td>
+<td>Finance/Insurance/Real Estate</td>
+</tr>
+<tr><td><tt class="docutils literal">H</tt></td>
+<td>Health</td>
+</tr>
+<tr><td><tt class="docutils literal">K</tt></td>
+<td>Lowyers and Lobbyists</td>
+</tr>
+<tr><td><tt class="docutils literal">M</tt></td>
+<td>Transportation</td>
+</tr>
+<tr><td><tt class="docutils literal">N</tt></td>
+<td>Misc. Business</td>
+</tr>
+<tr><td><tt class="docutils literal">Q</tt></td>
+<td>Ideology/Single Issue</td>
+</tr>
+<tr><td><tt class="docutils literal">P</tt></td>
+<td>Labor</td>
+</tr>
+<tr><td><tt class="docutils literal">W</tt></td>
+<td>Other</td>
+</tr>
+<tr><td><tt class="docutils literal">Y</tt></td>
+<td>Unknown</td>
+</tr>
+<tr><td><tt class="docutils literal">Z</tt></td>
+<td>Adminstrative Use</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</div>
+<div class="section" id="id10">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/sectors.json?apikey=&lt;your-key&gt;</span></tt></p>
+<pre class="literal-block">
+[{&quot;sector&quot;: &quot;F&quot;, &quot;count&quot;: 1665, &quot;amount&quot;: &quot;2230822.00&quot;},
+ {&quot;sector&quot;: &quot;P&quot;, &quot;count&quot;: 971, &quot;amount&quot;: &quot;2033800.00&quot;},
+ {&quot;sector&quot;: &quot;Q&quot;, &quot;count&quot;: 1108, &quot;amount&quot;: &quot;1198013.00&quot;},
+ {&quot;sector&quot;: &quot;K&quot;, &quot;count&quot;: 1207, &quot;amount&quot;: &quot;1161794.00&quot;},
+ {&quot;sector&quot;: &quot;H&quot;, &quot;count&quot;: 692, &quot;amount&quot;: &quot;1058000.00&quot;},
+ {&quot;sector&quot;: &quot;N&quot;, &quot;count&quot;: 761, &quot;amount&quot;: &quot;959437.00&quot;},
+ {&quot;sector&quot;: &quot;B&quot;, &quot;count&quot;: 446, &quot;amount&quot;: &quot;685969.00&quot;},
+ {&quot;sector&quot;: &quot;Y&quot;, &quot;count&quot;: 794, &quot;amount&quot;: &quot;587916.00&quot;},
+ {&quot;sector&quot;: &quot;W&quot;, &quot;count&quot;: 546, &quot;amount&quot;: &quot;525825.00&quot;},
+ {&quot;sector&quot;: &quot;E&quot;, &quot;count&quot;: 186, &quot;amount&quot;: &quot;237600.00&quot;}]
+</pre>
+</div>
+</div>
+<div class="section" id="top-industries-within-sector">
+<h2>Top Industries within Sector</h2>
+<p>Return the top contributing industries within a particular sector. Industries are identified by the three character category code assigned by CRP or NIMSP. See <a class="reference external" href="http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv">http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv</a>.</p>
+<div class="section" id="id11">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/&lt;entity</span> <span class="pre">ID&gt;/contributors/sector/&lt;sector&gt;/industries.json</span></tt></p>
+</div>
+<div class="section" id="id12">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/sector/F/industries.json?apikey=&lt;your-key&gt;&amp;limit=3</span></tt></p>
+<pre class="literal-block">
+[{&quot;count&quot;: 387, &quot;industry&quot;: &quot;F07&quot;, &quot;amount&quot;: &quot;590200.00&quot;},
+ {&quot;count&quot;: 432, &quot;industry&quot;: &quot;F10&quot;, &quot;amount&quot;: &quot;553222.00&quot;},
+ {&quot;count&quot;: 238, &quot;industry&quot;: &quot;F09&quot;, &quot;amount&quot;: &quot;323500.00&quot;}]
+</pre>
+</div>
+</div>
+<div class="section" id="local-breakdown">
+<h2>Local Breakdown</h2>
+<p>Return a breakdown of how much of the money raised was from contributors in the politician's state versus outside the politician's state.</p>
+<div class="section" id="id13">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/&lt;entity</span> <span class="pre">ID&gt;/contributors/local_breakdown.json</span></tt></p>
+</div>
+<div class="section" id="id14">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/local_breakdown.json?apikey=&lt;your-key&gt;</span></tt></p>
+<pre class="literal-block">
+{&quot;in-state&quot;: [3852, &quot;3672843.00&quot;], &quot;out-of-state&quot;: [5048, &quot;7712269.00&quot;]}
+</pre>
+</div>
+</div>
+<div class="section" id="contributor-type-breakdown">
+<h2>Contributor Type Breakdown</h2>
+<p>Return a breakdown of how much of the money raised was came from individuals versus organizations (PACs).</p>
+<div class="section" id="id15">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/&lt;entity</span> <span class="pre">ID&gt;/contributors/type_breakdown.json</span></tt></p>
+</div>
+<div class="section" id="id16">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/ff96aa62d48f48e5a1e284efe74a0ba8/contributors/type_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce</span></tt></p>
+<pre class="literal-block">
+{&quot;Individuals&quot;: [5533, &quot;5240057.00&quot;], &quot;PACs&quot;: [3367, &quot;6145055.00&quot;]}
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="individual-methods">
+<h1>Individual Methods</h1>
+<p>These methods return information about a particular individual, specified by entity ID.</p>
+<div class="section" id="top-recipient-organizations">
+<h2>Top Recipient Organizations</h2>
+<p>Return the top organizations to which this individual has given money.</p>
+<div class="section" id="id17">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/indiv/&lt;entity</span> <span class="pre">ID&gt;/recipient_orgs.json</span></tt></p>
+</div>
+<div class="section" id="id18">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipient_orgs.json?apikey=&lt;your-key&gt;&amp;limit=3</span></tt></p>
+<pre class="literal-block">
+[{&quot;count&quot;: 6, &quot;recipient_entity&quot;: &quot;&quot;, &quot;amount&quot;: &quot;83500.00&quot;, &quot;recipient_name&quot;: &quot;Republican National Cmte&quot;},
+ {&quot;count&quot;: 7, &quot;recipient_entity&quot;: &quot;&quot;, &quot;amount&quot;: &quot;49250.00&quot;, &quot;recipient_name&quot;: &quot;National Republican Congressional Cmte&quot;},
+ {&quot;count&quot;: 8, &quot;recipient_entity&quot;: &quot;a092ecc6cfcf4dfeb55cddbd45425afb&quot;, &quot;amount&quot;: &quot;36901.00&quot;, &quot;recipient_name&quot;: &quot;National Republican Senatorial Cmte&quot;}]
+</pre>
+</div>
+</div>
+<div class="section" id="top-recipient-politicians">
+<h2>Top Recipient Politicians</h2>
+<p>Return the top politicians to which this individual has given money.</p>
+<div class="section" id="id19">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/indiv/&lt;entity</span> <span class="pre">ID&gt;/recipient_pols.json</span></tt></p>
+</div>
+<div class="section" id="id20">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipient_pols.json?apikey=&lt;your-key&gt;&amp;limit=3</span></tt></p>
+<pre class="literal-block">
+[{&quot;count&quot;: 16, &quot;recipient_entity&quot;: &quot;928936734d2a458ebcbbfefd0fceb0ff&quot;, &quot;amount&quot;: &quot;14850.00&quot;, &quot;recipient_name&quot;: &quot;Sam Johnson (R)&quot;},
+ {&quot;count&quot;: 16, &quot;recipient_entity&quot;: &quot;5c8f2544e5ec42688cb684de7999f734&quot;, &quot;amount&quot;: &quot;13000.00&quot;, &quot;recipient_name&quot;: &quot;Joe Barton (R)&quot;},
+ {&quot;count&quot;: 10, &quot;recipient_entity&quot;: &quot;233629a413cd4bd189440884f3ad3f03&quot;, &quot;amount&quot;: &quot;9250.00&quot;, &quot;recipient_name&quot;: &quot;Pete Sessions (R)&quot;}]
+</pre>
+</div>
+</div>
+<div class="section" id="party-breakdown">
+<h2>Party Breakdown</h2>
+<p>Return how much this individual gave to each party.</p>
+<div class="section" id="id21">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/indiv/&lt;entity</span> <span class="pre">ID&gt;/recipients/party_breakdown.json</span></tt></p>
+</div>
+<div class="section" id="id22">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/indiv/945bcd0635bc434eacb7abcdcd38abea/recipients/party_breakdown.json?apikey=&lt;your-key&gt;</span></tt></p>
+<pre class="literal-block">
+{&quot;R&quot;: [271, &quot;253400.00&quot;], &quot;D&quot;: [24, &quot;21300.00&quot;]}
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="organization-methods">
+<h1>Organization Methods</h1>
+<p>These methods return information about an organization's giving. &quot;Organization&quot; is an intentionally vague designation covering corportations, PACs, unions, trade groups, and other groups.</p>
+<div class="section" id="top-recipients">
+<h2>Top Recipients</h2>
+<p>Return the top recipients of money from this organization.</p>
+<div class="section" id="id23">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/org/&lt;entity</span> <span class="pre">ID&gt;/recipients.json</span></tt></p>
+</div>
+<div class="section" id="id24">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients.json?apikey=&lt;your-key&gt;&amp;limit=3</span></tt></p>
+<pre class="literal-block">
+[{&quot;employee_amount&quot;: &quot;57658.00&quot;,
+  &quot;total_amount&quot;: &quot;57658.00&quot;,
+  &quot;total_count&quot;: 57,
+  &quot;name&quot;: &quot;Barack Obama (D)&quot;,
+  &quot;direct_count&quot;: 0,
+  &quot;employee_count&quot;: 57,
+  &quot;id&quot;: &quot;4cc67d4c54214b858a4b72d97b3905ea&quot;,
+  &quot;direct_amount&quot;: &quot;0&quot;},
+ {&quot;employee_amount&quot;: &quot;21400.00&quot;,
+  &quot;total_amount&quot;: &quot;21400.00&quot;,
+  &quot;total_count&quot;: 24,
+  &quot;name&quot;: &quot;Hillary Clinton (D)&quot;,
+  &quot;direct_count&quot;: 0,
+  &quot;employee_count&quot;: 24,
+  &quot;id&quot;: &quot;48253d1b86f446c8b584f9d6a31450c1&quot;,
+  &quot;direct_amount&quot;: &quot;0&quot;},
+ {&quot;employee_amount&quot;: &quot;17500.00&quot;,
+  &quot;total_amount&quot;: &quot;17500.00&quot;,
+  &quot;total_count&quot;: 7,
+  &quot;name&quot;: &quot;Harold E Ford Jr (D)&quot;,
+  &quot;direct_count&quot;: 0,
+  &quot;employee_count&quot;: 7,
+  &quot;id&quot;: &quot;3b3c79d8f4264fd19999409bd97bd161&quot;,
+  &quot;direct_amount&quot;: &quot;0&quot;}]
+</pre>
+</div>
+</div>
+<div class="section" id="id25">
+<h2>Party Breakdown</h2>
+<p>Return the portion of giving that went to each party.</p>
+<div class="section" id="id26">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/org/&lt;entity</span> <span class="pre">ID&gt;/recipients/party_breakdown.json</span></tt></p>
+</div>
+<div class="section" id="id27">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/org/4ef624f6877a49f2b591b2a8af4c5bf5/recipients/party_breakdown.json?apikey=34c1b7c631c94d57a241a107fb0b0bce&amp;limit=3</span></tt></p>
+<pre class="literal-block">
+{&quot;3&quot;: [1, &quot;500.00&quot;], &quot;Republicans&quot;: [3, &quot;1500.00&quot;], &quot;Democrats&quot;: [463, &quot;391247.00&quot;]}
+</pre>
+</div>
+</div>
+<div class="section" id="state-federal-breakdown">
+<h2>State/Federal Breakdown</h2>
+<p>Return the portion of giving that went to state versus federal candidates.</p>
+<div class="section" id="id28">
+<h3>End Point</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/org/&lt;entity</span> <span class="pre">ID&gt;/recipients/level_breakdown.json</span></tt></p>
+</div>
+<div class="section" id="id29">
+<h3>Example</h3>
+<p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/org/73c18c499c1b4a71b2b042663530e9b7/recipients/level_breakdown.json?apikey=&lt;your-key&gt;</span></tt></p>
+<pre class="literal-block">
+{&quot;Federal&quot;: [3789, &quot;4832720.00&quot;], &quot;State&quot;: [154, &quot;74659.96&quot;]}
+</pre>
+</div>
+</div>
+</div>
+{% endblock %}
