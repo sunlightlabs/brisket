@@ -79,7 +79,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
-ROOT_URLCONF = 'brisket.urls'
+ROOT_URLCONF = 'brisket.data.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -107,7 +107,8 @@ INSTALLED_APPS = (
     'paging',
     'ecards',
     'gunicorn',
-    'feedinator'
+    'feedinator',
+    'data',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -161,7 +162,58 @@ MEDIASYNC['JOINED'] = {
         'js/g.line.js',
         'js/brisket_charts.js',
         'js/brisket.js',
-    ]
+    ],
+    'data/css/all.css': [
+        'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
+        'data/css/jquery.autocomplete.css',
+        'data/css/main.css'
+    ],
+    'data/3rdparty.js': [
+        'data/js/jquery-1.4.2.min.js',
+        'data/js/jquery-ui-1.7.2.custom.min.js',
+        'data/js/jquery.currency.js',
+        'data/js/underscore-min.js'
+    ],
+    'data/contracts.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contracts.js'
+    ],
+    'data/contractor_misconduct.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contractor_misconduct.js'
+    ],
+    'data/contributions.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contributions.js'
+    ],
+    'data/earmarks.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.earmarks.js'
+    ],
+    'data/grants.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.grants.js'
+    ],
+    'data/lobbying.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.lobbying.js'
+    ],
+    'data/index.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contracts.js',
+        'data/js/td.earmarks.js',
+        'data/js/td.grants.js',
+        'data/js/td.lobbying.js',
+        'data/js/td.contributions.js',
+        'data/js/td.contractor_misconduct.js'
+    ],
 }
     
 
