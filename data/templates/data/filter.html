@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "data/base.html" %}
 
 {% block sidebar %}
 	<div id="datafilter" class="module datafilter">
@@ -57,5 +57,9 @@
     	</div>
         <div class="clear"></div>
 	</div>
-	{% block dataset_scripts %}{% endblock %}
+	{% block dataset_scripts %}
+	<script type="text/javascript">
+	TD.DATA_API_BASE_URL = "{{ DATA_API_BASE_URL }}";
+	</script>
+	{% endblock %}
 {% endblock %}

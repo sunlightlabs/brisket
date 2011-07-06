@@ -635,7 +635,7 @@ TD.DataFilter.prototype.preview = function() {
             $('span#previewCount').html('...');
             $('span#recordCount').html('...');
             that.recordCount = 0;
-            $.getJSON('/data/' + this.path + '/', params, function(data) {
+            $.getJSON(TD.DATA_API_BASE_URL + this.path + '/?callback=?', params, function(data) {
                 if (data.length === 0) {
                     $('div#nodata').show();
                 } else {
@@ -661,7 +661,7 @@ TD.DataFilter.prototype.preview = function() {
                     $('span#recordCount').html(data.length);
                 } else {
                     that.downloadNode.addClass('calculating');
-                    $.get("/data/" + that.path + "/count/", params, function(data) {
+                    $.get(TD.DATA_API_BASE_URL + that.path + "/count/", params, function(data) {
                         that.downloadNode.removeClass('calculating').addClass('enabled');
                         that.recordCount = parseInt(data);
                         $('span#recordCount').html(data);

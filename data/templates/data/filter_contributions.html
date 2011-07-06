@@ -1,4 +1,4 @@
-{% extends "filter.html" %}
+{% extends "data/filter.html" %}
 {% load media %}
 
 {% block bodyid %}contributions{% endblock %}
@@ -23,6 +23,7 @@
 
 {% block dataset_scripts %}
     {% js "data/contributions.js" %}
+    {{ block.super }}
 	<script type="text/javascript">
 		$().ready(function() {
 			TD.ContributionFilter.bindDataFilter('#datafilter');
