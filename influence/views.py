@@ -15,10 +15,10 @@ from influence.names import standardize_organization_name, \
     standardize_industry_name
 from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver import PoliticianNameCleaver
-from settings import LATEST_CYCLE, api
-from urllib2 import HTTPError, URLError
+from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
+from urllib2 import URLError
 import datetime
-from feedinator.models import *
+from feedinator.models import Feed
 
 try:
     import json
@@ -63,6 +63,7 @@ def index(request):
     #ID of the feed is hardcoded as feed 1 since it's the only feed we're using right now. This may change!
     feed = Feed.objects.get(pk=1)
     entry = feed.entries.values().latest('date_published')
+    entry['title'] = entry['title'].replace('Influence Explored: ', '')
     return render_to_response('index.html', {"feed":feed, "entry":entry}, brisket_context(request))
 
 def search(request):
@@ -131,30 +132,30 @@ def search(request):
 
 def organization_landing(request):
     context = {}
-    context['top_n_organizations'] = api.entities.top_n_organizations(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_organizations'] = api.entities.top_n_organizations(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_orgs'] = len(context['top_n_organizations'])
-    context['cycle'] = LATEST_CYCLE
+    context['cycle'] = TOP_LISTS_CYCLE
     return render_to_response('org_landing.html', context, brisket_context(request))
 
 def people_landing(request):
     context = {}
-    context['top_n_individuals'] = api.entities.top_n_individuals(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_individuals'] = api.entities.top_n_individuals(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_indivs'] = len(context['top_n_individuals'])
-    context['cycle'] = LATEST_CYCLE
+    context['cycle'] = TOP_LISTS_CYCLE
     return render_to_response('indiv_landing.html', context, brisket_context(request))
 
 def politician_landing(request):
     context = {}
-    context['top_n_politicians'] = api.entities.top_n_politicians(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_politicians'] = api.entities.top_n_politicians(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_pols'] = len(context['top_n_politicians'])
-    context['cycle'] = LATEST_CYCLE
+    context['cycle'] = TOP_LISTS_CYCLE
     return render_to_response('pol_landing.html', context, brisket_context(request))
 
 def industry_landing(request):
     context = {}
-    context['top_n_industries'] = api.entities.top_n_industries(cycle=LATEST_CYCLE, limit=50)
+    context['top_n_industries'] = api.entities.top_n_industries(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_industries'] = len(context['top_n_industries'])
-    context['cycle'] = LATEST_CYCLE
+    context['cycle'] = TOP_LISTS_CYCLE
     return render_to_response('industry_landing.html', context, brisket_context(request))
 
 @handle_errors
@@ -309,12 +310,34 @@ def org_spending_section(entity_id, name, cycle, context):
 def organization_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'organization')
 
+
 def industry_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'industry')
+
 
 @handle_errors
 def politician_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
+
+    if cycle != DEFAULT_CYCLE:
+        # copy the current cycle's metadata into the generic metadata spot
+        metadata['entity_info']['metadata'].update(metadata['entity_info']['metadata'][unicode(str(cycle))])
+    else:
+        # get just the metadata that is the by cycle stuff
+        cycle_info = [ (k,v) for k,v in metadata['entity_info']['metadata'].items() if k.isdigit() ]
+        # again, district_held is a temporary workaround
+        sorted_cycles = sorted(cycle_info, key=lambda x: x[0] if x[1]['district_held'].strip() != '-' else 0)
+        max_year_with_seat_held = sorted_cycles[-1][0]
+
+        metadata['entity_info']['metadata']['seat_held']     = metadata['entity_info']['metadata'][max_year_with_seat_held]['seat_held']
+        metadata['entity_info']['metadata']['district_held'] = metadata['entity_info']['metadata'][max_year_with_seat_held]['district_held']
+        metadata['entity_info']['metadata']['state_held']    = metadata['entity_info']['metadata'][max_year_with_seat_held]['state_held']
+
+    # make a shorter-named copy
+    meta = metadata['entity_info']['metadata']
+    # check that seat_held is properly defined and zero it out if not
+    seat_held = meta['seat_held'] if meta['district_held'].strip() != '-' else ''
+    metadata['entity_info']['metadata']['seat_held'] = seat_held
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
@@ -327,6 +350,7 @@ def politician_entity(request, entity_id):
 
     return render_to_response('politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
+
 
 def pol_contribution_section(entity_id, cycle, amount, context):
     context['contributions_data'] = True
