@@ -39,7 +39,7 @@ $(function() {
         <h2 id="header_explored">Influence Explored</h2>
         <span class="tip tipHeight"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a> takes an article from the day’s headlines and exposes the influential ways of entities mentioned in the article.</span>
         <div class="internalContent">
-            <h3 class="withTip">{{entry.title}}</h3>
+            <h3 class="withTip">{{entry.title|safe}}</h3>
             <div class="entryMetaData">
                 <address class="author">
                     <a href="{{entry.author_name|sunlight_author_uri}}" rel="author">{{entry.author_name}}</a>

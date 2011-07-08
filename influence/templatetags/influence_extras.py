@@ -105,4 +105,8 @@ def pretty_list_filter(l):
 @stringfilter
 def sunlight_author_uri(value):
     value = value.lower().split(' ')
-    return SUNLIGHT_STAFF_BASE_URI+value[0][:1]+value[1]
+    if len(value) > 1:
+        shortname = "%s%s"%(value[0][:1],value[-1])
+    else:
+        shortname = value[0]
+    return "%s%s"%(SUNLIGHT_STAFF_BASE_URI, shortname)
