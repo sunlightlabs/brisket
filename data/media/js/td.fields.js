@@ -117,7 +117,7 @@ TD.DataFilter.DropDownField.render = function() {
         content += '<option value="' + opts[i][0] + '">' + opts[i][1] + '</option>';
     }
     content += '</select>';
-    content += '<a href="#" class="remove">-</a>';
+    content += '<a href="#" title="remove filter" class="remove">-</a>';
     content += '</li>';
     
     var node = $(content);
@@ -338,10 +338,10 @@ TD.Filter = {
         content += '<li id="' + this.config.name + '_filter" class="filter">';
         content += '<label>' + this.config.label + '</label>';
         if (!this.required) {
-            content += '<a href="#" class="remove">-</a>';
+            content += '<a href="#" title="remove category" class="remove">-</a>';
         }
         if (this.allowMultipleFields) {
-            content += '<a href="#" class="add">+</a>';
+            content += '<a href="#" title="add filter" class="add">+</a>';
         }
         content += '<p class="help">' + this.config.help + '</p>';
         content += '<ul class="fields"></ul>';

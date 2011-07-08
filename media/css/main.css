@@ -27,7 +27,7 @@ body.search #sllink, body.home #sllink { margin-top: 3px;}
 
 .graph { position: relative; }
 
-.tip, div.searchBox .results, .inArticle_sm, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
+.tip, div.searchBox .results, .inArticle_sm, .topPages .results, .help { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
 .withCaps { text-transform: none; }
 a.moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-top: 20px; display: block;}
 
@@ -38,12 +38,13 @@ h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #
 h2 big { text-transform: uppercase; margin-right: 10px;}
 .overviewBar h3 { float: left;  margin-bottom: 0px;  margin-right: 25px;}
 h3 { font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; line-height: 25px; margin-bottom: 25px;}
-h3.withTip, body.home h3.withTip { margin-bottom: 10px;}
+.withTip { margin-bottom: 10px;}
 h4, .h4 { text-transform: uppercase; color: #3b3130; font-size: 145%; margin-bottom: 25px; font-weight: normal; float: none; margin-right: 0px;}
 h4.withTip { margin-bottom: 5px; }
 h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 125%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; font-weight: bold; line-height: 24px;}
 h6, .h6 { font-size: 110%; font-weight: bold;}
+.smTip { margin-bottom: 0;}
 
 div#featureBox { background: url(../images/feature_bgSm.jpg) top left repeat-y; padding: 30px 40px 0; margin-bottom: 50px; height: 155px; }
 div#featureBox h2 { text-transform: uppercase; margin-bottom: 25px; float: left; margin-right: 20px; margin-top: 10px;}
@@ -148,6 +149,7 @@ a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style:
 
 #ltColumn { padding: 0 30px 0 40px; width: 650px; float: left; overflow: hidden;}
 #rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left; overflow: hidden;}
+#fullColumn { padding: 0 40px 80px 30px; }
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 #mainContent .withBgLeft { background: url(../images/bg_postcard.jpg) top left repeat-y; }
 
@@ -417,3 +419,40 @@ dt.moneyTitle { margin-top: 8px;}
 .entryMetaData { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-bottom: 15px; margin-top: -8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
+
+/* Transparency Data */
+
+#dataTabs { margin: 30px 0 40px; border-bottom: 1px solid #DCDCD8;}
+#dataTabs li { display: inline-block; padding: 5px 15px; border-top: 1px solid #DCDCD8; border-right: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; margin-right: 2px; background: url(../images/tabGradient.jpg) left top repeat-x;}
+#dataTabs li.active, #dataTabs li:hover { background: #fff; font-weight: bold; margin-bottom: -2px; }
+#dataTabs a { text-decoration: none; }
+
+.leftIntro { float: left; width: 570px; padding-right: 29px; border-right: 1px dashed #DCDCD8;}
+.rightIntro { float: left; margin-left: 30px; width: 260px; }
+.previewButton { background: url(../images/btn_previewData.jpg) left -60px no-repeat; height: 60px; width: 168px;}
+.previewButton:hover { background: url(../images/btn_previewData.jpg) left -120px no-repeat; } 
+
+#mainSearchFilter fieldset { background-color: #f9f7f6; padding: 20px 10px; border: 1px solid #f1eeec;}
+#mainSearchFilter fieldset label { width: auto; margin-right: 15px; font-weight: bold;}
+
+.tdata #filters label { display: block; float: none; width: auto; font-weight: bold;} 
+
+#filters { border-top: 1px dotted #DCDCD8; padding: 25px 10px 25px 65px;}
+.mainLabel { font-size: 120%; }
+
+#filters li { margin-bottom: 15px; border-bottom: 1px dotted #DCDCD8; padding-bottom: 15px;}
+#filters li ul li { border-bottom: none; padding: 15px 0 0 0;}
+.tdata #filters label { float: left; width: 430px; line-height: 15px;}
+
+.remove, .add { float: right; text-indent: -9999em; display: block; width: 27px; height: 27px; }
+.add { background: url(../images/btn_plus.png) left top no-repeat;  margin-right: 5px;}
+.add:hover { background: url(../images/btn_plus.png) left bottom no-repeat; }
+
+.remove { background: url(../images/btn_minus.png) left top no-repeat; }
+.remove:hover { background: url(../images/btn_minus.png) left bottom no-repeat; }
+
+.fields .remove { background: url(../images/btn_minusSm.png) left top no-repeat; width: 21px; height: 21px;}
+.fields .remove:hover { background: url(../images/btn_minusSm.png) left bottom no-repeat; }
+
+.flexwidth #mainContent { margin: 0 2%; width: 96%; background: #fff;}
+.flexwidth #header { }

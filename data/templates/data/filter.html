@@ -1,9 +1,24 @@
-{% extends "data/base.html" %}
+{% extends "base.html" %}
 
-{% block sidebar %}
-	<div id="datafilter" class="module datafilter">
+{% block body_class %}tdata flexwidth{% endblock %}
+
+{% block main %}
+<div id="fullColumn">
+    <ul id="dataTabs">
+		<li><a href="/contributions/">Campaign Contributions</a></li>
+		<li><a href="/earmarks/">Earmarks</a></li>
+		<li><a href="/lobbying/">Lobbying</a></li>
+		<li><a href="/grants/">Grants</a></li>
+		<li><a href="/contracts/">Contracts</a></li>
+        <li><a href="/contractor_misconduct/">Contractor Misconduct</a></li>
+	</ul>
+    <div class="clear"></div>
+    {{ block.super }}
+</div>
+<div id="smLtColumn">
+    <div id="datafilter" class="module datafilter">
 		<h2>Search {% block dataset_name %}{% endblock %} for</h2>
-		<span class="helper">Add additional fields to refine your search.</span>
+		<span class="tip">Add additional fields to refine your search.</span>
 		<form>
 			<select id="filterselect">
 				<option value="">Select a filter to add...</option>
@@ -11,26 +26,8 @@
 			<ul id="filters"></ul>
 		</form>
 	</div>
-{% endblock %}
-
-{% block bodyclass %}filteredSearch{% endblock %}
-
-{% block content_container %}
-	<div id="dataTabs">
-		<ul>
-			<li id="contributionsTab"><a href="/contributions/">Campaign Contributions</a></li>
-			<li id="earmarksTab"><a href="/earmarks/">Earmarks</a></li>
-			<li id="lobbyingTab"><a href="/lobbying/">Lobbying</a></li>
-			<li id="grantsTab"><a href="/grants/">Grants</a></li>
-			<li id="contractsTab"><a href="/contracts/">Contracts</a></li>
-            <li id="contractorMisconductTab"><a href="/contractor_misconduct/">Contractor Misconduct</a></li>
-		</ul>
-	</div>
-	<div class="clear"></div>
-	{{ block.super }}
-{% endblock %}
-
-{% block content %}
+</div>
+<div id="lgRightColumn">
 	<div class="module tableButtons">
 	    <a id="previewButton" href="#" class="previewButton">Preview Data</a>
 	    <a id="downloadButton" href="#" class="downloadButton">Download </a>
@@ -66,6 +63,7 @@
     	</div>
         <div class="clear"></div>
 	</div>
+</div>
 	{% block dataset_scripts %}
 	<script type="text/javascript">
 	TD.DATA_API_BASE_URL = "{{ DATA_API_BASE_URL }}";
