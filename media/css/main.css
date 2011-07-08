@@ -110,12 +110,11 @@ button, .buttonLink { width: auto; text-indent: -9999em; display: block; border:
 div#pageMain, footer { width: 960px; margin: 0 auto; }
 .graph { position: relative; }
 
-.tip, .searchBox .results, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; }
+.tip, .searchBox .results, .topPages .results, .help { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; }
 .tip { line-height: 17px; display: block; color: #827d7d; margin-bottom: 25px; max-width: 650px;}
 .moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-bottom: 10px; display: block; background: url(../images/icon_viewMore.jpg) top left no-repeat; padding-left: 30px;}
 
 /*headers*/
-
 h1 { float: left; padding-top: 100px; margin-bottom: 5px; width: 440px; height: 61px; margin-left: 10px;}
 h1 a { color: #000; text-decoration: none; font-size: 470%; text-transform: uppercase; line-height: 70px; text-indent: -9999em; display: block; background: url(../images/logo.png) top left no-repeat; width: 440px; height: 61px;}
 
@@ -127,6 +126,7 @@ h4, .h4 { color: #3b3130; font-size: 145%; margin-bottom: 25px; font-weight: nor
 h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 125%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; font-weight: bold; line-height: 24px;}
 h6, .h6 { font-size: 110%; font-weight: bold;}
+.smTip { margin-bottom: 0;}
 
 #FeatureText { background: url(../images/bg_feature.jpg) top left no-repeat; width: 893px; height: 262px; text-indent: -9999em; display: block; margin: -34px 0 0 10px;}
 #featureContent { background: url(../images/featureContent.jpg) 10px top no-repeat; padding-top: 90px; margin-bottom: 30px;}
@@ -243,6 +243,7 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 
 #ltColumn { padding: 0 30px 0 40px; width: 650px; float: left; overflow: hidden;}
 #rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px}
+#fullColumn { padding: 0 40px 80px 30px; }
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 
 
@@ -447,7 +448,6 @@ dt.moneyTitle { margin-top: 8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
 
-
 .regColSmall { width: 50px; }
 .regColCount { width: 85px; }
 .regColDate { width: 100px; }
@@ -596,3 +596,40 @@ table .even.numerous{
 #miniNav li.active, #miniNav li:hover { background: url(../images/bg_smNavActive.png) left center no-repeat;  }
 
 .withTip { margin-bottom: 5px; }
+
+/* Transparency Data */
+
+#dataTabs { margin: 30px 0 40px; border-bottom: 1px solid #DCDCD8;}
+#dataTabs li { display: inline-block; padding: 5px 15px; border-top: 1px solid #DCDCD8; border-right: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; margin-right: 2px; background: url(../images/tabGradient.jpg) left top repeat-x;}
+#dataTabs li.active, #dataTabs li:hover { background: #fff; font-weight: bold; margin-bottom: -2px; }
+#dataTabs a { text-decoration: none; }
+
+.leftIntro { float: left; width: 570px; padding-right: 29px; border-right: 1px dashed #DCDCD8;}
+.rightIntro { float: left; margin-left: 30px; width: 260px; }
+.previewButton { background: url(../images/btn_previewData.jpg) left -60px no-repeat; height: 60px; width: 168px;}
+.previewButton:hover { background: url(../images/btn_previewData.jpg) left -120px no-repeat; } 
+
+#mainSearchFilter fieldset { background-color: #f9f7f6; padding: 20px 10px; border: 1px solid #f1eeec;}
+#mainSearchFilter fieldset label { width: auto; margin-right: 15px; font-weight: bold;}
+
+.tdata #filters label { display: block; float: none; width: auto; font-weight: bold;} 
+
+#filters { border-top: 1px dotted #DCDCD8; padding: 25px 10px 25px 65px;}
+.mainLabel { font-size: 120%; }
+
+#filters li { margin-bottom: 15px; border-bottom: 1px dotted #DCDCD8; padding-bottom: 15px;}
+#filters li ul li { border-bottom: none; padding: 15px 0 0 0;}
+.tdata #filters label { float: left; width: 430px; line-height: 15px;}
+
+.remove, .add { float: right; text-indent: -9999em; display: block; width: 27px; height: 27px; }
+.add { background: url(../images/btn_plus.png) left top no-repeat;  margin-right: 5px;}
+.add:hover { background: url(../images/btn_plus.png) left bottom no-repeat; }
+
+.remove { background: url(../images/btn_minus.png) left top no-repeat; }
+.remove:hover { background: url(../images/btn_minus.png) left bottom no-repeat; }
+
+.fields .remove { background: url(../images/btn_minusSm.png) left top no-repeat; width: 21px; height: 21px;}
+.fields .remove:hover { background: url(../images/btn_minusSm.png) left bottom no-repeat; }
+
+.flexwidth #mainContent { margin: 0 2%; width: 96%; background: #fff;}
+.flexwidth #header { }

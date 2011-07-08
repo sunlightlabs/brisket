@@ -1,9 +1,17 @@
-{% extends "data/base.html" %}
+{% extends "base.html" %}
 
-{% block sidebar %}
-	<div id="datafilter" class="module datafilter">
+{% block body_class %}tdata flexwidth{% endblock %}
+
+{% block main %}
+<div id="fullColumn">
+    {% include "data_tabs.html" %}
+    <div class="clear"></div>
+    {{ block.super }}
+</div>
+<div id="smLtColumn">
+    <div id="datafilter" class="module datafilter">
 		<h2>Search {% block dataset_name %}{% endblock %} for</h2>
-		<span class="helper">Add additional fields to refine your search.</span>
+		<span class="tip">Add additional fields to refine your search.</span>
 		<form>
 			<select id="filterselect">
 				<option value="">Select a filter to add...</option>
@@ -11,17 +19,8 @@
 			<ul id="filters"></ul>
 		</form>
 	</div>
-{% endblock %}
-
-{% block bodyclass %}filteredSearch{% endblock %}
-
-{% block content_container %}
-{% include "data_tabs.html" %}
-    <div class="clear"></div>
-    {{ block.super }}
-{% endblock %}
-
-{% block content %}
+</div>
+<div id="lgRightColumn">
 	<div class="module tableButtons">
 	    <a id="previewButton" href="#" class="previewButton">Preview Data</a>
 	    <a id="downloadButton" href="#" class="downloadButton">Download </a>
@@ -57,6 +56,7 @@
     	</div>
         <div class="clear"></div>
 	</div>
+</div>
 	{% block dataset_scripts %}
 	<script type="text/javascript">
 	TD.DATA_API_BASE_URL = "{{ DATA_API_BASE_URL }}";
