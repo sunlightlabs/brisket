@@ -343,7 +343,7 @@ TD.Filter = {
         if (this.allowMultipleFields) {
             content += '<a href="#" title="add filter" class="add">+</a>';
         }
-        content += '<p class="help">' + this.config.help + '</p>';
+        content += '<p class="help clear">' + this.config.help + '</p>';
         content += '<ul class="fields"></ul>';
         content += '</li>';
         var node = $(content);

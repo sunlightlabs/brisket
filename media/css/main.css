@@ -208,7 +208,7 @@ nav li#data { float: right; width: 91px;}
 
 div#nav li#data { float: right;}
 li#data a { background: url(../images/nav_data.png) left 1px no-repeat; width: 91px; }
-li#data a:hover, body.data li#data a { background: url(../images/nav_data.png) left -60px no-repeat; }
+li#data a:hover, body.tdata li#data a { background: url(../images/nav_data.png) left -60px no-repeat; }
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
@@ -616,8 +616,10 @@ table .even.numerous{
 #lgRightColumn .previewButton { float: left; margin-right: 15px;}
 #lgRightColumn .downloadButton { float: left;}
 
-.downloadButton { background: url(../images/btn_download.jpg) left -60px no-repeat; height: 60px; width: 168px;}
+.downloadButton { background: url(../images/btn_download.jpg) left top no-repeat; height: 60px; width: 168px;}
 .downloadButton:hover { background: url(../images/btn_download.jpg) left -120px no-repeat; }
+
+#downloadButton.enabled { background: url(../images/btn_download.jpg) left -60px no-repeat; }
 
 #mainSearchFilter fieldset { background-color: #f9f7f6; padding: 20px 10px; border: 1px solid #f1eeec;}
 #mainSearchFilter fieldset label { width: auto; margin-right: 15px; font-weight: bold;}
@@ -625,6 +627,11 @@ table .even.numerous{
 .tdata #filters label { display: block; float: none; width: auto; font-weight: bold;} 
 
 #filters { border-top: 1px dotted #DCDCD8; padding: 25px 10px 25px 65px;}
+#smLtColumn #filters { padding: 25px 0;}
+.tdata #smLtColumn #filters select { width: 80%;}
+.tdata #smLtColumn #filters input { width: 75%;}
+.tdata #smLtColumn #filters label { width: 55%; padding-top: 10px;}
+
 .mainLabel { font-size: 120%; }
 
 #filters li { margin-bottom: 15px; border-bottom: 1px dotted #DCDCD8; padding-bottom: 15px;}
@@ -652,8 +659,19 @@ table .even.numerous{
 #smLtColumn { width: 25%; float: left;}
 #lgRightColumn { width: 75%; float: left;}
 
-#lgRightColumn table { width: 100%;}
+#lgRightColumn table { width: 100%; margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px dashed #DCDCD8;}
 #smLtColumn select, #smLtColumn input { width: 100%;}
 
 .module { margin-bottom: 20px;}
 .module p { margin-bottom: 1em;}
+
+#loading { font-size: 160%; font-weight: bold; background: url("../images/ajax-loader.gif") no-repeat scroll left top transparent; padding-left: 30px; margin: 40px 0;}
+
+#lgRightColumn table th { padding: 0 10px 10px;}
+
+.license { font-size: 93%; line-height: 19px; color: #827D7D;}
+
+#filterselect { margin-bottom: 30px;}
+
+.operator_field select, .dualdropdown_field select, .date_start { margin-bottom: 10px;}
+.date_start { margin-right: 10px;}
