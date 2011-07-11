@@ -1,11 +1,11 @@
-{% extends "base.html" %}
+{% extends "search_base.html" %}
 
 {% block body_class %}tdata flexwidth{% endblock %}
 
 {% block main %}
 <div id="fullColumn">
     <ul id="dataTabs">
-		<li><a href="/contributions/">Campaign Contributions</a></li>
+		<li class="active"><a href="/contributions/">Campaign Contributions</a></li>
 		<li><a href="/earmarks/">Earmarks</a></li>
 		<li><a href="/lobbying/">Lobbying</a></li>
 		<li><a href="/grants/">Grants</a></li>
@@ -17,8 +17,8 @@
 </div>
 <div id="smLtColumn">
     <div id="datafilter" class="module datafilter">
-		<h2>Search {% block dataset_name %}{% endblock %} for</h2>
-		<span class="tip">Add additional fields to refine your search.</span>
+		<h2 class="h3 withTip">Search {% block dataset_name %}{% endblock %} for</h2>
+		<span class="tip tipHeight">Add additional fields to refine your search.</span>
 		<form>
 			<select id="filterselect">
 				<option value="">Select a filter to add...</option>
@@ -29,8 +29,9 @@
 </div>
 <div id="lgRightColumn">
 	<div class="module tableButtons">
-	    <a id="previewButton" href="#" class="previewButton">Preview Data</a>
-	    <a id="downloadButton" href="#" class="downloadButton">Download </a>
+	    <a id="previewButton" href="#" class="previewButton linkBtn">Preview Data</a>
+	    <a id="downloadButton" href="#" class="downloadButton linkBtn">Download </a>
+	    <div class="clear"></div>
     </div>
     <div class="module">
 	    <div id="tableScroll">
