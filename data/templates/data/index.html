@@ -1,6 +1,11 @@
 {% extends "search_base.html" %}
 {% load media %}
 
+{% block js %}
+{{ block.super }}
+{% css "/data/css/ui-lightness/jquery-ui-1.7.2.custom.css" %}
+{% endblock %}
+
 {% block body_class %}tdata{% endblock %}
 
 {% block main %}
