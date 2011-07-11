@@ -206,6 +206,10 @@ li#data a { background: url(../images/nav_data.png) left 1px no-repeat; width: 9
 li#data a:hover { background: url(../images/nav_data.png) left -60px no-repeat; width: 91px; }
 nav li#data { float: right; width: 91px;}
 
+div#nav li#data { float: right;}
+li#data a { background: url(../images/nav_data.png) left 1px no-repeat; width: 91px; }
+li#data a:hover, body.data li#data a { background: url(../images/nav_data.png) left -60px no-repeat; }
+
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 div#outerwrapper { background: url(../images/bg.jpg) top left repeat-x #edede6; }
@@ -637,10 +641,13 @@ table .even.numerous{
 .fields .remove { background: url(../images/btn_minusSm.png) left top no-repeat; width: 21px; height: 21px;}
 .fields .remove:hover { background: url(../images/btn_minusSm.png) left bottom no-repeat; }
 
-.flexwidth #mainContent_top { visibility: hidden; height: 0;}
-.flexwidth #mainContent {  background: #fff;}
+.flexwidth #mainContent_top, .flexwidth #mainContent_bottom { visibility: hidden; height: 0;}
+.flexwidth #mainContent {  background: #fff; border: 1px solid #deded8;}
 .flexwidth #header { margin: 0 auto; width: 960px; }
-.flexwidth #pageMain { margin: 0 2%; width: 96%; min-width: 940px;}
+.flexwidth #pageMain, .flexwidth #footer  { margin: 0 2%; width: 96%; min-width: 940px;}
+
+.flexwidth #footerLinks { margin: 2px 0 60px; } 
+.flexwidth #footerPolicy { margin: 0 auto 70px; width: 930px;}
 
 #smLtColumn { width: 25%; float: left;}
 #lgRightColumn { width: 75%; float: left;}
