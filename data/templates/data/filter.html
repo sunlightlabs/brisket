@@ -1,4 +1,5 @@
 {% extends "search_base.html" %}
+{% load media %}
 
 {% block body_class %}tdata flexwidth{% endblock %}
 
@@ -66,6 +67,8 @@
 	</div>
 </div>
 	{% block dataset_scripts %}
+	{{ block.super }}
+	{% js "data/3rdparty.js" %}
 	<script type="text/javascript">
 	TD.DATA_API_BASE_URL = "{{ DATA_API_BASE_URL }}";
 	</script>
