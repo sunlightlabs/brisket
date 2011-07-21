@@ -6,6 +6,8 @@ from name_cleaver import PoliticianNameCleaver
 
 register = template.Library()
 
+SUNLIGHT_STAFF_BASE_URI = "http://sunlightfoundation.com/people/"
+
 @register.filter(name='standardize_politician_name')
 @stringfilter
 def standardize_politician_name_filter(name):
@@ -98,3 +100,13 @@ def pretty_list_filter(l):
         return ' and '.join(l)
     else:
         return '%s and %s' % (', '.join(l[:-1]), l[-1])
+
+@register.filter
+@stringfilter
+def sunlight_author_uri(value):
+    value = value.lower().split(' ')
+    if len(value) > 1:
+        shortname = "%s%s"%(value[0][:1],value[-1])
+    else:
+        shortname = value[0]
+    return "%s%s"%(SUNLIGHT_STAFF_BASE_URI, shortname)

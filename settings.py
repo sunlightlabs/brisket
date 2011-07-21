@@ -3,11 +3,12 @@ import os
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = False
 TEMPLATE_DEBUG = True
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
+    # adding this for sentry emailing -- testing so far
+    ('Alison Rowland', 'arowland@sunlightfoundation.com'),
 )
 
 MANAGERS = ADMINS
@@ -107,6 +108,7 @@ INSTALLED_APPS = (
     'paging',
     'ecards',
     'gunicorn',
+    'feedinator',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -147,8 +149,10 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
-
-from local_settings import *
+try:
+    from local_settings import *
+except:
+    pass
 
 MEDIASYNC['JOINED'] = {
     'js/brisket-all.js': [
@@ -162,7 +166,6 @@ MEDIASYNC['JOINED'] = {
         'js/brisket.js',
     ]
 }
-    
 
 from influenceexplorer import InfluenceExplorer
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)

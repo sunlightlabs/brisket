@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load influence_extras %}
 {% block body_class %}home{% endblock %}
 
 {% block js %}
@@ -36,17 +37,17 @@ $(function() {
     </div>
     <div class="contentModule">
         <h2 id="header_explored">Influence Explored</h2>
-        <span class="tip tipHeight"><a href="">Influence Explored</a> takes an article from the day’s headlines and exposes the influential ways of entities mentioned in the article.</span>
+        <span class="tip tipHeight"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a> takes an article from the day’s headlines and exposes the influential ways of entities mentioned in the article.</span>
         <div class="internalContent">
-            <h3 class="withTip">Millionaires or not, politicians rake in millions in contributions</h3>
+            <h3 class="withTip">{{entry.title|safe}}</h3>
             <div class="entryMetaData">
                 <address class="author">
-                    <a href="#" rel="author">Ryan Sibley</a>
+                    <a href="{{entry.author_name|sunlight_author_uri}}" rel="author">{{entry.author_name}}</a>
                 </address>
-                <time class="published" pubdate="" datetime="2011-06-20T16:25:18"> June 20, 2011, 4:25 p.m. </time>
+                <time class="published" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
             </div>
-            <p>An article published yesterday in Roll Call highlights a new website published by the U.S. Chamber of Commerce—one of Washington’s most powerful players—to help them gain Congressional approval for potential trade pacts. Aside from the new slick way the Chamber intends to influence members of Congress, the article itself mentions people and organizations who take part in the traditional ways of Washington influence.</p>
-            <a class="standOut" href="http://sunlightfoundation.com/blog/2011/06/16/influence-explored/">Check Out the Latest Influence</a>
+            {{entry.summary|safe|removetags:"img"|truncatewords_html:65}}
+            <a class="standOut" href="{{entry.link}}">Check Out the Latest Influence</a>
         </div>
     </div>
     <div class="contentModule">
