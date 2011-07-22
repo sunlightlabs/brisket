@@ -102,17 +102,16 @@ $(document).ready(function() {
 
   {% if entity_info.metadata.revolving_door_entity %}
   <dt class="noshow">Lobbying Activity</dt>
-  <dd><a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbying Activity</a></dd>
+  <dd id="alsoLobOrPol">Related <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbyist Profile</a></dd>
   {% endif %}
-
 </dl>
 <div class="clear"></div>
 {% endblock %}
 
 {% block description %}
-{% if entity_info.metadata.revolving_door_entity %}
+<!--{% if entity_info.metadata.revolving_door_entity %}
 <p><span class="revolvingDoor">This politician has also been a <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">lobbyist</a>.</span></p>
-{% endif %}
+{% endif %}-->
 {% if entity_info.metadata.bio %}
 {{ entity_info.metadata.bio|safe }}
 {% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}

@@ -122,7 +122,7 @@ div#timeSpan label {color: #0a6e92; margin-right: 10px; font-weight: bold; width
 
 select { color: #58595b;}
 
-#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
+#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px; float: left}
 
 div.external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
 a.external { padding-left: 5px; }
@@ -419,3 +419,31 @@ dt.moneyTitle { margin-top: 8px;}
 .entryMetaData { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-bottom: 15px; margin-top: -8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
+
+#alsoLobOrPol{
+	float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
+}
+.individual #alsoLobOrPol{
+	margin-top: 10px;
+}
+.individual #alsoLobOrPol{
+	margin-top: 10px;
+}
+dl.related{
+	margin-top: 0;
+}
+
+#miniNav {
+    float: left;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 80px;
+    padding-left: 30px;
+    padding-right: 40px;
+    padding-top: 0;
+    width: 145px;
+}
+#miniNav.withBg{
+	margin-top: 0;
+	margin-bottom: 25px;
+}

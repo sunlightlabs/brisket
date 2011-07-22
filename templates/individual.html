@@ -64,13 +64,19 @@ $(document).ready(function() {
         {% endif %}
     </div>
 </div>
+<dl class="related">
+  <dt class="noshow">Lobbying Activity</dt>
+  <dd id="alsoLobOrPol">Related: <a href="/individual/manton-thomas-j/cad88b5c34ae4a77a7d69fc6bce6c6ef">Politician Profile</a></dd>
+</dl>
 <div class="clear"></div>
 {% endblock %}
 
 {% block description %}
-{% if entity_info.metadata.revolving_door_entity %}
-This individual has also been a <a href="/politician/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">member of congress</a>.
-{% endif %}
+
+ {% if entity_info.metadata.revolving_door_entity %}
+<!--This individual has also been a <a href="/politician/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">member of congress</a>.-->
+{% endif %} 
+
   {% if entity_info.metadata.affiliated_organizations %}
   <div class="relationships">
     <div class="relationship">
