@@ -1,6 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from influence.sitemaps import sitemaps
-from django.contrib.sitemaps.views import *
+from django.contrib.sitemaps.views import index, sitemap
 from django.conf import settings
 from django.http import HttpRequest
 import os, re, urlparse

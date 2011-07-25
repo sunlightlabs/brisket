@@ -7,6 +7,8 @@ TEMPLATE_DEBUG = True
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
+    # adding this for sentry emailing -- testing so far
+    ('Alison Rowland', 'arowland@sunlightfoundation.com'),
 )
 
 MANAGERS = ADMINS
