@@ -5,6 +5,8 @@ from influence.names import standardize_name
 from influenceexplorer import DEFAULT_CYCLE
 from settings import api, LATEST_CYCLE
 import datetime
+import googleanalytics
+import re
 
 def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
@@ -142,3 +144,33 @@ def make_bill_link(bill):
     if bill['bill_type'] in 'h hr hc hj s sr sc sj'.split():
         if bill['congress_no'] and int(bill['congress_no']) >= 109:
             return 'http://www.opencongress.org/bill/{0}-{1}{2}/show'.format(bill['congress_no'], bill['bill_type'], bill['bill_no'])
+
+from influence.cache import cache
+
+@cache(seconds=86400)
+def get_top_pages():
+    end_dt = datetime.datetime.now()
+    
+    end_date = end_dt.date()
+    start_date = (end_dt - datetime.timedelta(days=7)).date()
+    
+    from django.conf import settings
+    connection = googleanalytics.Connection(settings.GOOGLE_ANALYTICS_USER, settings.GOOGLE_ANALYTICS_PASSWORD)
+    account = connection.get_account(settings.GOOGLE_ANALYTICS_PROFILE_ID)
+    
+    pages = account.get_data(
+        start_date=start_date,
+        end_date=end_date,
+        dimensions=['pagePath','pageTitle'],
+        metrics=['pageviews',],
+        sort=['-pageviews']
+    )
+    
+    entity_signature = re.compile(r'^/[\w\-]+/[\w\-]+/[a-f0-9-]{32,36}')
+    entity_pages = [{
+        'views': page.metric,
+        'path': page.dimensions[0],
+        'title': page.dimensions[1].split('(')[0].strip() if page.dimensions[0].startswith('/politician') else page.dimensions[1].split('|')[0].strip()
+    } for page in pages if entity_signature.match(page.dimensions[0])]
+    
+    return entity_pages[:5]
