@@ -339,6 +339,8 @@ def politician_entity(request, entity_id):
     seat_held = meta['seat_held'] if meta['district_held'].strip() != '-' else ''
     metadata['entity_info']['metadata']['seat_held'] = seat_held
 
+    metadata['entity_info']['name_with_meta'] = str(standardized_name.plus_metadata(meta.get('party'), meta.get('state')))
+
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
         pol_contribution_section(entity_id, cycle, amount, context)
