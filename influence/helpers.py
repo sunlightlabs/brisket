@@ -155,16 +155,20 @@ def get_top_pages():
     start_date = (end_dt - datetime.timedelta(days=7)).date()
     
     from django.conf import settings
-    connection = googleanalytics.Connection(settings.GOOGLE_ANALYTICS_USER, settings.GOOGLE_ANALYTICS_PASSWORD)
-    account = connection.get_account(settings.GOOGLE_ANALYTICS_PROFILE_ID)
     
-    pages = account.get_data(
-        start_date=start_date,
-        end_date=end_date,
-        dimensions=['pagePath','pageTitle'],
-        metrics=['pageviews',],
-        sort=['-pageviews']
-    )
+    try:
+        connection = googleanalytics.Connection(settings.GOOGLE_ANALYTICS_USER, settings.GOOGLE_ANALYTICS_PASSWORD)
+        account = connection.get_account(settings.GOOGLE_ANALYTICS_PROFILE_ID)
+        
+        pages = account.get_data(
+            start_date=start_date,
+            end_date=end_date,
+            dimensions=['pagePath','pageTitle'],
+            metrics=['pageviews',],
+            sort=['-pageviews']
+        )
+    except:
+        return None
     
     entity_signature = re.compile(r'^/[\w\-]+/[\w\-]+/[a-f0-9-]{32,36}')
     entity_pages = [{
