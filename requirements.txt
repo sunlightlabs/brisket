@@ -14,3 +14,4 @@ django-sentry
 -e git://github.com/sunlightlabs/django-simplepay.git#egg=simplepay
 -e git://github.com/sunlightlabs/django-feedinator.git#egg=feedinator
 gunicorn
+googleanalytics
