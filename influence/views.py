@@ -10,7 +10,7 @@ from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, months_into_cycle_for_date, \
-    filter_bad_spending_descriptions, make_bill_link
+    filter_bad_spending_descriptions, make_bill_link, get_top_pages
 from influence.names import standardize_organization_name, \
     standardize_industry_name
 from influenceexplorer import DEFAULT_CYCLE
@@ -64,7 +64,7 @@ def index(request):
     feed = Feed.objects.get(pk=1)
     entry = feed.entries.values().latest('date_published')
     entry['title'] = entry['title'].replace('Influence Explored: ', '')
-    return render_to_response('index.html', {"feed":feed, "entry":entry}, brisket_context(request))
+    return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, brisket_context(request))
 
 def search(request):
     if not request.GET.get('query', None):
