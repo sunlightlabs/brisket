@@ -1,0 +1,30 @@
+{% load humanize %}
+{% load influence_extras %}
+
+{% if entity_info.totals.epa_actions_count %}
+<div class="fulltext-disclaimer">Found {{ entity_info.totals.epa_actions_count|apnumber }} actions for {{ entity_info.name|standardize_organization_name }} or its subsidiaries.</div>
+{% endif %}
+
+<table class="threeColumn mainTable" id="epaEchoTable">
+    <thead>
+        <tr id="titles">
+          <th>Case Name</th>
+          <th>Defendant Name</th>
+          <th># of Defendants</th>
+          <th>Date</th>
+          <th>Locations</th>
+          <th class="right">Amount</th>
+    </thead>
+    <tbody>
+        {% for row in epa_echo %}
+        <tr class="{% cycle 'even' 'odd' %}">
+            <td class="cell-epa-case-name"><a href="http://www.epa-echo.gov/cgi-bin/get1cReport.cgi?IDNumber={{ row.case_id }}&tool=eiciECHO">{{ row.case_name|title }}</a></td>
+            <td class="cell-epa-defendant-name">{{ row.defendant_name|standardize_organization_name }}</td>
+            <td class="cell-other-defendants" title="{{ row.other_defendants|truncatewords:50|title }}">{{ row.defendants_count }}</td>
+            <td class="cell-epa-year" title="{{ row.date_significance }}">{{ row.year }}</td>
+            <td class="cell-epa-locations" title="{{ row.location_addresses|truncatewords:50|title }}">{{ row.locations|truncatewords:3|title }}</td>
+            <td class="cell-epa-amount right" title="{{ row.location_ids }}">${{ row.amount|floatformat:0|intcomma }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
