@@ -23,12 +23,13 @@
   {% endblock %}
 </div>
 <div id="miniNav" class="withBg">
-	<ul>
-		<li><a href="#contributions">Contributions</a></li>
-		<li><a href="#lobbying">Lobbying</a></li>
-		<li><a href="#federal_spending">Federal Spending</a></li>
-		<li><a href="#contractor_misconduct">Contractor Misconduct</a></li>
-	</ul>
+    <ul>
+        <li><a href="#contributions">Contributions</a></li>
+        <li><a href="#lobbying">Lobbying</a></li>
+        <li><a href="#federal_spending">Federal Spending</a></li>
+        <li><a href="#contractor_misconduct">Contractor Misconduct</a></li>
+        <li><a href="#epa_echo">EPA Violations</a></li>
+    </ul>
 </div>
 <div class="clear"></div>
 
@@ -37,10 +38,10 @@
   <div id="currentDates">
     <span class="currentDateTitle">Current View:</span>
     <span>
-      {% ifequal cycle "-1" %} 
+      {% ifequal cycle "-1" %}
         {{entity_info.years.start|add:-1}} &#150; {{entity_info.years.end}}
-      {% else %}  
-        {{cycle|add:-1}} &#150; {{cycle}} 
+      {% else %}
+        {{cycle|add:-1}} &#150; {{cycle}}
       {% endifequal %}
     </span>
   </div>
