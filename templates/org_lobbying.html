@@ -104,29 +104,6 @@
 	  </div>
 	  {% endif %}
 	  
-	  <!--
-	  It looks like this table is a copy of the one that appears further down, so I'm commenting out this one for now.
-	  If this is the way it should look, this chunk should probably replace the one further down, also wrapped in "if lobbying_bills"
-	  {% if lobbying_bills %}
-	  <div class="chartWrapper oneColumn">
-		  <h4>Most Frequently Disclosed Bills</h4>
-		  <ul id="tableList">
-			  {% for bill in lobbying_bills %}
-			  <li class="{% cycle 'even' 'odd' %}">
-				  {% if bill.link %}
-				  <span><a href="{{bill.link}}" target="_blank">{{bill.bill}}</a></span>
-				  <span>{{bill.title}}</span>
-				  {% else %}
-				  <span>{{bill.bill}}</span>
-				  <span>{{bill.title}}</span>
-				  {% endif %}
-			  </li>
-			  {% endfor %}
-		  </ul>  
-	  </div>
-	  {% endif %}
-	  -->
-    
 	{% else %}
 	  
 	  <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
