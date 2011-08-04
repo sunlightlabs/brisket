@@ -10,7 +10,7 @@ from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, months_into_cycle_for_date, \
-    filter_bad_spending_descriptions, make_bill_link
+    filter_bad_spending_descriptions, make_bill_link, get_top_pages
 from influence.names import standardize_organization_name, \
     standardize_industry_name
 from influenceexplorer import DEFAULT_CYCLE
@@ -64,7 +64,7 @@ def index(request):
     feed = Feed.objects.get(pk=1)
     entry = feed.entries.values().latest('date_published')
     entry['title'] = entry['title'].replace('Influence Explored: ', '')
-    return render_to_response('index.html', {"feed":feed, "entry":entry}, brisket_context(request))
+    return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, brisket_context(request))
 
 def search(request):
     if not request.GET.get('query', None):
@@ -179,6 +179,9 @@ def org_industry_entity(request, entity_id, type):
     if 'contractor_misconduct' in metadata and metadata['contractor_misconduct']:
         org_contractor_misconduct_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
 
+    if 'epa_echo' in metadata and metadata['epa_echo']:
+        org_epa_echo_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
@@ -287,6 +290,13 @@ def org_contractor_misconduct_section(entity_id, name, cycle, external_ids, cont
     context['pogo_links'] = external_sites.get_pogo_links(external_ids, name, cycle)
 
 
+def org_epa_echo_section(entity_id, name, cycle, external_ids, context):
+    context['epa_echo'] = epa_echo_table_data(entity_id, cycle)
+
+    context['epa_found_things'] = context['entity_info']['totals']['epa_actions_count']
+    #context['epa_links'] = external_sites.get_epa_links(external_ids, name, cycle)
+
+
 def org_spending_section(entity_id, name, cycle, context):
     spending = api.org.fed_spending(entity_id, cycle)
 
@@ -338,6 +348,8 @@ def politician_entity(request, entity_id):
     # check that seat_held is properly defined and zero it out if not
     seat_held = meta['seat_held'] if meta['district_held'].strip() != '-' else ''
     metadata['entity_info']['metadata']['seat_held'] = seat_held
+
+    metadata['entity_info']['name_with_meta'] = str(standardized_name.plus_metadata(meta.get('party'), meta.get('state')))
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
@@ -418,6 +430,12 @@ def earmarks_table_data(entity_id, cycle):
 
 def contractor_misconduct_table_data(entity_id, cycle):
     rows = api.org.contractor_misconduct(entity_id, cycle)
+
+    return rows
+
+
+def epa_echo_table_data(entity_id, cycle):
+    rows = api.org.epa_echo(entity_id, cycle)
 
     return rows
 

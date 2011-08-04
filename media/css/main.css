@@ -51,6 +51,17 @@ div#featureSearch input { background: url(../images/searchBox_feature.png) top l
 div#featureBox p { color: #7d7777; font-size: 120%; width: 620px; margin-bottom: 0px; line-height: 24px;}
 div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
+#topFive ul{
+	margin: 15px 0 0 0;
+}
+#topFive li{
+	padding-bottom: 10px;
+	padding-left: 24px;
+	list-style-type: none;
+	background:  url('../images/topFive_bullet.png') left 7px no-repeat;
+}
+
+
 #sunlightRequests p { font-size: 95%; line-height: 18px; color: #999292; text-align: center;}
 #sunlightRequests b { color: #7D7777; }
 #sunlightRequests label { width: auto; margin-top: 5px;}
@@ -149,7 +160,7 @@ a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style:
 .chartModule { padding: 0 5px 30px 40px; }
 
 #ltColumn { padding: 0 30px 0 40px; width: 650px; float: left; overflow: hidden;}
-#rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left; overflow: hidden;}
+#rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px}
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 #mainContent .withBgLeft { background: url(../images/bg_postcard.jpg) top left repeat-y; }
 
