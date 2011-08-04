@@ -118,6 +118,7 @@ $(document).ready(function() {
 
 {% block contributions %}
 {% if contributions_data %}
+{{ block.super }}
 {% include "contributions.html" %}
 {% endif %}
 {% endblock %}
@@ -129,6 +130,7 @@ $(document).ready(function() {
 
 {% block earmarks %}
 {% if earmarks %}
+    {{ block.super }}
     {% include "pol_earmarks.html" %}
 {% endif %}
 {% endblock %}

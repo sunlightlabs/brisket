@@ -76,12 +76,14 @@ $(document).ready(function() {
 
 {% block contributions %}
 {% if contributions_data %}
-{% include "contributions.html" %}
+    {{ block.super }}
+    {% include "contributions.html" %}
 {% endif %}
 {% endblock %}
 
 {% block lobbying %}
 {% if lobbying_data %}
+    {{ block.super }}
     {% include "industry_lobbying.html" %}
 {% endif %}
 {% endblock %}
