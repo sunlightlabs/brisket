@@ -17,26 +17,53 @@
 
 <div class="fulltext-disclaimer">Disclaimer goes here: these are full text matches against public comments on proposed regulations.</div>
 
-  <table class="threeColumn mainTable" id="regulations">
+{% if regulations_text %}
+  <h5>Mentions in Document Text</h5>
+  <table class="threeColumn mainTable" id="regulations_text">
     <thead>
       <tr>
         <th>Agency</th>
-		<th>Docket</th>
-		<th>Date</th>
-		<th>Count</th>
+        <th>Docket</th>
+        <th>Date</th>
+        <th>Count</th>
     </thead>
     <tbody>
-    {% for row in regulations %}
+    {% for row in regulations_text %}
       <tr class="{% cycle 'even' 'odd' %}">
         <td>{{ row.agency }}</td>
-	    <td>{{ row.docket }}</td>
-	    <td>{{ row.year }}</td>
-	    <td>{{ row.count }}</td>
+        <td>{{ row.docket }}</td>
+        <td>{{ row.year }}</td>
+        <td>{{ row.count }}</td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
-  
+{% endif %}
+
+{% if regulations_submitter %}
+  <h5>Documents Submitted by the Organization</h5>
+  <table class="threeColumn mainTable" id="regulations_submitter">
+    <thead>
+      <tr>
+        <th>Agency</th>
+        <th>Docket</th>
+        <th>Date</th>
+        <th>Count</th>
+    </thead>
+    <tbody>
+    {% for row in regulations_submitter %}
+      <tr class="{% cycle 'even' 'odd' %}">
+        <td>{{ row.agency }}</td>
+        <td>{{ row.docket }}</td>
+        <td>{{ row.year }}</td>
+        <td>{{ row.count }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% endif %}
+
   <div class="clear"></div>
   
   <div class="external">

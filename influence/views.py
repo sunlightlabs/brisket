@@ -291,7 +291,8 @@ def org_contractor_misconduct_section(entity_id, name, cycle, external_ids, cont
     
 
 def org_regulations_section(entity_id, name, cycle, external_ids, context):
-    context['regulations'] = api.org.regulations(entity_id, cycle)
+    context['regulations_text'] = api.org.regulations_text(entity_id, cycle)
+    context['regulations_submitter'] = api.org.regulations_submitter(entity_id, cycle)
 
 
 def org_spending_section(entity_id, name, cycle, context):

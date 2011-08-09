@@ -118,7 +118,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block regulations %}
-{% if regulations %}
+{% if regulations_text or regulations_submitter %}
     {% include "org_regulations.html" %}
 {% endif %}
 {% endblock %}
