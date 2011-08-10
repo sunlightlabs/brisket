@@ -31,7 +31,7 @@
     {% for row in regulations_text %}
       <tr class="{% cycle 'even' 'odd' %}">
         <td>{{ row.agency }}</td>
-        <td>{{ row.docket }}</td>
+        <td><a href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a></td>
         <td>{{ row.year }}</td>
         <td>{{ row.count }}</td>
       </tr>
@@ -54,7 +54,7 @@
     {% for row in regulations_submitter %}
       <tr class="{% cycle 'even' 'odd' %}">
         <td>{{ row.agency }}</td>
-        <td>{{ row.docket }}</td>
+        <td><a href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a></td>
         <td>{{ row.year }}</td>
         <td>{{ row.count }}</td>
       </tr>
