@@ -1,0 +1,28 @@
+{% extends "search_base.html" %}
+
+{% block body_class %}methodology flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Environmental Enforcement Action Methodology</h2>
+</div>
+
+<div id="ltColumn">
+    <p id="description">This document describes the process we use to display environmental enforcement data.</p>
+
+    <h3>Background</h3>
+
+	<p>The Environmental Protection Agency (EPA), together with numerous state agencies, maintains a set of databases under the name Integrated Data for Enforcement Analysis (IDEA). Data from IDEA is published on ECHO&#8212;Enforcement and Compliance History Online. Influence Explorer uses a database from IDEA called Integrated Compliance Information System (ICIS), which contains data on enforcement actions from multiple environmental statues. More information on IDEA, ECHO and ICIS can be found on <a href="http://www.epa-echo.gov/echo/about_data.html">the ECHO data page</a>. Bulk data downloads and techincal descriptions can be found on <a href="http://www.epa-echo.gov/echo/idea_download.html">the IDEA downloads page</a>.</p>
+
+	<h3>Notes</h3>
+	
+	<p>Defendant names from ICIS cases are manually matched against Influence Explorer organizations. Due to the size of the database, we only consider cases that began after the year 2000 and resulted in fines of over $1 million. </p>
+	
+	<p>The fine amount displayed on Influence Explorer is the sum of the ICIS fields ENFCCAA (total compliance action amount), ENFCRAA (cost recovery awarded amount), ENFOTPA (total federal penalty assessed amount) and ENFOTSA (total Supplemental Environmental Projects amount).</p>
+	
+	<p>Actions where the company was the sole defendant are listed first. Actions where the company is one of multiple defendants are listed subsequently.</p>
+
+</div>
+
+{% endblock %}
