@@ -72,6 +72,7 @@ INSTALLED_APPS = (
     'dcdata.grants',
     'dcdata.lobbying',
     'dcdata.earmarks',
+    'dcdata.epa',
     'dcapi',
     'dcapi.aggregates',
     'dcapi.rapportive',
