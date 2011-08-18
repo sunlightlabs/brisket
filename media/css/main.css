@@ -84,6 +84,7 @@ span.revolvingDoor { font-weight: bold; font-size: 105%; }
 #mainContent .corporateLogo { float: right; height: 45px; border: 0px; width: auto; max-width: 180px; max-height: 80px; margin-top: -40px; margin-right: 0;}
 
 div.searchBox ul { margin-top: 15px; }
+div.searchBox h3 { clear: both; }
 div.searchBox li, #tableList li { padding: 10px;}
 div.searchBox a { float: left; margin-right: 10px;}
 div.searchBox p.description a { float: none; margin-right: 0px; }
