@@ -121,7 +121,7 @@
 		var docket = $this.parents('tr').find('a.docketTitle').attr('title');
 		var entity = document.location.pathname.split('/').pop();
 		
-		var url = '{{ AGGREGATES_API_BASE_URL }}/aggregates/org/' + entity +
+		var url = '{{ AGGREGATES_API_BASE_URL }}aggregates/org/' + entity +
 		  '/regulations_' + type + '_by_docket/' + docket +
 		  '.json?apikey={{ API_KEY }}&cycle=-1&callback=?';
   
