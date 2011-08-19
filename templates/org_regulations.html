@@ -17,8 +17,87 @@
 
 <div class="fulltext-disclaimer">Disclaimer goes here: these are full text matches against public comments on proposed regulations.</div>
 
+
 {% if regulations_text %}
   <h5>Mentions in Document Text</h5>
+
+	<div class="regTableHead">
+		<div class="toggle"></div>
+		<div class="regColSmall">
+			Count
+		</div>
+		<div class="regColSmall">
+			Agency
+		</div>
+		<div class="regColLarge">
+			Docket
+		</div>
+		<div class="regColSmall">
+			Date
+		</div>
+		<div class="clear">
+		</div>
+	</div>
+	{% for row in regulations_text %}
+	<div class="{% cycle 'even' 'odd' %} regTableRow">
+		<div class="toggle">
+			<a class="toggle">Toggle</a>
+		</div>
+		<div class="regColSmall">  
+			<div class="regsCount">
+				<div class="regsPopDown">
+					<img src="/media/images/loading.gif" />
+				</div>
+				{{ row.count }}
+			</div>
+		</div>
+		<div class="regColSmall">
+			{{ row.agency }}
+		</div>
+		<div class="regColLarge">
+			<a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
+		</div>
+		<div class="regColSmall">
+			{{ row.year }}
+		</div>
+		<div class="clear"></div>
+		<div class="regDocList">
+			<table>
+			  <thead>
+				<tr>
+				  <th>Document</th>
+				  <th>View</th>
+				  <th>Date</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr class="odd">
+				  <td class="regsDoc"><a href="http://www.regulations.gov" title="">Doc title</a></td>
+				  <td class="regsDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
+				  <td class="regsDocDate">A Date!</td>
+				</tr>
+				<tr class="even">
+				  <td class="regsDoc"><a href="http://www.regulations.gov" title="">Doc title</a></td>
+				  <td class="regsDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
+				  <td class="regsDocDate">A Date!</td>
+				</tr>
+				<tr class="odd">
+				  <td class="regsDoc"><a href="http://www.regulations.gov" title="">Doc title</a></td>
+				  <td class="regsDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
+				  <td class="regsDocDate">A Date!</td>
+				</tr>
+				<tr class="even">
+				  <td class="regsDoc"><a href="http://www.regulations.gov" title="">Doc title</a></td>
+				  <td class="regsDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
+				  <td class="regsDocDate">A Date!</td>
+				</tr>
+			  </tbody>
+			</table>
+		</div>
+	</div>
+	{% endfor %}
+    
+
   <table class="threeColumn mainTable" id="regulations_text">
     <thead>
       <tr>

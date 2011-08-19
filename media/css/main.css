@@ -191,7 +191,7 @@ dt.pac { background-color: #f27e01;}
 .lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li { float: left; margin-right: 10px;}
 .lobbyistsOrgs, .ecards li, .issuesLobied { margin-bottom: 30px;}
 
-table .even, li.even { background-color: #f5f4f4;}
+table .even, li.even, div.even{ background-color: #f5f4f4;}
 td { padding: 10px;}
 th { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; }
 th.left { padding-left: 10px;}
@@ -423,3 +423,82 @@ dt.moneyTitle { margin-top: 8px;}
 .regsPopDown { position: absolute; top:20px; right: 0px; background: #d3d5ce; padding: 10px; z-index: 1000; display: none; }
 .regsPopDown .scroll { overflow-y: auto; overflow-x: hidden; height: 300px; }
 .regsPopDown table { width: 400px; margin-right: 10px; }
+
+.regTableHead, .regTableRow{
+	width: 880px;
+}
+
+.regColSmall{
+	width: 50px;
+}
+.regColLarge{
+	width: 600px;
+}
+.regColLarge, .regColSmall, div.toggle{
+	float: left;
+	padding: 10px;
+}
+.regTableHead .regColLarge, .regTableHead .regColSmall, .regTableHead div.toggle{
+	color: #585352;
+    font-weight: bold;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+div.toggle{
+	width: 10px;
+}
+
+div.toggle a{
+font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px; cursor: pointer;
+}
+
+div.toggle.active a{
+font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px;
+}
+
+.regDocList table{
+	margin-left: 170px;
+	margin-right: 50px;
+	margin-bottom: 25px;
+	width: 710px;
+	border-top: 2px solid #e5e5e5;
+	border-bottom: 2px solid #e5e5e5;
+	
+}
+
+.regDocList tbody tr.even{
+	background-color: #FdFdFd;
+}
+.regDocList tbody tr.odd{
+	background-color: #F5F5F5;
+}
+.regDocList th{
+	padding: 10px;
+}
+
+td.regsDoc{
+	width: 515px;
+}
+
+.regsDocDl a.pdf{
+	background: url('../images/doc_pdf.png') top left no-repeat;
+	text-indent: -9999em;
+	display: block;
+	float: left;
+	width: 20px;
+	height: 20px;
+}
+.regsDocDl a.doc{
+	background: url('../images/doc_text_image.png') top left no-repeat;
+	text-indent: -9999em;
+	display: block;
+	float: left;
+	width: 20px;
+	height: 20px;
+}
+
+
+
+
+
+
