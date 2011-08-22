@@ -1,0 +1,44 @@
+{% extends "filter.html" %}
+{% load media %}
+
+{% block bodyid %}epaEcho{% endblock %}
+{% block dataset_name %}epaEcho{% endblock %}
+
+{% block table_header %}
+    <th>Case Num.</th>
+    <th>Case Name</th>
+    <th>First Date</th>
+    <th>First Date Significance</th>
+    <th>Last Date</th>
+    <th>Last Date Significance</th>
+    <th>Penalty (?)</th>
+    <th>Penalty Sought</th>
+    <th>Compliance Action</th>
+    <th>Cost Recovery Awarded</th>
+    <th>Fed. Penalty Assessed</th>
+    <th>SEP Cost</th>
+    <th>Num. Defendants</th>
+    <th>Defendants</th>
+    <th>Locations</th>
+{% endblock %}
+
+{% block dataset_license %}
+    <p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribution to <a href="http://www.epa-echo.gov/">EPA-ECHO</a>.</p>
+    <p>By downloading data, you are agreeing to the terms of the license.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
+    {% js "epa_echo.js" %}
+    <script type="text/javascript">
+        $().ready(function() {
+            TD.EpaEchoFilter.bindDataFilter('#datafilter');
+            TD.EpaEchoFilter.bindPreview('#previewButton');
+            TD.EpaEchoFilter.bindDownload('#downloadButton');
+            TD.EpaEchoFilter.init();
+
+            TD.activeFilter = TD.EpaEchoFilter;
+
+            TD.init();
+        });
+    </script>
+{% endblock %}

@@ -122,6 +122,11 @@ MEDIASYNC = {
             'js/td.fields.js',
             'js/td.contractor_misconduct.js'
         ],
+        'epa_echo.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.epa_echo.js'
+        ],
         'contributions.js': [
             'js/td.js',
             'js/td.fields.js',
@@ -147,6 +152,7 @@ MEDIASYNC = {
             'js/td.fields.js',
             'js/td.contracts.js',
             'js/td.earmarks.js',
+            'js/td.epa_echo.js',
             'js/td.grants.js',
             'js/td.lobbying.js',
             'js/td.contributions.js',
