@@ -452,18 +452,28 @@ div.toggle a{
 font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px; cursor: pointer;
 }
 
-div.toggle.active a{
+.regTableRow.active div.toggle a{
 font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px;
 }
 
-.regDocList table{
+.regTableRow.active .regDocList table{
+	display: table;
 	margin-left: 170px;
 	margin-right: 50px;
 	margin-bottom: 25px;
 	width: 710px;
 	border-top: 2px solid #e5e5e5;
 	border-bottom: 2px solid #e5e5e5;
-	
+}
+
+.regDocList table{
+	display: none;
+	margin-left: 170px;
+	margin-right: 50px;
+	margin-bottom: 25px;
+	width: 710px;
+	border-top: 2px solid #e5e5e5;
+	border-bottom: 2px solid #e5e5e5;
 }
 
 .regDocList tbody tr.even{
