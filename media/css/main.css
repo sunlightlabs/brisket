@@ -417,3 +417,27 @@ dt.moneyTitle { margin-top: 8px;}
 .entryMetaData { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-bottom: 15px; margin-top: -8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
+
+span.numerous{
+	font-weight: 700;
+}
+
+tbody.numerous{
+	border-top: 4px solid #D5D4D5;
+}
+
+tr.numerous{
+	font-style: italic;
+	opacity: .7;
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+{% extends "search_base.html" %}
+
+{% block body_class %}methodology flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Environmental Enforcement Action Methodology</h2>
+</div>
+
+<div id="ltColumn">
+    <p id="description">This document describes the process we use to display environmental enforcement data collected and maintained by the Environmental Protection Agency (EPA).</p>
+
+    <h3>Background</h3>
+
+    <p>The EPA, together with several state agencies, maintains a set of databases under the name Integrated Data for Enforcement Analysis (IDEA). Influence Explorer uses a database from IDEA called Integrated Compliance Information System (ICIS), which contains data on enforcement actions from multiple environmental statues. More information on the datasets used can be found on <a href="http://www.epa-echo.gov/echo/about_data.html">the web interface for IDEA</a>, called Enforcement and Compliance History Online. Bulk data downloads and technical descriptions can be found on <a href="http://www.epa-echo.gov/echo/idea_download.html">the IDEA downloads page</a>.</p>
+
+	<h3>Notes</h3>
+	
+	<p>Defendant names from ICIS cases are manually matched against Influence Explorer organizations. Due to the size of the database, we only consider cases that began after the year 2000 and resulted in fines of over $1 million. </p>
+	
+	<p>The total amount on the site includes the following fields from the ICIS data:</p>
+    <ul>
+        <li>ENFCCAA: amount spent by the company to upgrade its facilities so it is no longer breaking the environmental rules.</li>
+        <li>ENFCRAA: amount paid to cover the EPA's costs as they plan to cleanup, investigate, monitor the site, etc. This process is called "cost recovery."</li>
+        <li>ENFOTPA: fine amount levied by the federal government.</li>
+        <li>ENFOTSA: cost of an environmentally friendly project or projects the company has agreed to take on to try to make up for the environmental damage.</li>
+    </ul>
+</div>
+
+{% endblock %}
