@@ -32,8 +32,12 @@
     <div class="clear"></div>
 
     <div class="external">
-        For more information, search for this organization at EPA: 
-        <a href="http://www.epa-echo.gov/echo/compliance_report_icis.html" class="external" target="_blank">ECHO Enforcement Data</a>
+        {% if epa_links %}
+        For more information, search for this organization at EPA or see TransparencyData.com:
+            {% for link in epa_links %}
+            <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+            {% endfor %}
+        {% endif %}
     </div>
 
     <div class="clear"></div>
