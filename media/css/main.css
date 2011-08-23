@@ -428,9 +428,15 @@ tbody.numerous{
 
 tr.numerous{
 	font-style: italic;
-	opacity: .7;
+	color: #949494;
+}
+tr.numerous a{
+	color: #549ab3;
 }
 
+table .even.numerous{
+	background-color: #f9f9f9;
+}
 
 
 
