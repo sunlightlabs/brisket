@@ -110,7 +110,8 @@ MEDIASYNC = {
             'js/jquery-1.4.2.min.js',
             'js/jquery-ui-1.7.2.custom.min.js',
             'js/jquery.currency.js',
-            'js/underscore-min.js'
+            'js/underscore-min.js',
+            'js/jquery.expander.js'
         ],
         'contracts.js': [
             'js/td.js',
