@@ -10,6 +10,9 @@
         {{cycle|add:-1}} &#150; {{cycle}}
       {% endifequal %}</h3>
       <div class="insideBar amount">
+          <span class="amount">
+	  		{{ gc_found_things|join:"; " }}
+      	  </span>
           <a class="descriptor" title="More Information" href="#spendingDescriptor">Information</a>
           <div class="clear"></div>      
           <div class="descriptorText" id='spendingDescriptor'>
@@ -22,16 +25,8 @@
 <div class="chartModule">
 
 {% if entity_info.totals.contract_count or entity_info.totals.grant_count %}
-<div class="fulltext-disclaimer">Found
-     {% if gc_found_things.length = 1 %}
-	  {{ gc_found_things.1 }}
-     {% else %}
-	  {{ gc_found_things|slice:"-1"|join:", " }} and {{ gc_found_things|last }}
-     {% endif %}
-     containing the words &ldquo;{{ entity_info.name|standardize_organization_name }}&rdquo;
-</div>
 <div class="fulltext-disclaimer">
-	Note: Company names in federal spending data are not standardized. Results shown here are based on a search for the company name and have not been reviewed for accuracy. Individual records may be missed or erroneously included because of name variations.
+	Note: Company names in federal spending data are not standardized. The table below is included only as a sample of what is available in the data and has not been reviewed for accuracy or completeness. To investigate the data further, use the links below to USA Spending or Transparency Data.
 </div>
 {% endif %}
 
