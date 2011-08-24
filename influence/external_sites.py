@@ -106,8 +106,8 @@ def get_epa_links(standardized_name, cycle):
     links = []
 
     td_params = {}
-    if cycle != '-1':
-        td_params['last_date'] = "{0}|{1}".format(int(cycle) - 1, cycle)
+    if int(cycle) != -1:
+        td_params['last_date'] = "><|{0}-01-01|{1}-12-31".format(str(int(cycle) - 1)[2:], str(cycle)[2:])
 
     td_params['defendants'] = standardized_name
 
