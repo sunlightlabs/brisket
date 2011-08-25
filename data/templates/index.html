@@ -26,6 +26,7 @@
 			<li id="grantsTab"><a href="/grants/" class="grants">Grants</a></li>
 			<li id="contractsTab"><a href="/contracts/" class="contracts">Contracts</a></li>
             <li id="contractorMisconductTab"><a href="/contractor_misconduct/" class="contractorMisconduct">Contractor Misconduct</a></li>
+            <li id="epaEchoTab"><a href="/epa_echo/" class="epaEcho">EPA ECHO</a></li>
 		</ul>
 	</div>
 	<div class="introbox" id="intro-contributions">
@@ -131,7 +132,7 @@
 	<div class="introbox" id="intro-contractor-misconduct">
 		<h4>Search Contractor Misconduct</h4>
 		<div id="leftIntro">
-			<p class="introText">Have a specific contractor, contracting party or enforcement agency in mind? Add some filters below to search them</p>
+			<p class="introText">Have a specific contractor, contracting party or enforcement agency in mind? Add some filters below to search them.</p>
 			<h3>Search for</h3>
 			<div id="contractorMisconductDataFilter" class="datafilter">
 				<form>
@@ -147,6 +148,26 @@
 			<a id="contractorMisconductPreviewButton" class="previewButton" href="#">Preview Data</a>
 		</div>
 	</div>
+
+    <div class="introbox" id="intro-epa-echo">
+        <h4>Search EPA ECHO</h4>
+        <div id="leftIntro">
+            <p class="introText">Have a specific defendant in mind? Add some filters below to search through them.</p>
+            <h3>Search for</h3>
+            <div id="epaEchoDataFilter" class="datafilter">
+                <form>
+                    <select id="filterselect">
+                        <option value="">Select a field to search...</option>
+                    </select>
+                    <ul id="filters"></ul> <!-- end filters -->
+                </form>
+            </div>
+        </div>
+        <div id="rightIntro">
+            <span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+            <a id="epaEchoPreviewButton" class="previewButton" href="#">Preview Data</a>
+        </div>
+    </div>
     {% js "index.js" %}
 	<script type="text/javascript">
 
@@ -167,6 +188,8 @@
 					TD.activeFilter = TD.ContractsFilter;
 				} else if (df == 'contractorMisconduct') {
 					TD.activeFilter = TD.ContractorMisconductFilter;
+				} else if (df == 'epaEcho') {
+					TD.activeFilter = TD.EpaEchoFilter;
 				}
 				return false;
 			});
@@ -204,6 +227,12 @@
 			TD.ContractorMisconductFilter.bindDataFilter('#contractorMisconductDataFilter');
 			TD.ContractorMisconductFilter.bindPreview('#contractorMisconductPreviewButton');
 		    TD.ContractorMisconductFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
+			TD.EpaEchoFilter.bindDataFilter('#epaEchoDataFilter');
+			TD.EpaEchoFilter.bindPreview('#epaEchoPreviewButton');
+		    TD.EpaEchoFilter.init();
 
 			TD.HashMonitor.setAnchor('');
 

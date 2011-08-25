@@ -636,7 +636,11 @@ TD.DataFilter.prototype.preview = function() {
                     $('span#previewCount').html(data.length);
                     $('div#nodata').hide();
                     $('div#tableScroll').show();
-                }    
+                    $('td.expandable p').expander({
+                        expandText: '[more]',
+                        userCollapseText: '[less]'
+                    });
+                }
                 $('div#loading').hide();
                 if (data.length < 30) {
                     that.downloadNode.addClass('enabled');

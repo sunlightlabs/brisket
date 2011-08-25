@@ -72,6 +72,7 @@ INSTALLED_APPS = (
     'dcdata.grants',
     'dcdata.lobbying',
     'dcdata.earmarks',
+    'dcdata.epa',
     'dcapi',
     'dcapi.aggregates',
     'dcapi.rapportive',
@@ -109,7 +110,8 @@ MEDIASYNC = {
             'js/jquery-1.4.2.min.js',
             'js/jquery-ui-1.7.2.custom.min.js',
             'js/jquery.currency.js',
-            'js/underscore-min.js'
+            'js/underscore-min.js',
+            'js/jquery.expander.js'
         ],
         'contracts.js': [
             'js/td.js',
@@ -120,6 +122,11 @@ MEDIASYNC = {
             'js/td.js',
             'js/td.fields.js',
             'js/td.contractor_misconduct.js'
+        ],
+        'epa_echo.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.epa_echo.js'
         ],
         'contributions.js': [
             'js/td.js',
@@ -146,6 +153,7 @@ MEDIASYNC = {
             'js/td.fields.js',
             'js/td.contracts.js',
             'js/td.earmarks.js',
+            'js/td.epa_echo.js',
             'js/td.grants.js',
             'js/td.lobbying.js',
             'js/td.contributions.js',
