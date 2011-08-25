@@ -417,3 +417,30 @@ dt.moneyTitle { margin-top: 8px;}
 .entryMetaData { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-bottom: 15px; margin-top: -8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
+
+.tab {
+    font-size: 125%;
+    background: #edede6;
+    display: inline-block;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.tab.active {
+    background: #e2e2dc;
+}
+.tab-area {
+    padding: 10px;
+    background: #e2e2dc url('../images/loading_large.gif') center center no-repeat;
+    min-height: 100px;
+    display: none;
+}
+.tab-area table {
+    background: #ffffff;
+    width: 100%;
+}
+.tab-area table th {
+    padding: 0 10px 10px 15px;
+}

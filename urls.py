@@ -19,6 +19,7 @@ urlpatterns = patterns('',
 #    url(r'^postcard', direct_to_template, {'template': 'postcards_gone.html'}),
     url(r'^sentry/', include('sentry.web.urls')),
     url('^valentines/', include('ecards.urls')),
+    url('^fec/', include('fec.urls')),
 )
 
 if settings.DEBUG:
