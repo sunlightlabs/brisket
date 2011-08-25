@@ -102,6 +102,20 @@ def get_pogo_links(ids, standardized_name, cycle):
     return links
 
 
+def get_epa_links(standardized_name, cycle):
+    links = []
+
+    td_params = {}
+    if int(cycle) != -1:
+        td_params['last_date'] = "><|{0}-01-01|{1}-12-31".format(str(int(cycle) - 1)[2:], str(cycle)[2:])
+
+    td_params['defendants'] = standardized_name
+
+    links.append({ 'text': 'EPA ECHO Enforcement Data', 'url': 'http://www.epa-echo.gov/echo/compliance_report_icis.html' })
+    links.append({ 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/epa_echo/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
+    return links
+
+
 def get_lobbying_links(type, standardized_name, ids, cycle):
     links = []
     
