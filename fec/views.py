@@ -2,6 +2,7 @@
 import json, csv, os
 from django.http import HttpResponse
 from influence.names import standardize_name
+from django.template.defaultfilters import slugify
 
 from django.contrib.localflavor.us.us_states import US_STATES
 backwards_states = dict([(s[1].upper(), s[0]) for s in US_STATES])
@@ -23,8 +24,14 @@ def get_json(request, file):
             'Inc': 'Incumbent',
         },
     }
+    
+    def fix_name(n):
+        name = standardize_name(n, 'politician')
+        str_name = name.__str__()
+        return { 'name': str_name, 'last_name': name.last, 'slug': slugify(str_name) }
+    
     transforms = {
-        'name': lambda n: standardize_name(n, 'politician').__str__()
+        'name': fix_name
     }
     out = []
     
@@ -37,7 +44,7 @@ def get_json(request, file):
                 if row[key] in substitutions[key]:
                     row[key] = substitutions[key][row[key]]
             elif key in transforms:
-                row[key] = transforms[key](row[key])
+                row.update(transforms[key](row[key]))
         
         out.append(row)
     

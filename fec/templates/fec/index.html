@@ -46,14 +46,20 @@
                 <tr class="<%=(i % 2 == 0 ? "even" : "odd")%>">
                     <% for (var j = 0; j < columns.length; j++) { %>
                         <% if (columns[j].field == 'district') { %>
-                            <td><%=data[i]['state']%>&ndash;<%=data[i]['district']%></td>
-                        <% } else if (columns[j].field == 'name' && data[i]['entity_id'] != "") { %>
-                            <td><a href="/politician/<%=data[i]['name'].toLowerCase().replace(/[^a-z]/g, '-')%>/<%=data[i]['entity_id'].replace(/-/g, '')%>"><%=data[i]['name']%></a></td>
+                            <td><%=data[i].state%>&ndash;<%=data[i].district%></td>
+                        <% } else if (columns[j].field == 'name') { %>
+                            <td data-sort-value="<%=data[i].last_name%>">
+                            <% if (data[i].entity_id != "") { %>
+                                <a href="/politician/<%=data[i]['slug']%>/<%=data[i].entity_id%>"><%=data[i].name%></a>
+                            <% } else { %>
+                                <%=data[i].name%>
+                            <% } %>
+                            </td>
                         <% } else if ((columns[j].field == 'raised' || columns[j].field == 'spent' || (columns[j].field == 'raised_2009' && data[i][columns[j].field] != ""))) { %>
                             <% if (data[i][columns[j].field] == "") { %>
-                                <td><small><em>Not in Top 50</em></small></td>
+                                <td data-sort-value="0"><small><em>Not in Top 50</em></small></td>
                             <% } else { %>
-                                <td>$<%=helpers.formatDollars(parseFloat(data[i][columns[j].field]))%></td>
+                                <td data-sort-value="<%=data[i][columns[j].field]%>">$<%=helpers.formatDollars(parseFloat(data[i][columns[j].field]))%></td>
                             <% } %>
                         <% } else { %>
                             <td><%=data[i][columns[j].field]%></td>
@@ -117,12 +123,30 @@
             if ($area.find('table').length == 0) {
                 $.getJSON(type + '.json', function(data) {
                     $area.html(table({'data': data, 'columns': columns[type], 'type': type, 'helpers': template_helpers}));
-                    $area.find('table').tablesorter({ widgets: ['zebra']});
+                    
+                    //override sort type for numerical columns
+                    var headers = {}
+                    for (var i = 0; i < columns[type].length; i++) {
+                        if (columns[type][i].field == 'raised' || columns[type][i].field == 'raised_2009' || columns[type][i].field == 'spent') {
+                            headers[i] = {sorter: 'digit'};
+                        }
+                    }
+                    console.log(headers);
+
+                    // install tablesorter
+                    $area.find('table').tablesorter({widgets: ['zebra'], headers: headers, textExtraction: function(node) {
+                        var $node = $(node);
+                        if ($node.attr('data-sort-value')) {
+                            return $node.attr('data-sort-value');
+                        } else {
+                            return $node.html();
+                        }
+                    }});
                 })
             }
         })
         
-        $('#tab-senate').click();
+        $('#tab-house').click();
     })
 </script>
 {% endblock %}
