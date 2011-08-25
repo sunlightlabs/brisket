@@ -369,6 +369,9 @@ def pol_contribution_section(entity_id, cycle, amount, context):
 
     top_contributors = api.pol.contributors(entity_id, cycle)
     top_industries = api.pol.industries(entity_id, cycle=cycle)
+    industries_unknown_amount = api.pol.industries_unknown(entity_id, cycle=cycle).get('amount', 0)
+    pct_unknown = float(industries_unknown_amount) * 100 / amount
+    context['pct_known'] = int(round(100 - pct_unknown))
 
     contributors_barchart_data = []
     for record in top_contributors:
