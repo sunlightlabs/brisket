@@ -130,7 +130,7 @@
                     }
 
                     // install tablesorter
-                    $area.find('table').tablesorter({widgets: ['zebra'], headers: headers, textExtraction: function(node) {
+                    $area.find('table').tablesorter({widgets: ['zebra'], headers: headers, sortList: [[5,1]], textExtraction: function(node) {
                         var $node = $(node);
                         if ($node.attr('data-sort-value')) {
                             return $node.attr('data-sort-value');
