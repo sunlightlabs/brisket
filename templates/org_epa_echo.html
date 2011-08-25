@@ -11,14 +11,19 @@
         {% endifequal %}
     </h3>
     <div class="insideBar amount">
+    	<span class="amount">
+    		{{ entity_info.totals.epa_actions_count }} Enforcement Actions
+    	</span>
         <a class="descriptor" title="More Information" href="#epaEchoDescriptor">Information</a>
         <div class="clear"></div>
         <div class="descriptorText" id='epaEchoDescriptor'>
-            <p>This information is recorded and released by the <a href="http://www.epa-echo.gov">EPA</a>.</p>
-            <p>More information on each action is available on EPA's site by clicking on the instance description.</p>
+			<p>Figures are based on data from <a href="http://www.epa-echo.gov/">the Environmental Protection Agency&#8217;s ECHO website</a>. The ECHO database contains federal and state environmental enforcement actions. Data displayed here includes only those actions that began after 2000 and resulted in fines of over $1 million. </p>
+			<p>Actions where the company was the sole defendant are listed first. Actions where the company is one of multiple defendants are listed subsequently.</p>
+			<p>For more information see our <a href="/about/methodology/echo">EPA methodology page</a>. </p>
         </div>
     </div>
 </div>
+
 
 <div class="chartModule">
 
@@ -27,8 +32,12 @@
     <div class="clear"></div>
 
     <div class="external">
-        For more information, search for this organization at EPA: 
-        <a href="http://www.epa-echo.gov/echo/compliance_report_icis.html" class="external" target="_blank">ECHO Enforcement Data</a>
+        {% if epa_links %}
+        For more information, search for this organization at EPA or see TransparencyData.com:
+            {% for link in epa_links %}
+            <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+            {% endfor %}
+        {% endif %}
     </div>
 
     <div class="clear"></div>

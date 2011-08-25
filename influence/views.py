@@ -286,15 +286,15 @@ def org_earmarks_section(entity_id, name, cycle, external_ids, context):
 
 
 def org_contractor_misconduct_section(entity_id, name, cycle, external_ids, context):
-    context['contractor_misconduct'] = contractor_misconduct_table_data(entity_id, cycle)
+    context['contractor_misconduct'] = api.org.contractor_misconduct(entity_id, cycle)
     context['pogo_links'] = external_sites.get_pogo_links(external_ids, name, cycle)
 
 
 def org_epa_echo_section(entity_id, name, cycle, external_ids, context):
-    context['epa_echo'] = epa_echo_table_data(entity_id, cycle)
+    context['epa_echo'] = api.org.epa_echo(entity_id, cycle)
 
     context['epa_found_things'] = context['entity_info']['totals']['epa_actions_count']
-    #context['epa_links'] = external_sites.get_epa_links(external_ids, name, cycle)
+    context['epa_links'] = external_sites.get_epa_links(name, cycle)
 
 
 def org_spending_section(entity_id, name, cycle, context):
@@ -427,18 +427,6 @@ def earmarks_table_data(entity_id, cycle):
     for row in rows:
         for member in row['members']:
             member['name'] = str(PoliticianNameCleaver(member['name']).parse().plus_metadata(member['party'], member['state']))
-
-    return rows
-
-
-def contractor_misconduct_table_data(entity_id, cycle):
-    rows = api.org.contractor_misconduct(entity_id, cycle)
-
-    return rows
-
-
-def epa_echo_table_data(entity_id, cycle):
-    rows = api.org.epa_echo(entity_id, cycle)
 
     return rows
 
