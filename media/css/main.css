@@ -451,10 +451,53 @@ table .even.numerous{
 
 
 
+.tab {
+    font-size: 125%;
+    background: #edede6;
+    display: inline-block;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.tab.active {
+    background: #e2e2dc;
+}
+.tab-area {
+    padding: 10px;
+    background: #e2e2dc url('../images/loading_large.gif') center center no-repeat;
+    min-height: 100px;
+    display: none;
+}
+.tab-area table {
+    background: #ffffff;
+    width: 100%;
+}
+.tab-area table th {
+    padding: 0 10px 10px 15px;
+}
+#fullColumn { padding: 0 30px 0 40px; width: 880px; float: left; overflow: hidden;}
 
 
+.fecThing{
+	width: 100%;
+}
 
+.fecThing .name{
+	font-weight: bold;
+}
 
+.tab-area table.fecThing tr th{
+	padding-top: 10px;
+	padding-left: 25px;
 
+}
 
+.tab-area table.fecThing tr th.sort{
+	background-position: 10px 15px;
+}
 
+.fec-display .external{
+	margin-bottom: 10px;
+}

@@ -109,6 +109,7 @@ INSTALLED_APPS = (
     'ecards',
     'gunicorn',
     'feedinator',
+    'fec',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
