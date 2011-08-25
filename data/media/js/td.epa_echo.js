@@ -51,7 +51,7 @@ $().ready(function() {
         });
 
         TD.EpaEchoFilter.registerFilter({
-            name: 'locations',
+            name: 'location_addresses',
             label: 'Locations',
             help: 'All locations associated with the case',
             field: TD.DataFilter.TextField,
