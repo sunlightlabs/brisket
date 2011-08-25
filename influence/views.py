@@ -1,11 +1,12 @@
 # coding=utf-8
 
-from django.contrib.humanize.templatetags.humanize import apnumber
+from django.contrib.humanize.templatetags.humanize import apnumber, intcomma
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
 from django.utils.datastructures import SortedDict
+from feedinator.models import Feed
 from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
@@ -18,7 +19,6 @@ from name_cleaver import PoliticianNameCleaver
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import URLError
 import datetime
-from feedinator.models import Feed
 
 try:
     import json
@@ -294,7 +294,7 @@ def org_epa_echo_section(entity_id, name, cycle, external_ids, context):
     context['epa_echo'] = api.org.epa_echo(entity_id, cycle)
 
     context['epa_found_things'] = context['entity_info']['totals']['epa_actions_count']
-    #context['epa_links'] = external_sites.get_epa_links(external_ids, name, cycle)
+    context['epa_links'] = external_sites.get_epa_links(name, cycle)
 
 
 def org_spending_section(entity_id, name, cycle, context):
@@ -307,9 +307,9 @@ def org_spending_section(entity_id, name, cycle, context):
 
     gc_found_things = []
     for gc_type in ['grant', 'contract', 'loan']:
-        if '%s_count' % gc_type in context['entity_info']['totals']:
+        if context['entity_info']['totals'].get('%s_count' % gc_type, 0):
             gc_found_things.append('%s %s%s' % (
-                apnumber(context['entity_info']['totals']['%s_count' % gc_type]),
+                intcomma(context['entity_info']['totals']['%s_count' % gc_type]),
                 gc_type,
                 pluralize(context['entity_info']['totals']['%s_count' % gc_type])
             ))
@@ -369,6 +369,9 @@ def pol_contribution_section(entity_id, cycle, amount, context):
 
     top_contributors = api.pol.contributors(entity_id, cycle)
     top_industries = api.pol.industries(entity_id, cycle=cycle)
+    industries_unknown_amount = api.pol.industries_unknown(entity_id, cycle=cycle).get('amount', 0)
+    pct_unknown = float(industries_unknown_amount) * 100 / amount
+    context['pct_known'] = int(round(100 - pct_unknown))
 
     contributors_barchart_data = []
     for record in top_contributors:

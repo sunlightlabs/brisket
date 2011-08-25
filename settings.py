@@ -99,16 +99,15 @@ INSTALLED_APPS = (
 #    'simplepay',
     'brisket.influence',
     'brisket.util',
-#    'brisket.postcards',
 #    'django.contrib.admin',
     'django_nose',
     'sentry',
     'sentry.client',
     'indexer',
     'paging',
-    'ecards',
     'gunicorn',
     'feedinator',
+    'fec',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -149,10 +148,8 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
-try:
-    from local_settings import *
-except:
-    pass
+
+from local_settings import *
 
 MEDIASYNC['JOINED'] = {
     'js/brisket-all.js': [
