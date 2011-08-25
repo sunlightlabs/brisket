@@ -23,6 +23,9 @@ def filter_contracts(request):
 def filter_contractor_misconduct(request):
     return render_to_response('filter_contractor_misconduct.html', context_instance=RequestContext(request))
 
+def filter_epa_echo(request):
+    return render_to_response('filter_epa_echo.html', context_instance=RequestContext(request))
+
 def filter_contributions(request):
     return render_to_response('filter_contributions.html', context_instance=RequestContext(request))
 
