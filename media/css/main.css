@@ -444,3 +444,34 @@ dt.moneyTitle { margin-top: 8px;}
 .tab-area table th {
     padding: 0 10px 10px 15px;
 }
+#fullColumn { padding: 0 30px 0 40px; width: 880px; float: left; overflow: hidden;}
+
+
+.fecThing{
+	width: 100%;
+}
+
+.fecThing .name{
+	font-weight: bold;
+}
+
+.tab-area table.fecThing tr th{
+	padding-top: 10px;
+	padding-left: 25px;
+
+}
+
+.tab-area table.fecThing tr th.sort{
+	background-position: 10px 15px;
+}
+
+.fec-display .external{
+	margin-bottom: 10px;
+}
+
+
+
+
+
+
+
