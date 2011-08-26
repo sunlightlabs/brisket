@@ -432,13 +432,13 @@ dt.moneyTitle { margin-top: 8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
 
-#alsoLobOrPol{
+#revolvingDoor{
 	float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
 }
-.individual #alsoLobOrPol{
+.individual #revolvingDoor{
 	margin-top: 10px;
 }
-.individual #alsoLobOrPol{
+.individual #revolvingDoor{
 	margin-top: 10px;
 }
 dl.related{
