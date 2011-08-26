@@ -98,7 +98,7 @@ $(document).ready(function() {
 
   {% if entity_info.metadata.revolving_door_entity %}
   <dt class="noshow">Lobbying Activity</dt>
-  <dd id="revolvingDoor">Related <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbyist Profile</a></dd>
+  <dd id="revolvingDoor">See also: <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbyist profile for {{ entity_info.name|standardize_politician_name }}</a></dd>
   {% endif %}
 </dl>
 <div class="clear"></div>
