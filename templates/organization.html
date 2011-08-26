@@ -89,36 +89,42 @@ $(document).ready(function() {
 
 {% block contributions %}
 {% if contributions_data %}
-{% include "contributions.html" %}
+    {{ block.super }}
+    {% include "contributions.html" %}
 {% endif %}
 {% endblock %}
 
 {% block lobbying %}
 {% if lobbying_data %}
-   {% include "org_lobbying.html" %}
+    {{ block.super }}
+    {% include "org_lobbying.html" %}
 {% endif %}
 {% endblock %}
 
 {% block earmarks %}
 {% if earmarks %}
+    {{ block.super }}
     {% include "org_earmarks.html" %}
 {% endif %}
 {% endblock %}
 
 {% block grants_and_contracts %}
 {% if grants_and_contracts %}
+    {{ block.super }}
     {% include "org_grants_and_contracts.html" %}
 {% endif %}
 {% endblock %}
 
 {% block contractor_misconduct %}
 {% if contractor_misconduct %}
+    {{ block.super }}
     {% include "org_contractor_misconduct.html" %}
 {% endif %}
 {% endblock %}
 
 {% block epa_echo %}
 {% if epa_echo %}
+    {{ block.super }}
     {% include "org_epa_echo.html" %}
 {% endif %}
 {% endblock %}

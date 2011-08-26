@@ -9,7 +9,7 @@
     {% endif %}
     |
 {% endspaceless %} {% endblock %}
-    
+
 {% block pagetopics %}: {% spaceless %}
     {% filter nonempty_lines|pretty_list %}
         {% if contributions_data %}Campaign Contributions{% endif %}
@@ -56,9 +56,9 @@ $(document).ready(function() {
     barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
     barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
     {% endif %}
-    
+
     piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
-    
+
     $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
     $('table td.cell-earmark-description').expando(5, '.earmark-requests', 'span.requestedList', 'moreEarmarks');
 });
@@ -95,21 +95,27 @@ $(document).ready(function() {
   <dt>Years of Service:</dt>
   <dd>{{entity_info.metadata.yrs_of_service}}</dd>
   {% endif %}
+
+  {% if entity_info.metadata.revolving_door_entity %}
+  <dt class="noshow">Lobbying Activity</dt>
+  <dd id="revolvingDoor">Related <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbyist Profile</a></dd>
+  {% endif %}
 </dl>
 <div class="clear"></div>
 {% endblock %}
 
-{% if entity_info.metadata.bio %}
 {% block description %}
+{% if entity_info.metadata.bio %}
 {{ entity_info.metadata.bio|safe }}
 {% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
 <p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_new">{{ entity_info.metadata.source_display_name }}</a></p>
 {% endif %}
-{% endblock %}
 {% endif %}
+{% endblock %}
 
 {% block contributions %}
 {% if contributions_data %}
+{{ block.super }}
 {% include "contributions.html" %}
 {% endif %}
 {% endblock %}
@@ -121,6 +127,7 @@ $(document).ready(function() {
 
 {% block earmarks %}
 {% if earmarks %}
+    {{ block.super }}
     {% include "pol_earmarks.html" %}
 {% endif %}
 {% endblock %}

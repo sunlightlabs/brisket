@@ -9,7 +9,7 @@
 {% block pagetopics %}: {% spaceless %}
     {% filter nonempty_lines|pretty_list %}
         {% if contributions_data %}Campaign Contributions{% endif %}
-		{% if lobbying_data %}Lobbying{% endif %}
+        {% if lobbying_data %}Lobbying{% endif %}
     {% endfilter %}
 {% endspaceless %}{% endblock %}
 
@@ -49,6 +49,7 @@ $(document).ready(function() {
 
 {% block contentHeader %}
 <h2 class="individualName">{{ entity_info.name|standardize_individual_name }}</h2>
+
 <div id="individualDisclaimer">
     <a class="descriptor" href="#individualDescriptor">Not seeing what you expected?</a>
     <div class="descriptorText" id="individualDescriptor">
@@ -63,7 +64,18 @@ $(document).ready(function() {
         {% endif %}
     </div>
 </div>
+{% if entity_info.metadata.revolving_door_entity %}
+<dl class="related">
+  <dt class="noshow">Lobbying Activity</dt>
+  <dd id="revolvingDoor">Related: <a href="/politician/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Politician Profile</a></dd>
+</dl>
+{% endif %}
 <div class="clear"></div>
+{% endblock %}
+
+{% block description %}
+
+
   {% if entity_info.metadata.affiliated_organizations %}
   <div class="relationships">
     <div class="relationship">
@@ -79,12 +91,14 @@ $(document).ready(function() {
 
 {% block contributions %}
 {% if contributions_data %}
+{{ block.super }}
 {% include "contributions.html" %}
 {% endif %}
 {% endblock %}
 
 {% block lobbying %}
 {% if lobbying_data %}
+{{ block.super }}
 {% include "indiv_lobbying.html" %}
 {% endif %}
 {% endblock %}
