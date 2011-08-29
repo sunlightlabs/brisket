@@ -305,7 +305,7 @@ div#nav li a, #dataTabs li a{
 	display: block;
 	color: #4B3905;
 	font-weight: bold;
-	font-size: 110%;
+	font-size: 90%;
 	text-decoration: none;
 }
 
@@ -387,7 +387,7 @@ li.filter{
 #dataTabs li a {
     background-color: #DBD7CD;
 	border-bottom: 2px solid #A59C82;
-	padding: 10px 6px;
+    padding: 8px;
 }
 
 #dataTabs li a:hover {
