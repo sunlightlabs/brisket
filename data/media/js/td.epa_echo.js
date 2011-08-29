@@ -44,7 +44,7 @@ $().ready(function() {
 
         TD.EpaEchoFilter.registerFilter({
             name: 'defendants',
-            label: 'Defendants',
+            label: 'Defendant Companies',
             help: 'Defendant names associated with the case',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
