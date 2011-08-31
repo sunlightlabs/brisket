@@ -138,6 +138,10 @@ def prepare_entity_view(request, entity_id, type):
     context['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
     context['external_links'] = external_sites.get_contribution_links(type, standardized_name, metadata['entity_info']['external_ids'], cycle)
 
+    if cycle != DEFAULT_CYCLE and unicode(str(cycle)) in metadata['entity_info']['metadata']:
+        # copy the current cycle's metadata into the generic metadata spot
+        metadata['entity_info']['metadata'].update(metadata['entity_info']['metadata'][unicode(str(cycle))])
+
     return cycle, standardized_name, metadata, context
 
 
