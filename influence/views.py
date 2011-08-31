@@ -11,7 +11,7 @@ from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, months_into_cycle_for_date, \
-    filter_bad_spending_descriptions, make_bill_link
+    filter_bad_spending_descriptions, make_bill_link, get_top_pages
 from influence.names import standardize_organization_name, \
     standardize_industry_name
 from influenceexplorer import DEFAULT_CYCLE
@@ -64,7 +64,7 @@ def index(request):
     feed = Feed.objects.get(pk=1)
     entry = feed.entries.values().latest('date_published')
     entry['title'] = entry['title'].replace('Influence Explored: ', '')
-    return render_to_response('index.html', {"feed":feed, "entry":entry}, brisket_context(request))
+    return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, brisket_context(request))
 
 def search(request):
     if not request.GET.get('query', None):
@@ -349,6 +349,8 @@ def politician_entity(request, entity_id):
     seat_held = meta['seat_held'] if meta['district_held'].strip() != '-' else ''
     metadata['entity_info']['metadata']['seat_held'] = seat_held
 
+    metadata['entity_info']['name_with_meta'] = str(standardized_name.plus_metadata(meta.get('party'), meta.get('state')))
+
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
         pol_contribution_section(entity_id, cycle, amount, context)
@@ -367,6 +369,9 @@ def pol_contribution_section(entity_id, cycle, amount, context):
 
     top_contributors = api.pol.contributors(entity_id, cycle)
     top_industries = api.pol.industries(entity_id, cycle=cycle)
+    industries_unknown_amount = api.pol.industries_unknown(entity_id, cycle=cycle).get('amount', 0)
+    pct_unknown = float(industries_unknown_amount) * 100 / amount
+    context['pct_known'] = int(round(100 - pct_unknown))
 
     contributors_barchart_data = []
     for record in top_contributors:

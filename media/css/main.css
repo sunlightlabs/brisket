@@ -51,6 +51,17 @@ div#featureSearch input { background: url(../images/searchBox_feature.png) top l
 div#featureBox p { color: #7d7777; font-size: 120%; width: 620px; margin-bottom: 0px; line-height: 24px;}
 div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
+#topFive ul{
+	margin: 15px 0 0 0;
+}
+#topFive li{
+	padding-bottom: 10px;
+	padding-left: 24px;
+	list-style-type: none;
+	background:  url('../images/topFive_bullet.png') left 7px no-repeat;
+}
+
+
 #sunlightRequests p { font-size: 95%; line-height: 18px; color: #999292; text-align: center;}
 #sunlightRequests b { color: #7D7777; }
 #sunlightRequests label { width: auto; margin-top: 5px;}
@@ -68,9 +79,12 @@ div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: upperca
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img, .reps img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
 
+span.revolvingDoor { font-weight: bold; font-size: 105%; }
+
 #mainContent .corporateLogo { float: right; height: 45px; border: 0px; width: auto; max-width: 180px; max-height: 80px; margin-top: -40px; margin-right: 0;}
 
 div.searchBox ul { margin-top: 15px; }
+div.searchBox h3 { clear: both; }
 div.searchBox li, #tableList li { padding: 10px;}
 div.searchBox a { float: left; margin-right: 10px;}
 div.searchBox p.description a { float: none; margin-right: 0px; }
@@ -120,7 +134,7 @@ div#timeSpan label {color: #0a6e92; margin-right: 10px; font-weight: bold; width
 
 select { color: #58595b;}
 
-#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
+#description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px; float: left}
 
 div.external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
 a.external { padding-left: 5px; }
@@ -147,7 +161,7 @@ a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style:
 .chartModule { padding: 0 5px 30px 40px; }
 
 #ltColumn { padding: 0 30px 0 40px; width: 650px; float: left; overflow: hidden;}
-#rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left; overflow: hidden;}
+#rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px}
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 #mainContent .withBgLeft { background: url(../images/bg_postcard.jpg) top left repeat-y; }
 
@@ -418,6 +432,33 @@ dt.moneyTitle { margin-top: 8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
 
+#revolvingDoor{
+	float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
+}
+.individual #revolvingDoor{
+	margin-top: 10px;
+}
+.individual #revolvingDoor{
+	margin-top: 10px;
+}
+dl.related{
+	margin-top: 0;
+}
+
+#miniNav {
+    float: left;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 80px;
+    padding-left: 30px;
+    padding-right: 40px;
+    padding-top: 0;
+    width: 145px;
+}
+#miniNav.withBg{
+	margin-top: 0;
+	margin-bottom: 25px;
+}
 span.numerous{
 	font-weight: 700;
 }
@@ -440,10 +481,53 @@ table .even.numerous{
 
 
 
+.tab {
+    font-size: 125%;
+    background: #edede6;
+    display: inline-block;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.tab.active {
+    background: #e2e2dc;
+}
+.tab-area {
+    padding: 10px;
+    background: #e2e2dc url('../images/loading_large.gif') center center no-repeat;
+    min-height: 100px;
+    display: none;
+}
+.tab-area table {
+    background: #ffffff;
+    width: 100%;
+}
+.tab-area table th {
+    padding: 0 10px 10px 15px;
+}
+#fullColumn { padding: 0 30px 0 40px; width: 880px; float: left; overflow: hidden;}
 
 
+.fecThing{
+	width: 100%;
+}
 
+.fecThing .name{
+	font-weight: bold;
+}
 
+.tab-area table.fecThing tr th{
+	padding-top: 10px;
+	padding-left: 25px;
 
+}
 
+.tab-area table.fecThing tr th.sort{
+	background-position: 10px 15px;
+}
 
+.fec-display .external{
+	margin-bottom: 10px;
+}

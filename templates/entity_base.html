@@ -14,6 +14,7 @@
 <div id="contentHeader">
 {% block contentHeader %}
 {% endblock %}
+
 </div>
 
 <!-- if there's a description for the entity, override this -->
@@ -21,16 +22,27 @@
   {% block description %}
   {% endblock %}
 </div>
+<div id="miniNav" class="withBg">
+    <ul>
+        {% if contributions_data %}<li><a href="#contributions">Contributions</a></li>{% endif %}
+        {% if lobbying_data %}<li><a href="#lobbying">Lobbying</a></li>{% endif %}
+        {% if earmarks %}<li><a href="#earmarks">Earmarks</a></li>{% endif %}
+        {% if grants_and_contracts %}<li><a href="#federal_spending">Federal Spending</a></li>{% endif %}
+        {% if contractor_misconduct %}<li><a href="#contractor_misconduct">Contractor Misconduct</a></li>{% endif %}
+        {% if epa_echo %}<li><a href="#epa_echo">EPA Violations</a></li>{% endif %}
+    </ul>
+</div>
+<div class="clear"></div>
 
 <div class="module" id="timeSpan">
   {% block timespan %}
   <div id="currentDates">
     <span class="currentDateTitle">Current View:</span>
     <span>
-      {% ifequal cycle "-1" %} 
+      {% ifequal cycle "-1" %}
         {{entity_info.years.start|add:-1}} &#150; {{entity_info.years.end}}
-      {% else %}  
-        {{cycle|add:-1}} &#150; {{cycle}} 
+      {% else %}
+        {{cycle|add:-1}} &#150; {{cycle}}
       {% endifequal %}
     </span>
   </div>
@@ -46,21 +58,27 @@
 </div>
 
 {% block contributions %}
+<a name="contributions"></a>
 {% endblock %}
 
 {% block lobbying %}
+<a name="lobbying"></a>
 {% endblock %}
 
 {% block earmarks %}
+<a name="earmarks"></a>
 {% endblock %}
 
 {% block grants_and_contracts %}
+<a name="federal_spending"></a>
 {% endblock %}
 
 {% block contractor_misconduct %}
+<a name="contractor_misconduct"></a>
 {% endblock %}
 
 {% block epa_echo %}
+<a name="epa_echo"></a>
 {% endblock %}
 
 {% endblock %}<!-- end main -->

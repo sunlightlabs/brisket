@@ -32,8 +32,8 @@ $(function() {
 </div>
 <div id="ltColumn">
     <div class="contentModule">
-        <p class="standoutPText">Influence Explorer now integrates with three other Sunlight projects: <a href="http://politicalpartytime.org/">Party Time</a>, <a href="http://reporting.sunlightfoundation.com/lobbying/registrations">Lobbying Registration Tracker</a> and <a href="http://www.opencongress.org/">OpenCongress</a>. Check out the <a href="http://influenceexplorer.com/organization/prime-policy-group/e0add7fa6d644d41993ae2311de6d3a7">updated lobbying sections</a>, which now include links to bills lobbied on and daily updates of recent lobbying activity. The <a href="http://influenceexplorer.com/politician/kay-granger/bac9ce5a3df84c5a8bb080aca463f48c">updated politician pages</a> now include links to recent and upcoming fundraisers.</p>
-    	<p class="standoutPText">Influence Explorer also now shows data from the <a href="http://contractormisconduct.org">Project On Government Oversight</a> indicating when federal contractors have a history of misconduct such as contract fraud and environmental, ethics and labor violations.</p>
+    	<h2>What's New</h2>
+        <p class="standoutPText">The FEC recently released summary data for the biggest fundraisers and biggest spenders in the first six months of 2011. <a href="/fec/2011-08-release">Check it out here.</a></p>
     </div>
     <div class="contentModule">
         <h2 id="header_explored">Influence Explored</h2>
@@ -86,6 +86,20 @@ $(function() {
         <ul>
     </div>
 </div>
+
+{% if top_pages %}
+<div id="rtColumn" class="withBg">
+    <div id="topFive">
+        <h2>Top Pages</h2>
+        <ul>
+            {% for page in top_pages %}
+            <li><a class="standOut" href="{{ page.path }}">{{ page.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
 <div id="rtColumn" class="withBg">
     <div id="sunlightRequests">
         <div class="contentModule">
