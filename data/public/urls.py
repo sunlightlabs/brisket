@@ -75,5 +75,6 @@ urlpatterns += patterns('django.views.generic.simple',
     url(r'^docs/grants/$', 'direct_to_template', {'template': 'docs/grants.html'}, name="doc_grants"),
     url(r'^docs/lobbying/$', 'direct_to_template', {'template': 'docs/lobbying.html'}, name="doc_lobbying"),
     url(r'^docs/earmarks/$', 'direct_to_template', {'template': 'docs/earmarks.html'}, name="doc_earmarks"),
+    url(r'^docs/echo/$', 'direct_to_template', {'template': 'docs/echo.html'}, name="doc_echo"),
     url(r'^docs/changelog/$', 'direct_to_template', {'template': 'docs/changelog.html'}, name="doc_changelog"),
 )
