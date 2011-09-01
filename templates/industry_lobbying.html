@@ -14,7 +14,7 @@
     </h3>
     <div class="insideBar amount">
         <span class="amount">
-            {% if is_lobbying_firm %} 
+            {% if section.is_lobbying_firm %} 
         	    {% if entity_info.totals.firm_income %}
         	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
         	    {% endif %}
@@ -41,14 +41,14 @@
 
 
 <div class="chartModule">
-    {% if is_lobbying_firm %}
+    {% if section.is_lobbying_firm %}
         <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
         <div class="lobbyingColumn oneColumn chartWrapper">
-            {% if lobbying_lobbyists %}
+            {% if section.lobbying_lobbyists %}
                 <div class="lobbyistsOrgs">
                     <span class="secondaryTitle">Lobbyists Employed:</span>
                     <ul>
-                        {% for row in lobbying_lobbyists %}
+                        {% for row in section.lobbying_lobbyists %}
                         {% if row.lobbyist_entity %}
                         <li>
                             <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
@@ -62,11 +62,11 @@
                 </div>
             {% endif %}
       
-            {% if lobbying_issues %}
+            {% if section.lobbying_issues %}
                 <div class="issuesLobbied">
                     <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>  
                     <ul> 
-                        {% for issue in lobbying_issues %}
+                        {% for issue in section.lobbying_issues %}
                         <li>
                             {{issue}}{% if forloop.last %}{% else %},{% endif %}
                         </li>
@@ -76,7 +76,7 @@
             {% endif %}
         </div>
 
-        {% if lobbying_clients %}
+        {% if section.lobbying_clients %}
         <div class="twoColumn chartWrapper">
             <table class="twoColumn">
                 <thead>
@@ -86,7 +86,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in lobbying_clients %}
+                    {% for row in section.lobbying_clients %}
                     <tr class="{% cycle 'even' 'odd' %}">
                         <td>	    
                             {% if row.client_entity %}
@@ -106,11 +106,11 @@
     {% else %}    
         <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
         <div class="lobbyingColumn oneColumn chartWrapper">
-            {% if lobbying_lobbyists %}
+            {% if section.lobbying_lobbyists %}
             <div class="lobbyistsOrgs">
                 <span class="secondaryTitle">Names of Lobbyists:</span>
                 <ul>
-                    {% for row in lobbying_lobbyists %}
+                    {% for row in section.lobbying_lobbyists %}
                     {% if row.lobbyist_entity %}
                     <li>
                         <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
@@ -124,11 +124,11 @@
             </div>
             {% endif %}
             
-            {% if lobbying_issues %}
+            {% if section.lobbying_issues %}
             <div class="issuesLobbied">
                 <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>
                 <ul>
-                    {% for issue in lobbying_issues %}
+                    {% for issue in section.lobbying_issues %}
                     <li>
                         {{issue}}{% if forloop.last %}{% else %},{% endif %}
                     </li>
@@ -138,7 +138,7 @@
             {% endif %}
         </div>
 
-        {% if lobbying_clients %}
+        {% if section.lobbying_clients %}
         <div class="twoColumn chartWrapper">
             <table class="twoColumn">
                 <thead>
@@ -148,7 +148,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in lobbying_clients %}
+                    {% for row in section.lobbying_clients %}
                     <tr class="{% cycle 'even' 'odd' %}">
                         <td>	    
                             {% if row.registrant_entity %}
@@ -168,9 +168,9 @@
     {% endif %}
 
     <div class="external">
-        {% if lobbying_links %}
+        {% if section.lobbying_links %}
         For more information on lobbying:
-        {% for link in lobbying_links %}
+        {% for link in section.lobbying_links %}
         <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
         {% endfor %}
         {% endif %}

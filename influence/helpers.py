@@ -7,6 +7,7 @@ from settings import api, LATEST_CYCLE
 import datetime
 import googleanalytics
 import re
+from django.utils.datastructures import SortedDict
 
 def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
@@ -136,7 +137,8 @@ def prepare_entity_view(request, entity_id, type):
     context['cycle'] = cycle
     context['entity_info'] = metadata['entity_info']
     context['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
-    context['external_links'] = external_sites.get_contribution_links(type, standardized_name, metadata['entity_info']['external_ids'], cycle)
+    
+    context['sections'] = SortedDict()
 
     if cycle != DEFAULT_CYCLE and unicode(str(cycle)) in metadata['entity_info']['metadata']:
         # copy the current cycle's metadata into the generic metadata spot

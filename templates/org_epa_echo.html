@@ -27,14 +27,14 @@
 
 <div class="chartModule">
 
-    {% include "epa_echo_table.html" %}
+    {% include "epa_echo_table.html" with epa_echo=section.epa_echo %}
 
     <div class="clear"></div>
 
     <div class="external">
-        {% if epa_links %}
+        {% if section.epa_links %}
         For more information, search for this organization at EPA or see TransparencyData.com:
-            {% for link in epa_links %}
+            {% for link in section.epa_links %}
             <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
             {% endfor %}
         {% endif %}

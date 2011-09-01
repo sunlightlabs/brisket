@@ -1,5 +1,15 @@
 {% extends "search_base.html" %}
 
+{% load influence_extras %}
+
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% for section in sections.values %}
+            {{ section.name }}
+        {% endfor %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
 {% block js %}
 {% block extrajs %}
 <!-- extrajs is where the charts are loaded and must go *before* the --
@@ -22,16 +32,15 @@
   {% block description %}
   {% endblock %}
 </div>
+{% if sections.keys|length > 1 %}
 <div id="miniNav" class="withBg">
     <ul>
-        {% if contributions_data %}<li><a href="#contributions">Contributions</a></li>{% endif %}
-        {% if lobbying_data %}<li><a href="#lobbying">Lobbying</a></li>{% endif %}
-        {% if earmarks %}<li><a href="#earmarks">Earmarks</a></li>{% endif %}
-        {% if grants_and_contracts %}<li><a href="#federal_spending">Federal Spending</a></li>{% endif %}
-        {% if contractor_misconduct %}<li><a href="#contractor_misconduct">Contractor Misconduct</a></li>{% endif %}
-        {% if epa_echo %}<li><a href="#epa_echo">EPA Violations</a></li>{% endif %}
+        {% for section_id, section in sections.items %}
+            <li><a href="#{{ section_id }}">{{ section.name }}</a></li>
+        {% endfor %}
     </ul>
 </div>
+{% endif %}
 <div class="clear"></div>
 
 <div class="module" id="timeSpan">
@@ -57,28 +66,11 @@
   {% endblock %}
 </div>
 
-{% block contributions %}
-<a name="contributions"></a>
-{% endblock %}
-
-{% block lobbying %}
-<a name="lobbying"></a>
-{% endblock %}
-
-{% block earmarks %}
-<a name="earmarks"></a>
-{% endblock %}
-
-{% block grants_and_contracts %}
-<a name="federal_spending"></a>
-{% endblock %}
-
-{% block contractor_misconduct %}
-<a name="contractor_misconduct"></a>
-{% endblock %}
-
-{% block epa_echo %}
-<a name="epa_echo"></a>
+{% block sections %}
+{% for section_id, section in sections.items %}
+	<a name={{ section_id }}></a>
+	{% include section.template with section=section section_id=section_id %}
+{% endfor %}
 {% endblock %}
 
 {% endblock %}<!-- end main -->

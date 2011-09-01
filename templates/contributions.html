@@ -4,10 +4,10 @@
 {% load humanize %}
 
 <div class="overviewBar">
-  {% if not suppress_contrib_graphs %}
+  {% if not section.suppress_contrib_graphs %}
   <a class="toggle">Toggle</a>
   {% endif %}
-  <h3 class="insideBar">Contributions, 
+  <h3 class="insideBar">Campaign Finance, 
       {% ifequal cycle "-1" %} 
           {{entity_info.camp_fin_years.start|add:-1}} &#150; {{entity_info.camp_fin_years.end}}
         {% else %}  
@@ -51,18 +51,18 @@
 
   {% block charts %}   
   
-  {% if not suppress_contrib_graphs %}
+  {% if not section.suppress_contrib_graphs %}
     {% if entity_info.type == "individual" %}
-    {% include "indiv_charts.html" %}
+    {% include "indiv_contributions.html" %}
     {% else %}{% if entity_info.type == "politician" %}
-    {% include "pol_charts.html" %}
+    {% include "pol_contributions.html" %}
     {% else %}{% if entity_info.type == "organization" %}
-    {% include "org_charts.html" %}
+    {% include "org_contributions.html" %}
     {% else %}{% if entity_info.type == "industry" %}
-    {% include "industry_charts.html" %}
+    {% include "industry_contributions.html" %}
     {% endif %}{% endif %}{% endif %}{% endif %}
   {% else %}
-  {% if reason == "negative" %}
+  {% if section.reason == "negative" %}
   <p>Due to refunds and other accounting issues, aggregate totals
   for this time frame were negative.</p>  
   {% endif %}
@@ -73,12 +73,12 @@
   <div class="clear"></div>
   
   <div class="external">
-    {% if external_links or partytime_link %}
+    {% if section.external_links or section.partytime_link %}
     For more information on contributions:
-    {% for link in external_links %}
+    {% for link in section.external_links %}
     <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
     {% endfor %}
-    {% if partytime_link %}<a href="{{ partytime_link }}" class="external" target="_blank">Party Time</a>{% endif %}
+    {% if section.partytime_link %}<a href="{{ section.partytime_link }}" class="external" target="_blank">Party Time</a>{% endif %}
     {% endif %}
   </div>
   

@@ -23,14 +23,14 @@
 
 <div class="chartModule">
 
-    {% include "contractor_misconduct_table.html" %}
+    {% include "contractor_misconduct_table.html" with contractor_misconduct=section.contractor_misconduct %}
 
     <div class="clear"></div>
 
     <div class="external">
-        {% if pogo_links %}
+        {% if section.pogo_links %}
             For more information:
-            {% for link in pogo_links %}
+            {% for link in section.pogo_links %}
                 <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
             {% endfor %}
         {% endif %}

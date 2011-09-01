@@ -11,7 +11,7 @@
       {% endifequal %}</h3>
       <div class="insideBar amount">
           <span class="amount">
-	  		{{ gc_found_things|join:"; " }}
+	  		{{ section.gc_found_things|join:"; " }}
       	  </span>
           <a class="descriptor" title="More Information" href="#spendingDescriptor">Information</a>
           <div class="clear"></div>      
@@ -41,7 +41,7 @@
 		<th class="right">Amount</th>
     </thead>
     <tbody>
-    {% for row in grants_and_contracts %}
+    {% for row in section.grants_and_contracts %}
       <tr class="{% cycle 'even' 'odd' %}">
         <td class="cell-type"><div class="label-{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}">{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}</div></td>
         <td class="cell-recipient">{{ row.recipient_name|standardize_organization_name }}</td>
@@ -57,9 +57,9 @@
   <div class="clear"></div>
   
   <div class="external">
-    {% if gc_links %}
+    {% if section.gc_links %}
     For more information on grants and contracts:
-    {% for link in gc_links %}
+    {% for link in section.gc_links %}
     <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
     {% endfor %}
     {% endif %}
