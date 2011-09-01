@@ -329,10 +329,7 @@ def industry_entity(request, entity_id):
 def politician_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
 
-    if cycle != DEFAULT_CYCLE:
-        # copy the current cycle's metadata into the generic metadata spot
-        metadata['entity_info']['metadata'].update(metadata['entity_info']['metadata'][unicode(str(cycle))])
-    else:
+    if cycle == DEFAULT_CYCLE:
         # get just the metadata that is the by cycle stuff
         cycle_info = [ (k,v) for k,v in metadata['entity_info']['metadata'].items() if k.isdigit() ]
         # again, district_held is a temporary workaround
