@@ -171,14 +171,14 @@ def org_industry_entity(request, entity_id, type):
         is_lobbying_firm = bool(metadata['entity_info']['metadata'].get('lobbying_firm', False))
         context['sections']['lobbying'] = \
             org_lobbying_section(entity_id, standardized_name, cycle, type, metadata['entity_info']['external_ids'], is_lobbying_firm)
-
-    if metadata['fed_spending']:
-        context['sections']['federal_spending'] = \
-            org_spending_section(entity_id, standardized_name, cycle, metadata['entity_info']['totals'])
-
+    
     if 'earmarks' in metadata and metadata['earmarks']:
         context['sections']['earmarks'] = \
             org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
+    
+    if metadata['fed_spending']:
+        context['sections']['federal_spending'] = \
+            org_spending_section(entity_id, standardized_name, cycle, metadata['entity_info']['totals'])
 
     if 'contractor_misconduct' in metadata and metadata['contractor_misconduct']:
         context['sections']['contractor_misconduct'] = \
