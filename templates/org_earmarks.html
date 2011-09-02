@@ -25,14 +25,14 @@
 
 <div class="chartModule">
 
-  {% include "earmarks_table.html" %}
+  {% include "earmarks_table.html" with earmarks=section.earmarks %}
   
   <div class="clear"></div>
   
   <div class="external">
-	{% if earmark_links %}
+	{% if section.earmark_links %}
     For more information on earmarks:
-    {% for link in earmark_links %}
+    {% for link in section.earmark_links %}
     <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
     {% endfor %}
     {% endif %}

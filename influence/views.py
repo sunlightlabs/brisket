@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from django.contrib.humanize.templatetags.humanize import apnumber, intcomma
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -164,30 +164,41 @@ def org_industry_entity(request, entity_id, type):
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
-        org_contribution_section(entity_id, cycle, amount, type, context)
+        context['sections']['contributions'] = \
+            org_contribution_section(entity_id, standardized_name, cycle, amount, type, metadata['entity_info']['external_ids'])
 
     if metadata['lobbying']:
         is_lobbying_firm = bool(metadata['entity_info']['metadata'].get('lobbying_firm', False))
-        org_lobbying_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], is_lobbying_firm, context)
-
-    if metadata['fed_spending']:
-        org_spending_section(entity_id, standardized_name, cycle, context)
-
+        context['sections']['lobbying'] = \
+            org_lobbying_section(entity_id, standardized_name, cycle, type, metadata['entity_info']['external_ids'], is_lobbying_firm)
+    
     if 'earmarks' in metadata and metadata['earmarks']:
-        org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+        context['sections']['earmarks'] = \
+            org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
+    
+    if metadata['fed_spending']:
+        context['sections']['federal_spending'] = \
+            org_spending_section(entity_id, standardized_name, cycle, metadata['entity_info']['totals'])
 
     if 'contractor_misconduct' in metadata and metadata['contractor_misconduct']:
-        org_contractor_misconduct_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+        context['sections']['contractor_misconduct'] = \
+            org_contractor_misconduct_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
 
     if 'epa_echo' in metadata and metadata['epa_echo']:
-        org_epa_echo_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
-
+        context['sections']['epa_echo'] = \
+            org_epa_echo_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], metadata['entity_info']['totals'])
+    
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
-def org_contribution_section(entity_id, cycle, amount, type, context):
+def org_contribution_section(entity_id, standardized_name, cycle, amount, type, external_ids):
+    section = {
+        'name': 'Campaign Finance',
+        'template': 'contributions.html',
+    }
+    
     if type == 'industry':
-        context['top_orgs'] = json.dumps([
+        section['top_orgs'] = json.dumps([
             {
                 'key': generate_label(standardize_organization_name(org['name'])),
                 'value': org['total_amount'],
@@ -197,7 +208,7 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
             } for org in api.org.industry_orgs(entity_id, cycle, limit=10)
         ])
 
-    context['contributions_data'] = True
+    section['contributions_data'] = True
     recipients = api.org.recipients(entity_id, cycle=cycle)
 
     recipients_barchart_data = []
@@ -209,30 +220,30 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
                 'value_pac' : record['direct_amount'],
                 'href' : barchart_href(record, cycle, entity_type='politician')
                 })
-    context['recipients_barchart_data'] = json.dumps(bar_validate(recipients_barchart_data))
+    section['recipients_barchart_data'] = json.dumps(bar_validate(recipients_barchart_data))
 
     party_breakdown = api.org.party_breakdown(entity_id, cycle)
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
-    context['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
+    section['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
 
     level_breakdown = api.org.level_breakdown(entity_id, cycle)
     for key, values in level_breakdown.iteritems():
         level_breakdown[key] = float(values[1])
-    context['level_breakdown'] = json.dumps(pie_validate(level_breakdown))
+    section['level_breakdown'] = json.dumps(pie_validate(level_breakdown))
 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
     # section except the overview bar
     if amount < 0:
-        context['suppress_contrib_graphs'] = True
-        context['reason'] = "negative"
+        section['suppress_contrib_graphs'] = True
+        section['reason'] = "negative"
 
-    elif (not context['recipients_barchart_data']
-          and not context['party_breakdown']
-          and not context['level_breakdown']):
-        context['suppress_contrib_graphs'] = True
-        context['reason'] = 'empty'
+    elif (not section['recipients_barchart_data']
+          and not section['party_breakdown']
+          and not section['level_breakdown']):
+        section['suppress_contrib_graphs'] = True
+        section['reason'] = 'empty'
 
     if cycle != DEFAULT_CYCLE:
 
@@ -243,78 +254,115 @@ def org_contribution_section(entity_id, cycle, amount, type, context):
     else:
         cut_off_at_step = 9999
 
-    context['cut_off_sparkline_at_step'] = cut_off_at_step
-    context['sparkline_data'] = json.dumps(api.org.sparkline_by_party(entity_id, cycle))
+    section['cut_off_sparkline_at_step'] = cut_off_at_step
+    section['sparkline_data'] = json.dumps(api.org.sparkline_by_party(entity_id, cycle))
+    
+    section['external_links'] = external_sites.get_contribution_links(type, standardized_name, external_ids, cycle)
+    
+    return section
 
 
-
-def org_lobbying_section(entity_id, name, cycle, external_ids, is_lobbying_firm, context):
-    context['lobbying_data'] = True
-    context['is_lobbying_firm'] = is_lobbying_firm
+def org_lobbying_section(entity_id, name, cycle, type, external_ids, is_lobbying_firm):
+    section = {
+        'name': 'Lobbying',
+        'template': '%s_lobbying.html' % ('org' if type == 'organization' else 'industry'),
+    }
+    
+    section['lobbying_data'] = True
+    section['is_lobbying_firm'] = is_lobbying_firm
 
     if is_lobbying_firm:
-        context['lobbying_clients']   = api.org.registrant_clients(entity_id, cycle)
-        context['lobbying_lobbyists'] = api.org.registrant_lobbyists(entity_id, cycle)
-        context['lobbying_issues']    =  [item['issue'] for item in
+        section['lobbying_clients']   = api.org.registrant_clients(entity_id, cycle)
+        section['lobbying_lobbyists'] = api.org.registrant_lobbyists(entity_id, cycle)
+        section['lobbying_issues']    =  [item['issue'] for item in
                                        api.org.registrant_issues(entity_id, cycle)]
-        context['lobbying_bills']     = [ {
+        section['lobbying_bills']     = [ {
             'bill': bill['bill_name'],
             'title': bill['title'],
             'link': make_bill_link(bill),
             'congress': bill['congress_no'],
         } for bill in api.org.registrant_bills(entity_id, cycle) ]
-        context['lobbying_links'] = external_sites.get_lobbying_links('firm', name, external_ids, cycle)
+        section['lobbying_links'] = external_sites.get_lobbying_links('firm', name, external_ids, cycle)
     else:
-        context['lobbying_clients']   = api.org.registrants(entity_id, cycle)
-        context['lobbying_lobbyists'] = api.org.lobbyists(entity_id, cycle)
-        context['lobbying_issues']    =  [item['issue'] for item in api.org.issues(entity_id, cycle)]
-        context['lobbying_bills']     = [ {
+        section['lobbying_clients']   = api.org.registrants(entity_id, cycle)
+        section['lobbying_lobbyists'] = api.org.lobbyists(entity_id, cycle)
+        section['lobbying_issues']    =  [item['issue'] for item in api.org.issues(entity_id, cycle)]
+        section['lobbying_bills']     = [ {
             'bill': bill['bill_name'],
             'title': bill['title'],
             'link': make_bill_link(bill),
             'congress': bill['congress_no'],
         } for bill in api.org.bills(entity_id, cycle) ]
 
-        context['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
+        section['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
 
-    context['lobbyist_registration_tracker'] = external_sites.get_lobbyist_tracker_data(external_ids)
+    section['lobbyist_registration_tracker'] = external_sites.get_lobbyist_tracker_data(external_ids)
+    
+    print section
+    return section
+
+def org_earmarks_section(entity_id, name, cycle, external_ids):
+    section = {
+        'name': 'Earmarks',
+        'template': 'org_earmarks.html',
+    }
+    
+    section['earmarks'] = earmarks_table_data(entity_id, cycle)
+    section['earmark_links'] = external_sites.get_earmark_links('organization', name, external_ids, cycle)
+    
+    return section
+
+def org_contractor_misconduct_section(entity_id, name, cycle, external_ids):
+    section = {
+        'name': 'Contractor Misconduct',
+        'template': 'org_contractor_misconduct.html',
+    }
+    
+    section['contractor_misconduct'] = api.org.contractor_misconduct(entity_id, cycle)
+    section['pogo_links'] = external_sites.get_pogo_links(external_ids, name, cycle)
+    
+    return section
 
 
-def org_earmarks_section(entity_id, name, cycle, external_ids, context):
-    context['earmarks'] = earmarks_table_data(entity_id, cycle)
-    context['earmark_links'] = external_sites.get_earmark_links('organization', name, external_ids, cycle)
+def org_epa_echo_section(entity_id, name, cycle, external_ids, totals):
+    section = {
+        'name': 'EPA Violations',
+        'template': 'org_epa_echo.html',
+    }
+    
+    section['epa_echo'] = api.org.epa_echo(entity_id, cycle)
+
+    section['epa_found_things'] = totals['epa_actions_count']
+    section['epa_links'] = external_sites.get_epa_links(name, cycle)
+    
+    return section
 
 
-def org_contractor_misconduct_section(entity_id, name, cycle, external_ids, context):
-    context['contractor_misconduct'] = api.org.contractor_misconduct(entity_id, cycle)
-    context['pogo_links'] = external_sites.get_pogo_links(external_ids, name, cycle)
-
-
-def org_epa_echo_section(entity_id, name, cycle, external_ids, context):
-    context['epa_echo'] = api.org.epa_echo(entity_id, cycle)
-
-    context['epa_found_things'] = context['entity_info']['totals']['epa_actions_count']
-    context['epa_links'] = external_sites.get_epa_links(name, cycle)
-
-
-def org_spending_section(entity_id, name, cycle, context):
+def org_spending_section(entity_id, name, cycle, totals):
+    section = {
+        'name': 'Federal Spending',
+        'template': 'org_grants_and_contracts.html',
+    }
+    
     spending = api.org.fed_spending(entity_id, cycle)
 
     filter_bad_spending_descriptions(spending)
 
-    context['grants_and_contracts'] = spending
-    context['gc_links'] = external_sites.get_gc_links(name, cycle)
+    section['grants_and_contracts'] = spending
+    section['gc_links'] = external_sites.get_gc_links(name, cycle)
 
     gc_found_things = []
     for gc_type in ['grant', 'contract', 'loan']:
-        if context['entity_info']['totals'].get('%s_count' % gc_type, 0):
+        if totals.get('%s_count' % gc_type, 0):
             gc_found_things.append('%s %s%s' % (
-                intcomma(context['entity_info']['totals']['%s_count' % gc_type]),
+                intcomma(totals['%s_count' % gc_type]),
                 gc_type,
-                pluralize(context['entity_info']['totals']['%s_count' % gc_type])
+                pluralize(totals['%s_count' % gc_type])
             ))
 
-    context['gc_found_things'] = gc_found_things
+    section['gc_found_things'] = gc_found_things
+    
+    return section
 
 
 def organization_entity(request, entity_id):
@@ -330,9 +378,14 @@ def politician_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
 
     if cycle == DEFAULT_CYCLE:
+        """
+            This section is to make sure we always display the most recently held seat,
+            even if the candidate did not hold an office in the most recent cycle(s)
+        """
         # get just the metadata that is the by cycle stuff
         cycle_info = [ (k,v) for k,v in metadata['entity_info']['metadata'].items() if k.isdigit() ]
-        # again, district_held is a temporary workaround
+        # this district_held check is a temporary hack
+        # until we do a full contribution data reload
         sorted_cycles = sorted(cycle_info, key=lambda x: x[0] if x[1]['district_held'].strip() != '-' else 0)
         max_year_with_seat_held = sorted_cycles[-1][0]
 
@@ -350,25 +403,30 @@ def politician_entity(request, entity_id):
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['recipient_amount']))
-        pol_contribution_section(entity_id, cycle, amount, context)
+        context['sections']['contributions'] = \
+            pol_contribution_section(entity_id, standardized_name, cycle, amount, metadata['entity_info']['external_ids'])
 
     if metadata['earmarks']:
-        pol_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
-
-    context['partytime_link'], context['partytime_data'] = external_sites.get_partytime_data(metadata['entity_info']['external_ids'])
+        context['sections']['earmarks'] = \
+            pol_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
 
     return render_to_response('politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
 
-def pol_contribution_section(entity_id, cycle, amount, context):
-    context['contributions_data'] = True
+def pol_contribution_section(entity_id, standardized_name, cycle, amount, external_ids):
+    section = {
+        'name': 'Campaign Finance',
+        'template': 'contributions.html',
+    }
+    
+    section['contributions_data'] = True
 
     top_contributors = api.pol.contributors(entity_id, cycle)
     top_industries = api.pol.industries(entity_id, cycle=cycle)
     industries_unknown_amount = api.pol.industries_unknown(entity_id, cycle=cycle).get('amount', 0)
     pct_unknown = float(industries_unknown_amount) * 100 / amount
-    context['pct_known'] = int(round(100 - pct_unknown))
+    section['pct_known'] = int(round(100 - pct_unknown))
 
     contributors_barchart_data = []
     for record in top_contributors:
@@ -379,7 +437,7 @@ def pol_contribution_section(entity_id, cycle, amount, context):
             'value_pac' : record['direct_amount'],
             'href' : barchart_href(record, cycle, 'organization')
         })
-    context['contributors_barchart_data'] = json.dumps(bar_validate(contributors_barchart_data))
+    section['contributors_barchart_data'] = json.dumps(bar_validate(contributors_barchart_data))
 
     industries_barchart_data = []
     for record in top_industries:
@@ -388,35 +446,41 @@ def pol_contribution_section(entity_id, cycle, amount, context):
             'href': barchart_href(record, cycle, 'industry'),
             'value' : record['amount'],
         })
-    context['industries_barchart_data'] = json.dumps(bar_validate(industries_barchart_data))
+    section['industries_barchart_data'] = json.dumps(bar_validate(industries_barchart_data))
 
     local_breakdown = api.pol.local_breakdown(entity_id, cycle)
     for key, values in local_breakdown.iteritems():
         # values is a list of [count, amount]
         local_breakdown[key] = float(values[1])
-    context['local_breakdown'] = json.dumps(pie_validate(local_breakdown))
+    section['local_breakdown'] = json.dumps(pie_validate(local_breakdown))
 
     entity_breakdown = api.pol.contributor_type_breakdown(entity_id, cycle)
     for key, values in entity_breakdown.iteritems():
         # values is a list of [count, amount]
         entity_breakdown[key] = float(values[1])
-    context['entity_breakdown'] = json.dumps(pie_validate(entity_breakdown))
+    section['entity_breakdown'] = json.dumps(pie_validate(entity_breakdown))
 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
     # section except the overview bar
     if amount < 0:
-        context['suppress_contrib_graphs'] = True
-        context['reason'] = "negative"
+        section['suppress_contrib_graphs'] = True
+        section['reason'] = "negative"
 
-    elif (not context['industries_barchart_data']
-        and not context['contributors_barchart_data']
-        and not context['local_breakdown']
-        and not context['entity_breakdown']):
-        context['suppress_contrib_graphs'] = True
-        context['reason'] = 'empty'
+    elif (not section['industries_barchart_data']
+        and not section['contributors_barchart_data']
+        and not section['local_breakdown']
+        and not section['entity_breakdown']):
+        section['suppress_contrib_graphs'] = True
+        section['reason'] = 'empty'
 
-    context['sparkline_data'] = json.dumps(api.pol.sparkline(entity_id, cycle))
+    section['sparkline_data'] = json.dumps(api.pol.sparkline(entity_id, cycle))
+    
+    section['partytime_link'], section['partytime_data'] = external_sites.get_partytime_data(external_ids)
+    
+    section['external_links'] = external_sites.get_contribution_links('politician', standardized_name, external_ids, cycle)
+    
+    return section
 
 
 def earmarks_table_data(entity_id, cycle):
@@ -428,16 +492,23 @@ def earmarks_table_data(entity_id, cycle):
     return rows
 
 
-def pol_earmarks_section(entity_id, name, cycle, external_ids, context):
-    context['earmarks'] = earmarks_table_data(entity_id, cycle)
+def pol_earmarks_section(entity_id, name, cycle, external_ids):
+    section = {
+        'name': 'Earmarks',
+        'template': 'pol_earmarks.html',
+    }
+    
+    section['earmarks'] = earmarks_table_data(entity_id, cycle)
 
     local_breakdown = api.pol.earmarks_local_breakdown(entity_id, cycle)
     local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
 
-    context['earmark_links'] = external_sites.get_earmark_links('politician', name, external_ids, cycle)
+    section['earmark_links'] = external_sites.get_earmark_links('politician', name, external_ids, cycle)
 
     ordered_pie = SortedDict([(key, local_breakdown.get(key, 0)) for key in ['unknown', 'in-state', 'out-of-state']])
-    context['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
+    section['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
+    
+    return section
 
 
 @handle_errors
@@ -446,17 +517,24 @@ def individual_entity(request, entity_id):
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
-        indiv_contribution_section(entity_id, cycle, amount, context)
+        context['sections']['contributions'] = \
+            indiv_contribution_section(entity_id, standardized_name, cycle, amount, metadata['entity_info']['external_ids'])
 
     if metadata['lobbying']:
-        indiv_lobbying_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], context)
+        context['sections']['lobbying'] = \
+            indiv_lobbying_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
 
     return render_to_response('individual.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
 
-def indiv_contribution_section(entity_id, cycle, amount, context):
-    context['contributions_data'] = True
+def indiv_contribution_section(entity_id, standardized_name, cycle, amount, external_ids):
+    section = {
+        'name': 'Campaign Finance',
+        'template': 'contributions.html',
+    }
+    
+    section['contributions_data'] = True
     recipient_candidates = api.indiv.pol_recipients(entity_id, cycle)
     recipient_orgs = api.indiv.org_recipients(entity_id, cycle)
 
@@ -467,7 +545,7 @@ def indiv_contribution_section(entity_id, cycle, amount, context):
                 'value' : record['amount'],
                 'href' : barchart_href(record, cycle, entity_type="politician"),
                 })
-    context['candidates_barchart_data'] = json.dumps(bar_validate(candidates_barchart_data))
+    section['candidates_barchart_data'] = json.dumps(bar_validate(candidates_barchart_data))
 
     orgs_barchart_data = []
     for record in recipient_orgs:
@@ -476,34 +554,45 @@ def indiv_contribution_section(entity_id, cycle, amount, context):
                 'value' : record['amount'],
                 'href' : barchart_href(record, cycle, entity_type="organization"),
                 })
-    context['orgs_barchart_data'] = json.dumps(bar_validate(orgs_barchart_data))
+    section['orgs_barchart_data'] = json.dumps(bar_validate(orgs_barchart_data))
 
     party_breakdown = api.indiv.party_breakdown(entity_id, cycle)
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
-    context['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
+    section['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
 
-    context['sparkline_data'] = json.dumps(api.indiv.sparkline(entity_id, cycle))
+    section['sparkline_data'] = json.dumps(api.indiv.sparkline(entity_id, cycle))
 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
     # section except the overview bar
     if amount < 0:
-        context['suppress_contrib_graphs'] = True
-        context['reason'] = "negative"
+        section['suppress_contrib_graphs'] = True
+        section['reason'] = "negative"
 
-    elif (not context['candidates_barchart_data']
-        and not context['orgs_barchart_data']
-        and not context['party_breakdown']):
-        context['suppress_contrib_graphs'] = True
-        context['reason'] = 'empty'
+    elif (not section['candidates_barchart_data']
+        and not section['orgs_barchart_data']
+        and not section['party_breakdown']):
+        section['suppress_contrib_graphs'] = True
+        section['reason'] = 'empty'
+    
+    section['external_links'] = external_sites.get_contribution_links('individual', standardized_name, external_ids, cycle)
+    
+    return section
 
 
-def indiv_lobbying_section(entity_id, name, cycle, external_ids, context):
-    context['lobbying_data'] = True
-    context['lobbying_with_firm'] = api.indiv.registrants(entity_id, cycle)
-    context['issues_lobbied_for'] =  [item['issue'] for item in api.indiv.issues(entity_id, cycle)]
-    context['lobbying_for_clients'] = api.indiv.clients(entity_id, cycle)
-    context['lobbying_links'] = external_sites.get_lobbying_links('lobbyist', name, external_ids, cycle)
+def indiv_lobbying_section(entity_id, name, cycle, external_ids):
+    section = {
+        'name': 'Lobbying',
+        'template': 'indiv_lobbying.html',
+    }
+    
+    section['lobbying_data'] = True
+    section['lobbying_with_firm'] = api.indiv.registrants(entity_id, cycle)
+    section['issues_lobbied_for'] =  [item['issue'] for item in api.indiv.issues(entity_id, cycle)]
+    section['lobbying_for_clients'] = api.indiv.clients(entity_id, cycle)
+    section['lobbying_links'] = external_sites.get_lobbying_links('lobbyist', name, external_ids, cycle)
+    
+    return section
 
 

@@ -10,13 +10,6 @@
     |
 {% endspaceless %} {% endblock %}
 
-{% block pagetopics %}: {% spaceless %}
-    {% filter nonempty_lines|pretty_list %}
-        {% if contributions_data %}Campaign Contributions{% endif %}
-        {% if earmarks %}Earmarks{% endif %}
-    {% endfilter %}
-{% endspaceless %}{% endblock %}
-
 {% block canonicalurl %}/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{% if entity_info.metadata.seat %}{{ entity_info.name|standardize_politician_name|seat_title:entity_info.metadata.seat }}{% else %}{{ entity_info.name|standardize_politician_name }}{% endif %} {% if entity_info.metadata.party %}({{entity_info.metadata.party}}{% if entity_info.metadata.state %}-{{entity_info.metadata.state}}{% endif %}){% endif %} has received ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money came from on Influence Explorer.{% endblock %}
@@ -48,16 +41,16 @@
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-    sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+    sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
 
-    {% if not suppress_contrib_graphs %}
-    piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
-    piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
-    barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
-    barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    {% if not sections.contributions.suppress_contrib_graphs %}
+    piechart("piechart_local", {% if sections.contributions.local_breakdown %} {{ sections.contributions.local_breakdown|safe }} {% else %} {} {% endif %} );
+    piechart("piechart_entity", {% if sections.contributions.entity_breakdown %} {{ sections.contributions.entity_breakdown|safe }} {% else %} {} {% endif %} );
+    barchart("industries_barchart", {% if sections.contributions.industries_barchart_data %}{{ sections.contributions.industries_barchart_data|safe }} {% else %}[]{% endif %});
+    barchart("contributors_barchart", {% if sections.contributions.contributors_barchart_data %}{{ sections.contributions.contributors_barchart_data|safe }} {% else %}[]{% endif %});
     {% endif %}
 
-    piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
+    piechart("earmarks_local", {% if sections.earmarks.earmarks_local %} {{ sections.earmarks.earmarks_local|safe }} {% else %} {} {% endif %} );
 
     $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
     $('table td.cell-earmark-description').expando(5, '.earmark-requests', 'span.requestedList', 'moreEarmarks');
@@ -100,6 +93,16 @@ $(document).ready(function() {
   <dt class="noshow">Lobbying Activity</dt>
   <dd id="revolvingDoor">See also: <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbyist profile for {{ entity_info.name|standardize_politician_name }}</a></dd>
   {% endif %}
+
+  {% for state_pol in entity_info.metadata.state_politician_entities %}
+  <dt class="noshow">State Candidancy or Office Held:</dt>
+  <dd id="revolvingDoor">See also: <a href="/politician/{{state_pol.name|slugify}}/{{state_pol.id}}">State profile for {{ state_pol.name|standardize_politician_name }}</a></dd>
+  {% endfor %}
+
+  {% for fed_pol in entity_info.metadata.federal_politician_entities %}
+  <dt class="noshow">Federal Candidancy or Office Held:</dt>
+  <dd id="revolvingDoor">See also: <a href="/politician/{{fed_pol.name|slugify}}/{{fed_pol.id}}">Federal profile for {{ fed_pol.name|standardize_politician_name }}</a></dd>
+  {% endfor %}
 </dl>
 <div class="clear"></div>
 {% endblock %}
@@ -112,23 +115,3 @@ $(document).ready(function() {
 {% endif %}
 {% endif %}
 {% endblock %}
-
-{% block contributions %}
-{% if contributions_data %}
-{{ block.super }}
-{% include "contributions.html" %}
-{% endif %}
-{% endblock %}
-
-
-{% block charts %}
-{% endblock %} <!-- end charts block -->
-
-
-{% block earmarks %}
-{% if earmarks %}
-    {{ block.super }}
-    {% include "pol_earmarks.html" %}
-{% endif %}
-{% endblock %}
-

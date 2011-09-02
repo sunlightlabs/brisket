@@ -6,13 +6,6 @@
     {{ entity_info.name|standardize_individual_name }} | 
 {% endblock %}
 
-{% block pagetopics %}: {% spaceless %}
-    {% filter nonempty_lines|pretty_list %}
-        {% if contributions_data %}Campaign Contributions{% endif %}
-        {% if lobbying_data %}Lobbying{% endif %}
-    {% endfilter %}
-{% endspaceless %}{% endblock %}
-
 {% block canonicalurl %}/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_individual_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
@@ -32,11 +25,11 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
-  sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+  sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
   {% if not suppress_contrib_graphs %}
-  piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party");
-  barchart("recipients_barchart", {% if candidates_barchart_data %}{{ candidates_barchart_data|safe }}{% else %} [] {% endif %});  
-  barchart("orgs_barchart", {% if orgs_barchart_data %}{{ orgs_barchart_data|safe }}{% else %} [] {% endif %});
+  piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party");
+  barchart("recipients_barchart", {% if sections.contributions.candidates_barchart_data %}{{ sections.contributions.candidates_barchart_data|safe }}{% else %} [] {% endif %});  
+  barchart("orgs_barchart", {% if sections.contributions.orgs_barchart_data %}{{ sections.contributions.orgs_barchart_data|safe }}{% else %} [] {% endif %});
   {% endif %}
 });
 
@@ -55,8 +48,8 @@ $(document).ready(function() {
     <div class="descriptorText" id="individualDescriptor">
 		<p>We rely on our partner organizations, the <a href="http://www.opensecrets.org/">Center for Responsive Politics</a> and the <a href="http://www.followthemoney.org/">National Institute on Money in State Politics</a>, to uniquely identify individuals' campaign finance and lobbying activity. If data appears to be missing, it may be that they have not identified all influence activity for this individual. If the data is completely different than you expected, it may be that you're looking at a different person with the same name.</p>
 		<p>In these cases, we suggest using our companion site, <a href="http://transparencydata.com">TransparencyData.com</a>, to search the underlying databases. TransparencyData provides extra information about each contribution, such as the donor's city, state and employer.  This information should allow you to judge for yourself if the contribution came from the person for whom you searched.</p>
-		{% if external_links %}
-    	    {% for link in external_links %}
+		{% if sections.contributions.external_links %}
+    	    {% for link in sections.contributions.external_links %}
     	    	{% if link.text == "TransparencyData.com" %}
     				<p><a href="{{ link.url }}" class="external" target="_blank">Click here for campaign contributions with the name "{{ entity_info.name|standardize_individual_name }}".</a></p>
     	    	{% endif %}
@@ -87,18 +80,4 @@ $(document).ready(function() {
   </div>
   {% endif %} 
   
-{% endblock %}
-
-{% block contributions %}
-{% if contributions_data %}
-{{ block.super }}
-{% include "contributions.html" %}
-{% endif %}
-{% endblock %}
-
-{% block lobbying %}
-{% if lobbying_data %}
-{{ block.super }}
-{% include "indiv_lobbying.html" %}
-{% endif %}
 {% endblock %}
