@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from django.contrib.humanize.templatetags.humanize import apnumber, intcomma
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -378,9 +378,14 @@ def politician_entity(request, entity_id):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, 'politician')
 
     if cycle == DEFAULT_CYCLE:
+        """
+            This section is to make sure we always display the most recently held seat,
+            even if the candidate did not hold an office in the most recent cycle(s)
+        """
         # get just the metadata that is the by cycle stuff
         cycle_info = [ (k,v) for k,v in metadata['entity_info']['metadata'].items() if k.isdigit() ]
-        # again, district_held is a temporary workaround
+        # this district_held check is a temporary hack
+        # until we do a full contribution data reload
         sorted_cycles = sorted(cycle_info, key=lambda x: x[0] if x[1]['district_held'].strip() != '-' else 0)
         max_year_with_seat_held = sorted_cycles[-1][0]
 
