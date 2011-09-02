@@ -1,11 +1,12 @@
 <div class="twoColumn chartWrapper">
   <div class="chart">
-    {% if industries_barchart_data %}
+    {% if section.industries_barchart_data %}
     <h4 class="withTip">Top Industries</h4>
     <span class="tip">OpenSecrets.org and FollowTheMoney.org classify contribution data into about 100 <a href="http://www.opensecrets.org/lobby/list_indus.php">industries</a>.</span>
     <div class="graph" id="industries_barchart">
       <!-- raphael charts -->
     </div>
+    <span class="tip">{{ section.pct_known }}% of the total amount raised came from an identifiable industry.</span>
     {% endif %}
   </div>
 </div>
@@ -33,7 +34,7 @@
 <div class="twoColumn chartWrapper">
   <div class="chart">
 
-    {% if contributors_barchart_data %}
+    {% if section.contributors_barchart_data %}
     <h4 class="withTip key">Top Contributors</h4>
     <dl class="key">
         <dt class="employees">Employee Color Block</dt>
@@ -51,11 +52,11 @@
   </div>
 </div>
 
-{% if partytime_data %}
-  {% if partytime_data.past or partytime_data.upcoming %}
+{% if section.partytime_data %}
+  {% if section.partytime_data.past or section.partytime_data.upcoming %}
   <div class="twoColumn chartWrapper">
     <h4 class="withTip">Recent and upcoming fundraisers</h4>
-    <span class="tip">Full invitations can be viewed at <a href="{{ partytime_link }}">Party Time</a></span>
+    <span class="tip">Full invitations can be viewed at <a href="{{ section.partytime_link }}">Party Time</a></span>
     <table class="twoColumn">
       <thead>
         <tr id="partyTime">
@@ -64,7 +65,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for type, events in partytime_data.items %}
+        {% for type, events in section.partytime_data.items %}
           {% for row in events %}
             <tr class="{% cycle 'even' 'odd' %} {{ type }}">
               <td>{{ row.date|date }}</td>

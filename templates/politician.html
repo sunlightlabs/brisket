@@ -3,23 +3,12 @@
 {% load influence_extras %}
 
 {% block pagetitle %}{% spaceless %}
-    {{ entity_info.name|standardize_politician_name }}
-    {% if entity_info.metadata.party %}
-        ({{entity_info.metadata.party}})
-    {% endif %}
-    {{entity_info.metadata.state}}
+    {{ entity_info.name_with_meta }}
     {% if entity_info.metadata.yrs_of_service %}
         {{entity_info.metadata.yrs_of_service}}
     {% endif %}
     |
 {% endspaceless %} {% endblock %}
-    
-{% block pagetopics %}: {% spaceless %}
-    {% filter nonempty_lines|pretty_list %}
-        {% if contributions_data %}Campaign Contributions{% endif %}
-        {% if earmarks %}Earmarks{% endif %}
-    {% endfilter %}
-{% endspaceless %}{% endblock %}
 
 {% block canonicalurl %}/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
@@ -52,17 +41,17 @@
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-    sparkline("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}{% else %}[]{% endif %});
+    sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
 
-    {% if not suppress_contrib_graphs %}
-    piechart("piechart_local", {% if local_breakdown %} {{ local_breakdown|safe }} {% else %} {} {% endif %} );
-    piechart("piechart_entity", {% if entity_breakdown %} {{ entity_breakdown|safe }} {% else %} {} {% endif %} );
-    barchart("industries_barchart", {% if industries_barchart_data %}{{ industries_barchart_data|safe }} {% else %}[]{% endif %});
-    barchart("contributors_barchart", {% if contributors_barchart_data %}{{ contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    {% if not sections.contributions.suppress_contrib_graphs %}
+    piechart("piechart_local", {% if sections.contributions.local_breakdown %} {{ sections.contributions.local_breakdown|safe }} {% else %} {} {% endif %} );
+    piechart("piechart_entity", {% if sections.contributions.entity_breakdown %} {{ sections.contributions.entity_breakdown|safe }} {% else %} {} {% endif %} );
+    barchart("industries_barchart", {% if sections.contributions.industries_barchart_data %}{{ sections.contributions.industries_barchart_data|safe }} {% else %}[]{% endif %});
+    barchart("contributors_barchart", {% if sections.contributions.contributors_barchart_data %}{{ sections.contributions.contributors_barchart_data|safe }} {% else %}[]{% endif %});
     {% endif %}
-    
-    piechart("earmarks_local", {% if earmarks_local %} {{ earmarks_local|safe }} {% else %} {} {% endif %} );
-    
+
+    piechart("earmarks_local", {% if sections.earmarks.earmarks_local %} {{ sections.earmarks.earmarks_local|safe }} {% else %} {} {% endif %} );
+
     $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
     $('table td.cell-earmark-description').expando(5, '.earmark-requests', 'span.requestedList', 'moreEarmarks');
 });
@@ -80,14 +69,6 @@ $(document).ready(function() {
 <h2>{{ entity_info.name|standardize_politician_name }}</h2>
 <dl>
   <dt class="noshow">Party</dt>
-
-  <dt class="noshow">State</dt>
-  <dd>{{entity_info.metadata.state}}</dd>
-
-  {% if entity_info.metadata.seat %}
-  <dt class="noshow">Seat</dt><dd>{{ entity_info.metadata.seat|seat_label }}</dd>
-  {% endif %}
-
   {% if entity_info.metadata.party == 'D' %}
   <dd>Democrat</dd>
   {% else %}{% if entity_info.metadata.party == 'R' %}
@@ -96,38 +77,31 @@ $(document).ready(function() {
   <dd>{{ entity_info.metadata.party }}</dd>
   {% endif %}{% endif %}
 
+  {% if entity_info.metadata.seat_held %}
+  <dt>{% ifequal cycle "-1" %}Latest {% endifequal %}Office Held:</dt>
+  <dd>{{ entity_info.metadata.seat_held|seat_label }}{% if entity_info.metadata.state_held %}, {{ entity_info.metadata.state_held }}{% endif %}</dd>
+  {% endif %}
+  <dt>{% ifequal cycle "-1" %}Latest {% endifequal %}Office Sought:</dt>
+  <dd>{{ entity_info.metadata.seat|seat_label }}{% if entity_info.metadata.state %}, {{ entity_info.metadata.state }}{% endif %}</dd>
+
   {% if entity_info.metadata.yrs_of_service %}
   <dt>Years of Service:</dt>
   <dd>{{entity_info.metadata.yrs_of_service}}</dd>
   {% endif %}
 
+  {% if entity_info.metadata.revolving_door_entity %}
+  <dt class="noshow">Lobbying Activity</dt>
+  <dd id="revolvingDoor">See also: <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbyist profile for {{ entity_info.name|standardize_politician_name }}</a></dd>
+  {% endif %}
 </dl>
 <div class="clear"></div>
 {% endblock %}
 
-{% if entity_info.metadata.bio %}
 {% block description %}
+{% if entity_info.metadata.bio %}
 {{ entity_info.metadata.bio|safe }}
 {% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
 <p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_new">{{ entity_info.metadata.source_display_name }}</a></p>
 {% endif %}
-{% endblock %}
-{% endif %}
-
-{% block contributions %}
-{% if contributions_data %}
-{% include "contributions.html" %}
 {% endif %}
 {% endblock %}
-
-
-{% block charts %}
-{% endblock %} <!-- end charts block -->
-
-
-{% block earmarks %}
-{% if earmarks %}
-    {% include "pol_earmarks.html" %}
-{% endif %}
-{% endblock %}
-

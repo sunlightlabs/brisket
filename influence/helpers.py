@@ -5,6 +5,9 @@ from influence.names import standardize_name
 from influenceexplorer import DEFAULT_CYCLE
 from settings import api, LATEST_CYCLE
 import datetime
+import googleanalytics
+import re
+from django.utils.datastructures import SortedDict
 
 def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
@@ -66,7 +69,8 @@ def get_metadata(entity_id, cycle, entity_type):
             'fed_spending':['loan_count', 'grant_count', 'contract_count'],
             'earmarks': ['earmark_count'],
             'contractor_misconduct': ['contractor_misconduct_count'],
-            'regulations': ['regs_document_count']},
+            'regulations': ['regs_document_count'],
+            'epa_echo': ['epa_actions_count']},
         'industry': {
             'contributions': ['contributor_count'], 
             'lobbying': ['lobbying_count'],
@@ -134,7 +138,12 @@ def prepare_entity_view(request, entity_id, type):
     context['cycle'] = cycle
     context['entity_info'] = metadata['entity_info']
     context['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
-    context['external_links'] = external_sites.get_contribution_links(type, standardized_name, metadata['entity_info']['external_ids'], cycle)
+    
+    context['sections'] = SortedDict()
+
+    if cycle != DEFAULT_CYCLE and unicode(str(cycle)) in metadata['entity_info']['metadata']:
+        # copy the current cycle's metadata into the generic metadata spot
+        metadata['entity_info']['metadata'].update(metadata['entity_info']['metadata'][unicode(str(cycle))])
 
     return cycle, standardized_name, metadata, context
 
@@ -143,3 +152,37 @@ def make_bill_link(bill):
     if bill['bill_type'] in 'h hr hc hj s sr sc sj'.split():
         if bill['congress_no'] and int(bill['congress_no']) >= 109:
             return 'http://www.opencongress.org/bill/{0}-{1}{2}/show'.format(bill['congress_no'], bill['bill_type'], bill['bill_no'])
+
+from influence.cache import cache
+
+@cache(seconds=86400)
+def get_top_pages():
+    end_dt = datetime.datetime.now()
+    
+    end_date = end_dt.date()
+    start_date = (end_dt - datetime.timedelta(days=7)).date()
+    
+    from django.conf import settings
+    
+    try:
+        connection = googleanalytics.Connection(settings.GOOGLE_ANALYTICS_USER, settings.GOOGLE_ANALYTICS_PASSWORD)
+        account = connection.get_account(settings.GOOGLE_ANALYTICS_PROFILE_ID)
+        
+        pages = account.get_data(
+            start_date=start_date,
+            end_date=end_date,
+            dimensions=['pagePath','pageTitle'],
+            metrics=['pageviews',],
+            sort=['-pageviews']
+        )
+    except:
+        return None
+    
+    entity_signature = re.compile(r'^/[\w\-]+/[\w\-]+/[a-f0-9-]{32,36}')
+    entity_pages = [{
+        'views': page.metric,
+        'path': page.dimensions[0],
+        'title': page.dimensions[1].split('(')[0].strip() if page.dimensions[0].startswith('/politician') else page.dimensions[1].split('|')[0].strip()
+    } for page in pages if entity_signature.match(page.dimensions[0])]
+    
+    return entity_pages[:5]

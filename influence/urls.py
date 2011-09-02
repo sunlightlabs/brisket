@@ -67,7 +67,10 @@ urlpatterns += patterns('django.views.generic.simple',
         
     url(r'^about/methodology/earmarks/?$', 'direct_to_template',
         {'template': 'earmark_methodology.html'}),
-    
+
+    url(r'^about/methodology/echo/?$', 'direct_to_template',
+        {'template': 'epa_echo_methodology.html'}),
+   
     url(r'^checking/?$', 'direct_to_template',
         {'template': 'checking.html'}),
 )

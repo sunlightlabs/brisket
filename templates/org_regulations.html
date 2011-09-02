@@ -18,7 +18,7 @@
 <div class="fulltext-disclaimer">Disclaimer goes here: these are full text matches against public comments on proposed regulations.</div>
 
 
-{% if regulations_text %}
+{% if section.regulations_text %}
   <h5>Mentions in Document Text</h5>
 
 	<div class="regTableHead">
@@ -38,7 +38,7 @@
 		<div class="clear">
 		</div>
 	</div>
-	{% for row in regulations_text %}
+	{% for row in section.regulations_text %}
 	<div class="{% cycle 'even' 'odd' %} regTableRow">
 		<div class="toggle">
 			<a class="toggle">Toggle</a>
@@ -102,7 +102,7 @@
         <th>Count</th>
     </thead>
     <tbody>
-    {% for row in regulations_text %}
+    {% for row in section.regulations_text %}
       <tr class="{% cycle 'even' 'odd' %}">
         <td>{{ row.agency }}</td>
         <td><a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a></td>
@@ -119,7 +119,7 @@
   </table>
 {% endif %}
 
-{% if regulations_submitter %}
+{% if section.regulations_submitter %}
   <h5>Documents Submitted by the Organization</h5>
   <table class="threeColumn mainTable" id="regulations_submitter">
     <thead>
@@ -130,7 +130,7 @@
         <th>Count</th>
     </thead>
     <tbody>
-    {% for row in regulations_submitter %}
+    {% for row in section.regulations_submitter %}
       <tr class="{% cycle 'even' 'odd' %}">
         <td>{{ row.agency }}</td>
         <td><a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a></td>
@@ -151,9 +151,9 @@
   <div class="clear"></div>
   
   <div class="external">
-    {% if regs_links %}
+    {% if section.regs_links %}
     For more information on regulations:
-    {% for link in regs_links %}
+    {% for link in section.regs_links %}
     <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
     {% endfor %}
     {% endif %}

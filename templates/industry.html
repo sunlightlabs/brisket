@@ -7,13 +7,6 @@
     {{ entity_info.name|standardize_industry_name}} | 
 {% endblock %}
 
-{% block pagetopics %}: {% spaceless %}
-    {% filter nonempty_lines|pretty_list %}
-        {% if contributions_data %}Campaign Contributions{% endif %}
-		{% if lobbying_data %}Lobbying{% endif %}
-    {% endfilter %}
-{% endspaceless %}{% endblock %}
-
 {% block canonicalurl %}/industry/{{ entity_info.name|standardize_industry_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
 
 {% block metadesc %}{{ entity_info.name|standardize_industry_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
@@ -31,12 +24,12 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-  sparkline_by_party("sparklines", {% if sparkline_data %}{{ sparkline_data|safe }}, {{ cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
-  {% if not suppress_contrib_graphs %}
-  piechart("piechart_level", {% if level_breakdown %}{{ level_breakdown|safe }}{% else %}{}{% endif %});
-  piechart("piechart_party", {% if party_breakdown %}{{ party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
-  barchart("recipients_barchart", {% if recipients_barchart_data %}{{ recipients_barchart_data|safe }} {% else %} [] {% endif %});
-  barchart("organizations_barchart", {% if top_orgs %}{{ top_orgs|safe }} {% else %} [] {% endif %});
+  sparkline_by_party("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}, {{ sections.contributions.cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
+  {% if not sections.contributions.suppress_contrib_graphs %}
+  piechart("piechart_level", {% if sections.contributions.level_breakdown %}{{ sections.contributions.level_breakdown|safe }}{% else %}{}{% endif %});
+  piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
+  barchart("recipients_barchart", {% if sections.contributions.recipients_barchart_data %}{{ sections.contributions.recipients_barchart_data|safe }} {% else %} [] {% endif %});
+  barchart("organizations_barchart", {% if sections.contributions.top_orgs %}{{ sections.contributions.top_orgs|safe }} {% else %} [] {% endif %});
   {% endif %}
 });
 </script>
@@ -72,16 +65,3 @@ $(document).ready(function() {
 {% endif %}
 {% endblock %}
 {% endif %}
-
-
-{% block contributions %}
-{% if contributions_data %}
-{% include "contributions.html" %}
-{% endif %}
-{% endblock %}
-
-{% block lobbying %}
-{% if lobbying_data %}
-    {% include "industry_lobbying.html" %}
-{% endif %}
-{% endblock %}

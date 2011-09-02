@@ -3,11 +3,12 @@ import os
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = False
 TEMPLATE_DEBUG = True
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
+    # adding this for sentry emailing -- testing so far
+    ('Alison Rowland', 'arowland@sunlightfoundation.com'),
 )
 
 MANAGERS = ADMINS
@@ -98,16 +99,15 @@ INSTALLED_APPS = (
 #    'simplepay',
     'brisket.influence',
     'brisket.util',
-#    'brisket.postcards',
 #    'django.contrib.admin',
     'django_nose',
     'sentry',
     'sentry.client',
     'indexer',
     'paging',
-    'ecards',
     'gunicorn',
-    'feedinator'
+    'feedinator',
+    'fec',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -163,7 +163,6 @@ MEDIASYNC['JOINED'] = {
         'js/brisket.js',
     ]
 }
-    
 
 from influenceexplorer import InfluenceExplorer
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)

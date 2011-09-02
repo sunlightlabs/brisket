@@ -1,5 +1,15 @@
 {% extends "search_base.html" %}
 
+{% load influence_extras %}
+
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% for section in sections.values %}
+            {{ section.name }}
+        {% endfor %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
 {% block js %}
 {% block extrajs %}
 <!-- extrajs is where the charts are loaded and must go *before* the --
@@ -14,6 +24,7 @@
 <div id="contentHeader">
 {% block contentHeader %}
 {% endblock %}
+
 </div>
 
 <!-- if there's a description for the entity, override this -->
@@ -21,16 +32,26 @@
   {% block description %}
   {% endblock %}
 </div>
+{% if sections.keys|length > 1 %}
+<div id="miniNav" class="withBg">
+    <ul>
+        {% for section_id, section in sections.items %}
+            <li><a href="#{{ section_id }}">{{ section.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+<div class="clear"></div>
 
 <div class="module" id="timeSpan">
   {% block timespan %}
   <div id="currentDates">
     <span class="currentDateTitle">Current View:</span>
     <span>
-      {% ifequal cycle "-1" %} 
+      {% ifequal cycle "-1" %}
         {{entity_info.years.start|add:-1}} &#150; {{entity_info.years.end}}
-      {% else %}  
-        {{cycle|add:-1}} &#150; {{cycle}} 
+      {% else %}
+        {{cycle|add:-1}} &#150; {{cycle}}
       {% endifequal %}
     </span>
   </div>
@@ -45,19 +66,11 @@
   {% endblock %}
 </div>
 
-{% block contributions %}
-{% endblock %}
-
-{% block lobbying %}
-{% endblock %} 
-
-{% block earmarks %}
-{% endblock %}
-
-{% block grants_and_contracts %}
-{% endblock %}
-
-{% block contractor_misconduct %}
+{% block sections %}
+{% for section_id, section in sections.items %}
+	<a name={{ section_id }}></a>
+	{% include section.template with section=section section_id=section_id %}
+{% endfor %}
 {% endblock %}
 
 {% block regulations %}
