@@ -96,12 +96,12 @@ $(document).ready(function() {
 
   {% for state_pol in entity_info.metadata.state_politician_entities %}
   <dt class="noshow">State Candidancy or Office Held:</dt>
-  <dd id="revolvingDoor">See also: <a href="/politician/{{state_pol.name|slugify}}/{{state_pol.id}}">State politician profile for {{ state_pol.name|standardize_politician_name }}</a></dd>
+  <dd id="revolvingDoor">See also: <a href="/politician/{{state_pol.name|slugify}}/{{state_pol.id}}">State profile for {{ state_pol.name|standardize_politician_name }}</a></dd>
   {% endfor %}
 
   {% for fed_pol in entity_info.metadata.federal_politician_entities %}
   <dt class="noshow">Federal Candidancy or Office Held:</dt>
-  <dd id="revolvingDoor">See also: <a href="/politician/{{fed_pol.name|slugify}}/{{fed_pol.id}}">Federal politician profile for {{ fed_pol.name|standardize_politician_name }}</a></dd>
+  <dd id="revolvingDoor">See also: <a href="/politician/{{fed_pol.name|slugify}}/{{fed_pol.id}}">Federal profile for {{ fed_pol.name|standardize_politician_name }}</a></dd>
   {% endfor %}
 </dl>
 <div class="clear"></div>
