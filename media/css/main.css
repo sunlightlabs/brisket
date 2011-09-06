@@ -52,13 +52,13 @@ div#featureBox p { color: #7d7777; font-size: 120%; width: 620px; margin-bottom:
 div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 #topFive ul{
-	margin: 15px 0 0 0;
+    margin: 15px 0 0 0;
 }
 #topFive li{
-	padding-bottom: 10px;
-	padding-left: 24px;
-	list-style-type: none;
-	background:  url('../images/topFive_bullet.png') left 7px no-repeat;
+    padding-bottom: 10px;
+    padding-left: 24px;
+    list-style-type: none;
+    background:  url('../images/topFive_bullet.png') left 7px no-repeat;
 }
 
 
@@ -439,27 +439,27 @@ dt.moneyTitle { margin-top: 8px;}
 .regsPopDown table { width: 400px; margin-right: 10px; }
 
 .regTableHead, .regTableRow{
-	width: 880px;
+    width: 880px;
 }
 
 .regColSmall{
-	width: 50px;
+    width: 50px;
 }
 .regColLarge{
-	width: 600px;
+    width: 600px;
 }
 .regColLarge, .regColSmall, div.toggle{
-	float: left;
-	padding: 10px;
+    float: left;
+    padding: 10px;
 }
 .regTableHead .regColLarge, .regTableHead .regColSmall, .regTableHead div.toggle{
-	color: #585352;
+    color: #585352;
     font-weight: bold;
     padding-bottom: 5px;
     text-transform: uppercase;
 }
 div.toggle{
-	width: 10px;
+    width: 10px;
 }
 
 div.toggle a{
@@ -471,68 +471,71 @@ font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-i
 }
 
 .regTableRow.active .regDocList table{
-	display: table;
-	margin-left: 170px;
-	margin-right: 50px;
-	margin-bottom: 25px;
-	width: 710px;
-	border-top: 2px solid #e5e5e5;
-	border-bottom: 2px solid #e5e5e5;
+    display: table;
+    margin-left: 170px;
+    margin-right: 50px;
+    margin-bottom: 25px;
+    width: 710px;
+    border-top: 2px solid #e5e5e5;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.regsDocList {
+    display: none;
 }
 
 .regDocList table{
-	display: none;
-	margin-left: 170px;
-	margin-right: 50px;
-	margin-bottom: 25px;
-	width: 710px;
-	border-top: 2px solid #e5e5e5;
-	border-bottom: 2px solid #e5e5e5;
+    margin-left: 170px;
+    margin-right: 50px;
+    margin-bottom: 25px;
+    width: 710px;
+    border-top: 2px solid #e5e5e5;
+    border-bottom: 2px solid #e5e5e5;
 }
 
 .regDocList tbody tr.even{
-	background-color: #FdFdFd;
+    background-color: #FdFdFd;
 }
 .regDocList tbody tr.odd{
-	background-color: #F5F5F5;
+    background-color: #F5F5F5;
 }
 .regDocList th{
-	padding: 10px;
+    padding: 10px;
 }
 
 td.regsDoc{
-	width: 515px;
+    width: 515px;
 }
 
 .regsDocDl a.pdf{
-	background: url('../images/doc_pdf.png') top left no-repeat;
-	text-indent: -9999em;
-	display: block;
-	float: left;
-	width: 20px;
-	height: 20px;
+    background: url('../images/doc_pdf.png') top left no-repeat;
+    text-indent: -9999em;
+    display: block;
+    float: left;
+    width: 20px;
+    height: 20px;
 }
 .regsDocDl a.doc{
-	background: url('../images/doc_text_image.png') top left no-repeat;
-	text-indent: -9999em;
-	display: block;
-	float: left;
-	width: 20px;
-	height: 20px;
+    background: url('../images/doc_text_image.png') top left no-repeat;
+    text-indent: -9999em;
+    display: block;
+    float: left;
+    width: 20px;
+    height: 20px;
 }
 
 
 #revolvingDoor{
-	float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
+    float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
 }
 .individual #revolvingDoor{
-	margin-top: 10px;
+    margin-top: 10px;
 }
 .individual #revolvingDoor{
-	margin-top: 10px;
+    margin-top: 10px;
 }
 dl.related{
-	margin-top: 0;
+    margin-top: 0;
 }
 
 #miniNav {
@@ -546,27 +549,27 @@ dl.related{
     width: 145px;
 }
 #miniNav.withBg{
-	margin-top: 0;
-	margin-bottom: 25px;
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 span.numerous{
-	font-weight: 700;
+    font-weight: 700;
 }
 
 tbody.numerous{
-	border-top: 4px solid #D5D4D5;
+    border-top: 4px solid #D5D4D5;
 }
 
 tr.numerous{
-	font-style: italic;
-	color: #949494;
+    font-style: italic;
+    color: #949494;
 }
 tr.numerous a{
-	color: #549ab3;
+    color: #549ab3;
 }
 
 table .even.numerous{
-	background-color: #f9f9f9;
+    background-color: #f9f9f9;
 }
 
 
@@ -601,23 +604,23 @@ table .even.numerous{
 
 
 .fecThing{
-	width: 100%;
+    width: 100%;
 }
 
 .fecThing .name{
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .tab-area table.fecThing tr th{
-	padding-top: 10px;
-	padding-left: 25px;
+    padding-top: 10px;
+    padding-left: 25px;
 
 }
 
 .tab-area table.fecThing tr th.sort{
-	background-position: 10px 15px;
+    background-position: 10px 15px;
 }
 
 .fec-display .external{
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
