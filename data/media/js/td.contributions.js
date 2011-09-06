@@ -101,7 +101,8 @@ $().ready(function() {
             //required: true,
             options: [
                 ['for','In support of the candidate'],
-                ['against','Against the candidate']
+                ['against','Against the candidate'],
+                ['electioneering', 'Electioneering']
             ]
         });
     
