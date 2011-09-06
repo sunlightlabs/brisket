@@ -9,7 +9,7 @@ $().ready(function() {
         content += '<td class="case_name">' + row.case_name + '</td>';
         content += '<td class="defendants expandable"><p>' + row.defendants + '</p></td>';
         content += '<td class="last_date">' + row.last_date + '</td>';
-        content += '<td class="locations expandable"><p>' + row.locations + '</p></td>';
+        content += '<td class="location_addresses expandable"><p>' + row.location_addresses + '</p></td>';
         content += '<td class="penalty">' + TD.Utils.currencyFormatNonZero(row.penalty) + '</td>';
 
         return content;
@@ -53,7 +53,7 @@ $().ready(function() {
         TD.EpaEchoFilter.registerFilter({
             name: 'location_addresses',
             label: 'Locations',
-            help: 'All locations associated with the case',
+            help: 'All addresses associated with the case',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
