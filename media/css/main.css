@@ -466,26 +466,24 @@ div.toggle a{
 font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px; cursor: pointer;
 }
 
-.regTableRow.active div.toggle a{
-font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px;
+.regTableRow div.toggle a.active {
+    font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px;
 }
 
-.regTableRow.active .regDocList table{
-    display: table;
-    margin-left: 170px;
-    margin-right: 50px;
-    margin-bottom: 25px;
-    width: 710px;
-    border-top: 2px solid #e5e5e5;
-    border-bottom: 2px solid #e5e5e5;
-}
-
-.regsDocList {
+.regDocList {
     display: none;
+    margin-left: 170px;
+}
+
+.regTableRow .loading {
+    background: url('../images/loading_large.gif') center center no-repeat;
+    height: 100px;
+    border-top: 2px solid #e5e5e5;
+    display: none;
+    margin-left: 170px;
 }
 
 .regDocList table{
-    margin-left: 170px;
     margin-right: 50px;
     margin-bottom: 25px;
     width: 710px;
@@ -503,11 +501,19 @@ font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-i
     padding: 10px;
 }
 
-td.regsDoc{
+td.regDoc{
     width: 515px;
 }
 
-.regsDocDl a.pdf{
+.regDocDl {
+    min-width: 75px;
+}
+
+.regDocDate {
+    min-width: 125px;
+}
+
+.regDocDl a.pdf{
     background: url('../images/doc_pdf.png') top left no-repeat;
     text-indent: -9999em;
     display: block;
@@ -515,7 +521,7 @@ td.regsDoc{
     width: 20px;
     height: 20px;
 }
-.regsDocDl a.doc{
+.regDocDl a.doc{
     background: url('../images/doc_text_image.png') top left no-repeat;
     text-indent: -9999em;
     display: block;

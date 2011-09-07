@@ -8,7 +8,7 @@
           <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
           <div class="clear"></div>      
           <div class="descriptorText" id='regulationsDescriptor'>
-			<p>Methodology goes here.</p>
+            <p>Methodology goes here.</p>
           </div>      
     </div>
 </div>
@@ -21,130 +21,59 @@
 {% if section.regulations_text %}
   <h5>Mentions in Document Text</h5>
 
-	<div class="regTableHead">
-		<div class="toggle active"></div>
-		<div class="regColSmall">
-			Count
-		</div>
-		<div class="regColSmall">
-			Agency
-		</div>
-		<div class="regColLarge">
-			Docket
-		</div>
-		<div class="regColSmall">
-			Date
-		</div>
-		<div class="clear">
-		</div>
-	</div>
-	{% for row in section.regulations_text %}
-	<div class="{% cycle 'even' 'odd' %} regTableRow">
-		<div class="toggle">
-			<a class="toggle">Toggle</a>
-		</div>
-		<div class="regColSmall">  
-				{{ row.count }}
-		</div>
-		<div class="regColSmall">
-			{{ row.agency }}
-		</div>
-		<div class="regColLarge">
-			<a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
-		</div>
-		<div class="regColSmall">
-			{{ row.year }}
-		</div>
-		<div class="clear"></div>
-		<div class="regDocList">
-			<table>
-			  <thead>
-				<tr>
-				  <th>Document</th>
-				  <th>View</th>
-				  <th>Date</th>
-				</tr>
-			  </thead>
-			  <tbody>
-				<tr class="odd">
-				  <td class="regsDoc"><a href="http://www.regulations.gov" title="">Doc title</a></td>
-				  <td class="regsDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
-				  <td class="regsDocDate">A Date!</td>
-				</tr>
-				<tr class="even">
-				  <td class="regsDoc"><a href="http://www.regulations.gov" title="">Doc title</a></td>
-				  <td class="regsDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
-				  <td class="regsDocDate">A Date!</td>
-				</tr>
-				<tr class="odd">
-				  <td class="regsDoc"><a href="http://www.regulations.gov" title="">Doc title</a></td>
-				  <td class="regsDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
-				  <td class="regsDocDate">A Date!</td>
-				</tr>
-				<tr class="even">
-				  <td class="regsDoc"><a href="http://www.regulations.gov" title="">Doc title</a></td>
-				  <td class="regsDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
-				  <td class="regsDocDate">A Date!</td>
-				</tr>
-			  </tbody>
-			</table>
-		</div>
-	</div>
-	{% endfor %}
-    
-
-  <table class="threeColumn mainTable" id="regulations_text">
-    <thead>
-      <tr>
-        <th>Agency</th>
-        <th>Docket</th>
-        <th>Date</th>
-        <th>Count</th>
-    </thead>
-    <tbody>
+  <div class="regTableHead">
+      <div class="toggle active"></div>
+      <div class="regColSmall">Mentions</div>
+      <div class="regColSmall">Agency</div>
+      <div class="regColLarge">Docket</div>
+      <div class="regColSmall">Date</div>
+      <div class="clear"></div>
+  </div>
+  <div class='regTable' id="regulations_text">
     {% for row in section.regulations_text %}
-      <tr class="{% cycle 'even' 'odd' %}">
-        <td>{{ row.agency }}</td>
-        <td><a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a></td>
-        <td>{{ row.year }}</td>
-        <td>
-		  <div class="regsCount">
-			  <div class="regsPopDown"><img src="/media/images/loading.gif" /></div>
-			  {{ row.count }}
-		  </div>
-		</td>
-      </tr>
+    <div class="{% cycle 'even' 'odd' %} regTableRow">
+        <div class="toggle"><a class="toggle">Toggle</a></div>
+        <div class="regColSmall">{{ row.count }}</div>
+        <div class="regColSmall">{{ row.agency }}</div>
+        <div class="regColLarge">
+            <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
+        </div>
+        <div class="regColSmall">{{ row.year }}</div>
+        <div class="clear"></div>
+        <div class="loading"></div>
+        <div class="regDocList"></div>
+    </div>
     {% endfor %}
-    </tbody>
-  </table>
+  </div>
 {% endif %}
 
 {% if section.regulations_submitter %}
   <h5>Documents Submitted by the Organization</h5>
-  <table class="threeColumn mainTable" id="regulations_submitter">
-    <thead>
-      <tr>
-        <th>Agency</th>
-        <th>Docket</th>
-        <th>Date</th>
-        <th>Count</th>
-    </thead>
-    <tbody>
+  
+  <div class="regTableHead">
+      <div class="toggle active"></div>
+      <div class="regColSmall">Submissions</div>
+      <div class="regColSmall">Agency</div>
+      <div class="regColLarge">Docket</div>
+      <div class="regColSmall">Date</div>
+      <div class="clear"></div>
+  </div>
+  <div class='regTable' id="regulations_submitter">
     {% for row in section.regulations_submitter %}
-      <tr class="{% cycle 'even' 'odd' %}">
-        <td>{{ row.agency }}</td>
-        <td><a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a></td>
-        <td>{{ row.year }}</td>
-        <td>
-		  <div class="regsCount">
-			  <div class="regsPopDown"><img src="/media/images/loading.gif" /></div>
-			  {{ row.count }}
-		  </div>
-		</td>
-      </tr>
+    <div class="{% cycle 'even' 'odd' %} regTableRow">
+        <div class="toggle"><a class="toggle">Toggle</a></div>
+        <div class="regColSmall">{{ row.count }}</div>
+        <div class="regColSmall">{{ row.agency }}</div>
+        <div class="regColLarge">
+            <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
+        </div>
+        <div class="regColSmall">{{ row.year }}</div>
+        <div class="clear"></div>
+        <div class="loading"></div>
+        <div class="regDocList"></div>
+    </div>
     {% endfor %}
-    </tbody>
-  </table>
+  </div>
 
 {% endif %}
 
@@ -161,57 +90,73 @@
   
   <div class="clear"></div>
 </div><!-- end chartModule -->
-<script type="text/html" id="regsPopDownTemplate">
-  <div class="scroll">
-	<table>
-	  <thead>
-		<tr>
-		  <th>Document</th>
-		  <th>Date</th>
-		</tr>
-	  </thead>
-	  <tbody>
-	  <% for (var i = 0; i < documents.length; i++) { %>
-		<tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
-		  <td><a href="http://www.regulations.gov/#!documentDetail;D=<%=documents[i].document_id%>" title="<%=documents[i].document_id%>"><%=documents[i].title%></a></td>
-		  <td><%=documents[i].nice_date%></td>
-		</tr>
-	  <% } %>
-	  </tbody>
-	</table>
-  </div>
+
+<script type="text/html" id="regPopDownTemplate">
+  <table>
+  <thead>
+    <tr>
+      <th>Document</th>
+      <% if (type == "text") { %>
+      <th>View</th>
+      <% } %>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% for (var i = 0; i < documents.length; i++) { %>
+    <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
+      <td class="regDoc"><a href="http://www.regulations.gov/#!documentDetail;D=<%=documents[i].document_id%>" title="<%=documents[i].document_id%>"><%=documents[i].title%></a></td>
+      <% if (type == "text") { %>
+      <td class="regDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
+      <% } %>
+      <td class="regDocDate"><%=documents[i].nice_date%></td>
+    </tr>
+  <% } %>
+  </tbody>
+</table>
 </script>
+
 <script type="text/javascript">
   $(function() {
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    var template = _.template($('#regsPopDownTemplate').html());
-	
-	$('.regsCount').hover(function() {
-	  var $this = $(this);
-	  var $popdown = $this.find('.regsPopDown');
-	  
-	  if (!$popdown.find('.scroll').length) {
-		var type = $this.parents('table').get(0).id.split('_')[1];
-		var docket = $this.parents('tr').find('a.docketTitle').attr('title');
-		var entity = document.location.pathname.split('/').pop();
-		
-		var url = '{{ AGGREGATES_API_BASE_URL }}aggregates/org/' + entity +
-		  '/regulations_' + type + '_by_docket/' + docket +
-		  '.json?apikey={{ API_KEY }}&cycle=-1&callback=?';
-  
-		$.getJSON(url, function(data) {
-		  var div = template({'documents': $.map(data, function(row) {
-			date = row.date_posted.split('-');
-			return $.extend(row, {'nice_date': months[parseInt(date[1]) - 1] + ' ' + date[2] + ', ' + date[0]});
-		  })});
-		  $popdown.find('img').remove();
-		  $popdown.append(div);
-		})
-	  }
-	  
-	  $popdown.slideDown('fast');
-	}, function() {
-	  $(this).find('.regsPopDown').slideUp('fast');
-	})
+    var template = _.template($('#regPopDownTemplate').html());
+    
+    $('.regTableRow a.toggle').click(function() {
+      var $this = $(this);
+      var $row = $this.parents('.regTableRow');
+      var $popdown = $row.find('.regDocList');
+      var $loading = $row.find('.loading');
+      
+      if ($popdown.is(':visible')) {
+        $popdown.slideUp('fast');
+        $this.removeClass('active');
+      } else {
+        if (!$popdown.find('table').length) {
+          var type = $row.parents('.regTable').get(0).id.split('_')[1];
+          var docket = $row.find('a.docketTitle').attr('title');
+          var entity = document.location.pathname.split('/').pop();
+          
+          var url = '{{ AGGREGATES_API_BASE_URL }}aggregates/org/' + entity +
+            '/regulations_' + type + '_by_docket/' + docket +
+            '.json?apikey={{ API_KEY }}&cycle=-1&callback=?';
+          
+          $loading.slideDown('fast');
+          $.getJSON(url, function(data) {
+            var table = template({'documents': $.map(data, function(row) {
+              date = row.date_posted.split('-');
+              return $.extend(row, {'nice_date': months[parseInt(date[1], 10) - 1] + ' ' + parseInt(date[2], 10) + ', ' + date[0]});
+            }), 'type': type});
+            $popdown.append(table);
+            
+            $loading.slideUp('fast');
+            $popdown.slideDown('fast');
+          })
+        } else {
+          $popdown.slideDown('fast');
+        }
+        
+        $this.addClass('active');
+      }
+    });
   });
 </script>
