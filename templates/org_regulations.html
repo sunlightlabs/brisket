@@ -107,7 +107,11 @@
     <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
       <td class="regDoc"><a href="http://www.regulations.gov/#!documentDetail;D=<%=documents[i].document_id%>" title="<%=documents[i].document_id%>"><%=documents[i].title%></a></td>
       <% if (type == "text") { %>
-      <td class="regDocDl"><a href="#" class="pdf">Download the Document</a><a class="doc">Download the Document</a></td>
+        <td class="regDocDl">
+        <% for (var j = 0; j < documents[i].files.length; j++) { %>
+          <a href="http://www.regulations.gov/contentStreamer?objectId=<%=documents[i].files[j].object_id%>&disposition=inline&contentType=<%=documents[i].files[j].file_type%>" class="<%=documents[i].files[j].file_type%>">Download <%=documents[i].files[j].file_type.toUpperCase()%></a>
+        <% } %>
+        </td>
       <% } %>
       <td class="regDocDate"><%=documents[i].nice_date%></td>
     </tr>

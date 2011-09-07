@@ -513,21 +513,33 @@ td.regDoc{
     min-width: 125px;
 }
 
-.regDocDl a.pdf{
-    background: url('../images/doc_pdf.png') top left no-repeat;
+.regDocDl a {
     text-indent: -9999em;
     display: block;
     float: left;
     width: 20px;
     height: 20px;
 }
-.regDocDl a.doc{
-    background: url('../images/doc_text_image.png') top left no-repeat;
-    text-indent: -9999em;
-    display: block;
-    float: left;
-    width: 20px;
-    height: 20px;
+.regDocDl a.xml, .regDocDl a.html {
+    background: url('../images/document_icons_html.png') top left no-repeat;
+}
+.regDocDl a.pdf{
+    background: url('../images/document_icons_pdf.png') top left no-repeat;
+}
+.regDocDl a.msw, .regDocDl a.msw6, .regDocDl a.msw8 {
+    background: url('../images/document_icons_doc.png') top left no-repeat;
+}
+.regDocDl a.msw12 {
+    background: url('../images/document_icons_docx.png') top left no-repeat;
+}
+.regDocDl a.rtf {
+    background: url('../images/document_icons_rtf.png') top left no-repeat;
+}
+.regDocDl a.txt {
+    background: url('../images/document_icons_text.png') top left no-repeat;
+}
+.regDocDl a.wp8 {
+    background: url('../images/document_icons_wpm.png') top left no-repeat;
 }
 
 
