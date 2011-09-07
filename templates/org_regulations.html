@@ -23,22 +23,22 @@
 
   <div class="regTableHead">
       <div class="toggle active"></div>
-      <div class="regColSmall">Mentions</div>
+      <div class="regColCount">Mentions</div>
       <div class="regColSmall">Agency</div>
       <div class="regColLarge">Docket</div>
-      <div class="regColSmall">Date</div>
+      <div class="regColDate">Date</div>
       <div class="clear"></div>
   </div>
   <div class='regTable' id="regulations_text">
     {% for row in section.regulations_text %}
     <div class="{% cycle 'even' 'odd' %} regTableRow">
         <div class="toggle"><a class="toggle">Toggle</a></div>
-        <div class="regColSmall">{{ row.count }}</div>
+        <div class="regColCount">{{ row.count }}</div>
         <div class="regColSmall">{{ row.agency }}</div>
         <div class="regColLarge">
             <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
         </div>
-        <div class="regColSmall">{{ row.year }}</div>
+        <div class="regColDate">{{ row.year }}</div>
         <div class="clear"></div>
         <div class="loading"></div>
         <div class="regDocList"></div>
@@ -52,22 +52,22 @@
   
   <div class="regTableHead">
       <div class="toggle active"></div>
-      <div class="regColSmall">Submissions</div>
+      <div class="regColCount">Submissions</div>
       <div class="regColSmall">Agency</div>
       <div class="regColLarge">Docket</div>
-      <div class="regColSmall">Date</div>
+      <div class="regColDate">Date</div>
       <div class="clear"></div>
   </div>
   <div class='regTable' id="regulations_submitter">
     {% for row in section.regulations_submitter %}
     <div class="{% cycle 'even' 'odd' %} regTableRow">
         <div class="toggle"><a class="toggle">Toggle</a></div>
-        <div class="regColSmall">{{ row.count }}</div>
+        <div class="regColCount">{{ row.count }}</div>
         <div class="regColSmall">{{ row.agency }}</div>
         <div class="regColLarge">
             <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
         </div>
-        <div class="regColSmall">{{ row.year }}</div>
+        <div class="regColDate">{{ row.year }}</div>
         <div class="clear"></div>
         <div class="loading"></div>
         <div class="regDocList"></div>

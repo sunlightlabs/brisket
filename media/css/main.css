@@ -445,14 +445,20 @@ dt.moneyTitle { margin-top: 8px;}
 .regColSmall{
     width: 50px;
 }
-.regColLarge{
-    width: 600px;
+.regColCount{
+    width: 85px;
 }
-.regColLarge, .regColSmall, div.toggle{
+.regColDate{
+    width: 125px;
+}
+.regColLarge{
+    width: 510px;
+}
+.regColLarge, .regColSmall, .regColCount, .regColDate, div.toggle{
     float: left;
     padding: 10px;
 }
-.regTableHead .regColLarge, .regTableHead .regColSmall, .regTableHead div.toggle{
+.regTableHead .regColLarge, .regTableHead .regColSmall, .regTableHead .regColCount, .regTableHead .regColDate, .regTableHead div.toggle{
     color: #585352;
     font-weight: bold;
     padding-bottom: 5px;
@@ -472,7 +478,7 @@ font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; tex
 
 .regDocList {
     display: none;
-    margin-left: 170px;
+    margin-left: 205px;
 }
 
 .regTableRow .loading {
@@ -480,13 +486,13 @@ font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; tex
     height: 100px;
     border-top: 2px solid #e5e5e5;
     display: none;
-    margin-left: 170px;
+    margin-left: 205px;
 }
 
 .regDocList table{
     margin-right: 50px;
     margin-bottom: 25px;
-    width: 710px;
+    width: 675px;
     border-top: 2px solid #e5e5e5;
     border-bottom: 2px solid #e5e5e5;
 }
