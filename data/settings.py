@@ -89,8 +89,6 @@ PISTON_DISPLAY_ERRORS = True
 PISTON_EMAIL_ERRORS = False
 PISTON_STREAM_OUTPUT = True
 
-LOCKSMITH_STATS_APP = "dcapi"
-LOCKSMITH_STATS_MODEL = "Invocation"
 LOCKSMITH_HUB_URL = "http://services.sunlightlabs.com/analytics/"
 LOCKSMITH_HTTP_HEADER = None
 
