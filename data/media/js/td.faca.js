@@ -27,7 +27,7 @@ $().ready(function() {
         });
 
         var years = [];
-        for (var i=1971; i<2012; i++) {
+        for (var i=2012; i>1970; i--) {
             years.push([i,i]);
         }
         TD.FacaFilter.registerFilter({
@@ -66,7 +66,6 @@ $().ready(function() {
 
         var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.HashMonitor.setAnchor('year=2011');
             this.loadHash();
         }
 
