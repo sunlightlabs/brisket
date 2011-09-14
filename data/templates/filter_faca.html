@@ -1,0 +1,35 @@
+{% extends "filter.html" %}
+{% load media %}
+
+{% block bodyid %}faca{% endblock %}
+{% block dataset_name %}FACA{% endblock %}
+
+{% block table_header %}
+    <th>Committee</th>
+    <th>Agency Abbr.</th>
+    <th>Member</th>
+    <th>Affiliation</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+{% endblock %}
+
+{% block dataset_license %}
+    <p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribution to <a href="#">TODO</a>.</p>
+    <p>By downloading data, you are agreeing to the terms of the license.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
+    {% js "faca.js" %}
+    <script type="text/javascript">
+        $().ready(function() {
+            TD.FacaFilter.bindDataFilter('#datafilter');
+            TD.FacaFilter.bindPreview('#previewButton');
+            TD.FacaFilter.bindDownload('#downloadButton');
+            TD.FacaFilter.init();
+
+            TD.activeFilter = TD.FacaFilter;
+
+            TD.init();
+        });
+    </script>
+{% endblock %}

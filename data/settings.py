@@ -151,6 +151,11 @@ MEDIASYNC = {
             'js/td.fields.js',
             'js/td.lobbying.js'
         ],
+        'faca.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.faca.js'
+        ],
         'index.js': [
             'js/td.js',
             'js/td.fields.js',
@@ -159,6 +164,7 @@ MEDIASYNC = {
             'js/td.epa_echo.js',
             'js/td.grants.js',
             'js/td.lobbying.js',
+            'js/td.faca.js',
             'js/td.contributions.js',
             'js/td.contractor_misconduct.js'
         ],
@@ -169,7 +175,4 @@ MEDIASYNC = {
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/?timeout=10080'
 
 
-try:
-    from local_settings import *
-except ImportError:
-    pass
+from local_settings import *

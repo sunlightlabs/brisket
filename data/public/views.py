@@ -26,6 +26,9 @@ def filter_contractor_misconduct(request):
 def filter_epa_echo(request):
     return render_to_response('filter_epa_echo.html', context_instance=RequestContext(request))
 
+def filter_faca(request):
+    return render_to_response('filter_faca.html', context_instance=RequestContext(request))
+
 def filter_contributions(request):
     return render_to_response('filter_contributions.html', context_instance=RequestContext(request))
 

@@ -27,6 +27,7 @@
 			<li id="contractsTab"><a href="/contracts/" class="contracts">Contracts</a></li>
             <li id="contractorMisconductTab"><a href="/contractor_misconduct/" class="contractorMisconduct">Contractor Misconduct</a></li>
             <li id="epaEchoTab"><a href="/epa_echo/" class="epaEcho">EPA ECHO</a></li>
+            <li id="facaTab"><a href="/faca/" class="faca">FACA</a></li>
 		</ul>
 	</div>
 	<div class="introbox" id="intro-contributions">
@@ -168,6 +169,25 @@
             <a id="epaEchoPreviewButton" class="previewButton" href="#">Preview Data</a>
         </div>
     </div>
+    <div class="introbox" id="intro-faca">
+        <h4>Search FACA</h4>
+        <div id="leftIntro">
+            <p class="introText">Have a specific member, organization affiliation or agency in mind? Add some filters below to search through them.</p>
+            <h3>Search for</h3>
+            <div id="facaDataFilter" class="datafilter">
+                <form>
+                    <select id="filterselect">
+                        <option value="">Select a field to search...</option>
+                    </select>
+                    <ul id="filters"></ul> <!-- end filters -->
+                </form>
+            </div>
+        </div>
+        <div id="rightIntro">
+            <span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+            <a id="facaPreviewButton" class="previewButton" href="#">Preview Data</a>
+        </div>
+    </div>
     {% js "index.js" %}
 	<script type="text/javascript">
 
@@ -190,6 +210,8 @@
 					TD.activeFilter = TD.ContractorMisconductFilter;
 				} else if (df == 'epaEcho') {
 					TD.activeFilter = TD.EpaEchoFilter;
+				} else if (df == 'faca') {
+					TD.activeFilter = TD.FacaFilter;
 				}
 				return false;
 			});
@@ -233,6 +255,12 @@
 			TD.EpaEchoFilter.bindDataFilter('#epaEchoDataFilter');
 			TD.EpaEchoFilter.bindPreview('#epaEchoPreviewButton');
 		    TD.EpaEchoFilter.init();
+
+			TD.HashMonitor.setAnchor('');
+
+			TD.FacaFilter.bindDataFilter('#facaDataFilter');
+			TD.FacaFilter.bindPreview('#facaPreviewButton');
+		    TD.FacaFilter.init();
 
 			TD.HashMonitor.setAnchor('');
 

@@ -394,12 +394,12 @@ li.filter{
 	background-color: #FFF;
 }
 
-body#contracts #dataTabs li#contractsTab a, body#contributions #dataTabs li#contributionsTab a, body#grants #dataTabs li#grantsTab a, body#lobbying #dataTabs li#lobbyingTab a, body#earmarks #dataTabs li#earmarksTab a, body#contractorMisconduct #dataTabs li#contractorMisconductTab a, body#epaEcho #dataTabs li#epaEchoTab a {
+body#contracts #dataTabs li#contractsTab a, body#contributions #dataTabs li#contributionsTab a, body#grants #dataTabs li#grantsTab a, body#lobbying #dataTabs li#lobbyingTab a, body#earmarks #dataTabs li#earmarksTab a, body#contractorMisconduct #dataTabs li#contractorMisconductTab a, body#epaEcho #dataTabs li#epaEchoTab a, body#faca #dataTabs li#facaTab a  {
     background-color: #ECEBE6;
     border-bottom: 2px solid #ECEBE6;
 }
 
-body#contracts.index #dataTabs li#contractsTab a, body#contributions.index #dataTabs li#contributionsTab a, body#grants.index #dataTabs li#grantsTab a, body#lobbying.index #dataTabs li#lobbyingTab a, body#earmarks.index #dataTabs li#earmarksTab a, body#contractorMisconduct.index #dataTabs li#contractorMisconductTab a, body#epaEcho.index #dataTabs li#epaEchoTab a {
+body#contracts.index #dataTabs li#contractsTab a, body#contributions.index #dataTabs li#contributionsTab a, body#grants.index #dataTabs li#grantsTab a, body#lobbying.index #dataTabs li#lobbyingTab a, body#earmarks.index #dataTabs li#earmarksTab a, body#contractorMisconduct.index #dataTabs li#contractorMisconductTab a, body#epaEcho.index #dataTabs li#epaEchoTab a, body#faca.index #dataTabs li#facaTab a  {
     background-color: #FFF;
     border-bottom: 2px solid #FFF;
 }
@@ -428,6 +428,7 @@ body#grants #intro-grants { display: block; }
 body#earmarks #intro-earmarks { display: block; }
 body#contractorMisconduct #intro-contractor-misconduct { display: block; }
 body#epaEcho #intro-epa-echo { display: block; }
+body#faca #intro-faca { display: block; }
 
 /*single column-------------------------------------------------*/
 

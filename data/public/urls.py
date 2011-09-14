@@ -5,6 +5,7 @@ from dcapi.grants.urls import grantsfilter_handler
 from dcapi.lobbying.urls import lobbyingfilter_handler
 from dcapi.contractor_misconduct.urls import contractor_misconduct_filter_handler
 from dcapi.epa.urls import epafilter_handler
+from dcapi.faca.urls import facafilter_handler
 
 from django.conf.urls.defaults import patterns, url
 
@@ -55,6 +56,12 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^epa_echo/download/$', 'search_download', {'search_resource': epafilter_handler},  name="data_epa_echo_download"),
     url(r'^data/epa_echo/$', 'search_preview', {'search_resource': epafilter_handler}, name="data_epa_echo"),
     url(r'^data/epa_echo/count/$', 'search_count', {'search_resource': epafilter_handler}, name="data_epa_echo_count"),
+
+    # faca
+    url(r'^faca/$', 'filter_faca', name="filter_faca"),
+    url(r'^faca/download/$', 'search_download', {'search_resource': facafilter_handler},  name="data_faca_download"),
+    url(r'^data/faca/$', 'search_preview', {'search_resource': facafilter_handler}, name="data_faca"),
+    url(r'^data/faca/count/$', 'search_count', {'search_resource': facafilter_handler}, name="data_faca_count"),
 
     # doc lookups
     url(r'^docs/lookup/(?P<dataset>\w+)/(?P<field>[\w\-_]+)/$', 'lookup', name="doc_lookup"),
