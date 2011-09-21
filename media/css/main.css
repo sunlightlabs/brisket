@@ -448,6 +448,9 @@ dt.moneyTitle { margin-top: 8px;}
 .regColLarge{
     width: 510px;
 }
+.facaColLarge {
+    width: 400px;
+}
 .expandCol {
     float: left;
     padding: 10px;
