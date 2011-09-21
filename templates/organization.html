@@ -23,6 +23,7 @@
 
 {% block extrajs %}
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
+<script type="text/javascript" src="/media/js/ajax_tables.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   {% if sections.contributions.sparkline_data %}sparkline_by_party("sparklines", {{ sections.contributions.sparkline_data|safe }}, {{ sections.contributions.cut_off_sparkline_at_step }});{% endif %}
