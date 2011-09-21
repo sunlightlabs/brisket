@@ -52,13 +52,13 @@ div#featureBox p { color: #7d7777; font-size: 120%; width: 620px; margin-bottom:
 div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 #topFive ul{
-	margin: 15px 0 0 0;
+    margin: 15px 0 0 0;
 }
 #topFive li{
-	padding-bottom: 10px;
-	padding-left: 24px;
-	list-style-type: none;
-	background:  url('../images/topFive_bullet.png') left 7px no-repeat;
+    padding-bottom: 10px;
+    padding-left: 24px;
+    list-style-type: none;
+    background:  url('../images/topFive_bullet.png') left 7px no-repeat;
 }
 
 
@@ -205,7 +205,7 @@ dt.pac { background-color: #f27e01;}
 .lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li { float: left; margin-right: 10px;}
 .lobbyistsOrgs, .ecards li, .issuesLobied { margin-bottom: 30px;}
 
-table .even, li.even { background-color: #f5f4f4;}
+table .even, li.even, div.even{ background-color: #f5f4f4;}
 td { padding: 10px;}
 th { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; }
 th.left { padding-left: 10px;}
@@ -432,17 +432,128 @@ dt.moneyTitle { margin-top: 8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
 
+.expandTableHead, .expandTableRow{
+    width: 880px;
+}
+
+.regColSmall{
+    width: 50px;
+}
+.regColCount{
+    width: 85px;
+}
+.regColDate{
+    width: 125px;
+}
+.regColLarge{
+    width: 510px;
+}
+.expandCol {
+    float: left;
+    padding: 10px;
+}
+.expandTableHead .expandCol {
+    color: #585352;
+    font-weight: bold;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+.expandTable div.toggle, .expandTableHead div.toggle {
+    width: 10px;
+}
+
+.expandTable div.toggle a, .texpandTableHead div.toggle {
+font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px; cursor: pointer;
+}
+
+.expandTableRow div.toggle a.active {
+    font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px;
+}
+
+.expandDocList {
+    display: none;
+    margin-left: 205px;
+}
+
+.expandTableRow .loading {
+    background: url('../images/loading_large.gif') center center no-repeat;
+    height: 100px;
+    border-top: 2px solid #e5e5e5;
+    display: none;
+    margin-left: 205px;
+}
+
+.expandDocList table{
+    margin-right: 50px;
+    margin-bottom: 25px;
+    width: 675px;
+    border-top: 2px solid #e5e5e5;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.expandDocList tbody tr.even{
+    background-color: #FdFdFd;
+}
+.expandDocList tbody tr.odd{
+    background-color: #F5F5F5;
+}
+.expandDocList th{
+    padding: 10px;
+}
+
+td.regDoc{
+    width: 515px;
+}
+
+.regDocDl {
+    min-width: 75px;
+}
+
+.regDocDate {
+    min-width: 125px;
+}
+
+.regDocDl a {
+    text-indent: -9999em;
+    display: block;
+    float: left;
+    width: 20px;
+    height: 20px;
+}
+.regDocDl a.xml, .regDocDl a.html {
+    background: url('../images/document_icons_html.png') top left no-repeat;
+}
+.regDocDl a.pdf{
+    background: url('../images/document_icons_pdf.png') top left no-repeat;
+}
+.regDocDl a.msw, .regDocDl a.msw6, .regDocDl a.msw8 {
+    background: url('../images/document_icons_doc.png') top left no-repeat;
+}
+.regDocDl a.msw12 {
+    background: url('../images/document_icons_docx.png') top left no-repeat;
+}
+.regDocDl a.rtf {
+    background: url('../images/document_icons_rtf.png') top left no-repeat;
+}
+.regDocDl a.txt {
+    background: url('../images/document_icons_text.png') top left no-repeat;
+}
+.regDocDl a.wp8 {
+    background: url('../images/document_icons_wpm.png') top left no-repeat;
+}
+
+
 #revolvingDoor{
-	float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
+    float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
 }
 .individual #revolvingDoor{
-	margin-top: 10px;
+    margin-top: 10px;
 }
 .individual #revolvingDoor{
-	margin-top: 10px;
+    margin-top: 10px;
 }
 dl.related{
-	margin-top: 0;
+    margin-top: 0;
 }
 
 #miniNav {
@@ -456,27 +567,27 @@ dl.related{
     width: 145px;
 }
 #miniNav.withBg{
-	margin-top: 0;
-	margin-bottom: 25px;
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 span.numerous{
-	font-weight: 700;
+    font-weight: 700;
 }
 
 tbody.numerous{
-	border-top: 4px solid #D5D4D5;
+    border-top: 4px solid #D5D4D5;
 }
 
 tr.numerous{
-	font-style: italic;
-	color: #949494;
+    font-style: italic;
+    color: #949494;
 }
 tr.numerous a{
-	color: #549ab3;
+    color: #549ab3;
 }
 
 table .even.numerous{
-	background-color: #f9f9f9;
+    background-color: #f9f9f9;
 }
 
 
@@ -511,23 +622,23 @@ table .even.numerous{
 
 
 .fecThing{
-	width: 100%;
+    width: 100%;
 }
 
 .fecThing .name{
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .tab-area table.fecThing tr th{
-	padding-top: 10px;
-	padding-left: 25px;
+    padding-top: 10px;
+    padding-left: 25px;
 
 }
 
 .tab-area table.fecThing tr th.sort{
-	background-position: 10px 15px;
+    background-position: 10px 15px;
 }
 
 .fec-display .external{
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
