@@ -432,13 +432,7 @@ dt.moneyTitle { margin-top: 8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
 
-.regsCount { background: #edede9; position: relative; width: auto; display: inline; padding: 4px; }
-.regsCount:hover { background: #d3d5ce; }
-.regsPopDown { position: absolute; top:20px; right: 0px; background: #d3d5ce; padding: 10px; z-index: 1000; display: none; }
-.regsPopDown .scroll { overflow-y: auto; overflow-x: hidden; height: 300px; }
-.regsPopDown table { width: 400px; margin-right: 10px; }
-
-.regTableHead, .regTableRow{
+.expandTableHead, .expandTableRow{
     width: 880px;
 }
 
@@ -454,34 +448,34 @@ dt.moneyTitle { margin-top: 8px;}
 .regColLarge{
     width: 510px;
 }
-.regColLarge, .regColSmall, .regColCount, .regColDate, div.toggle{
+.expandCol {
     float: left;
     padding: 10px;
 }
-.regTableHead .regColLarge, .regTableHead .regColSmall, .regTableHead .regColCount, .regTableHead .regColDate, .regTableHead div.toggle{
+.expandTableHead .expandCol {
     color: #585352;
     font-weight: bold;
     padding-bottom: 5px;
     text-transform: uppercase;
 }
-div.toggle{
+.expandTable div.toggle, .expandTableHead div.toggle {
     width: 10px;
 }
 
-div.toggle a{
+.expandTable div.toggle a, .texpandTableHead div.toggle {
 font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px; cursor: pointer;
 }
 
-.regTableRow div.toggle a.active {
+.expandTableRow div.toggle a.active {
     font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px;
 }
 
-.regDocList {
+.expandDocList {
     display: none;
     margin-left: 205px;
 }
 
-.regTableRow .loading {
+.expandTableRow .loading {
     background: url('../images/loading_large.gif') center center no-repeat;
     height: 100px;
     border-top: 2px solid #e5e5e5;
@@ -489,7 +483,7 @@ font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; tex
     margin-left: 205px;
 }
 
-.regDocList table{
+.expandDocList table{
     margin-right: 50px;
     margin-bottom: 25px;
     width: 675px;
@@ -497,13 +491,13 @@ font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; tex
     border-bottom: 2px solid #e5e5e5;
 }
 
-.regDocList tbody tr.even{
+.expandDocList tbody tr.even{
     background-color: #FdFdFd;
 }
-.regDocList tbody tr.odd{
+.expandDocList tbody tr.odd{
     background-color: #F5F5F5;
 }
-.regDocList th{
+.expandDocList th{
     padding: 10px;
 }
 

@@ -21,27 +21,27 @@
 {% if section.regulations_text %}
   <h5>Mentions in Document Text</h5>
 
-  <div class="regTableHead">
-      <div class="toggle active"></div>
-      <div class="regColCount">Mentions</div>
-      <div class="regColSmall">Agency</div>
-      <div class="regColLarge">Docket</div>
-      <div class="regColDate">Date</div>
+  <div class="expandTableHead">
+      <div class="expandCol toggle active"></div>
+      <div class="expandCol regColCount">Mentions</div>
+      <div class="expandCol regColSmall">Agency</div>
+      <div class="expandCol regColLarge">Docket</div>
+      <div class="expandCol regColDate">Date</div>
       <div class="clear"></div>
   </div>
-  <div class='regTable' id="regulations_text">
+  <div class='expandTable' id="regulations_text" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_text_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
     {% for row in section.regulations_text %}
-    <div class="{% cycle 'even' 'odd' %} regTableRow">
-        <div class="toggle"><a class="toggle">Toggle</a></div>
-        <div class="regColCount">{{ row.count }}</div>
-        <div class="regColSmall">{{ row.agency }}</div>
-        <div class="regColLarge">
+    <div class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
+        <div class="expandCol toggle"><a class="toggle">Toggle</a></div>
+        <div class="expandCol regColCount">{{ row.count }}</div>
+        <div class="expandCol regColSmall">{{ row.agency }}</div>
+        <div class="expandCol regColLarge">
             <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
         </div>
-        <div class="regColDate">{{ row.year }}</div>
+        <div class="expandCol regColDate">{{ row.year }}</div>
         <div class="clear"></div>
         <div class="loading"></div>
-        <div class="regDocList"></div>
+        <div class="expandDocList"></div>
     </div>
     {% endfor %}
   </div>
@@ -50,27 +50,27 @@
 {% if section.regulations_submitter %}
   <h5>Documents Submitted by the Organization</h5>
   
-  <div class="regTableHead">
-      <div class="toggle active"></div>
-      <div class="regColCount">Submissions</div>
-      <div class="regColSmall">Agency</div>
-      <div class="regColLarge">Docket</div>
-      <div class="regColDate">Date</div>
+  <div class="expandTableHead">
+      <div class="expandCol toggle active"></div>
+      <div class="expandCol regColCount">Submissions</div>
+      <div class="expandCol regColSmall">Agency</div>
+      <div class="expandCol regColLarge">Docket</div>
+      <div class="expandCol regColDate">Date</div>
       <div class="clear"></div>
   </div>
-  <div class='regTable' id="regulations_submitter">
+  <div class='expandTable' id="regulations_submitter" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_submitter_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
     {% for row in section.regulations_submitter %}
-    <div class="{% cycle 'even' 'odd' %} regTableRow">
-        <div class="toggle"><a class="toggle">Toggle</a></div>
-        <div class="regColCount">{{ row.count }}</div>
-        <div class="regColSmall">{{ row.agency }}</div>
-        <div class="regColLarge">
+    <div class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
+        <div class="expandCol toggle"><a class="toggle">Toggle</a></div>
+        <div class="expandCol regColCount">{{ row.count }}</div>
+        <div class="expandCol regColSmall">{{ row.agency }}</div>
+        <div class="expandCol regColLarge">
             <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
         </div>
-        <div class="regColDate">{{ row.year }}</div>
+        <div class="expandCol regColDate">{{ row.year }}</div>
         <div class="clear"></div>
         <div class="loading"></div>
-        <div class="regDocList"></div>
+        <div class="expandDocList"></div>
     </div>
     {% endfor %}
   </div>
@@ -96,7 +96,7 @@
   <thead>
     <tr>
       <th>Document</th>
-      <% if (type == "text") { %>
+      <% if (typeof(documents[0].files) != "undefined") { %>
       <th>View</th>
       <% } %>
       <th>Date</th>
@@ -106,7 +106,7 @@
   <% for (var i = 0; i < documents.length; i++) { %>
     <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
       <td class="regDoc"><a href="http://www.regulations.gov/#!documentDetail;D=<%=documents[i].document_id%>" title="<%=documents[i].document_id%>"><%=documents[i].title%></a></td>
-      <% if (type == "text") { %>
+      <% if (typeof(documents[i].files) != "undefined") { %>
         <td class="regDocDl">
         <% for (var j = 0; j < documents[i].files.length; j++) { %>
           <a href="http://www.regulations.gov/contentStreamer?objectId=<%=documents[i].files[j].object_id%>&disposition=inline&contentType=<%=documents[i].files[j].file_type%>" class="<%=documents[i].files[j].file_type%>">Download <%=documents[i].files[j].file_type.toUpperCase()%></a>
@@ -123,44 +123,58 @@
 <script type="text/javascript">
   $(function() {
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    var template = _.template($('#regPopDownTemplate').html());
+    var templates = [];
     
-    $('.regTableRow a.toggle').click(function() {
-      var $this = $(this);
-      var $row = $this.parents('.regTableRow');
-      var $popdown = $row.find('.regDocList');
-      var $loading = $row.find('.loading');
-      
-      if ($popdown.is(':visible')) {
-        $popdown.slideUp('fast');
-        $this.removeClass('active');
-      } else {
-        if (!$popdown.find('table').length) {
-          var type = $row.parents('.regTable').get(0).id.split('_')[1];
-          var docket = $row.find('a.docketTitle').attr('title');
-          var entity = document.location.pathname.split('/').pop();
-          
-          var url = '{{ AGGREGATES_API_BASE_URL }}aggregates/org/' + entity +
-            '/regulations_' + type + '_by_docket/' + docket +
-            '.json?apikey={{ API_KEY }}&cycle=-1&callback=?';
-          
-          $loading.slideDown('fast');
-          $.getJSON(url, function(data) {
-            var table = template({'documents': $.map(data, function(row) {
-              date = row.date_posted.split('-');
-              return $.extend(row, {'nice_date': months[parseInt(date[1], 10) - 1] + ' ' + parseInt(date[2], 10) + ', ' + date[0]});
-            }), 'type': type});
-            $popdown.append(table);
-            
-            $loading.slideUp('fast');
-            $popdown.slideDown('fast');
-          })
-        } else {
-          $popdown.slideDown('fast');
-        }
+    $('.expandTable').each(function() {
+      var $table = $(this);
+      var expand_url = $table.attr('data-expand-url');
         
-        $this.addClass('active');
+      var template_name = $table.attr('data-expand-template');
+      if (typeof(templates[template_name]) == 'undefined') {
+        templates[template_name] = _.template($(template_name).html())
       }
+      var template = templates[template_name];
+      
+      $table.find('.expandTableRow a.toggle').click(function() {
+        var $this = $(this);
+        var $row = $this.parents('.expandTableRow');
+        var $popdown = $row.find('.expandDocList');
+        var $loading = $row.find('.loading');
+        
+        if ($popdown.is(':visible')) {
+          $popdown.slideUp('fast');
+          $this.removeClass('active');
+        } else {
+          if (!$popdown.hasClass('loaded')) {
+            var id = $row.attr('data-expand-id');
+            
+            var url = expand_url.replace('{id}', id);
+            
+            $loading.slideDown('fast');
+            $.getJSON(url, function(data) {
+              var table = template({'documents': $.map(data, function(row) {
+                var out = $.extend({}, row);
+                if (typeof(row.date_posted) != 'undefined') {
+                  var date = row.date_posted.split('-');
+                  $.extend(out, {'nice_date': months[parseInt(date[1], 10) - 1] + ' ' + parseInt(date[2], 10) + ', ' + date[0]});
+                }
+                return out;
+              })});
+              
+              $popdown.append(table);
+              
+              $loading.slideUp('fast');
+              $popdown.slideDown('fast');
+              
+              $popdown.addClass('loaded');
+            })
+          } else {
+            $popdown.slideDown('fast');
+          }
+          
+          $this.addClass('active');
+        }
+      });
     });
   });
 </script>
