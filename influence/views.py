@@ -391,7 +391,7 @@ def org_faca_section(entity_id, name, cycle):
         'template': 'org_faca.html',
     }
     
-    section['faca'] = api._get_url_json('aggregates/org/%s/faca.json' % entity_id, cycle=cycle)
+    section['faca'] = api.org.faca(entity_id, cycle=cycle)
     
     return section
 
