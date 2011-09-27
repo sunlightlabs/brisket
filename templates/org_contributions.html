@@ -52,10 +52,10 @@
             </tr>
         </thead>
         <tbody>
-        {% for recipient_entity, recipient_name, amount in section.bundling_data %}
+        {% for recipient_entity, recipient_name, recipient_type, amount in section.bundling_data %}
         <tr class="{% cycle 'even' 'odd' %}">
             <td>
-                <a href="/politician/{{recipient_name|slugify}}/{{recipient_entity}}">{{ recipient_name|standardize_politician_name }}</a>
+                {% if recipient_entity %}<a href="/{{recipient_type}}/{{recipient_name|slugify}}/{{recipient_entity}}">{% endif %}{{ recipient_name|standardize_politician_name }}{% if recipient_entity %}</a>{% endif %}
             </td>
             <td>${{ amount|floatformat:0|intcomma }}</td>
         </tr>
