@@ -192,9 +192,8 @@ def org_industry_entity(request, entity_id, type):
         context['sections']['epa_echo'] = \
             org_epa_echo_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], metadata['entity_info']['totals'])
     
-    # no criteria yet to decide whether or not to include FACA, so just assume yes
-    context['sections']['faca'] = \
-        org_faca_section(entity_id, standardized_name, cycle)
+    if 'faca' in metadata and metadata['faca']:
+        context['sections']['faca'] = org_faca_section(entity_id, standardized_name, cycle)
     
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
