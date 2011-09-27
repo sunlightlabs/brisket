@@ -192,6 +192,10 @@ def org_industry_entity(request, entity_id, type):
         context['sections']['epa_echo'] = \
             org_epa_echo_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], metadata['entity_info']['totals'])
     
+    # no criteria yet to decide whether or not to include FACA, so just assume yes
+    context['sections']['faca'] = \
+        org_faca_section(entity_id, standardized_name, cycle)
+    
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
@@ -375,6 +379,16 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
     
     section['regulations_text'] = api.org.regulations_text(entity_id, cycle)
     section['regulations_submitter'] = api.org.regulations_submitter(entity_id, cycle)
+    
+    return section
+    
+def org_faca_section(entity_id, name, cycle):
+    section = {
+        'name': 'Federal Advisory Committees',
+        'template': 'org_faca.html',
+    }
+    
+    section['faca'] = api._get_url_json('aggregates/org/%s/faca.json' % entity_id, cycle=cycle)
     
     return section
 
