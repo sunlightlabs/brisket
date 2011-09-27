@@ -9,7 +9,6 @@ selenium
 django-indexer
 django-paging
 django-sentry
--e git://github.com/sunlightlabs/name-cleaver.git#egg=name-cleaver
 -e git://github.com/sunlightlabs/django-simplepay.git#egg=simplepay
 -e git://github.com/sunlightlabs/django-feedinator.git#egg=feedinator
 gunicorn
