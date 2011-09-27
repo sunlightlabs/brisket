@@ -23,7 +23,7 @@
       <div class="expandCol facaColLarge">Representation</div>
       <div class="clear"></div>
   </div>
-  <div class='expandTable' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/faca/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#facaPopDownTemplate">
+  <div class='expandTable' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/faca/{id}.json?apikey={{ API_KEY }}&cycle={{cycle}}&callback=?' data-expand-template="#facaPopDownTemplate">
     {% for row in section.faca %}
     <div class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.agency_abbr }}">
         <div class="expandCol toggle"><a class="toggle">Toggle</a></div>
