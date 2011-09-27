@@ -36,7 +36,7 @@
         <div class="expandCol regColCount">{{ row.count }}</div>
         <div class="expandCol regColSmall">{{ row.agency }}</div>
         <div class="expandCol regColLarge">
-            <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
+            <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}" target="_new">{{ row.title }}</a>
         </div>
         <div class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</div>
         <div class="clear"></div>
@@ -65,7 +65,7 @@
         <div class="expandCol regColCount">{{ row.count }}</div>
         <div class="expandCol regColSmall">{{ row.agency }}</div>
         <div class="expandCol regColLarge">
-            <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
+            <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}" target="_new">{{ row.title }}</a>
         </div>
         <div class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</div>
         <div class="clear"></div>
@@ -105,11 +105,11 @@
   <tbody>
   <% for (var i = 0; i < documents.length; i++) { %>
     <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
-      <td class="regDoc"><a href="http://www.regulations.gov/#!documentDetail;D=<%=documents[i].document_id%>" title="<%=documents[i].document_id%>"><%=documents[i].title%></a></td>
+      <td class="regDoc"><a href="http://www.regulations.gov/#!documentDetail;D=<%=documents[i].document_id%>" title="<%=documents[i].document_id%>" target="_new"><%=documents[i].title%></a></td>
       <% if (typeof(documents[i].files) != "undefined") { %>
         <td class="regDocDl">
         <% for (var j = 0; j < documents[i].files.length; j++) { %>
-          <a href="http://www.regulations.gov/contentStreamer?objectId=<%=documents[i].files[j].object_id%>&disposition=inline&contentType=<%=documents[i].files[j].file_type%>" class="<%=documents[i].files[j].file_type%>">Download <%=documents[i].files[j].file_type.toUpperCase()%></a>
+          <a href="http://www.regulations.gov/contentStreamer?objectId=<%=documents[i].files[j].object_id%>&disposition=inline&contentType=<%=documents[i].files[j].file_type%>" class="<%=documents[i].files[j].file_type%>" target="_new">Download <%=documents[i].files[j].file_type.toUpperCase()%></a>
         <% } %>
         </td>
       <% } %>
