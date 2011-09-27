@@ -38,7 +38,7 @@
         <div class="expandCol regColLarge">
             <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
         </div>
-        <div class="expandCol regColDate">{{ row.year }}</div>
+        <div class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</div>
         <div class="clear"></div>
         <div class="loading"></div>
         <div class="expandDocList"></div>
@@ -67,7 +67,7 @@
         <div class="expandCol regColLarge">
             <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}">{{ row.title }}</a>
         </div>
-        <div class="expandCol regColDate">{{ row.year }}</div>
+        <div class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</div>
         <div class="clear"></div>
         <div class="loading"></div>
         <div class="expandDocList"></div>
