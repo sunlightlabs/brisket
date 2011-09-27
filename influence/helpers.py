@@ -69,7 +69,7 @@ def get_metadata(entity_id, cycle, entity_type):
             'fed_spending':['loan_count', 'grant_count', 'contract_count'],
             'earmarks': ['earmark_count'],
             'contractor_misconduct': ['contractor_misconduct_count'],
-            'regulations': ['regs_document_count'],
+            'regulations': ['regs_document_count', 'regs_submitted_document_count'],
             'epa_echo': ['epa_actions_count'],
             'faca': ['faca_committee_count', 'faca_member_count']},
         'industry': {
