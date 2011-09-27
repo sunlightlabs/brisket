@@ -32,7 +32,7 @@
         <div class="expandCol toggle"><a class="toggle">Toggle</a></div>
         <div class="expandCol facaColLarge">{{ row.agency_name }}</div>
         <div class="expandCol facaColLarge">
-            {{ row.member_count }} people on {{ row.committee_count }} committees
+            {{ row.member_count }} {{ row.member_count|pluralize:'person,people' }} on {{ row.committee_count }} committee{{ row.committee_count|pluralize }}
         </div>
         <div class="clear"></div>
         <div class="loading"></div>
