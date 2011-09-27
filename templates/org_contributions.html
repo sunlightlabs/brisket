@@ -1,3 +1,6 @@
+{% load humanize %}
+{% load influence_extras %}
+
 <div class="twoColumn chartWrapper">
   <div class="chart">
     {% if section.recipients_barchart_data %}
@@ -37,3 +40,28 @@
     </div>
   </div>
 </div>
+
+{% if section.bundling_data %}
+  <div class="twoColumn chartWrapper">
+    <h4 class="withTip">Top Bundled Contributions</h4>
+    <table class="twoColumn">
+        <thead>
+            <tr>
+                <th>Recipient</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for recipient_entity, recipient_name, amount in section.bundling_data %}
+        <tr class="{% cycle 'even' 'odd' %}">
+            <td>
+                <a href="/individual/{{recipient_name|slugify}}/{{recipient_entity}}">{{ recipient_name|standardize_politician_name }}</a>
+            </td>
+            <td>${{ amount|floatformat:0|intcomma }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  </div>
+{% endif %}
+

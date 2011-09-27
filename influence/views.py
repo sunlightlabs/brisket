@@ -264,9 +264,12 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 
     section['cut_off_sparkline_at_step'] = cut_off_at_step
     section['sparkline_data'] = json.dumps(api.org.sparkline_by_party(entity_id, cycle))
-    
+
     section['external_links'] = external_sites.get_contribution_links(type, standardized_name, external_ids, cycle)
-    
+
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name amount'.split()] for x in bundling ]
+
     return section
 
 
@@ -506,7 +509,10 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     section['partytime_link'], section['partytime_data'] = external_sites.get_partytime_data(external_ids)
     
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name, external_ids, cycle)
-    
+
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
+
     return section
 
 
@@ -602,9 +608,11 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
         and not section['party_breakdown']):
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'
-    
+
     section['external_links'] = external_sites.get_contribution_links('individual', standardized_name, external_ids, cycle)
-    
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name amount'.split()] for x in bundling ]
+
     return section
 
 

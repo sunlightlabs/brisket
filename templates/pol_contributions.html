@@ -1,3 +1,6 @@
+{% load humanize %}
+{% load influence_extras %}
+
 <div class="twoColumn chartWrapper">
   <div class="chart">
     {% if section.industries_barchart_data %}
@@ -90,6 +93,31 @@
     </table>
   </div>
   {% endif %}
+{% endif %}
+
+{% if section.bundling_data %}
+  <div class="twoColumn chartWrapper">
+    <h4 class="withTip">Top Lobbyist Bundled Contributions</h4>
+    <table class="twoColumn">
+        <thead>
+            <tr>
+                <th>Bundler</th>
+                <th>Amount</th>
+            </tr> 
+        </thead>
+        <tbody>
+        {% for lobbyist_entity, lobbyist_name, firm_entity, firm_name, amount in section.bundling_data %}
+        <tr class="{% cycle 'even' 'odd' %}">
+            <td>
+            {% if lobbyist_entity and lobbyist_entity != firm_entity %}
+            <a href="/individual/{{lobbyist_name|slugify}}/{{lobbyist_entity}}">{{ lobbyist_name|standardize_individual_name }}</a>,
+            {% endif %}<a href="/organization/{{firm_name|slugify}}/{{firm_entity}}">{{ firm_name }}</a></td>
+            <td>${{ amount|floatformat:0|intcomma }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  </div>
 {% endif %}
 
 <div class="clear"></div>
