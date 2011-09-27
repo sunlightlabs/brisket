@@ -36,7 +36,7 @@
 <div id="miniNav" class="withBg">
     <ul>
         {% for section_id, section in sections.items %}
-            <li><a href="#{{ section_id }}">{{ section.name }}</a></li>
+            <li><a href="#{{ section_id }}_section">{{ section.name }}</a></li>
         {% endfor %}
     </ul>
 </div>
@@ -68,7 +68,7 @@
 
 {% block sections %}
 {% for section_id, section in sections.items %}
-	<a name={{ section_id }}></a>
+	<a name="{{ section_id }}_section"></a>
 	{% include section.template with section=section section_id=section_id %}
 {% endfor %}
 {% endblock %}
