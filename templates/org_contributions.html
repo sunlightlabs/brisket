@@ -55,7 +55,7 @@
         {% for recipient_entity, recipient_name, amount in section.bundling_data %}
         <tr class="{% cycle 'even' 'odd' %}">
             <td>
-                <a href="/individual/{{recipient_name|slugify}}/{{recipient_entity}}">{{ recipient_name|standardize_politician_name }}</a>
+                <a href="/politician/{{recipient_name|slugify}}/{{recipient_entity}}">{{ recipient_name|standardize_politician_name }}</a>
             </td>
             <td>${{ amount|floatformat:0|intcomma }}</td>
         </tr>
