@@ -387,7 +387,7 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
     
 def org_faca_section(entity_id, name, cycle):
     section = {
-        'name': 'Federal Advisory Committees',
+        'name': 'Advisory Committees',
         'template': 'org_faca.html',
     }
     
