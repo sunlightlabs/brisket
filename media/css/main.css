@@ -188,7 +188,7 @@ dt.employees { background-color: #efcc01;}
 dt.pac { background-color: #f27e01;}
 
 .secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
-.lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li { float: left; margin-right: 10px;}
+.lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li, .earmark-requests li { float: left; margin-right: 10px;}
 .lobbyistsOrgs, .ecards li, .issuesLobied { margin-bottom: 30px;}
 
 table .even, li.even, div.even{ background-color: #f5f4f4;}
@@ -309,7 +309,7 @@ a#aboutLink { border-right: 1px solid #cecec9; padding-right: 20px; margin-right
 .cell-earmark-description { width: 690px; }
 
 .cell-earmark-members li { list-style-type: disc; }
-.earmark_mainDescription { margin-bottom: 15px;}
+.earmark_mainDescription { margin-bottom: 8px; display: block;}
 .moreEarmarks { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-left: 15px;}
 
 .inArticle { float: left; width: 130px; background-color: #f9ea99; padding: 10px 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px;  border:1px solid #EFCB01; }
@@ -440,6 +440,31 @@ dl.related{
 #miniNav.withBg{
     margin-top: 0;
     margin-bottom: 25px;
+}
+
+.advisoryMembers li { margin-left: 25px;}
+
+
+/*EPA*/
+
+span.numerous{
+    font-weight: 700;
+}
+
+tbody.numerous{
+    border-top: 4px solid #D5D4D5;
+}
+
+tr.numerous{
+    font-style: italic;
+    color: #949494;
+}
+tr.numerous a{
+    color: #549ab3;
+}
+
+table .even.numerous{
+    background-color: #f9f9f9;
 }
 
 

@@ -45,10 +45,12 @@
     <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
       <td>
         <strong><%=documents[i].committee_name%></strong><br />
-        <strong>Members:</strong>
-        <% for (var j = 0; j < documents[i].memberships.length; j++) { %>
-          <%=documents[i].memberships[j].member_name%> (<%=documents[i].memberships[j].affiliation%>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%>)<% if (j != documents[i].memberships.length - 1) { %>, <% } %>
-        <% } %>
+        Members:
+        <ul class="advisoryMembers">
+            <% for (var j = 0; j < documents[i].memberships.length; j++) { %>
+              <li><%=documents[i].memberships[j].member_name%> <span class="tip">(<%=documents[i].memberships[j].affiliation%>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%>)</span><% if (j != documents[i].memberships.length - 1) { %>, <% } %></li>
+            <% } %>
+        </ul>
       </td>
     </tr>
   <% } %>
