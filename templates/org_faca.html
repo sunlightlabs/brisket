@@ -16,30 +16,27 @@
 <div class="chartModule">
 
 {% if section.faca %}
-
-  <div class="expandTableHead">
-      <div class="expandCol toggle active"></div>
-      <div class="expandCol facaColLarge">Agency</div>
-      <div class="expandCol facaColLarge">Representation</div>
-      <div class="clear"></div>
+      <ul class="expandTableHead">
+          <li class="expandCol toggle noshow"></li>
+          <li class="expandCol facaColLarge">Agency</li>
+          <li class="expandCol facaColLarge">Representation</li>
+      </ul>
+      <ul class='expandTable clear' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/faca/{id}.json?apikey={{ API_KEY }}&cycle={{cycle}}&callback=?' data-expand-template="#facaPopDownTemplate">
+            {% for row in section.faca %}
+            <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.agency_abbr }}">
+                <a class="expandCol toggle">Toggle</a>
+                <span class="expandCol facaColLarge">{{ row.agency_name }}</span>
+                <span class="expandCol facaColLarge">
+                    {{ row.member_count }} {{ row.member_count|pluralize:'person,people' }} on {{ row.committee_count }} committee{{ row.committee_count|pluralize }}
+                </span>
+                <div class="clear"></div>
+                <div class="loading"></div>
+                <div class="expandDocList"></div>
+            </li>
+            {% endfor %}
+      </ul>
+    {% endif %}
   </div>
-  <div class='expandTable' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/faca/{id}.json?apikey={{ API_KEY }}&cycle={{cycle}}&callback=?' data-expand-template="#facaPopDownTemplate">
-    {% for row in section.faca %}
-    <div class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.agency_abbr }}">
-        <div class="expandCol toggle"><a class="toggle">Toggle</a></div>
-        <div class="expandCol facaColLarge">{{ row.agency_name }}</div>
-        <div class="expandCol facaColLarge">
-            {{ row.member_count }} {{ row.member_count|pluralize:'person,people' }} on {{ row.committee_count }} committee{{ row.committee_count|pluralize }}
-        </div>
-        <div class="clear"></div>
-        <div class="loading"></div>
-        <div class="expandDocList"></div>
-    </div>
-    {% endfor %}
-  </div>
-{% endif %}
-
-</div>
 
 <script type="text/html" id="facaPopDownTemplate">
 <table>

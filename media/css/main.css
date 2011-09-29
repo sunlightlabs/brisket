@@ -19,17 +19,15 @@ body {
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
+.home p { margin-bottom: 1em;}
 div#pageMain, div#footer { width: 960px; margin: 0 auto; }
-
-#brandingbar input { width: 85px; padding: 3px 3px 2px;}
-body.search #brandingbar, body.home #brandingbar { padding: 3px 0 5px;}
-body.search #sllink, body.home #sllink { margin-top: 3px;}
-
+.clear { clear: both;}
 .graph { position: relative; }
 
-.tip, div.searchBox .results, .inArticle_sm, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
-.withCaps { text-transform: none; }
+.tip, div.searchBox .results, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
 a.moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-top: 20px; display: block;}
+
+/*headers*/
 
 h1 { float: left; padding-top: 85px; margin-bottom: 50px; width: 440px; height: 61px; margin-left: 10px;}
 h1 a { color: #000; text-decoration: none; font-size: 470%; text-transform: uppercase; line-height: 70px; text-indent: -9999em; display: block; background: url(../images/logo.png) top left no-repeat; width: 440px; height: 61px;}
@@ -45,9 +43,11 @@ h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 125%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; font-weight: bold; line-height: 24px;}
 h6, .h6 { font-size: 110%; font-weight: bold;}
 
+
+/*home page*/
+
 div#featureBox { background: url(../images/feature_bgSm.jpg) top left repeat-y; padding: 30px 40px 0; margin-bottom: 50px; height: 155px; }
 div#featureBox h2 { text-transform: uppercase; margin-bottom: 25px; float: left; margin-right: 20px; margin-top: 10px;}
-div#featureSearch input { background: url(../images/searchBox_feature.png) top left no-repeat; width: 400px; height: 40px;}
 div#featureBox p { color: #7d7777; font-size: 120%; width: 620px; margin-bottom: 0px; line-height: 24px;}
 div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
@@ -73,24 +73,22 @@ div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: upperca
 
 .contentModule { margin-bottom: 40px;}
 
-#badge { text-indent: -9999em; display: block; background: url(../images/badge.png) top left no-repeat; position: absolute; width: 90px; height: 90px; margin: -30px 0 0 -105px;}
 #badgeHeader { text-indent: -9999em; display: block; background: url(../images/badgeHeader.png) center top no-repeat; width: 169px; height: 77px; margin-bottom: 20px;}
 
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
-#contentHeader img, .reps img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
-
-span.revolvingDoor { font-weight: bold; font-size: 105%; }
+#contentHeader img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
 
 #mainContent .corporateLogo { float: right; height: 45px; border: 0px; width: auto; max-width: 180px; max-height: 80px; margin-top: -40px; margin-right: 0;}
 
 div.searchBox ul { margin-top: 15px; }
 div.searchBox h3 { clear: both; }
-div.searchBox li, #tableList li { padding: 10px;}
+div.searchBox li { padding: 10px;}
 div.searchBox a { float: left; margin-right: 10px;}
 div.searchBox p.description a { float: none; margin-right: 0px; }
 div.searchBox p.description, #postcardDescription { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
-span.amountGiven { display: block; float: right;}
-span.transactions { float: left; font-style: oblique; color: #827D7D; font-family: Georgia, Times New Roman, Times, serif;}
+
+div#search { float: right; padding-top: 20px;}
+div#search .tip { text-align: right; display: block; margin-right: 90px;}
 
 dl { margin-top: 15px;}
 .noshow { display: none; }
@@ -99,9 +97,6 @@ dd { float: left; margin-right: 15px;}
 
 table dl { margin-top: 0;}
 table dd { width: 320px;}
-
-div#search { float: right; padding-top: 20px;}
-div#search .tip { text-align: right; display: block; margin-right: 90px;}
 
 div#nav li { float: left; }
 div#nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
@@ -116,7 +111,6 @@ li#industries a { background: url(../images/nav_industries.png) left 1px no-repe
 li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries.png) left -60px no-repeat; }
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
-input#id_search { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
 div#outerwrapper { background: url(../images/bg.jpg) top left repeat-x #edede6; }
 div#wrapper { background: url(../images/corner.jpg) top right no-repeat;}
@@ -152,18 +146,12 @@ li#sparklines_legend_d { color: #186582; }
 .overviewBar.active .toggle { background: url(../images/toggle.png) bottom left no-repeat;}
 .overviewBar .toggle { float: left; font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 22px;}
 
-div#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px; text-align: center; margin: 2px 10px 60px; }
-div#footerLinks a { text-transform: uppercase; text-decoration: none; font-size: 120%; }
-a#aboutLink { border-right: 1px solid #cecec9; padding-right: 20px; margin-right: 20px; }
-
-a.detailsLink { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 120%; text-transform: lowercase; }
 .module { padding: 0 40px;}
 .chartModule { padding: 0 5px 30px 40px; }
 
 #ltColumn { padding: 0 30px 0 40px; width: 650px; float: left; overflow: hidden;}
 #rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px}
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
-#mainContent .withBgLeft { background: url(../images/bg_postcard.jpg) top left repeat-y; }
 
 div.chartWrapper {   margin-right: 35px; margin-bottom: 55px;}
 div.oneColumn { width: 270px; float: left;}
@@ -172,9 +160,7 @@ div.oneColumn { width: 270px; float: left;}
 .chartWrapper table { margin-top: 15px;}
 
 div.chart { height: 250px;}
-div.chartDoubleHeight { height: 400px;}
 div.chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
-div.chartWrapper a.detailsLink { margin-top: 25px; display: block;}
 
 .piechart { margin-top: 20px;}
 span.amount { float: left; margin-right: 5px;}
@@ -218,7 +204,7 @@ table#mainPageTable { width: 650px; margin-top: 30px;}
 table#mainPageTable img { border: 2px solid #e0e0df; width: 40px; }
 td.photo { width: 50px;}
 tr#titles th.photo { text-indent: -9999em;}
-table#mainPageTable th, #earmarksTable th, #partyTime th { padding: 0 10px 10px 15px;}
+table#mainPageTable th, #earmarksTable th, #partyTime th, .tab-area table th  { padding: 0 10px 10px 15px;}
 .mainTable th { padding: 10px;}
 .mainTable { margin-bottom: 55px; }
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
@@ -229,6 +215,10 @@ body.search dt { width: 600px; margin-right: 20px; }
 body.search dt span { font-weight: normal;}
 body.search dd { text-align: right; width: 260px; margin-right: 0;}
 body.search table { margin-top: 15px;}
+
+
+
+/*buttons*/
 
 button, .linkBtn { text-indent: -9999em; display: block; border: none; cursor: pointer;}
 
@@ -257,6 +247,8 @@ button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.pn
 .signupBtn:hover { background: url(../images/btn_signup.png) left bottom no-repeat; }
 .sendCardBtn { background: url(../images/btn_ecard.png) left top no-repeat; width: 259px; height: 45px; margin-left: 120px; margin-top: 20px;}
 
+
+
 form#contact { margin-top: 45px;}
 label { color: #0A6E92; width: 120px; display: block; float: left;}
 input, textarea { border: 1px solid #e0e0df; padding: 5px; width: 300px;}
@@ -267,6 +259,13 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 .checkLabel { display: block; width: auto;  margin: 10px 0 0 120px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 
 .radio { display: block; float: left; width: 15px; margin-right: 10px;}
+
+
+/*footer*/
+
+div#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px; text-align: center; margin: 2px 10px 60px; }
+div#footerLinks a { text-transform: uppercase; text-decoration: none; font-size: 120%; }
+a#aboutLink { border-right: 1px solid #cecec9; padding-right: 20px; margin-right: 20px; }
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 
@@ -280,7 +279,6 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 
 #footerPolicy p { font-size: 90%; line-height: 16px; margin: 15px 0 0 220px; text-align: center; width: 500px; }
 
-.clear { clear: both;}
 
 .relationships { margin-top: 8px; font-size: 90%; line-height: 16px; }
 .relationshipTitle { font-weight: bold; }
@@ -322,9 +320,6 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 
 #articleContent { float: left; margin-right: 25px; width: 365px;}
 
-.inArticle_sm { margin-top: 8px; font-size: 92%; margin-left: 25px;}
-.inArticle_sm h6 { float: left; margin-right: 10px;}
-#moreNews .inArticle_sm li { float: left; margin-right: 5px; margin-bottom: 0;}
 #moreNews li { margin-bottom: 15px;}
 .articleMetaData { margin-bottom: 25px;}
 #moreNews { margin-top: 25px;}
@@ -332,77 +327,17 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 .moneyTitle { margin-top: 6px; font-size: 105%;}
 dt.moneyTitle { margin-top: 8px;}
 
-.topPages li { height: 25px; position: relative; margin: 5px; width: 255px; }
-.topPages li a:link, .topPages li a:active, .topPages li a:visited, .inArticle li a:link, .inArticle li a:active, .inArticle li a:visited  { color: #666666; font-size: 95%;}
-.topPages li a { float: left;}
-.topPages li .rankBar { position: absolute; height: 25px; top: 0px; left: 0px; background: #efcb01; }
-.topPages li .rankItem { position: absolute; height: 25px; top: 0px; left: 0px; line-height: 25px; overflow: hidden; white-space: nowrap; padding-left: 5px; }
-.topPages .results { position: absolute; left: 200px; font-size: 92%;}
-.percent0 { width: 0%;} .percent1{width: 1%;} .percent2{width: 2%;} .percent3{width: 3%;} .percent4{width: 4%;} .percent5{width: 5%;} .percent6{width: 6%;} .percent7{width: 7%;} .percent8{width: 8%;} .percent9{width: 9%;} .percent10{width: 10%;} .percent11{width: 11%;} .percent12{width: 12%;} .percent13{width: 13%;} .percent14{width: 14%;} .percent15{width: 15%;} .percent16{width: 16%;} .percent17{width: 17%;} .percent18{width: 18%;} .percent19{width: 19%;} .percent20{width: 20%;} .percent21{width: 21%;} .percent22{width: 22%;} .percent23{width: 23%;} .percent24{width: 24%;} .percent25{width: 25%;} .percent26{width: 26%;} .percent27{width: 27%;} .percent28{width: 28%;} .percent29{width: 29%;} .percent30{width: 30%;} .percent31{width: 31%;} .percent32{width: 32%;} .percent33{width: 33%;} .percent34{width: 34%;} .percent35{width: 35%;} .percent36{width: 36%;} .percent37{width: 37%;} .percent38{width: 38%;} .percent39{width: 39%;} .percent40{width: 40%;} .percent41{width: 41%;} .percent42{width: 42%;} .percent43{width: 43%;} .percent44{width: 44%;} .percent45{width: 45%;} .percent46{width: 46%;} .percent47{width: 47%;} .percent48{width: 48%;} .percent49{width: 49%;} .percent50{width: 50%;} .percent51{width: 51%;} .percent52{width: 52%;} .percent53{width: 53%;} .percent54{width: 54%;} .percent55{width: 55%;} .percent56{width: 56%;} .percent57{width: 57%;} .percent58{width: 58%;} .percent59{width: 59%;} .percent60{width: 60%;} .percent61{width: 61%;} .percent62{width: 62%;} .percent63{width: 63%;} .percent64{width: 64%;} .percent65{width: 65%;} .percent66{width: 66%;} .percent67{width: 67%;} .percent68{width: 68%;} .percent69{width: 69%;} .percent70{width: 70%;} .percent71{width: 71%;} .percent72{width: 72%;} .percent73{width: 73%;} .percent74{width: 74%;} .percent75{width: 75%;} .percent76{width: 76%;} .percent77{width: 77%;} .percent78{width: 78%;} .percent79{width: 79%;} .percent80{width: 80%;} .percent81{width: 81%;} .percent82{width: 82%;} .percent83{width: 83%;} .percent84{width: 84%;} .percent85{width: 85%;} .percent86{width: 86%;} .percent87{width: 87%;} .percent88{width: 88%;} .percent89{width: 89%;} .percent90{width: 90%;} .percent91{width: 91%;} .percent92{width: 92%;} .percent93{width: 93%;} .percent94{width: 94%;} .percent95{width: 95%;} .percent96{width: 96%;} .percent97{width: 97%;} .percent98{width: 98%;} .percent99{width: 99%;} .percent100{width: 100%;}
-.topPages { margin-bottom: 20px; }
-
-.politicianDetails { float: left; width: 190px;}
-
-.reps img { width: 50px;}
-.reps li{ margin-bottom: 40px;}
-.reps dl { margin-top: 0;}
-.reps .moreLink { margin-top: 15px;}
-
 #fdbk-contact-widget { margin-left: 40px; margin-right: 40px; margin-top: 20px; }
 
-#id_states { display: none;  margin-top: 15px;}
+.tipHeight { margin-bottom: 25px; display: block;}
 
-#changeLocation, .tipHeight { margin-bottom: 25px; display: block;}
-
-#postcardBox { background: url(../images/bg_postcard.jpg) center top repeat-y; padding: 40px 0;}
-.home #postcardBox  { padding: 0 0 40px;}
-#postcardSearch { background: url(../images/bg_postcardSearch.jpg) center top no-repeat; height: 42px; padding-top: 15px; margin: 25px 0;}
-#postcardBox #postcardSearch label { color: #827d7d; width: auto; margin: 6px 15px 0 0;}
-#postcardSearch input { float: left; width: 200px; margin-right: 10px;}
-#postcardBox label { width: 225px;}
-
-.postcardImage { float: left; }
-.postcardImage img { height: 244px; width: 176px; border: 1px solid #aaaaaa; }
-
-.errorlist {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
-.errorlist li { margin-bottom: 0px !important; }
-
-.cardFront, .cardBack { float: left; margin-right: 25px; margin-bottom: 30px;}
-.cardFront a { width: 227px; height: 315px; position: relative; display: block; }
-.cardBack a { height: 315px; width: 437px; position: relative; display: block; }
-.cardFront img, .cardBack img { border: 1px solid #aaaaaa; }
-.cardFront a:hover img, .cardBack a:hover img { border-color: #dadbd6; }
-.cardFront .plus, .cardBack .plus { border: 0px; display: none; position: absolute; bottom: 10px; right: 10px; }
-.cardFront a:hover .plus, .cardBack a:hover .plus { display: block; }
-.candidate-loading { padding-left: 10px; display: none; height: 12px; width: 12px; }
-
-.beforeyouvote .chart { height: 210px;}
-.beforeyouvote p, .standoutPText { font-size: 115%; line-height: 23px;}
-.home p { margin-bottom: 1em;}
-.beforeyouvote p.tip { font-size: 95%; line-height: 18px;}
-#electionDescription { margin-bottom: 30px;}
-.beforeyouvote h2 { margin-bottom: 25px;}
-
-#postcardBox input[type=image] { width: auto; height: auto; border: 0; margin-left: 150px;}
-.payment-info { text-transform: none; margin-bottom: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; }
-#payment label { width: 150px;}
-#payment form { margin-top: 20px;}
-
-#cardOptions li { margin: 0; float: left;}
-#cardOptions li label { float: none;}
 
 #grantsContracts, #earmarksTable { margin-bottom: 55px;}
 #orderPostcards { margin-top: 10px; padding-top: 40px; border-top: 1px dashed #DCDCD8; }
 
-.electionChart { float: left; margin-right: 10px; font-size: 86%; width: 170px;}
-.electionChart li { line-height: 24px;}
-.electionChart li a:link, .electionChart li a:visited, .electionChart li a:hover, .electionChart li a:active { text-decoration: none;}
-.electionChart li a { overflow: hidden;}
-
 #checkingLogo { background: url(../images/logo_checking.png) top left no-repeat; width: 211px; height: 80px; text-indent: -9999em; display: block; float: left;}
-#checkingLogo_home { margin-bottom: 15px; margin-top: 30px; width: 211px; height: 80px; }
-#checkingLogo_home a { width: 211px; height: 80px; text-indent: -9999em; display: block; background: url(../images/logo_checking.png) top left no-repeat;}
-.standOut, .beforeyouvote .standOut { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 180%; color: #3b3130; line-height: 30px; width: 520px;}
+
+.standOut { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 180%; color: #3b3130; line-height: 30px; width: 520px;}
 .home .standOut { width: auto; font-size: 125%; line-height: 22px;}
 #checkingPrivacy { margin-top: 30px; padding-top: 30px; border-top: 1px dashed #E2DFDF; color: #827d7d;}
 #checkingPrivacy p { font-size: 88%;}
@@ -506,27 +441,9 @@ dl.related{
     margin-top: 0;
     margin-bottom: 25px;
 }
-span.numerous{
-    font-weight: 700;
-}
-
-tbody.numerous{
-    border-top: 4px solid #D5D4D5;
-}
-
-tr.numerous{
-    font-style: italic;
-    color: #949494;
-}
-tr.numerous a{
-    color: #549ab3;
-}
-
-table .even.numerous{
-    background-color: #f9f9f9;
-}
 
 
+/*fec page*/
 
 .tab {
     font-size: 125%;
@@ -547,28 +464,13 @@ table .even.numerous{
     min-height: 100px;
     display: none;
 }
-.tab-area table {
-    background: #ffffff;
-    width: 100%;
-}
-.tab-area table th {
-    padding: 0 10px 10px 15px;
-}
-#fullColumn { padding: 0 30px 0 40px; width: 880px; float: left; overflow: hidden;}
+.tab-area table { background: #ffffff; width: 100%; }
 
-
-.fecThing{
-    width: 100%;
-}
-
-.fecThing .name{
-    font-weight: bold;
-}
+.fecThing .name { font-weight: bold; }
 
 .tab-area table.fecThing tr th{
     padding-top: 10px;
     padding-left: 25px;
-
 }
 
 .tab-area table.fecThing tr th.sort{
@@ -578,3 +480,4 @@ table .even.numerous{
 .fec-display .external{
     margin-bottom: 10px;
 }
+

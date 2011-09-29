@@ -18,58 +18,57 @@
 
 {% if section.regulations_text %}
   <h5>Mentions in Document Text</h5>
-
-  <ul class="expandTableHead">
-      <li class="expandCol toggle noshow"></li>
-      <li class="expandCol regColCount">Mentions</li>
-      <li class="expandCol regColSmall">Agency</li>
-      <li class="expandCol regColLarge">Docket</li>
-      <li class="expandCol regColDate">Date</li>
-      <li class="clear"></li>
-  </ul>
-  <ul class='expandTable' id="regulations_text" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_text_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
-      {% for row in section.regulations_text %}
-      <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
-            <a class="expandCol toggle">Toggle</a>
-            <span class="expandCol regColCount">{{ row.count }}</span>
-            <span class="expandCol regColSmall">{{ row.agency }}</span>
-            <a class="expandCol regColLarge docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}" target="_new">{{ row.title }}</a>
-            <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
-            <div class="clear"></div>
-            <div class="loading"></div>
-            <div class="expandDocList"></div>
-    </li>
-    {% endfor %}
+  <div class="chartWrapper">
+      <ul class="expandTableHead">
+          <li class="expandCol toggle noshow"></li>
+          <li class="expandCol regColCount">Mentions</li>
+          <li class="expandCol regColSmall">Agency</li>
+          <li class="expandCol regColLarge">Docket</li>
+          <li class="expandCol regColDate">Date</li>
+          <li class="clear"></li>
+      </ul>
+      <ul class='expandTable' id="regulations_text" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_text_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
+          {% for row in section.regulations_text %}
+          <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
+                <a class="expandCol toggle">Toggle</a>
+                <span class="expandCol regColCount">{{ row.count }}</span>
+                <span class="expandCol regColSmall">{{ row.agency }}</span>
+                <a class="expandCol regColLarge docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}" target="_new">{{ row.title }}</a>
+                <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
+                <div class="clear"></div>
+                <div class="loading"></div>
+                <div class="expandDocList"></div>
+        </li>
+        {% endfor %}
+      </ul>
   </div>
 {% endif %}
 
 {% if section.regulations_submitter %}
   <h5>Documents Submitted by the Organization</h5>
-  
-  <div class="expandTableHead">
-      <div class="expandCol toggle active"></div>
-      <div class="expandCol regColCount">Submissions</div>
-      <div class="expandCol regColSmall">Agency</div>
-      <div class="expandCol regColLarge">Docket</div>
-      <div class="expandCol regColDate">Date</div>
-      <div class="clear"></div>
-  </div>
-  <div class='expandTable' id="regulations_submitter" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_submitter_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
-    {% for row in section.regulations_submitter %}
-    <div class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
-        <div class="expandCol toggle"><a class="toggle">Toggle</a></div>
-        <div class="expandCol regColCount">{{ row.count }}</div>
-        <div class="expandCol regColSmall">{{ row.agency }}</div>
-        <div class="expandCol regColLarge">
-            <a class="docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}" target="_new">{{ row.title }}</a>
-        </div>
-        <div class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</div>
-        <div class="clear"></div>
-        <div class="loading"></div>
-        <div class="expandDocList"></div>
-    </div>
-    {% endfor %}
-  </div>
+  <div class="chartWrapper">
+      <ul class="expandTableHead">
+          <li class="expandCol toggle noshow"></li>
+          <li class="expandCol regColCount">Submissions</li>
+          <li class="expandCol regColSmall">Agency</li>
+          <li class="expandCol regColLarge">Docket</li>
+          <li class="expandCol regColDate">Date</li>
+      </ul>
+      <ul class='expandTable clear' id="regulations_submitter" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_submitter_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
+            {% for row in section.regulations_submitter %}
+            <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
+                <a class="expandCol toggle">Toggle</a>
+                <span class="expandCol regColCount">{{ row.count }}</span>
+                <span class="expandCol regColSmall">{{ row.agency }}</span>
+                <a class="expandCol regColLarge docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}" target="_new">{{ row.title }}</a>
+                <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
+                <div class="clear"></div>
+                <div class="loading"></div>
+                <div class="expandDocList"></div>
+            </li>
+            {% endfor %}
+      </ul>
+ </div>
 
 {% endif %}
 
