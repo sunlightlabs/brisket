@@ -93,7 +93,7 @@ span.amountGiven { display: block; float: right;}
 span.transactions { float: left; font-style: oblique; color: #827D7D; font-family: Georgia, Times New Roman, Times, serif;}
 
 dl { margin-top: 15px;}
-dt.noshow { display: none;}
+.noshow { display: none; }
 dt { float: left; margin-right: 5px; font-weight: bold; margin-top: 1px;}
 dd { float: left; margin-right: 15px;}
 
@@ -206,8 +206,8 @@ dt.pac { background-color: #f27e01;}
 .lobbyistsOrgs, .ecards li, .issuesLobied { margin-bottom: 30px;}
 
 table .even, li.even, div.even{ background-color: #f5f4f4;}
-td { padding: 10px;}
-th { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; }
+td, .expandDocList th { padding: 10px;}
+th, .expandTableHead li { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; }
 th.left { padding-left: 10px;}
 th.right { padding-right: 10px;}
 .center, td.lawmakerName a { text-align: center;}
@@ -404,7 +404,6 @@ dt.moneyTitle { margin-top: 8px;}
 #checkingLogo_home a { width: 211px; height: 80px; text-indent: -9999em; display: block; background: url(../images/logo_checking.png) top left no-repeat;}
 .standOut, .beforeyouvote .standOut { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 180%; color: #3b3130; line-height: 30px; width: 520px;}
 .home .standOut { width: auto; font-size: 125%; line-height: 22px;}
-#vdayStandout { width: auto; margin-bottom: 40px;}
 #checkingPrivacy { margin-top: 30px; padding-top: 30px; border-top: 1px dashed #E2DFDF; color: #827d7d;}
 #checkingPrivacy p { font-size: 88%;}
 .toolImage { border: 3px solid #e2dfdf; float: left; margin-right: 25px; }
@@ -412,19 +411,6 @@ dt.moneyTitle { margin-top: 8px;}
 #bookmarkTitle { margin-top: 40px;}
 #mainContent .biggerBreak { margin-bottom: 25px;}
 
-.vdayImg { margin: 0 auto 40px; display: block;}
-#vdayForm { margin-left: 200px; list-style-type: none;}
-#vdayHeader { text-align: center;}
-#vdayMessage { text-align: center;}
-#vdayMessage .standOut { display: block; margin: 0 auto 15px;}
-#vdayMessage .message { width: 600px; margin: 0 auto;}
-
-#vdaySignup { margin-top: 50px; background-color: #f2f3ee; padding: 20px;}
-#vdaySignup p { width: 600px; margin-bottom: 15px;}
-#vdaySignup li { margin-bottom: 15px;}
-#vdayLink { margin-bottom: 15px; display: block;}
-
-.vdayShareLinks { float: right; margin-bottom: 15px; width: 50px; }
 #facebookShare { width: 16px; height: 16px; background: url(../images/facebook.png) top left no-repeat; display: block; text-indent: -9999em; float: left; margin-right: 15px;}
 #twitterShare { width: 16px; height: 16px;background: url(../images/twitter.png) top left no-repeat; display: block; text-indent: -9999em; float: left;}
 
@@ -436,42 +422,15 @@ dt.moneyTitle { margin-top: 8px;}
     width: 880px;
 }
 
-.regColSmall{
-    width: 50px;
-}
-.regColCount{
-    width: 85px;
-}
-.regColDate{
-    width: 125px;
-}
-.regColLarge{
-    width: 510px;
-}
-.facaColLarge {
-    width: 400px;
-}
-.expandCol {
-    float: left;
-    padding: 10px;
-}
-.expandTableHead .expandCol {
-    color: #585352;
-    font-weight: bold;
-    padding-bottom: 5px;
-    text-transform: uppercase;
-}
-.expandTable div.toggle, .expandTableHead div.toggle {
-    width: 10px;
-}
-
-.expandTable div.toggle a, .texpandTableHead div.toggle {
-font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px; cursor: pointer;
-}
-
-.expandTableRow div.toggle a.active {
-    font-size: 75%; background: url(../images/toggle.png) top left no-repeat; text-indent: -9999em; display: block; width: 13px; height: 12px; margin-right: 7px; margin-top: 3px;
-}
+.regColSmall { width: 50px; }
+.regColCount { width: 85px; }
+.regColDate { width: 125px; }
+.regColLarge { width: 500px; }
+.facaColLarge { width: 400px; }
+.expandCol { float: left; padding: 10px; }
+.toggle { background: url(../images/toggle.png) bottom left no-repeat; width: 13px; height: 12px; margin-top: 22px; display: block; text-indent: -9999em; margin: 10px; padding: 0;}
+.toggle.active { background: url(../images/toggle.png) top left no-repeat; }
+.toggle.noshow { background: none;}
 
 .expandDocList {
     display: none;
@@ -489,20 +448,13 @@ font-size: 75%; background: url(../images/toggle.png) bottom left no-repeat; tex
 .expandDocList table{
     margin-right: 50px;
     margin-bottom: 25px;
-    width: 675px;
+    width: 660px;
     border-top: 2px solid #e5e5e5;
-    border-bottom: 2px solid #e5e5e5;
 }
 
-.expandDocList tbody tr.even{
-    background-color: #FdFdFd;
-}
-.expandDocList tbody tr.odd{
-    background-color: #F5F5F5;
-}
-.expandDocList th{
-    padding: 10px;
-}
+.expandDocList tbody tr.even { background-color: #FdFdFd; }
+.expandDocList tbody tr.odd { background-color: #F5F5F5; }
+
 
 td.regDoc{
     width: 515px;
@@ -516,37 +468,18 @@ td.regDoc{
     min-width: 125px;
 }
 
-.regDocDl a {
-    text-indent: -9999em;
-    display: block;
-    float: left;
-    width: 20px;
-    height: 20px;
-}
-.regDocDl a.xml, .regDocDl a.html {
-    background: url('../images/document_icons_html.png') top left no-repeat;
-}
-.regDocDl a.pdf{
-    background: url('../images/document_icons_pdf.png') top left no-repeat;
-}
-.regDocDl a.msw, .regDocDl a.msw6, .regDocDl a.msw8 {
-    background: url('../images/document_icons_doc.png') top left no-repeat;
-}
-.regDocDl a.msw12 {
-    background: url('../images/document_icons_docx.png') top left no-repeat;
-}
-.regDocDl a.rtf {
-    background: url('../images/document_icons_rtf.png') top left no-repeat;
-}
-.regDocDl a.txt {
-    background: url('../images/document_icons_text.png') top left no-repeat;
-}
-.regDocDl a.wp8 {
-    background: url('../images/document_icons_wpm.png') top left no-repeat;
-}
+.regDocDl a { text-indent: -9999em; display: block; float: left; width: 24px; height: 24px; }
+
+.regDocDl a.xml, .regDocDl a.html { background: url('../images/document_icons_html.png') top left no-repeat; }
+.regDocDl a.pdf { background: url('../images/document_icons_pdf.png') top left no-repeat; }
+.regDocDl a.msw, .regDocDl a.msw6, .regDocDl a.msw8 { background: url('../images/document_icons_doc.png') top left no-repeat; }
+.regDocDl a.msw12 { background: url('../images/document_icons_docx.png') top left no-repeat; }
+.regDocDl a.rtf { background: url('../images/document_icons_rtf.png') top left no-repeat; }
+.regDocDl a.txt { background: url('../images/document_icons_text.png') top left no-repeat; }
+.regDocDl a.wp8 { background: url('../images/document_icons_wpm.png') top left no-repeat; }
 
 
-#revolvingDoor{
+#revolvingDoor {
     float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
 }
 .individual #revolvingDoor{
