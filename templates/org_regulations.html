@@ -3,16 +3,30 @@
 
 <div class="overviewBar">
   <a class="toggle">Toggle</a>
-  <h3 class="insideBar">Regulations</h3>
-      <div class="insideBar amount">
-          <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
-          <div class="clear"></div>      
-          <div class="descriptorText" id='regulationsDescriptor'>
-              <p>All data is based on documents downloaded from <a href="http://www.regulations.gov">Regulations.gov</a>. The first table shows mentions: all documents that include the name of the company anywhere in the document or document metadata. The second table shows submissions: all documents where the submitter metadata included the company name. Each table shows the top 10 dockets, ranked by number of occurrences.</p>
-              	<p>Matches are based on a search for the company name. Variations in the company name, such as acronyms, nicknames or alternate names may cause documents to be missed. The mention of a company name in a document may be incidental and does not necessarily indicate that the company has any relevance to the document. Company names that are common English words may erroneously match with text that is not referring to the company.</p>
-              	<p>Not all agencies submit public comments to Regulations.gov. For a list of participating agencies see <a href="http://www.regulations.gov/docs/Participating_Agencies.pdf">here</a>. Agencies that do submit to Regulations.gov have varying levels of accuracy and completeness.</p>
-          </div>      
-    </div>
+  <h3 class="insideBar">Regulations,
+    {% ifequal cycle "-1" %}
+      {{entity_info.regulations_years.start|add:-1}} &#150; {{entity_info.regulations_years.end}}
+    {% else %}
+      {{cycle|add:-1}} &#150; {{cycle}}
+    {% endifequal %}
+  </h3>
+  <div class="insideBar amount">
+    <span class="amount">
+      {% if entity_info.totals.regs_docket_count %}
+        {{ entity_info.totals.regs_docket_count }} Mentions{% if entity_info.totals.regs_submitted_docket_count %};{% endif %}
+      {% endif %}
+      {% if entity_info.totals.regs_submitted_docket_count %}
+        {{ entity_info.totals.regs_submitted_docket_count }} Submissions
+      {% endif %}
+    </span>
+    <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
+    <div class="clear"></div>      
+    <div class="descriptorText" id='regulationsDescriptor'>
+      <p>All data is based on documents downloaded from <a href="http://www.regulations.gov">Regulations.gov</a>. The first table shows mentions: all documents that include the name of the company anywhere in the document or document metadata. The second table shows submissions: all documents where the submitter metadata included the company name. Each table shows the top 10 dockets, ranked by number of occurrences.</p>
+      <p>Matches are based on a search for the company name. Variations in the company name, such as acronyms, nicknames or alternate names may cause documents to be missed. The mention of a company name in a document may be incidental and does not necessarily indicate that the company has any relevance to the document. Company names that are common English words may erroneously match with text that is not referring to the company.</p>
+      <p>Not all agencies submit public comments to Regulations.gov. For a list of participating agencies see <a href="http://www.regulations.gov/docs/Participating_Agencies.pdf">here</a>. Agencies that do submit to Regulations.gov have varying levels of accuracy and completeness.</p>
+    </div>      
+  </div>
 </div>
 
 <div class="chartModule">
@@ -32,7 +46,7 @@
           <li class="expandCol regColDate">Date</li>
           <li class="clear"></li>
       </ul>
-      <ul class='expandTable' id="regulations_text" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_text_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
+      <ul class='expandTable' id="regulations_text" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_text_by_docket/{id}.json?apikey={{ API_KEY }}&cycle={{ cycle }}&callback=?' data-expand-template="#regPopDownTemplate">
           {% for row in section.regulations_text %}
           <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
                 <a class="expandCol toggle">Toggle</a>

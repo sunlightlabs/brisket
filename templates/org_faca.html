@@ -3,14 +3,23 @@
 
 <div class="overviewBar">
   <a class="toggle">Toggle</a>
-  <h3 class="insideBar">{{ section.name }}</h3>
-      <div class="insideBar amount">
-          <a class="descriptor" title="More Information" href="#facaDescriptor">Information</a>
-          <div class="clear"></div>      
-          <div class="descriptorText" id='facaDescriptor'>
-          	<p>Data is based on disclosures required by the <a href="http://www.gsa.gov/efaca">Federal Advisory Committee Act (FACA)</a>. Matches are based on the occurrence of the company name in the committee member affiliation. Variations in company names may cause some matches to be missed.</p>
-          	<p>The table shows only the top 10 agencies. To search and download raw records from the complete dataset see <a href="http://transparencydata.com/faca">Transparency Data</a>.</p>
-          </div>      
+  <h3 class="insideBar">{{ section.name }},
+    {% ifequal cycle "-1" %}
+      {{entity_info.faca_years.start|add:-1}} &#150; {{entity_info.faca_years.end}}
+    {% else %}
+      {{cycle|add:-1}} &#150; {{cycle}}
+    {% endifequal %}
+  </h3>
+    <div class="insideBar amount">
+      <span class="amount">
+        {{ entity_info.totals.faca_member_count }} {{ entity_info.totals.faca_member_count|pluralize:'person,people' }} on {{ entity_info.totals.faca_committee_count }} committee{{ entity_info.totals.faca_committee_count|pluralize }}
+      </span>
+      <a class="descriptor" title="More Information" href="#facaDescriptor">Information</a>
+      <div class="clear"></div>      
+      <div class="descriptorText" id='facaDescriptor'>
+        <p>Data is based on disclosures required by the <a href="http://www.gsa.gov/efaca">Federal Advisory Committee Act (FACA)</a>. Matches are based on the occurrence of the company name in the committee member affiliation. Variations in company names may cause some matches to be missed.</p>
+        <p>The table shows only the top 10 agencies. To search and download raw records from the complete dataset see <a href="http://transparencydata.com/faca">Transparency Data</a>.</p>
+      </div>      
     </div>
 </div>
 
@@ -41,8 +50,20 @@
             </li>
             {% endfor %}
       </ul>
+{% endif %}
+
+<div class="clear"></div>
+<div class="external">
+    {% if section.faca_links %}
+    For more information on advisory committees:
+    {% for link in section.faca_links %}
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+    {% endfor %}
     {% endif %}
-  </div>
+</div>
+<div class="clear"></div>
+
+</div>
 
 <script type="text/html" id="facaPopDownTemplate">
 <table>
@@ -50,11 +71,15 @@
   <% for (var i = 0; i < documents.length; i++) { %>
     <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
       <td>
-        <strong><%=documents[i].committee_name%></strong><br />
+        <strong>
+            <a href="http://transparencydata.com/faca/#<%=Base64.encode("committee_name=" + encodeURIComponent(documents[i].committee_name){% if cycle != '-1'%} + "&year={{ cycle|add:-1 }}|{{ cycle }}"{% endif %})%>">
+                <%=documents[i].committee_name%></strong>
+            </a>
+        <br />
         Members:
         <ul class="advisoryMembers">
             <% for (var j = 0; j < documents[i].memberships.length; j++) { %>
-              <li><%=documents[i].memberships[j].member_name%> <span class="tip">(<%=documents[i].memberships[j].affiliation%>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%>)</span><% if (j != documents[i].memberships.length - 1) { %>, <% } %></li>
+              <li><%=documents[i].memberships[j].member_name%> <span class="tip withCaps">(<%=documents[i].memberships[j].affiliation%>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%>)</span></li>
             <% } %>
         </ul>
       </td>
