@@ -8,13 +8,18 @@
           <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
           <div class="clear"></div>      
           <div class="descriptorText" id='regulationsDescriptor'>
-            <p>Methodology goes here.</p>
+              <p>All data is based on documents downloaded from <a href="http://www.regulations.gov">Regulations.gov</a>. The first table shows mentions: all documents that include the name of the company anywhere in the document or document metadata. The second table shows submissions: all documents where the submitter metadata included the company name. Each table shows the top 10 dockets, ranked by number of occurrences.</p>
+              	<p>Matches are based on a search for the company name. Variations in the company name, such as acronyms, nicknames or alternate names may cause documents to be missed. The mention of a company name in a document may be incidental and does not necessarily indicate that the company has any relevance to the document. Company names that are common English words may erroneously match with text that is not referring to the company.</p>
+              	<p>Not all agencies submit public comments to Regulations.gov. For a list of participating agencies see <a href="http://www.regulations.gov/docs/Participating_Agencies.pdf">here</a>. Agencies that do submit to Regulations.gov have varying levels of accuracy and completeness.</p>
           </div>      
     </div>
 </div>
 
 <div class="chartModule">
 
+<div class="fulltext-disclaimer">
+    The tables show occurrences of "{{ entity_info.name|standardize_organization_name }}" in public comments on proposed federal regulations.
+</div>
 
 {% if section.regulations_text %}
   <h5>Mentions in Document Text</h5>
