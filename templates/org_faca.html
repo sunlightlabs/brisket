@@ -11,11 +11,14 @@
     {% endifequal %}
   </h3>
       <div class="insideBar amount">
-          <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
-          <div class="clear"></div>      
-          <div class="descriptorText" id='facaDescriptor'>
-            <p>Methodology goes here.</p>
-          </div>      
+        <span class="amount">
+          {{ entity_info.totals.faca_member_count }} {{ entity_info.totals.faca_member_count|pluralize:'person,people' }} on {{ entity_info.totals.faca_committee_count }} committee{{ entity_info.totals.faca_committee_count|pluralize }}
+        </span>
+        <a class="descriptor" title="More Information" href="#facaDescriptor">Information</a>
+        <div class="clear"></div>      
+        <div class="descriptorText" id='facaDescriptor'>
+          <p>Methodology goes here.</p>
+        </div>      
     </div>
 </div>
 

@@ -10,13 +10,21 @@
       {{cycle|add:-1}} &#150; {{cycle}}
     {% endifequal %}
   </h3>
-      <div class="insideBar amount">
-          <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
-          <div class="clear"></div>      
-          <div class="descriptorText" id='regulationsDescriptor'>
-            <p>Methodology goes here.</p>
-          </div>      
-    </div>
+  <div class="insideBar amount">
+    <span class="amount">
+      {% if entity_info.totals.regs_docket_count %}
+        {{ entity_info.totals.regs_docket_count }} Mentions{% if entity_info.totals.regs_submitted_docket_count %};{% endif %}
+      {% endif %}
+      {% if entity_info.totals.regs_submitted_docket_count %}
+        {{ entity_info.totals.regs_submitted_docket_count }} Submissions
+      {% endif %}
+    </span>
+    <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
+    <div class="clear"></div>      
+    <div class="descriptorText" id='regulationsDescriptor'>
+      <p>Methodology goes here.</p>
+    </div>      
+  </div>
 </div>
 
 <div class="chartModule">
