@@ -59,11 +59,15 @@
   <% for (var i = 0; i < documents.length; i++) { %>
     <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
       <td>
-        <strong><%=documents[i].committee_name%></strong><br />
+        <strong>
+            <a href="http://transparencydata.com/faca/#<%=Base64.encode("committee_name=" + encodeURIComponent(documents[i].committee_name){% if cycle != '-1'%} + "&year={{ cycle|add:-1 }}|{{ cycle }}"{% endif %})%>">
+                <%=documents[i].committee_name%></strong>
+            </a>
+        <br />
         Members:
         <ul class="advisoryMembers">
             <% for (var j = 0; j < documents[i].memberships.length; j++) { %>
-              <li><%=documents[i].memberships[j].member_name%> <span class="tip">(<%=documents[i].memberships[j].affiliation%>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%>)</span><% if (j != documents[i].memberships.length - 1) { %>, <% } %></li>
+              <li><%=documents[i].memberships[j].member_name%> <span class="tip withCaps">(<%=documents[i].memberships[j].affiliation%>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%>)</span></li>
             <% } %>
         </ul>
       </td>

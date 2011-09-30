@@ -46,7 +46,7 @@
           <li class="expandCol regColDate">Date</li>
           <li class="clear"></li>
       </ul>
-      <ul class='expandTable' id="regulations_text" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_text_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
+      <ul class='expandTable' id="regulations_text" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_text_by_docket/{id}.json?apikey={{ API_KEY }}&cycle={{ cycle }}&callback=?' data-expand-template="#regPopDownTemplate">
           {% for row in section.regulations_text %}
           <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
                 <a class="expandCol toggle">Toggle</a>
