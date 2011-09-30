@@ -1,6 +1,3 @@
-<!-- this file is included for individuals that have contributions
-     data to display -->
-
 {% load humanize %}
 
 <div class="overviewBar">
@@ -74,7 +71,7 @@
   
   <div class="external">
     {% if section.external_links or section.partytime_link %}
-    For more information on contributions:
+    For more in-depth information on the complete contribution data see:
     {% for link in section.external_links %}
     <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
     {% endfor %}

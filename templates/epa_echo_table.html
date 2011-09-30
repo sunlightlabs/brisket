@@ -15,7 +15,7 @@
         {% for row in epa_echo %}
 		{% if row.defendants_count = 1 %}
         <tr class="{% cycle 'even' 'odd' %}">
-            <td class="cell-epa-case-name"><a href="http://www.epa-echo.gov/cgi-bin/get1cReport.cgi?IDNumber={{ row.case_id }}&tool=eiciECHO">{{ row.case_name|title }}</a></td>
+            <td class="cell-epa-case-name"><a href="http://www.epa-echo.gov/cgi-bin/get1cReport.cgi?IDNumber={{ row.case_id }}&tool=eiciECHO" target="_blank">{{ row.case_name|title }}</a></td>
             <td class="cell-epa-defendant" title="{{ row.other_defendants|truncatewords:50|title }}">{{row.defendant_name|standardize_organization_name}} {% if row.defendants_count > 1 %} <span class="numerous">(+{{ row.defendants_count|add:"-1" }} others)</span> {% endif %}</td>
             <td class="cell-epa-year" title="{{ row.date_significance }}">{{ row.year }}</td>
             <td class="cell-epa-locations" title="{{ row.location_addresses|truncatewords:50|title }}">{{ row.locations|truncatewords:3|title }}</td>
@@ -28,7 +28,7 @@
 		{% for row in epa_echo %}
 		{% if row.defendants_count > 1 %}
         <tr class="{% cycle 'even' 'odd' %} numerous">
-            <td class="cell-epa-case-name"><a href="http://www.epa-echo.gov/cgi-bin/get1cReport.cgi?IDNumber={{ row.case_id }}&tool=eiciECHO">{{ row.case_name|title }}</a></td>
+            <td class="cell-epa-case-name"><a href="http://www.epa-echo.gov/cgi-bin/get1cReport.cgi?IDNumber={{ row.case_id }}&tool=eiciECHO" target="_blank">{{ row.case_name|title }}</a></td>
             <td class="cell-epa-defendant" title="{{ row.other_defendants|truncatewords:50|title }}">{{row.defendant_name|standardize_organization_name}} {% if row.defendants_count > 1 %} <span class="numerous">(+{{ row.defendants_count|add:"-1" }} others)</span> {% endif %}</td>
             <td class="cell-epa-year" title="{{ row.date_significance }}">{{ row.year }}</td>
             <td class="cell-epa-locations" title="{{ row.location_addresses|truncatewords:50|title }}">{{ row.locations|truncatewords:3|title }}</td>

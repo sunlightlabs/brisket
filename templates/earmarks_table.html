@@ -17,7 +17,7 @@
             <td class='cell-earmark-year'>{{ row.fiscal_year }}</td>
             <td class='cell-earmark-amount'>${{ row.amount|floatformat:0|intcomma }}</td>
             <td class='cell-earmark-description'>
-                <p class="earmark_mainDescription">
+                <span class="earmark_mainDescription"><b>
                     {% for recipient in row.recipients %}
                     {% if recipient.id %}
                     {% if recipient.id == entity_info.id %}
@@ -30,21 +30,21 @@
                     {% endif %}
                     {% endfor %}
                     {{ row.description }}
-                </p>
-				<div class='expandable'>
-					<p class='earmark-requests'>
-						<span><b>Requested by</b></span> 
-						{% for member in row.members %}
-						<span class="requestedList">
-							{% if forloop.last and forloop.counter0 != 0 %}and{% endif %}
-							{% if member.id %}
-								<a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name }}</a>{% if not forloop.last %},{% endif %}
-							{% else %}
-								{{ member.name }}{% if not forloop.last %},{% endif %}
-							{% endif %}
-						</span>
-						{% endfor %}
-					</p>
+                </b></span>
+				<div class='expandable earmark-requests'>
+						<span>Requested by</span> 
+						<ul>
+    						{% for member in row.members %}
+    						<li class="requestedList">
+    							{% if forloop.last and forloop.counter0 != 0 %}and{% endif %}
+    							{% if member.id %}
+    								<a href="/politician/{{ member.name|standardize_politician_name|slugify }}/{{ member.id }}{{cycle|pretty_cycle}}">{{ member.name }}</a>{% if not forloop.last %},{% endif %}
+    							{% else %}
+    								{{ member.name }}{% if not forloop.last %},{% endif %}
+    							{% endif %}
+    						</li>
+    						{% endfor %}
+    					</ul>
 				</div>
             </td>
 	  

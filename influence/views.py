@@ -172,6 +172,10 @@ def org_industry_entity(request, entity_id, type):
         context['sections']['lobbying'] = \
             org_lobbying_section(entity_id, standardized_name, cycle, type, metadata['entity_info']['external_ids'], is_lobbying_firm)
     
+    if 'regulations' in metadata and metadata['regulations']:
+        context['sections']['regulations'] = \
+            org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
+    
     if 'earmarks' in metadata and metadata['earmarks']:
         context['sections']['earmarks'] = \
             org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
@@ -187,6 +191,9 @@ def org_industry_entity(request, entity_id, type):
     if 'epa_echo' in metadata and metadata['epa_echo']:
         context['sections']['epa_echo'] = \
             org_epa_echo_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], metadata['entity_info']['totals'])
+    
+    if 'faca' in metadata and metadata['faca']:
+        context['sections']['faca'] = org_faca_section(entity_id, standardized_name, cycle)
     
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
@@ -256,9 +263,12 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 
     section['cut_off_sparkline_at_step'] = cut_off_at_step
     section['sparkline_data'] = json.dumps(api.org.sparkline_by_party(entity_id, cycle))
-    
+
     section['external_links'] = external_sites.get_contribution_links(type, standardized_name, external_ids, cycle)
-    
+
+    #bundling = api.entities.bundles(entity_id, cycle)
+    #section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type amount'.split()] for x in bundling ]
+
     return section
 
 
@@ -293,12 +303,11 @@ def org_lobbying_section(entity_id, name, cycle, type, external_ids, is_lobbying
             'link': make_bill_link(bill),
             'congress': bill['congress_no'],
         } for bill in api.org.bills(entity_id, cycle) ]
-
+        
         section['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
 
     section['lobbyist_registration_tracker'] = external_sites.get_lobbyist_tracker_data(external_ids)
     
-    print section
     return section
 
 def org_earmarks_section(entity_id, name, cycle, external_ids):
@@ -364,6 +373,27 @@ def org_spending_section(entity_id, name, cycle, totals):
     
     return section
 
+def org_regulations_section(entity_id, name, cycle, external_ids):
+    section = {
+        'name': 'Regulations',
+        'template': 'org_regulations.html',
+    }
+    
+    section['regulations_text'] = api.org.regulations_text(entity_id, cycle)
+    section['regulations_submitter'] = api.org.regulations_submitter(entity_id, cycle)
+    
+    return section
+    
+def org_faca_section(entity_id, name, cycle):
+    section = {
+        'name': 'Advisory Committees',
+        'template': 'org_faca.html',
+    }
+    
+    section['faca'] = api.org.faca(entity_id, cycle=cycle)
+    section['faca_links'] = external_sites.get_faca_links(name, cycle)
+    
+    return section
 
 def organization_entity(request, entity_id):
     return org_industry_entity(request, entity_id, 'organization')
@@ -479,7 +509,10 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     section['partytime_link'], section['partytime_data'] = external_sites.get_partytime_data(external_ids)
     
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name, external_ids, cycle)
-    
+
+    #bundling = api.entities.bundles(entity_id, cycle)
+    #section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
+
     return section
 
 
@@ -575,9 +608,12 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
         and not section['party_breakdown']):
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'
-    
+
     section['external_links'] = external_sites.get_contribution_links('individual', standardized_name, external_ids, cycle)
-    
+
+    #bundling = api.entities.bundles(entity_id, cycle)
+    #section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type amount'.split()] for x in bundling ]
+
     return section
 
 

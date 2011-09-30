@@ -1,6 +1,8 @@
+{% load humanize %}
+{% load influence_extras %}
 
-<div class="twoColumn chartWrapper"> 
-  <div class="chart"> 
+<div class="twoColumn chartWrapper">
+  <div class="chart">
     {% if section.candidates_barchart_data %}
     <h4 class="withTip">Top Politicians</h4>
     <div class="graph" id="recipients_barchart">
@@ -33,6 +35,33 @@
     {% endif %}
   </div>
 </div>
+
+<div class="clear"></div> <!-- start a new row -->
+
+{% if section.bundling_data %}
+  <div class="twoColumn chartWrapper">
+    <h4 class="withTip">Bundled Contributions</h4>
+    <span class="tip">Money raised by the lobbyist from multiple donors on behalf of the recipient. The lobbyist's own contributions are not included.</span>
+    <table class="twoColumn">
+        <thead>
+            <tr>
+                <th>Recipient</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for recipient_entity, recipient_name, recipient_type, amount in section.bundling_data %}
+        <tr class="{% cycle 'even' 'odd' %}">
+            <td>
+                {% if recipient_entity %}<a href="/{{recipient_type}}/{{recipient_name|slugify}}/{{recipient_entity}}">{% endif %}{% if recipient_type == 'politician' %}{{ recipient_name|standardize_politician_name }}{% else %}{{ recipient_name|standardize_organization_name }}{% endif %}{% if recipient_entity %}</a>{% endif %}
+            </td>
+            <td>${{ amount|floatformat:0|intcomma }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  </div>
+{% endif %}
 
 <div class="clear"></div> <!-- start a new row -->
 {% endif %}
