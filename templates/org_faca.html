@@ -50,8 +50,20 @@
             </li>
             {% endfor %}
       </ul>
+{% endif %}
+
+<div class="clear"></div>
+<div class="external">
+    {% if section.faca_links %}
+    For more information on advisory committees:
+    {% for link in section.faca_links %}
+    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
+    {% endfor %}
     {% endif %}
-  </div>
+</div>
+<div class="clear"></div>
+
+</div>
 
 <script type="text/html" id="facaPopDownTemplate">
 <table>

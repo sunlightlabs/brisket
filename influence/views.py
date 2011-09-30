@@ -391,6 +391,7 @@ def org_faca_section(entity_id, name, cycle):
     }
     
     section['faca'] = api.org.faca(entity_id, cycle=cycle)
+    section['faca_links'] = external_sites.get_faca_links(name, cycle)
     
     return section
 

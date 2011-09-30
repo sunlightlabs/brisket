@@ -396,11 +396,11 @@ td.regDoc{
 }
 
 .regDocDl {
-    min-width: 75px;
+    min-width: 85px;
 }
 
 .regDocDate {
-    min-width: 125px;
+    min-width: 115px;
 }
 
 .regDocDl a { text-indent: -9999em; display: block; float: left; width: 24px; height: 24px; }
@@ -413,6 +413,9 @@ td.regDoc{
 .regDocDl a.txt { background: url('../images/document_icons_text.png') top left no-repeat; }
 .regDocDl a.wp8 { background: url('../images/document_icons_wpm.png') top left no-repeat; }
 
+ul#faca {
+    margin-bottom: 15px;
+}
 
 #revolvingDoor {
     float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
