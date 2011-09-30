@@ -509,3 +509,4 @@ table .even.numerous{
     margin-bottom: 10px;
 }
 
+.withCaps { text-transform: none; }
