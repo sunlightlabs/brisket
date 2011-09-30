@@ -116,6 +116,17 @@ def get_epa_links(standardized_name, cycle):
     return links
 
 
+def get_faca_committee_link(committee_name, cycle):
+    td_params = {}
+    if int(cycle) != -1:
+        td_params['year'] = int(cycle) - 1
+        td_params['year'] = int(cycle)
+
+    td_params['committee_name'] = committee_name
+
+    return { 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/faca/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) }
+
+
 def get_lobbying_links(type, standardized_name, ids, cycle):
     links = []
     
