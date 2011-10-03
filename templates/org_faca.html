@@ -72,7 +72,7 @@
     <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
       <td>
         <strong>
-            <a href="http://transparencydata.com/faca/#<%=Base64.encode("committee_name=" + encodeURIComponent(documents[i].committee_name){% if cycle != '-1'%} + "&year={{ cycle|add:-1 }}|{{ cycle }}"{% endif %})%>">
+            <a href="http://transparencydata.com/faca/#<%=Base64.encode("committee_name=" + encodeURIComponent(documents[i].committee_name){% if cycle != '-1'%} + "&year={{ cycle|add:-1 }}|{{ cycle }}"{% endif %})%>" target="_blank">
                 <%=documents[i].committee_name%></strong>
             </a>
         <br />
