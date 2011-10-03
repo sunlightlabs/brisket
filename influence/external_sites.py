@@ -119,8 +119,9 @@ def get_faca_links(standardized_name, cycle):
     links = []
 
     td_params = {}
-    if int(cycle) != -1:
-        td_params['year'] = "{0}|{1}".format(int(cycle) - 1, cycle)
+    # TODO: Fix back-end issue that doesn't allow filtering by more than one year and put this code back in
+    #if int(cycle) != -1:
+    #    td_params['year'] = "{0}|{1}".format(int(cycle) - 1, cycle)
 
     td_params['affiliation'] = standardized_name
 
