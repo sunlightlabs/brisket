@@ -66,9 +66,10 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'mediasync',
     'locksmith.auth',
+    'locksmith.logparse',
+    'dcdata.contribution',
     'dcdata',
     'dcdata.contracts',
-    'dcdata.contribution',
     'dcdata.grants',
     'dcdata.lobbying',
     'dcdata.earmarks',
@@ -94,6 +95,7 @@ LOCKSMITH_STATS_APP = "dcapi"
 LOCKSMITH_STATS_MODEL = "Invocation"
 LOCKSMITH_HUB_URL = "http://services.sunlightlabs.com/analytics/"
 LOCKSMITH_HTTP_HEADER = None
+LOCKSMITH_LOG_PATH = '/var/log/nginx/dc_web_access.log'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
