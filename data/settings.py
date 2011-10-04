@@ -106,7 +106,7 @@ def api_resolve(x):
     else:
         return match.func
 
-LOG_CUSTOM_TRANSFORM = api_resolve
+LOCKSMITH_LOG_CUSTOM_TRANSFORM = api_resolve
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
