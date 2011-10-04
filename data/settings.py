@@ -97,6 +97,17 @@ LOCKSMITH_HUB_URL = "http://services.sunlightlabs.com/analytics/"
 LOCKSMITH_HTTP_HEADER = None
 LOCKSMITH_LOG_PATH = '/var/log/nginx/dc_web_access.log'
 
+from django.core.urlresolvers import resolve
+def api_resolve(x):
+    match = resolve(x)
+    if hasattr(match.func, 'handler'):
+        # resolve piston resources
+        return match.func.handler.__class__.__name__
+    else:
+        return match.func
+
+LOG_CUSTOM_TRANSFORM = api_resolve
+
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 INTERNAL_IPS = ('127.0.0.1','209.190.229.199')
