@@ -129,6 +129,11 @@ MEDIASYNC = {
             'js/underscore-min.js',
             'js/jquery.expander.js'
         ],
+        'bundling.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.bundling.js'
+        ],
         'contracts.js': [
             'js/td.js',
             'js/td.fields.js',
@@ -172,6 +177,7 @@ MEDIASYNC = {
         'index.js': [
             'js/td.js',
             'js/td.fields.js',
+            'js/td.bundling.js',
             'js/td.contracts.js',
             'js/td.earmarks.js',
             'js/td.epa_echo.js',
