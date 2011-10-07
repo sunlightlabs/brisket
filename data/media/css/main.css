@@ -309,19 +309,17 @@ div#nav li a, #dataTabs li a{
 	text-decoration: none;
 }
 
+div#nav li a {
+    font-size: 110%;
+}
+
 div#nav li:hover {
 	background-color: #98CA42;
 	-moz-border-radius: 5px; 
 	-webkit-border-radius: 5px;
 }
 
-body.filtered li#nav_filtered, body.bulkDownloads li#nav_bulk, body.documentation li#nav_docs, body.api li#nav_api {
-	background-color: #98CA42;
-	-moz-border-radius: 5px; 
-	-webkit-border-radius: 5px;
-}
-
-div#nav li:hover a, body.filtered li#nav_filtered a, body.bulkDownloads li#nav_bulk a, body.documentation li#nav_docs a, body.api li#nav_api a{
+div#nav li:hover a, li#nav_bulk a, li#nav_docs a, body.api li#nav_api a{
 	color: #FFF;
 }
 
