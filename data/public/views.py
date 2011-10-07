@@ -32,6 +32,9 @@ def filter_faca(request):
 def filter_contributions(request):
     return render_to_response('filter_contributions.html', context_instance=RequestContext(request))
 
+def filter_bundling(request):
+    return render_to_response('filter_bundling.html', context_instance=RequestContext(request))
+
 def filter_earmarks(request):
     return render_to_response('filter_earmarks.html', context_instance=RequestContext(request))
 
