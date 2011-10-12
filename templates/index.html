@@ -1,107 +1,79 @@
-{% extends "base.html" %}
+{% extends "search_base.html" %}
 {% load influence_extras %}
 {% block body_class %}home{% endblock %}
 
 {% block js %}
 {{ block.super }}
-<script type="text/javascript">
-$(function() {
-  $('form#signupForm').submit(function() {
-    var vals = {email: $('#id_email').val(), zip: $('#id_zip').val()};
-    $(this).slideUp();
-    $('#bbjoin').html('<img src="/media/images/loading.gif" />');
-    $('head').append('<script type="text/javascript" src="http://services.sunlightlabs.com/brandingbar/post_signup/?source=influenceexplorer&email=' + vals.email + '&zip=' + vals.zip + '">');
-    return false;
-  })
-});
-</script>
+    <script type="text/javascript">
+        $(function() {
+          $('form#signupForm').submit(function() {
+            var vals = {email: $('#id_email').val(), zip: $('#id_zip').val()};
+            $(this).slideUp();
+            $('#bbjoin').html('<img src="/media/images/loading.gif" />');
+            $('head').append('<script type="text/javascript" src="http://services.sunlightlabs.com/brandingbar/post_signup/?source=influenceexplorer&email=' + vals.email + '&zip=' + vals.zip + '">');
+            return false;
+          })
+        });
+    </script>
 {% endblock %}
 
 {% block main %}
-<div id="featureBox">
-      <h2>Start Your Search</h2>
-      <form id="searchForm" action="/search" method="get">
-          {{ search_form.query }}
-          <input type="hidden" name="from_form" value="1">
-          <button class="searchBtn" type="submit">
-            <span>Go</span>
-          </button>
-        </form>
-      <p class="clear">Type in the name of a <span class="differentText">company</span>, your <span class="differentText">lawmaker</span> or a prominent <span class="differentText">individual</span>, and see how they're influencing the political system.</p>
-      <div class="clear"></div>
-</div>
-<div id="ltColumn">
-    <div class="contentModule">
-    	<h2>What's New</h2>
-        <p>Influence Explorer now includes two new datasets for tracking corporate influence in policy making. Our  regulations section tracks companies' official public comments on federal rulemakings. You can use it to, for example, <a href="/organization/glaxosmithkline/bfe12136b1e042cbbec042cfcd33901c#regulations_section">see what big drug companies are saying to the FDA</a>. Our advisory committe section shows when employees of a company sit on federal advisory boards. Try looking up <a href="/organization/bank-of-america/878b4d98431344de88d8fb9757043a95?cycle=-1#faca_section">the advisory roles of employees of big banks</a>.</p>
-        <p>There's also a new section on environmental enforcement actions from the EPA. Lots of big companies have <a href="/organization/exxon-mobil/819555dfc3d449d2be54286f0cb385e2#epa_echo_section">received hefty fines from the EPA</a>.</p>
-    </div>
-    <div class="contentModule">
-        <h2 id="header_explored">Influence Explored</h2>
-        <span class="tip tipHeight"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Check here</a> for regularly updated news and analysis using Influence Explorer.</span>
-        <div class="internalContent">
-            <h3 class="withTip">{{entry.title|safe}}</h3>
-            <div class="entryMetaData">
-                <address class="author">
-                    <a href="{{entry.author_name|sunlight_author_uri}}" rel="author">{{entry.author_name}}</a>
-                </address>
-                <time class="published" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
-            </div>
-            {{entry.summary|safe|removetags:"img"|truncatewords_html:65}}
-            <a class="standOut" href="{{entry.link}}">Check Out the Latest Influence</a>
-        </div>
-    </div>
-    <div class="contentModule">
-        <h2 id="header_tools">Tools</h2>
-        <ul class="internalContent">
-            <li class="contentModule">
-                <a href="http://inbox.influenceexplorer.com"><img class="toolImage" alt="What Inbox Influence Looks Like" src="/media/images/img_inbox.jpg" /></a>
-                <div class="toolDescription">
-                    <h3 class="withTip"><a href="http://inbox.influenceexplorer.com">Inbox Influence</a></h3>
-                    <p class="standOut">Your new favorite email tool since the spam filter</p> 
-                    <p>Inbox Influence is a new tool from the Sunlight Foundation that allows you to see the political contributions of the people and organizations that are mentioned in emails you receive. This easy-to-use tool can be used for researching influence background on corporate correspondence, adding context to newspaper headlines or discovering who is behind political fundraising solicitations.</p> 
-                    <a class="standOut" href="http://inbox.influenceexplorer.com">Learn More</a>
-                </div>
-                <div class="clear"></div>
-            </li>
-            <li class="contentModule">
-                <a href="http://checking.influenceexplorer.com"><img class="toolImage" alt="What Checking Influence Looks Like" src="/media/images/img_chutneyHome.jpg" /></a>
-                <div class="toolDescription">
-                    <h3 class="withTip"><a href="http://checking.influenceexplorer.com">Checking Influence</a></h3>
-                    <p class="standOut">When you shop, do you wonder where your money <em>really</em> goes?</p> 
-                    <p>Checking Influence shows you how companies you do business with every day are wielding political influence. By securely analyzing your online bank or credit card statement, Checking Influence shows your own spending alongside corporate spending on lobbying activities and campaign contributions, helping you be a more informed consumer and citizen.</p> 
-                    <a class="standOut" href="http://checking.influenceexplorer.com">Learn More</a>
-                </div>
-                <div class="clear"></div>
-            </li>
-            <li class="contentModule">
-                <a href="http://poligraft.com/"><img class="toolImage" alt="What Poligraft Looks Like" src="/media/images/img_poligraft.jpg" /></a>
-                <div class="toolDescription">
-                    <h3 class="withTip"><a href="http://poligraft.com">Poligraft</a></h3>
-                    <p class="standOut">Dig up political influence</p> 
-                    <p>Feed in a news article, blog post or press release, and Poligraft will present you with an enhanced view of the people, organizations and relationships described in the piece. Poligraft allows you to connect the dots between money and politics in Congress and state offices.</p> 
-                    <a class="standOut" href="http://poligraft.com">Learn More</a>
-                </div>
-                <div class="clear"></div>
-            </li>
+    <h2 id="FeatureText">Explore companies, lawmakers and prominent individuals that matter to you and see how they're influencing the political system</h2>
+    <div id="featureContent" class="chartModule">
         <ul>
-    </div>
-</div>
+            <li>
+                <h3 class="withTip"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a></h3>
+                <span class="tip shift">regularly updated news and analysis using Influence Explorer</span>
+                <h4 class="withTip shift"><a href="#">{{entry.title|safe}}</a></h4>
+                <time class="published entryMetaData shift" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
+                {{entry.summary|safe|removetags:"img"|truncatewords_html:40}}...
+            </li> 
+            <li>
+                <h3 class="withTip"><a href="#">Tools</a></h3>
+                <span class="tip shift">bring influence data to your email, banking and news</span>
+                <ul class="shift">
+                    <li>
+                        <h4 class="withTip"><a href="https://inbox.influenceexplorer.com/">Inbox Influence</a></h4>
+                        <p>See the political contributions of the people and organizations that are mentioned in emails you receive.</p>
+                    </li> 
+                    <li>
+                        <h4 class="withTip"><a href="https://checking.influenceexplorer.com/">Checking Influence</a></h4>
+                        <p>When you shop, do you wonder where your money really goes?</p>
+                    </li>  
+                    <li>
+                        <h4 class="withTip"><a href="http://poligraft.com/">Poligraft</a></h4>
+                        <p>See connections between money and politics in news articles you read everyday.</p>
+                    </li> 
+                </ul>    
+            </li> 
+            {% if top_pages %}
+                <li>
+                    <h3>Top Pages</h3>
+                    <span class="tip shift">check out what other people are exploring the most</span>
+                    <ul class="shift">
+                        {% for page in top_pages %}
+                            <li>
+                                <a class="standOut" href="{{ page.path }}">{{ page.title }}</a>
+                                <span>Industry</span>
+                            </li>
+                        {% endfor %}
+                    </ul>    
+                </li>  
+            {% endif %}        
+        </ul>  
+        <div class="clear"></div>  
+    </div>  
+    <div id="news">  
+        <h3>What's New</h3>
+        <div id="col1">
+            <p>Influence Explorer now includes two new datasets for tracking corporate influence in policy making. Our  regulations section tracks companies' official public comments on federal rulemakings. You can use it to, for example, <a href="/organization/glaxosmithkline/bfe12136b1e042cbbec042cfcd33901c#regulations_section">see what big drug companies are saying to the FDA</a>. Our advisory committe section shows when employees of a company sit on federal advisory boards. Try looking up <a href="/organization/bank-of-america/878b4d98431344de88d8fb9757043a95?cycle=-1#faca_section">the advisory roles of employees of big banks</a>.</p>
+            <p>There's also a new section on environmental enforcement actions from the EPA. Lots of big companies have <a href="/organization/exxon-mobil/819555dfc3d449d2be54286f0cb385e2#epa_echo_section">received hefty fines from the EPA</a>.</p>
+        </div>    
+    </div>    
 
-{% if top_pages %}
-<div id="rtColumn" class="withBg">
-    <div id="topFive">
-        <h2>Top Pages</h2>
-        <ul>
-            {% for page in top_pages %}
-            <li><a class="standOut" href="{{ page.path }}">{{ page.title }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>
-{% endif %}
 
-<div id="rtColumn" class="withBg">
+
+<div class="withBg">
     <div id="sunlightRequests">
         <div class="contentModule">
             <span id="badgeHeader">A Product of the Sunlight Foundation</span>

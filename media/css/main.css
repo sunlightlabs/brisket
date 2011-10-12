@@ -1,30 +1,118 @@
-/*
- * YUI Resect CSS version: 2.2.2 
- * Copyright (c) 2007, Yahoo! Inc. All rights reserved.
- * Licensed under the BSD License: http://developer.yahoo.net/yui/license.txt
- */
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,optgroup,button,p,blockquote,th,td{margin:0;padding:0;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}table{border-collapse:collapse;border-spacing:0;}caption,th{text-align:left;}ol,ul{list-style:none;}fieldset,img{border:0;}input,textarea,select,optgroup,option,button{font-family:inherit;font-size:100%;}button,input {width: auto;overflow: visible;}optgroup,address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym {border:0;}
-dl li{list-style: none;}
+/*  HTML5 ✰ Boilerplate  */
 
-a:link { outline: none; color: #0a6e92; }
-a:visited { outline: none; color: #0a6e92; }
-a:hover { outline: none; color: #0a6e92; }
-a:active { outline: none; color: #0a6e92; }
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,  footer, header, hgroup, 
+menu, nav, section, summary, time, mark, audio, video {
+  margin:0;
+  padding:0;
+  border:0;
+  outline:0;
+  font-size:100%;
+  vertical-align:baseline;
+  background:transparent;
+}                  
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+ul { list-style: none; }
+blockquote, q { 
+	background:url('../images/quotes.png') 12px top no-repeat ;
+	quotes: '»' '«' ;
+	margin-left:30px;
+    padding-left:35px;
+    border-left: 1px solid #E5E4DB;
+	color: #726B68; 
+	margin-bottom: 1em;
+	}
+	
+.pull_left, .pull_right { 
+	background:url('../images/quotes_lg.png') 12px 12px no-repeat ;
+	margin: 25px 65px 25px 30px;
+	padding: 15px 0 15px 35px;
+	color: #494442;
+	font-family: Georgia, "Times New Roman", Times, serif; 
+	font-style: oblique; 
+	font-size: 220%; 
+	display: block;
+	line-height: 38px;
+	text-align: center;
+	border-top: 1px solid #E5E4DB;
+	border-bottom: 1px solid #E5E4DB;
+	}
+	
+blockquote:before, blockquote:after,
+q:before, q:after { content:''; content:none; }
 
-body {
-    color: #666666;
-    background: #edede6;
-    font-size: 82%;
-    line-height: 20px;
-    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-}
+a { margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent; }
+ins { background-color:#ff9; color:#000; text-decoration:none; }
+mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold; }
+del { text-decoration: line-through; }
+abbr[title], dfn[title] { border-bottom:1px dotted; cursor:help; }
+table { border-collapse:collapse; border-spacing:0; }
+hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 0; padding:0; }
+input, select { vertical-align:middle; }
+
+body { color: #666666; background: url(../images/bg.jpg) top left repeat-x #edede6; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 21px; font-size: 82%; } 
+select, input, textarea, button { font: 99% sans-serif; }
+button.disabled { opacity: 0.3; filter: alpha(opacity=30); -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; }
+pre, code, kbd, samp { font-family: monospace, sans-serif; }
+p { margin-bottom: 1.3em;}
+
+html { overflow-y: scroll; }
+
+iframe { display: block; margin: 10px 0; }
+
+a:hover, a:active { outline: none; }
+a, a:active, a:visited { color: #0a6e92; }
+a:hover { color: #0a6e92; }
+
+nav ul, nav li { margin: 0; } 
+small { font-size: 85%; }
+strong, th, b { font-weight: bold; }
+td, td img { vertical-align: top; } 
+sub { vertical-align: sub; font-size: smaller; line-height:1px;}
+sup { vertical-align: super; font-size: smaller; }
+pre {  padding: 15px;  white-space: pre;  white-space: pre-wrap;  white-space: pre-line;  word-wrap: break-word; }
+textarea { overflow: auto; } 
+.ie6 legend, .ie7 legend { margin-left: -7px; } 
+input[type="radio"] { vertical-align: text-bottom; }
+input[type="checkbox"] { vertical-align: bottom; }
+.ie7 input[type="checkbox"] { vertical-align: baseline; }
+.ie6 input { vertical-align: text-bottom; }
+label, input[type=button], input[type=submit] { cursor: pointer; }
+button, input, select, textarea { margin: 0; }
+input:invalid, textarea:invalid { border-radius: 1px;  -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red;  box-shadow: 0px 0px 5px red; }
+.no-boxshadow input:invalid, 
+.no-boxshadow textarea:invalid { background-color: #f0dddd; }
+
+.normalForm label { width: 120px; display: block; float: left; text-transform: uppercase; font-weight: bold;}
+.normalForm input, .normalForm textarea { width: 300px;}
+.normalForm { margin-top: 30px;}
+
+::-moz-selection{ background: #CA5703; color:#fff; text-shadow: none; }
+::selection { background:#CA5703; color:#fff; text-shadow: none; } 
+a:link { -webkit-tap-highlight-color: #CA5703; } 
+
+button, .buttonLink { width: auto; text-indent: -9999em; display: block; border: none; cursor: pointer; }
+.ie7 img { -ms-interpolation-mode: bicubic; }
+
+.ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+.hidden { display: none; visibility: hidden; } 
+.visuallyhidden { position: absolute !important; clip: rect(1px 1px 1px 1px);  clip: rect(1px, 1px, 1px, 1px); }
+.invisible { visibility: hidden; }
+.clearfix:before, .clearfix:after {  content: "\0020"; display: block; height: 0; visibility: hidden; } 
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+.clear { clear: both;}
+
 
 .home p { margin-bottom: 1em;}
-div#pageMain, div#footer { width: 960px; margin: 0 auto; }
-.clear { clear: both;}
+div#pageMain, footer { width: 960px; margin: 0 auto; }
 .graph { position: relative; }
 
-.tip, div.searchBox .results, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase;}
+.tip, div.searchBox .results, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; }
+.tip { line-height: 17px; display: block; color: #827d7d; margin-bottom: 25px;}
 a.moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-top: 20px; display: block;}
 
 /*headers*/
@@ -37,30 +125,17 @@ h2 big { text-transform: uppercase; margin-right: 10px;}
 .overviewBar h3 { float: left;  margin-bottom: 0px;  margin-right: 25px;}
 h3 { font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; line-height: 25px; margin-bottom: 25px;}
 h3.withTip, body.home h3.withTip { margin-bottom: 10px;}
-h4, .h4 { text-transform: uppercase; color: #3b3130; font-size: 145%; margin-bottom: 25px; font-weight: normal; float: none; margin-right: 0px;}
+h4, .h4 { color: #3b3130; font-size: 145%; margin-bottom: 25px; font-weight: normal; float: none; margin-right: 0px;}
 h4.withTip { margin-bottom: 5px; }
 h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 125%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; font-weight: bold; line-height: 24px;}
 h6, .h6 { font-size: 110%; font-weight: bold;}
 
-
-/*home page*/
-
-div#featureBox { background: url(../images/feature_bgSm.jpg) top left repeat-y; padding: 30px 40px 0; margin-bottom: 50px; height: 155px; }
-div#featureBox h2 { text-transform: uppercase; margin-bottom: 25px; float: left; margin-right: 20px; margin-top: 10px;}
-div#featureBox p { color: #7d7777; font-size: 120%; width: 620px; margin-bottom: 0px; line-height: 24px;}
-div#featureBox p span { color: #544e4e; font-size: 145%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
-
-#topFive ul{
-    margin: 15px 0 0 0;
-}
-#topFive li{
-    padding-bottom: 10px;
-    padding-left: 24px;
-    list-style-type: none;
-    background:  url('../images/topFive_bullet.png') left 7px no-repeat;
-}
-
+#FeatureText { background: url(../images/bg_feature.jpg) top left no-repeat; width: 893px; height: 262px; text-indent: -9999em; display: block; margin: -34px 0 0 10px;}
+#featureContent { background: url(../images/featureContent.jpg) 10px top no-repeat; padding-top: 100px;}
+#featureContent li { float: left; width: 276px; margin-right: 25px;}
+#featureContent li h3 { background: url(../images/bg_highlightCircle.png) left top no-repeat; padding-left: 35px;}
+.shift { padding-left: 35px;}
 
 #sunlightRequests p { font-size: 95%; line-height: 18px; color: #999292; text-align: center;}
 #sunlightRequests b { color: #7D7777; }
@@ -98,9 +173,9 @@ dd { float: left; margin-right: 15px;}
 table dl { margin-top: 0;}
 table dd { width: 320px;}
 
-div#nav li { float: left; }
-div#nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
-div#nav li a { text-indent: -9999em; display: block; height: 61px;}
+nav li { float: left; }
+nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
+nav li a { text-indent: -9999em; display: block; height: 61px;}
 li#people a { background: url(../images/nav_people.png) left 1px no-repeat; width: 115px; }
 li#people a:hover, body.individual li#people a { background: url(../images/nav_people.png) left -60px no-repeat; }
 li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 182px;}
@@ -109,6 +184,9 @@ li#politicians a { background: url(../images/nav_politicians.png) left 1px no-re
 li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
 li#industries a { background: url(../images/nav_industries.png) left 1px no-repeat; width: 146px;}
 li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries.png) left -60px no-repeat; }
+li#data a { background: url(../images/nav_data.png) left 1px no-repeat; width: 91px; }
+li#data a:hover { background: url(../images/nav_data.png) left -60px no-repeat; width: 91px; }
+nav li#data { float: right;}
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 

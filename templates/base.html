@@ -1,178 +1,170 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!doctype html>
 {% load media %}
 <html xmlns="http://www.w3.org/1999/xhtml" >
-  <head>
-	<title>{% block pagetitle %}{% endblock %}Influence Explorer{% block pagetopics %}{% endblock %}</title>
+    <head>
+        <title>{% block pagetitle %}{% endblock %}Influence Explorer{% block pagetopics %}{% endblock %}</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="keywords" content="campaign contributions, sunlight foundation, influence explorer, politics, government, influence" />
-    <meta name="description" content="{% block metadesc %}Influence Explorer is the central source for information on money and influence in politics. From here you can explore who the big donors to a politician are, how companies and whole industries spend their political money, and who politically connected individuals have given money to.{% endblock %}" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="keywords" content="campaign contributions, sunlight foundation, influence explorer, politics, government, influence" />
+        <meta name="description" content="{% block metadesc %}Influence Explorer is the central source for information on money and influence in politics. From here you can explore who the big donors to a politician are, how companies and whole industries spend their political money, and who politically connected individuals have given money to.{% endblock %}" />
 	
-	<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+        <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
 	
-	<link rel="icon" href="{% media_url %}/images/favicon.ico" type="image/x-icon">
-	<link rel="canonical" rel="{% block canonicalurl %}{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}{% endblock %}" />
+        <link rel="icon" href="{% media_url %}/images/favicon.ico" type="image/x-icon">
+        <link rel="canonical" rel="{% block canonicalurl %}{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}{% endblock %}" />
 
-    {% css "css/main.css" %}
-    <!--[if IE 6]>{% css "css/buggy.css" %}<![endif]-->
-    <!--[if IE 7]>{% css "css/buggy7.css" %}<![endif]-->
-    {% js "js/jquery-1.4.2.min.js" %}
-	{% js "js/raphael-min.js" %}
+        {% css "css/main.css" %}
+        <!--[if IE 6]>{% css "css/buggy.css" %}<![endif]-->
+        <!--[if IE 7]>{% css "css/buggy7.css" %}<![endif]-->
+        {% js "js/jquery-1.4.2.min.js" %}
+	    {% js "js/raphael-min.js" %}
 
-    {% block js %}{% endblock %}
-	{% block og %}
-	  <meta name="og:title" content="Influence Explorer">
-	  <meta name="og:description" content="Influence Explorer connects the dots of political contributions on the federal and state level allowing you to track influence by lawmaker, company or prominent individual.">
-	  <meta name="og:type" content="cause">
-	  <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
-	  <meta name="og:url" content="http://influenceexplorer.com{{ request.path }}">
-	  <meta name="og:site_name" content="Influence Explorer">
-	  <meta name="fb:admins" content="7812952,5308565">
-	{% endblock %}
-    <script type="text/javascript" src="http://use.typekit.com/rum2sap.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-	<script type="text/javascript">
+        {% block js %}{% endblock %}
+	    {% block og %}
+    	    <meta name="og:title" content="Influence Explorer">
+    	    <meta name="og:description" content="Influence Explorer connects the dots of political contributions on the federal and state level allowing you to track influence by lawmaker, company or prominent individual.">
+    	    <meta name="og:type" content="cause">
+    	    <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+    	    <meta name="og:url" content="http://influenceexplorer.com{{ request.path }}">
+    	    <meta name="og:site_name" content="Influence Explorer">
+    	    <meta name="fb:admins" content="7812952,5308565">
+	    {% endblock %}
+        <script type="text/javascript" src="http://use.typekit.com/rum2sap.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	    <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1265484-62']);
+            _gaq.push(['_trackPageview']);
 
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-1265484-62']);
-	  _gaq.push(['_trackPageview']);
+            (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    </head>
 
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
+    <body class="{% block body_class %}{% endblock %}">
+        <div id="wrapper">
+            <div id="pageMain">
+                <header>
+                    <h1><a id="logo" href="/">Influence Explorer</a></h1>
+                    {% block search %}
+                    {% endblock %}
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style">
+                        <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=sunlightfoundation" class="addthis_button_compact">
+                            <img src="{{ MEDIA_URL }}/images/share.png" alt="Share" /> 
+                            <span>Share</span>
+                        </a>
+                    </div>
+                    <script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script>
+                    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=sunlightfoundation"></script>
+                    <!-- AddThis Button END -->
+                    
+                    <nav class="clear">
+                        <ul>
+                            <li id="people"><a href="/people">People</a></li>
+                            <li id="orgs"><a href="/organizations">Organizations</a></li>
+                            <li id="politicians"><a href="/politicians">Politicians</a></li>
+	                        <li id="industries"><a href="/industries">Industries</a></li>
+	                        <li id="data"><a href="#">Data</a></li>
+                        </ul>
+                    </nav>
+                </header>
+                <div id="mainContent_top"></div>
 
-	</script>
-    
-  </head>
+                <div id="mainContent">
+                  {% block main %}
+                  {% endblock %}
+                  <div class="clear"></div>
+                </div>
+                
+                <div id="mainContent_bottom"></div>
 
-  <body class="{% block body_class %}{% endblock %}">
-    <div id="outerwrapper"><div id="wrapper">
+            </div> <!-- end pageMain -->
 
-      <div id="pageMain">
+            <footer>
+                <ul id="footerLinks">
+                    <li><a id="aboutLink" href="/about/">About</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/tools/">Tools</a></li>
+                </ul>
+                <ul id="footerPolicy">
+                    <li><a class="logo" id="sunlightFoundation" href="http://www.sunlightfoundation.com">Sunlight Foundation</a></li>
+                    <li><a class="logo" id="openSecrets" href="http://www.opensecrets.org/">Open Secrets</a></li>
+                    <li><a class="logo" id="followthemoney" href="http://www.followthemoney.org/">National Institute on Money in State Politics</a></li>
+                    <li><a class="logo" id="pogo" href="http://www.pogo.org/">Project on Government Oversight</a></li>
+                </ul>
+                <p class="clear">Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://www.sunlightfoundation.com">SunlightFoundation.com</a> to learn more.</p>
+            </footer>
 
-        <div id="header">
-          <h1><a id="logo" href="/">Influence Explorer</a></h1>
-      {% block search %}
-      {% endblock %}
-          <div class="clear" id="nav">
-            <ul>
-              <li id="people"><a href="/people">People</a></li>
-              <li id="orgs"><a href="/organizations">Organizations</a></li>
-              <li id="politicians"><a href="/politicians">Politicians</a></li>
-	      <li id="industries"><a href="/industries">Industries</a></li>
-            </ul>
-            
-            <!-- AddThis Button BEGIN -->
-            <div class="addthis_toolbox addthis_default_style">
-            <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=sunlightfoundation" class="addthis_button_compact">
-                <img src="{{ MEDIA_URL }}/images/share.png" alt="Share" /> 
-                <span>Share</span>
-            </a>
-            </div>
-            <script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script>
-            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=sunlightfoundation"></script>
-            <!-- AddThis Button END -->
-            
-          </div>    <!-- end nav -->
-        </div><!-- end header -->
-
-    <div id="mainContent_top">
-    </div>
-
-    <div id="mainContent">
-      {% block main %}
-      {% endblock %}
-      <div class="clear"></div>
-    </div>
-
-    <div id="mainContent_bottom">
         </div>
-
-      </div> <!-- end pageMain -->
-
-    <div id="footer">
-      <div id="footerLinks">
-        <a id="aboutLink" href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-      </div>
-      <div id="footerPolicy">
-        <a class="logo" id="sunlightFoundation" href="http://www.sunlightfoundation.com">Sunlight Foundation</a>
-        <a class="logo" id="openSecrets" href="http://www.opensecrets.org/">Open Secrets</a>
-        <a class="logo" id="followthemoney" href="http://www.followthemoney.org/">National Institute on Money in State Politics</a>
-        <a class="logo" id="pogo" href="http://www.pogo.org/">Project on Government Oversight</a>
-        <div class="clear"></div>
-        <p>Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://www.sunlightfoundation.com">SunlightFoundation.com</a> to learn more.</p>
-        <div class="clear"></div>
-      </div> <!-- end footerPolicy -->
-    </div><!-- end footer -->
-
-    </div></div><!-- end wrapper, outerwrapper -->
-	<img height="1" border="0" width="1" alt="" src="http://ad.doubleclick.net/activity;src=1379696;dcnet=4155;boom=41134;sz=1x1;ord=1?" />
-    {% js "js/brisket-all.js" %}
+    
+    	<img height="1" border="0" width="1" alt="" src="http://ad.doubleclick.net/activity;src=1379696;dcnet=4155;boom=41134;sz=1x1;ord=1?" />
+        {% js "js/brisket-all.js" %}
 	
-	{% block gsfn %}
-    <script type="text/javascript" charset="utf-8">
-      var is_ssl = ("https:" == document.location.protocol);
-      var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-      document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
+    	{% block gsfn %}
+        <script type="text/javascript" charset="utf-8">
+          var is_ssl = ("https:" == document.location.protocol);
+          var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+          document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
 
-    <script type="text/javascript" charset="utf-8">
-      var feedback_widget_options = {};
+        <script type="text/javascript" charset="utf-8">
+          var feedback_widget_options = {};
 
-      feedback_widget_options.display = "overlay";  
-      feedback_widget_options.company = "sunlightfoundation";
-      feedback_widget_options.placement = "right";
-      feedback_widget_options.color = "#222";
-      feedback_widget_options.style = "question";
+          feedback_widget_options.display = "overlay";  
+          feedback_widget_options.company = "sunlightfoundation";
+          feedback_widget_options.placement = "right";
+          feedback_widget_options.color = "#222";
+          feedback_widget_options.style = "question";
 
-      var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-    </script>
-	{% endblock %}
+          var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+        </script>
+    	{% endblock %}
 	
-	<script type="text/javascript">
-        var _sf_async_config={uid:980,domain:"influenceexplorer.com"};
-        (function(){
-          function loadChartbeat() {
-            window._sf_endpt=(new Date()).getTime();
-            var e = document.createElement('script');
-            e.setAttribute('language', 'javascript');
-            e.setAttribute('type', 'text/javascript');
-            e.setAttribute('src',
-               (("https:" == document.location.protocol) ? "https://s3.amazonaws.com/" : "http://") +
-               "static.chartbeat.com/js/chartbeat.js");
-            document.body.appendChild(e);
-          }
-          var oldonload = window.onload;
-          window.onload = (typeof window.onload != 'function') ?
-             loadChartbeat : function() { oldonload(); loadChartbeat(); };
-        })();
-    </script>
-	<!-- Quantcast Tag -->
-	<script type="text/javascript">
-	var _qevents = _qevents || [];
+    	<script type="text/javascript">
+            var _sf_async_config={uid:980,domain:"influenceexplorer.com"};
+            (function(){
+              function loadChartbeat() {
+                window._sf_endpt=(new Date()).getTime();
+                var e = document.createElement('script');
+                e.setAttribute('language', 'javascript');
+                e.setAttribute('type', 'text/javascript');
+                e.setAttribute('src',
+                   (("https:" == document.location.protocol) ? "https://s3.amazonaws.com/" : "http://") +
+                   "static.chartbeat.com/js/chartbeat.js");
+                document.body.appendChild(e);
+              }
+              var oldonload = window.onload;
+              window.onload = (typeof window.onload != 'function') ?
+                 loadChartbeat : function() { oldonload(); loadChartbeat(); };
+            })();
+        </script>
+    	<!-- Quantcast Tag -->
+    	<script type="text/javascript">
+    	var _qevents = _qevents || [];
 	
-	(function() {
-	var elem = document.createElement('script');
-	elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
-	elem.async = true;
-	elem.type = "text/javascript";
-	var scpt = document.getElementsByTagName('script')[0];
-	scpt.parentNode.insertBefore(elem, scpt);
-	})();
+    	(function() {
+    	var elem = document.createElement('script');
+    	elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+    	elem.async = true;
+    	elem.type = "text/javascript";
+    	var scpt = document.getElementsByTagName('script')[0];
+    	scpt.parentNode.insertBefore(elem, scpt);
+    	})();
 	
-	_qevents.push({
-	qacct:"p-c3mmNWXstPmj6"
-	});
-	</script>
+    	_qevents.push({
+    	qacct:"p-c3mmNWXstPmj6"
+    	});
+    	</script>
 	
-	<noscript>
-	<div style="display:none;">
-	<img src="//pixel.quantserve.com/pixel/p-c3mmNWXstPmj6.gif" border="0" height="1" width="1" alt="Quantcast"/>
-	</div>
-	</noscript>
-	<!-- End Quantcast tag -->
-  </body>
+    	<noscript>
+    	<div style="display:none;">
+    	<img src="//pixel.quantserve.com/pixel/p-c3mmNWXstPmj6.gif" border="0" height="1" width="1" alt="Quantcast"/>
+    	</div>
+    	</noscript>
+    	<!-- End Quantcast tag -->
+    </body>
 </html>
