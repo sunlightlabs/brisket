@@ -64,7 +64,7 @@ html { overflow-y: scroll; }
 iframe { display: block; margin: 10px 0; }
 
 a:hover, a:active { outline: none; }
-a, a:active, a:visited { color: #0a6e92; }
+a, a:active, a:visited { color: #0a6e92; text-decoration: none;}
 a:hover { color: #0a6e92; }
 
 nav ul, nav li { margin: 0; } 
@@ -111,9 +111,11 @@ button, .buttonLink { width: auto; text-indent: -9999em; display: block; border:
 div#pageMain, footer { width: 960px; margin: 0 auto; }
 .graph { position: relative; }
 
+
 .tip, div.searchBox .results, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; }
 .tip { line-height: 17px; display: block; color: #827d7d; margin-bottom: 25px;}
 a.moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-top: 20px; display: block;}
+.withTip { margin-bottom: 5px; }
 
 /*headers*/
 
@@ -124,21 +126,32 @@ h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #
 h2 big { text-transform: uppercase; margin-right: 10px;}
 .overviewBar h3 { float: left;  margin-bottom: 0px;  margin-right: 25px;}
 h3 { font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; line-height: 25px; margin-bottom: 25px;}
-h3.withTip, body.home h3.withTip { margin-bottom: 10px;}
 h4, .h4 { color: #3b3130; font-size: 145%; margin-bottom: 25px; font-weight: normal; float: none; margin-right: 0px;}
-h4.withTip { margin-bottom: 5px; }
 h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 125%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; font-weight: bold; line-height: 24px;}
 h6, .h6 { font-size: 110%; font-weight: bold;}
 
 #FeatureText { background: url(../images/bg_feature.jpg) top left no-repeat; width: 893px; height: 262px; text-indent: -9999em; display: block; margin: -34px 0 0 10px;}
-#featureContent { background: url(../images/featureContent.jpg) 10px top no-repeat; padding-top: 100px;}
+#featureContent { background: url(../images/featureContent.jpg) 10px top no-repeat; padding-top: 90px; margin-bottom: 30px;}
 #featureContent li { float: left; width: 276px; margin-right: 25px;}
+#featureContent li li { width: auto;}
 #featureContent li h3 { background: url(../images/bg_highlightCircle.png) left top no-repeat; padding-left: 35px;}
 .shift { padding-left: 35px;}
 
-#sunlightRequests p { font-size: 95%; line-height: 18px; color: #999292; text-align: center;}
-#sunlightRequests b { color: #7D7777; }
+#newsTitle { color: #b5c6c3; text-transform: lowercase; font-weight: normal; margin-bottom: -10px; padding-left: 40px;}
+#news { background: url(../images/bg_news.jpg) top left repeat-y; border-top: 1px solid #eae9e9; border-bottom: 1px solid #eae9e9; padding: 25px 40px;}
+#newsWrapper { border-bottom: 1px dashed #e0e0df; border-top: 1px dashed #e0e0df; padding: 3px 0; }
+
+#colOne {
+    -moz-column-count: 2;
+    -moz-column-gap: 40px;
+    -webkit-column-count: 2;
+	-webkit-column-gap: 40px;
+    column-count: 2;
+    column-gap: 40px;
+}
+
+#sunlightRequests p { font-size: 95%; line-height: 18px; color: #999292; }
 #sunlightRequests label { width: auto; margin-top: 5px;}
 #sunlightRequests input { width: 150px;}
 
@@ -148,7 +161,7 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 
 .contentModule { margin-bottom: 40px;}
 
-#badgeHeader { text-indent: -9999em; display: block; background: url(../images/badgeHeader.png) center top no-repeat; width: 169px; height: 77px; margin-bottom: 20px;}
+#badgeHeader { text-indent: -9999em; display: block; background: url(../images/badge.png) center top no-repeat; width: 78px; height: 77px; margin-top: -20px; float: left; margin-right: 20px;}
 
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
@@ -173,20 +186,24 @@ dd { float: left; margin-right: 15px;}
 table dl { margin-top: 0;}
 table dd { width: 320px;}
 
-nav li { float: left; }
-nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
-nav li a { text-indent: -9999em; display: block; height: 61px;}
+header nav li { float: left; }
+header nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
+header nav li a { text-indent: -9999em; display: block; height: 61px;}
+li#people { width: 115px;}
 li#people a { background: url(../images/nav_people.png) left 1px no-repeat; width: 115px; }
 li#people a:hover, body.individual li#people a { background: url(../images/nav_people.png) left -60px no-repeat; }
+li#orgs { width: 182px;}
 li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 182px;}
 li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
+li#politicians { width: 151px;}
 li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
 li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
+li#industries { width: 146px;}
 li#industries a { background: url(../images/nav_industries.png) left 1px no-repeat; width: 146px;}
 li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries.png) left -60px no-repeat; }
 li#data a { background: url(../images/nav_data.png) left 1px no-repeat; width: 91px; }
 li#data a:hover { background: url(../images/nav_data.png) left -60px no-repeat; width: 91px; }
-nav li#data { float: right;}
+nav li#data { float: right; width: 91px;}
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
@@ -341,9 +358,11 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 
 /*footer*/
 
-div#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px; text-align: center; margin: 2px 10px 60px; }
-div#footerLinks a { text-transform: uppercase; text-decoration: none; font-size: 120%; }
-a#aboutLink { border-right: 1px solid #cecec9; padding-right: 20px; margin-right: 20px; }
+#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px;  margin: 2px 10px 60px; }
+#footerLinks ul { border-bottom: 1px dashed #E0E0DF; text-align: center; padding-bottom: 10px;}
+#footerLinks ul a { text-transform: uppercase; text-decoration: none; font-size: 120%; }
+#footerLinks nav li { border-left: 1px solid #cecec9; padding-left: 20px; margin-left: 20px; display: inline;}
+#footerLinks #aboutLink { border-left: none;}
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 
@@ -427,7 +446,7 @@ dt.moneyTitle { margin-top: 8px;}
 #facebookShare { width: 16px; height: 16px; background: url(../images/facebook.png) top left no-repeat; display: block; text-indent: -9999em; float: left; margin-right: 15px;}
 #twitterShare { width: 16px; height: 16px;background: url(../images/twitter.png) top left no-repeat; display: block; text-indent: -9999em; float: left;}
 
-.entryMetaData { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-bottom: 15px; margin-top: -8px;}
+.entryMetaData { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin-bottom: 15px; display: block;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
 
@@ -506,21 +525,6 @@ ul#faca {
 }
 dl.related{
     margin-top: 0;
-}
-
-#miniNav {
-    float: left;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    padding-bottom: 80px;
-    padding-left: 30px;
-    padding-right: 40px;
-    padding-top: 0;
-    width: 145px;
-}
-#miniNav.withBg{
-    margin-top: 0;
-    margin-bottom: 25px;
 }
 
 .advisoryMembers li { margin-left: 25px;}

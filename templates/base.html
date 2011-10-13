@@ -16,6 +16,9 @@
         {% css "css/main.css" %}
         <!--[if IE 6]>{% css "css/buggy.css" %}<![endif]-->
         <!--[if IE 7]>{% css "css/buggy7.css" %}<![endif]-->
+        <!--[if lt IE 9]>
+            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
         {% js "js/jquery-1.4.2.min.js" %}
 	    {% js "js/raphael-min.js" %}
 
@@ -85,11 +88,40 @@
             </div> <!-- end pageMain -->
 
             <footer>
-                <ul id="footerLinks">
-                    <li><a id="aboutLink" href="/about/">About</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                    <li><a href="/tools/">Tools</a></li>
-                </ul>
+                <div id="footerLinks">
+                    <nav>
+                        <ul>
+                            <li id="aboutLink"><a href="/about/">About</a></li>
+                            <li><a href="/contact/">Contact</a></li>
+                            <li><a href="/tools/">Tools</a></li>
+                        </ul>
+                    </nav>
+                    <div id="sunlightRequests">
+                        <span id="badgeHeader">A Product of the Sunlight Foundation</span>
+                        <div id="requestsContent">
+                            <h4 class="withTip">Like this Project and Want to Discover Others Like It?</h4>
+                            <p>Join the Sunlight Foundation's open government community to learn more.</p>
+                            <form id="signupForm" action="" method="post">
+                                <ul>
+                                  <li>
+                                    <label>Email</label>
+                                    <input id="id_email" type="text" name="email"/>
+                                  </li>
+                                  <li>
+                                    <label>Zip Code</label>
+                                    <input id="id_zip" type="text" name="zipcode"/>
+                                  </li>
+                                  <li>
+                                    <button class="signupBtn" type="submit">
+                                      <span>Sign Up</span>
+                                    </button>
+                                  </li>
+                                </ul>
+                                <div class="clear"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <ul id="footerPolicy">
                     <li><a class="logo" id="sunlightFoundation" href="http://www.sunlightfoundation.com">Sunlight Foundation</a></li>
                     <li><a class="logo" id="openSecrets" href="http://www.opensecrets.org/">Open Secrets</a></li>

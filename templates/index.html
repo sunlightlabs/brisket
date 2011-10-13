@@ -22,11 +22,11 @@
     <div id="featureContent" class="chartModule">
         <ul>
             <li>
-                <h3 class="withTip"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a></h3>
+                <h3 class="withTip"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence <br />Explored</a></h3>
                 <span class="tip shift">regularly updated news and analysis using Influence Explorer</span>
                 <h4 class="withTip shift"><a href="#">{{entry.title|safe}}</a></h4>
                 <time class="published entryMetaData shift" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
-                {{entry.summary|safe|removetags:"img"|truncatewords_html:40}}...
+                <div class="shift">{{entry.summary|safe|removetags:"img"|truncatewords_html:40}}</div>
             </li> 
             <li>
                 <h3 class="withTip"><a href="#">Tools</a></h3>
@@ -45,61 +45,32 @@
                         <p>See connections between money and politics in news articles you read everyday.</p>
                     </li> 
                 </ul>    
-            </li> 
-            {% if top_pages %}
-                <li>
-                    <h3>Top Pages</h3>
-                    <span class="tip shift">check out what other people are exploring the most</span>
-                    <ul class="shift">
-                        {% for page in top_pages %}
-                            <li>
-                                <a class="standOut" href="{{ page.path }}">{{ page.title }}</a>
-                                <span>Industry</span>
-                            </li>
-                        {% endfor %}
-                    </ul>    
-                </li>  
-            {% endif %}        
+            </li>             
+            <li>
+                <h3 class="withTip">Top Pages</h3>
+                <span class="tip shift">check out what other people are exploring the most</span>
+                <ul class="shift">
+                    {% for page in top_pages %}
+                        <li>
+                            <a class="standOut" href="{{ page.path }}">{{ page.title }}</a>
+                            <span>Industry</span>
+                        </li>
+                    {% endfor %}
+                </ul>    
+            </li>  
+                  
         </ul>  
         <div class="clear"></div>  
-    </div>  
-    <div id="news">  
-        <h3>What's New</h3>
-        <div id="col1">
-            <p>Influence Explorer now includes two new datasets for tracking corporate influence in policy making. Our  regulations section tracks companies' official public comments on federal rulemakings. You can use it to, for example, <a href="/organization/glaxosmithkline/bfe12136b1e042cbbec042cfcd33901c#regulations_section">see what big drug companies are saying to the FDA</a>. Our advisory committe section shows when employees of a company sit on federal advisory boards. Try looking up <a href="/organization/bank-of-america/878b4d98431344de88d8fb9757043a95?cycle=-1#faca_section">the advisory roles of employees of big banks</a>.</p>
-            <p>There's also a new section on environmental enforcement actions from the EPA. Lots of big companies have <a href="/organization/exxon-mobil/819555dfc3d449d2be54286f0cb385e2#epa_echo_section">received hefty fines from the EPA</a>.</p>
-        </div>    
-    </div>    
-
-
-
-<div class="withBg">
-    <div id="sunlightRequests">
-        <div class="contentModule">
-            <span id="badgeHeader">A Product of the Sunlight Foundation</span>
-            <p>Like this product? <b>Donate to the Sunlight Foundation to support future products</b> like it or become part of our community to get regular updates and <b>find out how you can help open up your government by signing up below</b>.</p>
-            <a id="donateBtn" class="linkBtn" href="http://www.sunlightfoundation.com/donate">Dontate</a>
-        </div>
-        <h4>Sign Up!</h4>
-        <form id="signupForm" action="" method="post">
-            <ul>
-              <li>
-                <label>Email</label>
-                <input id="id_email" type="text" name="email"/>
-              </li>
-              <li>
-                <label>Zip Code</label>
-                <input id="id_zip" type="text" name="zipcode"/>
-              </li>
-              <li>
-                <button class="signupBtn" type="submit">
-                  <span>Sign Up</span>
-                </button>
-              </li>
-            </ul>
-            <div class="clear"></div>
-        </form>
+    </div> 
+    
+    <h3 id="newsTitle">What's New</h3>
+    <div id="newsWrapper"> 
+        <div id="news">  
+            <div id="colOne">
+                <p>Influence Explorer now includes two new datasets for tracking corporate influence in policy making. Our  regulations section tracks companies' official public comments on federal rulemakings. You can use it to, for example, <a href="/organization/glaxosmithkline/bfe12136b1e042cbbec042cfcd33901c#regulations_section">see what big drug companies are saying to the FDA</a>. Our advisory committe section shows when employees of a company sit on federal advisory boards. Try looking up <a href="/organization/bank-of-america/878b4d98431344de88d8fb9757043a95?cycle=-1#faca_section">the advisory roles of employees of big banks</a>.</p>
+                <p>There's also a new section on environmental enforcement actions from the EPA. Lots of big companies have <a href="/organization/exxon-mobil/819555dfc3d449d2be54286f0cb385e2#epa_echo_section">received hefty fines from the EPA</a>.</p>
+            </div>    
+        </div>  
     </div>
-</div>  
-<div class="clear"></div>
+
 {% endblock %}
