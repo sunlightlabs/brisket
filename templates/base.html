@@ -21,7 +21,8 @@
         <![endif]-->
         {% js "js/jquery-1.4.2.min.js" %}
 	    {% js "js/raphael-min.js" %}
-
+        {% js "js/jquery-placehold.min.js" %}
+        
         {% block js %}{% endblock %}
 	    {% block og %}
     	    <meta name="og:title" content="Influence Explorer">
@@ -51,20 +52,13 @@
         <div id="wrapper">
             <div id="pageMain">
                 <header>
-                    <h1><a id="logo" href="/">Influence Explorer</a></h1>
                     {% block search %}
                     {% endblock %}
-                    <!-- AddThis Button BEGIN -->
-                    <div class="addthis_toolbox addthis_default_style">
-                        <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=sunlightfoundation" class="addthis_button_compact">
-                            <img src="{{ MEDIA_URL }}/images/share.png" alt="Share" /> 
-                            <span>Share</span>
-                        </a>
-                    </div>
-                    <script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script>
-                    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=sunlightfoundation"></script>
-                    <!-- AddThis Button END -->
-                    
+                    <h1><a id="logo" href="/">Influence Explorer</a></h1>
+                    <ul class="clear" id="socialIcons">
+                        <li id="facebookIcon"><a href="#">facebook</a></li>
+                        <li id="twitterIcon"><a href="#">twitter</a></li>
+                    </ul>
                     <nav class="clear">
                         <ul>
                             <li id="people"><a href="/people">People</a></li>
@@ -100,35 +94,37 @@
                         <span id="badgeHeader">A Product of the Sunlight Foundation</span>
                         <div id="requestsContent">
                             <h4 class="withTip">Like this Project and Want to Discover Others Like It?</h4>
-                            <p>Join the Sunlight Foundation's open government community to learn more.</p>
-                            <form id="signupForm" action="" method="post">
-                                <ul>
-                                  <li>
-                                    <label>Email</label>
-                                    <input id="id_email" type="text" name="email"/>
-                                  </li>
-                                  <li>
-                                    <label>Zip Code</label>
-                                    <input id="id_zip" type="text" name="zipcode"/>
-                                  </li>
-                                  <li>
-                                    <button class="signupBtn" type="submit">
-                                      <span>Sign Up</span>
-                                    </button>
-                                  </li>
-                                </ul>
-                                <div class="clear"></div>
-                            </form>
+                            <p class="tip">Join the Sunlight Foundation's open government community to learn more.</p>
                         </div>
+                        <form id="signupForm" action="" method="post">
+                            <ul>
+                              <li>
+                                <label>Email</label>
+                                <input id="id_email" type="text" placeholder="Your email address" name="email"/>
+                              </li>
+                              <li>
+                                <label>Zip Code</label>
+                                <input id="id_zip" type="text" placeholder="Your zip code" name="zipcode"/>
+                              </li>
+                              <li>
+                                <button class="signupBtn" type="submit">
+                                  <span>Sign Up</span>
+                                </button>
+                              </li>
+                            </ul>
+                            <div class="clear"></div>
+                        </form>
                     </div>
                 </div>
-                <ul id="footerPolicy">
-                    <li><a class="logo" id="sunlightFoundation" href="http://www.sunlightfoundation.com">Sunlight Foundation</a></li>
-                    <li><a class="logo" id="openSecrets" href="http://www.opensecrets.org/">Open Secrets</a></li>
-                    <li><a class="logo" id="followthemoney" href="http://www.followthemoney.org/">National Institute on Money in State Politics</a></li>
-                    <li><a class="logo" id="pogo" href="http://www.pogo.org/">Project on Government Oversight</a></li>
-                </ul>
-                <p class="clear">Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://www.sunlightfoundation.com">SunlightFoundation.com</a> to learn more.</p>
+                <div id="bottomFooter">
+                    <ul id="footerPolicy">
+                        <li><a class="logo" id="sunlightFoundation" href="http://www.sunlightfoundation.com">Sunlight Foundation</a></li>
+                        <li><a class="logo" id="openSecrets" href="http://www.opensecrets.org/">Open Secrets</a></li>
+                        <li><a class="logo" id="followthemoney" href="http://www.followthemoney.org/">National Institute on Money in State Politics</a></li>
+                        <li><a class="logo" id="pogo" href="http://www.pogo.org/">Project on Government Oversight</a></li>
+                    </ul>
+                    <p id="description" class="clear">Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://www.sunlightfoundation.com">SunlightFoundation.com</a> to learn more.</p>
+                </div>
             </footer>
 
         </div>

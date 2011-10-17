@@ -119,7 +119,7 @@ a.moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, s
 
 /*headers*/
 
-h1 { float: left; padding-top: 85px; margin-bottom: 50px; width: 440px; height: 61px; margin-left: 10px;}
+h1 { float: left; padding-top: 85px; margin-bottom: 25px; width: 440px; height: 61px; margin-left: 10px;}
 h1 a { color: #000; text-decoration: none; font-size: 470%; text-transform: uppercase; line-height: 70px; text-indent: -9999em; display: block; background: url(../images/logo.png) top left no-repeat; width: 440px; height: 61px;}
 
 h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #000000; font-size: 380%; line-height: 45px; }
@@ -138,6 +138,14 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 #featureContent li h3 { background: url(../images/bg_highlightCircle.png) left top no-repeat; padding-left: 35px;}
 .shift { padding-left: 35px;}
 
+#facebookIcon { background: url(../images/socialSprites.png) left -48px no-repeat;}
+#facebookIcon:hover { background: url(../images/socialSprites.png) left -32px no-repeat;}
+#twitterIcon { background: url(../images/socialSprites.png) left -16px no-repeat;}
+#twitterIcon:hover { background: url(../images/socialSprites.png) left top no-repeat; }
+#socialIcons { float: right; margin-bottom: 10px;}
+#socialIcons li { float: left; margin-right: 10px;}
+#socialIcons li a { text-indent: -9999em; display: block; width: 16px; height: 16px;}
+
 #newsTitle { color: #b5c6c3; text-transform: lowercase; font-weight: normal; margin-bottom: -10px; padding-left: 40px;}
 #news { background: url(../images/bg_news.jpg) top left repeat-y; border-top: 1px solid #eae9e9; border-bottom: 1px solid #eae9e9; padding: 25px 40px;}
 #newsWrapper { border-bottom: 1px dashed #e0e0df; border-top: 1px dashed #e0e0df; padding: 3px 0; }
@@ -151,17 +159,14 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
     column-gap: 40px;
 }
 
-#sunlightRequests p { font-size: 95%; line-height: 18px; color: #999292; }
-#sunlightRequests label { width: auto; margin-top: 5px;}
-#sunlightRequests input { width: 150px;}
-
 #header_tools { background: url(../images/bg_tools.jpg) right 8px no-repeat; padding: 10px 0 12px; margin-bottom: 25px;}
 #header_explored { background: url(../images/bg_explored.jpg) right 8px no-repeat; padding: 10px 0 12px; }
 .toolDescription { width: 365px; float: left;}
 
-.contentModule { margin-bottom: 40px;}
+#topPages li { float: none; list-style-type: disc; margin-left: 15px;}
+#topPages span { display: block;}
 
-#badgeHeader { text-indent: -9999em; display: block; background: url(../images/badge.png) center top no-repeat; width: 78px; height: 77px; margin-top: -20px; float: left; margin-right: 20px;}
+.contentModule { margin-bottom: 40px;}
 
 #contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
 #contentHeader img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
@@ -312,7 +317,6 @@ body.search dd { text-align: right; width: 260px; margin-right: 0;}
 body.search table { margin-top: 15px;}
 
 
-
 /*buttons*/
 
 button, .linkBtn { text-indent: -9999em; display: block; border: none; cursor: pointer;}
@@ -338,10 +342,9 @@ button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.pn
 #donateBtn { background: url(../images/btn_donate.png) left top no-repeat; width: 145px; height: 60px; margin-left: 20px;}
 #donateBtn:hover { background: url(../images/btn_donate.png) left bottom no-repeat; }
 #ltColumn #donateBtn { margin-left: 0; margin-top: 30px; float: none; margin-bottom: 30px;}
-.signupBtn { background: url(../images/btn_signup.png) left top no-repeat; width: 90px; height: 30px; margin-top: 20px;}
+.signupBtn { background: url(../images/btn_signup.png) left top no-repeat; width: 90px; height: 30px; }
 .signupBtn:hover { background: url(../images/btn_signup.png) left bottom no-repeat; }
 .sendCardBtn { background: url(../images/btn_ecard.png) left top no-repeat; width: 259px; height: 45px; margin-left: 120px; margin-top: 20px;}
-
 
 
 form#contact { margin-top: 45px;}
@@ -358,11 +361,22 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 
 /*footer*/
 
-#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px;  margin: 2px 10px 60px; }
-#footerLinks ul { border-bottom: 1px dashed #E0E0DF; text-align: center; padding-bottom: 10px;}
+#footerLinks { background-color: #fafaf8; border: 1px solid #e2e2dc; padding: 15px 20px 20px;  margin: 2px 10px 40px; }
+#footerLinks nav ul { border-bottom: 1px dashed #E0E0DF; text-align: center; padding-bottom: 10px;}
 #footerLinks ul a { text-transform: uppercase; text-decoration: none; font-size: 120%; }
 #footerLinks nav li { border-left: 1px solid #cecec9; padding-left: 20px; margin-left: 20px; display: inline;}
 #footerLinks #aboutLink { border-left: none;}
+
+#requestsContent { float: left; margin-right: 20px; margin-top: 3px;}
+
+#sunlightRequests p { line-height: 18px; color: #999292; }
+#sunlightRequests label { width: auto; margin-top: 3px; margin-right: 10px;}
+#sunlightRequests { font-size: 90%; padding-top: 15px;}
+#badgeHeader { text-indent: -9999em; display: block; background: url(../images/badge.png) center top no-repeat; width: 78px; height: 77px; margin-top: -20px; float: left; margin-right: 20px;}
+
+#sunlightRequests input { padding: 3px 5px; color: #999292;}
+#id_email{ width: 260px; }
+#id_zip { width: 150px;}
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 
@@ -374,8 +388,9 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 #followthemoney:hover { background: url(../images/logo_followthemoney.jpg) left -66px no-repeat; }
 #pogo { background: url(../images/logo_pogo.jpg) left 10px no-repeat; width: 325px; height: 66px; margin-top: 10px;}
 
-#footerPolicy p { font-size: 90%; line-height: 16px; margin: 15px 0 0 220px; text-align: center; width: 500px; }
-
+#bottomFooter p { font-size: 90%; line-height: 16px; margin: 15px 0 40px 220px; text-align: center; width: 500px; }
+#signupForm li { float: left; margin-right: 25px; margin-top: 2px;}
+#signupForm label { text-indent: -9999em;}
 
 .relationships { margin-top: 8px; font-size: 90%; line-height: 16px; }
 .relationshipTitle { font-weight: bold; }

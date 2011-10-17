@@ -1,3 +1,7 @@
+$().ready( function() {
+    $( "input, textarea" ).placehold( );
+});
+
 $().ready(function() {
 	
 	/* hide cycle submit button if JavaScript is enabled */
