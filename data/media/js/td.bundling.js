@@ -19,17 +19,9 @@ $().ready(function() {
     TD.BundlingFilter.init = function() {
 
         TD.BundlingFilter.registerFilter({
-            name: 'committee_name',
-            label: 'Committee Name',
-            help: 'The name of the committee receiving the bundled contributions.',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
-
-        TD.BundlingFilter.registerFilter({
             name: 'recipient_name',
             label: 'Recipient',
-            help: 'Name of the politician (if any) associated with the committee which received the bundle',
+            help: 'Name of the politician or committee which received the bundled contribution',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
@@ -37,15 +29,7 @@ $().ready(function() {
         TD.BundlingFilter.registerFilter({
             name: 'lobbyist_name',
             label: 'Lobbyist',
-            help: 'Lobbyist who bundled the contributions',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: true
-        });
-
-        TD.BundlingFilter.registerFilter({
-            name: 'firm_name',
-            label: 'Lobbying Firm',
-            help: 'The name of the lobbying firm associated with the bundled contributions',
+            help: 'Lobbyist or lobbying firm who bundled the contributions',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
