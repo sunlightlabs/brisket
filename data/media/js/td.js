@@ -120,6 +120,19 @@ var TD = {
             }
             return '';
         },
+        coalesce: function(values) {
+            var first_non_null = values.length - 1; // default to last value
+
+            for (var i=0; i<values.length; i++) {
+
+                if (values[i]) {
+                    first_non_null = i;
+                    break;
+                }
+            }
+
+            return values[first_non_null];
+        },
         currencyFormat: function(s) {
             return $.currency(parseFloat(s));
         },

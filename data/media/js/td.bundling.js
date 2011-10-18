@@ -6,10 +6,8 @@ $().ready(function() {
 
     TD.BundlingFilter.row_content = function(row) {
         var content = ''
-        content += '<td class="committee_name">' + row.committee_name + '</td>';
-        content += '<td class="recipient_name">' + row.recipient_name + '</td>';
-        content += '<td class="lobbyist_name">' + row.lobbyist_name + '</td>';
-        content += '<td class="firm_name">' + row.firm_name + '</td>';
+        content += '<td class="recipient_name">' + TD.Utils.coalesce(new Array(row.recipient_name, row.committee_name)) + '</td>';
+        content += '<td class="lobbyist_name">' + TD.Utils.coalesce(new Array(row.lobbyist_name, row.firm_name)) + '</td>';
         content += '<td class="start_date">' + row.start_date + '</td>';
         content += '<td class="end_date">' + row.end_date + '</td>';
 
