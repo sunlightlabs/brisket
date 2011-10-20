@@ -8,8 +8,8 @@ $().ready(function() {
         var content = ''
         content += '<td class="recipient_name">' + TD.Utils.coalesce(new Array(row.recipient_name, row.committee_name)) + '</td>';
         content += '<td class="lobbyist_name">' + TD.Utils.coalesce(new Array(row.lobbyist_name, row.firm_name)) + '</td>';
-        content += '<td class="start_date">' + row.start_date + '</td>';
-        content += '<td class="end_date">' + row.end_date + '</td>';
+        content += '<td class="coverage_start">' + row.start_date + '</td>';
+        content += '<td class="coverage_end">' + row.end_date + '</td>';
 
         return content;
     }
