@@ -217,17 +217,29 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 
     section['contributions_data'] = True
     recipients = api.org.recipients(entity_id, cycle=cycle)
+    recipient_pacs = api.org.pac_recipients(entity_id, cycle)
 
-    recipients_barchart_data = []
+    pol_recipients_barchart_data = []
     for record in recipients:
-        recipients_barchart_data.append({
+        pol_recipients_barchart_data.append({
                 'key': generate_label(str(PoliticianNameCleaver(record['name']).parse().plus_metadata(record['party'], record['state']))),
                 'value' : record['total_amount'],
                 'value_employee' : record['employee_amount'],
                 'value_pac' : record['direct_amount'],
                 'href' : barchart_href(record, cycle, entity_type='politician')
                 })
-    section['recipients_barchart_data'] = json.dumps(bar_validate(recipients_barchart_data))
+    section['pol_recipients_barchart_data'] = json.dumps(bar_validate(pol_recipients_barchart_data))
+
+    pacs_barchart_data = []
+    for record in recipient_pacs:
+        pacs_barchart_data.append({
+                'key': generate_label(standardize_organization_name(record['name'])),
+                'value' : record['total_amount'],
+                'value_employee' : record['employee_amount'],
+                'value_pac' : record['direct_amount'],
+                'href' : barchart_href(record, cycle, entity_type="organization"),
+                })
+    section['pacs_barchart_data'] = json.dumps(bar_validate(pacs_barchart_data))
 
     party_breakdown = api.org.party_breakdown(entity_id, cycle)
     for key, values in party_breakdown.iteritems():
@@ -246,9 +258,10 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         section['suppress_contrib_graphs'] = True
         section['reason'] = "negative"
 
-    elif (not section['recipients_barchart_data']
+    elif (not section['pol_recipients_barchart_data']
           and not section['party_breakdown']
-          and not section['level_breakdown']):
+          and not section['level_breakdown']
+          and not section['pacs_barchart_data']):
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'
 

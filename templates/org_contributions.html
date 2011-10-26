@@ -3,8 +3,8 @@
 
 <div class="twoColumn chartWrapper">
   <div class="chart">
-    {% if section.recipients_barchart_data %}
-    <h4 class="key withTip">Top Recipients</h4>
+    {% if section.pol_recipients_barchart_data %}
+    <h4 class="key withTip">Top Politician Recipients</h4>
     <dl class="key">
         <dt class="employees">Employee Color Block</dt>
         <dd>Individuals</dd>
@@ -14,7 +14,7 @@
     </dl>
     <div class="clear"></div>
     <span class="tip">Includes contributions from the organization’s employees, their family members, and its political action committee.</span>
-    <div class="graph" id="recipients_barchart">
+    <div class="graph" id="pol_recipients_barchart">
       <!-- raphael charts here -->
     </div>
     {% endif %}
@@ -40,6 +40,21 @@
     </div>
   </div>
 </div>
+
+{% if section.pacs_barchart_data and section.pacs_barchart_data != "[]" %}
+<div class="twoColumn chartWrapper">
+  <div class="chart">
+    {% if section.pacs_barchart_data %}
+    <h4 class="withTip">Top Organization Recipients</h4>
+    <div class="graph" id="pacs_barchart">
+      <!-- raphael charts here -->
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="clear"></div> <!-- start a new row -->
+{% endif %}
 
 {% if section.bundling_data %}
   <div class="twoColumn chartWrapper">
