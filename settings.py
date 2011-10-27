@@ -122,7 +122,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
 LATEST_CYCLE = 2012
-TOP_LISTS_CYCLE = 2010
+TOP_LISTS_CYCLE = 2012
 
 SESSION_COOKIE_NAME = 'brisket_session'
 
