@@ -73,7 +73,7 @@ The sectors are identified by a single-letter code, as coded by CRP. The sector 
     ``E`` Energy/Natural Resources
     ``F`` Finance/Insurance/Real Estate
     ``H`` Health
-    ``K`` Lowyers and Lobbyists
+    ``K`` Lawyers and Lobbyists
     ``M`` Transportation
     ``N`` Misc. Business
     ``Q`` Ideology/Single Issue
