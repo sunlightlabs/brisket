@@ -111,7 +111,7 @@ def check_entity(entity_info, cycle, entity_type):
         icycle = int(cycle)
     except:
         raise Http404
-    if not entity_info['years'].get('start') or \ # latest cycle gets automatically appended as 'end' in metadata code, so 'start' is only reliable check
+    if not entity_info['years'].get('start') or \
         (icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end']))) or \
         icycle > LATEST_CYCLE or entity_info['type'] != entity_type:
         raise Http404
