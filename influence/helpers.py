@@ -92,7 +92,10 @@ def get_metadata(entity_id, cycle, entity_type):
             data[data_type] = False
 
     data['available_cycles'] = [c for c in entity_info['totals'].keys() if int(c) <= LATEST_CYCLE]
-    entity_info['years']['end'] = min(LATEST_CYCLE, entity_info['years'].get('end', 9999))
+
+    if entity_info['years']:
+        entity_info['years']['end'] = min(LATEST_CYCLE, entity_info['years']['end'])
+
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
         entity_info['totals'] = entity_info['totals'][cycle_str]
@@ -111,12 +114,12 @@ def check_entity(entity_info, cycle, entity_type):
         icycle = int(cycle)
     except:
         raise Http404
-    if not entity_info['years'].get('start') or \
+    if not entity_info['years']['start'] or \
         (icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end']))) or \
         icycle > LATEST_CYCLE or entity_info['type'] != entity_type:
         raise Http404
-        
-        
+
+
 def filter_bad_spending_descriptions(spending):
     for r in spending:
         if r['description'].count('!') > 10:
