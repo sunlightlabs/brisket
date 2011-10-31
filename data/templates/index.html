@@ -18,17 +18,7 @@
 {% endblock %}
 
 {% block content %}
-	<div id="dataTabs">
-		<ul>
-			<li id="contributionsTab"><a href="/contributions/" class="contributions">Campaign Contributions</a></li>
-			<li id="earmarksTab"><a href="/earmarks/" class="earmarks">Earmarks</a></li>
-			<li id="lobbyingTab"><a href="/lobbying/" class="lobbying">Lobbying</a></li>
-			<li id="grantsTab"><a href="/grants/" class="grants">Grants</a></li>
-			<li id="contractsTab"><a href="/contracts/" class="contracts">Contracts</a></li>
-            <li id="contractorMisconductTab"><a href="/contractor_misconduct/" class="contractorMisconduct">Contractor Misconduct</a></li>
-            <li id="epaEchoTab"><a href="/epa_echo/" class="epaEcho">EPA ECHO</a></li>
-		</ul>
-	</div>
+{% include "data_tabs.html" %}
 	<div class="introbox" id="intro-contributions">
 		<h4>Search Campaign Contributions</h4>
 		<div id="leftIntro">
@@ -168,78 +158,80 @@
             <a id="epaEchoPreviewButton" class="previewButton" href="#">Preview Data</a>
         </div>
     </div>
+    <div class="introbox" id="intro-faca">
+        <h4>Search FACA</h4>
+        <div id="leftIntro">
+            <p class="introText">Have a specific member, organization affiliation or agency in mind? Add some filters below to search through them.</p>
+            <h3>Search for</h3>
+            <div id="facaDataFilter" class="datafilter">
+                <form>
+                    <select id="filterselect">
+                        <option value="">Select a field to search...</option>
+                    </select>
+                    <ul id="filters"></ul> <!-- end filters -->
+                </form>
+            </div>
+        </div>
+        <div id="rightIntro">
+            <span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+            <a id="facaPreviewButton" class="previewButton" href="#">Preview Data</a>
+        </div>
+    </div>
+    <div class="introbox" id="intro-bundling">
+        <h4>Search Bundled Contributions</h4>
+        <div id="leftIntro">
+            <p class="introText">Have a specific bundler, politician or lobbying firm in mind? Add some filters below to search through them.</p>
+            <h3>Search for</h3>
+            <div id="bundlingDataFilter" class="datafilter">
+                <form>
+                    <select id="filterselect">
+                        <option value="">Select a field to search...</option>
+                    </select>
+                    <ul id="filters"></ul> <!-- end filters -->
+                </form>
+            </div>
+        </div>
+        <div id="rightIntro">
+            <span class="introText">Once you're done adding filters press the button below to view the sorted data.</span>
+            <a id="bundlingPreviewButton" class="previewButton" href="#">Preview Data</a>
+        </div>
+    </div>
     {% js "index.js" %}
 	<script type="text/javascript">
 
 		$().ready(function() {
+            var all_filters = [];
+
+            all_filters['lobbying'] = TD.LobbyingFilter;
+            all_filters['earmarks'] = TD.EarmarksFilter;
+            all_filters['grants'] = TD.GrantsFilter;
+            all_filters['contracts'] = TD.ContractsFilter;
+            all_filters['contribution'] = TD.ContributionFilter;
+            all_filters['contractorMisconduct'] = TD.ContractorMisconductFilter;
+            all_filters['epaEcho'] = TD.EpaEchoFilter;
+            all_filters['faca'] = TD.FacaFilter;
+            all_filters['bundling'] = TD.BundlingFilter;
+
 			$('#dataTabs li a').bind('click', function() {
 				var df = $(this).attr('class');
 				$('body').attr('id', df);
-				TD.HashMonitor.setAnchor('');
-				if (df == 'contributions') {
-					TD.activeFilter = TD.ContributionFilter;
-				} else if (df =='earmarks') {
-					TD.activeFilter = TD.EarmarksFilter;
-				} else if (df == 'lobbying') {
-					TD.activeFilter = TD.LobbyingFilter;
-				} else if (df == 'grants') {
-					TD.activeFilter = TD.GrantsFilter;
-				} else if (df == 'contracts') {
-					TD.activeFilter = TD.ContractsFilter;
-				} else if (df == 'contractorMisconduct') {
-					TD.activeFilter = TD.ContractorMisconductFilter;
-				} else if (df == 'epaEcho') {
-					TD.activeFilter = TD.EpaEchoFilter;
-				}
+
+                if (df in all_filters) {
+                    TD.activeFilter = all_filters[df];
+                }
+
 				return false;
 			});
 
-			TD.LobbyingFilter.bindDataFilter('#lobbyingDataFilter');
-			TD.LobbyingFilter.bindPreview('#lobbyingPreviewButton');
-		    TD.LobbyingFilter.init();
+            for (key in all_filters) {
+                all_filters[key].bindDataFilter('#' + key + 'DataFilter');
+                all_filters[key].bindPreview('#' + key + 'PreviewButton');
+                all_filters[key].init();
+            }
 
-			TD.HashMonitor.setAnchor('');
-
-			TD.EarmarksFilter.bindDataFilter('#earmarksDataFilter');
-			TD.EarmarksFilter.bindPreview('#earmarksPreviewButton');
-		    TD.EarmarksFilter.init();
-
-			TD.HashMonitor.setAnchor('');
-
-			TD.GrantsFilter.bindDataFilter('#grantsDataFilter');
-			TD.GrantsFilter.bindPreview('#grantsPreviewButton');
-		    TD.GrantsFilter.init();
-
-			TD.HashMonitor.setAnchor('');
-
-			TD.ContractsFilter.bindDataFilter('#contractsDataFilter');
-			TD.ContractsFilter.bindPreview('#contractsPreviewButton');
-		    TD.ContractsFilter.init();
-
-			TD.HashMonitor.setAnchor('');
-
-			TD.ContributionFilter.bindDataFilter('#contributionDataFilter');
-			TD.ContributionFilter.bindPreview('#contributionPreviewButton');
-		    TD.ContributionFilter.init();
-
-			TD.HashMonitor.setAnchor('');
-
-			TD.ContractorMisconductFilter.bindDataFilter('#contractorMisconductDataFilter');
-			TD.ContractorMisconductFilter.bindPreview('#contractorMisconductPreviewButton');
-		    TD.ContractorMisconductFilter.init();
-
-			TD.HashMonitor.setAnchor('');
-
-			TD.EpaEchoFilter.bindDataFilter('#epaEchoDataFilter');
-			TD.EpaEchoFilter.bindPreview('#epaEchoPreviewButton');
-		    TD.EpaEchoFilter.init();
-
-			TD.HashMonitor.setAnchor('');
-
+            TD.HashMonitor.setAnchor('');
 		    TD.activeFilter = TD.ContributionFilter;
-
 			TD.init();
-
 		});
 
 	</script>

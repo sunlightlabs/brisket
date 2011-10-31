@@ -1,15 +1,16 @@
 {% extends "filter.html" %}
 {% load media %}
 
-{% block bodyid %}epaEcho{% endblock %}
-{% block dataset_name %}EPA-ECHO{% endblock %}
+{% block bodyid %}faca{% endblock %}
+{% block dataset_name %}FACA{% endblock %}
 
 {% block table_header %}
-    <th>Case Name</th>
-    <th>Defendants</th>
-    <th>Date</th>
-    <th>Locations</th>
-    <th>Total Penalty</th>
+    <th>Committee</th>
+    <th>Agency</th>
+    <th>Member</th>
+    <th>Affiliation</th>
+    <th>Start Date</th>
+    <th>End Date</th>
 {% endblock %}
 
 {% block dataset_license %}
@@ -18,15 +19,15 @@
 {% endblock %}
 
 {% block dataset_scripts %}
-    {% js "epa_echo.js" %}
+    {% js "faca.js" %}
     <script type="text/javascript">
         $().ready(function() {
-            TD.EpaEchoFilter.bindDataFilter('#datafilter');
-            TD.EpaEchoFilter.bindPreview('#previewButton');
-            TD.EpaEchoFilter.bindDownload('#downloadButton');
-            TD.EpaEchoFilter.init();
+            TD.FacaFilter.bindDataFilter('#datafilter');
+            TD.FacaFilter.bindPreview('#previewButton');
+            TD.FacaFilter.bindDownload('#downloadButton');
+            TD.FacaFilter.init();
 
-            TD.activeFilter = TD.EpaEchoFilter;
+            TD.activeFilter = TD.FacaFilter;
 
             TD.init();
         });

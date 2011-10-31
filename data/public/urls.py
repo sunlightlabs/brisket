@@ -5,6 +5,8 @@ from dcapi.grants.urls import grantsfilter_handler
 from dcapi.lobbying.urls import lobbyingfilter_handler
 from dcapi.contractor_misconduct.urls import contractor_misconduct_filter_handler
 from dcapi.epa.urls import epafilter_handler
+from dcapi.faca.urls import facafilter_handler
+from dcapi.contributions.bundling.urls import bundlingfilter_handler
 
 from django.conf.urls.defaults import patterns, url
 
@@ -56,6 +58,18 @@ urlpatterns = patterns('dc_web.public.views',
     url(r'^data/epa_echo/$', 'search_preview', {'search_resource': epafilter_handler}, name="data_epa_echo"),
     url(r'^data/epa_echo/count/$', 'search_count', {'search_resource': epafilter_handler}, name="data_epa_echo_count"),
 
+    # faca
+    url(r'^faca/$', 'filter_faca', name="filter_faca"),
+    url(r'^faca/download/$', 'search_download', {'search_resource': facafilter_handler},  name="data_faca_download"),
+    url(r'^data/faca/$', 'search_preview', {'search_resource': facafilter_handler}, name="data_faca"),
+    url(r'^data/faca/count/$', 'search_count', {'search_resource': facafilter_handler}, name="data_faca_count"),
+
+    # bundled contributions
+    url(r'^contributions/bundled/$', 'filter_bundling', name="filter_bundling"),
+    url(r'^contributions/bundled/download/$', 'search_download', {'search_resource': bundlingfilter_handler},  name="data_bundling_download"),
+    url(r'^data/contributions/bundled/$', 'search_preview', {'search_resource': bundlingfilter_handler}, name="data_bundling"),
+    url(r'^data/contributions/bundled/count/$', 'search_count', {'search_resource': bundlingfilter_handler}, name="data_bundling_count"),
+    
     # doc lookups
     url(r'^docs/lookup/(?P<dataset>\w+)/(?P<field>[\w\-_]+)/$', 'lookup', name="doc_lookup"),
     

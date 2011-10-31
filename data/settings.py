@@ -66,13 +66,16 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'mediasync',
     'locksmith.auth',
+    'locksmith.logparse',
+    'dcdata.contribution',
     'dcdata',
     'dcdata.contracts',
-    'dcdata.contribution',
     'dcdata.grants',
     'dcdata.lobbying',
     'dcdata.earmarks',
     'dcdata.epa',
+    'dcdata.faca',
+    'dcentity',
     'dcentity.matching',
     'dcapi',
     'dcapi.aggregates',
@@ -91,6 +94,18 @@ PISTON_STREAM_OUTPUT = True
 
 LOCKSMITH_HUB_URL = "http://services.sunlightlabs.com/analytics/"
 LOCKSMITH_HTTP_HEADER = None
+LOCKSMITH_LOG_PATH = '/var/log/nginx/dc_web_access.log'
+
+from django.core.urlresolvers import resolve
+def api_resolve(x):
+    match = resolve(x)
+    if hasattr(match.func, 'handler'):
+        # resolve piston resources
+        return match.func.handler.__class__.__name__
+    else:
+        return match.func
+
+LOCKSMITH_LOG_CUSTOM_TRANSFORM = api_resolve
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
@@ -112,6 +127,11 @@ MEDIASYNC = {
             'js/jquery.currency.js',
             'js/underscore-min.js',
             'js/jquery.expander.js'
+        ],
+        'bundling.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.bundling.js'
         ],
         'contracts.js': [
             'js/td.js',
@@ -148,14 +168,21 @@ MEDIASYNC = {
             'js/td.fields.js',
             'js/td.lobbying.js'
         ],
+        'faca.js': [
+            'js/td.js',
+            'js/td.fields.js',
+            'js/td.faca.js'
+        ],
         'index.js': [
             'js/td.js',
             'js/td.fields.js',
+            'js/td.bundling.js',
             'js/td.contracts.js',
             'js/td.earmarks.js',
             'js/td.epa_echo.js',
             'js/td.grants.js',
             'js/td.lobbying.js',
+            'js/td.faca.js',
             'js/td.contributions.js',
             'js/td.contractor_misconduct.js'
         ],
@@ -166,7 +193,4 @@ MEDIASYNC = {
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/?timeout=10080'
 
 
-try:
-    from local_settings import *
-except ImportError:
-    pass
+from local_settings import *

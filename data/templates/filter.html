@@ -16,19 +16,9 @@
 {% block bodyclass %}filteredSearch{% endblock %}
 
 {% block content_container %}
-	<div id="dataTabs">
-		<ul>
-			<li id="contributionsTab"><a href="/contributions/">Campaign Contributions</a></li>
-			<li id="earmarksTab"><a href="/earmarks/">Earmarks</a></li>
-			<li id="lobbyingTab"><a href="/lobbying/">Lobbying</a></li>
-			<li id="grantsTab"><a href="/grants/">Grants</a></li>
-			<li id="contractsTab"><a href="/contracts/">Contracts</a></li>
-            <li id="contractorMisconductTab"><a href="/contractor_misconduct/">Contractor Misconduct</a></li>
-            <li id="epaEchoTab"><a href="/epa_echo/">EPA-ECHO</a></li>
-		</ul>
-	</div>
-	<div class="clear"></div>
-	{{ block.super }}
+{% include "data_tabs.html" %}
+    <div class="clear"></div>
+    {{ block.super }}
 {% endblock %}
 
 {% block content %}
