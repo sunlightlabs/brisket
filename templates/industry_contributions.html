@@ -1,6 +1,6 @@
 <div class="twoColumn chartWrapper">
   <div class="chart">
-    {% if section.recipients_barchart_data %}
+    {% if section.top_orgs %}
     <h4 class="key withTip">Top Organizations</h4>
     <dl class="key">
         <dt class="employees">Employee Color Block</dt>
@@ -30,7 +30,7 @@
 
 <div class="twoColumn chartWrapper">
   <div class="chart">
-    {% if section.recipients_barchart_data %}
+    {% if section.pol_recipients_barchart_data %}
     <h4 class="key withTip">Top Recipients</h4>
     <dl class="key">
         <dt class="employees">Employee Color Block</dt>
@@ -41,7 +41,7 @@
     </dl>
     <div class="clear"></div>
     <span class="tip">Includes contributions from the employees of organizations within the industry, their family members, and their political action committees.</span>
-    <div class="graph" id="recipients_barchart">
+    <div class="graph" id="pol_recipients_barchart">
       <!-- raphael charts here -->
     </div>
     {% endif %}
