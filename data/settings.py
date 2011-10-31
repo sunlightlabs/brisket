@@ -52,7 +52,6 @@ MIDDLEWARE_CLASSES = (
 #    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'locksmith.auth.middleware.APIKeyMiddleware',
     'dcapi.middleware.APIMiddleware',
-    'sentry.client.middleware.Sentry404CatchMiddleware',
 )
 
 ROOT_URLCONF = 'dc_web.urls'
@@ -81,7 +80,7 @@ INSTALLED_APPS = (
     'dcapi.aggregates',
     'dcapi.rapportive',
     'dc_web.public',
-    'sentry.client',
+    'raven.contrib.django',
     'django_nose',
     'gunicorn',
 )
