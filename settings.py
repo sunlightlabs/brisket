@@ -102,7 +102,7 @@ INSTALLED_APPS = (
 #    'django.contrib.admin',
     'django_nose',
     'sentry',
-    'sentry.client',
+    'raven.contrib.django',
     'indexer',
     'paging',
     'gunicorn',
