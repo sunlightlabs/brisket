@@ -467,9 +467,8 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
 
     top_contributors = api.pol.contributors(entity_id, cycle)
     top_industries = api.pol.industries(entity_id, cycle=cycle)
-    industries_unknown_amount = api.pol.industries_unknown(entity_id, cycle=cycle).get('amount', 0)
-    pct_unknown = float(industries_unknown_amount) * 100 / amount
-    section['pct_known'] = int(round(100 - pct_unknown))
+
+    section['pct_known'] = pct_contribs_from_known_industries(entity_id, cycle, amount)
 
     contributors_barchart_data = []
     for record in top_contributors:
@@ -527,6 +526,17 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     #section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
     return section
+
+
+def pct_contribs_from_known_industries(entity_id, cycle, amount):
+    industries_unknown_amount = api.pol.industries_unknown(entity_id, cycle=cycle).get('amount', 0)
+
+    pct_unknown = 0
+
+    if amount:
+        pct_unknown = float(industries_unknown_amount) * 100 / amount
+
+    return int(round(100 - pct_unknown))
 
 
 def earmarks_table_data(entity_id, cycle):
