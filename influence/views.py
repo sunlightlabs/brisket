@@ -479,7 +479,8 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
             'value_pac' : record['direct_amount'],
             'href' : barchart_href(record, cycle, 'organization')
         })
-    section['contributors_barchart_data'] = json.dumps(bar_validate(contributors_barchart_data))
+    contributors_barchart_data = bar_validate(contributors_barchart_data)
+    section['contributors_barchart_data'] = json.dumps(contributors_barchart_data)
 
     industries_barchart_data = []
     for record in top_industries:
@@ -488,19 +489,22 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
             'href': barchart_href(record, cycle, 'industry'),
             'value' : record['amount'],
         })
-    section['industries_barchart_data'] = json.dumps(bar_validate(industries_barchart_data))
+    industries_barchart_data = bar_validate(industries_barchart_data)
+    section['industries_barchart_data'] = json.dumps(industries_barchart_data)
 
     local_breakdown = api.pol.local_breakdown(entity_id, cycle)
     for key, values in local_breakdown.iteritems():
         # values is a list of [count, amount]
         local_breakdown[key] = float(values[1])
-    section['local_breakdown'] = json.dumps(pie_validate(local_breakdown))
+    local_breakdown = pie_validate(local_breakdown)
+    section['local_breakdown'] = json.dumps(local_breakdown)
 
     entity_breakdown = api.pol.contributor_type_breakdown(entity_id, cycle)
     for key, values in entity_breakdown.iteritems():
         # values is a list of [count, amount]
         entity_breakdown[key] = float(values[1])
-    section['entity_breakdown'] = json.dumps(pie_validate(entity_breakdown))
+    entity_breakdown = pie_validate(entity_breakdown)
+    section['entity_breakdown'] = json.dumps(entity_breakdown)
 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
@@ -509,17 +513,14 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
         section['suppress_contrib_graphs'] = True
         section['reason'] = "negative"
 
-    elif (not section['industries_barchart_data']
-        and not section['contributors_barchart_data']
-        and not section['local_breakdown']
-        and not section['entity_breakdown']):
+    elif not any((industries_barchart_data, contributors_barchart_data, local_breakdown, entity_breakdown)):
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'
 
     section['sparkline_data'] = json.dumps(api.pol.sparkline(entity_id, cycle))
-    
+
     section['partytime_link'], section['partytime_data'] = external_sites.get_partytime_data(external_ids)
-    
+
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name, external_ids, cycle)
 
     #bundling = api.entities.bundles(entity_id, cycle)
