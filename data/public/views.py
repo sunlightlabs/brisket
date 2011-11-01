@@ -63,7 +63,6 @@ def doc_index(request):
 def lookup(self, dataset, field):
     if dataset == 'contracts':
         attr = field.upper()
-        print dir(contracts)
         if hasattr(contracts, attr):
             return render_to_response('docs/lookup.html', {
                 'attr': attr,
