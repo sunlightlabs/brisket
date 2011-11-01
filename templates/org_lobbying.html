@@ -3,38 +3,25 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="overviewBar">
-    <a class="toggle">Toggle</a>
-    <h3 class="insideBar">Lobbying, 
-        {% ifequal cycle "-1" %} 
-            {{entity_info.lobbying_years.start|add:-1}} &#150; {{entity_info.lobbying_years.end}}
-        {% else %}  
-            {{cycle|add:-1}} &#150; {{cycle}} 
-        {% endifequal %}
-    </h3>
-    <div class="insideBar amount">
-        <span class="amount">
-            {% if section.is_lobbying_firm %} 
-        	    {% if entity_info.totals.firm_income %}
-        	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
-        	    {% endif %}
-            {% else %}
-            	{% if entity_info.totals.non_firm_spending %}
-            		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
-            	{% endif %}
-            {% endif %}
-        </span>
-        <a class="descriptor" title="More Information" href="#lobbyingDescriptor">Information</a>
-        <div class="clear"></div>
-        <div class="descriptorText" id="lobbyingDescriptor">
-      		<p>Figures are based on lobbying activity reported to the Senate Office of Public Records. Reported dollar amounts are required to be accurate only to the nearest $20,000. For organizations whose primary business is lobbying, we display total income and top clients. For organizations that are not primarily lobbying firms, we display total amount spent on lobbying and top lobbying firms hired.</p>
-      		<p>For more information, please see our <a href="/about/methodology/lobbying">lobbying methodology</a> page.</p>
-        </div> 
-    </div>
-    <div id="sparklines">                
-        {% block lobbying_sparkline %}
-        {% endblock %}
-    </div>  
+<div class="overviewBar withNav">
+    <h3>Lobbying</h3>
+    <span class="amount">
+        {% if section.is_lobbying_firm %} 
+    	    {% if entity_info.totals.firm_income %}
+    	    	${{ entity_info.totals.firm_income|floatformat:0|intcomma }} Income
+    	    {% endif %}
+        {% else %}
+        	{% if entity_info.totals.non_firm_spending %}
+        		${{ entity_info.totals.non_firm_spending|floatformat:0|intcomma }} Spent
+        	{% endif %}
+        {% endif %}
+    </span>
+    <a class="descriptor" title="More Information" href="#lobbyingDescriptor">Information</a>
+    <div class="clear"></div>
+    <div class="descriptorText" id="lobbyingDescriptor">
+  		<p>Figures are based on lobbying activity reported to the Senate Office of Public Records. Reported dollar amounts are required to be accurate only to the nearest $20,000. For organizations whose primary business is lobbying, we display total income and top clients. For organizations that are not primarily lobbying firms, we display total amount spent on lobbying and top lobbying firms hired.</p>
+  		<p>For more information, please see our <a href="/about/methodology/lobbying">lobbying methodology</a> page.</p>
+    </div> 
     {% block lobbying_details_link %}
     {% endblock %}
 </div>
@@ -42,7 +29,7 @@
 
 <div class="chartModule">
     {% if section.is_lobbying_firm %}
-	  <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
+            <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
 	  <div class="oneColumn chartWrapper">
 	      {% if section.lobbying_lobbyists %}
     	  <div class="lobbyistsOrgs">

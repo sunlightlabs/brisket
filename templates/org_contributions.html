@@ -1,7 +1,7 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="twoColumn chartWrapper">
+<li class="twoColumn chartWrapper">
   <div class="chart">
     {% if section.recipients_barchart_data %}
     <h4 class="key withTip">Top Recipients</h4>
@@ -19,9 +19,9 @@
     </div>
     {% endif %}
   </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
+<li class="oneColumn chartWrapper">
   <div class="chart">
     <h4 class="withTip">Republicans vs. Democrats</h4>
     <span class="tip">in dollars</span>
@@ -29,9 +29,9 @@
       <!-- raphael charts here -->
     </div>
   </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
+<li class="oneColumn chartWrapper">
   <div class="chart">
     <h4 class="withTip">State vs. Federal</h4>
     <span class="tip">in dollars</span>
@@ -39,10 +39,10 @@
       <!-- raphael charts here -->
     </div>
   </div>
-</div>
+</li>
 
 {% if section.bundling_data %}
-  <div class="twoColumn chartWrapper">
+  <li class="twoColumn chartWrapper">
     <h4 class="withTip">Bundled Contributions</h4>
     <span class="tip">Money raised by the firm from multiple donors on behalf of the recipient. The firm's own contributions are not included.</span>
     <table class="twoColumn">
@@ -63,6 +63,6 @@
         {% endfor %}
         </tbody>
     </table>
-  </div>
+  </li>
 {% endif %}
 

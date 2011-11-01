@@ -1,53 +1,31 @@
 {% load humanize %}
 
-<div class="overviewBar">
-  {% if not section.suppress_contrib_graphs %}
-  <a class="toggle">Toggle</a>
-  {% endif %}
-  <h3 class="insideBar">Campaign Finance, 
-      {% ifequal cycle "-1" %} 
-          {{entity_info.camp_fin_years.start|add:-1}} &#150; {{entity_info.camp_fin_years.end}}
-        {% else %}  
-          {{cycle|add:-1}} &#150; {{cycle}} 
-        {% endifequal %}</h3>
-  <div class="insideBar amount">
-    <span class="amount">{% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
-    ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
-    {% else %}
-    ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
-    {% endif %}</span>
+<div class="overviewBar withNav">
+    <h3 class="insideBar">Campaign Finance</h3>
+    <span class="amount">
+        {% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
+            ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
+        {% else %}
+            ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+        {% endif %}</span>
     <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
     <div class="clear"></div>
     <div class="descriptorText" id="contributionsDescriptor">
-		<p>Figures are based on itemized contributions reported to the Federal Election Commission and state agencies. Please note that:</p>
-		<ul>
-			<li>contributions under $200 are not reported, and so are not included in totals.</li>
-			<li>only contributions from individuals and organizations to candidates are included. Various accounting measures and more exotic contribution types are excluded.</li>
-			<li>contributions are matched based on organization and recipient name reported within each election cycle. Contributions using an incorrect or non-standard version of the name may be missed.</li>
-			<li>corporate name changes and mergers may cause figures to differ from those of the Center for Responsive Politics.</li>
-			<li>organization totals include known subsidiaries of the organization.</li>
-		</ul>
-		<p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page.</p>
-    </div>
-  </div>
-  <div id="sparklinesContainer">
-      <div id="sparklines">
-        <!-- raphael sparkline -->
-      </div>
-      <div id="sparklines_legend">
-        <ul>
-          <li id="sparklines_legend_d">Democrats</li>
-          <li id="sparklines_legend_r">Republicans</li>
-        </ul>
-      </div>
-  </div>  
-  
+	    <p>Figures are based on itemized contributions reported to the Federal Election Commission and state agencies. Please note that:</p>
+    	<ul>
+    		<li>contributions under $200 are not reported, and so are not included in totals.</li>
+    		<li>only contributions from individuals and organizations to candidates are included. Various accounting measures and more exotic contribution types are excluded.</li>
+    		<li>contributions are matched based on organization and recipient name reported within each election cycle. Contributions using an incorrect or non-standard version of the name may be missed.</li>
+    		<li>corporate name changes and mergers may cause figures to differ from those of the Center for Responsive Politics.</li>
+    		<li>organization totals include known subsidiaries of the organization.</li>
+    	</ul>
+	    <p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page.</p>
+    </div>  
 </div>
 
-<div class="chartModule">
+<ul class="chartModule withNav">
 
   {% block charts %}   
-  
   {% if not section.suppress_contrib_graphs %}
     {% if entity_info.type == "individual" %}
     {% include "indiv_contributions.html" %}
@@ -67,9 +45,8 @@
 
   {% endblock %} <!-- end chart block -->
 
-  <div class="clear"></div>
   
-  <div class="external">
+  <li class="external clear">
     {% if section.external_links or section.partytime_link %}
     For more in-depth information on the complete contribution data see:
     {% for link in section.external_links %}
@@ -77,7 +54,6 @@
     {% endfor %}
     {% if section.partytime_link %}<a href="{{ section.partytime_link }}" class="external" target="_blank">Party Time</a>{% endif %}
     {% endif %}
-  </div>
-  
-  <div class="clear"></div>
-</div><!-- end chartModule -->
+  </li>
+</ul><!-- end chartModule -->
+<div class="clear"></div>
