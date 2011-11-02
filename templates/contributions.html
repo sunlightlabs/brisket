@@ -22,38 +22,37 @@
 	    <p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page.</p>
     </div>  
 </div>
+<div class="chartModule withNav">
+    <ul>
+      {% block charts %}   
+      {% if not section.suppress_contrib_graphs %}
+        {% if entity_info.type == "individual" %}
+        {% include "indiv_contributions.html" %}
+        {% else %}{% if entity_info.type == "politician" %}
+        {% include "pol_contributions.html" %}
+        {% else %}{% if entity_info.type == "organization" %}
+        {% include "org_contributions.html" %}
+        {% else %}{% if entity_info.type == "industry" %}
+        {% include "industry_contributions.html" %}
+        {% endif %}{% endif %}{% endif %}{% endif %}
+      {% else %}
+      {% if section.reason == "negative" %}
+      <p>Due to refunds and other accounting issues, aggregate totals
+      for this time frame were negative.</p>  
+      {% endif %}
+      {% endif %}
 
-<ul class="chartModule withNav">
+      {% endblock %} <!-- end chart block -->
 
-  {% block charts %}   
-  {% if not section.suppress_contrib_graphs %}
-    {% if entity_info.type == "individual" %}
-    {% include "indiv_contributions.html" %}
-    {% else %}{% if entity_info.type == "politician" %}
-    {% include "pol_contributions.html" %}
-    {% else %}{% if entity_info.type == "organization" %}
-    {% include "org_contributions.html" %}
-    {% else %}{% if entity_info.type == "industry" %}
-    {% include "industry_contributions.html" %}
-    {% endif %}{% endif %}{% endif %}{% endif %}
-  {% else %}
-  {% if section.reason == "negative" %}
-  <p>Due to refunds and other accounting issues, aggregate totals
-  for this time frame were negative.</p>  
-  {% endif %}
-  {% endif %}
-
-  {% endblock %} <!-- end chart block -->
-
-  
-  <li class="external clear">
-    {% if section.external_links or section.partytime_link %}
-    For more in-depth information on the complete contribution data see:
-    {% for link in section.external_links %}
-    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
-    {% endfor %}
-    {% if section.partytime_link %}<a href="{{ section.partytime_link }}" class="external" target="_blank">Party Time</a>{% endif %}
-    {% endif %}
-  </li>
-</ul><!-- end chartModule -->
+    </ul><!-- end chartModule -->
+    <span class="external clear">
+        {% if section.external_links or section.partytime_link %}
+        For more in-depth information on the complete contribution data see:
+        {% for link in section.external_links %}
+        <a href="{{ link.url }}" target="_blank">{{ link.text }}</a>
+        {% endfor %}
+        {% if section.partytime_link %}<a href="{{ section.partytime_link }}" class="external" target="_blank">Party Time</a>{% endif %}
+        {% endif %}
+    <span>
+</div>
 <div class="clear"></div>

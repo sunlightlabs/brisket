@@ -226,7 +226,7 @@ select { color: #58595b;}
 #description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px; float: left}
 
 .external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
-a.external { padding-left: 5px; }
+.external a { padding-left: 5px; }
 
 .overviewBar { background: url(../images/overviewBar_2.png) top left repeat; padding-top: 10px; height: 55px; margin: 30px 0 40px; height: 45px;}
 
@@ -273,7 +273,7 @@ dt.employees { background-color: #efcc01;}
 dt.pac { background-color: #f27e01;}
 
 .secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
-.lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li, .earmark-requests li { float: left; margin-right: 10px;}
+.lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li, .earmark-requests li, .interiorList { float: left; margin-right: 10px; margin-bottom: 0;}
 .lobbyistsOrgs, .ecards li, .issuesLobied { margin-bottom: 30px;}
 
 table .even, li.even, div.even{ background-color: #f5f4f4;}
@@ -592,4 +592,8 @@ table .even.numerous{
 
 .withCaps { text-transform: none; }
 
-#miniNav { position: absolute;}
+#miniNav { background: url(../images/bg_sideNav.png) top left repeat-y; width: 99px; padding: 10px 0; color: #fff; line-height: 15px; font-size: 90%; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
+#miniNav li { margin-bottom: 10px; padding: 0 17px 2px 16px; margin-left: -10px;}
+#miniNav li a { color: #fff; padding-top: 2px; display: block;}
+#miniNavWrapper { background: url(../images/bg_miniNavCorner.png) top left no-repeat; padding-top: 6px; position: fixed; top: 40px; z-index: 3;}
+#miniNav li.active, #miniNav li:hover { background: url(../images/bg_smNavActive.png) left center no-repeat;  }

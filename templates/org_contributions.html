@@ -1,8 +1,7 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<li class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.recipients_barchart_data %}
     <h4 class="key withTip">Top Recipients</h4>
     <dl class="key">
@@ -18,51 +17,46 @@
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
 </li>
 
-<li class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">Republicans vs. Democrats</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_party">
       <!-- raphael charts here -->
     </div>
-  </div>
 </li>
 
-<li class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">State vs. Federal</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_level">
       <!-- raphael charts here -->
     </div>
-  </div>
 </li>
 
 {% if section.bundling_data %}
-  <li class="twoColumn chartWrapper">
-    <h4 class="withTip">Bundled Contributions</h4>
-    <span class="tip">Money raised by the firm from multiple donors on behalf of the recipient. The firm's own contributions are not included.</span>
-    <table class="twoColumn">
-        <thead>
-            <tr>
-                <th>Recipient</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for recipient_entity, recipient_name, recipient_type, amount in section.bundling_data %}
-        <tr class="{% cycle 'even' 'odd' %}">
-            <td>
-                {% if recipient_entity %}<a href="/{{recipient_type}}/{{recipient_name|slugify}}/{{recipient_entity}}">{% endif %}{{ recipient_name|standardize_politician_name }}{% if recipient_entity %}</a>{% endif %}
-            </td>
-            <td>${{ amount|floatformat:0|intcomma }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-  </li>
+    <li class="twoColumn">
+        <h4 class="withTip">Bundled Contributions</h4>
+        <span class="tip">Money raised by the firm from multiple donors on behalf of the recipient. The firm's own contributions are not included.</span>
+        <table class="twoColumn">
+            <thead>
+                <tr>
+                    <th>Recipient</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipient_entity, recipient_name, recipient_type, amount in section.bundling_data %}
+                    <tr class="{% cycle 'even' 'odd' %}">
+                        <td>
+                            {% if recipient_entity %}<a href="/{{recipient_type}}/{{recipient_name|slugify}}/{{recipient_entity}}">{% endif %}{{ recipient_name|standardize_politician_name }}{% if recipient_entity %}</a>{% endif %}
+                        </td>
+                        <td>${{ amount|floatformat:0|intcomma }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </li>
 {% endif %}
 
