@@ -45,6 +45,7 @@
       {% endblock %} <!-- end chart block -->
 
     </ul><!-- end chartModule -->
+    <div class="clear"></div>
     <span class="external clear">
         {% if section.external_links or section.partytime_link %}
         For more in-depth information on the complete contribution data see:
@@ -53,6 +54,6 @@
         {% endfor %}
         {% if section.partytime_link %}<a href="{{ section.partytime_link }}" class="external" target="_blank">Party Time</a>{% endif %}
         {% endif %}
-    <span>
+    </span>
+    <div class="clear"></div>
 </div>
-<div class="clear"></div>

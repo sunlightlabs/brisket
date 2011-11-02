@@ -49,7 +49,7 @@ ins { background-color:#ff9; color:#000; text-decoration:none; }
 mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold; }
 del { text-decoration: line-through; }
 abbr[title], dfn[title] { border-bottom:1px dotted; cursor:help; }
-table { border-collapse:collapse; border-spacing:0; }
+table { border-collapse:collapse; border-spacing:0; width: 100%;}
 hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 0; padding:0; }
 input, select { vertical-align:middle; }
 
@@ -114,7 +114,6 @@ div#pageMain, footer { width: 960px; margin: 0 auto; }
 .tip, div.searchBox .results, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; }
 .tip { line-height: 17px; display: block; color: #827d7d; margin-bottom: 25px;}
 a.moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-top: 20px; display: block;}
-.withTip { margin-bottom: 5px; }
 
 /*headers*/
 
@@ -218,7 +217,7 @@ div#mainContent_top { background: url(../images/whitebox_top.png) top left no-re
 div#mainContent { background: url(../images/whitebox_middle.png) top left repeat-y; padding-top: 25px; padding-bottom: 55px;}
 div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center top no-repeat; height: 10px;}
 
-#changeDates { background: url(../images/bg_currentView.png) top left repeat-x; height: 40px; padding-left: 115px; }
+#changeDates { background: url(../images/bg_currentView.png) top left repeat-x; height: 40px; padding-left: 115px; padding-top: 10px;}
 #changeDates label { width: auto; font-weight: bold; margin-right: 15px;}
 
 select { color: #58595b;}
@@ -234,6 +233,7 @@ select { color: #58595b;}
 .chartModule { padding: 0 5px 30px 40px; }
 .withNav { padding-left: 115px;}
 .chartModule li { margin-right: 35px; margin-bottom: 55px;}
+.insideList li { margin-right: 0; margin-bottom: 0;}
 
 .oneColumn { width: 230px; float: left;}
 .twoColumn { width: 520px; float: right;}
@@ -278,7 +278,7 @@ dt.pac { background-color: #f27e01;}
 
 table .even, li.even, div.even{ background-color: #f5f4f4;}
 td, .expandDocList th { padding: 10px;}
-th, .expandTableHead li { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; }
+th, .expandTableHead li { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; text-align: left; }
 th.left { padding-left: 10px;}
 th.right { padding-right: 10px;}
 .center, td.lawmakerName a { text-align: center;}
@@ -449,15 +449,12 @@ dt.moneyTitle { margin-top: 8px;}
 .author { float: left; margin-right: 15px;  font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 .internalContent { margin-left: 50px;}
 
-.expandTableHead, .expandTableRow{
-    width: 880px;
-}
 
 .regColSmall { width: 50px; }
 .regColCount { width: 85px; }
-.regColDate { width: 125px; }
-.regColLarge { width: 500px; }
-.facaColLarge { width: 400px; }
+.regColDate { width: 100px; }
+.regColLarge { width: 400px; }
+.facaColLarge { width: 320px; }
 .expandCol { float: left; padding: 10px; }
 .toggle { background: url(../images/toggle.png) bottom left no-repeat; width: 13px; height: 12px; margin-top: 22px; display: block; text-indent: -9999em; margin: 10px; padding: 0;}
 .toggle.active { background: url(../images/toggle.png) top left no-repeat; }
@@ -465,7 +462,7 @@ dt.moneyTitle { margin-top: 8px;}
 
 .expandDocList {
     display: none;
-    margin-left: 205px;
+    margin-left: 100px;
 }
 
 .expandTableRow .loading {
@@ -597,3 +594,5 @@ table .even.numerous{
 #miniNav li a { color: #fff; padding-top: 2px; display: block;}
 #miniNavWrapper { background: url(../images/bg_miniNavCorner.png) top left no-repeat; padding-top: 6px; position: fixed; top: 40px; z-index: 3;}
 #miniNav li.active, #miniNav li:hover { background: url(../images/bg_smNavActive.png) left center no-repeat;  }
+
+.withTip { margin-bottom: 5px; }

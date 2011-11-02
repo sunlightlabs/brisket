@@ -1,70 +1,58 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="overviewBar">
-  <a class="toggle">Toggle</a>
-  <h3 class="insideBar">Federal Spending,
-      {% ifequal cycle "-1" %}
-        {{entity_info.spending_years.start|add:-1}} &#150; {{entity_info.spending_years.end}}
-      {% else %}
-        {{cycle|add:-1}} &#150; {{cycle}}
-      {% endifequal %}</h3>
-      <div class="insideBar amount">
-          <span class="amount">
-	  		{{ section.gc_found_things|join:"; " }}
-      	  </span>
-          <a class="descriptor" title="More Information" href="#spendingDescriptor">Information</a>
-          <div class="clear"></div>      
-          <div class="descriptorText" id='spendingDescriptor'>
-              <p>Federal grants, contracts and loans are reported by federal agencies using the FPDS and FAADS systems. The data is made available to the public at <a href="http://www.usaspending.gov/">USASpending.gov</a>. Please note that the completeness and quality of the data varies greatly by agency.</p>
-              <p>Only grants, contracts and loans with amounts over $1 million are shown.</p>
-              <p>Because company names are not reported in a standardized manner, we cannot reliably determine the company receiving the contract or award. The results shown here are based on a search for the company name. Individual records may be missed or erroneously included because of name variations. For more information, please see our <a href="/about/methodology/fed_spending">federal spending methodology</a> page.</p>
-          </div>      
-    </div>
+<div class="overviewBar withNav withTip">
+    <h3 class="insideBar">Federal Spending</h3>
+    <span class="amount">{{ section.gc_found_things|join:"; " }}</span>
+    <a class="descriptor" title="More Information" href="#spendingDescriptor">Information</a>
+    <div class="clear"></div>      
+    <div class="descriptorText" id='spendingDescriptor'>
+        <p>Federal grants, contracts and loans are reported by federal agencies using the FPDS and FAADS systems. The data is made available to the public at <a href="http://www.usaspending.gov/">USASpending.gov</a>. Please note that the completeness and quality of the data varies greatly by agency.</p>
+        <p>Only grants, contracts and loans with amounts over $1 million are shown.</p>
+        <p>Because company names are not reported in a standardized manner, we cannot reliably determine the company receiving the contract or award. The results shown here are based on a search for the company name. Individual records may be missed or erroneously included because of name variations. For more information, please see our <a href="/about/methodology/fed_spending">federal spending methodology</a> page.</p>
+    </div>      
 </div>
 
-<div class="chartModule">
-
-{% if entity_info.totals.contract_count or entity_info.totals.grant_count %}
-<div class="fulltext-disclaimer">
-	Note: Company names in federal spending data are not standardized. The table below is included only as a sample of what is available in the data and has not been reviewed for accuracy or completeness. To investigate the data further, use the links below to USA Spending or TransparencyData.com.
-</div>
-{% endif %}
-
-  <table class="threeColumn mainTable" id="grantsContracts">
-    <thead>
-      <tr>
-        <th class="type">Type</th>
-        <th class="recipient">Recipient Name</th>
-		<th class="year">Year</th>
-		<th class="agency">Agency</th>
-		<th class="description">Description</th>
-		<th class="right">Amount</th>
-    </thead>
-    <tbody>
-    {% for row in section.grants_and_contracts %}
-      <tr class="{% cycle 'even' 'odd' %}">
-        <td class="cell-type"><div class="label-{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}">{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}</div></td>
-        <td class="cell-recipient">{{ row.recipient_name|standardize_organization_name }}</td>
-	    <td class="cell-year">{{ row.fiscal_year }}</td>
-	    <td class="cell-agency">{{ row.agency_name|standardize_organization_name }}</td>
-	    <td class="cell-description">{{ row.description }}</td>
-	    <td class="right cell-amount">${{ row.amount|floatformat:0|intcomma }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-  
-  <div class="clear"></div>
-  
-  <div class="external">
-    {% if section.gc_links %}
-    For more in-depth information on the complete grants and contracts data see:
-    {% for link in section.gc_links %}
-    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
-    {% endfor %}
+<div class="chartModule withNav">
+    {% if entity_info.totals.contract_count or entity_info.totals.grant_count %}
+        <p class="tip">
+    	    Note: Company names in federal spending data are not standardized. The table below is included only as a sample of what is available in the data and has not been reviewed for accuracy or completeness. To investigate the data further, use the links below to USA Spending or TransparencyData.com.
+        </p>
     {% endif %}
-  </div>
+    <table class="threeColumn mainTable" id="grantsContracts">
+        <thead>
+            <tr>
+                <th class="type">Type</th>
+                <th class="recipient">Recipient Name</th>
+                <th class="year">Year</th>
+                <th class="agency">Agency</th>
+                <th class="description">Description</th>
+                <th class="right">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in section.grants_and_contracts %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td class="cell-type"><div class="label-{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}">{% if row.type = 'g' %}grant{% else %}{% if row.type = 'l' %}loan{% else %}contract{% endif %}{% endif %}</div></td>
+                <td class="cell-recipient">{{ row.recipient_name|standardize_organization_name }}</td>
+                <td class="cell-year">{{ row.fiscal_year }}</td>
+        	    <td class="cell-agency">{{ row.agency_name|standardize_organization_name }}</td>
+        	    <td class="cell-description">{{ row.description }}</td>
+        	    <td class="right cell-amount">${{ row.amount|floatformat:0|intcomma }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="clear"></div>
   
-  <div class="clear"></div>
+    <span class="external">
+        {% if section.gc_links %}
+        For more in-depth information on the complete grants and contracts data see:
+        {% for link in section.gc_links %}
+        <a href="{{ link.url }}" target="_blank">{{ link.text }}</a>
+        {% endfor %}
+        {% endif %}
+    </span>
+  
+    <div class="clear"></div>
 </div><!-- end chartModule -->
