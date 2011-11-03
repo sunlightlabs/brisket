@@ -14,6 +14,7 @@
 </div>
 
 <div class="chartModule withNav">
+    <span class="tip external">updated Jan. 28, 2010</span>
     {% if entity_info.totals.contract_count or entity_info.totals.grant_count %}
         <p class="tip">
     	    Note: Company names in federal spending data are not standardized. The table below is included only as a sample of what is available in the data and has not been reviewed for accuracy or completeness. To investigate the data further, use the links below to USA Spending or TransparencyData.com.
@@ -44,6 +45,8 @@
         </tbody>
     </table>
     <div class="clear"></div>
+  
+  <a class="moreLink" href="#">View all federal spending data for {{ entity_info.name }}</a>
   
     <span class="external">
         {% if section.gc_links %}

@@ -1,7 +1,7 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="overviewBar withNav">
+<div class="overviewBar withNav withTip">
     <h3>Contractor Misconduct</h3>
     <span class="amount">{{ entity_info.totals.contractor_misconduct_count|intcomma }} Instances</span>
     <a class="descriptor" title="More Information" href="#contractorMisconductDescriptor">Information</a>
@@ -13,9 +13,12 @@
 </div><!-- end overviewBar -->
 
 <div class="chartModule withNav">
+    <span class="tip external">updated Jan. 28, 2010</span>
     {% include "contractor_misconduct_table.html" with contractor_misconduct=section.contractor_misconduct %}
 
     <div class="clear"></div>
+    
+    <a class="moreLink" href="#">View all contractor misconduct data for {{ entity_info.name }}</a>
 
     <span class="external">
         {% if section.pogo_links %}

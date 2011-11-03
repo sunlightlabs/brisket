@@ -15,6 +15,7 @@
 </div>
 
 <div class="chartModule withNav">
+    <span class="tip external">updated Jan. 28, 2010</span>
     <p class="tip">Table shows employees of "{{ entity_info.name|standardize_organization_name }}" that sat on federal advisory committees.</p>
 
     {% if section.faca %}
@@ -23,7 +24,7 @@
             <li class="expandCol facaColLarge">Agency</li>
             <li class="expandCol facaColLarge">Representation</li>
         </ul>
-        <ul class='expandTable clear insideList threeColumn' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/faca/{id}.json?apikey={{ API_KEY }}&cycle={{cycle}}&callback=?' data-expand-template="#facaPopDownTemplate">
+        <ul class='expandTable clear insideList mainTable threeColumn' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/faca/{id}.json?apikey={{ API_KEY }}&cycle={{cycle}}&callback=?' data-expand-template="#facaPopDownTemplate">
             {% for row in section.faca %}
             <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.agency_abbr }}">
                 <a class="expandCol toggle">Toggle</a>
@@ -40,6 +41,9 @@
     {% endif %}
 
     <div class="clear"></div>
+    
+    <a class="moreLink" href="#">View all advisory committee data for {{ entity_info.name }}</a>
+    
     <span class="external">
         {% if section.faca_links %}
         For more in-depth information on the complete advisory committee data see:

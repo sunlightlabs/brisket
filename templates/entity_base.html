@@ -47,9 +47,11 @@
     
     <div class="withNav" id="changeDates">
         <form action="" method="get" id="cycle_form">
-            <label>Currently Viewing Company Name from</label>
+            <label>Currently Viewing {{ entity_info.name }} from</label>
             {{ cycle_form.cycle }}
-            <input type="submit" value="Update Cycles" id="cycle_submit" />
+            <button type="submit" id="cycle_submit">
+                <span>Update</span>
+            </button>
         </form>
     </div>
 

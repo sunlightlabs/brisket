@@ -54,7 +54,6 @@ hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 
 input, select { vertical-align:middle; }
 
 body { color: #666666; background: url(../images/bg.jpg) top left repeat-x #edede6; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 21px; font-size: 82%; } 
-select, input, textarea, button { font: 99% sans-serif; }
 button.disabled { opacity: 0.3; filter: alpha(opacity=30); -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; }
 pre, code, kbd, samp { font-family: monospace, sans-serif; }
 p { margin-bottom: 1.3em;}
@@ -80,8 +79,8 @@ input[type="radio"] { vertical-align: text-bottom; }
 input[type="checkbox"] { vertical-align: bottom; }
 .ie7 input[type="checkbox"] { vertical-align: baseline; }
 .ie6 input { vertical-align: text-bottom; }
-label, input[type=button], input[type=submit] { cursor: pointer; }
-button, input, select, textarea { margin: 0; }
+label, input[type=button], input[type=submit] { cursor: pointer; } 
+button, input, select, textarea { margin: 0; color: #58595b;}
 input:invalid, textarea:invalid { border-radius: 1px;  -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red;  box-shadow: 0px 0px 5px red; }
 .no-boxshadow input:invalid, 
 .no-boxshadow textarea:invalid { background-color: #f0dddd; }
@@ -111,9 +110,9 @@ button, .buttonLink { width: auto; text-indent: -9999em; display: block; border:
 div#pageMain, footer { width: 960px; margin: 0 auto; }
 .graph { position: relative; }
 
-.tip, div.searchBox .results, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; }
-.tip { line-height: 17px; display: block; color: #827d7d; margin-bottom: 25px;}
-a.moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-top: 20px; display: block;}
+.tip, .searchBox .results, .topPages .results { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; }
+.tip { line-height: 17px; display: block; color: #827d7d; margin-bottom: 25px; max-width: 650px;}
+.moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-bottom: 10px; display: block; background: url(../images/icon_viewMore.jpg) top left no-repeat; padding-left: 30px;}
 
 /*headers*/
 
@@ -171,15 +170,14 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 
 #mainContent .corporateLogo { float: right; height: 45px; border: 0px; width: auto; max-width: 180px; max-height: 80px; margin-top: -40px; margin-right: 0;}
 
-div.searchBox ul { margin-top: 15px; }
-div.searchBox h3 { clear: both; }
-div.searchBox li { padding: 10px;}
-div.searchBox a { float: left; margin-right: 10px;}
-div.searchBox p.description a { float: none; margin-right: 0px; }
-div.searchBox p.description, #postcardDescription { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
+.searchBox ul { margin-top: 15px; }
+.searchBox h3 { clear: both; }
+.searchBox li { padding: 10px;}
+.searchBox a { float: left; margin-right: 10px;}
+.searchBox p.description a { float: none; margin-right: 0px; }
+.searchBox p.description, #postcardDescription { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px;}
 
-div#search { float: right; padding-top: 20px;}
-div#search .tip { text-align: right; display: block; margin-right: 90px;}
+#search { float: right; padding-top: 20px; width: 370px;}
 
 dl { margin-top: 15px;}
 .noshow { display: none; }
@@ -217,17 +215,16 @@ div#mainContent_top { background: url(../images/whitebox_top.png) top left no-re
 div#mainContent { background: url(../images/whitebox_middle.png) top left repeat-y; padding-top: 25px; padding-bottom: 55px;}
 div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center top no-repeat; height: 10px;}
 
-#changeDates { background: url(../images/bg_currentView.png) top left repeat-x; height: 40px; padding-left: 115px; padding-top: 10px;}
+#changeDates { background: url(../images/bg_currentView.png) top left repeat-x; height: 28px; padding-left: 115px; padding-top: 12px;}
 #changeDates label { width: auto; font-weight: bold; margin-right: 15px;}
-
-select { color: #58595b;}
+#changeDates select { float: left; margin-right: 15px;}
 
 #description { font-style: oblique; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; width: 665px; margin-bottom: 25px; float: left}
 
-.external { float: right; margin-right: 40px; font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 95%; font-style: oblique;}
+.external { font-family: Georgia, Times New Roman, Times, serif; color: #827d7d; font-size: 85%; font-style: oblique; display: block; margin-top: 5px;}
 .external a { padding-left: 5px; }
 
-.overviewBar { background: url(../images/overviewBar_2.png) top left repeat; padding-top: 10px; height: 55px; margin: 30px 0 40px; height: 45px;}
+.overviewBar { background: url(../images/overviewBar_2.png) top left repeat; padding-top: 10px; height: 35px; margin: 30px 0 40px; }
 
 .module { padding: 0 40px;}
 .chartModule { padding: 0 5px 30px 40px; }
@@ -240,7 +237,7 @@ select { color: #58595b;}
 .threeColumn { width: 785px; }
 .chartWrapper table { margin-top: 15px;}
 
-div.chart { height: 250px;}
+.chart { height: 250px;}
 .chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 
 #ltColumn { padding: 0 30px 0 40px; width: 650px; float: left; overflow: hidden;}
@@ -273,8 +270,7 @@ dt.employees { background-color: #efcc01;}
 dt.pac { background-color: #f27e01;}
 
 .secondaryTitle { font-weight: bold; margin-bottom: 10px; color: #585352;}
-.lobbyistsOrgs li, .issuesLobbied li, .billsLobbied li, .earmark-requests li, .interiorList { float: left; margin-right: 10px; margin-bottom: 0;}
-.lobbyistsOrgs, .ecards li, .issuesLobied { margin-bottom: 30px;}
+.chartModule .interiorList li { float: left; margin-right: 10px; margin-bottom: 0;}
 
 table .even, li.even, div.even{ background-color: #f5f4f4;}
 td, .expandDocList th { padding: 10px;}
@@ -330,7 +326,7 @@ button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.pn
 .signupBtn { background: url(../images/btn_signup.png) left top no-repeat; width: 90px; height: 30px; }
 .signupBtn:hover { background: url(../images/btn_signup.png) left bottom no-repeat; }
 .sendCardBtn { background: url(../images/btn_ecard.png) left top no-repeat; width: 259px; height: 45px; margin-left: 120px; margin-top: 20px;}
-
+#cycle_submit { background: url(../images/btn_update.png) left top no-repeat; width: 78px; height: 24px;}
 
 form#contact { margin-top: 45px;}
 label { color: #0A6E92; width: 120px; display: block; float: left;}
@@ -505,10 +501,6 @@ td.regDoc{
 .regDocDl a.rtf { background: url('../images/document_icons_rtf.png') top left no-repeat; }
 .regDocDl a.txt { background: url('../images/document_icons_text.png') top left no-repeat; }
 .regDocDl a.wp8 { background: url('../images/document_icons_wpm.png') top left no-repeat; }
-
-ul#faca {
-    margin-bottom: 15px;
-}
 
 #revolvingDoor {
     float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;

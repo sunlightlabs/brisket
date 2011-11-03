@@ -22,6 +22,7 @@
 </div>
 
 <div class="chartModule withNav">
+    <span class="tip external">updated Jan. 28, 2010</span>
     <p class="tip">The tables show occurrences of "{{ entity_info.name|standardize_organization_name }}" in public comments on proposed federal regulations.</p>
     <ul class="chartWrapper">
     {% if section.regulations_submitter %}
@@ -80,6 +81,8 @@
         </li>
     {% endif %}
     </ul>
+  <div class="clear"></div>
+  <a class="moreLink" href="#">View all regulations data for {{ entity_info.name }}</a>
   
     <span class="external">
         {% if section.regs_links %}
@@ -89,7 +92,7 @@
         {% endfor %}
         {% endif %}
     </span>
-    <div class="clear"></div>
+    
 </div><!-- end chartModule -->
 
 <script type="text/html" id="regPopDownTemplate">

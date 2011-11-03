@@ -1,46 +1,40 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.candidates_barchart_data %}
     <h4 class="withTip">Top Politicians</h4>
     <div class="graph" id="recipients_barchart">
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
 </div>
 
-<div class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">Republicans vs. Democrats</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_party">
       <!-- raphael charts here -->
     </div>
-  </div>
-</div>
+</li>
 
 <div class="clear"></div> <!-- start a new row -->
 
 {% if section.orgs_barchart_data and section.orgs_barchart_data != "[]" %}
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.orgs_barchart_data %}
     <h4 class="withTip">Top Organizations</h4>
     <div class="graph" id="orgs_barchart">
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
-</div>
+</li>
 
 <div class="clear"></div> <!-- start a new row -->
 {% endif %}
 
 {% if section.bundling_data %}
-  <div class="twoColumn chartWrapper">
+<li class="twoColumn">
     <h4 class="withTip">Bundled Contributions</h4>
     <span class="tip">Money raised by the lobbyist from multiple donors on behalf of the recipient. The lobbyist's own contributions are not included.</span>
     <table class="twoColumn">
@@ -61,7 +55,7 @@
         {% endfor %}
         </tbody>
     </table>
-  </div>
+</li>
 
 <div class="clear"></div> <!-- start a new row -->
 {% endif %}

@@ -1,7 +1,7 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="overviewBar withNav">
+<div class="overviewBar withNav withTip">
     <h3>EPA Violations</h3>
     <span class="amount">{{ entity_info.totals.epa_actions_count }} Enforcement Actions</span>
     <a class="descriptor" title="More Information" href="#epaEchoDescriptor">Information</a>
@@ -15,9 +15,13 @@
 
 
 <div class="chartModule withNav">
+    <span class="tip external">updated Jan. 28, 2010</span>
     {% include "epa_echo_table.html" with epa_echo=section.epa_echo %}
 
     <div class="clear"></div>
+    
+    <a class="moreLink" href="#">View all EPA data for {{ entity_info.name }}</a>
+    
     <span class="external">
         {% if section.epa_links %}
         For more in-depth information on the complete EPA ECHO data see:

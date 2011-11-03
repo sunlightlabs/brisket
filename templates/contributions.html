@@ -1,6 +1,6 @@
 {% load humanize %}
 
-<div class="overviewBar withNav">
+<div class="overviewBar withNav withTip">
     <h3 class="insideBar">Campaign Finance</h3>
     <span class="amount">
         {% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
@@ -21,8 +21,10 @@
     	</ul>
 	    <p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page.</p>
     </div>  
+    
 </div>
 <div class="chartModule withNav">
+    <span class="tip external">updated Jan. 28, 2010</span>
     <ul>
       {% block charts %}   
       {% if not section.suppress_contrib_graphs %}
@@ -46,9 +48,12 @@
 
     </ul><!-- end chartModule -->
     <div class="clear"></div>
+    
+    <a class="moreLink" href="#">View all campaign finance data for {{ entity_info.name }}</a>
+    
     <span class="external clear">
         {% if section.external_links or section.partytime_link %}
-        For more in-depth information on the complete contribution data see:
+        Sources:
         {% for link in section.external_links %}
         <a href="{{ link.url }}" target="_blank">{{ link.text }}</a>
         {% endfor %}
