@@ -279,8 +279,8 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 
     section['external_links'] = external_sites.get_contribution_links(type, standardized_name, external_ids, cycle)
 
-    #bundling = api.entities.bundles(entity_id, cycle)
-    #section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type amount'.split()] for x in bundling ]
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type amount'.split()] for x in bundling ]
 
     return section
 
@@ -523,8 +523,8 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
 
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name, external_ids, cycle)
 
-    #bundling = api.entities.bundles(entity_id, cycle)
-    #section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
     return section
 
@@ -635,8 +635,8 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
 
     section['external_links'] = external_sites.get_contribution_links('individual', standardized_name, external_ids, cycle)
 
-    #bundling = api.entities.bundles(entity_id, cycle)
-    #section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type amount'.split()] for x in bundling ]
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type amount'.split()] for x in bundling ]
 
     return section
 
