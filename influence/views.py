@@ -521,7 +521,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
 
     section['partytime_link'], section['partytime_data'] = external_sites.get_partytime_data(external_ids)
 
-    section['external_links'] = external_sites.get_contribution_links('politician', standardized_name, external_ids, cycle)
+    section['external_links'] = external_sites.get_contribution_links('politician', standardized_name.name_str(), external_ids, cycle)
 
     bundling = api.entities.bundles(entity_id, cycle)
     section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
@@ -560,7 +560,7 @@ def pol_earmarks_section(entity_id, name, cycle, external_ids):
     local_breakdown = api.pol.earmarks_local_breakdown(entity_id, cycle)
     local_breakdown = dict([(key, float(value[1])) for key, value in local_breakdown.iteritems()])
 
-    section['earmark_links'] = external_sites.get_earmark_links('politician', name, external_ids, cycle)
+    section['earmark_links'] = external_sites.get_earmark_links('politician', name.name_str(), external_ids, cycle)
 
     ordered_pie = SortedDict([(key, local_breakdown.get(key, 0)) for key in ['unknown', 'in-state', 'out-of-state']])
     section['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
