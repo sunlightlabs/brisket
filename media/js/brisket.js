@@ -1,5 +1,5 @@
-$().ready( function() {
-    $( "input, textarea" ).placehold();
+$(function() {
+    $("input, textarea").placehold();
     
     /* hide cycle submit button if JavaScript is enabled */
     $('#cycle_submit').hide();
@@ -48,21 +48,43 @@ $().ready( function() {
     
     /* descriptor toggles */
     $("a.descriptor").toggle(
-        function(){
+        function() {
             var hsh = this.hash;
             if (hsh[0] != '#') hsh = '#' + hsh;
             $(this).addClass("active");
             $(hsh).slideDown("slow");
         },
-        function(){
+        function() {
             var hsh = this.hash;
             if (hsh[0] != '#') hsh = '#' + hsh;
             $(this).removeClass("active");
             $(hsh).slideUp("slow");
-        } 
+        }
     );
 
     /* make entity landing pages sortable */
-    $(".sortable").tablesorter({ widgets: ['zebra']}); 
+    $(".sortable").tablesorter({ widgets: ['zebra']});
     
+    /* deal with the floating TOC */
+    var $wrapper = $('#miniNavWrapper');
+    if ($wrapper.length) {
+        var $changeDates = $('#changeDates');
+        var tocTop = $changeDates.offset().top + $changeDates.height() + 5;
+        paddedTocTop = tocTop - 40;
+        
+        $wrapper.css('top', tocTop + 'px');
+        var mode = 'static';
+
+        var $window = $(window);
+        $window.scroll(function() {
+            var pos = $window.scrollTop();
+            if (mode == 'static' && pos > paddedTocTop) {
+                mode = 'floating';
+                $wrapper.removeClass('static').addClass('floating');
+            } else if (mode == 'floating' && pos < paddedTocTop) {
+                mode = 'static';
+                $wrapper.removeClass('floating').addClass('static');
+            }
+        })
+    }
 });

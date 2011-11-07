@@ -584,7 +584,11 @@ table .even.numerous{
 #miniNav { background: url(../images/bg_sideNav.png) top left repeat-y; width: 99px; padding: 10px 0; color: #fff; line-height: 15px; font-size: 90%; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 #miniNav li { margin-bottom: 10px; padding: 0 17px 2px 16px; margin-left: -10px;}
 #miniNav li a { color: #fff; padding-top: 2px; display: block;}
-#miniNavWrapper { background: url(../images/bg_miniNavCorner.png) top left no-repeat; padding-top: 6px; position: fixed; top: 40px; z-index: 3;}
+
+#miniNavWrapper { background: url(../images/bg_miniNavCorner.png) top left no-repeat; padding-top: 6px; z-index: 3;}
+#miniNavWrapper.floating { position: fixed; top: 40px !important; }
+#miniNavWrapper.static { position: absolute; top: 700px; }
+
 #miniNav li.active, #miniNav li:hover { background: url(../images/bg_smNavActive.png) left center no-repeat;  }
 
 .withTip { margin-bottom: 5px; }

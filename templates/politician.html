@@ -41,7 +41,7 @@
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-    sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
+//    sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
 
     {% if not sections.contributions.suppress_contrib_graphs %}
     piechart("piechart_local", {% if sections.contributions.local_breakdown %} {{ sections.contributions.local_breakdown|safe }} {% else %} {} {% endif %} );
