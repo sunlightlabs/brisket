@@ -19,7 +19,7 @@ $(function() {
             var $loading = $row.find('.loading');
             
             if ($popdown.is(':visible')) {
-                $popdown.slideUp('fast');
+                $popdown.slideUp('fast', function() { $this.trigger('reflow'); });
                 $this.removeClass('active');
             } else {
                 if (!$popdown.hasClass('loaded')) {
@@ -27,7 +27,7 @@ $(function() {
                     
                     var url = expand_url.replace('{id}', id);
                     
-                    $loading.slideDown('fast');
+                    $loading.slideDown('fast', function() { $this.trigger('reflow'); });
                     $.getJSON(url, function(data) {
                         var table = template({'documents': $.map(data, function(row) {
                             var out = $.extend({}, row);
@@ -41,12 +41,12 @@ $(function() {
                         $popdown.append(table);
                         
                         $loading.slideUp('fast');
-                        $popdown.slideDown('fast');
+                        $popdown.slideDown('fast', function() { $this.trigger('reflow'); });
                         
                         $popdown.addClass('loaded');
                     })
                 } else {
-                    $popdown.slideDown('fast');
+                    $popdown.slideDown('fast', function() { $this.trigger('reflow'); });
                 }
                 
                 $this.addClass('active');

@@ -70,10 +70,14 @@ $(function() {
     if ($navbar.length) {
         var top = $navbar.offset().top + $navbar.height() + 5;
         
-        var $sections = $('.sectionLink');
-        var sectionNames = $sections.map(function(item) { return $(this).attr('name'); })
-        var sectionOffsets = $sections.map(function(item) { return $(this).offset().top; });
-        sectionOffsets.push($('#mainContent_bottom').offset().top);
+        var $sections, sectionNames, sectionOffsets;
+        var calculateSectionOffsets = function() {
+            $sections = $('.sectionLink');
+            sectionNames = $sections.map(function(item) { return $(this).attr('name'); })
+            sectionOffsets = $sections.map(function(item) { return $(this).offset().top; });
+            sectionOffsets.push($('#mainContent_bottom').offset().top);
+        }
+        calculateSectionOffsets();
 
         var mode = 'static';
         var section = null;
@@ -127,6 +131,12 @@ $(function() {
                     return false;
                 });
             }
+        })
+
+        /* deal with reflows from animation */
+        $(document).bind('reflow', function() {
+            calculateSectionOffsets();
+            $window.scroll();  
         })
     }
 });
