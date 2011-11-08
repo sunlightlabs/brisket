@@ -24,7 +24,7 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-  sparkline_by_party("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}, {{ sections.contributions.cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
+//  sparkline_by_party("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}, {{ sections.contributions.cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
   {% if not sections.contributions.suppress_contrib_graphs %}
   piechart("piechart_level", {% if sections.contributions.level_breakdown %}{{ sections.contributions.level_breakdown|safe }}{% else %}{}{% endif %});
   piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );

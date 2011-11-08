@@ -25,7 +25,7 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
-  sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
+//  sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
   {% if not suppress_contrib_graphs %}
   piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party");
   barchart("recipients_barchart", {% if sections.contributions.candidates_barchart_data %}{{ sections.contributions.candidates_barchart_data|safe }}{% else %} [] {% endif %});  
