@@ -70,7 +70,13 @@ $(function() {
     if ($navbar.length) {
         var top = $navbar.offset().top + $navbar.height() + 5;
         
+        var $sections = $('.sectionLink');
+        var sectionNames = $sections.map(function(item) { return $(this).attr('name'); })
+        var sectionOffsets = $sections.map(function(item) { return $(this).offset().top; });
+        sectionOffsets.push($('#mainContent_bottom').offset().top);
+
         var mode = 'static';
+        var section = null;
 
         var $window = $(window);
         $window.scroll(function() {
@@ -78,9 +84,48 @@ $(function() {
             if (mode == 'static' && pos >= top) {
                 mode = 'floating';
                 $navbar.addClass('floating');
-            } else if (mode == 'floating' && pos < top) {
-                mode = 'static';
-                $navbar.removeClass('floating');
+            }
+            if (mode == 'floating') {
+                if (pos < top) {
+                    mode = 'static';
+                    $navbar.removeClass('floating');
+
+                    section = null;
+                    $navbar.find('#miniNav li.active').removeClass('active');
+                } else {
+                    var realPos = pos + 20;
+                    /* look for the section */
+                    if (section != null && (realPos < sectionOffsets[0] || realPos >= sectionOffsets[sectionOffsets.length - 1])) {
+                        section = null;
+                        $navbar.find('#miniNav li.active').removeClass('active');
+                    } else {
+                        for (var i = sectionOffsets.length - 2; i >= 0; i--) {
+                            if (realPos >= sectionOffsets[i] && realPos < sectionOffsets[i + 1]) {
+                                if (sectionNames[i] != section) {
+                                    section = sectionNames[i];
+                                    $navbar.find('#miniNav li.active').removeClass('active');
+                                    $navbar.find('#miniNav a[href=#' + section + ']').parent().addClass('active');
+                                }
+                                break;
+                            }
+                        };
+                    }
+                }
+            }
+        })
+
+        /* set up smooth scrolling, but only for browsers that play nice */
+        $('#miniNav a').each(function(idx, item) {
+            if ($.browser.mozilla) {
+                $(item).click(function() {
+                    $('html').animate({'scrollTop': sectionOffsets[idx]}, 'ease');
+                    return false;
+                });
+            } else if ($.browser.webkit) {
+                $(item).click(function() {
+                    $('body').animate({'scrollTop': sectionOffsets[idx]}, 'ease');
+                    return false;
+                });
             }
         })
     }

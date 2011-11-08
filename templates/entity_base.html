@@ -62,7 +62,7 @@
 
     {% block sections %}
     {% for section_id, section in sections.items %}
-    	<a name="{{ section_id }}_section"></a>
+    	<a class="sectionLink" name="{{ section_id }}_section"></a>
     	{% include section.template with section=section section_id=section_id %}
     {% endfor %}
     {% endblock %}
