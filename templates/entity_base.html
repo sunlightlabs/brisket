@@ -33,26 +33,30 @@
     </div>
     <div class="clear"></div>
 
-    {% if sections.keys|length > 1 %}
-    <div id="miniNavWrapper" class="static">
-        <div id="miniNav">
-            <ul>
-                {% for section_id, section in sections.items %}
-                    <li><a href="#{{ section_id }}_section">{{ section.name }}</a></li>
-                {% endfor %}
-            </ul>
+    <div id="floatingNavWrapper">
+        <div id="floatingNav">
+            {% if sections.keys|length > 1 %}
+            <div id="miniNavWrapper">
+                <div id="miniNav">
+                    <ul>
+                        {% for section_id, section in sections.items %}
+                            <li><a href="#{{ section_id }}_section">{{ section.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="withNav" id="changeDates">
+                <form action="" method="get" id="cycle_form">
+                    <label>Currently Viewing {{ entity_info.name }} from</label>
+                    {{ cycle_form.cycle }}
+                    <button type="submit" id="cycle_submit">
+                        <span>Update</span>
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
-    {% endif %}
-    
-    <div class="withNav" id="changeDates">
-        <form action="" method="get" id="cycle_form">
-            <label>Currently Viewing {{ entity_info.name }} from</label>
-            {{ cycle_form.cycle }}
-            <button type="submit" id="cycle_submit">
-                <span>Update</span>
-            </button>
-        </form>
     </div>
 
 

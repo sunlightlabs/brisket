@@ -215,7 +215,7 @@ div#mainContent_top { background: url(../images/whitebox_top.png) top left no-re
 div#mainContent { background: url(../images/whitebox_middle.png) top left repeat-y; padding-top: 25px; padding-bottom: 55px;}
 div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center top no-repeat; height: 10px;}
 
-#changeDates { background: url(../images/bg_currentView.png) top left repeat-x; height: 28px; padding-left: 115px; padding-top: 12px;}
+#changeDates { background: url(../images/bg_currentView.png) top left repeat-x; height: 28px; padding-left: 115px; padding-top: 12px; position: absolute; top: 0px; left: 0px; width: 845px; }
 #changeDates label { width: auto; font-weight: bold; margin-right: 15px;}
 #changeDates select { float: left; margin-right: 15px;}
 
@@ -581,13 +581,15 @@ table .even.numerous{
 
 .withCaps { text-transform: none; }
 
+#floatingNavWrapper { height: 40px;}
+#floatingNav { position: relative; }
+#floatingNav.floating { position: fixed; top: -5px; z-index: 300; }
+
 #miniNav { background: url(../images/bg_sideNav.png) top left repeat-y; width: 99px; padding: 10px 0; color: #fff; line-height: 15px; font-size: 90%; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
 #miniNav li { margin-bottom: 10px; padding: 0 17px 2px 16px; margin-left: -10px;}
 #miniNav li a { color: #fff; padding-top: 2px; display: block;}
 
-#miniNavWrapper { background: url(../images/bg_miniNavCorner.png) top left no-repeat; padding-top: 6px; z-index: 3;}
-#miniNavWrapper.floating { position: fixed; top: 40px !important; }
-#miniNavWrapper.static { position: absolute; top: 700px; }
+#miniNavWrapper { background: url(../images/bg_miniNavCorner.png) top left no-repeat; padding-top: 6px; z-index: 3; position: absolute; top: 33px; }
 
 #miniNav li.active, #miniNav li:hover { background: url(../images/bg_smNavActive.png) left center no-repeat;  }
 

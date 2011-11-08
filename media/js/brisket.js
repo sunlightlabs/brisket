@@ -66,24 +66,21 @@ $(function() {
     $(".sortable").tablesorter({ widgets: ['zebra']});
     
     /* deal with the floating TOC */
-    var $wrapper = $('#miniNavWrapper');
-    if ($wrapper.length) {
-        var $changeDates = $('#changeDates');
-        var tocTop = $changeDates.offset().top + $changeDates.height() + 5;
-        paddedTocTop = tocTop - 40;
+    var $navbar = $('#floatingNav');
+    if ($navbar.length) {
+        var top = $navbar.offset().top + $navbar.height() + 5;
         
-        $wrapper.css('top', tocTop + 'px');
         var mode = 'static';
 
         var $window = $(window);
         $window.scroll(function() {
             var pos = $window.scrollTop();
-            if (mode == 'static' && pos > paddedTocTop) {
+            if (mode == 'static' && pos >= top) {
                 mode = 'floating';
-                $wrapper.removeClass('static').addClass('floating');
-            } else if (mode == 'floating' && pos < paddedTocTop) {
+                $navbar.addClass('floating');
+            } else if (mode == 'floating' && pos < top) {
                 mode = 'static';
-                $wrapper.removeClass('floating').addClass('static');
+                $navbar.removeClass('floating');
             }
         })
     }
