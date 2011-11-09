@@ -53,7 +53,7 @@ $(document).ready(function() {
     piechart("earmarks_local", {% if sections.earmarks.earmarks_local %} {{ sections.earmarks.earmarks_local|safe }} {% else %} {} {% endif %} );
 
     $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
-    $('table td.cell-earmark-description').expando(5, '.earmark-requests', '.requestedList', 'moreEarmarks');
+    $('table td.cell-earmark-description').expando(5, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
 });
 </script>
 {% endif %}
