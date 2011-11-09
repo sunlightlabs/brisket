@@ -237,7 +237,7 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 .threeColumn { width: 785px; }
 .chartWrapper table { margin-top: 15px;}
 
-.chart { height: 250px;}
+.chart { height: 250px; overflow-y: hidden;}
 .chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 .chart .tip { margin-bottom: 0px;}
 
