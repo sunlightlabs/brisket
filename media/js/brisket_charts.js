@@ -63,7 +63,7 @@ function piechart(div, data, type) {
     var values = _.map(slices, function(s){ return s.value; });
     var colors = _.map(slices, function(s){ return s.color; });
 
-    pie = r.g.piechart(70, 70, 60, values, {
+    pie = r.g.piechart(58, 58, 54, values, {
         legend: labels,
         legendpos: "east",
         colors: colors,
@@ -113,7 +113,7 @@ function barchart(div, data) {
 
     var sizes = {
         chart_height: 195,
-        chart_width: 285,
+        chart_width: 235,
         chart_x: 215,
         chart_y: 10,
         bar_gutter: 30,
