@@ -24,16 +24,16 @@ def filter_contractor_misconduct(request):
     return render_to_response('data/filter_contractor_misconduct.html', context_instance=RequestContext(request))
 
 def filter_epa_echo(request):
-    return render_to_response('filter_epa_echo.html', context_instance=RequestContext(request))
+    return render_to_response('data/filter_epa_echo.html', context_instance=RequestContext(request))
 
 def filter_faca(request):
-    return render_to_response('filter_faca.html', context_instance=RequestContext(request))
+    return render_to_response('data/filter_faca.html', context_instance=RequestContext(request))
 
 def filter_contributions(request):
     return render_to_response('data/filter_contributions.html', context_instance=RequestContext(request))
 
 def filter_bundling(request):
-    return render_to_response('filter_bundling.html', context_instance=RequestContext(request))
+    return render_to_response('data/filter_bundling.html', context_instance=RequestContext(request))
 
 def filter_earmarks(request):
     return render_to_response('data/filter_earmarks.html', context_instance=RequestContext(request))
