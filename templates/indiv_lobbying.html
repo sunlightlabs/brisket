@@ -9,9 +9,9 @@
 
 <div class="chartModule withNav">
     <span class="tip external">updated Jan. 28, 2010</span>
-    {% if section.lobbying_with_firm %}
         <h4>Lobbying by {{ entity_info.name|standardize_individual_name }}</h4>
         <ul>
+            {% if section.lobbying_with_firm %}
             <li class="twoColumn">
                 <h5>Lobbied with the Following Firms</h5>
                 {% for row in section.lobbying_with_firm %}
@@ -33,24 +33,26 @@
     	            </ul>
                 </li>
             {% endif %}
+
+            {% endif %} <!-- end if lobbying with firm -->
+
+            <div class="clear"></div>
+            
+            {% if section.lobbying_for_clients %}
+                <li class="twoColumn chartWrapper">
+                    <h5>Clients of Firms {{ entity_info.name|standardize_individual_name }} Worked For</h5>
+                    {% for row in section.lobbying_for_clients %}
+                    {% if row.client_entity %}
+                    <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>{% if forloop.last %}{% else %},{% endif %}
+                    {% else %}
+                    {{ row.client_name }}{% if forloop.last %}{% else %},{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </li>
+            {% endif %}
+
         </ul>
         <div class="clear"></div>
-  
-    {% endif %} <!-- end if lobbying with firm -->
-  
-    {% if section.lobbying_for_clients %}
-        <li class="twoColumn chartWrapper">
-            <h5>Clients of Firms {{ entity_info.name|standardize_individual_name }} Worked For</h5>
-            {% for row in section.lobbying_for_clients %}
-            {% if row.client_entity %}
-            <a href="/organization/{{ row.client_name|slugify }}/{{ row.client_entity }}{{cycle|pretty_cycle}}">{{ row.client_name }}</a>{% if forloop.last %}{% else %},{% endif %}
-            {% else %}
-            {{ row.client_name }}{% if forloop.last %}{% else %},{% endif %}
-            {% endif %}
-            {% endfor %}
-        </div>
-    {% endif %}
-    <div class="clear"></div>
     
     {% include "external_links.html" with external_links=section.lobbying_links %}
 </div>
