@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "data/base.html" %}
 {% load media %}
 
 {% block bodyid %}contributions{% endblock %}
@@ -196,7 +196,7 @@
             <a id="bundlingPreviewButton" class="previewButton" href="#">Preview Data</a>
         </div>
     </div>
-    {% js "index.js" %}
+    {% js "data/index.js" %}
 	<script type="text/javascript">
 
 		$().ready(function() {
