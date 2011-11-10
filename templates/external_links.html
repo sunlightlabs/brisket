@@ -1,0 +1,31 @@
+{% load influence_extras %}
+
+{% if external_links %}
+    {% for link in external_links %}
+        {% if 'TransparencyData.com' in link.text %}
+            <a class="moreLink" href="{{ link.url }}">
+                View all
+                {% if link.text != 'TransparencyData.com' %}
+                    {{ link.text|slice:":-23"|lower }}
+                {% else %}
+                    {% if section_label %}
+                        {{ section_label }}
+                    {% else %}
+                        {{ section.name|lower }}
+                    {% endif %}
+                {% endif %}
+                data for {{ entity_info.name|standardize_name:entity_info.type }}
+            </a>
+        {% endif %}
+    {% endfor %}
+
+    {% if external_links|length > 1 %}
+        <span class="external clear">
+            Sources:
+            {% for link in external_links %}
+                {% if 'TransparencyData.com' not in link.text %}<a href="{{ link.url }}" target="_blank">{{ link.text }}</a>{% endif %}
+            {% endfor %}
+        </span>
+        <div class="clear"></div>
+    {% endif %}
+{% endif %}
