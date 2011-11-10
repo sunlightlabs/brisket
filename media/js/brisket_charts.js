@@ -88,7 +88,7 @@ function piechart(div, data, type) {
             this.label[0].stop();
             this.label[0].scale(1.5);
             this.label[1].attr({"font-weight": 800, 'fill': '#666666'});
-            lbl = r.text(70, 70, dollar(this.value.value));
+            lbl = r.text(58, 58, dollar(this.value.value));
             lbl.attr({"font-weight": 800, "font-size": "12px"});
             lbl.show();
         }
