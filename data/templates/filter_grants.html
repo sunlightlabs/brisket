@@ -1,0 +1,35 @@
+{% extends "filter.html" %}
+{% load media %}
+
+{% block bodyid %}grants{% endblock %}
+{% block dataset_name %}Federal Grants{% endblock %}
+
+{% block table_header %}
+	<th>Fiscal Year</th>
+	<th>Total Amount</th>
+	<th>Recipient</th>
+	<th>Program</th>
+	<th>Agency</th>
+{% endblock %}
+
+{% block dataset_license %}
+	<p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license.</p>
+	<p>By downloading data, you are agreeing to the terms of the license.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
+    {% js "grants.js" %}
+	<script type="text/javascript">
+		$().ready(function() {
+			TD.GrantsFilter.bindDataFilter('#datafilter');
+			TD.GrantsFilter.bindPreview('#previewButton');
+			TD.GrantsFilter.bindDownload('#downloadButton');
+		    TD.GrantsFilter.init();
+			
+		    TD.activeFilter = TD.GrantsFilter;
+		
+			TD.init();
+		});
+	</script>
+{% endblock %}
+

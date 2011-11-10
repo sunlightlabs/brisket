@@ -1,0 +1,187 @@
+{% extends "docs/index.html" %}
+
+{% block docs %}
+<h1 class="title">Federal Contracts Data Schema</h1>
+
+<dl class="docutils">
+<dt>id</dt>
+<dd>Unique record identifier.</dd>
+<dt>transaction_number</dt>
+<dd>Unique identifier for the contract transaction.</dd>
+<dt>fiscal_year</dt>
+<dd>The year in which the contract was awarded.</dd>
+<dt>last_modified_date</dt>
+<dd>The date that this record was last modified.</dd>
+<dt>piid</dt>
+<dd>When reporting orders under Indefinite Delivery Vehicles (IDV) such as a GWAC, IDC, FSS, BOA, or BPA, report the Procurement Instrument Identifier (Contract Number or Agreement Number) of the IDV. For the initial load of a BPA under a FSS, this is the FSS contract number. Note: BOAs and BPAs are with industry and not with other Federal Agencies.</dd>
+<dt>parent_id</dt>
+<dd>ID of the original contract record identifier.</dd>
+<dt>award_id</dt>
+<dd>Award identifier.</dd>
+<dt>modification_number</dt>
+<dd>An identifier issued by an agency that uniquely identifies one modification for one contract, agreement, order, etc.</dd>
+<dt>modification_reason</dt>
+<dd>Reason for contract modification.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/mod_reasons/">http://transparencydata.com/docs/lookup/contracts/mod_reasons/</a></dd>
+<dt>agency_name</dt>
+<dd>The name of the agency awarding the contract.</dd>
+<dt>agency_id</dt>
+<dd>FIPS identifier for the agency awarding the contract.</dd>
+<dt>contracting_agency_name</dt>
+<dd>The name of the agency responsible for the contracting process.</dd>
+<dt>contracting_agency_id</dt>
+<dd>FIPS identifier for the agency responsible for the contracting process.</dd>
+<dt>contracting_office_id</dt>
+<dd>Agency specific identifier for the office responsible for the contracting process.</dd>
+<dt>requesting_agency_name</dt>
+<dd>The name of the agency requesting the contract.</dd>
+<dt>requesting_agency_id</dt>
+<dd>FIPS identifier for the agency requesting the contract.</dd>
+<dt>requesting_office_id</dt>
+<dd>Agency specific identifier for the office requesting the contract.</dd>
+<dt>major_program_code</dt>
+<dd>The agency determined code for a major program within the agency.</dd>
+<dt>idv_agency_fee</dt>
+<dd>The fee charged to the requesting agency by the contracting agency for the cost of the contracting process.</dd>
+<dt>cotr_name</dt>
+<dd>The name of the person responsible for overseeing the contracting process.</dd>
+<dt>cotr_other_name</dt>
+<dd>The name of an additional COTR involved in the process.</dd>
+<dt>contract_action_type</dt>
+<dd>The type of action used to award the contract.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/action_types/">http://transparencydata.com/docs/lookup/contracts/action_types/</a></dd>
+<dt>contract_bundling_type</dt>
+<dd><a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/bundling/">http://transparencydata.com/docs/lookup/contracts/bundling/</a></dd>
+<dt>contract_competitiveness</dt>
+<dd>The level of competition during the contracting process.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/competitiveness/">http://transparencydata.com/docs/lookup/contracts/competitiveness/</a></dd>
+<dt>contract_description</dt>
+<dd>A text description of the purpose and result of the contract.</dd>
+<dt>contract_financing</dt>
+<dd>The type of financing that will be used to pay the contractor.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/financing/">http://transparencydata.com/docs/lookup/contracts/financing/</a></dd>
+<dt>contract_nia_code</dt>
+<dd>A code that represents the national interest for which the contract is created.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/nia_codes/">http://transparencydata.com/docs/lookup/contracts/nia_codes/</a></dd>
+<dt>contract_nocompete_reason</dt>
+<dd>The reason the contract was not competed.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/nocompete_reasons/">http://transparencydata.com/docs/lookup/contracts/nocompete_reasons/</a></dd>
+<dt>contract_offers_received</dt>
+<dd>The number of offers/proposals received during the competition process.</dd>
+<dt>contract_pricing_type</dt>
+<dd>The type of pricing used to compensate the contractor.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/pricing_types/">http://transparencydata.com/docs/lookup/contracts/pricing_types/</a></dd>
+<dt>contract_set_aside</dt>
+<dd><a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/set_asides/">http://transparencydata.com/docs/lookup/contracts/set_asides/</a></dd>
+<dt>subcontract_plan</dt>
+<dd>The plan the contractor has for using subcontractors.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/subcontract_plans/">http://transparencydata.com/docs/lookup/contracts/subcontract_plans/</a></dd>
+<dt>number_of_actions</dt>
+<dd>The number input by the agency that identifies number of actions that are reported in one modification.</dd>
+<dt>consolidated_contract</dt>
+<dd>True if contract action is consolidated.</dd>
+<dt>multiyear_contract</dt>
+<dd>Indicates that the contract is for services or supplies that go beyond 1 year, but less than 5 years.</dd>
+<dt>performance_based_contract</dt>
+<dd>Indicates whether the contract is performance based or not.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/ynx/">http://transparencydata.com/docs/lookup/contracts/ynx/</a></dd>
+<dt>signed_date</dt>
+<dd>The date that both parties signed the contract.</dd>
+<dt>effective_date</dt>
+<dd>The date on which the contract will begin.</dd>
+<dt>completion_date</dt>
+<dd>The current completion date for the contract. If options have been executed, this date can be greater than the completion_date on the original record.</dd>
+<dt>maximum_date</dt>
+<dd>The date of completion if all contract options are awarded.</dd>
+<dt>renewal_date</dt>
+<dd>The date of contract renewal.</dd>
+<dt>cancellation_date</dt>
+<dd>The date of cancellation if the contract is ended early.</dd>
+<dt>obligated_amount</dt>
+<dd>The amount of money obligated or de-obligated in this transaction.</dd>
+<dt>current_amount</dt>
+<dd>The current cost of the contract.</dd>
+<dt>maximum_amount</dt>
+<dd>The maximum cost of the contract if all options and extensions are executed.</dd>
+<dt>price_difference</dt>
+<dd>The percent difference between the award price and the lowest priced offer from a responsive, responsible non-HUBZone or non-SDB.</dd>
+<dt>cost_data_obtained</dt>
+<dd>Whether or not cost data was obtained or waived.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/cost_obtained/">http://transparencydata.com/docs/lookup/contracts/cost_obtained/</a></dd>
+<dt>purchase_card_as_payment</dt>
+<dd>Indicates that a purchase card was used to pay the contractor.</dd>
+<dt>vendor_name</dt>
+<dd>Name of the contractor.</dd>
+<dt>vendor_business_name</dt>
+<dd>Additional name used by the contractor for conducting business.</dd>
+<dt>vendor_employees</dt>
+<dd>The number of people employed by the contractor.</dd>
+<dt>vendor_annual_revenue</dt>
+<dd>The annual revenue of the contractor.</dd>
+<dt>vendor_street_address</dt>
+<dd>Street address of the contractor.</dd>
+<dt>vendor_street_address2</dt>
+<dd>Additional street address of the contractor.</dd>
+<dt>vendor_street_address3</dt>
+<dd>Additional street address of the contractor.</dd>
+<dt>vendor_city</dt>
+<dd>The primary city in which the contractor conducts business.</dd>
+<dt>vendor_state</dt>
+<dd>The primary state in which the contractor conducts business.</dd>
+<dt>vendor_zipcode</dt>
+<dd>The primary zip code in which the contractor conducts business.</dd>
+<dt>vendor_district</dt>
+<dd>The primary congressional district in which the contractor conducts business.</dd>
+<dt>vendor_country_code</dt>
+<dd>FIPS code indicating the country in which the contractor operates.</dd>
+<dt>vendor_duns</dt>
+<dd>The Dun and Bradstreet identifier for the contractor.</dd>
+<dt>vendor_parent_duns</dt>
+<dd>The Dun and Bradstreet identifier for the contractor's corporate parent.</dd>
+<dt>vendor_phone</dt>
+<dd>The phone number for the contractor.</dd>
+<dt>vendor_fax</dt>
+<dd>The fax number for the contractor.</dd>
+<dt>vendor_ccr_exception</dt>
+<dd>The reason a vendor/contractor not registered in the mandated CCR system may be used in a purchase.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/ccr_exceptions/">http://transparencydata.com/docs/lookup/contracts/ccr_exceptions/</a></dd>
+<dt>place_district</dt>
+<dd>The congressional district in which the contract action will be performed.</dd>
+<dt>place_location_code</dt>
+<dd>FIPS identifier for the location in which the contract action will be performed.</dd>
+<dt>place_state_code</dt>
+<dd>FIPS identifier for the state in which the contract action will be performed.</dd>
+<dt>product_origin_country</dt>
+<dd>FIPS identifier for the country of origin for the product being purchased by the contract.</dd>
+<dt>product_origin</dt>
+<dd>Indicates the origin of the product being purchased.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/product_origin/">http://transparencydata.com/docs/lookup/contracts/product_origin/</a></dd>
+<dt>producer_type</dt>
+<dd>Indicates the type and nationality of the manufacturing organization.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/org_types/">http://transparencydata.com/docs/lookup/contracts/org_types/</a></dd>
+<dt>statutory_authority</dt>
+<dd>The statutory authority under which the agency is authorized to execute the contract.</dd>
+<dt>product_service_code</dt>
+<dd>The code that best identifies the product or service procured. Codes are defined in the Product and Service Codes Manual.</dd>
+<dt>naics_code</dt>
+<dd>The North American Industry Classification System (NAICS) codes designate major sectors of the economies of Mexico, Canada, and the United States.</dd>
+<dt>solicitation_id</dt>
+<dd>Identifier used to link transactions in FPDS-NG to solicitation information.</dd>
+<dt>supports_goodness</dt>
+<dd>A designator of contract actions that support a declared contingency operation, a declared humanitarian operation or a declared peacekeeping operation.</dd>
+<dt>dod_system_code</dt>
+<dd>Indicates the DoD system or equipment for which the contract is being awarded.</dd>
+<dt>it_commercial_availability</dt>
+<dd>Indicates the commercial availability of the contract being purchased.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/commercial/">http://transparencydata.com/docs/lookup/contracts/commercial/</a></dd>
+<dt>cas_clause</dt>
+<dd><a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/ynx/">http://transparencydata.com/docs/lookup/contracts/ynx/</a></dd>
+<dt>recovered_material_clause</dt>
+<dd><a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/rm_clauses/">http://transparencydata.com/docs/lookup/contracts/rm_clauses/</a></dd>
+<dt>fed_biz_opps</dt>
+<dd>Indicates whether or not the contract was listed in Fed Biz Opps.
+<a class="reference external" href="http://transparencydata.com/docs/lookup/contracts/ynx/">http://transparencydata.com/docs/lookup/contracts/ynx/</a></dd>
+<dt>government_property</dt>
+<dd>Indicates whether or not government property will be furnished for the contract.</dd>
+</dl>
+{% endblock %}

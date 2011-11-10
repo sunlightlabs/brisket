@@ -1,0 +1,37 @@
+{% extends "base_large.html" %}
+
+{% block content %}
+    <div class="module whitebox docs">
+		{% block docs %}
+			<h1 class="title">Transparency Data Information</h1>
+			<ul>
+				<li><a href="/docs/contributions/">Campaign Contributions</a></li>
+				<li><a href="/docs/lobbying/">Federal Lobbying</a></li>
+				<li><a href="/docs/grants/">Federal Grants</a></li>
+				<li><a href="/docs/contracts/">Federal Contracts</a></li>
+				<li><a href="/docs/earmarks/">Earmarks</a></li>
+				<li><a href="/docs/echo/">EPA ECHO</a></li>
+				<li><a href="/docs/changelog/">Data Changelog</a></li>
+			</ul>
+		{% endblock %}
+	</div>
+{% endblock %}
+
+
+{% block sidebar %}
+
+	<div class="module">
+		<h2>Jump to</h2>
+		<ul>
+			<li><a href="/docs/contributions/">Campaign Contributions</a></li>
+			<li><a href="/docs/lobbying/">Federal Lobbying</a></li>
+			<li><a href="/docs/grants/">Federal Grants</a></li>
+			<li><a href="/docs/contracts/">Federal Contracts</a></li>
+			<li><a href="/docs/earmarks/">Earmarks</a></li>
+			<li><a href="/docs/echo/">EPA ECHO</a></li>			
+			<li><a href="/docs/changelog/">Data Changelog</a></li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+	
+{% endblock %}
