@@ -215,7 +215,7 @@ div#mainContent_top { background: url(../images/whitebox_top.png) top left no-re
 div#mainContent { background: url(../images/whitebox_middle.png) top left repeat-y; padding-top: 25px; padding-bottom: 55px;}
 div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center top no-repeat; height: 10px;}
 
-#changeDates { background: url(../images/bg_currentView.png) top left repeat-x; height: 28px; padding-left: 115px; padding-top: 12px; position: absolute; top: 0px; left: 0px; width: 845px; }
+#changeDates { background: url(../images/bg_currentView.jpg) top left no-repeat; height: 28px; padding-left: 115px; padding-top: 12px; position: absolute; top: 0px; left: 0px; width: 845px; }
 #changeDates label { width: auto; font-weight: bold; margin-right: 15px;}
 #changeDates select { float: left; margin-right: 15px;}
 
