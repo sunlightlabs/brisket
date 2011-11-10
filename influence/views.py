@@ -506,9 +506,11 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
 
     section['sparkline_data'] = json.dumps(api.pol.sparkline(entity_id, cycle))
     
-    section['partytime_link'], section['partytime_data'] = external_sites.get_partytime_data(external_ids)
+    partytime_link, section['partytime_data'] = external_sites.get_partytime_data(external_ids)
     
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name, external_ids, cycle)
+    if partytime_link:
+        section['external_links'].append({'url': partytime_link, 'text': 'Party Time'})
 
     #bundling = api.entities.bundles(entity_id, cycle)
     #section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]

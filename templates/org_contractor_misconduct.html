@@ -18,16 +18,7 @@
 
     <div class="clear"></div>
     
-    <a class="moreLink" href="#">View all contractor misconduct data for {{ entity_info.name }}</a>
-
-    <span class="external">
-        {% if section.pogo_links %}
-            For more in-depth information on the complete contractor misconduct data see:
-            {% for link in section.pogo_links %}
-                <a href="{{ link.url }}" target="_blank">{{ link.text }}</a>
-            {% endfor %}
-        {% endif %}
-    </span>
+    {% include "external_links.html" with external_links=section.pogo_links %}
 
     <div class="clear"></div>
 </div><!-- end chartModule -->

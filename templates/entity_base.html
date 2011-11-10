@@ -49,7 +49,7 @@
             
             <div class="withNav" id="changeDates">
                 <form action="" method="get" id="cycle_form">
-                    <label>Currently Viewing {{ entity_info.name }} from</label>
+                    <label>Currently Viewing {{ entity_info.name|standardize_name:entity_info.type }} from</label>
                     {{ cycle_form.cycle }}
                     <button type="submit" id="cycle_submit">
                         <span>Update</span>

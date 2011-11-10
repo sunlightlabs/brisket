@@ -154,15 +154,6 @@
         </ul>
     {% endif %}
     <div class="clear"></div>
-    <a class="moreLink" href="#">View all lobbying data for {{ entity_info.name }}</a>
 
-    <span class="external">
-        {% if section.lobbying_links %}
-        For more in-depth information on the complete lobbying data see:
-        {% for link in section.lobbying_links %}
-        <a href="{{ link.url }}" target="_blank">{{ link.text }}</a>
-        {% endfor %}
-        {% endif %}
-    </span>  
-    <div class="clear"></div>
+    {% include "external_links.html" with external_links=section.lobbying_links %}
 </div>

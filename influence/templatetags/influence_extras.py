@@ -1,7 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 from influence.names import standardize_individual_name, standardize_organization_name, \
-    standardize_industry_name
+    standardize_industry_name, standardize_name
 from name_cleaver import PoliticianNameCleaver
 
 register = template.Library()
@@ -27,6 +27,11 @@ def standardize_organization_name_filter(name):
 @stringfilter
 def standardize_industry_name_filter(name):
     return standardize_industry_name(name)
+
+@register.filter(name='standardize_name')
+@stringfilter
+def standardize_name_filter(name, type):
+    return standardize_name(name, type)
 
 
 seat_labels = {'federal:senate': 'US Senate',
