@@ -61,9 +61,11 @@
             {% for lobbyist_entity, lobbyist_name, firm_entity, firm_name, amount in section.bundling_data %}
             <tr class="{% cycle 'even' 'odd' %}">
                 <td>
-                {% if lobbyist_entity and lobbyist_entity != firm_entity %}
-                <a href="/individual/{{lobbyist_name|slugify}}/{{lobbyist_entity}}">{{ lobbyist_name|standardize_individual_name }}</a>,
-                {% endif %}<a href="/organization/{{firm_name|slugify}}/{{firm_entity}}">{{ firm_name }}</a></td>
+                    {% if lobbyist_entity and lobbyist_entity != firm_entity %}
+                    <a href="/individual/{{lobbyist_name|slugify}}/{{lobbyist_entity}}">{{ lobbyist_name|standardize_individual_name }}</a>,
+                    {% endif %}
+                    {% if firm_entity %}<a href="/organization/{{firm_name|slugify}}/{{firm_entity}}">{% endif %}{{ firm_name|standardize_organization_name }}{% if firm_entity %}</a>{% endif %}
+                </td>
                 <td>${{ amount|floatformat:0|intcomma }}</td>
             </tr>
             {% endfor %}

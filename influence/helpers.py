@@ -92,7 +92,10 @@ def get_metadata(entity_id, cycle, entity_type):
             data[data_type] = False
 
     data['available_cycles'] = [c for c in entity_info['totals'].keys() if int(c) <= LATEST_CYCLE]
-    entity_info['years']['end'] = min(LATEST_CYCLE, entity_info['years']['end'])
+
+    if entity_info['years']:
+        entity_info['years']['end'] = min(LATEST_CYCLE, entity_info['years']['end'])
+
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
         entity_info['totals'] = entity_info['totals'][cycle_str]
@@ -111,12 +114,16 @@ def check_entity(entity_info, cycle, entity_type):
         icycle = int(cycle)
     except:
         raise Http404
-    if not entity_info['years'] or \
-        (icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end']))) or \
-        icycle > LATEST_CYCLE or entity_info['type'] != entity_type:
+    if not entity_info['years']:
         raise Http404
-        
-        
+    elif icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end'])):
+        raise Http404
+    elif icycle > LATEST_CYCLE:
+        raise Http404
+    elif entity_info['type'] != entity_type:
+        raise Http404
+
+
 def filter_bad_spending_descriptions(spending):
     for r in spending:
         if r['description'].count('!') > 10:
@@ -184,6 +191,6 @@ def get_top_pages():
         'views': page.metric,
         'path': page.dimensions[0],
         'title': page.dimensions[1].split('(')[0].strip() if page.dimensions[0].startswith('/politician') else page.dimensions[1].split('|')[0].strip()
-    } for page in pages if entity_signature.match(page.dimensions[0])]
+    } for page in pages if entity_signature.match(page.dimensions[0]) and 'error' not in page.dimensions[1].lower()]
     
     return entity_pages[:5]

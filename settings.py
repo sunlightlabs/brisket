@@ -102,7 +102,7 @@ INSTALLED_APPS = (
 #    'django.contrib.admin',
     'django_nose',
     'sentry',
-    'sentry.client',
+    'raven.contrib.django',
     'indexer',
     'paging',
     'gunicorn',
@@ -122,20 +122,13 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
 LATEST_CYCLE = 2012
-TOP_LISTS_CYCLE = 2010
+TOP_LISTS_CYCLE = 2012
 
 SESSION_COOKIE_NAME = 'brisket_session'
 
 SIMPLEPAY_COMPLETE_REDIRECT = '/postcard/thanks'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-SENTRY_TESTING = True
-SENTRY_FILTERS = (
-    'sentry.filters.StatusFilter',
-    'sentry.filters.LevelFilter',
-    'sentry.filters.ServerNameFilter',
-)
-#SENTRY_REMOTE_URL = 'http://localhost:8001/sentry/store/'
 
 SELENIUM_HOST = '0.0.0.0'
 SELENIUM_PORT = 4444 # default
