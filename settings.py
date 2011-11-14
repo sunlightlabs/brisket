@@ -129,13 +129,6 @@ SESSION_COOKIE_NAME = 'brisket_session'
 SIMPLEPAY_COMPLETE_REDIRECT = '/postcard/thanks'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-SENTRY_TESTING = True
-SENTRY_FILTERS = (
-    'sentry.filters.StatusFilter',
-    'sentry.filters.LevelFilter',
-    'sentry.filters.ServerNameFilter',
-)
-#SENTRY_REMOTE_URL = 'http://localhost:8001/sentry/store/'
 
 SELENIUM_HOST = '0.0.0.0'
 SELENIUM_PORT = 4444 # default
