@@ -157,6 +157,11 @@ MEDIASYNC['JOINED'] = {
         'js/brisket_charts.js',
         'js/brisket.js',
     ],
+    'data/css/all.css': [
+        'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
+        'data/css/jquery.autocomplete.css',
+        'data/css/main.css',
+    ],
     'data/css/3rdparty.css': [
         'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
         'data/css/jquery.autocomplete.css',
@@ -164,6 +169,13 @@ MEDIASYNC['JOINED'] = {
     'data/3rdparty.js': [
         'data/js/jquery-ui-1.7.2.custom.min.js',
         'data/js/jquery.currency.js',
+        'data/js/jquery.expander.js'
+    ],
+    'data/3rdparty_old.js': [
+        'data/js/jquery-1.4.2.min.js',
+        'data/js/jquery-ui-1.7.2.custom.min.js',
+        'data/js/jquery.currency.js',
+        'data/js/underscore-min.js',
         'data/js/jquery.expander.js'
     ],
     'data/contracts.js': [
