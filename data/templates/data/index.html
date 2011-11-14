@@ -2,6 +2,11 @@
 {% load media %}
 {% block body_class %}tdata{% endblock %}
 
+{% block js %}
+{{ block.super }}
+{% css 'data/css/3rdparty.css' %}
+{% endblock %}
+
 {% block main %}
     <div id="fullColumn">
         <p id="intro">
@@ -11,7 +16,7 @@
         {% include "data/data_tabs.html" %}
         <div class="clear"></div>
         <ul id="mainSearchFilter">
-            <li id="intro-contributions">
+            <li class="intro" id="intro-contributions">
                 <h3>Search Campaign Contributions</h3>
                 <div class="leftIntro">
                     <form id="contributionDataFilter" class="datafilter">
@@ -30,7 +35,7 @@
                     <a id="contributionPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
-            <li style="visibility: hidden;" id="intro-earmarks">
+            <li class="intro" id="intro-earmarks">
                 <h3>Search Earmarks</h3>
                 <div class="leftIntro">
                     <span class="tip tipHeight">Have a specific member of congress, state or bill? Add some filters below to search them</span>
@@ -49,9 +54,9 @@
                     <a id="earmarksPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
-            <li style="visibility: hidden;" id="intro-lobbying">
+            <li class="intro" id="intro-lobbying">
                 <h3>Search Federal Lobbying</h3>
-                <div id="leftIntro">
+                <div class="leftIntro">
                     <form  id="lobbyingDataFilter" class="datafilter">
                         <fieldset>
                             <span class="tip tipHeight">Have a specific organization or issue in mind? Add some filters below to search them</span>
@@ -63,14 +68,14 @@
                         <ul id="filters"></ul> <!-- end filters -->
                     </form>
                 </div>
-                <div id="rightIntro">
+                <div class="rightIntro">
                     <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
                     <a id="lobbyingPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
-            <li style="visibility: hidden;" id="intro-grants">
+            <li class="intro" id="intro-grants">
                 <h3>Search Federal Grants</h3>
-                <div id="leftIntro">
+                <div class="leftIntro">
                     <form id="grantsDataFilter" class="datafilter"> 
                         <fieldset>
                             <span class="tip tipHeight">Have a specific organization or agency in mind? Add some filters below to search them</span>
@@ -82,14 +87,14 @@
                         <ul id="filters"></ul> <!-- end filters -->
                     </form>
                 </div>
-                <div id="rightIntro">
+                <div class="rightIntro">
                     <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
                     <a id="grantsPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
-            <li style="visibility: hidden;" id="intro-contracts">
+            <li class="intro" id="intro-contracts">
                 <h3>Search Federal Contracts</h3>
-                <div id="leftIntro">
+                <div class="leftIntro">
                     <form id="contractsDataFilter" class="datafilter">
                         <fieldset>
                             <span class="tip tipHeight">Have a specific organization or agency in mind? Add some filters below to search them</span>
@@ -101,14 +106,14 @@
                         <ul id="filters"></ul> <!-- end filters -->
                     </form>
                 </div>
-                <div id="rightIntro">
+                <div class="rightIntro">
                     <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
                     <a id="contractsPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
-            <li style="visibility: hidden;" id="intro-contractor-misconduct">
+            <li class="intro" id="intro-contractorMisconduct">
                 <h3>Search Contractor Misconduct</h3>
-                <div id="leftIntro">
+                <div class="leftIntro">
                     <form id="contractorMisconductDataFilter" class="datafilter">
                         <fieldset>
                             <span class="tip tipHeight">Have a specific contractor, contracting party or enforcement agency in mind? Add some filters below to search them</span>
@@ -120,14 +125,14 @@
                         <ul id="filters"></ul> <!-- end filters -->
                     </form>
                 </div>
-                <div id="rightIntro">
+                <div class="rightIntro">
                     <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
                     <a id="contractorMisconductPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
-            <li style="visibility: hidden;" id="intro-epa-echo">
+            <li class="intro" id="intro-epaEcho">
                 <h3>Search EPA ECHO</h4>
-                <div id="leftIntro">
+                <div class="leftIntro">
                     <form id="epaEchoDataFilter" class="datafilter">
                         <fieldset>
                             <span class="tip tipHeight">Have a specific defendant in mind? Add some filters below to search through them.</span>
@@ -139,14 +144,14 @@
                         <ul id="filters"></ul> <!-- end filters -->
                     </form>
                 </div>
-                <div id="rightIntro">
+                <div class="rightIntro">
                     <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
                     <a id="epaEchoPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
-            <li style="visibility: hidden;" id="intro-faca">
+            <li class="intro" id="intro-faca">
                 <h3>Search FACA</h3>
-                <div id="leftIntro">
+                <div class="leftIntro">
                     <form id="facaDataFilter" class="datafilter">
                         <fieldset>
                             <span class="tip tipHeight">Have a specific member, organization affiliation or agency in mind? Add some filters below to search through them.</span>
@@ -158,14 +163,14 @@
                         </fieldset>
                     </form>
                 </div>
-                <div id="rightIntro">
+                <div class="rightIntro">
                     <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
                     <a id="facaPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
-            <li style="visibility: hidden;" id="intro-bundling">
+            <li class="intro" id="intro-bundling">
                 <h3>Search Bundled Contributions</h3>
-                <div id="leftIntro">
+                <div class="leftIntro">
                     <form id="bundlingDataFilter" class="datafilter">
                         <fieldset>
                             <span class="tip tipHeight">Have a specific bundler, politician or lobbying firm in mind? Add some filters below to search through them.</span>
@@ -177,7 +182,7 @@
                         </fieldset>
                     </form>
                 </div>
-                <div id="rightIntro">
+                <div class="rightIntro">
                     <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
                     <a id="bundlingPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
@@ -203,7 +208,12 @@
 
 			$('#dataTabs li a').bind('click', function() {
 				var df = $(this).attr('class');
-				$('body').attr('id', df);
+				
+                $('#mainSearchFilter li').hide();
+                $('#dataTabs li').removeClass('active');
+
+                $('#intro-' + df).show();
+                $(this).parents('li').addClass('active');
 
                 if (df in all_filters) {
                     TD.activeFilter = all_filters[df];
@@ -213,6 +223,7 @@
 			});
 
             for (key in all_filters) {
+                console.log(key);
                 all_filters[key].bindDataFilter('#' + key + 'DataFilter');
                 all_filters[key].bindPreview('#' + key + 'PreviewButton');
                 all_filters[key].init();
@@ -221,6 +232,8 @@
             TD.HashMonitor.setAnchor('');
 		    TD.activeFilter = TD.ContributionFilter;
 			TD.init();
+
+            $('#dataTabs li a.contributions').click();
 		});
 
 	</script>

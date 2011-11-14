@@ -1,6 +1,11 @@
 {% extends "search_base.html" %}
 {% load media %}
 
+{% block js %}
+{{ block.super }}
+{% css 'data/css/3rdparty.css' %}
+{% endblock %}
+
 {% block body_class %}tdata flexwidth{% endblock %}
 
 {% block main %}
@@ -64,6 +69,7 @@
 	{% js "data/3rdparty.js" %}
 	<script type="text/javascript">
 	TD.DATA_API_BASE_URL = "{{ DATA_API_BASE_URL }}";
+	$(function() { $('#dataTabs li a.{% block bodyid %}{% endblock %}').parent().addClass('active'); });
 	</script>
 	{% endblock %}
 {% endblock %}

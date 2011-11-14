@@ -610,16 +610,18 @@ table .even.numerous{
 
 .leftIntro { float: left; width: 570px; padding-right: 29px; border-right: 1px dashed #DCDCD8;}
 .rightIntro { float: left; margin-left: 30px; width: 260px; }
-.previewButton { background: url(../images/btn_previewData.jpg) left -60px no-repeat; height: 60px; width: 168px;}
-.previewButton:hover { background: url(../images/btn_previewData.jpg) left -120px no-repeat; } 
+.previewButton { background: url(../images/btn_previewData.jpg) left top no-repeat; height: 60px; width: 168px;}
+.previewButton.enabled { background: url(../images/btn_previewData.jpg) left -60px no-repeat; }
+.previewButton.enabled:hover { background: url(../images/btn_previewData.jpg) left -120px no-repeat; } 
 
 #lgRightColumn .previewButton { float: left; margin-right: 15px;}
 #lgRightColumn .downloadButton { float: left;}
 
 .downloadButton { background: url(../images/btn_download.jpg) left top no-repeat; height: 60px; width: 168px;}
-.downloadButton:hover { background: url(../images/btn_download.jpg) left -120px no-repeat; }
+.downloadButton.enabled { background: url(../images/btn_download.jpg) left -60px no-repeat; }
+.downloadButton.enabled:hover { background: url(../images/btn_download.jpg) left -120px no-repeat; }
 
-#downloadButton.enabled { background: url(../images/btn_download.jpg) left -60px no-repeat; }
+#mainSearchFilter li.intro { display: none; }
 
 #mainSearchFilter fieldset { background-color: #f9f7f6; padding: 20px 10px; border: 1px solid #f1eeec;}
 #mainSearchFilter fieldset label { width: auto; margin-right: 15px; font-weight: bold;}
@@ -665,7 +667,9 @@ table .even.numerous{
 .module { margin-bottom: 20px;}
 .module p { margin-bottom: 1em;}
 
-#loading { font-size: 160%; font-weight: bold; background: url("../images/ajax-loader.gif") no-repeat scroll left top transparent; padding-left: 30px; margin: 40px 0;}
+#loading { font-size: 160%; display:none; font-weight: bold; background: url("../images/ajax-loader.gif") no-repeat scroll left top transparent; padding-left: 30px; margin: 40px 0;}
+#nodata { display: none; font-size: 140%; font-weight: bold; margin-bottom: 30px; }
+#tableScroll { display: none; position: relative; }
 
 #lgRightColumn table th { padding: 0 10px 10px;}
 
