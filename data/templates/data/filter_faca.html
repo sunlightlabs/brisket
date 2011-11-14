@@ -1,4 +1,4 @@
-{% extends "filter.html" %}
+{% extends "data/filter.html" %}
 {% load media %}
 
 {% block bodyid %}faca{% endblock %}
@@ -19,7 +19,8 @@
 {% endblock %}
 
 {% block dataset_scripts %}
-    {% js "faca.js" %}
+    {% js "data/faca.js" %}
+    {{ block.super }}
     <script type="text/javascript">
         $().ready(function() {
             TD.FacaFilter.bindDataFilter('#datafilter');

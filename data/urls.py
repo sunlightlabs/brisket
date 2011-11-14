@@ -31,6 +31,15 @@ urlpatterns = patterns('brisket.data.views',
     
     # contractor_misconduct
     url(r'^contractor_misconduct/$', 'filter_contractor_misconduct', name="filter_contractor_misconduct"),
+    
+    # epa_echo
+    url(r'^epa_echo/$', 'filter_epa_echo', name="filter_epa_echo"),
+    
+    # faca
+    url(r'^faca/$', 'filter_faca', name="filter_faca"),
+    
+    # bundled contributions
+    url(r'^contributions/bundled/$', 'filter_bundling', name="filter_bundling"),
  
     # doc lookups
 #   url(r'^docs/lookup/(?P<dataset>\w+)/(?P<field>[\w\-_]+)/$', 'lookup', name="doc_lookup"),

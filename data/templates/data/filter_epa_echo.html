@@ -1,4 +1,4 @@
-{% extends "filter.html" %}
+{% extends "data/filter.html" %}
 {% load media %}
 
 {% block bodyid %}epaEcho{% endblock %}
@@ -18,7 +18,8 @@
 {% endblock %}
 
 {% block dataset_scripts %}
-    {% js "epa_echo.js" %}
+    {% js "data/epa_echo.js" %}
+    {{ block.super }}
     <script type="text/javascript">
         $().ready(function() {
             TD.EpaEchoFilter.bindDataFilter('#datafilter');

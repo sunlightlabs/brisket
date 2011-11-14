@@ -196,6 +196,21 @@ MEDIASYNC['JOINED'] = {
         'data/js/td.fields.js',
         'data/js/td.lobbying.js'
     ],
+    'data/faca.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.faca.js'
+    ],
+    'data/bundling.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.bundling.js'
+    ],
+    'data/epa_echo.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.epa_echo.js'
+    ],
     'data/index.js': [
         'data/js/td.js',
         'data/js/td.fields.js',

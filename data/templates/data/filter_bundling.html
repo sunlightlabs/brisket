@@ -1,4 +1,4 @@
-{% extends "filter.html" %}
+{% extends "data/filter.html" %}
 {% load media %}
 
 {% block bodyid %}bundling{% endblock %}
@@ -17,7 +17,8 @@
 {% endblock %}
 
 {% block dataset_scripts %}
-    {% js "bundling.js" %}
+    {% js "data/bundling.js" %}
+    {{ block.super }}
     <script type="text/javascript">
         $().ready(function() {
             TD.BundlingFilter.bindDataFilter('#datafilter');
