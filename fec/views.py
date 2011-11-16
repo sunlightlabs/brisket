@@ -4,8 +4,12 @@ from django.http import HttpResponse
 from influence.names import standardize_name
 from django.template.defaultfilters import slugify
 
+from django.views.generic.simple import direct_to_template
+
 from django.contrib.localflavor.us.us_states import US_STATES
 backwards_states = dict([(s[1].upper(), s[0]) for s in US_STATES])
+
+from settings import api
 
 def get_json(request, file):
     substitutions = {
@@ -49,3 +53,13 @@ def get_json(request, file):
         out.append(row)
     
     return HttpResponse(json.dumps(out), mimetype="application/json")
+
+def bundling(request):
+    return direct_to_template(
+        request,
+        'fec/bundling.html',
+        extra_context = {
+            'recipients': api._get_url_json('aggregates/lobbyist_bundling/recipients.json'),
+            'firms': api._get_url_json('aggregates/lobbyist_bundling/firms.json')
+        }
+    )
