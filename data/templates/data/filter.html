@@ -9,14 +9,12 @@
 {% block body_class %}tdata flexwidth{% endblock %}
 
 {% block main %}
-<div id="fullColumn">
-    {% include "data/data_tabs.html" %}
-    <div class="clear"></div>
-    {{ block.super }}
-</div>
+{% include "data/data_tabs.html" %}
+{{ block.super }}
 <div id="smLtColumn">
+    
     <div id="datafilter" class="module datafilter">
-		<h2 class="h3 withTip">Search {% block dataset_name %}{% endblock %} for</h2>
+		<h3 class="withTip">Search {% block dataset_name %}{% endblock %} for</h3>
 		<span class="tip tipHeight">Add additional fields to refine your search.</span>
 		<form>
 			<select id="filterselect">

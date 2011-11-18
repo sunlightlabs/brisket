@@ -605,15 +605,19 @@ table .even.numerous{
 
 .withTip { margin-bottom: 5px; }
 
+
 /* Transparency Data */
 
-#dataTabs { margin: 30px 0 40px; border-bottom: 1px solid #DCDCD8;}
-#dataTabs li { display: inline-block; padding: 5px 15px; border-top: 1px solid #DCDCD8; border-right: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; margin-right: 2px; background: url(../images/tabGradient.jpg) left top repeat-x;}
-#dataTabs li.active, #dataTabs li:hover { background: #fff; font-weight: bold; margin-bottom: -2px; }
+#dataTabs { margin: 30px 35px 40px -28px; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 85px; line-height: 16px; font-size: 95%; float: left;}
+#dataTabs li { padding: 10px 8px; border-top: 1px solid #DCDCD8; border-bottom: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; background-color: #f6f3f2;}
+#dataTabs li.active, #dataTabs li:hover { background: #fff; font-weight: bold;  margin-right: -2px;}
 #dataTabs a { text-decoration: none; }
+.flexwidth #dataTabs { margin: 0 35px 40px -15px;}
 
-.leftIntro { float: left; width: 570px; padding-right: 29px; border-right: 1px dashed #DCDCD8;}
-.rightIntro { float: left; margin-left: 30px; width: 260px; }
+#mainSearchFilter { margin-top: 45px; float: left; width: 780px;}
+
+.leftIntro { float: left; width: 530px; padding-right: 29px; border-right: 1px dashed #DCDCD8;}
+.rightIntro { float: left; margin-left: 30px; width: 180px; }
 .previewButton { background: url(../images/btn_previewData.jpg) left top no-repeat; height: 60px; width: 168px;}
 .previewButton.enabled { background: url(../images/btn_previewData.jpg) left -60px no-repeat; }
 .previewButton.enabled:hover { background: url(../images/btn_previewData.jpg) left -120px no-repeat; } 
@@ -627,22 +631,23 @@ table .even.numerous{
 
 #mainSearchFilter li.intro { display: none; }
 
-#mainSearchFilter fieldset { background-color: #f9f7f6; padding: 20px 10px; border: 1px solid #f1eeec;}
+#mainSearchFilter fieldset { padding: 0 0 10px 15px; }
 #mainSearchFilter fieldset label { width: auto; margin-right: 15px; font-weight: bold;}
 
 .tdata #filters label { display: block; float: none; width: auto; font-weight: bold;} 
 
-#filters { border-top: 1px dotted #DCDCD8; padding: 25px 10px 25px 65px;}
+#filters { border-top: 1px dotted #c8c8c3; padding: 25px 10px 25px 65px; background: url(../images/tabGradient.jpg) left top repeat-x;}
 #smLtColumn #filters { padding: 25px 0;}
 .tdata #smLtColumn #filters select { width: 80%;}
 .tdata #smLtColumn #filters input { width: 75%;}
 .tdata #smLtColumn #filters label { width: 55%; padding-top: 10px;}
 
-.mainLabel { font-size: 120%; }
+.mainLabel { font-size: 150%; }
 
 #filters li { margin-bottom: 15px; border-bottom: 1px dotted #DCDCD8; padding-bottom: 15px;}
 #filters li ul li { border-bottom: none; padding: 15px 0 0 0;}
-.tdata #filters label { float: left; width: 430px; line-height: 15px;}
+.tdata #filters label { float: left; width: 380px; line-height: 15px;}
+#filters label { font-size: 120%;}
 
 .remove, .add { float: right; text-indent: -9999em; display: block; width: 27px; height: 27px; }
 .add { background: url(../images/btn_plus.png) left top no-repeat;  margin-right: 5px;}
