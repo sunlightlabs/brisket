@@ -139,7 +139,7 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 #tools img { float: left; margin-right: 20px;}
 .toolDes { float: left; width: 370px;}
 
-#socialIcons { float: right; margin-bottom: 10px;}
+#socialIcons { float: right; height: 16px; margin-bottom: 10px; }
 .addthis_toolbox .at15t_facebook { background: url(../images/socialSprites.png) left -48px no-repeat !important; }
 .addthis_toolbox .at15t_facebook:hover { background: url(../images/socialSprites.png) left -32px no-repeat !important; }
 .addthis_toolbox .at15t_twitter { background: url(../images/socialSprites.png) left -16px no-repeat !important; }
