@@ -21,35 +21,48 @@
     <h2 id="FeatureText">Explore companies, lawmakers and prominent individuals that matter to you and see how they're influencing the political system</h2>
     <div id="featureContent" class="chartModule">
         <ul>
-            <li>
-                <h3 class="withTip"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence <br />Explored</a></h3>
+            <li id="explored">
+                <h3 class="withTip"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a></h3>
                 <span class="tip shift">regularly updated news and analysis using Influence Explorer</span>
                 <h4 class="withTip shift"><a href="#">{{entry.title|safe}}</a></h4>
                 <time class="published entryMetaData shift" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
-                <div class="shift">{{entry.summary|safe|removetags:"img"|truncatewords_html:40}}</div>
+                <div class="colOne shift">{{entry.summary|safe|removetags:"img"|truncatewords_html:200}}</div>
+                <a class="shift moreLink" href="#">Read More</a>
             </li> 
-            <li>
+            <li id="tools">
                 <h3 class="withTip"><a href="#">Tools</a></h3>
                 <span class="tip shift">bring influence data to your email, banking and news</span>
-                <ul class="shift">
+                <ul class="shift normalList">
                     <li>
-                        <h4 class="withTip"><a href="https://inbox.influenceexplorer.com/">Inbox Influence</a></h4>
-                        <p>See the political contributions of the people and organizations that are mentioned in emails you receive.</p>
+                        <img alt="inbox influence icon" src="/media/images/img_inboxIEsm.jpg" />
+                        <div class="toolDes">
+                            <h4 class="withTip"><a href="https://inbox.influenceexplorer.com/">Inbox Influence</a></h4>
+                            <p>See the political contributions of the people and organizations that are mentioned in emails you receive.</p>
+                        </div>
+                        <div class="clear"></div>
                     </li> 
                     <li>
-                        <h4 class="withTip"><a href="https://checking.influenceexplorer.com/">Checking Influence</a></h4>
-                        <p>When you shop, do you wonder where your money really goes?</p>
+                        <img alt="checking influence icon" src="/media/images/img_checkingSm.jpg" />
+                        <div class="toolDes">
+                            <h4 class="withTip"><a href="https://checking.influenceexplorer.com/">Checking Influence</a></h4>
+                            <p>When you shop, do you wonder where your money really goes?</p>
+                        </div>
+                        <div class="clear"></div>
                     </li>  
                     <li>
-                        <h4 class="withTip"><a href="http://poligraft.com/">Poligraft</a></h4>
-                        <p>See connections between money and politics in news articles you read everyday.</p>
+                        <img alt="poligraft icon" src="/media/images/img_poligraftSm.jpg" />
+                        <div class="toolDes">
+                            <h4 class="withTip"><a href="http://poligraft.com/">Poligraft</a></h4>
+                            <p>See connections between money and politics in news articles you read everyday.</p>
+                        </div>
+                        <div class="clear"></div>
                     </li> 
                 </ul>    
             </li>        
             <li id="topPages">
                 <h3 class="withTip">Top Pages</h3>
                 <span class="tip shift">check out what other people are exploring the most</span>
-                <ul class="shift">
+                <ul class="shift normalList">
                     {% for page in top_pages %}
                         <li>
                             <a class="standOut" href="{{ page.path }}">{{ page.title }}</a>
@@ -66,7 +79,7 @@
     <h3 id="newsTitle">What's New</h3>
     <div id="newsWrapper"> 
         <div id="news">  
-            <div id="colOne">
+            <div class="colOne">
                 <p>Influence Explorer now includes two new datasets for tracking corporate influence in policy making. Our  regulations section tracks companies' official public comments on federal rulemakings. You can use it to, for example, <a href="/organization/glaxosmithkline/bfe12136b1e042cbbec042cfcd33901c#regulations_section">see what big drug companies are saying to the FDA</a>. Our advisory committe section shows when employees of a company sit on federal advisory boards. Try looking up <a href="/organization/bank-of-america/878b4d98431344de88d8fb9757043a95?cycle=-1#faca_section">the advisory roles of employees of big banks</a>.</p>
                 <p>There's also a new section on environmental enforcement actions from the EPA. Lots of big companies have <a href="/organization/exxon-mobil/819555dfc3d449d2be54286f0cb385e2#epa_echo_section">received hefty fines from the EPA</a>.</p>
             </div>    
