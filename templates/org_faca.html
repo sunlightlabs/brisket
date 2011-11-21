@@ -6,12 +6,15 @@
     <span class="amount">
         {{ entity_info.totals.faca_member_count }} {{ entity_info.totals.faca_member_count|pluralize:'person,people' }} on {{ entity_info.totals.faca_committee_count }} committee{{ entity_info.totals.faca_committee_count|pluralize }}
     </span>
-    <a class="descriptor" title="More Information" href="#facaDescriptor">Information</a>
-    <div class="clear"></div>      
-    <div class="descriptorText" id='facaDescriptor'>
-      	<p>Data is based on disclosures required by the <a href="http://www.gsa.gov/efaca">Federal Advisory Committee Act (FACA)</a>. Matches are based on the occurrence of the company name in the committee member affiliation. Variations in company names may cause some matches to be missed.</p>
-      	<p>The table shows only the top 10 agencies. To search and download raw records from the complete dataset see <a href="http://transparencydata.com/faca">TransparencyData.com</a>.</p>
-    </div>      
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#facaDescriptor">Information</a>
+        <div class="clear"></div>      
+        <div class="descriptorText" id='facaDescriptor'>
+      	    <p>Data is based on disclosures required by the <a href="http://www.gsa.gov/efaca">Federal Advisory Committee Act (FACA)</a>. Matches are based on the occurrence of the company name in the committee member affiliation. Variations in company names may cause some matches to be missed.</p>
+      	    <p>The table shows only the top 10 agencies. To search and download raw records from the complete dataset see <a href="http://transparencydata.com/faca">TransparencyData.com</a>.</p>
+        </div>      
+    </div>
+    <div class="clear"></div>
 </div>
 
 <div class="chartModule withNav">
