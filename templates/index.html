@@ -24,10 +24,10 @@
             <li id="explored">
                 <h3 class="withTip"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a></h3>
                 <span class="tip shift">regularly updated news and analysis using Influence Explorer</span>
-                <h4 class="withTip shift"><a href="#">{{entry.title|safe}}</a></h4>
+                <h4 class="withTip shift"><a href="{{ entry.link }}">{{entry.title|safe}}</a></h4>
                 <time class="published entryMetaData shift" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
                 <div class="colOne shift">{{entry.summary|safe|removetags:"img"|truncatewords_html:200}}</div>
-                <a class="shift moreLink" href="#">Read More</a>
+                <a class="shift moreLink" href="{{ entry.link }}">Read More</a>
             </li> 
             <li id="tools">
                 <h3 class="withTip"><a href="#">Tools</a></h3>
