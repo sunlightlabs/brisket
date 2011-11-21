@@ -122,7 +122,7 @@ h2 { font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif; color: #
 h2 big { text-transform: uppercase; margin-right: 10px;}
 .overviewBar h3 { float: left;  margin-bottom: 0px;  margin-right: 25px;}
 h3 { font-weight: bold; color: #3b3130; text-transform: uppercase; font-size: 160%; line-height: 25px; margin-bottom: 25px;}
-h4, .h4 { color: #3b3130; font-size: 145%; margin-bottom: 25px; font-weight: normal; float: none; margin-right: 0px;}
+h4, .h4 { color: #3b3130; font-size: 145%; margin-bottom: 15px; font-weight: normal; float: none; margin-right: 0px;}
 h4.key { float: left; margin-right: 20px;}
 h5, .h5 { font-size: 125%; text-transform: capitalize; float: none; margin-bottom: 15px; color: #59504f; font-weight: bold; line-height: 24px;}
 h6, .h6 { font-size: 110%; font-weight: bold;}
@@ -169,8 +169,9 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 
 .contentModule { margin-bottom: 40px;}
 
-#contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px;}
+#contentHeader { border-bottom: 1px dashed #dcdcd8; margin-bottom: 15px; padding: 0 40px 10px; position: relative; z-index: 2;}
 #contentHeader img { float: left; margin-right: 20px; border: 2px solid #e0e0df; width: 60px;}
+#mainContent .interior { margin-bottom: 40px;}
 
 #mainContent .corporateLogo { float: right; height: 45px; border: 0px; width: auto; max-width: 180px; max-height: 80px; margin-top: -40px; margin-right: 0;}
 
@@ -249,8 +250,8 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 .chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 .chart .tip { margin-bottom: 0px;}
 
-#ltColumn { padding: 0 30px 0 40px; width: 650px; float: left; overflow: hidden;}
-#rtColumn { padding: 0 40px 80px 30px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px}
+#ltColumn { padding: 0 25px 0 40px; width: 565px; float: left; overflow: hidden;}
+#rtColumn { padding: 45px 40px 80px 25px; width: 265px; float: left; overflow: hidden; margin-top: -45px; margin-bottom: 50px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 #fullColumn { padding: 0 40px 80px 30px; }
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 
@@ -419,7 +420,7 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 .inArticle li { float: left; margin-right: 5px; margin-bottom: 8px; font-family: Georgia, Times New Roman, Times, serif; font-style: italic;}
 .articleGraph { float: none; width: auto;}
 .insideModule { padding-bottom: 40px; margin-bottom: 40px; border-bottom: 1px dotted #dbdbda;}
-.section { margin-bottom: 30px;}
+.section { margin-bottom: 40px;}
 
 #articleContent { float: left; margin-right: 25px; width: 365px;}
 
@@ -607,6 +608,11 @@ table .even.numerous{
 
 
 /* Transparency Data */
+
+#td_nav { background: url(../images/bg_tdNav.png) right top no-repeat; margin-top: -32px; padding: 14px 0 0 0; height: 42px; margin-bottom: 25px;}
+#td_nav li { float: right; border-right: 1px solid #cacdce; padding: 0 25px; line-height: 15px; text-align: center;}
+#td_nav li.last { border-right: none;}
+#td_nav li:hover, #td_nav li.active { font-weight: bold;}
 
 #dataTabs { margin: 30px 35px 40px -28px; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 85px; line-height: 16px; font-size: 95%; float: left;}
 #dataTabs li { padding: 10px 8px; border-top: 1px solid #DCDCD8; border-bottom: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; background-color: #f6f3f2;}
