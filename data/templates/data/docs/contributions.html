@@ -1,134 +1,171 @@
 {% extends "data/docs/index.html" %}
 
-{% block docs %}
-<h1 class="title">Campaign Contributions Data Schema</h1>
+{% block docsContent %}
+    <h3>Campaign Contributions Data Schema</h3>
 
-<dl class="docutils">
-<dt>cycle</dt>
-<dd>The election cycle in which the contribution was given. Valid values are even years between 1990 and 2010 (inclusive).</dd>
-<dt>transaction_namespace</dt>
-<dd><p class="first">Indicates the source of the contribution record.</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="46%" />
-<col width="54%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Value</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td><tt class="docutils literal">urn:fec:transaction</tt></td>
-<td>federal contributions (CRP)</td>
-</tr>
-<tr><td><tt class="docutils literal">urn:nimsp:transaction</tt></td>
-<td>state contributions (NIMSP)</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>transaction_id</dt>
-<dd>Unique record ID given to the contribution by the FEC (federal) or NIMSP (state). Federal records are only guaranteed to be unique per year so they are prepended with the cycle.</dd>
-<dt>transaction_type</dt>
-<dd>Transaction type assigned by the FEC. State records do not yet have transaction types.</dd>
-<dt>filing_id</dt>
-<dd>Unique identifier for the actual filing with the FEC. State records do not yet have filing identifiers.</dd>
-<dt>is_amendment</dt>
-<dd><tt class="docutils literal">TRUE</tt> if transaction is an amendment to a previously reported contribution, otherwise <tt class="docutils literal">FALSE</tt>.</dd>
-<dt>amount</dt>
-<dd>Amount of the contribution in US dollars.</dd>
-<dt>date</dt>
-<dd>Date the contribution was made.</dd>
-<dt>contributor_name</dt>
-<dd>Name of the person or organization making the contribution.</dd>
-<dt>contributor_ext_id</dt>
-<dd>The NIMSP or CRP ID of the contributor, if an ID exists.</dd>
-<dt>contributor_type</dt>
-<dd><tt class="docutils literal">I</tt> for individual or <tt class="docutils literal">C</tt> for PAC. NIMSP (state) records do not have a contributor type.</dd>
-<dt>contributor_occupation</dt>
-<dd>The self-reported occupation of the contributor.</dd>
-<dt>contributor_employer</dt>
-<dd>The self-reported employer of the contributor.</dd>
-<dt>contributor_gender</dt>
-<dd><tt class="docutils literal">M</tt> for male, <tt class="docutils literal">F</tt> for female. Gender will only be found on CRP (federal) records.</dd>
-<dt>contributor_address</dt>
-<dd>The self-reported address of the contributor.</dd>
-<dt>contributor_city</dt>
-<dd>The self-reported city of the contributor.</dd>
-<dt>contributor_state</dt>
-<dd>The self-reported state of the contributor as the two-letter state abbreviation.</dd>
-<dt>contributor_zipcode</dt>
-<dd>The self-reported ZIPCode of the contributor.</dd>
-<dt>contributor_category</dt>
-<dd>The five character industry <a class="reference external" href="http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes.csv">category code</a> of the contributor assigned by CRP or NIMSP.</dd>
-<dt>organization_name</dt>
-<dd>The name of the organization related to the contributor (employee, owner, spouse of owner, etc.). CRP or NIMSP standardized name.</dd>
-<dt>organization_ext_id</dt>
-<dd>The NIMSP or CRP ID of the organization, if an ID exists.</dd>
-<dt>parent_organization_name</dt>
-<dd>The name of the parent organization if one exists. CRP or NIMSP standardized name.</dd>
-<dt>parent_organization_ext_id</dt>
-<dd>The NIMSP or CRP ID of the parent organization, if an ID exists.</dd>
-<dt>recipient_name</dt>
-<dd>Name of the candidate or organization receiving the contribution.</dd>
-<dt>recipient_ext_id</dt>
-<dd>The NIMSP or CRP ID of the recipient.</dd>
-<dt>recipient_party</dt>
-<dd>The political party to which the recipient belongs. <tt class="docutils literal">3</tt> for third party, <tt class="docutils literal">D</tt> for Democratic Party, <tt class="docutils literal">I</tt> for independent, <tt class="docutils literal">R</tt> for Republican Party, and <tt class="docutils literal">U</tt> for unknown.</dd>
-<dt>recipient_type</dt>
-<dd><tt class="docutils literal">C</tt> for committees, <tt class="docutils literal">O</tt> for organizations, <tt class="docutils literal">P</tt> for politicians.</dd>
-<dt>recipient_category</dt>
-<dd>The five character industry category code of the recipient assigned by CRP or NIMSP. A full listing of categories and category orders can be found in catcodes.csv.</dd>
-<dt>recipient_category_order</dt>
-<dd>The three character industry code of the recipient assigned by CRP or NIMSP. A full listing of categories and category orders can be found in catcodes.csv.</dd>
-<dt>committee_name</dt>
-<dd>The name of the committee associated with the recipient of the contribution. This may be a parent committee or the election committee for the candidate.</dd>
-<dt>committee_ext_id</dt>
-<dd>The NIMSP or CRP ID of the committee.</dd>
-<dt>committee_party</dt>
-<dd>The political party to which the committee belongs. <tt class="docutils literal">3</tt> for third party, <tt class="docutils literal">D</tt> for Democratic Party, <tt class="docutils literal">I</tt> for independent, <tt class="docutils literal">R</tt> for Republican Party, and <tt class="docutils literal">U</tt> for unknown.</dd>
-<dt>candidacy_status</dt>
-<dd><tt class="docutils literal">TRUE</tt> for general election, <tt class="docutils literal">FALSE</tt> for lost in the primary or dropped out, <tt class="docutils literal">NULL</tt> if never ran.</dd>
-<dt>district</dt>
-<dd>The district that the candidate represents, if there is one. The district is as the state abbreviation followed by the district number. For example: <tt class="docutils literal"><span class="pre">CA-12</span></tt>.</dd>
-<dt>seat</dt>
-<dd><p class="first">The type of office being sought by the candidate.</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="35%" />
-<col width="65%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Value</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>federal:senate</td>
-<td>US Senate</td>
-</tr>
-<tr><td>federal:house</td>
-<td>US House of Representatives</td>
-</tr>
-<tr><td>federal:president</td>
-<td>US President</td>
-</tr>
-<tr><td>state:upper</td>
-<td>upper chamber of state legislature</td>
-</tr>
-<tr><td>state:lower</td>
-<td>lower chamber of state legislature</td>
-</tr>
-<tr><td>state:governor</td>
-<td>state governor</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>seat_status</dt>
-<dd><tt class="docutils literal">I</tt> for incumbent, <tt class="docutils literal">O</tt> for open. The value will be filled in as available in the source data.</dd>
-<dt>seat_result</dt>
-<dd><tt class="docutils literal">W</tt> for win, <tt class="docutils literal">L</tt> for loss. The value will be filled in as available in the source data.</dd>
-</dl>
+    <dl>
+        <dt>cycle</dt>
+        <dd>The election cycle in which the contribution was given. Valid values are even years between 1990 and 2010 (inclusive).</dd>
+        
+        <dt>transaction_namespace</dt>
+        <dd><p class="first">Indicates the source of the contribution record.</p>
+        <table border="1">
+            <colgroup>
+            <col width="46%" />
+            <col width="54%" />
+            </colgroup>
+            <thead valign="bottom">
+                <tr><th class="head">Value</th>
+                    <th class="head">Description</th>
+                </tr>
+            </thead>
+            <tbody valign="top">
+                <tr><td><tt class="docutils literal">urn:fec:transaction</tt></td>
+                    <td>federal contributions (CRP)</td>
+                </tr>
+                <tr><td><tt class="docutils literal">urn:nimsp:transaction</tt></td>
+                    <td>state contributions (NIMSP)</td>
+                </tr>
+            </tbody>
+        </table>
+        </dd>
+        
+        <dt>transaction_id</dt>
+        <dd>Unique record ID given to the contribution by the FEC (federal) or NIMSP (state). Federal records are only guaranteed to be unique per year so they are prepended with the cycle.</dd>
+        
+        <dt>transaction_type</dt>
+        <dd>Transaction type assigned by the FEC. State records do not yet have transaction types.</dd>
+        
+        <dt>filing_id</dt>
+        <dd>Unique identifier for the actual filing with the FEC. State records do not yet have filing identifiers.</dd>
+        
+        <dt>is_amendment</dt>
+        <dd><tt class="docutils literal">TRUE</tt> if transaction is an amendment to a previously reported contribution, otherwise <tt class="docutils literal">FALSE</tt>.</dd>
+        
+        <dt>amount</dt>
+        <dd>Amount of the contribution in US dollars.</dd>
+        
+        <dt>date</dt>
+        <dd>Date the contribution was made.</dd>
+        
+        <dt>contributor_name</dt>
+        <dd>Name of the person or organization making the contribution.</dd>
+        
+        <dt>contributor_ext_id</dt>
+        <dd>The NIMSP or CRP ID of the contributor, if an ID exists.</dd>
+        
+        <dt>contributor_type</dt>
+        <dd><tt class="docutils literal">I</tt> for individual or <tt class="docutils literal">C</tt> for PAC. NIMSP (state) records do not have a contributor type.</dd>
+        
+        <dt>contributor_occupation</dt>
+        <dd>The self-reported occupation of the contributor.</dd>
+        
+        <dt>contributor_employer</dt>
+        <dd>The self-reported employer of the contributor.</dd>
+        
+        <dt>contributor_gender</dt>
+        <dd><tt class="docutils literal">M</tt> for male, <tt class="docutils literal">F</tt> for female. Gender will only be found on CRP (federal) records.</dd>
+        
+        <dt>contributor_address</dt>
+        <dd>The self-reported address of the contributor.</dd>
+        
+        <dt>contributor_city</dt>
+        <dd>The self-reported city of the contributor.</dd>
+        
+        <dt>contributor_state</dt>
+        <dd>The self-reported state of the contributor as the two-letter state abbreviation.</dd>
+        
+        <dt>contributor_zipcode</dt>
+        <dd>The self-reported ZIPCode of the contributor.</dd>
+        
+        <dt>contributor_category</dt>
+        <dd>The five character industry <a class="reference external" href="http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes.csv">category code</a> of the contributor assigned by CRP or NIMSP.</dd>
+        
+        <dt>organization_name</dt>
+        <dd>The name of the organization related to the contributor (employee, owner, spouse of owner, etc.). CRP or NIMSP standardized name.</dd>
+        
+        <dt>organization_ext_id</dt>
+        <dd>The NIMSP or CRP ID of the organization, if an ID exists.</dd>
+        
+        <dt>parent_organization_name</dt>
+        <dd>The name of the parent organization if one exists. CRP or NIMSP standardized name.</dd>
+        
+        <dt>parent_organization_ext_id</dt>
+        <dd>The NIMSP or CRP ID of the parent organization, if an ID exists.</dd>
+        
+        <dt>recipient_name</dt>
+        <dd>Name of the candidate or organization receiving the contribution.</dd>
+        
+        <dt>recipient_ext_id</dt>
+        <dd>The NIMSP or CRP ID of the recipient.</dd>
+        
+        <dt>recipient_party</dt>
+        <dd>The political party to which the recipient belongs. <tt class="docutils literal">3</tt> for third party, <tt class="docutils literal">D</tt> for Democratic Party, <tt class="docutils literal">I</tt> for independent, <tt class="docutils literal">R</tt> for Republican Party, and <tt class="docutils literal">U</tt> for unknown.</dd>
+        
+        <dt>recipient_type</dt>
+        <dd><tt class="docutils literal">C</tt> for committees, <tt class="docutils literal">O</tt> for organizations, <tt class="docutils literal">P</tt> for politicians.</dd>
+        
+        <dt>recipient_category</dt>
+        <dd>The five character industry category code of the recipient assigned by CRP or NIMSP. A full listing of categories and category orders can be found in catcodes.csv.</dd>
+        
+        <dt>recipient_category_order</dt>
+        <dd>The three character industry code of the recipient assigned by CRP or NIMSP. A full listing of categories and category orders can be found in catcodes.csv.</dd>
+        
+        <dt>committee_name</dt>
+        <dd>The name of the committee associated with the recipient of the contribution. This may be a parent committee or the election committee for the candidate.</dd>
+        
+        <dt>committee_ext_id</dt>
+        <dd>The NIMSP or CRP ID of the committee.</dd>
+        
+        <dt>committee_party</dt>
+        <dd>The political party to which the committee belongs. <tt class="docutils literal">3</tt> for third party, <tt class="docutils literal">D</tt> for Democratic Party, <tt class="docutils literal">I</tt> for independent, <tt class="docutils literal">R</tt> for Republican Party, and <tt class="docutils literal">U</tt> for unknown.</dd>
+        
+        <dt>candidacy_status</dt>
+        <dd><tt class="docutils literal">TRUE</tt> for general election, <tt class="docutils literal">FALSE</tt> for lost in the primary or dropped out, <tt class="docutils literal">NULL</tt> if never ran.</dd>
+        
+        <dt>district</dt>
+        <dd>The district that the candidate represents, if there is one. The district is as the state abbreviation followed by the district number. For example: <tt class="docutils literal"><span class="pre">CA-12</span></tt>.</dd>
+        
+        <dt>seat</dt>
+        <dd><p class="first">The type of office being sought by the candidate.</p>
+            <table border="1" class="last docutils">
+                <colgroup>
+                    <col width="35%" />
+                    <col width="65%" />
+                </colgroup>
+                <thead valign="bottom">
+                    <tr><th class="head">Value</th>
+                        <th class="head">Description</th>
+                    </tr>
+                </thead>
+                <tbody valign="top">
+                    <tr><td>federal:senate</td>
+                        <td>US Senate</td>
+                    </tr>
+                    <tr><td>federal:house</td>
+                        <td>US House of Representatives</td>
+                    </tr>
+                    <tr><td>federal:president</td>
+                        <td>US President</td>
+                    </tr>
+                    <tr><td>state:upper</td>
+                        <td>upper chamber of state legislature</td>
+                    </tr>
+                    <tr><td>state:lower</td>
+                        <td>lower chamber of state legislature</td>
+                    </tr>
+                    <tr><td>state:governor</td>
+                        <td>state governor</td>
+                    </tr>
+                </tbody>
+            </table>
+        </dd>
+        
+        <dt>seat_status</dt>
+        <dd><tt class="docutils literal">I</tt> for incumbent, <tt class="docutils literal">O</tt> for open. The value will be filled in as available in the source data.</dd>
+        
+        <dt>seat_result</dt>
+        <dd><tt class="docutils literal">W</tt> for win, <tt class="docutils literal">L</tt> for loss. The value will be filled in as available in the source data.</dd>
+        
+    </dl>
 {% endblock %}

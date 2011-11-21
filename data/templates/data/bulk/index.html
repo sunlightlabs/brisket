@@ -1,11 +1,13 @@
 {% extends "search_base.html" %}
-
+{% block body_class %}tdata downloads{% endblock %}
 
 {% block main %}
-    <h2>Bulk Downloads</h2>
-    <p>See the <a href="/docs/">data format documentation</a> for a description of the fields in both the bulk downloads and the API. Fields not listed in the documentation may be returned, but they are experimental and may change.</p>
+    {% include "data/second_nav.html" %}
+    <div id="contentHeader" class="interior">
+        <h2>Bulk Downloads</h2>
+        <p>See the <a href="/docs/">data format documentation</a> for a description of the fields in both the bulk downloads and the API. Fields not listed in the documentation may be returned, but they are experimental and may change.</p>
+    </div>
     <div id="ltColumn">
-
         <div class="module">
             <h3 id="campaign_finance">State and Federal Campaign Contributions</h3>
     		<p class="download">

@@ -189,6 +189,9 @@ dl { margin-top: 15px;}
 dt { float: left; margin-right: 5px; font-weight: bold; margin-top: 1px;}
 dd { float: left; margin-right: 15px;}
 
+.tdata dt { float: none;}
+.tdata dd { margin-left: 25px; margin-bottom: 15px; float: none;}
+
 table dl { margin-top: 0;}
 table dd { width: 320px;}
 
@@ -252,9 +255,10 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 
 #ltColumn { padding: 0 25px 0 40px; width: 565px; float: left; overflow: hidden;}
 #rtColumn { padding: 45px 40px 80px 25px; width: 265px; float: left; overflow: hidden; margin-top: -45px; margin-bottom: 50px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
-#fullColumn { padding: 0 40px 80px 30px; }
+#fullColumn { padding: 0 40px 80px 40px; }
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 
+#mainContent .withTabs { padding-left: 0;}
 
 .piechart { margin-top: 20px;}
 span.amount { float: left; margin-right: 5px;float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px; margin-top: 1px;}
@@ -269,7 +273,7 @@ div.descriptorText a { float: none; }
 .individualName { float: left; width: 580px;}
 #individualDisclaimer { float: right; width: 300px;}
 
-body.flatText div#mainContent ul li, body.flatText div#mainContent ol li, .chartModule .normalList li { margin-bottom: 10px;}
+body.flatText div#mainContent ul li, body.flatText div#mainContent ol li, .chartModule .normalList li, .normalList li { margin-bottom: 10px;}
 body.flatText div#mainContent ul, body.flatText div#mainContent ol { margin-bottom: 20px;}
 strong, b { font-weight: bold; color: #3b3130;}
 i, em{ font-style: oblique; }
@@ -420,7 +424,7 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 .inArticle li { float: left; margin-right: 5px; margin-bottom: 8px; font-family: Georgia, Times New Roman, Times, serif; font-style: italic;}
 .articleGraph { float: none; width: auto;}
 .insideModule { padding-bottom: 40px; margin-bottom: 40px; border-bottom: 1px dotted #dbdbda;}
-.section { margin-bottom: 40px;}
+.section { margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px dotted #dbdbda;}
 
 #articleContent { float: left; margin-right: 25px; width: 365px;}
 
@@ -612,13 +616,13 @@ table .even.numerous{
 #td_nav { background: url(../images/bg_tdNav.png) right top no-repeat; margin-top: -32px; padding: 14px 0 0 0; height: 42px; margin-bottom: 25px;}
 #td_nav li { float: right; border-right: 1px solid #cacdce; padding: 0 25px; line-height: 15px; text-align: center;}
 #td_nav li.last { border-right: none;}
-#td_nav li:hover, #td_nav li.active { font-weight: bold;}
+#td_nav li:hover, .documentation #td_nav #documentation, .downloads #td_nav #downloads, #api #td_nav #api { font-weight: bold;}
 
-#dataTabs { margin: 30px 35px 40px -28px; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 85px; line-height: 16px; font-size: 95%; float: left;}
+#dataTabs { margin: 30px 35px 40px 0; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 90px; line-height: 16px; font-size: 95%; float: left;}
 #dataTabs li { padding: 10px 8px; border-top: 1px solid #DCDCD8; border-bottom: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; background-color: #f6f3f2;}
 #dataTabs li.active, #dataTabs li:hover { background: #fff; font-weight: bold;  margin-right: -2px;}
 #dataTabs a { text-decoration: none; }
-.flexwidth #dataTabs { margin: 0 35px 40px -15px;}
+.flexwidth #dataTabs, .documentation #dataTabs { margin: 0 35px 40px -15px;}
 
 #mainSearchFilter { margin-top: 45px; float: left; width: 780px;}
 
