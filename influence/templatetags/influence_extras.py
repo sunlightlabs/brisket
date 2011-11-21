@@ -3,6 +3,7 @@ from django.template.defaultfilters import stringfilter
 from influence.names import standardize_individual_name, standardize_organization_name, \
     standardize_industry_name, standardize_name
 from name_cleaver import PoliticianNameCleaver
+from BeautifulSoup import BeautifulSoup
 
 register = template.Library()
 
@@ -115,3 +116,13 @@ def sunlight_author_uri(value):
     else:
         shortname = value[0]
     return "%s%s"%(SUNLIGHT_STAFF_BASE_URI, shortname)
+
+@register.filter(name='first_paragraph')
+@stringfilter
+def first_paragraph_filter(t):
+    b = BeautifulSoup(t)
+    paras = b.findChildren('p')
+    if paras:
+        return unicode(paras[0])
+    else:
+        return t

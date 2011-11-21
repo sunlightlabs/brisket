@@ -109,7 +109,7 @@ $(document).ready(function() {
 
 {% block description %}
 {% if entity_info.metadata.bio %}
-{{ entity_info.metadata.bio|safe }}
+{{ entity_info.metadata.bio|first_paragraph|safe }}
 {% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
 <p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_blank">{{ entity_info.metadata.source_display_name }}</a></p>
 {% endif %}

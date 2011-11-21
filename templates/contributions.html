@@ -8,19 +8,22 @@
         {% else %}
             ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
         {% endif %}</span>
-    <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
+        <div class="clear"></div>
+        <div class="descriptorText" id="contributionsDescriptor">
+    	    <p>Figures are based on itemized contributions reported to the Federal Election Commission and state agencies. Please note that:</p>
+        	<ul>
+        		<li>contributions under $200 are not reported, and so are not included in totals.</li>
+        		<li>only contributions from individuals and organizations to candidates are included. Various accounting measures and more exotic contribution types are excluded.</li>
+        		<li>contributions are matched based on organization and recipient name reported within each election cycle. Contributions using an incorrect or non-standard version of the name may be missed.</li>
+        		<li>corporate name changes and mergers may cause figures to differ from those of the Center for Responsive Politics.</li>
+        		<li>organization totals include known subsidiaries of the organization.</li>
+        	</ul>
+    	    <p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page. Lobbyist bundling data is described on our <a href="/about/methodology/lobbyist_bundling">lobbyist bundling methodology</a> page.</p>
+        </div>    
+    </div>
     <div class="clear"></div>
-    <div class="descriptorText" id="contributionsDescriptor">
-	    <p>Figures are based on itemized contributions reported to the Federal Election Commission and state agencies. Please note that:</p>
-    	<ul>
-    		<li>contributions under $200 are not reported, and so are not included in totals.</li>
-    		<li>only contributions from individuals and organizations to candidates are included. Various accounting measures and more exotic contribution types are excluded.</li>
-    		<li>contributions are matched based on organization and recipient name reported within each election cycle. Contributions using an incorrect or non-standard version of the name may be missed.</li>
-    		<li>corporate name changes and mergers may cause figures to differ from those of the Center for Responsive Politics.</li>
-    		<li>organization totals include known subsidiaries of the organization.</li>
-    	</ul>
-	    <p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page. Lobbyist bundling data is described on our <a href="/about/methodology/lobbyist_bundling">lobbyist bundling methodology</a> page.</p>
-    </div>    
 </div>
 <div class="chartModule withNav">
     <span class="tip external">covers through Q2, 2011</span>
