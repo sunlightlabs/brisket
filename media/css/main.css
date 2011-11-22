@@ -621,7 +621,7 @@ table .even.numerous{
 #td_nav li.last { border-right: none;}
 #td_nav li:hover, .documentation #td_nav #documentation, .downloads #td_nav #downloads, .api #td_nav #api { font-weight: bold;}
 
-#dataTabs { margin: 0 35px 40px -15px; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 90px; line-height: 16px; font-size: 95%; float: left;}
+#dataTabs { margin: 0 35px 40px -3px; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 90px; line-height: 16px; font-size: 95%; float: left;}
 #dataTabs li { padding: 10px 8px; border-top: 1px solid #DCDCD8; border-bottom: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; background-color: #f6f3f2;}
 #dataTabs li.active, #dataTabs li:hover { background: #fff; font-weight: bold;  margin-right: -2px;}
 #dataTabs a { text-decoration: none; }

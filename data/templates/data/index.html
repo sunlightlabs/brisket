@@ -10,13 +10,15 @@
 
 {% block main %}
     {% include "data/second_nav.html" %}
-    
-    <div id="fullColumn">
+    <div class="module">
         <p id="intro">
             Transparency Data is a central source for <b>federal lobbying disclosure</b>, <b>federal grants and contracts</b>, <b>earmarks</b> and <b>federal and state campaign contributions</b>.
             Here you can begin your search, find the information you need, and then download records of what a <b>candidate</b> has received, what an <b>individual</b> has given, how much an <b>organization</b> has spent on lobbying, and many other queries.
         </p>
-        {% include "data/data_tabs.html" %}
+    </div>
+    {% include "data/data_tabs.html" %}
+
+    <div id="fullColumn">
         <ul id="mainSearchFilter">
             <li class="intro" id="intro-contributions">
                 <h3>Search Campaign Contributions</h3>
