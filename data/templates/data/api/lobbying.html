@@ -4,8 +4,8 @@
     <h3 class="title">Federal Lobbying</h3>
 
     <div class="section">
-        <h4>End Point</h4>
-        <p><strong>Lobbying data is not available in CSV since its nested structure does not lend itself to the format.</strong></p>
+        <h4 class="withTip">End Point</h4>
+        <p class="tip"><strong>Lobbying data is not available in CSV since its nested structure does not lend itself to the format.</strong></p>
         <p>JSON response format:</p>
         <pre class="literal-block">
             http://transparencydata.com/api/1.0/lobbying.json
@@ -21,7 +21,7 @@
         <dl>
             <dt>amount</dt>
             <dd><p class="first">The amount spent on lobbying in US dollars in one of the following formats:</p>
-                <table border="1" class="last docutils">
+                <table border="1">
                     <colgroup>
                         <col width="20%" />
                         <col width="80%" />
@@ -58,7 +58,7 @@
                     <li>Count c records in both total and industry when filing_included_nsfs is <tt class="docutils literal">n</tt>. Don't count it in total or industry when filing_included_nsfs is <tt class="docutils literal">y</tt>.</li>
                     <li>Count b records in both total and industry when filing_included_nsfs is <tt class="docutils literal">n</tt>. Exclude from total and include in industry but subtract it from the total of the parent when filing_included_nsfs <tt class="docutils literal">y</tt>.</li>
                 </ul>
-                <table border="1" class="last docutils">
+                <table border="1">
                     <colgroup>
                         <col width="5%" />
                         <col width="95%" />
@@ -114,9 +114,9 @@
             <a class="reference external" href="http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv">http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv</a></dd>
             
             <dt>year</dt>
-            <dd><blockquote class="first">
-            The year in which the registration was filed. A YYYY formatted year, 1998 - 2010.</blockquote>
-                <table border="1" class="last docutils">
+            <dd>
+            <p class="tip">The year in which the registration was filed. A YYYY formatted year, 1998 - 2010.</p>
+                <table border="1">
                     <colgroup>
                         <col width="43%" />
                         <col width="57%" />

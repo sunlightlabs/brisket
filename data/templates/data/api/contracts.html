@@ -1,154 +1,171 @@
 {% extends "data/api/index.html" %}
 
 {% block docs %}
-<h1 class="title">Federal Contracts</h1>
+    <h3 class="title">Federal Contracts</h3>
 
-<div class="section" id="end-point">
-<h1>End Point</h1>
-<p>JSON response format:</p>
-<pre class="literal-block">
-http://transparencydata.com/api/1.0/contracts.json
-</pre>
-<p>CSV response format:</p>
-<pre class="literal-block">
-http://transparencydata.com/api/1.0/contracts.csv
-</pre>
-<p>Excel response format:</p>
-<pre class="literal-block">
-http://transparencydata.com/api/1.0/contracts.xls
-</pre>
-</div>
-<div class="section" id="parameters">
-<h1>Parameters</h1>
-<dl class="docutils">
-<dt>agency_id</dt>
-<dd>The FIPS code for the agency.</dd>
-<dt>agency_name</dt>
-<dd>Full-text search on the name of the agency.</dd>
-<dt>contracting_agency_id</dt>
-<dd>The FIPS code for the contracting agency.</dd>
-<dt>contracting_agency_name</dt>
-<dd>Full-text search on the name of the contracting agency.</dd>
-<dt>current_amount</dt>
-<dd><p class="first">Current value of the contract in US dollars in one of the following formats:</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="20%" />
-<col width="80%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Example</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>500</td>
-<td>exactly 500 dollars</td>
-</tr>
-<tr><td>&gt;|500</td>
-<td>greater than or equal to 500</td>
-</tr>
-<tr><td>&lt;|500</td>
-<td>less than or equal to 500</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>fiscal_year</dt>
-<dd><p class="first">The year in which the grant was awarded. A YYYY formatted year, 2006 - 2010.</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="43%" />
-<col width="57%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Example</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>2006</td>
-<td>2006</td>
-</tr>
-<tr><td>2006|2008</td>
-<td>2006 OR 2008</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>maximum_amount</dt>
-<dd><p class="first">Maximum possible value of the contract in US dollars in one of the following formats:</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="20%" />
-<col width="80%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Example</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>500</td>
-<td>exactly 500 dollars</td>
-</tr>
-<tr><td>&gt;|500</td>
-<td>greater than or equal to 500</td>
-</tr>
-<tr><td>&lt;|500</td>
-<td>less than or equal to 500</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>place_district</dt>
-<dd>The congressional district in which the contract action will be performed.</dd>
-<dt>place_state_code</dt>
-<dd>FIPS code for state in which the contract action will be performed.</dd>
-<dt>requesting_agency_id</dt>
-<dd>The FIPS code for the requesting agency.</dd>
-<dt>requesting_agency_name</dt>
-<dd>Full-text search on the name of the contracting agency.</dd>
-<dt>obligated_amount</dt>
-<dd><p class="first">The amount obligated or de-obligated by the transaction in US dollars in one of the following formats:</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="20%" />
-<col width="80%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Example</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>500</td>
-<td>exactly 500 dollars</td>
-</tr>
-<tr><td>&gt;|500</td>
-<td>greater than or equal to 500</td>
-</tr>
-<tr><td>&lt;|500</td>
-<td>less than or equal to 500</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>vendor_city</dt>
-<dd>Full-text search on the name of the primary city in which the contractor does business.</dd>
-<dt>vendor_district</dt>
-<dd>The primary congressional district in which the contractor does business.</dd>
-<dt>vendor_duns</dt>
-<dd>The Dun and Bradstreet number assigned to the contractor.</dd>
-<dt>vendor_name</dt>
-<dd>Full-text search on the name of the contractor.</dd>
-<dt>vendor_parent_duns</dt>
-<dd>The Dun and Bradstreet number assigned to the corporate parent of the contractor.</dd>
-<dt>vendor_state</dt>
-<dd>The primary state in which the contractor does business.</dd>
-<dt>vendor_zipcode</dt>
-<dd>The primary zipcode in which the contractor does business.</dd>
-</dl>
-</div>
-</div>
+    <div class="section">
+        <h4>End Point</h4>
+        <p>JSON response format:</p>
+        <pre class="literal-block">
+            http://transparencydata.com/api/1.0/contracts.json
+        </pre>
+        <p>CSV response format:</p>
+        <pre class="literal-block">
+            http://transparencydata.com/api/1.0/contracts.csv
+        </pre>
+        <p>Excel response format:</p>
+        <pre class="literal-block">
+            http://transparencydata.com/api/1.0/contracts.xls
+        </pre>
+    </div>
+    <div class="section">
+        <h4>Parameters</h4>
+        <dl>
+            <dt>agency_id</dt>
+            <dd>The FIPS code for the agency.</dd>
+            
+            <dt>agency_name</dt>
+            <dd>Full-text search on the name of the agency.</dd>
+            
+            <dt>contracting_agency_id</dt>
+            <dd>The FIPS code for the contracting agency.</dd>
+            
+            <dt>contracting_agency_name</dt>
+            <dd>Full-text search on the name of the contracting agency.</dd>
+            
+            <dt>current_amount</dt>
+            <dd><p>Current value of the contract in US dollars in one of the following formats:</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="20%" />
+                        <col width="80%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Example</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>500</td>
+                            <td>exactly 500 dollars</td>
+                        </tr>
+                        <tr><td>&gt;|500</td>
+                            <td>greater than or equal to 500</td>
+                        </tr>
+                        <tr><td>&lt;|500</td>
+                            <td>less than or equal to 500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>fiscal_year</dt>
+            <dd><p>The year in which the grant was awarded. A YYYY formatted year, 2006 - 2010.</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="43%" />
+                        <col width="57%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th class="head">Example</th>
+                            <th class="head">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>2006</td>
+                            <td>2006</td>
+                        </tr>
+                        <tr><td>2006|2008</td>
+                            <td>2006 OR 2008</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>maximum_amount</dt>
+            <dd><p>Maximum possible value of the contract in US dollars in one of the following formats:</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="20%" />
+                        <col width="80%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Example</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>500</td>
+                            <td>exactly 500 dollars</td>
+                        </tr>
+                        <tr><td>&gt;|500</td>
+                            <td>greater than or equal to 500</td>
+                        </tr>
+                        <tr><td>&lt;|500</td>
+                            <td>less than or equal to 500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>place_district</dt>
+            <dd>The congressional district in which the contract action will be performed.</dd>
+            
+            <dt>place_state_code</dt>
+            <dd>FIPS code for state in which the contract action will be performed.</dd>
+            
+            <dt>requesting_agency_id</dt>
+            <dd>The FIPS code for the requesting agency.</dd>
+            
+            <dt>requesting_agency_name</dt>
+            <dd>Full-text search on the name of the contracting agency.</dd>
+            
+            <dt>obligated_amount</dt>
+            <dd><p>The amount obligated or de-obligated by the transaction in US dollars in one of the following formats:</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="20%" />
+                        <col width="80%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Example</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>500</td>
+                            <td>exactly 500 dollars</td>
+                        </tr>
+                        <tr><td>&gt;|500</td>
+                            <td>greater than or equal to 500</td>
+                        </tr>
+                        <tr><td>&lt;|500</td>
+                            <td>less than or equal to 500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>vendor_city</dt>
+            <dd>Full-text search on the name of the primary city in which the contractor does business.</dd>
+            
+            <dt>vendor_district</dt>
+            <dd>The primary congressional district in which the contractor does business.</dd>
+            
+            <dt>vendor_duns</dt>
+            <dd>The Dun and Bradstreet number assigned to the contractor.</dd>
+            
+            <dt>vendor_name</dt>
+            <dd>Full-text search on the name of the contractor.</dd>
+            
+            <dt>vendor_parent_duns</dt>
+            <dd>The Dun and Bradstreet number assigned to the corporate parent of the contractor.</dd>
+            
+            <dt>vendor_state</dt>
+            <dd>The primary state in which the contractor does business.</dd>
+            
+            <dt>vendor_zipcode</dt>
+            <dd>The primary zipcode in which the contractor does business.</dd>
+        </dl>
+    </div>
 {% endblock %}

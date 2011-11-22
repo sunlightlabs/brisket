@@ -1,180 +1,186 @@
 {% extends "data/api/index.html" %}
 
 {% block docs %}
-<h1 class="title">Federal Grants</h1>
+    <h3 class="title">Federal Grants</h3>
 
-<div class="section" id="end-point">
-<h1>End Point</h1>
-<p>JSON response format:</p>
-<pre class="literal-block">
-http://transparencydata.com/api/1.0/grants.json
-</pre>
-<p>CSV response format:</p>
-<pre class="literal-block">
-http://transparencydata.com/api/1.0/grants.csv
-</pre>
-<p>Excel response format:</p>
-<pre class="literal-block">
-http://transparencydata.com/api/1.0/grants.xls
-</pre>
-</div>
-<div class="section" id="parameters">
-<h1>Parameters</h1>
-<dl class="docutils">
-<dt>agency_ft</dt>
-<dd>Full-text search on the reported name of the federal agency awarding the grant.</dd>
-<dt>amount_total</dt>
-<dd><p class="first">Total amount of the grant in US dollars in one of the following formats:</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="20%" />
-<col width="80%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Example</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>500</td>
-<td>exactly 500 dollars</td>
-</tr>
-<tr><td>&gt;|500</td>
-<td>greater than or equal to 500</td>
-</tr>
-<tr><td>&lt;|500</td>
-<td>less than or equal to 500</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>assistance_type</dt>
-<dd><p class="first">A general code for the type of grant awarded.</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="5%" />
-<col width="95%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Code</th>
-<th class="head">Meaning</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>02</td>
-<td>Block grant</td>
-</tr>
-<tr><td>03</td>
-<td>Formula grant</td>
-</tr>
-<tr><td>04</td>
-<td>Project grant</td>
-</tr>
-<tr><td>05</td>
-<td>Cooperative agreement</td>
-</tr>
-<tr><td>06</td>
-<td>Direct payment, as a subsidy or other non-reimbursable direct financial aid</td>
-</tr>
-<tr><td>07</td>
-<td>Direct loan</td>
-</tr>
-<tr><td>08</td>
-<td>Guaranteed/insured loan</td>
-</tr>
-<tr><td>09</td>
-<td>Insurance</td>
-</tr>
-<tr><td>10</td>
-<td>Direct payment with unrestricted use</td>
-</tr>
-<tr><td>11</td>
-<td>Other reimbursable, contingent, intangible or indirect financial assistance</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>fiscal_year</dt>
-<dd><p class="first">The year in which the grant was awarded. A YYYY formatted year, 2000 - 2010.</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="43%" />
-<col width="57%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Example</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>2006</td>
-<td>2006</td>
-</tr>
-<tr><td>2006|2008</td>
-<td>2006 OR 2008</td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>recipient_ft</dt>
-<dd>Full-text search on the reported name of the grant recipient.</dd>
-<dt>recipient_state</dt>
-<dd>Two-letter abbreviation of the state in which the grant was awarded.</dd>
-<dt>recipient_type</dt>
-<dd><p class="first">The type of entity that received the grant.</p>
-<table border="1" class="last docutils">
-<colgroup>
-<col width="7%" />
-<col width="93%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Code</th>
-<th class="head">Meaning</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>00</td>
-<td>State government</td>
-</tr>
-<tr><td>01</td>
-<td>County government</td>
-</tr>
-<tr><td>02</td>
-<td>City or township government</td>
-</tr>
-<tr><td>04</td>
-<td>Special district government</td>
-</tr>
-<tr><td>05</td>
-<td>Independent school district</td>
-</tr>
-<tr><td>06</td>
-<td>State controlled institution of higher education</td>
-</tr>
-<tr><td>11</td>
-<td>Indian tribe</td>
-</tr>
-<tr><td>12</td>
-<td>Other nonprofit</td>
-</tr>
-<tr><td>20</td>
-<td>Private higher education</td>
-</tr>
-<tr><td>21</td>
-<td>individual</td>
-</tr>
-<tr><td>22</td>
-<td>Profit organization</td>
-</tr>
-<tr><td>23</td>
-<td>Small business</td>
-</tr>
-<tr><td>25</td>
-<td>Other</td>
-</tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</div>
+    <div class="section">
+        <h4>End Point</h4>
+        <p>JSON response format:</p>
+        <pre class="literal-block">
+        http://transparencydata.com/api/1.0/grants.json
+        </pre>
+        <p>CSV response format:</p>
+        <pre class="literal-block">
+            http://transparencydata.com/api/1.0/grants.csv
+        </pre>
+        <p>Excel response format:</p>
+        <pre class="literal-block">
+            http://transparencydata.com/api/1.0/grants.xls
+        </pre>
+    </div>
+    <div class="section">
+        <h4>Parameters</h4>
+        <dl>
+            <dt>agency_ft</dt>
+            <dd>Full-text search on the reported name of the federal agency awarding the grant.</dd>
+            
+            <dt>amount_total</dt>
+            <dd><p class="first">Total amount of the grant in US dollars in one of the following formats:</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="20%" />
+                        <col width="80%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Example</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>500</td>
+                            <td>exactly 500 dollars</td>
+                        </tr>
+                        <tr><td>&gt;|500</td>
+                            <td>greater than or equal to 500</td>
+                        </tr>
+                        <tr><td>&lt;|500</td>
+                            <td>less than or equal to 500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>assistance_type</dt>
+            <dd><p>A general code for the type of grant awarded.</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="5%" />
+                        <col width="95%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Code</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>02</td>
+                            <td>Block grant</td>
+                        </tr>
+                        <tr><td>03</td>
+                            <td>Formula grant</td>
+                        </tr>
+                        <tr><td>04</td>
+                            <td>Project grant</td>
+                        </tr>
+                        <tr><td>05</td>
+                            <td>Cooperative agreement</td>
+                        </tr>
+                        <tr><td>06</td>
+                            <td>Direct payment, as a subsidy or other non-reimbursable direct financial aid</td>
+                        </tr>
+                        <tr><td>07</td>
+                            <td>Direct loan</td>
+                        </tr>
+                        <tr><td>08</td>
+                            <td>Guaranteed/insured loan</td>
+                        </tr>
+                        <tr><td>09</td>
+                            <td>Insurance</td>
+                        </tr>
+                        <tr><td>10</td>
+                            <td>Direct payment with unrestricted use</td>
+                        </tr>
+                        <tr><td>11</td>
+                            <td>Other reimbursable, contingent, intangible or indirect financial assistance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>fiscal_year</dt>
+            <dd><p>The year in which the grant was awarded. A YYYY formatted year, 2000 - 2010.</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="43%" />
+                        <col width="57%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Example</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>2006</td>
+                            <td>2006</td>
+                        </tr>
+                        <tr><td>2006|2008</td>
+                            <td>2006 OR 2008</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>recipient_ft</dt>
+            <dd>Full-text search on the reported name of the grant recipient.</dd>
+            
+            <dt>recipient_state</dt>
+            <dd>Two-letter abbreviation of the state in which the grant was awarded.</dd>
+            
+            <dt>recipient_type</dt>
+            <dd><p class="first">The type of entity that received the grant.</p>
+                <table border="1" class="last docutils">
+                    <colgroup>
+                        <col width="7%" />
+                        <col width="93%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Code</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>00</td>
+                            <td>State government</td>
+                        </tr>
+                        <tr><td>01</td>
+                            <td>County government</td>
+                        </tr>
+                        <tr><td>02</td>
+                            <td>City or township government</td>
+                        </tr>
+                        <tr><td>04</td>
+                            <td>Special district government</td>
+                        </tr>
+                        <tr><td>05</td>
+                            <td>Independent school district</td>
+                        </tr>
+                        <tr><td>06</td>
+                            <td>State controlled institution of higher education</td>
+                        </tr>
+                        <tr><td>11</td>
+                            <td>Indian tribe</td>
+                        </tr>
+                        <tr><td>12</td>
+                            <td>Other nonprofit</td>
+                        </tr>
+                        <tr><td>20</td>
+                            <td>Private higher education</td>
+                        </tr>
+                        <tr><td>21</td>
+                            <td>individual</td>
+                        </tr>
+                        <tr><td>22</td>
+                            <td>Profit organization</td>
+                        </tr>
+                        <tr><td>23</td>
+                            <td>Small business</td>
+                        </tr>
+                        <tr><td>25</td>
+                            <td>Other</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+        </dl>
+    </div>
 {% endblock %}

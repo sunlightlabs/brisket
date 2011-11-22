@@ -288,7 +288,7 @@ dt.pac { background-color: #f27e01;}
 .chartModule .interiorList li { float: left; margin-right: 10px; margin-bottom: 0;}
 
 table .even, li.even, div.even{ background-color: #f5f4f4;}
-td, .expandDocList th { padding: 10px;}
+td, .expandDocList th, th { padding: 10px;}
 th, .expandTableHead li { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; text-align: left; }
 th.left { padding-left: 10px;}
 th.right { padding-right: 10px;}
@@ -304,6 +304,7 @@ table#mainPageTable th, #earmarksTable th, #partyTime th, .tab-area table th  { 
 .mainTable th { padding: 10px;}
 .mainTable { margin-bottom: 55px; }
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
+table { margin: 15px 0 30px; border: 1px solid #E5E4DB;}
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
 body.search dt a { margin-right: 10px;}
@@ -425,6 +426,7 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 .articleGraph { float: none; width: auto;}
 .insideModule { padding-bottom: 40px; margin-bottom: 40px; border-bottom: 1px dotted #dbdbda;}
 .section { margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px dotted #dbdbda;}
+.interiorSection { margin-left: 25px;}
 
 #articleContent { float: left; margin-right: 25px; width: 365px;}
 
@@ -616,13 +618,12 @@ table .even.numerous{
 #td_nav { background: url(../images/bg_tdNav.png) right top no-repeat; margin-top: -32px; padding: 14px 0 0 0; height: 42px; margin-bottom: 25px;}
 #td_nav li { float: right; border-right: 1px solid #cacdce; padding: 0 25px; line-height: 15px; text-align: center;}
 #td_nav li.last { border-right: none;}
-#td_nav li:hover, .documentation #td_nav #documentation, .downloads #td_nav #downloads, #api #td_nav #api { font-weight: bold;}
+#td_nav li:hover, .documentation #td_nav #documentation, .downloads #td_nav #downloads, .api #td_nav #api { font-weight: bold;}
 
-#dataTabs { margin: 30px 35px 40px 0; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 90px; line-height: 16px; font-size: 95%; float: left;}
+#dataTabs { margin: 0 35px 40px -15px; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 90px; line-height: 16px; font-size: 95%; float: left;}
 #dataTabs li { padding: 10px 8px; border-top: 1px solid #DCDCD8; border-bottom: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; background-color: #f6f3f2;}
 #dataTabs li.active, #dataTabs li:hover { background: #fff; font-weight: bold;  margin-right: -2px;}
 #dataTabs a { text-decoration: none; }
-.flexwidth #dataTabs, .documentation #dataTabs { margin: 0 35px 40px -15px;}
 
 #mainSearchFilter { margin-top: 45px; float: left; width: 780px;}
 

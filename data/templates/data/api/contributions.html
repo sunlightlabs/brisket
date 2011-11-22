@@ -4,7 +4,7 @@
     <h3 class="title">Campaign Contributions</h3>
 
     <div class="section">
-        <h3>End Point</h3>
+        <h4>End Point</h4>
         <p>JSON response format:</p>
         <pre class="literal-block">
             http://transparencydata.com/api/1.0/contributions.json
@@ -102,121 +102,128 @@
             
             <dt>employer_ft</dt>
             <dd><em>DEPRECATED</em> please use organization_ft</dd>
+            
             <dt>for_against</dt>
             <dd><p class="first">When organizations run ads against a candidate, they are counted as independent expenditures with the candidate as the recipient. This parameter can be used to filter contributions meant for the candidate and those meant to be against the candidate.</p>
-            <table border="1" class="last docutils">
-            <colgroup>
-            <col width="13%" />
-            <col width="87%" />
-            </colgroup>
-            <thead valign="bottom">
-            <tr><th class="head">Options</th>
-            <th class="head">Description</th>
-            </tr>
-            </thead>
-            <tbody valign="top">
-            <tr><td>for</td>
-            <td>contributions made in support of the candidate</td>
-            </tr>
-            <tr><td>against</td>
-            <td>contributions made against the candidate</td>
-            </tr>
-            </tbody>
-            </table>
+                <table border="1">
+                    <colgroup>
+                        <col width="13%" />
+                        <col width="87%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Options</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>for</td>
+                            <td>contributions made in support of the candidate</td>
+                        </tr>
+                        <tr><td>against</td>
+                            <td>contributions made against the candidate</td>
+                        </tr>
+                    </tbody>
+                </table>
             </dd>
+            
             <dt>organization_ft</dt>
             <dd>full-text search on employer, organization, and parent organization</dd>
+            
             <dt>recipient_ft</dt>
             <dd>full-text search on name of PAC or candidate receiving the contribution</dd>
+            
             <dt>recipient_state</dt>
             <dd>two-letter abbreviation of state in which the candidate receiving the contribution is running</dd>
+            
             <dt>seat</dt>
             <dd><p class="first">type of office being sought</p>
-            <table border="1" class="docutils">
-            <colgroup>
-            <col width="35%" />
-            <col width="65%" />
-            </colgroup>
-            <thead valign="bottom">
-            <tr><th class="head">Options</th>
-            <th class="head">Description</th>
-            </tr>
-            </thead>
-            <tbody valign="top">
-            <tr><td>federal:senate</td>
-            <td>US Senate</td>
-            </tr>
-            <tr><td>federal:house</td>
-            <td>US House of Representatives</td>
-            </tr>
-            <tr><td>federal:president</td>
-            <td>US President</td>
-            </tr>
-            <tr><td>state:upper</td>
-            <td>upper chamber of state legislature</td>
-            </tr>
-            <tr><td>state:lower</td>
-            <td>lower chamber of state legislature</td>
-            </tr>
-            <tr><td>state:governor</td>
-            <td>state governor</td>
-            </tr>
-            </tbody>
-            </table>
-            <p>Multiple values must be separated by a pipe character.</p>
-            <table border="1" class="last docutils">
-            <colgroup>
-            <col width="57%" />
-            <col width="43%" />
-            </colgroup>
-            <thead valign="bottom">
-            <tr><th class="head">Example</th>
-            <th class="head">Description</th>
-            </tr>
-            </thead>
-            <tbody valign="top">
-            <tr><td>federal:senate</td>
-            <td>only the US Senate</td>
-            </tr>
-            <tr><td>federal:senate|federal:house</td>
-            <td>US Senate OR US House</td>
-            </tr>
-            </tbody>
-            </table>
+                <table border="1">
+                    <colgroup>
+                        <col width="35%" />
+                        <col width="65%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Options</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>federal:senate</td>
+                            <td>US Senate</td>
+                        </tr>
+                        <tr><td>federal:house</td>
+                            <td>US House of Representatives</td>
+                        </tr>
+                        <tr><td>federal:president</td>
+                            <td>US President</td>
+                        </tr>
+                        <tr><td>state:upper</td>
+                            <td>upper chamber of state legislature</td>
+                        </tr>
+                        <tr><td>state:lower</td>
+                            <td>lower chamber of state legislature</td>
+                        </tr>
+                        <tr><td>state:governor</td>
+                            <td>state governor</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Multiple values must be separated by a pipe character.</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="57%" />
+                        <col width="43%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Example</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>federal:senate</td>
+                            <td>only the US Senate</td>
+                        </tr>
+                        <tr><td>federal:senate|federal:house</td>
+                            <td>US Senate OR US House</td>
+                        </tr>
+                    </tbody>
+                </table>
             </dd>
+            
             <dt>transaction_namespace</dt>
             <dd><p class="first">filters on federal or state contributions</p>
-            <table border="1" class="last docutils">
-            <colgroup>
-            <col width="54%" />
-            <col width="46%" />
-            </colgroup>
-            <thead valign="bottom">
-            <tr><th class="head">Options</th>
-            <th class="head">Description</th>
-            </tr>
-            </thead>
-            <tbody valign="top">
-            <tr><td><tt class="docutils literal">urn:fec:transaction</tt></td>
-            <td>federal contributions</td>
-            </tr>
-            <tr><td><tt class="docutils literal">urn:nimsp:transaction</tt></td>
-            <td>state contributions</td>
-            </tr>
-            </tbody>
-            </table>
+                <table border="1">
+                    <colgroup>
+                        <col width="54%" />
+                        <col width="46%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th>Options</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td><tt>urn:fec:transaction</tt></td>
+                            <td>federal contributions</td>
+                        </tr>
+                        <tr><td><tt>urn:nimsp:transaction</tt></td>
+                            <td>state contributions</td>
+                        </tr>
+                    </tbody>
+                </table>
             </dd>
-            </dl>
-            </div>
-            <div class="section" id="examples">
-            <h1>Examples</h1>
-            <p>Contributions from the states of Maryland and Virginia to Barbara Mikulski during the 2008 campaign cycle as JSON:</p>
-            <pre class="literal-block">
+            
+        </dl>
+    </div>
+    <div class="section">
+        <h4>Examples</h4>
+        <p>Contributions from the states of Maryland and Virginia to Barbara Mikulski during the 2008 campaign cycle as JSON:</p>
+        <pre class="literal-block">
             /api/1.0/contributions.json?apikey=&lt;key&gt;&amp;contributor_state=md|va&amp;recipient_ft=mikulski&amp;cycle=2008
-            </pre>
-            <p>Contributions from Alaskans to upper and lower state legislature candidates in 2002 as CSV:</p>
-            <pre class="literal-block">
+        </pre>
+        <p>Contributions from Alaskans to upper and lower state legislature candidates in 2002 as CSV:</p>
+        <pre class="literal-block">
             /api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;contributor_state=ak&amp;date=&gt;&lt;|2002-01-01|2002-12-31&amp;seat=state:upper|state:lower
-            </pre>
-</div>
+        </pre>
+    </div>
 {% endblock %}
