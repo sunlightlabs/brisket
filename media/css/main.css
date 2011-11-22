@@ -646,7 +646,7 @@ table .even.numerous{
 #mainSearchFilter fieldset { padding: 0 0 10px 15px; }
 #mainSearchFilter fieldset label { width: auto; margin-right: 15px; font-weight: bold;}
 
-.tdata #filters label { display: block; float: none; width: auto; font-weight: bold;} 
+.tdata #filters label { font-weight: bold; font-size: 120%; width: auto; } 
 
 #filters { border-top: 1px dotted #c8c8c3; padding: 25px 10px 25px 65px; background: url(../images/tabGradient.jpg) left top repeat-x;}
 #smLtColumn #filters { padding: 25px 0;}
@@ -656,10 +656,8 @@ table .even.numerous{
 
 .mainLabel { font-size: 150%; }
 
-#filters li { margin-bottom: 15px; border-bottom: 1px dotted #DCDCD8; padding-bottom: 15px;}
-#filters li ul li { border-bottom: none; padding: 15px 0 0 0;}
-.tdata #filters label { float: left; width: 380px; line-height: 15px;}
-#filters label { font-size: 120%;}
+#filters li { margin-bottom: 25px; border-bottom: 1px dotted #DCDCD8; padding-bottom: 5px;}
+#filters li ul li { border-bottom: none; }
 
 .remove, .add { float: right; text-indent: -9999em; display: block; width: 27px; height: 27px; }
 .add { background: url(../images/btn_plus.png) left top no-repeat;  margin-right: 5px;}
@@ -698,5 +696,8 @@ table .even.numerous{
 
 #filterselect { margin-bottom: 30px;}
 
-.operator_field select, .dualdropdown_field select, .date_start { margin-bottom: 10px;}
-.date_start { margin-right: 10px;}
+.operator_field select, .dualdropdown_field select { margin-bottom: 10px;}
+.daterange_field input { width: 100px; margin-right: 10px;  margin-bottom: 10px;}
+
+.filterTitle { width: 380px; float: left;}
+
