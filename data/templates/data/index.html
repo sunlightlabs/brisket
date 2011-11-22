@@ -215,7 +215,7 @@
 			$('#dataTabs li a').bind('click', function() {
 				var df = $(this).attr('class');
 				
-                $('#mainSearchFilter li').hide();
+                $('#mainSearchFilter > li').hide();
                 $('#dataTabs li').removeClass('active');
 
                 $('#intro-' + df).show();
