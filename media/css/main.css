@@ -197,6 +197,7 @@ table dd { width: 320px;}
 
 header nav li { float: left; }
 header nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
+.flexwidth header nav { background: url(../images/nav_bgFlex.jpg) top left repeat-x; }
 header nav li a { text-indent: -9999em; display: block; height: 61px;}
 li#people { width: 115px;}
 li#people a { background: url(../images/nav_people.png) left 1px no-repeat; width: 115px; }
