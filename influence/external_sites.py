@@ -162,7 +162,7 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
             if cycle != '-1':
                 os_params['year'] = cycle
             links.append(
-                dict(text='OpenSecrets.orgs', url="http://www.opensecrets.org/lobby/lobbyist.php?%s" % urllib.urlencode(os_params))
+                dict(text='OpenSecrets.org', url="http://www.opensecrets.org/lobby/lobbyist.php?%s" % urllib.urlencode(os_params))
             )
     elif type == 'industry':
         industry_ids = filter(lambda s: s['namespace'] == 'urn:crp:industry', ids)
