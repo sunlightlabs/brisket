@@ -176,7 +176,6 @@ $().ready(function() {
         
         var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            console.log('init');
             TD.HashMonitor.setAnchor('for_against=for&cycle=2012');
             this.loadHash();
         }

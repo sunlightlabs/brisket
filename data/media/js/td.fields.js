@@ -5,7 +5,6 @@ TD.Field = {
         if (this.filter.allowMultipleFields) {
             node.find('a.remove').bind('click', function() {
                 me.filter.removeField(me);
-                console.log('remove');
                 return false;
             });
         } else {

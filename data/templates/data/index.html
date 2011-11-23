@@ -212,9 +212,7 @@
             all_filters['bundling'] = TD.BundlingFilter;
             
             $('#dataTabs li a').bind('click', function() {
-                console.log('click');
                 var df = $(this).attr('class');
-                console.log(df);
                 
                 $('#mainSearchFilter > li').hide();
                 $('#dataTabs li').removeClass('active');
@@ -223,7 +221,6 @@
                 $(this).parents('li').addClass('active');
                 
                 if (df in all_filters) {
-                    console.log('test', df);
                     TD.activeFilter = all_filters[df];
                 }
                 
@@ -231,7 +228,6 @@
             });
             
             for (key in all_filters) {
-                console.log(key);
                 all_filters[key].bindDataFilter('#' + key + 'DataFilter');
                 all_filters[key].bindPreview('#' + key + 'PreviewButton');
                 all_filters[key].init();
