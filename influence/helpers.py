@@ -190,7 +190,7 @@ def get_top_pages():
     entity_pages = [{
         'views': page.metric,
         'path': page.dimensions[0],
-        'title': page.dimensions[1].split('(')[0].strip() if page.dimensions[0].startswith('/politician') else page.dimensions[1].split('|')[0].strip()
+        'title': page.dimensions[1].split('|')[0].strip()
     } for page in pages if entity_signature.match(page.dimensions[0]) and 'error' not in page.dimensions[1].lower()]
     
     return entity_pages[:5]
