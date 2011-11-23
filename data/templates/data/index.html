@@ -23,10 +23,10 @@
             <li class="intro" id="intro-contributions">
                 <h3>Search Campaign Contributions</h3>
                 <div class="leftIntro">
-                    <form id="contributionDataFilter" class="datafilter">
+                    <form id="contributionsDataFilter" class="datafilter">
                         <fieldset>
                             <span class="tip tipHeight">Have a specific committee, recipient or date in mind? Add some filters below to search them</span>
-                            <label class="mainLabel">Filter</label>
+                            <label class="mainLabel">Search for</label>
                             <select id="filterselect">
                                 <option value="">Select a category to narrow your search...</option>
                             </select>
@@ -198,36 +198,38 @@
     {% js "data/3rdparty.js" %}
     {% js "data/index.js" %}
 	<script type="text/javascript">
-
-		$().ready(function() {
+        $().ready(function() {
             var all_filters = [];
-
+            
             all_filters['lobbying'] = TD.LobbyingFilter;
             all_filters['earmarks'] = TD.EarmarksFilter;
             all_filters['grants'] = TD.GrantsFilter;
             all_filters['contracts'] = TD.ContractsFilter;
-            all_filters['contribution'] = TD.ContributionFilter;
+            all_filters['contributions'] = TD.ContributionFilter;
             all_filters['contractorMisconduct'] = TD.ContractorMisconductFilter;
             all_filters['epaEcho'] = TD.EpaEchoFilter;
             all_filters['faca'] = TD.FacaFilter;
             all_filters['bundling'] = TD.BundlingFilter;
-
-			$('#dataTabs li a').bind('click', function() {
-				var df = $(this).attr('class');
-				
+            
+            $('#dataTabs li a').bind('click', function() {
+                console.log('click');
+                var df = $(this).attr('class');
+                console.log(df);
+                
                 $('#mainSearchFilter > li').hide();
                 $('#dataTabs li').removeClass('active');
-
+                
                 $('#intro-' + df).show();
                 $(this).parents('li').addClass('active');
-
+                
                 if (df in all_filters) {
+                    console.log('test', df);
                     TD.activeFilter = all_filters[df];
                 }
-
-				return false;
-			});
-
+                
+                return false;
+            });
+            
             for (key in all_filters) {
                 console.log(key);
                 all_filters[key].bindDataFilter('#' + key + 'DataFilter');
@@ -235,10 +237,9 @@
                 all_filters[key].init();
                 TD.HashMonitor.setAnchor('');
             }
-
-		    TD.activeFilter = TD.ContributionFilter;
-			TD.init();
-
+            
+            TD.init();
+            
             $('#dataTabs li a.contributions').click();
 		});
 

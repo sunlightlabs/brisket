@@ -107,5 +107,7 @@ $().ready(function() {
             TD.HashMonitor.setAnchor('year=2010');
             this.loadHash();
         }
+        
+        TD.EarmarksFilter.renumberFilters();
 	};
 });

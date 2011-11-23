@@ -36,6 +36,8 @@ $().ready(function() {
         if (anchor === undefined) {
             this.loadHash();
         }
+        
+        TD.BundlingFilter.renumberFilters();
 
     };
 

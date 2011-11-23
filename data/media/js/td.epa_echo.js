@@ -63,6 +63,8 @@ $().ready(function() {
             //TD.HashMonitor.setAnchor('date_year=2011');
             this.loadHash();
         }
+        
+        TD.EpaEchoFilter.renumberFilters();
 
     };
 

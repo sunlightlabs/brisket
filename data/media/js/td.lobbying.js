@@ -222,7 +222,8 @@ $().ready(function() {
             TD.HashMonitor.setAnchor('year=2011');
             this.loadHash();
         }
-
+        
+        TD.LobbyingFilter.renumberFilters();
     };
 
 });

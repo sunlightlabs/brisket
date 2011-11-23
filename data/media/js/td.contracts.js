@@ -117,6 +117,8 @@ $().ready(function() {
             this.loadHash();
         }
         
+        TD.ContractsFilter.renumberFilters();
+        
     };
 
 });

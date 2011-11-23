@@ -68,6 +68,8 @@ $().ready(function() {
         if (anchor === undefined) {
             this.loadHash();
         }
+        
+        TD.FacaFilter.renumberFilters();
 
     };
 

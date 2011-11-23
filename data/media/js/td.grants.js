@@ -114,6 +114,8 @@ $().ready(function() {
             this.loadHash();
         }
         
+        TD.GrantsFilter.renumberFilters();
+        
     };
 
 });

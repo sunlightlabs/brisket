@@ -582,6 +582,7 @@ TD.DataFilter.prototype.filterCount = function() {
 };
 TD.DataFilter.prototype.primaryFilter = function(filter) {
     this.node.find('ul#filters').prepend(filter.node);
+    this.renumberFilters();
 };
 TD.DataFilter.prototype.values = function() {
     var params = {};
@@ -688,3 +689,8 @@ TD.DataFilter.prototype.exceedsExcelLimit = function() {
     }
     return exceedsLimit;
 };
+TD.DataFilter.prototype.renumberFilters = function() {
+    this.node.find('ul#filters li.filter').each(function(idx, element) {
+        $(element).addClass('col-' + ((idx % 3) + 1)).removeClass('col-' + (((idx + 1) % 3) + 1)).removeClass('col-' + (((idx + 2) % 3) + 1));
+    });    
+}

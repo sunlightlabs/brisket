@@ -5,6 +5,7 @@ TD.Field = {
         if (this.filter.allowMultipleFields) {
             node.find('a.remove').bind('click', function() {
                 me.filter.removeField(me);
+                console.log('remove');
                 return false;
             });
         } else {
@@ -315,6 +316,7 @@ TD.Filter = {
     },
     enable: function() {
         this.enabled = true;
+        if (TD.activeFilter) TD.activeFilter.renumberFilters();
     },
     disable: function() {
         this.enabled = false;
@@ -323,6 +325,7 @@ TD.Filter = {
         }
         this.node.remove();
         TD.activeFilter.node.trigger('filterchange');
+        if (TD.activeFilter) TD.activeFilter.renumberFilters();
     },
     removeField: function(field) {
         delete this.fields[field.id];
