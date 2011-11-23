@@ -15,7 +15,7 @@
 
 <div id="lgRightColumn">
     <div id="datafilter" class="datafilter">
-    	<h3 class="withTip">Add additional fields to refine your search</h3>
+    	<h3>Add additional fields to refine your search</h3>
     	<form>
     		<select id="filterselect">
     			<option value="">Select a filter to add...</option>
@@ -26,8 +26,11 @@
     	<a id="previewButton" href="#" class="previewButton linkBtn">Preview Data</a>
     </div>
 	    <div id="tableScroll">
-	        <p id="displayCount">Displaying <span id="previewCount"></span> <span id="recordCount"></span> records</p>
-	        <a id="downloadButton" href="#" class="downloadButton linkBtn">Download </a>
+	        <div id="tableDescriptors">
+	            <p id="displayCount">Displaying <span id="previewCount"></span> <span id="recordCount"></span> records</p>
+	            <a id="downloadButton" href="#" class="downloadButton linkBtn">Download </a>
+	            <div class="clear"></div>
+	        </div>
             <table id="mainTable" class="clear">
             	<thead>
             		<tr id="titles">

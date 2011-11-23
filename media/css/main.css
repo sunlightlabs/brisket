@@ -297,13 +297,13 @@ th.right { padding-right: 10px;}
 .right { text-align: right;}
 td.lawmakerName a { float: none; margin-right: 0;}
 
-table#mainPageTable { width: 650px; margin-top: 30px;}
+table#mainPageTable { width: 650px; margin-top: 30px; border: none;}
 table#mainPageTable img { border: 2px solid #e0e0df; width: 40px; }
 td.photo { width: 50px;}
 tr#titles th.photo { text-indent: -9999em;}
 table#mainPageTable th, #earmarksTable th, #partyTime th, .tab-area table th  { padding: 0 10px 10px 15px;}
 .mainTable th { padding: 10px;}
-.mainTable { margin-bottom: 55px; }
+.mainTable, #mainTable { margin-bottom: 55px; border: none;}
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
 table { margin: 15px 0 30px; border: 1px solid #E5E4DB;}
 
@@ -619,7 +619,7 @@ table .even.numerous{
 #td_nav { background: url(../images/bg_tdNav.png) right top no-repeat; margin-top: -32px; padding: 14px 0 0 0; height: 42px; margin-bottom: 25px;}
 #td_nav li { float: right; border-right: 1px solid #cacdce; padding: 0 25px; line-height: 15px; text-align: center;}
 #td_nav li.last { border-right: none;}
-#td_nav li:hover, .documentation #td_nav #documentation, .downloads #td_nav #downloads, .api #td_nav #api { font-weight: bold;}
+#td_nav li:hover, .documentation #td_nav #documentation, .downloads #td_nav #downloads, .api #td_nav #api, .flexwidth #td_nav #searchTD { font-weight: bold;}
 
 #dataTabs { margin: 0 35px 40px -3px; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 90px; line-height: 16px; font-size: 95%; float: left;}
 #dataTabs li { padding: 10px 8px; border-top: 1px solid #DCDCD8; border-bottom: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; background-color: #f6f3f2;}
@@ -630,9 +630,10 @@ table .even.numerous{
 
 .leftIntro { float: left; width: 530px; padding-right: 29px; border-right: 1px dashed #DCDCD8;}
 .rightIntro { float: left; margin-left: 30px; width: 180px; }
-.previewButton { background: url(../images/btn_previewData.jpg) left top no-repeat; height: 60px; width: 168px;}
-.previewButton.enabled { background: url(../images/btn_previewData.jpg) left -60px no-repeat; }
-.previewButton.enabled:hover { background: url(../images/btn_previewData.jpg) left -120px no-repeat; } 
+
+.previewButton { background: url(../images/btn_previewData.jpg) left top no-repeat; height: 39px; width: 137px;}
+.previewButton.enabled { background: url(../images/btn_previewData.jpg) left -39px no-repeat; }
+.previewButton.enabled:hover { background: url(../images/btn_previewData.jpg) left -78px no-repeat; } 
 
 #mainSearchFilter li.intro { display: none; }
 
@@ -693,17 +694,19 @@ table .even.numerous{
 
 .filterTitle { width: 380px; float: left;}
 
-#datafilter { background-color: #F5F4F4; padding: 15px; border: 1px solid #DCDCD8; margin-bottom: 30px;}
-.flexwidth h3 { float: left; margin-right: 15px;}
+#datafilter { background-color: #F5F4F4; padding: 15px; border: 1px solid #DCDCD8; margin-bottom: 40px;}
 .flexwidth #filters { padding: 0; }
-.flexwidth #filters li { padding: 25px 15px; width: 225px; float: left;  border-right: 1px dotted #DCDCD8;}
-.flexwidth #filters li li { padding: 0; border-right: 0; margin-bottom: 0;}
+.flexwidth #filters li { padding: 25px 15px; width: 29%; float: left;  border-right: 1px dotted #DCDCD8; border-bottom: none;}
+.flexwidth #filters li li { padding: 0; border-right: 0; margin-bottom: 0; width: 100%;}
 .flexwidth #dataTabs { width: 8%; }
 .flexwidth .filterTitle { width: 160px;}
 .flexwidth select, .flexwidth input { width: 160px;}
 .daterange_field input { width: 70px;}
+.flexwidth #filterselect { width: 300px;}
 
-#displayCount { float: left; }
+#displayCount { float: left; margin-top: 15px;}
 .downloadButton { background: url(../images/btn_download.jpg) left top no-repeat; height: 39px; width: 137px; float: right;}
 .downloadButton.enabled { background: url(../images/btn_download.jpg) left -39px no-repeat; }
 .downloadButton.enabled:hover { background: url(../images/btn_download.jpg) left -78px no-repeat; }
+
+#tableDescriptors { border-bottom: 1px dashed #DCDCD8; }
