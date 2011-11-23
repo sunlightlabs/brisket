@@ -433,7 +433,7 @@ dt.moneyTitle { margin-top: 8px;}
 #checkingLogo { background: url(../images/logo_checking.png) top left no-repeat; width: 211px; height: 80px; text-indent: -9999em; display: block; float: left;}
 
 .standOut { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 180%; color: #3b3130; line-height: 30px; width: 520px;}
-.home .standOut { width: auto; font-size: 125%; line-height: 22px;}
+.home a.standOut  { width: auto; font-size: 125%; line-height: 22px; color: #0A6E92; font-style: normal; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
 #checkingPrivacy { margin-top: 30px; padding-top: 30px; border-top: 1px dashed #E2DFDF; color: #827d7d;}
 #checkingPrivacy p { font-size: 88%;}
 .toolImage { border: 3px solid #e2dfdf; float: left; margin-right: 25px; }
