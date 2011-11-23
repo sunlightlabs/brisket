@@ -9,31 +9,26 @@
 {% block body_class %}tdata flexwidth{% endblock %}
 
 {% block main %}
+{% include "data/second_nav.html" %}
 {% include "data/data_tabs.html" %}
 {{ block.super }}
-<div id="smLtColumn">
-    
-    <div id="datafilter" class="module datafilter">
-		<h3 class="withTip">Search {% block dataset_name %}{% endblock %} for</h3>
-		<span class="tip tipHeight">Add additional fields to refine your search.</span>
-		<form>
-			<select id="filterselect">
-				<option value="">Select a filter to add...</option>
-		    </select>
-			<ul id="filters"></ul>
-		</form>
-	</div>
-</div>
+
 <div id="lgRightColumn">
-	<div class="module tableButtons">
-	    <a id="previewButton" href="#" class="previewButton linkBtn">Preview Data</a>
-	    <a id="downloadButton" href="#" class="downloadButton linkBtn">Download </a>
-	    <div class="clear"></div>
+    <div id="datafilter" class="datafilter">
+    	<h3 class="withTip">Add additional fields to refine your search</h3>
+    	<form>
+    		<select id="filterselect">
+    			<option value="">Select a filter to add...</option>
+    	    </select>
+    		<ul id="filters"></ul>
+    	</form>
+    	<div class="clear"></div>
+    	<a id="previewButton" href="#" class="previewButton linkBtn">Preview Data</a>
     </div>
-    <div class="module">
 	    <div id="tableScroll">
-	        <p>Displaying <span id="previewCount"></span> of <span id="recordCount"></span> records</p>
-            <table id="mainTable">
+	        <p id="displayCount">Displaying <span id="previewCount"></span> <span id="recordCount"></span> records</p>
+	        <a id="downloadButton" href="#" class="downloadButton linkBtn">Download </a>
+            <table id="mainTable" class="clear">
             	<thead>
             		<tr id="titles">
 						{% block table_header %}{% endblock %}
@@ -60,8 +55,7 @@
 			{% block dataset_license %}{% endblock %}
     	</div>
         <div class="clear"></div>
-	</div>
-</div>
+    </div>
 	{% block dataset_scripts %}
 	{{ block.super }}
 	{% js "data/3rdparty.js" %}

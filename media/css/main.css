@@ -110,7 +110,7 @@ button, .buttonLink { width: auto; text-indent: -9999em; display: block; border:
 div#pageMain, footer { width: 960px; margin: 0 auto; }
 .graph { position: relative; }
 
-.tip, .searchBox .results, .topPages .results, .help { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; }
+.tip, .searchBox .results, .topPages .results, .help { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; line-height: 17px; }
 .tip { line-height: 17px; display: block; color: #827d7d; margin-bottom: 25px; max-width: 650px;}
 .moreLink { font-style: italic; font-family: Georgia, Times New Roman, Times, serif; font-size: 120%; margin-bottom: 10px; display: block; background: url(../images/icon_viewMore.jpg) top left no-repeat; padding-left: 30px;}
 
@@ -634,13 +634,6 @@ table .even.numerous{
 .previewButton.enabled { background: url(../images/btn_previewData.jpg) left -60px no-repeat; }
 .previewButton.enabled:hover { background: url(../images/btn_previewData.jpg) left -120px no-repeat; } 
 
-#lgRightColumn .previewButton { float: left; margin-right: 15px;}
-#lgRightColumn .downloadButton { float: left;}
-
-.downloadButton { background: url(../images/btn_download.jpg) left top no-repeat; height: 60px; width: 168px;}
-.downloadButton.enabled { background: url(../images/btn_download.jpg) left -60px no-repeat; }
-.downloadButton.enabled:hover { background: url(../images/btn_download.jpg) left -120px no-repeat; }
-
 #mainSearchFilter li.intro { display: none; }
 
 #mainSearchFilter fieldset { padding: 0 0 10px 15px; }
@@ -670,15 +663,14 @@ table .even.numerous{
 .fields .remove:hover { background: url(../images/btn_minusSm.png) left bottom no-repeat; }
 
 .flexwidth #mainContent_top, .flexwidth #mainContent_bottom { visibility: hidden; height: 0;}
-.flexwidth #mainContent {  background: #fff; border: 1px solid #deded8;}
+.flexwidth #mainContent {  background: #fff; border: 1px solid #deded8; padding-top: 35px;}
 .flexwidth #header { margin: 0 auto; width: 960px; }
 .flexwidth #pageMain, .flexwidth #footer  { margin: 0 2%; width: 96%; min-width: 940px;}
 
 .flexwidth #footerLinks { margin: 2px 0 60px; } 
 .flexwidth #footerPolicy { margin: 0 auto 70px; width: 930px;}
 
-#smLtColumn { width: 25%; float: left;}
-#lgRightColumn { width: 75%; float: left;}
+#lgRightColumn { width: 86%; float: left;}
 
 #lgRightColumn table { width: 100%; margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px dashed #DCDCD8;}
 #smLtColumn select, #smLtColumn input { width: 100%;}
@@ -701,3 +693,17 @@ table .even.numerous{
 
 .filterTitle { width: 380px; float: left;}
 
+#datafilter { background-color: #F5F4F4; padding: 15px; border: 1px solid #DCDCD8; margin-bottom: 30px;}
+.flexwidth h3 { float: left; margin-right: 15px;}
+.flexwidth #filters { padding: 0; }
+.flexwidth #filters li { padding: 25px 15px; width: 225px; float: left;  border-right: 1px dotted #DCDCD8;}
+.flexwidth #filters li li { padding: 0; border-right: 0; margin-bottom: 0;}
+.flexwidth #dataTabs { width: 8%; }
+.flexwidth .filterTitle { width: 160px;}
+.flexwidth select, .flexwidth input { width: 160px;}
+.daterange_field input { width: 70px;}
+
+#displayCount { float: left; }
+.downloadButton { background: url(../images/btn_download.jpg) left top no-repeat; height: 39px; width: 137px; float: right;}
+.downloadButton.enabled { background: url(../images/btn_download.jpg) left -39px no-repeat; }
+.downloadButton.enabled:hover { background: url(../images/btn_download.jpg) left -78px no-repeat; }
