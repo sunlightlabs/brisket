@@ -186,7 +186,7 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 
 dl { margin-top: 15px;}
 .noshow { display: none; }
-dt { float: left; margin-right: 5px; font-weight: bold; margin-top: 1px;}
+dt { float: left; margin-right: 5px; font-weight: bold; }
 dd { float: left; margin-right: 15px;}
 
 .tdata dt { float: none;}
@@ -297,7 +297,7 @@ th.right { padding-right: 10px;}
 .right { text-align: right;}
 td.lawmakerName a { float: none; margin-right: 0;}
 
-table#mainPageTable { width: 650px; margin-top: 30px; border: none;}
+table#mainPageTable { width: 100%; margin-top: 30px; border: none;}
 table#mainPageTable img { border: 2px solid #e0e0df; width: 40px; }
 td.photo { width: 50px;}
 tr#titles th.photo { text-indent: -9999em;}
@@ -449,7 +449,7 @@ dt.moneyTitle { margin-top: 8px;}
 #checkingLogo { background: url(../images/logo_checking.png) top left no-repeat; width: 211px; height: 80px; text-indent: -9999em; display: block; float: left;}
 
 .standOut { font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 180%; color: #3b3130; line-height: 30px; width: 520px;}
-.home .standOut { width: auto; font-size: 125%; line-height: 22px;}
+.home a.standOut  { width: auto; font-size: 125%; line-height: 22px; color: #0A6E92; font-style: normal; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
 #checkingPrivacy { margin-top: 30px; padding-top: 30px; border-top: 1px dashed #E2DFDF; color: #827d7d;}
 #checkingPrivacy p { font-size: 88%;}
 .toolImage { border: 3px solid #e2dfdf; float: left; margin-right: 25px; }
@@ -666,7 +666,7 @@ table .even.numerous{
 .flexwidth #mainContent_top, .flexwidth #mainContent_bottom { visibility: hidden; height: 0;}
 .flexwidth #mainContent {  background: #fff; border: 1px solid #deded8; padding-top: 35px;}
 .flexwidth #header { margin: 0 auto; width: 960px; }
-.flexwidth #pageMain, .flexwidth #footer  { margin: 0 2%; width: 96%; min-width: 940px;}
+.flexwidth #pageMain, .flexwidth footer  { margin: 0 2%; width: 96%; min-width: 940px;}
 
 .flexwidth #footerLinks { margin: 2px 0 60px; } 
 .flexwidth #footerPolicy { margin: 0 auto 70px; width: 930px;}
