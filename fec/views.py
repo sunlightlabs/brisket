@@ -1,7 +1,7 @@
 # Create your views here.
 import json, csv, os
 from django.http import HttpResponse
-from influence.names import standardize_name
+from influence.helpers import standardize_name
 from django.template.defaultfilters import slugify
 
 from django.views.generic.simple import direct_to_template

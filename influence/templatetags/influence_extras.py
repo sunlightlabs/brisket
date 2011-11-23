@@ -1,9 +1,9 @@
 from django import template
 from django.template.defaultfilters import stringfilter
-from influence.names import standardize_individual_name, standardize_organization_name, \
-    standardize_industry_name, standardize_name
-from name_cleaver import PoliticianNameCleaver
 from BeautifulSoup import BeautifulSoup
+from name_cleaver import PoliticianNameCleaver, IndividualNameCleaver, \
+        OrganizationNameCleaver
+from influence.helpers import standardize_name
 
 register = template.Library()
 
@@ -17,17 +17,17 @@ def standardize_politician_name_filter(name):
 @register.filter(name='standardize_individual_name')
 @stringfilter
 def standardize_individual_name_filter(name):
-    return standardize_individual_name(name)
+    return str(IndividualNameCleaver(name).parse())
 
 @register.filter(name='standardize_organization_name')
 @stringfilter
 def standardize_organization_name_filter(name):
-    return standardize_organization_name(name)
+    return str(OrganizationNameCleaver(name).parse())
 
 @register.filter(name='standardize_industry_name')
 @stringfilter
 def standardize_industry_name_filter(name):
-    return standardize_industry_name(name)
+    return str(OrganizationNameCleaver(name).parse())
 
 @register.filter(name='standardize_name')
 @stringfilter

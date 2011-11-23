@@ -1,13 +1,24 @@
 from django.http import Http404
 from django.template.defaultfilters import slugify
-from influence import external_sites
-from influence.names import standardize_name
 from influenceexplorer import DEFAULT_CYCLE
 from settings import api, LATEST_CYCLE
 import datetime
 import googleanalytics
 import re
 from django.utils.datastructures import SortedDict
+from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver, \
+        IndividualNameCleaver
+
+
+_standardizers = {
+    'politician': lambda n: PoliticianNameCleaver(n).parse(),
+    'individual': lambda n: IndividualNameCleaver(n).parse(),
+    'industry': lambda n: OrganizationNameCleaver(n).parse(),
+    'organization': lambda n: OrganizationNameCleaver(n).parse(),
+}
+
+def standardize_name(name, type):
+    return _standardizers[type](name)
 
 def bar_validate(data):
     ''' take a dict formatted for submission to the barchart
