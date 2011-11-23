@@ -336,15 +336,19 @@ TD.Filter = {
     render: function() {
         var content = '';
         content += '<li id="' + this.config.name + '_filter" class="filter">';
+        content += '<div class="filterTitle" >';
         content += '<label>' + this.config.label + '</label>';
+        content += '<p class="help clear">' + this.config.help + '</p>';
+        content += '</div>';
+        content += '<div class="filterButtons" >';
         if (!this.required) {
             content += '<a href="#" title="remove category" class="remove">-</a>';
         }
         if (this.allowMultipleFields) {
             content += '<a href="#" title="add filter" class="add">+</a>';
         }
-        content += '<p class="help clear">' + this.config.help + '</p>';
-        content += '<ul class="fields"></ul>';
+        content += '</div>';
+        content += '<ul class="clear fields"></ul>';
         content += '</li>';
         var node = $(content);
         this.bind(node);
