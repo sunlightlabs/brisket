@@ -442,7 +442,6 @@ dt.moneyTitle { margin-top: 8px;}
 
 .tipHeight { margin-bottom: 25px; display: block;}
 
-
 #grantsContracts, #earmarksTable { margin-bottom: 55px;}
 #orderPostcards { margin-top: 10px; padding-top: 40px; border-top: 1px dashed #DCDCD8; }
 
@@ -619,7 +618,7 @@ table .even.numerous{
 #td_nav { background: url(../images/bg_tdNav.png) right top no-repeat; margin-top: -32px; padding: 14px 0 0 0; height: 42px; margin-bottom: 25px;}
 #td_nav li { float: right; border-right: 1px solid #cacdce; padding: 0 25px; line-height: 15px; text-align: center;}
 #td_nav li.last { border-right: none;}
-#td_nav li:hover, .documentation #td_nav #documentation, .downloads #td_nav #downloads, .api #td_nav #api, .flexwidth #td_nav #searchTD { font-weight: bold;}
+#td_nav li:hover, .documentation #td_nav #documentation, .downloads #td_nav #downloads, .api #td_nav #api, .flexwidth #td_nav #searchTD, .searchTD #td_nav #searchTD{ font-weight: bold;}
 
 #dataTabs { margin: 0 35px 40px -3px; border-right: 1px solid #DCDCD8; padding: 20px 0; width: 90px; line-height: 16px; font-size: 95%; float: left;}
 #dataTabs li { padding: 10px 8px; border-top: 1px solid #DCDCD8; border-bottom: 1px solid #DCDCD8; border-left: 1px solid #DCDCD8; background-color: #f6f3f2;}
