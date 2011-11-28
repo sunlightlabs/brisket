@@ -47,22 +47,38 @@ urlpatterns = patterns('brisket.data.views',
     url(r'^$', 'index', name="index"),
 )
 
-urlpatterns += patterns('django.views.generic.simple',
-    url(r'^api/$', 'direct_to_template', {'template': 'data/api/index.html'}, name="api_index"),
-    url(r'^api/contracts/$', 'direct_to_template', {'template': 'data/api/contracts.html'}, name="api_contracts"),
-    url(r'^api/contributions/$', 'direct_to_template', {'template': 'data/api/contributions.html'}, name="api_contributions"),
-    url(r'^api/grants/$', 'direct_to_template', {'template': 'data/api/grants.html'}, name="api_grants"),
-    url(r'^api/lobbying/$', 'direct_to_template', {'template': 'data/api/lobbying.html'}, name="api_lobbying"),
-    url(r'^api/aggregates/contributions/$', 'direct_to_template', {'template': 'data/api/aggregates_contributions.html'}, name="api_aggregate_contributions"),
-    url(r'^docs/$', 'direct_to_template', {'template': 'data/docs/index.html'}, name="doc_index"),
-    url(r'^docs/contracts/$', 'direct_to_template', {'template': 'data/docs/contracts.html'}, name="doc_contracts"),
-    url(r'^docs/contributions/$', 'direct_to_template', {'template': 'data/docs/contributions.html'}, name="doc_contributions"),
-    url(r'^docs/grants/$', 'direct_to_template', {'template': 'data/docs/grants.html'}, name="doc_grants"),
-    url(r'^docs/lobbying/$', 'direct_to_template', {'template': 'data/docs/lobbying.html'}, name="doc_lobbying"),
-    url(r'^docs/earmarks/$', 'direct_to_template', {'template': 'data/docs/earmarks.html'}, name="doc_earmarks"),
-    url(r'^docs/echo/$', 'direct_to_template', {'template': 'data/docs/echo.html'}, name="doc_echo"),
-    url(r'^docs/changelog/$', 'direct_to_template', {'template': 'data/docs/changelog.html'}, name="doc_changelog"),
-)
+from collections import namedtuple
+Section = namedtuple('Section', ['path', 'name', 'title'])
+
+API_SECTIONS = [
+    Section('/api/', 'api_index', 'Overview'),
+    Section('/api/contributions/', 'api_contributions', 'Campaign Contributions'),
+    Section('/api/lobbying/', 'api_lobbying', 'Federal Lobbying'),
+    Section('/api/grants/', 'api_grants', 'Federal Grants'),
+    Section('/api/contracts/', 'api_contracts', 'Federal Contracts'),
+    Section('/api/aggregates/contributions/', 'api_aggregate_contributions', 'Aggregate Contributions'),
+]
+
+DOCS_SECTIONS = [
+    Section('/docs/', 'docs_index', 'Overview'),
+    Section('/docs/contributions/', 'docs_contributions', 'Campaing Contributions'),
+    Section('/docs/lobbying/', 'docs_lobbying', 'Federal Lobbying'),
+    Section('/docs/grants/', 'docs_grants', 'Federal Grants'),
+    Section('/docs/contracts/', 'docs_contracts', 'Federal Contracts'),
+    Section('/docs/earmarks/', 'docs_earmarks', 'Earmarks'),
+    Section('/docs/echo/', 'docs_echo', 'EPA ECHO'),
+    Section('/docs/changelog/', 'docs_changelog', 'Data Changelog'),
+]
+
+for doc_page in API_SECTIONS + DOCS_SECTIONS:
+    urlpatterns += patterns('django.views.generic.simple',
+        url(
+            '^%s$' % doc_page.path[1:],
+            'direct_to_template',
+            {'template': 'data/' + '/'.join(doc_page.name.split('_', 1)) + '.html', 'extra_context': {'API_SECTIONS': API_SECTIONS, 'DOCS_SECTIONS': DOCS_SECTIONS}},
+            name=doc_page.name,
+        ),
+    )
 
 if settings.DEBUG:
     # evil URL for data
