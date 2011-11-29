@@ -78,7 +78,11 @@
     {% if section.partytime_data.past or section.partytime_data.upcoming %}
     <li class="twoColumn chartWrapper">
         <h4 class="withTip">Recent and upcoming fundraisers</h4>
-        <span class="tip">Full invitations can be viewed at <a href="{{ section.partytime_link }}">Party Time</a></span>
+        {% for link in section.external_links %}
+            {% if 'Party Time' in link.text %}
+                <span class="tip">Full invitations can be viewed at <a href="{{ link.url }}" target="_blank">Party Time</a></span>
+            {% endif %}
+        {% endfor %}
         <table class="twoColumn">
             <thead>
                 <tr id="partyTime">

@@ -369,7 +369,7 @@ def org_spending_section(entity_id, name, cycle, totals):
     filter_bad_spending_descriptions(spending)
 
     section['grants_and_contracts'] = spending
-    section['gc_links'] = external_sites.get_gc_links(name, cycle)
+    section['gc_links'] = external_sites.get_gc_links(name.__str__(), cycle)
 
     gc_found_things = []
     for gc_type in ['grant', 'contract', 'loan']:
