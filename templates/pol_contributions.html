@@ -1,6 +1,29 @@
 {% load humanize %}
 {% load influence_extras %}
 
+{% if section.fec_summary %}
+<li class="twoColumn">
+    <dl>
+        <dd>Total Raised:</dd>
+            <dt>${{ section.fec_summary.total_raised|floatformat:0|intcomma }}</dt>
+        <dd>...from individuals:</dd>
+            <dt>${{ section.fec_summary.contributions_indiv|floatformat:0|intcomma }}</dt>
+        <dd>...from PACs:</dd>
+            <dt>${{ section.fec_summary.contributions_pac|floatformat:0|intcomma }}</dt>
+        <dd>...from party:</dd>
+            <dt>${{ section.fec_summary.contributions_party|floatformat:0|intcomma }}</dt>
+        <dd>...from candidate self-financing:</dd>
+            <dt>${{ section.fec_summary.contributions_candidate|floatformat:0|intcomma }}</dt>
+        <dd>Transfers in:</dd>
+            <dt>${{ section.fec_summary.transfers_in|floatformat:0|intcomma }}</dt>
+        <dd>Disbursements:</dd>
+            <dt>${{ section.fec_summary.disbursements|floatformat:0|intcomma }}</dt>
+        <dd>Cash on hand:</dd>
+            <dt>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}</dt>
+    </dl>
+</li>
+{% endif %}
+
 <li class="twoColumn chart">
     {% if section.industries_barchart_data %}
     <h4 class="withTip">Top Industries</h4>

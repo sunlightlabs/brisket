@@ -526,6 +526,9 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     bundling = api.entities.bundles(entity_id, cycle)
     section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
+    if int(cycle) == LATEST_CYCLE:
+        section['fec_summary'] = api.pol.fec_summary(entity_id)
+
     return section
 
 
