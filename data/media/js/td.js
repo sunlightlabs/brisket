@@ -106,6 +106,18 @@ var TD = {
                 }
                 return params;
             }
+        },
+        orderedParseAnchor: function() {
+            var oParams = [];
+            var qs = this.getAnchor();
+            if (qs) {
+                var terms = qs.split('&');
+                for (var i = 0; i < terms.length; i++) {
+                    var parts = terms[i].split('=');
+                    oParams.push([parts[0], decodeURIComponent(parts[1])]);
+                }
+                return oParams;
+            }
         }
     },
     
@@ -144,16 +156,24 @@ var TD = {
             }
         },
         toQueryString: function(obj) {
-            var qs = ''
+            var qs = '';
             for (attr in obj) {
                 if (qs) qs += '&';
                 qs += attr + '=' + encodeURIComponent(obj[attr]);
             }
-            return qs
+            return qs;
+        },
+        toOrderedQueryString: function(obj) {
+            var qs = '';
+            for (var i =  0; i < obj.length; i++) {
+                if (qs) qs += '&';
+                qs += obj[i][0] + '=' + encodeURIComponent(obj[i][1]);
+            };
+            return qs;
         },
         ymdFormat: function(mdy) {
             var mdyParts = mdy.split('/');
-            return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1]
+            return mdyParts[2] + '-' + mdyParts[0] + '-' + mdyParts[1];
         }
     },
     
@@ -517,7 +537,7 @@ TD.DataFilter.prototype.bindPreview = function(sel) {
     this.previewNode.bind('click', function() {
         if ($('#mainTable').length == 0) {
             // no main table, forward to filter page
-            var qs = TD.Utils.toQueryString(that.values());
+            var qs = TD.Utils.toOrderedQueryString(that.orderedValues());
             var hash = window.btoa(qs);
             window.location.replace("/" + that.path + "/#" + hash);
         } else if ($(this).hasClass('enabled')) {
@@ -535,7 +555,7 @@ TD.DataFilter.prototype.bindDownload = function(sel) {
             node.removeClass('enabled');
             if (!that.shouldUseBulk() && !that.exceedsExcelLimit()) {
                 $('#downloading').dialog('open');
-                var qs = TD.Utils.toQueryString(that.values());
+                var qs = TD.Utils.toOrderedQueryString(that.orderedValues());
                 window.location.replace("/" + that.path + "/download/?" + qs);
             }
         }
@@ -557,14 +577,16 @@ TD.DataFilter.prototype.registerFilter = function(config) {
     var option = $('<option value="' + config.name + '">' + config.label + '</option>');
     this.node.find('select#filterselect').append(option);
 };
-TD.DataFilter.prototype.addFilter = function(filterName) {
+TD.DataFilter.prototype.addFilter = function(filterName, reverse) {
     var filter = this.registry[filterName];
     if (filter != undefined) {
         if (filter.enabled) {
             filter.addField();
             this.primaryFilter(filter);
         } else {
-            this.node.find('ul#filters').prepend(filter.render());
+            var rendered = filter.render();
+            var filterDiv = this.node.find('ul#filters');
+            reverse ? filterDiv.append(rendered) : filterDiv.prepend(rendered);
             filter.enable();
             filter.addField();
         }
@@ -597,13 +619,30 @@ TD.DataFilter.prototype.values = function() {
     }
     return params;
 };
+TD.DataFilter.prototype.orderedValues = function() {
+    var oParams = []
+    var _this = this;
+    this.node.find('ul#filters li.filter').each(function(idx, element) {
+        var name = element.id.replace("_filter", "");
+        var filter = _this.registry[name];
+        if (filter.enabled) {
+            var value = filter.value();
+            if (value) {
+                oParams.push([name, value])
+            }
+        }
+    });
+    return oParams;
+}
 TD.DataFilter.prototype.loadHash = function() {
-    var params = TD.HashMonitor.parseAnchor();
-    if (params) {
-        for (attr in params) {
-            var filter = this.addFilter(attr);
+    var oParams = TD.HashMonitor.orderedParseAnchor();
+    if (oParams && oParams.length) {
+        for (var j = 0; j < oParams.length; j++) {
+            var attr = oParams[j][0];
+            var vals = oParams[j][1];
+            var filter = this.addFilter(attr, true);
             if (filter) {
-                var values = filter.config.field.parseValues(params[attr]);
+                var values = filter.config.field.parseValues(vals);
                 for (var i = 0; i < values.length; i++) {
                     var field = null;
                     if (filter.fieldCount < i + 1) {
@@ -624,8 +663,8 @@ TD.DataFilter.prototype.preview = function() {
     if ($('#mainTable').length > 0) {
         if (!this.shouldUseBulk()) {
             var that = this;
-            var params = this.values();
-            var qs = TD.Utils.toQueryString(params);
+            var oParams = this.orderedValues();
+            var qs = TD.Utils.toOrderedQueryString(oParams);
             TD.HashMonitor.setAnchor(qs);
             this.previewNode.removeClass('enabled');
             this.downloadNode.removeClass('calculating');
@@ -636,7 +675,7 @@ TD.DataFilter.prototype.preview = function() {
             $('span#previewCount').html('...');
             $('span#recordCount').html('...');
             that.recordCount = 0;
-            $.getJSON(TD.DATA_API_BASE_URL + this.path + '/?callback=?', params, function(data) {
+            $.getJSON(TD.DATA_API_BASE_URL + this.path + '/?callback=?', qs, function(data) {
                 if (data.length === 0) {
                     $('div#nodata').show();
                 } else {
@@ -662,7 +701,7 @@ TD.DataFilter.prototype.preview = function() {
                     $('span#recordCount').html(data.length);
                 } else {
                     that.downloadNode.addClass('calculating');
-                    $.get(TD.DATA_API_BASE_URL + that.path + "/count/", params, function(data) {
+                    $.get(TD.DATA_API_BASE_URL + that.path + "/count/", qs, function(data) {
                         that.downloadNode.removeClass('calculating').addClass('enabled');
                         that.recordCount = parseInt(data);
                         $('span#recordCount').html(data);
