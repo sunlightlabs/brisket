@@ -28,7 +28,7 @@
     	    <meta name="og:title" content="Influence Explorer">
     	    <meta name="og:description" content="Influence Explorer connects the dots of political contributions on the federal and state level allowing you to track influence by lawmaker, company or prominent individual.">
     	    <meta name="og:type" content="cause">
-    	    <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+    	    <meta name="og:image" content="http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png">
     	    <meta name="og:url" content="http://influenceexplorer.com{{ request.path }}">
     	    <meta name="og:site_name" content="Influence Explorer">
     	    <meta name="fb:admins" content="7812952,5308565">
@@ -55,10 +55,18 @@
                     {% block search %}
                     {% endblock %}
                     <h1><a id="logo" href="/">Influence Explorer</a></h1>
-                    <ul class="clear" id="socialIcons">
+                    <!-- <ul class="clear" id="socialIcons">
                         <li id="facebookIcon"><a href="#">facebook</a></li>
                         <li id="twitterIcon"><a href="#">twitter</a></li>
-                    </ul>
+                    </ul> -->
+                    <!-- AddThis Button BEGIN -->
+                    <div id="socialIcons" class="clear addthis_toolbox addthis_default_style ">
+                        <a class="addthis_button_facebook"></a>
+                        <a class="addthis_button_twitter"></a>
+                    </div>
+                    <script type="text/javascript">var addthis_share = {templates: {twitter: 'Check out {% templatetag openvariable %}title{% templatetag closevariable %}: {% templatetag openvariable %}url{% templatetag closevariable %} from @SunFoundation'}}</script>
+                    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=sunlightfoundation"></script>
+                    <!-- AddThis Button END -->
                     <nav class="clear">
                         <ul>
                             <li id="people"><a href="/people">People</a></li>
@@ -87,7 +95,6 @@
                         <ul>
                             <li id="aboutLink"><a href="/about/">About</a></li>
                             <li><a href="/contact/">Contact</a></li>
-                            <li><a href="/tools/">Tools</a></li>
                         </ul>
                     </nav>
                     <div id="sunlightRequests">

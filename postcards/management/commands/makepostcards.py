@@ -9,8 +9,7 @@ from gevent.pool import Pool
 from gevent import monkey
 import gevent
 from django.utils.datastructures import SortedDict
-from influence.helpers import standardize_organization_name, standardize_industry_name
-from name_cleaver import PoliticianNameCleaver
+from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from django.template.defaultfilters import slugify
 import urllib2
 import re
@@ -171,13 +170,13 @@ class Command(BaseCommand):
                             contributions = SortedDict()
                             for cont in candidate['contributions'][:5]:
                                 if float(cont['total_amount']) >= 0:
-                                    contributions[standardize_organization_name(cont['name'])] = cont['total_amount']
+                                    contributions[str(OrganizationNameCleaver(cont['name']).parse())] = cont['total_amount']
                             
                             # industry data
                             industries = SortedDict()
                             for cont in candidate['industries'][:5]:
                                 if float(cont['amount']) >= 0:
-                                    industries[standardize_industry_name(cont['name'])] = cont['amount']
+                                    industries[str(OrganizationNameCleaver(cont['name']).parse())] = cont['amount']
                             
                             #deal with the name
                             name_obj = PoliticianNameCleaver(candidate['name']).parse()

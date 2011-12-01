@@ -16,19 +16,22 @@
         	{% endif %}
         {% endif %}
     </span>
-    <a class="descriptor" title="More Information" href="#lobbyingDescriptor">Information</a>
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#lobbyingDescriptor">Information</a>
+        <div class="clear"></div>
+        <div class="descriptorText" id="lobbyingDescriptor">
+        	<p>Figures are based on lobbying activity reported to the Senate Office of Public Records. Reported dollar amounts are required to be accurate only to the nearest $20,000. For organizations whose primary business is lobbying, we display total income and top clients. For organizations that are not primarily lobbying firms, we display total amount spent on lobbying and top lobbying firms hired.</p>
+        	<p>For more information, please see our <a href="/about/methodology/lobbying">lobbying methodology</a> page.</p>
+        </div> 
+    </div>
     <div class="clear"></div>
-    <div class="descriptorText" id="lobbyingDescriptor">
-    	<p>Figures are based on lobbying activity reported to the Senate Office of Public Records. Reported dollar amounts are required to be accurate only to the nearest $20,000. For organizations whose primary business is lobbying, we display total income and top clients. For organizations that are not primarily lobbying firms, we display total amount spent on lobbying and top lobbying firms hired.</p>
-    	<p>For more information, please see our <a href="/about/methodology/lobbying">lobbying methodology</a> page.</p>
-    </div> 
     {% block lobbying_details_link %}
     {% endblock %}
 </div>
 
 
 <div class="chartModule withNav">
-    <span class="tip external">updated Jan. 28, 2010</span>
+    <span class="tip external">covers through Q2, 2011</span>
     {% if section.is_lobbying_firm %}
         <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
         <ul>

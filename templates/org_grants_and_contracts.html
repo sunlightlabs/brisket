@@ -4,17 +4,20 @@
 <div class="overviewBar withNav withTip">
     <h3 class="insideBar">Federal Spending</h3>
     <span class="amount">{{ section.gc_found_things|join:"; " }}</span>
-    <a class="descriptor" title="More Information" href="#spendingDescriptor">Information</a>
-    <div class="clear"></div>      
-    <div class="descriptorText" id='spendingDescriptor'>
-        <p>Federal grants, contracts and loans are reported by federal agencies using the FPDS and FAADS systems. The data is made available to the public at <a href="http://www.usaspending.gov/">USASpending.gov</a>. Please note that the completeness and quality of the data varies greatly by agency.</p>
-        <p>Only grants, contracts and loans with amounts over $1 million are shown.</p>
-        <p>Because company names are not reported in a standardized manner, we cannot reliably determine the company receiving the contract or award. The results shown here are based on a search for the company name. Individual records may be missed or erroneously included because of name variations. For more information, please see our <a href="/about/methodology/fed_spending">federal spending methodology</a> page.</p>
-    </div>      
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#spendingDescriptor">Information</a>
+        <div class="clear"></div>      
+        <div class="descriptorText" id='spendingDescriptor'>
+            <p>Federal grants, contracts and loans are reported by federal agencies using the FPDS and FAADS systems. The data is made available to the public at <a href="http://www.usaspending.gov/">USASpending.gov</a>. Please note that the completeness and quality of the data varies greatly by agency.</p>
+            <p>Only grants, contracts and loans with amounts over $1 million are shown.</p>
+            <p>Because company names are not reported in a standardized manner, we cannot reliably determine the company receiving the contract or award. The results shown here are based on a search for the company name. Individual records may be missed or erroneously included because of name variations. For more information, please see our <a href="/about/methodology/fed_spending">federal spending methodology</a> page.</p>
+        </div>  
+    </div>    
+    <div class="clear"></div>
 </div>
 
 <div class="chartModule withNav">
-    <span class="tip external">updated Jan. 28, 2010</span>
+    <span class="tip external">covers through USASpending.gov's September 1, 2011 release</span>
     {% if entity_info.totals.contract_count or entity_info.totals.grant_count %}
         <p class="tip">
     	    Note: Company names in federal spending data are not standardized. The table below is included only as a sample of what is available in the data and has not been reviewed for accuracy or completeness. To investigate the data further, use the links below to USA Spending or TransparencyData.com.

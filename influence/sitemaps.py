@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import index, sitemap
 from django.conf import settings
-from influence import names
+from influence import helpers
 from django.template.defaultfilters import slugify
 from django.http import HttpResponse
 import os
@@ -40,7 +40,7 @@ class EntitySitemap(Sitemap):
     
     def __init__(self):
         entity_type = self.entity_type or 'individual'
-        self.cleaner = names._standardizers[entity_type]
+        self.cleaner = helpers._standardizers[entity_type]
     
     def clean(self, string):
         return slugify(self.cleaner(string))

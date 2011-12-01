@@ -4,16 +4,19 @@
 <div class="overviewBar withNav withTip">
     <h3>Contractor Misconduct</h3>
     <span class="amount">{{ entity_info.totals.contractor_misconduct_count|intcomma }} Instances</span>
-    <a class="descriptor" title="More Information" href="#contractorMisconductDescriptor">Information</a>
-    <div class="clear"></div>
-    <div class="descriptorText" id='contractorMisconductDescriptor'>
-        <p>This information is collected by the <a href="http://www.pogo.org">Project On Government Oversight</a> from press releases, court documents, news reports and other public records. It is not meant to be an exhaustive account of all instances of federal contractor misconduct.</p>
-        <p>More information on each instance, including primary source documents, is available on POGO's site by clicking on the instance description. More information on POGO's methodology is available <a href="http://www.contractormisconduct.org/index.cfm/1,72,217,html">here</a>.</p>
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#contractorMisconductDescriptor">Information</a>
+        <div class="clear"></div>
+        <div class="descriptorText" id='contractorMisconductDescriptor'>
+            <p>This information is collected by the <a href="http://www.pogo.org">Project On Government Oversight</a> from press releases, court documents, news reports and other public records. It is not meant to be an exhaustive account of all instances of federal contractor misconduct.</p>
+            <p>More information on each instance, including primary source documents, is available on POGO's site by clicking on the instance description. More information on POGO's methodology is available <a href="http://www.contractormisconduct.org/index.cfm/1,72,217,html">here</a>.</p>
+        </div>
     </div>
+    <div class="clear"></div>
 </div><!-- end overviewBar -->
 
 <div class="chartModule withNav">
-    <span class="tip external">updated Jan. 28, 2010</span>
+    <span class="tip external">covers through POGO's September 29, 2011 release</span>
     {% include "contractor_misconduct_table.html" with contractor_misconduct=section.contractor_misconduct %}
 
     <div class="clear"></div>

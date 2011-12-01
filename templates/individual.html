@@ -16,7 +16,7 @@
   <meta name="og:title" content="{{ entity_info.name|standardize_individual_name }} | Influence Explorer">
   <meta name="og:description" content="{{ entity_info.name|standardize_individual_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.">
   <meta name="og:type" content="cause">
-  <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+  <meta name="og:image" content="http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png">
   <meta name="og:url" content="http://influenceexplorer.com/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
   <meta name="og:site_name" content="Influence Explorer">
   <meta name="fb:admins" content="7812952,5308565">
@@ -57,6 +57,7 @@ $(document).ready(function() {
         {% endif %}
     </div>
 </div>
+<div class="clear"></div>
 {% if entity_info.metadata.revolving_door_entity %}
 <dl class="related">
   <dt class="noshow">Lobbying Activity</dt>

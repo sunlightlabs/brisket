@@ -139,13 +139,14 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 #tools img { float: left; margin-right: 20px;}
 .toolDes { float: left; width: 280px;}
 
-#facebookIcon { background: url(../images/socialSprites.png) left -48px no-repeat;}
-#facebookIcon:hover { background: url(../images/socialSprites.png) left -32px no-repeat;}
-#twitterIcon { background: url(../images/socialSprites.png) left -16px no-repeat;}
-#twitterIcon:hover { background: url(../images/socialSprites.png) left top no-repeat; }
-#socialIcons { float: right; margin-bottom: 10px;}
-#socialIcons li { float: left; margin-right: 10px;}
-#socialIcons li a { text-indent: -9999em; display: block; width: 16px; height: 16px;}
+#socialIcons { float: right; height: 16px; margin-bottom: 10px; }
+.addthis_toolbox .at15t_facebook { background: url(../images/socialSprites.png) left -48px no-repeat !important; }
+.addthis_toolbox .at15t_facebook:hover { background: url(../images/socialSprites.png) left -32px no-repeat !important; }
+.addthis_toolbox .at15t_twitter { background: url(../images/socialSprites.png) left -16px no-repeat !important; }
+.addthis_toolbox .at15t_twitter:hover { background: url(../images/socialSprites.png) left top no-repeat !important; }
+.addthis_toolbox .at300b:hover { opacity: 1 !important; }
+.addthis_toolbox { width: auto; margin-right: 5px; }
+.addthis_toolbox a { padding: 0 5px !important;}
 
 #newsTitle { color: #b5c6c3; text-transform: lowercase; font-weight: normal; margin-bottom: -10px; padding-left: 40px;}
 #news { background: url(../images/bg_news.jpg) top left repeat-y; border-top: 1px solid #eae9e9; border-bottom: 1px solid #eae9e9; padding: 25px 40px;}
@@ -238,6 +239,7 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 .external a { padding-left: 5px; }
 
 .overviewBar { background: url(../images/overviewBar_2.png) top left repeat; padding-top: 10px; height: 35px; margin: 30px 0 40px; }
+.interiorMethodology { float: left; width: auto;}
 
 .module { padding: 0 40px;}
 .chartModule { padding: 0 5px 30px 40px; }
@@ -263,7 +265,7 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 
 .piechart { margin-top: 20px;}
 span.amount { float: left; margin-right: 5px;float: left; color: #797070; text-transform: uppercase; font-size: 140%; margin-right: 25px; margin-top: 1px;}
-a.descriptor { float: left; margin-left: 5px; font-size: 80%; margin-top: 1px; text-indent: -9999em; display: block; background: url(../images/btn_info.png) bottom left no-repeat; width: 16px; height: 17px;}
+a.descriptor { float: left; margin-left: 5px; font-size: 80%; margin-top: 3px; text-indent: -9999em; display: block; background: url(../images/btn_info.png) bottom left no-repeat; width: 16px; height: 17px;}
 #individualDisclaimer .descriptor { background: none; text-indent: 0; width: auto; font-size: 100%; text-align: right;}
 div.descriptorText { position: absolute; padding: 15px; -moz-border-radius: 3px; -webkit-border-radius: 3px; width: 300px; text-transform: none; font-size: 65%; background-color: #FAFAF8; border:1px solid #E2E2DC; margin-top: 10px; z-index: 100000; display: none; }
 #individualDisclaimer .descriptorText { font-size: 90%; }

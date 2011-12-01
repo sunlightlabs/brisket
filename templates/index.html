@@ -19,21 +19,19 @@
 
 {% block main %}
     <h2 id="FeatureText">Explore companies, lawmakers and prominent individuals that matter to you and see how they're influencing the political system</h2>
-    
     <h3 id="newsTitle">What's New</h3>
-      <div id="newsWrapper"> 
-          <div id="news">  
-              <div class="colOne">
-                  <p>Influence Explorer now includes two new datasets for tracking corporate influence in policy making. Our  regulations section tracks companies' official public comments on federal rulemakings. You can use it to, for example, <a href="/organization/glaxosmithkline/bfe12136b1e042cbbec042cfcd33901c#regulations_section">see what big drug companies are saying to the FDA</a>. Our advisory committe section shows when employees of a company sit on federal advisory boards. Try looking up <a href="/organization/bank-of-america/878b4d98431344de88d8fb9757043a95?cycle=-1#faca_section">the advisory roles of employees of big banks</a>.</p>
-                  <p>There's also a new section on environmental enforcement actions from the EPA. Lots of big companies have <a href="/organization/exxon-mobil/819555dfc3d449d2be54286f0cb385e2#epa_echo_section">received hefty fines from the EPA</a>.</p>
-              </div>    
-          </div>  
-      </div>
+    <div id="newsWrapper"> 
+        <div id="news">  
+            <div class="colOne">
+                <p>Influence Explorer now includes data on <strong>lobbyist bundling</strong>: lobbyist and lobbying firms that collect contributions from other donors on behalf of politicians. Through bundling, an donor who could normally only give a limited amount of money is able to present a candidate with far larger amounts of money. To get started, <a href="/fec/bundling"> check out our overview of lobbyist bundling data</a>, or look for the new Bundled Contributions table on <a href="/politician/charles-e-schumer/e708669995e844af90f205003683f2fa">politician pages</a>, <a href="/individual/wolff-brian/6e0982b0356b44f4b5e0daf0a69d855c">lobbyist pages</a> and <a href="/organization/brownstein-hyatt-et-al/5157dce66d0440c58087a4fa9e5d1c40">lobbying firm pages</a>.</p>
+            </div>    
+        </div>  
+    </div>
     <div id="featureContent" class="chartModule">
-        <ul>         
+        <ul>
             <li id="topPages">
                 <h3 class="withTip">Top Pages</h3>
-                <span class="tip shift">check out what other people are exploring the most</span>
+                <span class="tip shift">check out what's being explored</span>
                 <ul class="shift normalList">
                     {% for page in top_pages %}
                         <li>
@@ -41,7 +39,7 @@
                         </li>
                     {% endfor %}
                 </ul>    
-            </li>  
+            </li>
             <li id="tools">
                 <h3 class="withTip">Tools</h3>
                 <span class="tip shift">bring influence data to your email, banking and news</span>
@@ -69,18 +67,18 @@
                             <p>See connections between money and politics in news articles you read everyday.</p>
                         </div>
                         <div class="clear"></div>
-                    </li> 
-                </ul>    
+                    </li>
+                </ul>
             </li>
-              <li class="clear" id="explored">
-                    <h3 class="withTip"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a></h3>
-                    <span class="tip shift">regularly updated news and analysis using Influence Explorer</span>
-                    <h4 class="withTip shift"><a href="#">{{entry.title|safe}}</a></h4>
-                    <time class="published entryMetaData shift" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
-                    <div class="colOne shift">{{entry.summary|safe|removetags:"img"|truncatewords_html:200}} <a href="#">Read More</a></div>
-                </li>
-        </ul>  
-        <div class="clear"></div>  
-    </div> 
+            <li class="clear" id="explored">
+                <h3 class="withTip"><a href="http://sunlightfoundation.com/blog/taxonomy/term/influence-explorer/">Influence Explored</a></h3>
+                <span class="tip shift">regularly updated news and analysis using Influence Explorer</span>
+                <h4 class="withTip shift"><a href="{{ entry.link }}">{{entry.title|safe}}</a></h4>
+                <time class="published entryMetaData shift" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
+                <div class="colOne shift">{{entry.summary|safe|removetags:"img"|truncatewords_html:200}} <a href="{{ entry.link }}">Read More</a></div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
 
 {% endblock %}
