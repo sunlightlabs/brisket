@@ -66,13 +66,14 @@ MIDDLEWARE_CLASSES = (
 #    'django.contrib.sessions.middleware.SessionMiddleware',
     'postcards.cookie.SessionMiddleware',
     'influence.middleware.RequestLoggingMiddleware',
-    'influence.middleware.DataRedirectMiddleware',
+    'data.middleware.DataRedirectMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'influence.context_processors.custom_context',
+    'data.context_processors.custom_context',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',

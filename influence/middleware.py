@@ -70,10 +70,3 @@ class RequestLoggingMiddleware():
 
     def should_log(self, request):
         return not re.match(r'(^/media|^/simplepay|.*\.ico$)', request.path)
-
-
-class DataRedirectMiddleware(object):
-    def process_request(self, request):
-        if request.META['HTTP_HOST'].startswith('data.') or request.META['SERVER_PORT'] == '8100':
-            request.urlconf = 'brisket.data.urls'
-        return None
