@@ -54,7 +54,7 @@
                 <header>
                     {% block search %}
                     {% endblock %}
-                    <h1><a id="logo" href="/">Influence Explorer</a></h1>
+                    <h1><a id="logo" href="{{ IE_BASE_URL }}">Influence Explorer</a></h1>
                     <!-- <ul class="clear" id="socialIcons">
                         <li id="facebookIcon"><a href="#">facebook</a></li>
                         <li id="twitterIcon"><a href="#">twitter</a></li>
@@ -69,11 +69,11 @@
                     <!-- AddThis Button END -->
                     <nav class="clear">
                         <ul>
-                            <li id="people"><a href="/people">People</a></li>
-                            <li id="orgs"><a href="/organizations">Organizations</a></li>
-                            <li id="politicians"><a href="/politicians">Politicians</a></li>
-	                        <li id="industries"><a href="/industries">Industries</a></li>
-	                        <li id="data"><a href="http://data.influenceexplorer.com">Data</a></li>
+                            <li id="people"><a href="{{ IE_BASE_URL }}people">People</a></li>
+                            <li id="orgs"><a href="{{ IE_BASE_URL }}organizations">Organizations</a></li>
+                            <li id="politicians"><a href="{{ IE_BASE_URL }}politicians">Politicians</a></li>
+	                        <li id="industries"><a href="{{ IE_BASE_URL }}industries">Industries</a></li>
+	                        <li id="data"><a href="{{ DATA_BASE_URL }}">Data</a></li>
                         </ul>
                     </nav>
                 </header>
@@ -93,8 +93,8 @@
                 <div id="footerLinks">
                     <nav>
                         <ul>
-                            <li id="aboutLink"><a href="/about/">About</a></li>
-                            <li><a href="/contact/">Contact</a></li>
+                            <li id="aboutLink"><a href="{{ IE_BASE_URL }}about/">About</a></li>
+                            <li><a href="{{ IE_BASE_URL }}contact/">Contact</a></li>
                         </ul>
                     </nav>
                     <div id="sunlightRequests">
