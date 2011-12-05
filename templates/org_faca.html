@@ -63,7 +63,7 @@
         Members:
         <ul class="advisoryMembers">
             <% for (var j = 0; j < documents[i].memberships.length; j++) { %>
-              <li><%=documents[i].memberships[j].member_name%> <span class="tip withCaps">(<%=documents[i].memberships[j].affiliation%>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%>)</span></li>
+              <li><%=documents[i].memberships[j].member_name%> <span class="tip withCaps">(<%=documents[i].memberships[j].affiliation%><% if (documents[i].memberships[j].start_date) { %>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%><% } %>)</span></li>
             <% } %>
         </ul>
       </td>
