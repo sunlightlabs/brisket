@@ -149,9 +149,9 @@ MEDIASYNC['JOINED'] = {
         'js/jquery.tablesorter.min.js',
         'js/underscore-1.0.2.min.js',
         'js/g.raphael.js',
-        'js/g.pie.js',
-        'js/g.bar.patched.js',
-        'js/g.line.js',
+        'js/g.pie-min.js',
+        'js/g.bar.js',
+        'js/g.line-min.js',
         'js/brisket_charts.js',
         'js/brisket.js',
     ]

@@ -14,7 +14,7 @@ function piechart(div, data, type) {
 
     // data is expected as a dict.
     var r = Raphael(div);
-    r.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
+    r.raphael.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
     var party_colors = {"Republicans": "#E60002", "Democrats": "#186582", "Other" : "#DCDDDE"};
     var other_colors = ["#EFCC01","#F2E388"];
@@ -62,8 +62,8 @@ function piechart(div, data, type) {
     var labels = _.map(slices, function(s){ return s.label; });
     var values = _.map(slices, function(s){ return s.value; });
     var colors = _.map(slices, function(s){ return s.color; });
-
-    pie = r.g.piechart(58, 58, 54, values, {
+    
+    pie = r.piechart(58, 58, 54, values, {
         legend: labels,
         legendpos: "east",
         colors: colors,
@@ -149,9 +149,9 @@ function barchart(div, data) {
 
     b = Raphael(div);
     b.setSize(sizes.chart_x + sizes.chart_width + sizes.right_gutter, sizes.chart_y + sizes.chart_height);
-    b.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
+    b.raphael.g.txtattr.font = "11px 'Fontin Sans', Fontin-Sans, sans-serif";
 
-    var barchart_obj = b.g.hbarchart(sizes.chart_x, sizes.chart_y, sizes.chart_width, sizes.chart_height, data_series, opts);
+    var barchart_obj = b.hbarchart(sizes.chart_x, sizes.chart_y, sizes.chart_width, sizes.chart_height, data_series, opts);
     barchart_obj.label(data_labels, false);
 
     var num_datasets = barchart_obj.bars.length;
@@ -188,7 +188,7 @@ function barchart(div, data) {
             var x = barchart_obj.bars[num_datasets-1][i].x;
             var y = barchart_obj.bars[num_datasets-1][i].y;
             text = dollar(data[i]['value']);
-            marker = b.g.text(x,y,text);
+            marker = b.text(x,y,text);
             marker.attr("fill", "#666666");
             s.push(marker);
         }
@@ -222,7 +222,7 @@ function sparkline(div, data) {
         x[i] = data[i]['step'];
         y[i] = data[i]['amount'];
     }
-    r.g.linechart(0, 1, 100, 30, x, y, { width: 1, gutter: 1 });
+    r.linechart(0, 1, 100, 30, x, y, { width: 1, gutter: 1 });
 }
 
 function sparkline_by_party(div, data, cut_off_point) {
@@ -269,7 +269,7 @@ function sparkline_by_party(div, data, cut_off_point) {
         return;
     }
 
-    r.g.linechart(0, 1, 100, 30, x, [y['D'], y['R']], { colors: party_colors, width: 1, gutter: 1 });
+    r.linechart(0, 1, 100, 30, x, [y['D'], y['R']], { colors: party_colors, width: 1, gutter: 1 });
 
     // the legend is hidden by default, in case we had the aforementioned all-zero situation
     // so show it now
