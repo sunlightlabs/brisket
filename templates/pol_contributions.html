@@ -2,26 +2,52 @@
 {% load influence_extras %}
 
 {% if section.fec_summary %}
-<li class="twoColumn">
-    <dl>
-        <dd>Total Raised:</dd>
-            <dt>${{ section.fec_summary.total_raised|floatformat:0|intcomma }}</dt>
-        <dd>...from individuals:</dd>
-            <dt>${{ section.fec_summary.contributions_indiv|floatformat:0|intcomma }}</dt>
-        <dd>...from PACs:</dd>
-            <dt>${{ section.fec_summary.contributions_pac|floatformat:0|intcomma }}</dt>
-        <dd>...from party:</dd>
-            <dt>${{ section.fec_summary.contributions_party|floatformat:0|intcomma }}</dt>
-        <dd>...from candidate self-financing:</dd>
-            <dt>${{ section.fec_summary.contributions_candidate|floatformat:0|intcomma }}</dt>
-        <dd>Transfers in:</dd>
-            <dt>${{ section.fec_summary.transfers_in|floatformat:0|intcomma }}</dt>
-        <dd>Disbursements:</dd>
-            <dt>${{ section.fec_summary.disbursements|floatformat:0|intcomma }}</dt>
-        <dd>Cash on hand:</dd>
-            <dt>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}</dt>
-    </dl>
+<li class="oneColumn">
+    <h4>FEC Contributions</h4>
+    <span class="tip">The latest tallies straight from the FEC.</span>
+    <table>
+        <tr>
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+        <tr class="even">
+            <td>Individuals Contributions</td>
+            <td>${{ section.fec_summary.contributions_indiv|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="odd">
+            <td>PAC Contributions</td>
+            <td>${{ section.fec_summary.contributions_pac|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="even">
+            <td>Party Contributions</td>
+            <td>${{ section.fec_summary.contributions_party|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="odd">
+            <td>Candidate Self-Financing</td>
+            <td>${{ section.fec_summary.contributions_candidate|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="even">
+            <td>Incoming Transfers</td>
+            <td>${{ section.fec_summary.transfers_in|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="odd">
+            <td>Disbursements</td>
+            <td>${{ section.fec_summary.disbursements|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="even">
+            <td>Total Raised</td>
+            <td>${{ section.fec_summary.total_raised|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="odd">
+            <td>Cash on Hand</td>
+            <td>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}</td>
+        </tr>
+    </table>
 </li>
+<li class="twoColumn chart">
+    
+</li>
+<div class="clear"></div>
 {% endif %}
 
 <li class="twoColumn chart">
