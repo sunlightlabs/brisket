@@ -528,6 +528,19 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
 
     if int(cycle) == LATEST_CYCLE:
         section['fec_summary'] = api.pol.fec_summary(entity_id)
+        
+        timelines = []
+        for pol in api.pol._get_url_json('aggregates/pol/%s/fec_timeline.json' % entity_id):
+            tl = {
+                'name': pol['candidate_name'],
+                'party': pol['party'],
+                'is_this': pol['entity_id'] == entity_id,
+                'timeline': map(lambda item: item if item >= 0 else 0, pol['timeline']),
+            }
+            tl['sum'] = sum(tl['timeline'])
+            timelines.append(tl)
+        timelines.sort(key=lambda t: (int(t['is_this']), t['sum']), reverse=True)
+        section['fec_timelines'] = json.dumps(timelines)
 
     return section
 

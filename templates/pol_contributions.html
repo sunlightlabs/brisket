@@ -3,7 +3,7 @@
 
 {% if section.fec_summary %}
 <li class="oneColumn">
-    <h4>FEC Contributions</h4>
+    <h4 class="withTip">FEC Summary</h4>
     <span class="tip">The latest tallies straight from the FEC.</span>
     <table>
         <tr>
@@ -44,10 +44,44 @@
         </tr>
     </table>
 </li>
-<li class="twoColumn chart">
-    
+<li class="twoColumn">
+    <h4 class="withTip">Contributions Over Time</h4>
+    <span class="tip">How this candidate's receipts compare to competitors in this election cycle.</span>
+    <div id="fec_linechart"></div>
 </li>
 <div class="clear"></div>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+(function() {
+    var fec_data = {{ section.fec_timelines|safe }};
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(function() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Week');
+        var longest = 0;
+        _.each(fec_data, function(pol) {
+            data.addColumn('number', pol.name);
+            if (pol.timeline.length > longest) {
+                longest = pol.timeline.length;
+            }
+        })
+        data.addRows(longest);
+        for (var i = 0; i < longest; i++) {
+            data.setValue(i, 0, "Week " + (i + 1));
+        }
+        _.each(fec_data, function(pol, idx) {
+            for (var i = 0; i < pol.timeline.length; i++) {
+                data.setValue(i, idx + 1, pol.timeline[i]);
+            }
+        });
+
+        var chart = new google.visualization.LineChart(document.getElementById('fec_linechart'));
+        chart.draw(data, {width: 520, height: 300, chartArea: {left: 75, width: 275}, vAxis: {minValue: 0}, hAxis: {textPosition: 'none'}});
+    });
+})();
+</script>
+
+
 {% endif %}
 
 <li class="twoColumn chart">
