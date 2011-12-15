@@ -556,7 +556,7 @@ TD.DataFilter.prototype.bindDownload = function(sel) {
             if (!that.shouldUseBulk() && !that.exceedsExcelLimit()) {
                 $('#downloading').dialog('open');
                 var qs = TD.Utils.toOrderedQueryString(that.orderedValues());
-                window.location.replace("/" + that.path + "/download/?" + qs);
+                window.location.replace(TD.DATA_API_BASE_URL + that.path + "/download/?" + qs);
             }
         }
         return false;
