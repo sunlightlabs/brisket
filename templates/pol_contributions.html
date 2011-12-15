@@ -5,7 +5,7 @@
 <li class="twoColumn">
     <dl>
         <dd>Total Raised:</dd>
-            <dt>${{ section.fec_summary.total_raised|floatformat:0|intcomma }}</dt>
+            <dt>${{ section.fec_summary.total_raised|floatformat:0|intcomma }} ({{section.fec_summary.rank}} out of {{section.fec_summary.max_rank}})</dt>
         <dd>...from individuals:</dd>
             <dt>${{ section.fec_summary.contributions_indiv|floatformat:0|intcomma }}</dt>
         <dd>...from PACs:</dd>
