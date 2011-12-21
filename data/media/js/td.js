@@ -701,7 +701,7 @@ TD.DataFilter.prototype.preview = function() {
                     $('span#recordCount').html(data.length);
                 } else {
                     that.downloadNode.addClass('calculating');
-                    $.get(TD.DATA_API_BASE_URL + that.path + "/count/", qs, function(data) {
+                    $.getJSON(TD.DATA_API_BASE_URL + that.path + "/count/?callback=?", qs, function(data) {
                         that.downloadNode.removeClass('calculating').addClass('enabled');
                         that.recordCount = parseInt(data);
                         $('span#recordCount').html(data);
