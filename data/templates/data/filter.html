@@ -59,12 +59,23 @@
     	</div>
         <div class="clear"></div>
     </div>
-	{% block dataset_scripts %}
-	{{ block.super }}
-	{% js "data/3rdparty.js" %}
-	<script type="text/javascript">
-	TD.DATA_API_BASE_URL = "{{ DATA_API_BASE_URL }}";
-	$(function() { $('#dataTabs li a.{% block bodyid %}{% endblock %}').parent().addClass('active'); });
-	</script>
-	{% endblock %}
+    {% block dataset_scripts %}
+    {{ block.super }}
+    {% js "data/3rdparty.js" %}
+    <script type="text/javascript">
+        TD.DATA_API_BASE_URL = "{{ DATA_API_BASE_URL }}";
+        $(function() {
+            $('#dataTabs li a.{% block bodyid %}{% endblock %}').parent().addClass('active');
+            /* scroll to the top of the filter box; animate it in Mozilla and Webkit, straight jump elsewhere */
+            var top = $('#datafilter').offset().top;
+            if ($.browser.mozilla) {
+                $('html').animate({'scrollTop': top}, 'ease');
+            } else if ($.browser.webkit) {
+                $('body').animate({'scrollTop': top}, 'ease');
+            } else {
+                $(document).scrollTop(top);
+            }
+        });
+    </script>
+    {% endblock %}
 {% endblock %}
