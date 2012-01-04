@@ -9,7 +9,7 @@ def custom_context(request):
         out['DATA_BASE_URL'] = "/"
         
         # did we get here via redirect? if so, show doormat
-        out['is_redirect'] = 'redirect' in request.GET or out['IE_BASE_URL'] in request.META.get('HTTP_REFERER', '')
+        out['is_redirect'] = 'r' in request.GET
     else:
         # we're on IE, so it's the reverse
         out['IE_BASE_URL'] = "/"
