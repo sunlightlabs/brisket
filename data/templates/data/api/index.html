@@ -25,6 +25,14 @@
     <div id="ltColumn" class="withTabs">
         {% block docs %}
             <div class="section">
+                <p>The Transparency Data API provides programmatic access to all data (both raw and aggregate) available on Influence Explorer.  All of its endpoints are structured as follows:
+                <pre class="literal-block">
+                http://transparencydata.com/api/1.0/<i>&lt;method&gt;</i>.<i>&lt;format&gt;</i>
+                </pre>
+                The methods and formats available are listed in the categories at left.  Note that while the user-facing functionality formerly hosted at the transparencydata.com address has now been integrated into Influence Explorer, transparencydata.com continues to be the domain where our data APIs are hosted.
+                </p>
+            </div>
+            <div class="section">
                 <h3>License</h3>
                 <p>Data returned by this service is subject to the use restrictions set by the Federal Election Commission. By accessing this data, you understand that you are using the data subject to all applicable local, state and federal law, including FEC restrictions.</p>
                 <p>All data licensed under the Creative Commons BY-NC-SA license. By downloading data and accessing the API you are agreeing to the terms of the license.</p>
@@ -36,7 +44,7 @@
                 <p>An API key is required to access the Transparency Data API. <a href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.</p>
                 <p>The API key <em>must</em> be an <tt class="docutils literal">apikey</tt> query string parameter. Example:</p>
                 <pre class="literal-block">
-        http://transparencydata.com/api/1.0/contributions.csv?apikey=&lt;key&gt;&amp;...
+        http://transparencydata.com/api/1.0/contributions.csv?apikey=<i>&lt;key&gt;</i>&amp;...
                 </pre>
             </div>
             <div class="section" id="common-parameters">
