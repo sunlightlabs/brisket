@@ -720,3 +720,5 @@ table .even.numerous{
 #infoPopup { background-color: #fbfbd0; border: 3px solid #ebe912; padding: 15px 20px 5px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; margin: 0 40px 40px; -moz-border-radius: 10px; -webkit-border-radius: 10px; }
 #closeBtn { background: url(../images/btn_close.png) top left no-repeat; width: 33px; height: 33px; float: right; top: -27px; position: relative;}
 #closeBtn:hover { background: url(../images/btn_close.png) bottom left no-repeat; }
+
+.tdata .pre, .tdata pre.literal-block { display: block; white-space: nowrap; overflow: auto;}
