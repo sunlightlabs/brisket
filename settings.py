@@ -65,13 +65,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
 #    'django.contrib.sessions.middleware.SessionMiddleware',
     'postcards.cookie.SessionMiddleware',
-    'influence.middleware.RequestLoggingMiddleware',
+    'data.middleware.DataRedirectMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'influence.context_processors.custom_context',
+    'data.context_processors.custom_context',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
@@ -108,6 +109,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'feedinator',
     'fec',
+    'data',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -154,7 +156,86 @@ MEDIASYNC['JOINED'] = {
         'js/g.line.js',
         'js/brisket_charts.js',
         'js/brisket.js',
-    ]
+    ],
+    'data/css/all.css': [
+        'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
+        'data/css/jquery.autocomplete.css',
+        'data/css/main.css',
+    ],
+    'data/css/3rdparty.css': [
+        'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
+        'data/css/jquery.autocomplete.css',
+    ],
+    'data/3rdparty.js': [
+        'data/js/jquery-ui-1.7.2.custom.min.js',
+        'data/js/jquery.currency.js',
+        'data/js/jquery.expander.js'
+    ],
+    'data/3rdparty_old.js': [
+        'data/js/jquery-1.4.2.min.js',
+        'data/js/jquery-ui-1.7.2.custom.min.js',
+        'data/js/jquery.currency.js',
+        'data/js/underscore-min.js',
+        'data/js/jquery.expander.js'
+    ],
+    'data/contracts.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contracts.js'
+    ],
+    'data/contractor_misconduct.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contractor_misconduct.js'
+    ],
+    'data/contributions.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contributions.js'
+    ],
+    'data/earmarks.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.earmarks.js'
+    ],
+    'data/grants.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.grants.js'
+    ],
+    'data/lobbying.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.lobbying.js'
+    ],
+    'data/faca.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.faca.js'
+    ],
+    'data/bundling.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.bundling.js'
+    ],
+    'data/epa_echo.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.epa_echo.js'
+    ],
+    'data/index.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contracts.js',
+        'data/js/td.earmarks.js',
+        'data/js/td.grants.js',
+        'data/js/td.lobbying.js',
+        'data/js/td.contributions.js',
+        'data/js/td.contractor_misconduct.js',
+        'data/js/td.epa_echo.js',
+        'data/js/td.faca.js',
+        'data/js/td.bundling.js'
+    ],
 }
 
 from influenceexplorer import InfluenceExplorer

@@ -1,0 +1,141 @@
+{% extends "data/api/index.html" %}
+
+{% block docs %}
+    <h3 class="title">Federal Lobbying</h3>
+
+    <div class="section">
+        <h4 class="withTip">End Point</h4>
+        <p class="tip"><strong>Lobbying data is not available in CSV since its nested structure does not lend itself to the format.</strong></p>
+        <p>JSON response format:</p>
+        <pre class="literal-block">
+            http://transparencydata.com/api/1.0/lobbying.json
+        </pre>
+        <p>Excel response format:</p>
+        <pre class="literal-block">
+            http://transparencydata.com/api/1.0/lobbying.xls
+        </pre>
+    </div>
+    
+    <div class="section">
+        <h4>Parameters</h4>
+        <dl>
+            <dt>amount</dt>
+            <dd><p class="first">The amount spent on lobbying in US dollars in one of the following formats:</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="20%" />
+                        <col width="80%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th class="head">Example</th>
+                            <th class="head">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>500</td>
+                            <td>exactly 500 dollars</td>
+                        </tr>
+                        <tr><td>&gt;|500</td>
+                            <td>greater than or equal to 500</td>
+                        </tr>
+                        <tr><td>&lt;|500</td>
+                            <td>less than or equal to 500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>client_ft</dt>
+            <dd>Full-text search on the name of the client for which the lobbyist is working.</dd>
+            
+            <dt>client_parent_ft</dt>
+            <dd>Full-text search on the name of the parent organization of the client.</dd>
+            
+            <dt>filing_type</dt>
+            <dd><p class="first">Type of filing as identified by CRP. CRP recommends the following rules be used:</p>
+                <ul class="bulleted">
+                    <li>Do not total e records unless they are larger than the associated s record.</li>
+                    <li>Count c records in both total and industry when filing_included_nsfs is <tt class="docutils literal">n</tt>. Don't count it in total or industry when filing_included_nsfs is <tt class="docutils literal">y</tt>.</li>
+                    <li>Count b records in both total and industry when filing_included_nsfs is <tt class="docutils literal">n</tt>. Exclude from total and include in industry but subtract it from the total of the parent when filing_included_nsfs <tt class="docutils literal">y</tt>.</li>
+                </ul>
+                <table border="1">
+                    <colgroup>
+                        <col width="5%" />
+                        <col width="95%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th class="head">Code</th>
+                            <th class="head">Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>n</td>
+                            <td>non self filer parent</td>
+                        </tr>
+                        <tr><td>m</td>
+                            <td>non self filer subsidiary for a non self filer parent</td>
+                        </tr>
+                        <tr><td>x</td>
+                            <td>self filer subsidiary for a non self filer parent</td>
+                        </tr>
+                        <tr><td>p</td>
+                            <td>self filer parent</td>
+                        </tr>
+                        <tr><td>i</td>
+                            <td>non self filer for a self filer parent that has same catorder as the parent</td>
+                        </tr>
+                        <tr><td>s</td>
+                            <td>self filer subsidiary for a self filer parent</td>
+                        </tr>
+                        <tr><td>e</td>
+                            <td>non self filer subsidiary for a self file subsidiary</td>
+                        </tr>
+                        <tr><td>c</td>
+                            <td>non self filer subsidiary for a self filer parent with same catorder</td>
+                        </tr>
+                        <tr><td>b</td>
+                            <td>non self filer subsidiary for a self filer parent that has different catorder</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+            
+            <dt>lobbyist_ft</dt>
+            <dd>Full-text search on the name of the lobbyist involved in the lobbying activity.</dd>
+            
+            <dt>registrant_ft</dt>
+            <dd>Full-text search on the name of the person or organization filing the lobbyist registration. This is typically the firm that employs the lobbyists. Use the registrant_is_firm field to filter on firms v. individuals.</dd>
+            
+            <dt>transaction_id</dt>
+            <dd>Report ID given by the Senate Office of Public Records.</dd>
+            
+            <dt>transaction_type</dt>
+            <dd>The type of filing as reported by the Senate Office of Public Records.
+            <a class="reference external" href="http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv">http://assets.transparencydata.org.s3.amazonaws.com/docs/transaction_types-20100402.csv</a></dd>
+            
+            <dt>year</dt>
+            <dd>
+            <p class="tip">The year in which the registration was filed. A YYYY formatted year, 1998 - 2010.</p>
+                <table border="1">
+                    <colgroup>
+                        <col width="43%" />
+                        <col width="57%" />
+                    </colgroup>
+                    <thead valign="bottom">
+                        <tr><th class="head">Example</th>
+                            <th class="head">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody valign="top">
+                        <tr><td>2006</td>
+                            <td>2006</td>
+                        </tr>
+                        <tr><td>2006|2008</td>
+                            <td>2006 OR 2008</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </dd>
+        </dl>
+    </div>
+{% endblock %}

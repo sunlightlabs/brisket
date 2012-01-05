@@ -1,0 +1,78 @@
+{% extends "search_base.html" %}
+{% block body_class %}tdata api{% endblock %}
+
+{% block pagetitle %}
+    Data: API | 
+{% endblock %}
+
+{% block main %}
+    {% include "data/second_nav.html" %}
+    <div id="contentHeader">
+        <h2>API</h2>
+    </div>
+    <div id="description" class="module">
+        <p>Register for an API key at <a href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a>. This key can be used to access all of the <a href="http://sunlightlabs.com">Sunlight Labs</a> data APIs.</p>
+    </div>   
+    <div id="dataTabs" class="clear">
+        <ul>
+            {% for page in API_SECTIONS %}
+                {% if page.path == request.META.PATH_INFO %}
+                <li class="active">     
+                {% else %}
+                <li>
+                {% endif %}
+                    <a href="{{ page.path }}">{{ page.title }}</a>
+                </li>
+            {% endfor %} 
+        </ul>
+    </div> 
+    <div id="ltColumn" class="withTabs">
+        {% block docs %}
+            <div class="section">
+                <p>The Transparency Data API provides programmatic access to all data (both raw and aggregate) available on Influence Explorer.  All of its endpoints are structured as follows:
+                <pre class="literal-block">
+                http://transparencydata.com/api/1.0/<i>&lt;method&gt;</i>.<i>&lt;format&gt;</i>
+                </pre>
+                The methods and formats available are listed in the categories at left.  Note that while the user-facing functionality formerly hosted at the transparencydata.com address has now been integrated into Influence Explorer, transparencydata.com continues to be the domain where our data APIs are hosted.
+                </p>
+            </div>
+            <div class="section">
+                <h3>License</h3>
+                <p>Data returned by this service is subject to the use restrictions set by the Federal Election Commission. By accessing this data, you understand that you are using the data subject to all applicable local, state and federal law, including FEC restrictions.</p>
+                <p>All data licensed under the Creative Commons BY-NC-SA license. By downloading data and accessing the API you are agreeing to the terms of the license.</p>
+                <p>Federal campaign contribution and lobbying records must be attributed to OpenSecrets.org.</p>
+                <p>State campaign contribution records must be attributed to FollowTheMoney.org.</p>
+            </div>
+            <div class="section">
+                <h3>Authentication</h3>
+                <p>An API key is required to access the Transparency Data API. <a href="http://services.sunlightlabs.com/accounts/register/">Registration is easy</a> and if you already have a <a href="http://services.sunlightlabs.com/accounts/register/">Sunlight Data Services</a> key you can use it here.</p>
+                <p>The API key <em>must</em> be an <tt class="docutils literal">apikey</tt> query string parameter. Example:</p>
+                <pre class="literal-block">
+        http://transparencydata.com/api/1.0/contributions.csv?apikey=<i>&lt;key&gt;</i>&amp;...
+                </pre>
+            </div>
+            <div class="section" id="common-parameters">
+                <h3>Common Parameters</h3>
+                <p>These parameters are common to all API methods.</p>
+                <dl class="docutils">
+                    <dt>apikey</dt>
+                    <dd>Required if the <tt class="docutils literal"><span class="pre">X-APIKEY</span></tt> HTTP header is not used.</dd>
+            
+                    <dt class="clear">page</dt>
+                    <dd>The page of results to return; defaults to 1.</dd>
+            
+                    <dt class="clear">per_page</dt>
+                    <dd>The number of results to return per page, defaults to 1,000. The maximum number of records per page is 100,000.</dd>
+                </dl>
+            </div>
+            <div class="section">
+                <h3>Client Libraries</h3>
+                <ul class="normalList">
+                    <li><a href="http://github.com/dqminh/transparencydata-php">PHP</a> by Dao Quang Minh</li>
+                    <li><a href="http://github.com/sunlightlabs/python-transparencydata">Python</a></li>
+                    <li><a href="http://github.com/pengwynn/transparency-data">Ruby</a> by Wynn Netherland and Luigi Montanez</li>
+                </ul>
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}

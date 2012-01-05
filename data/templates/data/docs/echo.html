@@ -1,0 +1,57 @@
+{% extends "data/docs/index.html" %}
+
+{% block docsContent %}
+    <h3 class="withTip">EPA ECHO Schema</h3>
+    <p class="tip">More details about the individual fields in the source data is available from the <a href="http://www.epa-echo.gov/ideadownloads/2010/ICI_Data_Download_Description_May_2010.pdf">ICIS-FE&C Data Description</a>. ICIS field names are given in parentheses.</p>
+
+    <dl>
+        <dt>case_name (ENFOCNM)</dt>
+	    <dd>the name given to the case by the lead attorney.</dd>
+	    
+        <dt>case_num (ENFOCNU)</dt>
+	    <dd>a unique identifier for the case. Can be used to look up more details on the case on the <a href="http://www.epa-echo.gov/echo/compliance_report_icis.html">ECHO search page</a>.</dd>
+	    
+        <dt>defendants (DEFENNM)</dt>
+	    <dd>a semicolon-separated list of company names listed as defendants. There are often many defendants on a single case, and the data do not indicate how a fine was split between defendants.</dd>
+	    
+        <dt>first_date (SUBACAD)</dt>
+	    <dd>the earliest milestone date associated with this case.</dd>
+	    
+        <dt>first_date_significance (SUBACTY)</dt>
+	    <dd>a description of the event to which the first date corresponds.</dd>
+	    
+        <dt>last_date (SUBACAD)</dt>
+	    <dd>the last milestone date associated with this case.</dd>
+	    
+        <dt>last_date_significance (SUBACTY)</dt>
+	    <dd>a description of the event to which the last date corresponds.</dd>
+	    
+        <dt>location_addresses (FCLTYAD, FCLTCIT and FCLTSTC)</dt>
+	    <dd>a semicolon-separated list of street addresses for the facilities involved in the case.</dd>
+	    
+        <dt>num_defendants (count of DEFENNM)</dt>
+	    <dd>the number of defendant companies.</dd>
+	    
+        <dt>penalty (ENFCCAA, ENFCRAA, ENFOTPA and ENFOTSA)</dt>
+	    <dd>the total penalty assessed. This includes all penalty types described below except for ENFOPS. Note that the data do not show how the various penalties were split among defendants.</dd>
+	    
+        <dt>penalty_enfccaa (ENFCCAA)</dt>
+	    <dd>amount spent by the company to upgrade its facilities so it is no longer breaking the environmental rules.</dd>
+	    
+        <dt>penalty_enfcraa (ENFCRAA)</dt>
+	    <dd>amount paid to cover the EPA's costs as they plan to cleanup, investigate, monitor the site, etc. This process is called "cost recovery."</dd>
+	    
+        <dt>penalty_enfops (ENFOPS)</dt>
+	    <dd>the total penalty amount sought.</dd>
+	    
+        <dt>penalty_enfotpa (ENFOTPA)</dt>
+	    <dd>fine amount levied by the federal government.</dd>
+	    
+        <dt>penalty_enfotsa (ENFOTSA)</dt>
+	    <dd>cost of an environmentally friendly project or projects the company has agreed to take on to try to make up for the environmental damage.</dd>
+	    
+        <dt>penalty_enfcslp (ENFCSLP)</dt>
+	    <dd>penalty amount for states or local agencies in the settlements.</dd>
+    </dl>
+{% endblock %}
+

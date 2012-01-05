@@ -1,0 +1,35 @@
+{% extends "data/filter.html" %}
+{% load media %}
+
+{% block bodyid %}earmarks{% endblock %}
+{% block dataset_name %}Earmarks{% endblock %}
+
+{% block table_header %}
+	<th>Fiscal Year</th>
+	<th>Final Amount</th>
+	<th>Location</th>
+	<th>Description</th>
+	<th>Requesting Members</th>
+{% endblock %}
+
+{% block dataset_license %}
+	<p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribution to <a href="http://taxpayer.net/">Taxpayers for Common Sense</a>.</p>
+	<p>By downloading data, you are agreeing to the terms of the license.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
+    {% js "data/earmarks.js" %}
+    {{ block.super }}
+	<script type="text/javascript">
+		$().ready(function() {
+			TD.EarmarksFilter.bindDataFilter('#datafilter');
+			TD.EarmarksFilter.bindPreview('#previewButton');
+			TD.EarmarksFilter.bindDownload('#downloadButton');
+		    TD.EarmarksFilter.init();
+			
+		    TD.activeFilter = TD.EarmarksFilter;
+		
+			TD.init();
+		});
+	</script>
+{% endblock %}
