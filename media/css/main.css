@@ -308,7 +308,7 @@ table#mainPageTable th, #earmarksTable th, #partyTime th, .tab-area table th  { 
 .mainTable th { padding: 10px;}
 .mainTable, #mainTable { margin-bottom: 55px; border: none;}
 .sort { background: url(../images/sortArrows.png) left 4px no-repeat; cursor: pointer; }
-table { margin: 15px 0 30px; border: 1px solid #E5E4DB;}
+table { margin: 15px 0 30px; }
 
 div.searchBox { width: 880px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px dotted #e6e6e4;}
 body.search dt a { margin-right: 10px;}
@@ -677,6 +677,9 @@ table .even.numerous{
 
 #lgRightColumn table { width: 100%; margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px dashed #DCDCD8;}
 #smLtColumn select, #smLtColumn input { width: 100%;}
+
+.tdata table { border: none;}
+.tdata table td { border: 1px solid #E5E4DB;}
 
 .module { margin-bottom: 20px;}
 .module p { margin-bottom: 1em;}
