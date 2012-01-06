@@ -722,3 +722,4 @@ table .even.numerous{
 #closeBtn:hover { background: url(../images/btn_close.png) bottom left no-repeat; }
 
 .tdata .pre, .tdata pre.literal-block { display: block; white-space: nowrap; overflow: auto;}
+.ui-dialog button { text-indent: 0; display: inline;}
