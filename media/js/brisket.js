@@ -68,8 +68,7 @@ $(function() {
         var mode = 'static';
         var section = null;
 
-        var $window = $(window);
-        $window.scroll(function() {
+        var scrollHandler = function() {
             var pos = $window.scrollTop();
             if (mode == 'static' && pos >= top) {
                 mode = 'floating';
@@ -102,7 +101,10 @@ $(function() {
                     }
                 }
             }
-        })
+        };
+
+        var $window = $(window);
+        $window.scroll(scrollHandler);
 
         /* set up smooth scrolling, but only for browsers that play nice */
         $('#miniNav a').each(function(idx, item) {
@@ -122,7 +124,7 @@ $(function() {
         /* deal with reflows from animation */
         $(document).bind('reflow', function() {
             calculateSectionOffsets();
-            $window.scroll();  
+            scrollHandler();  
         })
     }
 });
