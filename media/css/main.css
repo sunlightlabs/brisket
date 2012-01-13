@@ -252,7 +252,7 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 .threeColumn { width: 785px; }
 .chartWrapper table { margin-top: 15px;}
 
-.chart { height: 260px; margin-bottom: 45px !important; overflow-y: hidden;}
+.chart { height: 290px; margin-bottom: 25px !important; overflow-y: hidden;}
 .chartWrapper .tip, div.searchBox .results { display: block; color: #827d7d;}
 .chart .tip { margin-bottom: 0px;}
 
