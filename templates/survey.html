@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="https://checking.influenceexplorer.com/media/css/style.css" type="text/css" />
+<style type="text/css">
+    #chutney .chutney-accept, #chutney .chutney-decline, #chutney .chutney-footer .chutney-close { padding: 10px; color: #0A6E92; background: #DEF; display: inline-block; margin-top: 4px; cursor: pointer; float: right; margin-right: 20px; margin-bottom: 20px; font-family: Georgia,Times New Roman,Times,serif; font-size: 160%; font-style: oblique; text-transform: lowercase; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+    #chutney h1.ie-dialog-title { background: url('/media/images/logo.png') no-repeat top left; height: 80px; width: 440px; }
+</style>
+<script type="text/javascript" src="https://checking.influenceexplorer.com/media/js/jquery.tools.min.js"></script>
+<script type="text/html" id="survey_template">
+<div style="display: none; width: 950px; min-height: 200px;" class="chutney-dialog" id="chutney">
+    <div style="" class="chutney-content">
+        <div id="chutneyHeader">
+            <div id="headerDetails">
+                <a class="chutney-close" href="javascript:void(0)">Close</a>
+            </div>
+            <h1 class="ie-dialog-title">Influence Explorer</h1>
+            <div class="clear"></div>
+        </div>
+        <div class="chutney-main-content">
+            <div id="chutney-feature">
+                <h2>User Survey</h2>
+                <p>The Sunlight Foundation is conducting a survey about Influence Explorer. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="chutney-footer">
+            <div class="chutney-decline chutney-close">No, Thanks</div>
+            <div class="chutney-accept">Take Survey</div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/javascript">
+$(function() {
+    one_in = 1;
+    if (Math.random() <= 1/one_in) {
+        setTimeout(function() {
+            var box = $($('#survey_template').html())
+                .appendTo(document.body)
+                .overlay({
+                    close: '.chutney-close',
+                    mask: {
+                        color: '#2b2922',
+                        loadSpeed: 200,
+                        opacity: 0.8
+                    },
+                    oneInstance: false,
+                    fixed: false,
+                    load: true
+                });
+            box.find('.chutney-accept').click(function() {
+                box.overlay().close();
+                var wn = "new" + (Math.round(Math.random() * 1000000));
+                window.open('http://216.34.99.34/survey/404652/2df2/?Popup=1', wn, 'toolbar=no,scrollbars=yes,resizable=yes,width=720,height=600');
+            })
+        },
+        500);
+    }
+})
+</script>
