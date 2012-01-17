@@ -1,0 +1,17 @@
+{% load influence_extras %}
+
+{% if lobbyists %}
+<h5>Names of Lobbyists</h5>
+<ul>
+{% for row in lobbyists %}
+    <li>
+    {% if row.lobbyist_entity %}
+        <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
+    {% else %}
+        {{ row.lobbyist_name|standardize_individual_name }},
+    {% endif %}
+    </li>
+{% endfor %}
+</ul>
+<div class="clear"></div>
+{% endif %}
