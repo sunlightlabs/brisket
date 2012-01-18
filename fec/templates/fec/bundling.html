@@ -1,0 +1,190 @@
+{% extends "search_base.html" %}
+{% load influence_extras %}
+{% load humanize %}
+
+{% block body_class %}about{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="/media/js/ajax_tables.js"></script>
+
+{% comment %}
+This stylesheet is here instead of in main.css so as not to have to deal with merging it into the other branches later, since Brisket is all over the place right now. -AP
+{% endcomment %}
+<style type="text/css">
+    .tab-area ul {
+        background: #ffffff;
+    }
+    li.clear {
+        padding: 0px;
+    }
+    .tab-area .expandTableHead, .tab-area .expandTableRow {
+        width: 860px;
+    }
+    .bundlerColLarge {
+        width: 657px;
+    }
+    .bundlerColSmall {
+        width: 103px;
+    }
+    .tab-area .expandDocList {
+        margin-left: 175px;
+    }
+    td, .expandDocList th {
+        padding: 10px !important;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Lobbyist Bundling</h2>
+</div>
+
+<div class="module">
+    <div id="description">
+        <p>The table below presents bundling of contributions to politicians and committees by registered lobbyists and lobbying firms. Bundling refers to the practice of an outside supporter raising money from multiple donors on behalf of the recipient. The lobbyist's own contributions are not included.</p> 
+        <p>Bundling is disclosed by recipients (reporting committees) to the FEC when the total amount of bundled contributions exceeds $16,200. Recipients report according to their regularly scheduled reporting periods and according to biannual reporting requirements put into place just for bundled contributions, according to the FEC. In addition to the data presented here, any Influence Explorer page for a politician, lobbyist or lobbying firm that has bundling data will display this data under the Campaign Finance section. For more information on how bundling data is compiled see our <a href="/about/methodology/lobbyist_bundling">lobbyist bundling methodology page</a>.</p>
+	</div>
+    <div class="clear"></div>
+
+    <div class="bundling-display">
+        <div class="tab-bar">
+            <span id="tab-recipients" class="tab">Recipients</span>
+            <span id="tab-bundlers" class="tab">Bundlers</span>
+        </div>
+        <div class="tab-areas">
+            <div id="tab-area-recipients" class="tab-area">
+                <ul class="expandTableHead">
+                    <li class="expandCol toggle noshow"></li>
+                    <li class="expandCol bundlerColLarge">Recipient</li>
+                    <li class="expandCol bundlerColSmall">Amount</li>
+                    <li class="clear"></li>
+                </ul>
+                <ul class='expandTable clear' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/lobbyist_bundling/transactions.json?apikey={{ API_KEY }}&name={id}&callback=?' data-expand-template="#recipientPopDownTemplate">
+                    {% for row in recipients %}
+                    <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.recipient_name }}">
+                        <a class="expandCol toggle">Toggle</a>
+                        <span class="expandCol bundlerColLarge">
+                            {% if row.recipient_id %}
+                                <a href="/politician/{{ row.recipient_name|standardize_politician_name|slugify }}/{{ row.recipient_id }}">{{ row.recipient_name|standardize_politician_name }}</a>
+                            {% else %}
+                                {{ row.recipient_name|standardize_organization_name }}
+                            {% endif %}
+                        </span>
+                        <span class="expandCol bundlerColSmall">
+                            ${{ row.total|intcomma }}
+                        </span>
+                        <div class="clear"></div>
+                        <div class="loading"></div>
+                        <div class="expandDocList"></div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="clear"></div>
+            </div>
+        
+            <div id="tab-area-bundlers" class="tab-area">
+                <ul class="expandTableHead">
+                    <li class="expandCol toggle noshow"></li>
+                    <li class="expandCol bundlerColLarge">Bundler</li>
+                    <li class="expandCol bundlerColSmall">Amount</li>
+                    <li class="clear"></li>
+                </ul>
+                <ul class='expandTable clear' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/lobbyist_bundling/transactions.json?apikey={{ API_KEY }}&name={id}&callback=?' data-expand-template="#donorPopDownTemplate">
+                    {% for row in firms %}
+                    <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.firm_name }}">
+                        <a class="expandCol toggle">Toggle</a>
+                        <span class="expandCol bundlerColLarge">
+                            {% if row.firm_id %}
+                                <a href="/organization/{{ row.firm_name|standardize_organization_name|slugify }}/{{ row.firm_id }}">{{ row.firm_name|standardize_organization_name }}</a>
+                            {% else %}
+                                {{ row.firm_name|standardize_organization_name }}
+                            {% endif %}
+                        </span>
+                        <span class="expandCol bundlerColSmall">
+                            ${{ row.total|intcomma }}
+                        </span>
+                        <div class="clear"></div>
+                        <div class="loading"></div>
+                        <div class="expandDocList"></div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+
+<script type="text/html" id="recipientPopDownTemplate">
+<table>
+    <thead>
+        <tr>
+            <th>Bundler</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% for (var i = 0; i < documents.length; i++) { %>
+        <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
+            <td class="regDoc">
+                <% if (documents[i].lobbyist_name && documents[i].lobbyist_name != documents[i].firm_name) { %>
+                    <% if (documents[i].lobbyist_id) { %>
+                        <a href="/individual/<%=documents[i].lobbyist_name_slug%>/<%=documents[i].lobbyist_id%>"><%=documents[i].lobbyist_name_standardized%></a>,
+                    <% } else { %>
+                        <%=documents[i].lobbyist_name_standardized%>,
+                    <% } %>
+                <% } %>
+
+                <a href="/organization/<%=documents[i].firm_name_slug%>/<%=documents[i].firm_id%>"><%=documents[i].firm_name_standardized%></a>
+            </td>
+            <td class="regDocDate">$<%=documents[i].total_amount_standardized%></td>
+        </tr>
+    <% } %>
+    </tbody>
+</table>
+</script>
+
+<script type="text/html" id="donorPopDownTemplate">
+<table>
+    <thead>
+        <tr>
+            <th>Recipient</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% for (var i = 0; i < documents.length; i++) { %>
+        <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
+            <td class="regDoc">
+                <% if (documents[i].recipient_id) { %>
+                    <a href="/individual/<%=documents[i].recipient_name_slug%>/<%=documents[i].recipient_id%>"><%=documents[i].recipient_name_standardized%></a>
+                <% } else { %>
+                    <%=documents[i].recipient_name_standardized%>
+                <% } %>
+            </td>
+            <td class="regDocDate">$<%=documents[i].total_amount_standardized%></td>
+        </tr>
+    <% } %>
+    </tbody>
+</table>
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        $('.tab').click(function() {
+            var $this = $(this);
+            $('.tab').removeClass('active');
+            $this.addClass('active');
+
+            $('.tab-area').hide();
+            $('#tab-area-' + $this.attr('id').split('-').pop()).show();
+        })
+        $('.tab').eq(0).click()
+    });
+</script>
+{% endblock %}

@@ -30,7 +30,7 @@
 {% endspaceless %} Influence Explorer">
   <meta name="og:description" content="{% if entity_info.metadata.seat %}{{ entity_info.name|standardize_politician_name|seat_title:entity_info.metadata.seat }}{% else %}{{ entity_info.name|standardize_politician_name }}{% endif %} {% if entity_info.metadata.party %}({{entity_info.metadata.party}}{% if entity_info.metadata.state %}-{{entity_info.metadata.state}}{% endif %}){% endif %} has received ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money came from on Influence Explorer.">
   <meta name="og:type" content="cause">
-  <meta name="og:image" content="{% if entity_info.metadata.photo_url %}{{ entity_info.metadata.photo_url }}{% else %}http://influenceexplorer.com/media/images/logo.png{% endif %}">
+  <meta name="og:image" content="{% if entity_info.metadata.photo_url %}{{ entity_info.metadata.photo_url }}{% else %}http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png{% endif %}">
   <meta name="og:url" content="http://influenceexplorer.com/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
   <meta name="og:site_name" content="Influence Explorer">
   <meta name="fb:admins" content="7812952,5308565">
@@ -41,7 +41,7 @@
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-    sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
+//    sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
 
     {% if not sections.contributions.suppress_contrib_graphs %}
     piechart("piechart_local", {% if sections.contributions.local_breakdown %} {{ sections.contributions.local_breakdown|safe }} {% else %} {} {% endif %} );
@@ -53,7 +53,7 @@ $(document).ready(function() {
     piechart("earmarks_local", {% if sections.earmarks.earmarks_local %} {{ sections.earmarks.earmarks_local|safe }} {% else %} {} {% endif %} );
 
     $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
-    $('table td.cell-earmark-description').expando(5, '.earmark-requests', '.requestedList', 'moreEarmarks');
+    $('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
 });
 </script>
 {% endif %}
@@ -109,7 +109,7 @@ $(document).ready(function() {
 
 {% block description %}
 {% if entity_info.metadata.bio %}
-{{ entity_info.metadata.bio|safe }}
+{{ entity_info.metadata.bio|first_paragraph|safe }}
 {% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
 <p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_blank">{{ entity_info.metadata.source_display_name }}</a></p>
 {% endif %}

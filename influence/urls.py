@@ -61,7 +61,10 @@ urlpatterns += patterns('django.views.generic.simple',
 
     url(r'^about/methodology/lobbying/?$', 'direct_to_template',
         {'template': 'lobbying_methodology.html'}),
-        
+    
+    url(r'^about/methodology/lobbyist_bundling/?$', 'direct_to_template',
+        {'template': 'lobbyist_bundling_methodology.html'}),
+                
     url(r'^about/methodology/fed_spending/?$', 'direct_to_template',
         {'template': 'fed_spending_methodology.html'}),
         

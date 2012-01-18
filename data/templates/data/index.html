@@ -1,0 +1,246 @@
+{% extends "search_base.html" %}
+{% load media %}
+{% block body_class %}tdata searchTD{% endblock %}
+
+{% block pagetitle %}
+    Data | 
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% css 'data/css/3rdparty.css' %}
+{% endblock %}
+
+
+{% block main %}
+    {% include "data/second_nav.html" %}
+        
+    <div class="module">
+        <p id="intro">Influence Explorer offers more than just charts and graphs&mdash;advanced users can also download the detailed records that make up the datasets. Find every last campaign contribution and lobbying report, details about grants and contracts and much more. Click on one of the datasets on the left to start your search.</p>
+        <p id="intro">If you're looking for easy-to-use overview information and Top 10 lists rather than a spreadsheet, you can search the main Influence Explorer pages with the search box in the upper right corner.</p>        
+    </div>
+    {% include "data/data_tabs.html" %}
+
+    <div id="fullColumn">
+        <ul id="mainSearchFilter">
+            <li class="intro" id="intro-contributions">
+                <h3>Search Campaign Contributions</h3>
+                <div class="leftIntro">
+                    <form id="contributionsDataFilter" class="datafilter">
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific committee, recipient or date in mind? Add some filters below to search them</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a category to narrow your search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="contributionsPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+            <li class="intro" id="intro-earmarks">
+                <h3>Search Earmarks</h3>
+                <div class="leftIntro">
+                    <span class="tip tipHeight">Have a specific member of congress, state or bill? Add some filters below to search them</span>
+                    <form id="earmarksDataFilter" class="datafilter">
+                        <fieldset>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a field to search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="earmarksPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+            <li class="intro" id="intro-lobbying">
+                <h3>Search Federal Lobbying</h3>
+                <div class="leftIntro">
+                    <form  id="lobbyingDataFilter" class="datafilter">
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific organization or issue in mind? Add some filters below to search them</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a field to search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="lobbyingPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+            <li class="intro" id="intro-grants">
+                <h3>Search Federal Grants</h3>
+                <div class="leftIntro">
+                    <form id="grantsDataFilter" class="datafilter"> 
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific organization or agency in mind? Add some filters below to search them</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a field to search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="grantsPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+            <li class="intro" id="intro-contracts">
+                <h3>Search Federal Contracts</h3>
+                <div class="leftIntro">
+                    <form id="contractsDataFilter" class="datafilter">
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific organization or agency in mind? Add some filters below to search them</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a field to search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="contractsPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+            <li class="intro" id="intro-contractorMisconduct">
+                <h3>Search Contractor Misconduct</h3>
+                <div class="leftIntro">
+                    <form id="contractorMisconductDataFilter" class="datafilter">
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific contractor, contracting party or enforcement agency in mind? Add some filters below to search them</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a field to search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="contractorMisconductPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+            <li class="intro" id="intro-epaEcho">
+                <h3>Search EPA ECHO</h4>
+                <div class="leftIntro">
+                    <form id="epaEchoDataFilter" class="datafilter">
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific defendant in mind? Add some filters below to search through them.</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a field to search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="epaEchoPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+            <li class="intro" id="intro-faca">
+                <h3>Search FACA</h3>
+                <div class="leftIntro">
+                    <form id="facaDataFilter" class="datafilter">
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific member, organization affiliation or agency in mind? Add some filters below to search through them.</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a field to search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="facaPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+            <li class="intro" id="intro-bundling">
+                <h3>Search Bundled Contributions</h3>
+                <div class="leftIntro">
+                    <form id="bundlingDataFilter" class="datafilter">
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific bundler, politician or lobbying firm in mind? Add some filters below to search through them.</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a field to search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="bundlingPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    
+    {% js "data/3rdparty.js" %}
+    {% js "data/index.js" %}
+	<script type="text/javascript">
+        $().ready(function() {
+            var all_filters = [];
+            
+            all_filters['lobbying'] = TD.LobbyingFilter;
+            all_filters['earmarks'] = TD.EarmarksFilter;
+            all_filters['grants'] = TD.GrantsFilter;
+            all_filters['contracts'] = TD.ContractsFilter;
+            all_filters['contributions'] = TD.ContributionFilter;
+            all_filters['contractorMisconduct'] = TD.ContractorMisconductFilter;
+            all_filters['epaEcho'] = TD.EpaEchoFilter;
+            all_filters['faca'] = TD.FacaFilter;
+            all_filters['bundling'] = TD.BundlingFilter;
+            
+            $('#dataTabs li a').bind('click', function() {
+                var df = $(this).attr('class');
+                
+                $('#mainSearchFilter > li').hide();
+                $('#dataTabs li').removeClass('active');
+                
+                $('#intro-' + df).show();
+                $(this).parents('li').addClass('active');
+                
+                if (df in all_filters) {
+                    TD.activeFilter = all_filters[df];
+                }
+                
+                return false;
+            });
+            
+            for (key in all_filters) {
+                all_filters[key].bindDataFilter('#' + key + 'DataFilter');
+                all_filters[key].bindPreview('#' + key + 'PreviewButton');
+                all_filters[key].init();
+                TD.HashMonitor.setAnchor('');
+            }
+            
+            TD.init();
+            
+            $('#dataTabs li a.contributions').click();
+		});
+
+	</script>
+{% endblock %}

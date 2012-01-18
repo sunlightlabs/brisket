@@ -1,67 +1,69 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.candidates_barchart_data %}
     <h4 class="withTip">Top Politicians</h4>
     <div class="graph" id="recipients_barchart">
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">Republicans vs. Democrats</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_party">
       <!-- raphael charts here -->
     </div>
-  </div>
-</div>
+</li>
 
 <div class="clear"></div> <!-- start a new row -->
 
 {% if section.orgs_barchart_data and section.orgs_barchart_data != "[]" %}
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.orgs_barchart_data %}
     <h4 class="withTip">Top Organizations</h4>
     <div class="graph" id="orgs_barchart">
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
-</div>
+</li>
 
 <div class="clear"></div> <!-- start a new row -->
 {% endif %}
 
 {% if section.bundling_data %}
-  <div class="twoColumn chartWrapper">
+<li class="twoColumn">
     <h4 class="withTip">Bundled Contributions</h4>
     <span class="tip">Money raised by the lobbyist from multiple donors on behalf of the recipient. The lobbyist's own contributions are not included.</span>
     <table class="twoColumn">
         <thead>
             <tr>
                 <th>Recipient</th>
+                <th>Lobbying Firm</th>
                 <th>Amount</th>
             </tr>
         </thead>
         <tbody>
-        {% for recipient_entity, recipient_name, recipient_type, amount in section.bundling_data %}
+        {% for recipient_entity, recipient_name, recipient_type, firm_entity, firm_name, amount in section.bundling_data %}
         <tr class="{% cycle 'even' 'odd' %}">
             <td>
                 {% if recipient_entity %}<a href="/{{recipient_type}}/{{recipient_name|slugify}}/{{recipient_entity}}">{% endif %}{% if recipient_type == 'politician' %}{{ recipient_name|standardize_politician_name }}{% else %}{{ recipient_name|standardize_organization_name }}{% endif %}{% if recipient_entity %}</a>{% endif %}
+            </td>
+            <td>
+                {% if firm_name %}
+                {% if firm_entity %}<a href="/organization/{{firm_name|slugify}}/{{firm_entity}}">{% endif %}{{ firm_name|standardize_organization_name }}{% if firm_entity %}</a>{% endif %}
+                {% else %}
+                &nbsp;
+                {% endif %}
             </td>
             <td>${{ amount|floatformat:0|intcomma }}</td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-  </div>
+</li>
 
 <div class="clear"></div> <!-- start a new row -->
 {% endif %}

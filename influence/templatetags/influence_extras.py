@@ -1,8 +1,9 @@
 from django import template
 from django.template.defaultfilters import stringfilter
-from influence.names import standardize_individual_name, standardize_organization_name, \
-    standardize_industry_name
-from name_cleaver import PoliticianNameCleaver
+from BeautifulSoup import BeautifulSoup
+from name_cleaver import PoliticianNameCleaver, IndividualNameCleaver, \
+        OrganizationNameCleaver
+from influence.helpers import standardize_name
 
 register = template.Library()
 
@@ -16,17 +17,22 @@ def standardize_politician_name_filter(name):
 @register.filter(name='standardize_individual_name')
 @stringfilter
 def standardize_individual_name_filter(name):
-    return standardize_individual_name(name)
+    return str(IndividualNameCleaver(name).parse())
 
 @register.filter(name='standardize_organization_name')
 @stringfilter
 def standardize_organization_name_filter(name):
-    return standardize_organization_name(name)
+    return str(OrganizationNameCleaver(name).parse())
 
 @register.filter(name='standardize_industry_name')
 @stringfilter
 def standardize_industry_name_filter(name):
-    return standardize_industry_name(name)
+    return str(OrganizationNameCleaver(name).parse())
+
+@register.filter(name='standardize_name')
+@stringfilter
+def standardize_name_filter(name, type):
+    return standardize_name(name, type)
 
 
 seat_labels = {'federal:senate': 'US Senate',
@@ -110,3 +116,13 @@ def sunlight_author_uri(value):
     else:
         shortname = value[0]
     return "%s%s"%(SUNLIGHT_STAFF_BASE_URI, shortname)
+
+@register.filter(name='first_paragraph')
+@stringfilter
+def first_paragraph_filter(t):
+    b = BeautifulSoup(t)
+    paras = b.findChildren('p')
+    if paras:
+        return unicode(paras[0])
+    else:
+        return t

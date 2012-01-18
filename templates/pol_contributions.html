@@ -1,8 +1,7 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.industries_barchart_data %}
     <h4 class="withTip">Top Industries</h4>
     <span class="tip">OpenSecrets.org and FollowTheMoney.org classify contribution data into about 100 <a href="http://www.opensecrets.org/lobby/list_indus.php">industries</a>.</span>
@@ -11,32 +10,25 @@
     </div>
     <span class="tip">{{ section.pct_known }}% of the total amount raised came from an identifiable industry.</span>
     {% endif %}
-  </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">In State vs. Out of State</h4>
     <span class="tip">contributions from individuals, in dollars</span>
     <div class="graph piechart" id="piechart_local">
       <!-- raphael charts -->
     </div>
-  </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">Individuals vs. PACs</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_entity">
       <!-- raphael charts -->
     </div>
-  </div>
-</div>
+</li>
 
-<div class="twoColumn chartWrapper">
-  <div class="chart">
-
+<li class="twoColumn chart">
     {% if section.contributors_barchart_data %}
     <h4 class="withTip key">Top Contributors</h4>
     <dl class="key">
@@ -52,72 +44,77 @@
       <!-- raphael charts -->
     </div>
     {% endif %}
-  </div>
-</div>
+</li>
 
 {% if section.bundling_data %}
-  <div class="twoColumn chartWrapper">
-    <h4 class="withTip">Bundled Lobbyist Contributions</h4>
-    <span class="tip">Lobbyists and lobbying firms that raised money from multiple donors on behalf of the politician. Contributions from the lobbyist or firm itself are not included.</span>
-    <table class="twoColumn">
-        <thead>
-            <tr>
-                <th>Bundler</th>
-                <th>Amount</th>
-            </tr> 
-        </thead>
-        <tbody>
-        {% for lobbyist_entity, lobbyist_name, firm_entity, firm_name, amount in section.bundling_data %}
-        <tr class="{% cycle 'even' 'odd' %}">
-            <td>
-            {% if lobbyist_entity and lobbyist_entity != firm_entity %}
-            <a href="/individual/{{lobbyist_name|slugify}}/{{lobbyist_entity}}">{{ lobbyist_name|standardize_individual_name }}</a>,
-            {% endif %}<a href="/organization/{{firm_name|slugify}}/{{firm_entity}}">{{ firm_name }}</a></td>
-            <td>${{ amount|floatformat:0|intcomma }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-  </div>
+    <li class="twoColumn">
+        <h4 class="withTip">Bundled Lobbyist Contributions</h4>
+        <span class="tip">Lobbyists and lobbying firms that raised money from multiple donors on behalf of the politician. Contributions from the lobbyist or firm itself are not included.</span>
+        <table class="twoColumn">
+            <thead>
+                <tr>
+                    <th>Bundler</th>
+                    <th>Amount</th>
+                </tr> 
+            </thead>
+            <tbody>
+            {% for lobbyist_entity, lobbyist_name, firm_entity, firm_name, amount in section.bundling_data %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td>
+                    {% if lobbyist_entity and lobbyist_entity != firm_entity %}
+                    <a href="/individual/{{lobbyist_name|slugify}}/{{lobbyist_entity}}">{{ lobbyist_name|standardize_individual_name }}</a>,
+                    {% endif %}
+                    {% if firm_entity %}<a href="/organization/{{firm_name|slugify}}/{{firm_entity}}">{% endif %}{{ firm_name|standardize_organization_name }}{% if firm_entity %}</a>{% endif %}
+                </td>
+                <td>${{ amount|floatformat:0|intcomma }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </li>
 {% endif %}
 
 {% if section.partytime_data %}
-  {% if section.partytime_data.past or section.partytime_data.upcoming %}
-  <div class="twoColumn chartWrapper">
-    <h4 class="withTip">Recent and upcoming fundraisers</h4>
-    <span class="tip">Full invitations can be viewed at <a href="{{ section.partytime_link }}">Party Time</a></span>
-    <table class="twoColumn">
-      <thead>
-        <tr id="partyTime">
-          <th>Date</th>
-          <th>Event</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for type, events in section.partytime_data.items %}
-          {% for row in events %}
-            <tr class="{% cycle 'even' 'odd' %} {{ type }}">
-              <td>{{ row.date|date }}</td>
-              <td>
-                <dl>
-                  <dt>Venue:</dt> 
-                  <dd>{{ row.fields.entertainment }} at {{ row.fields.venue }}</dd>
-                  
-                  {% if row.fields.hosts %}
-                    <dt class="clear">Hosted by:</dt>
-                    <dd>
-                    {% for host in row.fields.hosts %}
-                      {{ host }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                    </dd>
-                  {% endif %}
-              </td>
-            </tr>
-          {% endfor %}
+    {% if section.partytime_data.past or section.partytime_data.upcoming %}
+    <li class="twoColumn chartWrapper">
+        <h4 class="withTip">Recent and upcoming fundraisers</h4>
+        {% for link in section.external_links %}
+            {% if 'Party Time' in link.text %}
+                <span class="tip">Full invitations can be viewed at <a href="{{ link.url }}" target="_blank">Party Time</a></span>
+            {% endif %}
         {% endfor %}
-      </tbody>
-    </table>
-  </div>
+        <table class="twoColumn">
+            <thead>
+                <tr id="partyTime">
+                    <th>Date</th>
+                    <th>Event</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for type, events in section.partytime_data.items %}
+              {% for row in events %}
+                <tr class="{% cycle 'even' 'odd' %} {{ type }}">
+                  <td>{{ row.date|date }}</td>
+                  <td>
+                    <dl>
+                      <dt>Venue:</dt> 
+                      <dd>{{ row.fields.entertainment }} at {{ row.fields.venue }}</dd>
+                  
+                      {% if row.fields.hosts %}
+                        <dt class="clear">Hosted by:</dt>
+                        <dd>
+                        {% for host in row.fields.hosts %}
+                          {{ host }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                        </dd>
+                      {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+      </table>
+  </li>
   {% endif %}
 {% endif %}
 

@@ -1,0 +1,5 @@
+You are almost there!
+
+Just click the link below to create your account at TransparencyData.org. The following link will be valid for {{ expiration_days }} days.
+
+http://{{ site }}/accounts/activate/{{ activation_key }}/

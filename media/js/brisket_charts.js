@@ -63,7 +63,7 @@ function piechart(div, data, type) {
     var values = _.map(slices, function(s){ return s.value; });
     var colors = _.map(slices, function(s){ return s.color; });
 
-    pie = r.g.piechart(70, 70, 60, values, {
+    pie = r.g.piechart(58, 58, 54, values, {
         legend: labels,
         legendpos: "east",
         colors: colors,
@@ -88,7 +88,7 @@ function piechart(div, data, type) {
             this.label[0].stop();
             this.label[0].scale(1.5);
             this.label[1].attr({"font-weight": 800, 'fill': '#666666'});
-            lbl = r.text(70, 70, dollar(this.value.value));
+            lbl = r.text(58, 58, dollar(this.value.value));
             lbl.attr({"font-weight": 800, "font-size": "12px"});
             lbl.show();
         }
@@ -113,7 +113,7 @@ function barchart(div, data) {
 
     var sizes = {
         chart_height: 195,
-        chart_width: 285,
+        chart_width: 235,
         chart_x: 215,
         chart_y: 10,
         bar_gutter: 30,

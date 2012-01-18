@@ -112,8 +112,7 @@ def get_epa_links(standardized_name, cycle):
     td_params['defendants'] = standardized_name
 
     links.append({ 'text': 'EPA ECHO Enforcement Data', 'url': 'http://www.epa-echo.gov/echo/compliance_report_icis.html' })
-    # removing until we can get a more robust system where the number of cases shown in transparencydata matches the number shown in the section header on IE.
-#    links.append({ 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/epa_echo/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
+    links.append({ 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/epa_echo/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
     return links
 
 def get_faca_links(standardized_name, cycle):
@@ -163,7 +162,7 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
             if cycle != '-1':
                 os_params['year'] = cycle
             links.append(
-                dict(text='OpenSecrets.orgs', url="http://www.opensecrets.org/lobby/lobbyist.php?%s" % urllib.urlencode(os_params))
+                dict(text='OpenSecrets.org', url="http://www.opensecrets.org/lobby/lobbyist.php?%s" % urllib.urlencode(os_params))
             )
     elif type == 'industry':
         industry_ids = filter(lambda s: s['namespace'] == 'urn:crp:industry', ids)

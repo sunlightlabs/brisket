@@ -12,10 +12,8 @@ from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, months_into_cycle_for_date, \
     filter_bad_spending_descriptions, make_bill_link, get_top_pages
-from influence.names import standardize_organization_name, \
-    standardize_industry_name
 from influenceexplorer import DEFAULT_CYCLE
-from name_cleaver import PoliticianNameCleaver
+from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import URLError
 import datetime
@@ -207,7 +205,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     if type == 'industry':
         section['top_orgs'] = json.dumps([
             {
-                'key': generate_label(standardize_organization_name(org['name'])),
+                'key': generate_label(str(OrganizationNameCleaver(org['name']).parse())),
                 'value': org['total_amount'],
                 'value_employee': org['employee_amount'],
                 'value_pac': org['direct_amount'],
@@ -233,7 +231,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     pacs_barchart_data = []
     for record in recipient_pacs:
         pacs_barchart_data.append({
-                'key': generate_label(standardize_organization_name(record['name'])),
+                'key': generate_label(str(OrganizationNameCleaver(record['name']).parse())),
                 'value' : record['total_amount'],
                 'value_employee' : record['employee_amount'],
                 'value_pac' : record['direct_amount'],
@@ -279,8 +277,8 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 
     section['external_links'] = external_sites.get_contribution_links(type, standardized_name, external_ids, cycle)
 
-    #bundling = api.entities.bundles(entity_id, cycle)
-    #section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type amount'.split()] for x in bundling ]
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type lobbyist_entity lobbyist_name firm_name amount'.split()] for x in bundling ]
 
     return section
 
@@ -371,7 +369,7 @@ def org_spending_section(entity_id, name, cycle, totals):
     filter_bad_spending_descriptions(spending)
 
     section['grants_and_contracts'] = spending
-    section['gc_links'] = external_sites.get_gc_links(name, cycle)
+    section['gc_links'] = external_sites.get_gc_links(name.__str__(), cycle)
 
     gc_found_things = []
     for gc_type in ['grant', 'contract', 'loan']:
@@ -473,7 +471,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     contributors_barchart_data = []
     for record in top_contributors:
         contributors_barchart_data.append({
-            'key': generate_label(standardize_organization_name(record['name'])),
+            'key': generate_label(str(OrganizationNameCleaver(record['name']).parse())),
             'value' : record['total_amount'],
             'value_employee' : record['employee_amount'],
             'value_pac' : record['direct_amount'],
@@ -485,7 +483,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     industries_barchart_data = []
     for record in top_industries:
         industries_barchart_data.append({
-            'key': generate_label(standardize_industry_name(record['name'])),
+            'key': generate_label(str(OrganizationNameCleaver(record['name']).parse())),
             'href': barchart_href(record, cycle, 'industry'),
             'value' : record['amount'],
         })
@@ -518,13 +516,15 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
         section['reason'] = 'empty'
 
     section['sparkline_data'] = json.dumps(api.pol.sparkline(entity_id, cycle))
-
-    section['partytime_link'], section['partytime_data'] = external_sites.get_partytime_data(external_ids)
-
+    
+    partytime_link, section['partytime_data'] = external_sites.get_partytime_data(external_ids)
+    
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name.name_str(), external_ids, cycle)
-
-    #bundling = api.entities.bundles(entity_id, cycle)
-    #section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
+    if partytime_link:
+        section['external_links'].append({'url': partytime_link, 'text': 'Party Time'})
+    
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
     return section
 
@@ -607,7 +607,7 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
     orgs_barchart_data = []
     for record in recipient_orgs:
         orgs_barchart_data.append({
-                'key': generate_label(standardize_organization_name(record['recipient_name'])),
+                'key': generate_label(str(OrganizationNameCleaver(record['recipient_name']).parse())),
                 'value' : record['amount'],
                 'href' : barchart_href(record, cycle, entity_type="organization"),
                 })
@@ -635,8 +635,8 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
 
     section['external_links'] = external_sites.get_contribution_links('individual', standardized_name, external_ids, cycle)
 
-    #bundling = api.entities.bundles(entity_id, cycle)
-    #section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type amount'.split()] for x in bundling ]
+    bundling = api.entities.bundles(entity_id, cycle)
+    section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type firm_entity firm_name amount'.split()] for x in bundling ]
 
     return section
 

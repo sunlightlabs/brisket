@@ -21,59 +21,53 @@
 
 {% block main %}
 
-<div id="contentHeader">
-{% block contentHeader %}
-{% endblock %}
+    <div id="contentHeader">
+        {% block contentHeader %}
+        {% endblock %}
+    </div>
 
-</div>
+    <!-- if there's a description for the entity, override this -->
+    <div id="description" class="module clear">
+      {% block description %}
+      {% endblock %}
+    </div>
+    <div class="clear"></div>
 
-<!-- if there's a description for the entity, override this -->
-<div id="description" class="module clear">
-  {% block description %}
-  {% endblock %}
-</div>
-{% if sections.keys|length > 1 %}
-<div id="miniNav" class="withBg">
-    <ul>
-        {% for section_id, section in sections.items %}
-            <li><a href="#{{ section_id }}_section">{{ section.name }}</a></li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-<div class="clear"></div>
+    <div id="floatingNavWrapper">
+        <div id="floatingNav">
+            {% if sections.keys|length > 1 %}
+            <div id="miniNavWrapper">
+                <div id="miniNav">
+                    <ul>
+                        {% for section_id, section in sections.items %}
+                            <li><a href="#{{ section_id }}_section">{{ section.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="withNav" id="changeDates">
+                <form action="" method="get" id="cycle_form">
+                    <label>Currently Viewing {{ entity_info.name|standardize_name:entity_info.type }} from</label>
+                    {{ cycle_form.cycle }}
+                    <button type="submit" id="cycle_submit">
+                        <span>Update</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-<div class="module" id="timeSpan">
-  {% block timespan %}
-  <div id="currentDates">
-    <span class="currentDateTitle">Current View:</span>
-    <span>
-      {% ifequal cycle "-1" %}
-        {{entity_info.years.start|add:-1}} &#150; {{entity_info.years.end}}
-      {% else %}
-        {{cycle|add:-1}} &#150; {{cycle}}
-      {% endifequal %}
-    </span>
-  </div>
-  <div id="changeDates">
-    <form action="" method="get" id="cycle_form">
-      <label>View Other Years</label>
-      {{ cycle_form.cycle }}
-      <input type="submit" value="Update Cycles" id="cycle_submit" />
-    </form>
-  </div>
-  <div class="clear"></div>
-  {% endblock %}
-</div>
 
-{% block sections %}
-{% for section_id, section in sections.items %}
-	<a name="{{ section_id }}_section"></a>
-	{% include section.template with section=section section_id=section_id %}
-{% endfor %}
-{% endblock %}
+    {% block sections %}
+    {% for section_id, section in sections.items %}
+    	<a class="sectionLink" name="{{ section_id }}_section"></a>
+    	{% include section.template with section=section section_id=section_id %}
+    {% endfor %}
+    {% endblock %}
 
-{% block regulations %}
-{% endblock %}
+    {% block regulations %}
+    {% endblock %}
 
 {% endblock %}<!-- end main -->

@@ -1,52 +1,35 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="overviewBar">
-  <a class="toggle">Toggle</a>
-  <h3 class="insideBar">Earmarks,
-  	{% ifequal cycle "-1" %}
-		{{entity_info.earmark_years.start|add:-1}} &#150; {{entity_info.earmark_years.end}}
-    {% else %}
-    	{{cycle|add:-1}} &#150; {{cycle}}
-    {% endifequal %}
-  </h3>
-      <div class="insideBar amount">
-          <span class="amount">
-      		${{ entity_info.totals.earmark_amount|floatformat:0|intcomma }} Allocated
-      	  </span>
-          <a class="descriptor" title="More Information" href="#earmarksDescriptor">Information</a>
-          <div class="clear"></div>      
-          <div class="descriptorText" id='earmarksDescriptor'>
-          	<p>Figures are based on both committee earmark disclosures and on analysis of appropriations bill text. Table shows top 10 earmarks, ordered by dollar amount in the final version of the bill. Earmarks from the president's budget proposal are not included.</p>
-			<p>For more information, see our <a href="/about/methodology/earmarks/">Earmark Methodology</a> page.</p>
-          </div>      
-      </div>
+<div class="overviewBar withNav withTip">
+    <h3>Earmarks</h3>
+    <span class="amount">${{ entity_info.totals.earmark_amount|floatformat:0|intcomma }} Allocated</span>
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#earmarksDescriptor">Information</a>
+        <div class="clear"></div>      
+        <div class="descriptorText" id='earmarksDescriptor'>
+            <p>Figures are based on both committee earmark disclosures and on analysis of appropriations bill text. Table shows top 10 earmarks, ordered by dollar amount in the final version of the bill. Earmarks from the president's budget proposal are not included.</p>
+            <p>For more information, see our <a href="/about/methodology/earmarks/">Earmark Methodology</a> page.</p>
+        </div> 
+    </div>     
+    <div class="clear"></div>
 </div>
 
-<div class="chartModule">
-
-	<div class="oneColumn chartWrapper">
-	  <div class="chart">
-	    <h4 class="withTip">In State vs. Out of State</h4>
-	    <span class="tip">in dollars</span>
-	    <div class="graph piechart" id="earmarks_local">
-	      <!-- raphael charts -->
-	    </div>
-	  </div>
-	</div>
-
-  {% include "earmarks_table.html" with earmarks=section.earmarks %}
-  
+<div class="chartModule withNav">
+    <span class="tip external"></span>
+    <ul>
+        <li class="oneColumn chart">
+	        <h4 class="withTip">In State vs. Out of State</h4>
+	        <span class="tip">in dollars</span>
+	        <div class="graph piechart" id="earmarks_local">
+	            <!-- raphael charts -->
+	        </div>
+	  </li>
+      <li>
+          {% include "earmarks_table.html" with earmarks=section.earmarks %}
+      </li>
+  </ul>
   <div class="clear"></div>
   
-  <div class="external">
-	{% if section.earmark_links %}
-    For more in-depth information on the complete earmark data see:
-    {% for link in section.earmark_links %}
-    <a href="{{ link.url }}" class="external" target="_blank">{{ link.text }}</a>
-    {% endfor %}
-    {% endif %}
-  </div>
-  
-  <div class="clear"></div>
+  {% include "external_links.html" with external_links=section.earmark_links %}
 </div><!-- end chartModule -->

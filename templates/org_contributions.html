@@ -1,10 +1,9 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.pol_recipients_barchart_data %}
-    <h4 class="key withTip">Top Politician Recipients</h4>
+    <h4 class="key withTip">Top Recipients</h4>
     <dl class="key">
         <dt class="employees">Employee Color Block</dt>
         <dd>Individuals</dd>
@@ -18,32 +17,26 @@
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">Republicans vs. Democrats</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_party">
       <!-- raphael charts here -->
     </div>
-  </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">State vs. Federal</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_level">
       <!-- raphael charts here -->
     </div>
-  </div>
-</div>
+</li>
 
 {% if section.pacs_barchart_data and section.pacs_barchart_data != "[]" %}
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn">
     {% if section.pacs_barchart_data %}
     <h4 class="key withTip">Top PAC Recipients</h4>
     <dl class="key">
@@ -59,34 +52,41 @@
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
-</div>
+</li>
 
 <div class="clear"></div> <!-- start a new row -->
 {% endif %}
 
 {% if section.bundling_data %}
-  <div class="twoColumn chartWrapper">
-    <h4 class="withTip">Bundled Contributions</h4>
-    <span class="tip">Money raised by the firm from multiple donors on behalf of the recipient. The firm's own contributions are not included.</span>
-    <table class="twoColumn">
-        <thead>
-            <tr>
-                <th>Recipient</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for recipient_entity, recipient_name, recipient_type, amount in section.bundling_data %}
-        <tr class="{% cycle 'even' 'odd' %}">
-            <td>
-                {% if recipient_entity %}<a href="/{{recipient_type}}/{{recipient_name|slugify}}/{{recipient_entity}}">{% endif %}{{ recipient_name|standardize_politician_name }}{% if recipient_entity %}</a>{% endif %}
-            </td>
-            <td>${{ amount|floatformat:0|intcomma }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-  </div>
+    <li class="twoColumn">
+        <h4 class="withTip">Bundled Contributions</h4>
+        <span class="tip">Money raised by the firm from multiple donors on behalf of the recipient. The firm's own contributions are not included.</span>
+        <table class="twoColumn">
+            <thead>
+                <tr>
+                    <th>Recipient</th>
+                    <th>Lobbyist</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipient_entity, recipient_name, recipient_type, lobbyist_entity, lobbyist_name, firm_name, amount in section.bundling_data %}
+                    <tr class="{% cycle 'even' 'odd' %}">
+                        <td>
+                            {% if recipient_entity %}<a href="/{{recipient_type}}/{{recipient_name|slugify}}/{{recipient_entity}}">{% endif %}{{ recipient_name|standardize_politician_name }}{% if recipient_entity %}</a>{% endif %}
+                        </td>
+                        <td>
+                            {% if lobbyist_name and lobbyist_name != firm_name %}
+                            {% if lobbyist_entity %}<a href="/individual/{{lobbyist_name|slugify}}/{{lobbyist_entity}}">{% endif %}{{ lobbyist_name|standardize_individual_name }}{% if lobbyist_entity %}</a>{% endif %}
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+                        </td>
+                        <td>${{ amount|floatformat:0|intcomma }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </li>
 {% endif %}
 

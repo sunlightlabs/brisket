@@ -1,0 +1,32 @@
+{% extends "search_base.html" %}
+{% block body_class %}tdata documentation{% endblock %}
+
+{% block pagetitle %}
+    Data: Documentation | 
+{% endblock %}
+
+{% block main %}
+
+    {% include "data/second_nav.html" %}
+    <div id="contentHeader" class="interior">
+        <h2>Documentation</h2>
+    </div>
+    <ul id="dataTabs">
+        {% for page in DOCS_SECTIONS %}
+            {% if page.path == request.META.PATH_INFO %}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+                <a href="{{ page.path }}">{{ page.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div id="ltColumn" class="withTabs">
+        {% block docsContent %}
+            <h3>Influence Explorer Data Formats</h3>
+
+            Influence Explorer's data tools allow you to download spreadsheets of the results of searches you perform.  For each dataset available, there is a corresponding section listed at left that describes the contents of these downloadable files.
+        {% endblock %}
+    </div>
+{% endblock %}

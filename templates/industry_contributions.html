@@ -1,5 +1,4 @@
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.top_orgs %}
     <h4 class="key withTip">Top Organizations</h4>
     <dl class="key">
@@ -15,21 +14,17 @@
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">Republicans vs. Democrats</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_party">
       <!-- raphael charts here -->
     </div>
-  </div>
-</div>
+</li>
 
-<div class="twoColumn chartWrapper">
-  <div class="chart">
+<li class="twoColumn chart">
     {% if section.pol_recipients_barchart_data %}
     <h4 class="key withTip">Top Recipients</h4>
     <dl class="key">
@@ -45,15 +40,12 @@
       <!-- raphael charts here -->
     </div>
     {% endif %}
-  </div>
-</div>
+</li>
 
-<div class="oneColumn chartWrapper">
-  <div class="chart">
+<li class="oneColumn chart">
     <h4 class="withTip">State vs. Federal</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_level">
       <!-- raphael charts here -->
     </div>
-  </div>
-</div>
+</li>

@@ -15,7 +15,7 @@
   <meta name="og:title" content="{{ entity_info.name|standardize_industry_name}} | Influence Explorer">
   <meta name="og:description" content="{{ entity_info.name|standardize_industry_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.">
   <meta name="og:type" content="cause">
-  <meta name="og:image" content="http://influenceexplorer.com/media/images/logo.png">
+  <meta name="og:image" content="http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png">
   <meta name="og:url" content="http://influenceexplorer.com/industry/{{ entity_info.name|standardize_industry_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
   <meta name="og:site_name" content="Influence Explorer">
   <meta name="fb:admins" content="7812952,5308565">
@@ -24,7 +24,7 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-  sparkline_by_party("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}, {{ sections.contributions.cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
+//  sparkline_by_party("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}, {{ sections.contributions.cut_off_sparkline_at_step }} {% else %}[], 0{% endif %});
   {% if not sections.contributions.suppress_contrib_graphs %}
   piechart("piechart_level", {% if sections.contributions.level_breakdown %}{{ sections.contributions.level_breakdown|safe }}{% else %}{}{% endif %});
   piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
@@ -59,7 +59,7 @@ $(document).ready(function() {
 
 {% if entity_info.metadata.bio %}
 {% block description %}
-{{ entity_info.metadata.bio|safe }}
+{{ entity_info.metadata.bio|first_paragraph|safe }}
 {% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
 <p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_blank">{{ entity_info.metadata.source_display_name }}</a></p>
 {% endif %}
