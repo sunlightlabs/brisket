@@ -5,13 +5,10 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 TEMPLATE_DEBUG = True
 
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-    # adding this for sentry emailing -- testing so far
-    ('Alison Rowland', 'arowland@sunlightfoundation.com'),
+SENTRY_ADMINS = (
+    # So Sentry will send emails
+    'arowland@sunlightfoundation.com',
 )
-
-MANAGERS = ADMINS
 
 DATABASE_ENGINE = ''           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = ''             # Or path to database file if using sqlite3.
