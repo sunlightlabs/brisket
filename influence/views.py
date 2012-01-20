@@ -540,6 +540,11 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
             tl['sum'] = sum(tl['timeline'])
             timelines.append(tl)
         timelines.sort(key=lambda t: (int(t['is_this']), t['sum']), reverse=True)
+        # restrict to top 5, and only those receiving at least 10% of this pol's total
+        this_sum = timelines[0]['sum']
+        timelines = [timeline for timeline in timelines if timeline['sum'] > 0.1 * this_sum]
+        timelines = timelines[:5]
+        
         section['fec_timelines'] = json.dumps(timelines)
 
     return section
