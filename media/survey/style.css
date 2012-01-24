@@ -55,7 +55,7 @@
 
 .chutney-dialog { background: #fff; overflow: visible; text-align: left; }
 .chutney-dialog div.chutney-close { padding: 5px; color: #0a6e92; background: #ddeeff; display: inline-block; margin-top: 4px; cursor: pointer; }
-#chutneyHeader .chutney-close, #chutney-footer .chutney-close { float:right; background: url(../img/delete_16.png) top left no-repeat; padding-left: 20px;}
+#chutneyHeader .chutney-close, #chutney-footer .chutney-close { float:right; background: url(delete_16.png) top left no-repeat; padding-left: 20px;}
 .chutney-error { padding: 20px; }
 .chutney-error p { clear: both; }
 
@@ -77,7 +77,7 @@
 
 #chutney .chutney-unmatched, #chutney .chutney-unmatched a { color: #999;}
 
-#chutney .ui-icon-closethick { background: url(../img/delete_16.png) top left no-repeat; width: 16px; height: 16px; display: block; float: left; margin: 3px;}
+#chutney .ui-icon-closethick { background: url(delete_16.png) top left no-repeat; width: 16px; height: 16px; display: block; float: left; margin: 3px;}
 
 #chutney .recipientsList a { text-transform: capitalize;}
 
