@@ -80,36 +80,6 @@
         </ul>
         <div class="clear"></div>
     </div>
-    
-    {% comment %}
-    <!-- Start POP-UP -->
-    <form name='fsName'
-          action='http://216.34.99.34/survey/404652/2df2/?Popup=1'
-          enctype='multipart/form-data'
-          method='POST'>
-      <input type='hidden' name='Popup' value='1'/>
-    </form>
-    <script type='text/javascript'>
-      var rnd = Math.random();
-      var max =1;
-      var enableip = "";
-      var disableip = "";
-      if (rnd * max < 1) {
-        document.write("<sc" + "ript");
-        document.write(" language='javasc" + "ript' type='text/javasc" + "ript'");
-        document.write(" src='http://216.34.99.34/Member/Public/popup_enable.jsp?surveyId=404652&Pwd=2df2");
-        document.write("&enableip=" + enableip + "&disableip=" + disableip + "'><" + "/sc" + "ript>");
-      }
-      function startPopUp() {
-        var wn = "new" + (Math.round(Math.random() * 1000000));
-        window.open("", wn, 'toolbar=yes,scrollbars=yes,resizable=yes,width=720,height=400,left=16,top=16');
-        document.fsName.target = wn;
-        document.fsName.submit();
-      }
-    </script>
-    <!-- END POP-UP -->
-    {% endcomment %}
-    {% include "survey.html" %}
 
 
 {% endblock %}

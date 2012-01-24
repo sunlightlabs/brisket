@@ -1,3 +1,34 @@
+{% comment %}
+<!-- original popup code from the vendor; Django-commented out -->
+<!-- Start POP-UP -->
+<form name='fsName'
+      action='http://216.34.99.34/survey/404652/2df2/?Popup=1'
+      enctype='multipart/form-data'
+      method='POST'>
+  <input type='hidden' name='Popup' value='1'/>
+</form>
+<script type='text/javascript'>
+  var rnd = Math.random();
+  var max =1;
+  var enableip = "";
+  var disableip = "";
+  if (rnd * max < 1) {
+    document.write("<sc" + "ript");
+    document.write(" language='javasc" + "ript' type='text/javasc" + "ript'");
+    document.write(" src='http://216.34.99.34/Member/Public/popup_enable.jsp?surveyId=404652&Pwd=2df2");
+    document.write("&enableip=" + enableip + "&disableip=" + disableip + "'><" + "/sc" + "ript>");
+  }
+  function startPopUp() {
+    var wn = "new" + (Math.round(Math.random() * 1000000));
+    window.open("", wn, 'toolbar=yes,scrollbars=yes,resizable=yes,width=720,height=400,left=16,top=16');
+    document.fsName.target = wn;
+    document.fsName.submit();
+  }
+</script>
+<!-- END POP-UP -->
+{% endcomment %}
+
+
 <link rel="stylesheet" href="https://checking.influenceexplorer.com/media/css/style.css" type="text/css" />
 <style type="text/css">
     #chutney .chutney-accept, #chutney .chutney-decline, #chutney .chutney-footer .chutney-close { padding: 10px; color: #0A6E92; background: #DEF; display: inline-block; margin-top: 4px; cursor: pointer; float: right; margin-right: 20px; margin-bottom: 20px; font-family: Georgia,Times New Roman,Times,serif; font-size: 160%; font-style: oblique; text-transform: lowercase; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
@@ -30,8 +61,10 @@
 </script>
 <script type="text/javascript">
 $(function() {
-    one_in = 1;
-    if (Math.random() <= 1/one_in) {
+    var one_in = 1;
+    var first_view = {{ FIRST_VIEW|yesno:"true,false" }};
+    
+    if (first_view && Math.random() <= 1/one_in) {
         setTimeout(function() {
             var box = $($('#survey_template').html())
                 .appendTo(document.body)
