@@ -1,0 +1,91 @@
+{% comment %}
+<!-- original popup code from the vendor; Django-commented out -->
+<!-- Start POP-UP -->
+<form name='fsName'
+      action='http://216.34.99.34/survey/404652/2df2/?Popup=1'
+      enctype='multipart/form-data'
+      method='POST'>
+  <input type='hidden' name='Popup' value='1'/>
+</form>
+<script type='text/javascript'>
+  var rnd = Math.random();
+  var max =1;
+  var enableip = "";
+  var disableip = "";
+  if (rnd * max < 1) {
+    document.write("<sc" + "ript");
+    document.write(" language='javasc" + "ript' type='text/javasc" + "ript'");
+    document.write(" src='http://216.34.99.34/Member/Public/popup_enable.jsp?surveyId=404652&Pwd=2df2");
+    document.write("&enableip=" + enableip + "&disableip=" + disableip + "'><" + "/sc" + "ript>");
+  }
+  function startPopUp() {
+    var wn = "new" + (Math.round(Math.random() * 1000000));
+    window.open("", wn, 'toolbar=yes,scrollbars=yes,resizable=yes,width=720,height=400,left=16,top=16');
+    document.fsName.target = wn;
+    document.fsName.submit();
+  }
+</script>
+<!-- END POP-UP -->
+{% endcomment %}
+
+
+<link rel="stylesheet" href="/media/survey/style.css" type="text/css" />
+<style type="text/css">
+    #chutney .chutney-accept, #chutney .chutney-decline, #chutney .chutney-footer .chutney-close { padding: 10px; color: #0A6E92; background: #DEF; display: inline-block; margin-top: 4px; cursor: pointer; float: right; margin-right: 20px; margin-bottom: 20px; font-family: Georgia,Times New Roman,Times,serif; font-size: 160%; font-style: oblique; text-transform: lowercase; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+    #chutney h1.ie-dialog-title { background: url('/media/images/logo.png') no-repeat top left; height: 80px; width: 440px; }
+</style>
+<script type="text/javascript" src="/media/survey/jquery.tools.min.js"></script>
+<script type="text/html" id="survey_template">
+<div style="display: none; width: 600px; min-height: 200px;" class="chutney-dialog" id="chutney">
+    <div style="" class="chutney-content">
+        <div id="chutneyHeader">
+            <div id="headerDetails">
+                <a class="chutney-close" href="javascript:void(0)">Close</a>
+            </div>
+            <h1 class="ie-dialog-title">Influence Explorer</h1>
+            <div class="clear"></div>
+        </div>
+        <div class="chutney-main-content">
+            <div id="chutney-feature">
+                <h2></h2>
+                <p>The Sunlight Foundation is conducting a survey about Influence Explorer. We would appreciate you taking a few minutes of your time to help us improve our offerings.</p>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="chutney-footer">
+            <div class="chutney-decline chutney-close">No, Thanks</div>
+            <div class="chutney-accept">Take Survey</div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/javascript">
+$(function() {
+    var one_in = 1;
+    var first_view = {{ FIRST_VIEW|yesno:"true,false" }};
+    
+    if (first_view && Math.random() <= 1/one_in) {
+        setTimeout(function() {
+            var box = $($('#survey_template').html())
+                .appendTo(document.body)
+                .overlay({
+                    close: '.chutney-close',
+                    mask: {
+                        color: '#2b2922',
+                        loadSpeed: 200,
+                        opacity: 0.8
+                    },
+                    oneInstance: false,
+                    fixed: false,
+                    load: true
+                });
+            box.find('.chutney-accept').click(function() {
+                box.overlay().close();
+                var wn = "new" + (Math.round(Math.random() * 1000000));
+                window.open('http://216.34.99.34/survey/404652/2df2/?Popup=1', wn, 'toolbar=no,scrollbars=yes,resizable=yes,width=720,height=600');
+            })
+        },
+        500);
+    }
+})
+</script>
