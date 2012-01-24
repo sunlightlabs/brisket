@@ -32,15 +32,15 @@
         </tr>
         <tr class="odd">
             <td>Disbursements</td>
-            <td>${{ section.fec_summary.disbursements|floatformat:0|intcomma }}</td>
+            <td>${{ section.fec_summary.disbursements|floatformat:0|intcomma }} ({{section.fec_summary.total_disbursements_rank}} out of {{section.fec_summary.max_rank}})</td>
         </tr>
         <tr class="even">
             <td>Total Raised</td>
-            <td>${{ section.fec_summary.total_raised|floatformat:0|intcomma }} ({{section.fec_summary.rank}} out of {{section.fec_summary.max_rank}})</td>
+            <td>${{ section.fec_summary.total_raised|floatformat:0|intcomma }} ({{section.fec_summary.total_receipts_rank}} out of {{section.fec_summary.max_rank}})</td>
         </tr>
         <tr class="odd">
             <td>Cash on Hand</td>
-            <td>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}</td>
+            <td>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }} ({{section.fec_summary.cash_on_hand_rank}} out of {{section.fec_summary.max_rank}})</td>
         </tr>
     </table>
 </li>
