@@ -1,0 +1,21 @@
+{% extends "data/base.html" %}
+
+{% block title %}
+    Error |
+{% endblock %}
+
+{% block body_class %}error{% endblock %}
+
+{% block content %}
+    <div id="contentHeader">
+        <h2>Error</h2>
+    </div>
+    <div class="errorMessage">
+        <p>We're sorry, but a problem has occurred with Influence Explorer.  Some things you might like to try include:</p>
+        <ul>
+            <li><a href="javascript:window.location.reload(true);">Refreshing the page</a></li>
+            <li>Returning to the <a href="/">home page</a></li>
+            <li><a href="#" onclick="$('#fdbk_tab').click(); return false;">Contacting us</a> to let us know about the problem</li>
+        </ul>
+    </div>
+{% endblock %}

@@ -47,7 +47,7 @@ $(document).ready(function() {
     <a class="descriptor" href="#individualDescriptor">Not seeing what you expected?</a>
     <div class="descriptorText" id="individualDescriptor">
 		<p>We rely on our partner organizations, the <a href="http://www.opensecrets.org/">Center for Responsive Politics</a> and the <a href="http://www.followthemoney.org/">National Institute on Money in State Politics</a>, to uniquely identify individuals' campaign finance and lobbying activity. If data appears to be missing, it may be that they have not identified all influence activity for this individual. If the data is completely different than you expected, it may be that you're looking at a different person with the same name.</p>
-		<p>In these cases, we suggest using our companion site, <a href="http://transparencydata.com">TransparencyData.com</a>, to search the underlying databases. TransparencyData provides extra information about each contribution, such as the donor's city, state and employer.  This information should allow you to judge for yourself if the contribution came from the person for whom you searched.</p>
+		<p>In these cases, we suggest searching the raw records in the <a href="http://data.influenceexplorer.com/contributions/">campaign finance Data section</a>, which provides extra information about each contribution, such as the donor's city, state and employer.  This information should allow you to judge for yourself if the contribution came from the person for whom you searched.</p>
 		{% if sections.contributions.external_links %}
     	    {% for link in sections.contributions.external_links %}
     	    	{% if link.text == "TransparencyData.com" %}

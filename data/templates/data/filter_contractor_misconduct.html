@@ -1,0 +1,35 @@
+{% extends "data/filter.html" %}
+{% load media %}
+
+{% block bodyid %}contractorMisconduct{% endblock %}
+{% block dataset_name %}Contractor Misconduct{% endblock %}
+
+{% block table_header %}
+    <th>Contractor</th>
+    <th>Instance</th>
+    <th>Year</th>
+    <th>Disposition</th>
+    <th>Penalty Amount</th>
+{% endblock %}
+
+{% block dataset_license %}
+    <p>All data licensed under the <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons BY-NC-SA</a> license with attribution to <a href="http://www.contractormisconduct.org/">Project On Government Oversight</a>.</p>
+    <p>By downloading data, you are agreeing to the terms of the license.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
+    {% js "data/contractor_misconduct.js" %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $().ready(function() {
+            TD.ContractorMisconductFilter.bindDataFilter('#datafilter');
+            TD.ContractorMisconductFilter.bindPreview('#previewButton');
+            TD.ContractorMisconductFilter.bindDownload('#downloadButton');
+            TD.ContractorMisconductFilter.init();
+
+            TD.activeFilter = TD.ContractorMisconductFilter;
+
+            TD.init();
+        });
+    </script>
+{% endblock %}

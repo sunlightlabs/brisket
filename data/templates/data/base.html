@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load media %}
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head>
+        <meta name="keywords" content="campaign finance, contributions, transparency, influence, data, government, state, federal" />
+        <meta name="description" content="Influence Explorer is a central source for all federal and state campaign contributions made in the last twenty years. Here you can begin your search, find the information you need and then download records of what a candidate has received, what an individual has given, and how much companies and their employees have given." />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>{% block title %}Search State and Federal Campaign Contribution Data{% endblock %} - Influence Explorer</title>
+		<!-- icons --> 
+	    <link rel="shortcut icon" href="http://assets.transparencydata.org.s3.amazonaws.com/1.1/images/favicon.ico" type="image/x-icon"> 
+	    <link rel="icon" href="http://assets.transparencydata.org.s3.amazonaws.com/1.1/images/favicon.ico" type="image/x-icon">
+		<!-- stylesheets -->
+		{% css "data/css/all.css" %}
+		<!-- scripts -->
+		{% js "data/3rdparty_old.js" %}
+		<script src="http://services.sunlightlabs.com/brandingbar/hat_js/transparencydata/" type="text/javascript"></script> 
+    </head>
+    <body id="{% block bodyid %}transparencydata{% endblock %}" class="{% block bodyclass %}{% endblock %}">
+		<script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+			try {
+				var pageTracker = _gat._getTracker("UA-1265484-52");
+				pageTracker._setDomainName(".transparencydata.com");
+				pageTracker._trackPageview();
+			} catch(err) {}
+		</script>
+        <div id="headerWrapper">
+            <div id="headerContainer">
+                <div id="header">
+                    <h1><a href="{% url index %}">Influence Explorer</a></h1>
+                    <div class="clear"></div>
+                    <div id="nav">
+                        <ul>
+                            <li id="nav_bulk"><a href="{% url bulk_index %}">Bulk Downloads</a></li>
+                            <li id="nav_docs"><a href="{% url doc_index %}">Documentation</a></li>
+                            <li id="nav_api"><a href="{% url api_index %}">API</a></li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div> <!-- end header -->
+			</div> <!-- end headerContainer --> 
+		</div> <!-- end headerWrapper -->                 
+		<div id="pageMain">
+            <div id="columnWrapper">
+                {% block content_container %}
+                    <div id="leftColumn">
+                        {% block sidebar %}{% endblock %}
+                    </div>
+                    <div id="rightColumn">
+                        {% block content %}{% endblock %}
+                        <div class="clear"></div>
+                    </div>
+                {% endblock %}
+			</div> <!-- end columnWrapper -->
+        </div> <!-- end pageMain -->
+        <div class="clear"></div>
+        <div id="footerContainer">
+			<div id="footer">
+			    <ul>
+			        <li><a id="sunlightLogo" href="http://www.sunlightfoundation.com">Sunlight Foundation</a></li>
+			        <li><a id="openSecrets" href="http://opensecrets.org"><big>OpenSecrets.org</big><small>Center for Responsive Politics</small></a></li>
+			        <li><a id="nimsp" href="http://followthemoney.org"><big>National Institute on Money in State Politics</big><small>Follow The Money</small></a></li>
+			        <li><a id="pogo" href="http://www.pogo.org/">Project on Government Oversight</a></li>
+			    </ul>
+			    <div class="clear"></div>
+			    <p id="footerText">Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://www.sunlightfoundation.com" target="_blank">SunlightFoundation.com</a> to learn more.</p>
+			</div> <!-- end footer -->
+		</div> <!-- end footerContainer -->
+		<script type="text/javascript" charset="utf-8">
+			var is_ssl = ("https:" == document.location.protocol);
+			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript" charset="utf-8">
+			var feedback_widget_options = {};
+			feedback_widget_options.display = "overlay";  
+			feedback_widget_options.company = "sunlightfoundation";
+			feedback_widget_options.placement = "right";
+			feedback_widget_options.color = "#222";
+			feedback_widget_options.style = "idea";
+			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+		</script>
+    </body>
+</html>

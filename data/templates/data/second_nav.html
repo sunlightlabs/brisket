@@ -1,0 +1,18 @@
+<nav id="td_nav">
+    <ul>
+        <li id="downloads" class="last"><a href="{% url bulk_index %}">Bulk Downloads</a></li>
+        <li id="documentation" ><a href="{% url docs_index %}">Documentation</a></li>
+        <li id="api"><a href="{% url api_index %}">API</a></li>
+        <li id="searchTD"><a href="/">Search the Database</a></li>
+    </ul>
+    <div class="clear"></div>
+</nav>
+
+{% if is_redirect %}
+<div id="infoPopup">
+    <a class="buttonLink" id="closeBtn" href="#">Close Popup</a>
+    <p><strong>Don't worry, you're in the right place!</strong></p>
+    <p>TransparencyData's functionality has been incorporated into Influence Explorer. <a href="http://influenceexplorer.com">InfluenceExplorer.com</a> provides overviews of political influence data for politicians, companies and prominent individuals. All of the functionality of TransparencyData is now available here at <a href="http://data.influenceexplorer.com">data.InfluenceExplorer.com</a>.</p>
+</div>
+<script type="text/javascript">$(function() { $('#infoPopup .buttonLink').click(function() { $('#infoPopup').slideUp('fast'); }); });</script>
+{% endif %}

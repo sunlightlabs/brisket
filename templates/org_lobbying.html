@@ -30,28 +30,14 @@
 </div>
 
 <div class="chartModule withNav">
-    <span class="tip external">covers through Q2, 2011</span>
+    <span class="tip external">covers through Q3, 2011</span>
     {% if section.is_lobbying_firm %}
         <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
         <ul>
-            {% if section.lobbying_lobbyists %}
-                <li class="oneColumn interiorList">
-                    <h5>Lobbyists Employed</h5>
-                    <ul>
-            	        {% for row in section.lobbying_lobbyists %}
-            	        {% if row.lobbyist_entity %}
-            	            <li>
-            		            <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
-            	            </li>
-            	        {% else %}
-            		        {{ row.lobbyist_name|standardize_individual_name }}
-            	        {% endif %}
-            	        {% endfor %}
-                    </ul>
-                    <div class="clear"></div>
-                </li>
-            {% endif %}
-    
+            <li class="interiorList oneColumn">
+                {% include "org_lobbying_lobbyists.html" with lobbyists=section.lobbying_lobbyists %}
+            </li>
+
             {% if section.lobbying_clients %}
               	  <li class="twoColumn">
               		  <table class="twoColumn">
@@ -99,21 +85,7 @@
 	  <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
       <ul>
 		  <li class="interiorList oneColumn">
-			  {% if section.lobbying_lobbyists %}
-			  <h5>Names of Lobbyists</h5>
-			  <ul>
-				  {% for row in section.lobbying_lobbyists %}
-				  {% if row.lobbyist_entity %}
-				  <li>
-					  <a href="/individual/{{ row.lobbyist_name|standardize_individual_name|slugify }}/{{ row.lobbyist_entity }}{{cycle|pretty_cycle}}">{{ row.lobbyist_name|standardize_individual_name }}</a>,
-				  </li>
-				  {% else %}
-				  {{ row.lobbyist_name|standardize_individual_name }}
-				  {% endif %}
-				  {% endfor %}
-			  </ul>
-			  <div class="clear"></div>
-			  {% endif %}
+              {% include "org_lobbying_lobbyists.html" with lobbyists=section.lobbying_lobbyists %}
 		  </li>
 		  
 		  {% if section.lobbying_clients %}
