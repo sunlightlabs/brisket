@@ -276,6 +276,8 @@ div.descriptorText p, div#description p, body.flatText div#mainContent p { margi
 div.descriptorText a { float: none; }
 .individualName { float: left; width: 580px;}
 #individualDisclaimer { float: right; width: 300px;}
+#piechart_fec { height: 135px; }
+.section-divider { width: 800px; }
 
 body.flatText div#mainContent ul li, body.flatText div#mainContent ol li, .chartModule .normalList li, .normalList li { margin-bottom: 10px;}
 body.flatText div#mainContent ul, body.flatText div#mainContent ol { margin-bottom: 20px;}

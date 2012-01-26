@@ -528,6 +528,8 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
 
     if int(cycle) == LATEST_CYCLE:
         section['fec_summary'] = api.pol.fec_summary(entity_id)
+        if section['fec_summary'] and 'date' in section['fec_summary']:
+            section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
         
         timelines = []
         for pol in api.pol._get_url_json('aggregates/pol/%s/fec_timeline.json' % entity_id):

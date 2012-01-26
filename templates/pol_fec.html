@@ -1,0 +1,81 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<span class="tip external">covers through candidate's {{section.fec_summary.clean_date|date:"F j, Y"}} filing</span>
+<ul>
+
+<li class="oneColumn">
+    <h4 class="withTip">FEC Summary</h4>
+    <span class="tip">The latest tallies straight from the FEC.</span>
+    <div class="graph piechart" id="piechart_fec">
+      <!-- raphael charts -->
+    </div>
+    <table>
+        <tr>
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+        <tr class="even">
+            <td>Disbursements</td>
+            <td>${{ section.fec_summary.disbursements|floatformat:0|intcomma }} ({{section.fec_summary.total_disbursements_rank}} out of {{section.fec_summary.max_rank}})</td>
+        </tr>
+        <tr class="odd">
+            <td>Total Raised</td>
+            <td>${{ section.fec_summary.total_raised|floatformat:0|intcomma }} ({{section.fec_summary.total_receipts_rank}} out of {{section.fec_summary.max_rank}})</td>
+        </tr>
+        <tr class="even">
+            <td>Cash on Hand</td>
+            <td>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }} ({{section.fec_summary.cash_on_hand_rank}} out of {{section.fec_summary.max_rank}})</td>
+        </tr>
+    </table>
+</li>
+<li class="twoColumn">
+    <h4 class="withTip">Contributions Over Time</h4>
+    <span class="tip">How this candidate's receipts compare to competitors in this election cycle.</span>
+    <div id="fec_linechart"></div>
+</li>
+<div class="clear"></div>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+(function() {
+    var fec_data = {{ section.fec_timelines|safe }};
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(function() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Week');
+        var longest = 0;
+        _.each(fec_data, function(pol) {
+            data.addColumn('number', pol.name);
+            if (pol.timeline.length > longest) {
+                longest = pol.timeline.length;
+            }
+        })
+        data.addRows(longest);
+        for (var i = 0; i < longest; i++) {
+            data.setValue(i, 0, "Week " + (i + 1));
+        }
+        _.each(fec_data, function(pol, idx) {
+            for (var i = 0; i < pol.timeline.length; i++) {
+                data.setValue(i, idx + 1, pol.timeline[i]);
+            }
+        });
+
+        var chart = new google.visualization.LineChart(document.getElementById('fec_linechart'));
+        chart.draw(data, {width: 520, height: 300, chartArea: {left: 75, width: 275}, vAxis: {minValue: 0}, hAxis: {textPosition: 'none'}});
+    });
+})();
+$(function() {
+    // Raphael pie chart
+    piechart("piechart_fec", {
+        "Individuals": {{ section.fec_summary.contributions_indiv }},
+        "PACs": {{ section.fec_summary.contributions_pac }},
+        "Party": {{ section.fec_summary.contributions_party }},
+        "Self-Financing": {{ section.fec_summary.contributions_candidate }},
+        "Transfers": {{ section.fec_summary.transfers_in }}
+    });
+})
+</script>
+
+</ul>
+<div class="clear"></div>
+<hr class="section-divider" />

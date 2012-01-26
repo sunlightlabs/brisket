@@ -26,6 +26,9 @@
     <div class="clear"></div>
 </div>
 <div class="chartModule withNav">
+    {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
+        {% include "pol_fec.html" %}
+    {% endif %}
     <span class="tip external">covers through Q2, 2011</span>
     <ul>
       {% block charts %}   
