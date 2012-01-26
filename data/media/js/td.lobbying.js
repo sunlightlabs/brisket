@@ -11,12 +11,7 @@ $().ready(function() {
         content += '<td class="registrant_name">' + row.registrant_name + '</td>';
         content += '<td class="client_name">' + row.client_name + '</td>';
         content += '<td class="client_parent_name">' + (row.client_parent_name || '&nbsp;') + '</td>';
-        content += '<td class="lobbyists">';
-        for (var j = 0; j < row.lobbyists.length; j++) {
-            var lobbyist = row.lobbyists[j];
-            content += '<p>' + lobbyist.lobbyist_name + '</p>';
-        }
-        content += '</td>';
+        content += '<td class="lobbyists expandable"><p>' + $.map(row.lobbyists, function(lobbyist) { return lobbyist.lobbyist_name; }).join('; ') + '</p></td>';
         return content;
     }
 
