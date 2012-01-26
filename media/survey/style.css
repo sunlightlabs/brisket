@@ -1,0 +1,251 @@
+/*
+ * YUI Resect CSS version: 2.2.2 
+ * Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+ * Licensed under the BSD License: http://developer.yahoo.net/yui/license.txt
+ */
+.chutney-dialog div,.chutney-dialog dl,.chutney-dialog dt,.chutney-dialog dd,.chutney-dialog ul,.chutney-dialog ol,.chutney-dialog li,.chutney-dialog h1,.chutney-dialog h2,.chutney-dialog h3,.chutney-dialog h4,.chutney-dialog h5,.chutney-dialog h6,.chutney-dialog pre,.chutney-dialog form,.chutney-dialog fieldset,.chutney-dialog input,.chutney-dialog textarea,.chutney-dialog optgroup,.chutney-dialog button,.chutney-dialog p,.chutney-dialog blockquote,.chutney-dialog th,.chutney-dialog td{margin:0;padding:0;}.chutney-dialog h1,.chutney-dialog h2,.chutney-dialog h3,.chutney-dialog h4,.chutney-dialog h5,.chutney-dialog h6{font-size:100%;font-weight:normal;}.chutney-dialog table{border-collapse:collapse;border-spacing:0;}.chutney-dialog caption,.chutney-dialog th{text-align:left;}.chutney-dialog ol,.chutney-dialog ul{list-style:none;}.chutney-dialog fieldset,.chutney-dialog img{border:0;}.chutney-dialog input,.chutney-dialog textarea,.chutney-dialog select,.chutney-dialog optgroup,.chutney-dialog option,.chutney-dialog button{font-family:inherit;font-size:100%;}.chutney-dialog button,.chutney-dialog input {width: auto;overflow: visible;}.chutney-dialog optgroup,.chutney-dialog address,.chutney-dialog caption,.chutney-dialog cite,.chutney-dialog code,.chutney-dialog dfn,.chutney-dialog em,.chutney-dialog strong,.chutney-dialog th,.chutney-dialog var{font-style:normal;font-weight:normal;}.chutney-dialog q:before,.chutney-dialog q:after{content:'';}.chutney-dialog abbr,.chutney-dialog acronym {border:0;}
+.chutney-dialog dl li{list-style: none;}
+
+#chutney * {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+.chutney-dialog, #chutney {
+    color: #666666;
+    font-size: 13px;
+    line-height: 20px;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    text-align: left;
+    -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+
+#chutney a:link { outline: none; color: #0a6e92; text-decoration: none;}
+#chutney a:visited { outline: none; color: #0a6e92; text-decoration: none;}
+#chutney a:hover { outline: none; color: #0a6e92; text-decoration: none;}
+#chutney a:active { outline: none; color: #0a6e92; text-decoration: none;}
+
+#chutney p { margin-bottom: 1em; }
+#chutney strong { font-weight: bold; }
+
+#chutney h1, .chutney-dialog h1 { text-indent: -9999em; display: block; background: url(../img/logo.png) top left no-repeat; width: 230px; height: 87px; float: left; margin: 0 20px 0 0;}
+#chutney h2 { font-size: 180%; text-transform: uppercase; color: #000000; margin-bottom: 20px;}
+#chutney h3 { font-size: 120%; text-transform: uppercase; color: #000000; margin-bottom: 5px;}
+#chutney .chutney-transactions h3 { font-weight: bold; color: #585352; margin-bottom: 5px; }
+
+#chutney .chutney-name a .transactionName, #chutney .chutney-corp-name a { font-size: 110%; font-weight: bold;}
+
+#chutney .radio { width: 15px; margin-right: 10px; height: auto; }
+#chutney .percent { color: #989393; font-style: oblique; font-family: Georgia, "Times New Roman", Times, serif;}
+#chutney .clear { clear: both; display: block;}
+
+#chutney #chutneyHeader { border-bottom:1px dashed #DCDCD8; padding-bottom: 10px;}
+#chutney #chutney_mainContent, #chutney #chutneyHeader, #chutney #chutney-footer, #chutney .chutney-loading, #chutney .chutney-message { padding: 20px 20px 10px;}
+#chutney .chutney-even td { background-color: #F5F4F4; }
+#chutney #headerDetails { float: right; width: 500px;}
+#chutney #chutneyHeader span.chutney-header-text { margin-top: 60px; display: block; text-align: right; width: 500px;}
+#chutney #chutneyHeader span a { margin-left: 6px; display: inline;}
+
+#chutney input, #chutney textarea { margin: auto; background-color: #efeeec; border: 1px solid #dedcd8; padding: 5px; margin-right: 15px;}
+#chutney textarea { width: 40em; height: 5em; }
+
+.chutney-dialog { background: #fff; overflow: visible; text-align: left; }
+.chutney-dialog div.chutney-close { padding: 5px; color: #0a6e92; background: #ddeeff; display: inline-block; margin-top: 4px; cursor: pointer; }
+#chutneyHeader .chutney-close, #chutney-footer .chutney-close { float:right; background: url(delete_16.png) top left no-repeat; padding-left: 20px;}
+.chutney-error { padding: 20px; }
+.chutney-error p { clear: both; }
+
+#chutneyDescription { float: left; width: 200px; margin-right: 30px; padding-right: 30px; border-right: 1px dashed #DCDCD8;}
+#chutneyChart { float: left; width: 640px;}
+#chutney-feature { padding: 30px 20px; background-color: #f3f4f2; border-bottom:1px dashed #DCDCD8; margin-bottom: 25px;}
+* html #chutney-feature { padding-bottom: -10px;}
+
+#chutney .chutney-about { font-style: oblique; color: #827D7D; font-family: Georgia, "Times New Roman", Times, serif; margin-bottom: 0; float: left;}
+#chutney .transactionNumber, #chutney .totalGiven { font-family: Georgia, "Times New Roman", Times, serif; font-style: oblique; font-size: 95%; margin-left: 15px;}
+#chutney .totalGiven { color: #666;}
+#chutney .chutney-no-activity { font-family: Georgia, "Times New Roman", Times, serif; font-style: oblique; color: #666; }
+
+#chutney .issuesList { font-size: 95%; color: #666;}
+
+#chutney .chutney-sort { background: url(../img/sortArrows.png) top left no-repeat; padding-left: 20px; cursor: pointer;}
+#chutney .chutney-sort-asc { background: url(../img/sortArrows_up.png) top left no-repeat; padding-left: 20px;}
+#chutney .chutney-sort-desc { background: url(../img/sortArrows_down.png) top left no-repeat; padding-left: 20px;}
+
+#chutney .chutney-unmatched, #chutney .chutney-unmatched a { color: #999;}
+
+#chutney .ui-icon-closethick { background: url(delete_16.png) top left no-repeat; width: 16px; height: 16px; display: block; float: left; margin: 3px;}
+
+#chutney .recipientsList a { text-transform: capitalize;}
+
+#chutney #enityEditor { margin: 10px 0 20px;}
+#chutney #enityEditor span { display: block; margin-bottom: 5px; }
+#chutney #enityEditor span a { font-weight: normal; font-size:100%;}
+#chutney-removeTransaction { margin: 10px 0; font-size:90%;}
+
+#chutney .chutney-message label { display: block; font-weight: bold; margin-top: 10px; }
+
+.chutney-dialog table, .chutney-autocomplete table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+.chutney-dialog caption, .chutney-dialog th, .chutney-dialog td, .chutney-autocomplete caption, .chutney-autocomplete th, .chutney-autocomplete td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+.ui-widget-overlay {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.ui-widget-overlay {
+  display: block;
+}
+
+
+/* NOTE: We need to protect ourselves from name collisions in two ways.  First,
+ * we want to avoid polluting the page in which we're running with definitions
+ * that mess it up when chutney is closed -- thus, we run everything under the
+ * #chutney namespace (with the exception of .chutney-dialog which runs over
+ * div#chutney, and body.chutney which we only create in frameset pages).
+ * Second, we want to avoid our own definitions getting screwed up by generic
+ * names that are defined by the page we're on (e.g. '.transactions').  Thus,
+ * we prefix every class name with 'chutney-'.
+ */ 
+
+#chutney { overflow: visible;}
+
+#chutney .chutney-viewmode { display: block; background-color: #DCE6E0; padding: 10px 20px; margin-bottom: 30px; border:1px solid #C8D4D3;}
+#chutney #filterTitle { float: left; font-weight: bold;}
+#chutney .chutney-viewmode ul { float: left; }
+#chutney .chutney-viewmode ul li { margin-left: 25px; float: left; }
+
+#chutney table.chutney-transactions {
+  border-collapse: collapse;
+}
+
+#chutney th { color: #000000; font-weight: bold; padding-bottom: 5px; text-transform: uppercase; font-size: 110%;}
+
+#chutney table.chutney-transactions td {
+  padding: 12px 5px 8px;
+  border-bottom: 1px dotted #dddddd;
+}
+
+#chutney .firstColumn { width: 17px; }
+#chutney .secondColumn { width: 457px;}
+#chutney .thirdColumn { width: 275px; }
+#chutney .fourthColumn { width: 120px; }
+#chutney .specialColumn { width: 405px;}
+
+#chutney table.chutney-transactions tr.chutney-tx a.chutney-editlink, #chutney table.chutney-transactions tr.chutney-tx a.chutney-editlink:visited {
+  font-weight: normal;
+  font-size: 100%;
+  margin-left: 15px;
+}
+
+#chutney .chutney-tx-tooltip, #chutney .chutney-editor {
+  background: white;
+  border: 1px solid #dddddd;
+  position: absolute;
+  z-index: 5;
+  padding: 1em;
+  padding-top: 1.5em;
+}
+
+#chutney .chutney-tx-tooltip td {
+  font-weight: normal;
+}
+
+#chutney .chutney-tx-tooltip td + td {
+  padding-left: 0.5em;
+}
+
+#chutney .chutney-editor input.chutney-bad-name {
+  background-color: pink;
+  z-index: 1000;
+}
+
+#chutney .chutney-editor table, #chutney .chutney-tx-tooltip table {
+  font-size: smaller;
+  width: 100%;
+}
+#chutney .chutney-editor table td, #chutney .chutney-tx-tooltip td { padding: 2px 3px;}
+#chutney .chutney-tx-tooltip table { margin-top: 8px;}
+
+#chutney .chutney-editor table td, #chutney .chutney-tx-tooltip td {
+  border: 1px dotted #eeeeee;
+}
+
+#chutney div.chutney-party-breakdown {
+  width: 70px;
+  height: 60px;
+  float: left;
+}
+#chutney div.chutney-party-breakdown-large {
+  width: 240px;
+  height: 140px;
+  margin-top: 10px;
+}
+
+.chutney-height-hack { height: 100% !important; } /* firefox mask hack */
+
+#chutney .ui-icon-triangle-1-s { display: block; width: 16px; height: 16px; background-image: url(south-street/images/ui-icons_808080_256x240.png); background-position: -64px -16px; }
+#chutney .ui-icon-triangle-1-e { display: block; width: 16px; height: 16px; background-image: url(south-street/images/ui-icons_808080_256x240.png); background-position: -32px -16px; }
+
+#chutney .chutney-scrape, #chutney .chutney-back { display: block; float: right; }
+
+/* autocomplete styles */
+.ac_results {
+	padding: 0px;
+	border: 1px solid black;
+	background-color: white;
+	overflow: hidden;
+	z-index: 99999;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	/* 
+	if width will be 100% horizontal scrollbar will apear 
+	when scroll mode will be used
+	*/
+	/*width: 100%;*/
+	font: menu;
+	font-size: 12px;
+	/* 
+	it is very important, if line-height not setted or setted 
+	in relative units scroll will be broken in firefox
+	*/
+	line-height: 16px;
+	overflow: hidden;
+}
+
+.ac_loading {
+	background: white url('indicator.gif') right center no-repeat;
+}
+
+.ac_odd {
+	background-color: #eee;
+}
+
+.ac_over {
+	background-color: #0A246A;
+	color: white;
+}
