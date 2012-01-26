@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="underscore-min.js"></script>
+        <script type="text/javascript" src="d3.min.js"></script>
+    </head>
+    <body>
+        <div id="industries_barchart"></div>
+        <script type="text/javascript">
+            var D3Charts = {
+                barchart: function(div, data) {
+                    var sizes = {
+                        chart_height: 195,
+                        chart_width: 235,
+                        chart_x: 215,
+                        chart_y: 10,
+                        bar_gutter: 5,
+                        right_gutter: 70,
+                        row_height: 18,
+                        bar_height: 14,
+                        chart_padding: 4,
+                    };
+
+                    opts = {
+                        "type": "soft",
+                        "gutter": sizes.bar_gutter, //space between bars, as fn of bar width/height
+                        "stacked": false,
+                        "colors" : ["#efcc01", "#f27e01"]
+                    };
+
+                    totals = _.map(data, function(item) { return d3.sum(item.values); })
+
+                    var chart = d3.select('#' + div).append("svg")
+                        .attr("class", "chart")
+                        .attr("width", sizes.chart_x + sizes.chart_width + sizes.right_gutter)
+                        .attr("height", sizes.chart_height);
+
+                    var width = d3.scale.linear()
+                        .domain([0, d3.max(totals)])
+                        .range([0, sizes.chart_width]);
+                    
+                    var yPos = d3.scale.ordinal()
+                        .domain(totals)
+                        .rangeBands([sizes.chart_y + sizes.chart_padding, sizes.chart_y + (sizes.row_height * data.length) + sizes.chart_padding]);
+
+                    
+                    // bars
+                    chart.selectAll("g")
+                        .data(data)
+                    .enter().append("g")
+                        .attr("transform", function(d, i) {
+                            return "translate(" + sizes.chart_x + "," + yPos(i) + ")";
+                        })
+                    .selectAll("path")
+                        .data(function(d) { return _.map(_.range(d.values.length), function(j) { return d3.sum(d.values.slice(0, j + 1))}).reverse(); })
+                    .enter().append("path")
+                        .attr("d", function(d, i) {
+                            var x = 0;
+                            var y = 0;
+                            var h = sizes.bar_height;
+
+                            var r = 4;
+
+                            var w = width(d, i);
+
+                            var array = [].concat(
+                                ["M", x, y],
+                                ["L", d3.max([x + w - r, 0]), y, "Q", x + w, y, x + w, y + r],
+                                ["L", x + w, d3.max([y + h - r, 0]), "Q", x + w, y + h, d3.max([x + w - r, 0]), y + h],
+                                ["L", x, y + h, "Z"]
+                            );
+
+                            return array.join(" ");
+                        })
+                        .attr("fill", function(d, i) { return opts.colors[opts.colors.length - i - 1] });
+                    
+                    // numbers
+                    var format = d3.format(',.0f');
+                    chart.selectAll("text.chart-number")
+                        .data(totals)
+                    .enter().append("text")
+                        .classed('chart-number', true)
+                        .attr("x", function(d, i) { return sizes.chart_x + width(d, i) + sizes.bar_gutter; })
+                        .attr("y", function(d, i) { return yPos(i) + yPos.rangeBand() / 2; })
+                        .attr("dy", ".15em") // vertical-align: middle
+                        .attr('fill', '#666666')
+                        .text(function(d, i) { return '$' + format(d); })
+                        .style('font', '11px arial,sans-serif');
+                    
+                    // labels
+                    chart.selectAll("g.chart-label")
+                        .data(data)
+                    .enter().append("g")
+                        .classed('chart-label', true)
+                        .attr("transform", function(d, i) { return "translate(0," + (yPos(i) + yPos.rangeBand() / 2) + ")"; })
+                        .each(function(d, i) {
+                            var parent = d3.select(this);
+                            if (d.href) {
+                                parent = parent.append("a")
+                                parent.attr('xlink:href', d.href);
+                            }
+                            parent.append("text")
+                                .attr("dy", ".15em") // vertical-align: middle
+                                .attr('fill', parent.node().tagName == 'a' ? '#0a6e92' : '#666666')
+                                .text(function(d, i) { return d.key; })
+                                .style('font', '11px arial,sans-serif');
+                        })
+                    
+                    // axes
+                    chart.append("line")
+                        .attr("x1", sizes.chart_x - .5)
+                        .attr("x2", sizes.chart_x - .5)
+                        .attr("y1", sizes.chart_y)
+                        .attr("y2", sizes.chart_y + (data.length * sizes.row_height) + sizes.chart_padding)
+                        .style("stroke", "#827d7d")
+                        .style("stroke-width", "1");
+                    
+                    chart.append("line")
+                        .attr("x1", sizes.chart_x)
+                        .attr("x2", sizes.chart_x + sizes.chart_width + sizes.right_gutter)
+                        .attr("y1", sizes.chart_y + (data.length * sizes.row_height) + sizes.chart_padding - .5)
+                        .attr("y2", sizes.chart_y + (data.length * sizes.row_height) + sizes.chart_padding - .5)
+                        .style("stroke", "#827d7d")
+                        .style("stroke-width", "1");
+                }
+            }
+
+            var Brisket = {
+                finance_barchart: function(div, data) {
+                    /* expects data to be a list of dicts each with keys called key,
+                       value, and href. */
+                    
+                    if (data.length === 0) return;
+
+                    if (data[0].value_employee) {
+                        graph_data = _.map(data, function(item) {
+                            return {
+                                key: item.key,
+                                href: item.href,
+                                values: [parseFloat(item.value_employee), parseFloat(item.value_pac)]
+                            };
+                        });
+                    } else {
+                        graph_data = _.map(data, function(item) {
+                            return {
+                                key: item.key,
+                                href: item.href,
+                                values: [parseFloat(item.value)]
+                            };
+                        });
+                    }
+
+                    D3Charts.barchart(div, graph_data);
+                }
+            }
+            //Brisket.finance_barchart("industries_barchart", [{"href": "/industry/retired/b21467ae32924f84ada9076535401a91", "value": "29619832.00", "key": "Retired"}, {"href": "/industry/lawyerslaw-firms/f50cf984a2e3477c8167d32e2b14e052", "value": "17713635.00", "key": "Lawyers/Law Firms"}, {"href": "/industry/real-estate/7500030dffe24844aa467a75f7aedfd1", "value": "14795731.00", "key": "Real Estate"}, {"href": "/industry/securities-investment/0af3f418f426497e8bbf916bfc074ebc", "value": "13346195.00", "key": "Securities & Investment"}, {"href": "/industry/health-professionals/a05a0d06f6814b31bece35a81fcb40c7", "value": "9452910.00", "key": "Health Professionals"}, {"href": "/industry/misc-business/d9c4a26cd671436eac3c501184364fc4", "value": "8590088.00", "key": "Misc Business"}, {"href": "/industry/misc-finance/05b23aff0dbd4b74b95b3e16074a874c", "value": "8158822.00", "key": "Misc Finance"}, {"href": "/industry/business-services/e5175721aac9406795a1f97cae01e01d", "value": "5812598.00", "key": "Business Services"}, {"href": "/industry/general-contractors/ad689c2a2bf744cc82237f851cd3f2c0", "value": "5174008.00", "key": "General Contractors"}, {"href": "/industry/insurance/8ada0fc2d6994f2ab06c7e025dff2284", "value": "4909761.00", "key": "Insurance"}] );
+            Brisket.finance_barchart("industries_barchart", [{"href": "", "value_employee": "515938.00", "value": "515938.00", "key": "RNC/Repub National State Elections...", "value_pac": "0"}, {"href": "/organization/republican-national-cmte/00b3c4b8c7544003804726b54df663c3", "value_employee": "220539.00", "value": "260798.00", "key": "Republican National Cmte", "value_pac": "40259.00"}, {"href": "/organization/national-republican-congressional-cmte/e8d9336a139241c9ad792070ce85eec8", "value_employee": "39594.00", "value": "234594.00", "key": "National Republican Congressional ...", "value_pac": "195000.00"}, {"href": "/organization/democratic-congressional-campaign-cmte/52a8f5ae450f4507ab79f705c832a41f", "value_employee": "20454.00", "value": "221754.00", "key": "Democratic Congressional Campaign ...", "value_pac": "201300.00"}, {"href": "/organization/national-republican-senatorial-cmte/6bff9730496f42f0aad45a75b2033c75", "value_employee": "42724.00", "value": "213724.00", "key": "National Republican Senatorial Cmt...", "value_pac": "171000.00"}, {"href": "/organization/democratic-senatorial-campaign-cmte/19f0a07f21434a10b434281348f6daa8", "value_employee": "17800.00", "value": "178500.00", "key": "Democratic Senatorial Campaign Cmt...", "value_pac": "160700.00"}, {"href": "", "value_employee": "1000.00", "value": "151000.00", "key": "One United Michigan", "value_pac": "150000.00"}, {"href": "/organization/dnc-services-corp/e497407d2e834cd48e126093ed0416e5", "value_employee": "52331.00", "value": "86821.00", "key": "DNC Services Corp", "value_pac": "34490.00"}, {"href": "", "value_employee": "0", "value": "75400.00", "key": "Yes On 64 Californians To Stop Sha...", "value_pac": "75400.00"}, {"href": "", "value_employee": "2500.00", "value": "66820.00", "key": "House Republican Campaign Cmte Of ...", "value_pac": "64320.00"}] );
+        </script>
+    </body>
+</html>
