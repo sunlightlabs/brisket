@@ -527,12 +527,12 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
     if int(cycle) == LATEST_CYCLE:
-        section['fec_summary'] = api.pol.fec_summary(entity_id)
+        section['fec_summary'] = api.pol.fec_summary(entity_id, cycle)
         if section['fec_summary'] and 'date' in section['fec_summary']:
             section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
         
         timelines = []
-        for pol in api.pol._get_url_json('aggregates/pol/%s/fec_timeline.json' % entity_id):
+        for pol in api.pol.fec_timeline(entity_id, cycle):
             tl = {
                 'name': pol['candidate_name'],
                 'party': pol['party'],
