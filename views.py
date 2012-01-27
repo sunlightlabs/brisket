@@ -51,4 +51,4 @@ def page_not_found(request, template_name='404.html'):
 
 def server_error(request, template_name='500.html'):
     t = loader.get_template(template_name)
-    return http.HttpResponseServerError(t.render(Context({'search_form': SearchForm()})))
+    return http.HttpResponseServerError(t.render(RequestContext(request, {})))
