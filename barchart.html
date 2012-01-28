@@ -272,13 +272,13 @@
                     var default_opts = {
                         chart_height: 195,
                         chart_width: 300,
-                        chart_x: 100,
+                        chart_x: 85,
                         chart_y: 10,
-                        right_gutter: 120,
+                        right_gutter: 135,
                         label_padding: 10,
                         legend_padding: 15,
                         legend_r: 5,
-                        dot_r: 4,
+                        dot_r: 5,
                         row_height: 14,
                         colors : ["#efcc01", "#f27e01", "#e60002", "#186582", "#dcddde"],
                         axis_color: "#827d7d",
@@ -292,7 +292,7 @@
                     var chart = d3.select('#' + div).append("svg")
                         .classed("chart", true)
                         .attr("width", opts.chart_x + opts.chart_width + opts.right_gutter)
-                        .attr("height", opts.chart_height + 100);
+                        .attr("height", opts.chart_y + opts.chart_height + opts.tick_length + opts.label_padding + opts.row_height);
                     
                     // scalers
                     y = d3.scale.linear().domain([0, d3.max(_.flatten(_.map(data, function(d) { return d.timeline; })))]).range([opts.chart_height, 0]);
@@ -337,7 +337,6 @@
                         {'label': 'Jul. 1', 'day': 546}, // jul 1
                         {'label': 'Oct. 1', 'day': 638} // oct 1
                     ], function(day) { return day.day < data[0].timeline.length * 7; });
-                    console.log(data, quarters);
 
                     var ticks = chart.append('g')
                         .classed('ticks', true)
@@ -376,10 +375,39 @@
                             .append('path')
                             .classed('graph-line', true)
                             .attr('d', function(d, i) { return line(d.timeline); })
-                            .style('stroke-width', '2')
+                            .style('stroke-width', '3')
                             .style('stroke', function(d, i) { return opts.colors[i]; })
                             .style('fill', 'none');
                     
+                    // floating box
+                    var make_box = function(x, y, color, text) {
+                        var box = chart.append('g')
+                            .classed('graph-float', true);
+                            
+                        var rect = box.append('rect');
+                        
+                        var label = box.append("text")
+                            .classed('chart-number', true)
+                            .attr("x", x - (2 * opts.label_padding))
+                            .attr("y", y)
+                            .attr("dy", ".5em") // vertical-align: middle
+                            .attr('fill', opts.text_color)
+                            .text(text)
+                            .style('font', '11px arial,sans-serif')
+                            .style('text-anchor', 'end');
+                        
+                        var width = label.node().getComputedTextLength();
+                        rect.attr('width', width + (2 * opts.label_padding))
+                            .attr('height', opts.row_height + opts.label_padding)
+                            .attr('x', x - width - (3 * opts.label_padding))
+                            .attr('y', y - opts.label_padding)
+                            .style('fill', '#fff')
+                            .style('stroke', color)
+                            .style('stroke-width', 1);
+                        
+                        return box;
+                    };
+
                     // dots
                     chart.append('g')
                         .classed('graph-dots', true)
@@ -388,7 +416,7 @@
                         .data(data)
                             .enter()
                             .append('g')
-                            .attr('data-color', function(d, i) { return opts.colors[i]; })
+                            .attr('data-series', function(d, i) { return i; })
                             .classed('series-dots', true)
                             .selectAll('circle')
                             .data(function(d, i) { return d.timeline; })
@@ -399,24 +427,33 @@
                                 .attr("cy", y)
                                 .attr("r", opts.dot_r)
                                 .style('stroke', 'rgba(0,0,0,0)')
-                                .style('stroke-width', 10)
+                                .style('stroke-width', 8)
                                 .on('mouseover', function(d, i) {
-                                    d3.select(this).attr('fill', d3.select(this.parentNode).attr('data-color'));
+                                    var series = d3.select(this.parentNode).attr('data-series');
+                                    var color = opts.colors[parseInt(series)];
+                                    var dthis = d3.select(this).attr('fill', color);
+                                    this.floatingBox = make_box(dthis.attr('cx'), parseFloat(dthis.attr('cy')) + opts.chart_y, color, '$' + format(d));
+
+                                    var circle = chart.selectAll('g.legend-item[data-series="' + series + '"] circle')
+                                        .attr('transform', 'scale(1.5)');
+                                    clearTimeout(circle.node().timeout);
+                                    chart.selectAll('g.legend-item[data-series="' + series + '"] text')
+                                        .style('font-weight', 'bold');
                                 })
-                                .on('mouseout', function(d, i, el) {
+                                .on('mouseout', function(d, i) {
+                                    var series = d3.select(this.parentNode).attr('data-series');
                                     d3.select(this).attr("fill", 'rgba(0,0,0,0)');
+                                    this.floatingBox.remove();
+
+                                    var circle = chart.selectAll('g.legend-item[data-series="' + series + '"] circle');
+                                    circle.node().timeout = setTimeout(function() {
+                                        circle.transition()
+                                            .duration(200)
+                                            .attr('transform', 'scale(1)');
+                                        chart.selectAll('g.legend-item[data-series="' + series + '"] text')
+                                            .style('font-weight', null);
+                                    }, 100)
                                 });
-                    
-                    // floating box
-                    var box = chart.append('g')
-                        .classed('graph-float', true);
-                        
-                        box.append('rect')
-                            .attr('width', 10)
-                            .attr('height', 10)
-                            .style('fill', '#fff')
-                            .style('stroke', opts.axis_color)
-                            .style('stroke-width', 1)
 
                     // axes
                     chart.append("line")
@@ -438,13 +475,17 @@
                         .enter()
                             .append("g")
                             .classed("legend-item", true)
+                            .attr("data-series", function(d, i) { return i; })
                             .attr("transform", function(d, i) { return "translate(0," + ((i + .5) * opts.row_height) + ")"; })
                     
                         legendItems.append("circle")
                             .attr("fill", function(d, i) { return opts.colors[i]; })
                             .attr("cx", 0)
                             .attr("cy", 0)
-                            .attr("r", opts.legend_r);
+                            .attr("r", opts.legend_r)
+                            .each(function() {
+                                this.timeout = null;
+                            })
                         
                         legendItems.append("text")
                             .attr("dy", ".45em") // vertical-align: middle
@@ -491,7 +532,7 @@
                     D3Charts.piechart(div, in_data, opts);
                 },
                 party_piechart: function(div, data) {
-                    var party_colors = {"Republicans": "#E60002", "Democrats": "#186582", "Other" : "#DCDDDE"};
+                    var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "#dcddde"};
                     Brisket.piechart(div, data, party_colors);
                 },
                 indiv_pac_piechart: function(div, data) {
