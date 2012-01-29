@@ -349,7 +349,7 @@
                                 .attr("x2", dayToPx)
                                 .attr("y1", opts.chart_y + opts.chart_height)
                                 .attr("y2", opts.chart_y + opts.chart_height + opts.tick_length)
-                                .style("stroke", function(d, i) { return i == 0 ? opts.axis_color : opts.tick_color })
+                                .style("stroke", opts.axis_color)
                                 .style("stroke-width", "1")
                             ticks.append('text')
                                 .classed('chart-number', true)
