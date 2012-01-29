@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <script type="text/javascript" src="underscore-min.js"></script>
-        <script type="text/javascript" src="d3.min.js"></script>
-        <script type="text/javascript" src="d3.geom.min.js"></script>
-    </head>
-    <body>
-        <div id="org_barchart"></div>
-        <div id="industries_barchart"></div>
-        <div id="piechart_local"></div>
-        <div id="piechart_party"></div>
-        <div id="timeline"></div>
-        <script type="text/javascript">
             var D3Charts = {
                 barchart: function(div, data, opts) {
                     var default_opts = {
@@ -548,12 +534,3 @@
                     Brisket.piechart(div, data, level_colors);
                 }
             }
-
-            Brisket.contribution_single_barchart("industries_barchart", [{"href": "/industry/retired/b21467ae32924f84ada9076535401a91", "value": "29619832.00", "key": "Retired"}, {"href": "/industry/lawyerslaw-firms/f50cf984a2e3477c8167d32e2b14e052", "value": "17713635.00", "key": "Lawyers/Law Firms"}, {"href": "/industry/real-estate/7500030dffe24844aa467a75f7aedfd1", "value": "14795731.00", "key": "Real Estate"}, {"href": "/industry/securities-investment/0af3f418f426497e8bbf916bfc074ebc", "value": "13346195.00", "key": "Securities & Investment"}, {"href": "/industry/health-professionals/a05a0d06f6814b31bece35a81fcb40c7", "value": "9452910.00", "key": "Health Professionals"}, {"href": "/industry/misc-business/d9c4a26cd671436eac3c501184364fc4", "value": "8590088.00", "key": "Misc Business"}, {"href": "/industry/misc-finance/05b23aff0dbd4b74b95b3e16074a874c", "value": "8158822.00", "key": "Misc Finance"}, {"href": "/industry/business-services/e5175721aac9406795a1f97cae01e01d", "value": "5812598.00", "key": "Business Services"}, {"href": "/industry/general-contractors/ad689c2a2bf744cc82237f851cd3f2c0", "value": "5174008.00", "key": "General Contractors"}, {"href": "/industry/insurance/8ada0fc2d6994f2ab06c7e025dff2284", "value": "4909761.00", "key": "Insurance"}] );
-            Brisket.contribution_stacked_barchart("org_barchart", [{"href": "", "value_employee": "515938.00", "value": "515938.00", "key": "RNC/Repub National State Elections...", "value_pac": "0"}, {"href": "/organization/republican-national-cmte/00b3c4b8c7544003804726b54df663c3", "value_employee": "220539.00", "value": "260798.00", "key": "Republican National Cmte", "value_pac": "40259.00"}, {"href": "/organization/national-republican-congressional-cmte/e8d9336a139241c9ad792070ce85eec8", "value_employee": "39594.00", "value": "234594.00", "key": "National Republican Congressional ...", "value_pac": "195000.00"}, {"href": "/organization/democratic-congressional-campaign-cmte/52a8f5ae450f4507ab79f705c832a41f", "value_employee": "20454.00", "value": "221754.00", "key": "Democratic Congressional Campaign ...", "value_pac": "201300.00"}, {"href": "/organization/national-republican-senatorial-cmte/6bff9730496f42f0aad45a75b2033c75", "value_employee": "42724.00", "value": "213724.00", "key": "National Republican Senatorial Cmt...", "value_pac": "171000.00"}, {"href": "/organization/democratic-senatorial-campaign-cmte/19f0a07f21434a10b434281348f6daa8", "value_employee": "17800.00", "value": "178500.00", "key": "Democratic Senatorial Campaign Cmt...", "value_pac": "160700.00"}, {"href": "", "value_employee": "1000.00", "value": "151000.00", "key": "One United Michigan", "value_pac": "150000.00"}, {"href": "/organization/dnc-services-corp/e497407d2e834cd48e126093ed0416e5", "value_employee": "52331.00", "value": "86821.00", "key": "DNC Services Corp", "value_pac": "34490.00"}, {"href": "", "value_employee": "0", "value": "75400.00", "key": "Yes On 64 Californians To Stop Sha...", "value_pac": "75400.00"}, {"href": "", "value_employee": "2500.00", "value": "66820.00", "key": "House Republican Campaign Cmte Of ...", "value_pac": "64320.00"}] );
-            Brisket.local_piechart("piechart_local",  {"in-state": 596631.0, "out-of-state": 2390208.0});
-            Brisket.party_piechart("piechart_party", {"Republicans": 6537528.49, "Other": 407102.86, "Democrats": 3688388.89});
-            D3Charts.timeline_chart("timeline", [{"party": "REP", "sum": 377652702, "is_this": true, "name": "Mitt Romney (R)", "timeline": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250000, 250000, 871175, 1672025, 2242588, 2901751, 4036559, 7771455, 8875005, 9844235, 10967065, 12045936, 14105586, 17442101, 18203438, 18694603, 19082226, 19697605, 20141150, 20516610, 21127368, 21832910, 22228060, 22928512, 24282145, 26159918, 29482676]}, {"party": "DEM", "sum": 252088129, "is_this": false, "name": "Barack Obama (D)", "timeline": [0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 300, 300, 300, 552565, 1095873, 1853002, 2922979, 3631088, 4196203, 4787579, 5228705, 5906368, 6479962, 7614294, 8324580, 10929019, 11113471, 11528523, 11897053, 12418857, 13159287, 13603308, 14034305, 14572731, 15248071, 15894195, 16763554, 17608639, 20722718]}, {"party": "REP", "sum": 84074267, "is_this": false, "name": "Tim Pawlenty (R)", "timeline": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67750, 143415, 196390, 480640, 651594, 823844, 1139521, 1526894, 1738694, 2095975, 2255325, 2417825, 2662348, 3017415, 4019013, 4069113, 4160771, 4273014, 4411029, 4587529, 4685179, 4702537, 4720037, 4742537, 4751787, 4773787, 5462577, 5497727]}, {"party": "REP", "sum": 52127806, "is_this": false, "name": "Ron Paul (L)", "timeline": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28784, 471228, 499923, 549315, 644704, 740018, 1362136, 1424756, 1581207, 2115287, 2138489, 2193984, 2472083, 2523669, 2673490, 2753363, 2943363, 3622224, 3708759, 3826482, 3911583, 4436472, 5506487]}]);
-        </script>
-    </body>
-</html>
