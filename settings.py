@@ -146,12 +146,10 @@ from local_settings import *
 MEDIASYNC['JOINED'] = {
     'js/brisket-all.js': [
         'js/jquery.tablesorter.min.js',
-        'js/underscore-1.0.2.min.js',
-        'js/g.raphael.js',
-        'js/g.pie.js',
-        'js/g.bar.patched.js',
-        'js/g.line.js',
-        'js/brisket_charts.js',
+        'js/underscore-min.js',
+        'js/d3.min.js',
+        'js/d3.geom.min.js',
+        'js/brisket_d3.js',
         'js/brisket.js',
     ],
     'data/css/all.css': [

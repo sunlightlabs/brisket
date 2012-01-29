@@ -530,7 +530,7 @@ var Brisket = {
         Brisket.piechart(div, data, local_colors);
     },
     level_piechart: function(div, data) {
-        var indiv_pac_colors = {"Federal": '#efcc01', "State": '#f2e388'};
+        var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
         Brisket.piechart(div, data, level_colors);
     }
 }
