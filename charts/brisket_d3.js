@@ -7,6 +7,7 @@ var D3Charts = {
             chart_y: 10,
             bar_gutter: 5,
             right_gutter: 70,
+            left_gutter: 15,
             row_height: 18,
             bar_height: 14,
             chart_padding: 4,
@@ -22,7 +23,7 @@ var D3Charts = {
         totals = _.map(data, function(item) { return d3.sum(item.values); })
 
         var chart = d3.select('#' + div).append("svg")
-            .classed("chart", true)
+            .classed("chart-canvas", true)
             .attr("width", opts.chart_x + opts.chart_width + opts.right_gutter)
             .attr("height", opts.chart_height);
 
@@ -83,7 +84,7 @@ var D3Charts = {
             .data(data)
         .enter().append("g")
             .classed('chart-label', true)
-            .attr("transform", function(d, i) { return "translate(0," + (yPos(i) + yPos.rangeBand() / 2) + ")"; })
+            .attr("transform", function(d, i) { return "translate(" + opts.left_gutter + "," + (yPos(i) + yPos.rangeBand() / 2) + ")"; })
             .each(function(d, i) {
                 var parent = d3.select(this);
                 if (d.href) {
@@ -135,6 +136,7 @@ var D3Charts = {
         
         var chart = d3.select("#" + div)
             .append("svg")
+                .classed('chart-canvas', true)
                 .attr("width", opts.chart_width)
                 .attr("height", opts.chart_height);
         
@@ -276,7 +278,7 @@ var D3Charts = {
         _.defaults(opts, default_opts);
 
         var chart = d3.select('#' + div).append("svg")
-            .classed("chart", true)
+            .classed("chart-canvas", true)
             .attr("width", opts.chart_x + opts.chart_width + opts.right_gutter)
             .attr("height", opts.chart_y + opts.chart_height + opts.tick_length + opts.label_padding + opts.row_height);
         
