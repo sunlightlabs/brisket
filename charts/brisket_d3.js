@@ -32,7 +32,7 @@ var D3Charts = {
             .range([0, opts.chart_width]);
         
         var yPos = d3.scale.ordinal()
-            .domain(totals)
+            .domain(d3.range(totals.length))
             .rangeBands([opts.chart_y + opts.chart_padding, opts.chart_y + (opts.row_height * data.length) + opts.chart_padding]);
 
         
