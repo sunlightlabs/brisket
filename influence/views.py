@@ -538,14 +538,16 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
                 'party': pol['party'],
                 'is_this': pol['entity_id'] == entity_id,
                 'timeline': map(lambda item: item if item >= 0 else 0, pol['timeline']),
+                'href': '/politician/%s/%s?cycle=%s' % (slugify(PoliticianNameCleaver(pol['candidate_name']).parse().name_str()), pol['entity_id'], cycle)
             }
             tl['sum'] = sum(tl['timeline'])
             timelines.append(tl)
         timelines.sort(key=lambda t: (int(t['is_this']), t['sum']), reverse=True)
         # restrict to top 5, and only those receiving at least 10% of this pol's total
-        this_sum = timelines[0]['sum']
-        timelines = [timeline for timeline in timelines if timeline['sum'] > 0.1 * this_sum]
-        timelines = timelines[:5]
+        if timelines:
+            this_sum = timelines[0]['sum']
+            timelines = [timeline for timeline in timelines if timeline['sum'] > 0.1 * this_sum]
+            timelines = timelines[:5]
         
         section['fec_timelines'] = json.dumps(timelines)
 

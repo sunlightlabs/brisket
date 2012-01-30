@@ -272,6 +272,7 @@ var D3Charts = {
             axis_color: "#827d7d",
             tick_color: '#dcddde',
             text_color: "#666666",
+            link_color: "#0a6e92",
             tick_length: 5
         };
         if (typeof opts === 'undefined') opts = {};
@@ -475,12 +476,20 @@ var D3Charts = {
                     this.timeout = null;
                 })
             
-            legendItems.append("text")
-                .attr("dy", ".45em") // vertical-align: middle
-                .attr("dx", opts.legend_padding)
-                .attr('fill', opts.text_color)
-                .text(function(d, i) { return d.name; })
-                .style('font', '11px arial,sans-serif');
+            legendItems.each(function(d, i) {
+                var parent = d3.select(this);
+                if (d.href) {
+                    parent = parent.append("a")
+                    parent.attr('xlink:href', d.href);
+                }
+            
+                parent.append("text")
+                    .attr("dy", ".45em") // vertical-align: middle
+                    .attr("dx", opts.legend_padding)
+                    .attr('fill', parent.node().tagName == 'a' ? opts.link_color : opts.text_color)
+                    .text(function(d, i) { return d.name; })
+                    .style('font', '11px arial,sans-serif');
+            });
     }
 }
 
