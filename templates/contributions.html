@@ -6,7 +6,11 @@
         {% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
             ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
         {% else %}
-            ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+            {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
+                ${{section.fec_summary.total_raised|floatformat:0|intcomma }} Received
+            {% else %}
+                ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+            {% endif %}
         {% endif %}</span>
     <div class="interiorMethodology">
         <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
