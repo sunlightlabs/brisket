@@ -65,8 +65,8 @@
     });
 })();
 $(function() {
-    // Raphael pie chart
-    piechart("piechart_fec", {
+    // pie chart
+    Brisket.fec_piechart("piechart_fec", {
         "Individuals": {{ section.fec_summary.contributions_indiv }},
         "PACs": {{ section.fec_summary.contributions_pac }},
         "Party": {{ section.fec_summary.contributions_party }},

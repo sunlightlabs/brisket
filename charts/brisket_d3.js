@@ -514,8 +514,10 @@ var Brisket = {
         var in_data = []
         var opts = {colors: []}
         _.each(data, function(value, key) {
-            in_data.push({'key': key, 'value': value})
-            opts.colors.push(colors[key]);
+            if (value > 0) {
+                in_data.push({'key': key, 'value': value})
+                opts.colors.push(colors[key]);
+            }
         })
         D3Charts.piechart(div, in_data, opts);
     },
@@ -534,5 +536,9 @@ var Brisket = {
     level_piechart: function(div, data) {
         var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
         Brisket.piechart(div, data, level_colors);
+    },
+    fec_piechart: function(div, data) {
+        var fec_colors = {"Individuals": '#efcc01', "PACs": '#f2e388', "Party": "#f27e01", "Self-Financing": "#e60002", "Transfers": "#186582"};
+        Brisket.piechart(div, data, fec_colors);
     }
 }
