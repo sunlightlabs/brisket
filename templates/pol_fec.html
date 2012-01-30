@@ -32,38 +32,11 @@
 <li class="twoColumn">
     <h4 class="withTip">Contributions Over Time</h4>
     <span class="tip">How this candidate's receipts compare to competitors in this election cycle.</span>
-    <div id="fec_linechart"></div>
+    <div id="timeline_fec"></div>
 </li>
 <div class="clear"></div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
-(function() {
-    var fec_data = {{ section.fec_timelines|safe }};
-    google.load("visualization", "1", {packages:["corechart"]});
-    google.setOnLoadCallback(function() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Week');
-        var longest = 0;
-        _.each(fec_data, function(pol) {
-            data.addColumn('number', pol.name);
-            if (pol.timeline.length > longest) {
-                longest = pol.timeline.length;
-            }
-        })
-        data.addRows(longest);
-        for (var i = 0; i < longest; i++) {
-            data.setValue(i, 0, "Week " + (i + 1));
-        }
-        _.each(fec_data, function(pol, idx) {
-            for (var i = 0; i < pol.timeline.length; i++) {
-                data.setValue(i, idx + 1, pol.timeline[i]);
-            }
-        });
-
-        var chart = new google.visualization.LineChart(document.getElementById('fec_linechart'));
-        chart.draw(data, {width: 520, height: 300, chartArea: {left: 75, width: 275}, vAxis: {minValue: 0}, hAxis: {textPosition: 'none'}});
-    });
-})();
 $(function() {
     // pie chart
     Brisket.fec_piechart("piechart_fec", {
@@ -73,6 +46,9 @@ $(function() {
         "Self-Financing": {{ section.fec_summary.contributions_candidate }},
         "Transfers": {{ section.fec_summary.transfers_in }}
     });
+
+    // line graph
+    D3Charts.timeline_chart("timeline_fec", {{ section.fec_timelines|safe }})
 })
 </script>
 
