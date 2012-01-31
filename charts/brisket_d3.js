@@ -1,4 +1,4 @@
-var D3Charts = {
+D3Charts = {
     barchart: function(div, data, opts) {
         var default_opts = {
             chart_height: 195,
@@ -268,7 +268,7 @@ var D3Charts = {
             legend_r: 5,
             dot_r: 5,
             row_height: 14,
-            colors : ["#efcc01", "#f27e01", "#e60002", "#186582", "#dcddde"],
+            colors : ["#e96d24", "#15576e", "#f2e387", "#f2f1e4", "#efcc01"],
             axis_color: "#827d7d",
             tick_color: '#dcddde',
             text_color: "#666666",
@@ -493,7 +493,7 @@ var D3Charts = {
     }
 }
 
-var Brisket = {
+Brisket = {
     contribution_single_barchart: function(div, data) {
         if (data.length === 0) return;
         
