@@ -268,7 +268,7 @@ D3Charts = {
             legend_r: 5,
             dot_r: 5,
             row_height: 14,
-            colors : ["#e96d24", "#15576e", "#f2e387", "#f2f1e4", "#efcc01"],
+            colors : ["#e96d24", "#15576e", "#f2e388", "#f2f1e4", "#efcc01"],
             axis_color: "#827d7d",
             tick_color: '#dcddde',
             text_color: "#666666",
@@ -547,7 +547,7 @@ Brisket = {
         Brisket.piechart(div, data, level_colors);
     },
     fec_piechart: function(div, data) {
-        var fec_colors = {"Individuals": '#efcc01', "PACs": '#f2e388', "Party": "#f27e01", "Self-Financing": "#e60002", "Transfers": "#186582"};
+        var fec_colors = {"Individuals": "#efcc01", "PACs": "#f2e388", "Party": "#15576e", "Self-Financing": "#f2f1e4", "Transfers": "#e96d24"};
         Brisket.piechart(div, data, fec_colors);
     }
 }
