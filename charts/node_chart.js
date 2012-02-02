@@ -42,7 +42,7 @@ require('./canvg.js');
 
 var canvas = new Canvas(0,0);
 canvas.style = {};
-canvg(canvas, div.innerHTML);
+canvg(canvas, div.innerHTML, { ignoreMouse: true, ignoreAnimation: true });
 
 canvas.toBuffer(function(err, buffer) {
     process.stdout.write(buffer);
