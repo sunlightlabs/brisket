@@ -1,31 +1,37 @@
 D3Charts = {
+    BARCHART_DEFAULTS: {
+        chart_height: 195,
+        chart_width: 235,
+        chart_x: 215,
+        chart_y: 10,
+        bar_gutter: 5,
+        right_gutter: 70,
+        left_gutter: 15,
+        row_height: 18,
+        bar_height: 14,
+        chart_padding: 4,
+        colors : ["#efcc01", "#f27e01"],
+        axis_color: "#827d7d",
+        text_color: "#666666",
+        link_color: "#0a6e92"
+    },
+    _get_barchart_size: function(opts) {
+        return {
+            'width': opts.chart_x + opts.chart_width + opts.right_gutter,
+            'height': opts.chart_height
+        }
+    },
     barchart: function(div, data, opts) {
-        var default_opts = {
-            chart_height: 195,
-            chart_width: 235,
-            chart_x: 215,
-            chart_y: 10,
-            bar_gutter: 5,
-            right_gutter: 70,
-            left_gutter: 15,
-            row_height: 18,
-            bar_height: 14,
-            chart_padding: 4,
-            colors : ["#efcc01", "#f27e01"],
-            axis_color: "#827d7d",
-            text_color: "#666666",
-            link_color: "#0a6e92"
-        };
         if (typeof opts === 'undefined') opts = {};
-        _.defaults(opts, default_opts);
-
+        _.defaults(opts, D3Charts.BARCHART_DEFAULTS);
 
         totals = _.map(data, function(item) { return d3.sum(item.values); })
 
+        var size = D3Charts._get_barchart_size(opts);
         var chart = d3.select('#' + div).append("svg")
             .classed("chart-canvas", true)
-            .attr("width", opts.chart_x + opts.chart_width + opts.right_gutter)
-            .attr("height", opts.chart_height);
+            .attr("width", size.width)
+            .attr("height", size.height);
 
         var width = d3.scale.linear()
             .domain([0, d3.max(totals)])
@@ -93,7 +99,7 @@ D3Charts = {
                 }
                 parent.append("text")
                     .attr("y", ".15em") // vertical-align: middle
-                    .attr('fill', parent.node().tagName == 'a' ? opts.link_color : opts.text_color)
+                    .attr('fill', parent.node().tagName.toLowerCase() == 'a' ? opts.link_color : opts.text_color)
                     .text(function(d, i) { return d.key; })
                     .style('font', '11px arial,sans-serif');
             })
@@ -115,30 +121,38 @@ D3Charts = {
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
     },
+
+    PIECHART_OPTS: {
+        chart_height: 116,
+        chart_width: 240,
+        chart_r: 54,
+        chart_cx: 58,
+        chart_cy: 58,
+        colors : ["#efcc01", "#f2e388"],
+        text_color: "#666666",
+        amount_color: '#000000',
+        row_height: 14,
+        legend_padding: 15,
+        legend_r: 5
+    },
+    _get_piechart_size: function(opts) {
+        return {
+            'width': opts.chart_width,
+            'height': opts.chart_height
+        }
+    },
     piechart: function(div, data, opts) {
-        var default_opts = {
-            chart_height: 116,
-            chart_width: 240,
-            chart_r: 54,
-            chart_cx: 58,
-            chart_cy: 58,
-            colors : ["#efcc01", "#f2e388"],
-            text_color: "#666666",
-            amount_color: '#000000',
-            row_height: 14,
-            legend_padding: 15,
-            legend_r: 5
-        };
         if (typeof opts === 'undefined') opts = {};
-        _.defaults(opts, default_opts);
+        _.defaults(opts, D3Charts.PIECHART_OPTS);
 
         var twopi = 2 * Math.PI;
         
+        var size = D3Charts._get_piechart_size(opts);
         var chart = d3.select("#" + div)
             .append("svg")
                 .classed('chart-canvas', true)
-                .attr("width", opts.chart_width)
-                .attr("height", opts.chart_height);
+                .attr("width", size.width)
+                .attr("height", size.height);
         
         // pie
         _.each(data, function(d, i) { d.color = opts.colors[i]; });
@@ -486,14 +500,14 @@ D3Charts = {
                 parent.append("text")
                     .attr("y", ".45em") // vertical-align: middle
                     .attr("x", opts.legend_padding)
-                    .attr('fill', parent.node().tagName == 'a' ? opts.link_color : opts.text_color)
+                    .attr('fill', parent.node().tagName.toLowerCase() == 'a' ? opts.link_color : opts.text_color)
                     .text(function(d, i) { return d.name; })
                     .style('font', '11px arial,sans-serif');
             });
     }
 }
 
-Brisket = {
+BrisketModern = {
     contribution_single_barchart: function(div, data) {
         if (data.length === 0) return;
         
@@ -551,3 +565,114 @@ Brisket = {
         Brisket.piechart(div, data, fec_colors);
     }
 }
+
+BrisketServer = {
+    contribution_single_barchart: function(div, data) {
+        if (data.length === 0) return;
+        
+        graph_data = _.map(data, function(item) {
+            return {
+                key: item.key,
+                href: item.href,
+                values: [parseFloat(item.value)]
+            };
+        });
+
+        D3Charts.barchart(div, graph_data);
+    },
+    contribution_stacked_barchart: function(div, data) {
+        if (data.length === 0) return;
+
+        graph_data = _.map(data, function(item) {
+            return {
+                key: item.key,
+                href: item.href,
+                values: [parseFloat(item.value_employee), parseFloat(item.value_pac)]
+            };
+        });
+        D3Charts.barchart(div, graph_data);
+    },
+    piechart: function(div, data) {
+        var in_data = []
+        var opts = {colors: []}
+        _.each(data, function(value) {
+            in_data.push({'key': value[0], 'value': value[1]})
+            opts.colors.push(value[2]);
+        })
+        D3Charts.piechart(div, in_data, opts);
+    },
+    party_piechart: function(div, data) {
+        var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "#dcddde"};
+        Brisket.piechart(div, data, party_colors);
+    },
+    indiv_pac_piechart: function(div, data) {
+        var indiv_pac_colors = {"Individuals": '#efcc01', "PACs": '#f2e388'};
+        Brisket.piechart(div, data, indiv_pac_colors);
+    },
+    local_piechart: function(div, data) {
+        var local_colors = {"in-state": '#efcc01', "out-of-state": '#f2e388', "unknown": '#dcddde'};
+        Brisket.piechart(div, data, local_colors);
+    },
+    level_piechart: function(div, data) {
+        var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
+        Brisket.piechart(div, data, level_colors);
+    },
+    fec_piechart: function(div, data) {
+        var fec_colors = {"Individuals": "#efcc01", "PACs": "#f2e388", "Party": "#15576e", "Self-Financing": "#f2f1e4", "Transfers": "#e96d24"};
+        Brisket.piechart(div, data, fec_colors);
+    }
+}
+
+// base64 function for external links
+var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(a){var b="";var c,chr2,chr3,enc1,enc2,enc3,enc4;var i=0;a=Base64._utf8_encode(a);while(i<a.length){c=a.charCodeAt(i++);chr2=a.charCodeAt(i++);chr3=a.charCodeAt(i++);enc1=c>>2;enc2=((c&3)<<4)|(chr2>>4);enc3=((chr2&15)<<2)|(chr3>>6);enc4=chr3&63;if(isNaN(chr2)){enc3=enc4=64}else if(isNaN(chr3)){enc4=64}b=b+this._keyStr.charAt(enc1)+this._keyStr.charAt(enc2)+this._keyStr.charAt(enc3)+this._keyStr.charAt(enc4)}return b},decode:function(a){var b="";var c,chr2,chr3;var d,enc2,enc3,enc4;var i=0;a=a.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(i<a.length){d=this._keyStr.indexOf(a.charAt(i++));enc2=this._keyStr.indexOf(a.charAt(i++));enc3=this._keyStr.indexOf(a.charAt(i++));enc4=this._keyStr.indexOf(a.charAt(i++));c=(d<<2)|(enc2>>4);chr2=((enc2&15)<<4)|(enc3>>2);chr3=((enc3&3)<<6)|enc4;b=b+String.fromCharCode(c);if(enc3!=64){b=b+String.fromCharCode(chr2)}if(enc4!=64){b=b+String.fromCharCode(chr3)}}b=Base64._utf8_decode(b);return b},_utf8_encode:function(a){a=a.replace(/\r\n/g,"\n");var b="";for(var n=0;n<a.length;n++){var c=a.charCodeAt(n);if(c<128){b+=String.fromCharCode(c)}else if((c>127)&&(c<2048)){b+=String.fromCharCode((c>>6)|192);b+=String.fromCharCode((c&63)|128)}else{b+=String.fromCharCode((c>>12)|224);b+=String.fromCharCode(((c>>6)&63)|128);b+=String.fromCharCode((c&63)|128)}}return b},_utf8_decode:function(a){var b="";var i=0;var c=c1=c2=0;while(i<a.length){c=a.charCodeAt(i);if(c<128){b+=String.fromCharCode(c);i++}else if((c>191)&&(c<224)){c2=a.charCodeAt(i+1);b+=String.fromCharCode(((c&31)<<6)|(c2&63));i+=2}else{c2=a.charCodeAt(i+1);c3=a.charCodeAt(i+2);b+=String.fromCharCode(((c&15)<<12)|((c2&63)<<6)|(c3&63));i+=3}}return b}};
+
+BrisketFallback = {
+    PATH: 'http://localhost:3000/chart/',
+    draw_graph: function(div, data, remote_name, size) {
+        var url = BrisketFallback.PATH + remote_name + '/' + Base64.encode(JSON.stringify(data));
+        var graph = document.getElementById(div);
+        if (!graph) return;
+        graph.style.width = size.width + 'px';
+        graph.style.height = size.height + 'px';
+        graph.style.background = 'url(' + url + ') no-repeat top left';
+    },
+    contribution_single_barchart: function(div, data) {
+        if (data.length === 0) return;
+        BrisketFallback.draw_graph(div, data, 'contribution_single_barchart', D3Charts._get_barchart_size(D3Charts.BARCHART_DEFAULTS));
+    },
+    contribution_stacked_barchart: function(div, data) {
+        if (data.length === 0) return;
+        BrisketFallback.draw_graph(div, data, 'contribution_stacked_barchart', D3Charts._get_barchart_size(D3Charts.BARCHART_DEFAULTS));
+    },
+    piechart: function(div, data, colors) {
+        var in_data = [];
+        _.each(data, function(value, key) {
+            if (value > 0) {
+                in_data.push([key, value, colors[key]])
+            }
+        })
+        BrisketFallback.draw_graph(div, in_data, 'piechart', D3Charts._get_piechart_size(D3Charts.BARCHART_DEFAULTS));
+    },
+    party_piechart: function(div, data) {
+        var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "#dcddde"};
+        Brisket.piechart(div, data, party_colors);
+    },
+    indiv_pac_piechart: function(div, data) {
+        var indiv_pac_colors = {"Individuals": '#efcc01', "PACs": '#f2e388'};
+        Brisket.piechart(div, data, indiv_pac_colors);
+    },
+    local_piechart: function(div, data) {
+        var local_colors = {"in-state": '#efcc01', "out-of-state": '#f2e388', "unknown": '#dcddde'};
+        Brisket.piechart(div, data, local_colors);
+    },
+    level_piechart: function(div, data) {
+        var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
+        Brisket.piechart(div, data, level_colors);
+    },
+    fec_piechart: function(div, data) {
+        var fec_colors = {"Individuals": "#efcc01", "PACs": "#f2e388", "Party": "#15576e", "Self-Financing": "#f2f1e4", "Transfers": "#e96d24"};
+        Brisket.piechart(div, data, fec_colors);
+    }
+}
+
+Brisket = BrisketFallback;

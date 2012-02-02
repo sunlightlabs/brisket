@@ -147,10 +147,10 @@ MEDIASYNC['JOINED'] = {
     'js/brisket-all.js': [
         'js/jquery.tablesorter.min.js',
         'js/underscore-min.js',
+        'js/brisket.js',
         'js/d3.min.js',
         'js/d3.geom.min.js',
         'js/brisket_d3.js',
-        'js/brisket.js',
     ],
     'data/css/all.css': [
         'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
