@@ -4,7 +4,7 @@
 <span class="tip external">covers through candidate's {{section.fec_summary.clean_date|date:"F j, Y"}} filing</span>
 <ul>
 
-<li class="oneColumn">
+<li class="oneColumn fecStats">
     <h4 class="withTip">FEC Summary</h4>
     <span class="tip">The latest tallies straight from the FEC.</span>
     <div class="graph piechart" id="piechart_fec">
@@ -12,20 +12,16 @@
     </div>
     <table>
         <tr>
-            <th>Type</th>
-            <th>Amount</th>
+            <td class="label">Disbursements</td>
+            <td>${{ section.fec_summary.disbursements|floatformat:0|intcomma }}<br /><span class="tip">#{{section.fec_summary.total_disbursements_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span></td>
         </tr>
-        <tr class="even">
-            <td>Disbursements</td>
-            <td>${{ section.fec_summary.disbursements|floatformat:0|intcomma }} ({{section.fec_summary.total_disbursements_rank}} out of {{section.fec_summary.max_rank}})</td>
+        <tr>
+            <td class="label">Total Raised</td>
+            <td>${{ section.fec_summary.total_raised|floatformat:0|intcomma }}<br /><span class="tip">#{{section.fec_summary.total_receipts_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span></td>
         </tr>
-        <tr class="odd">
-            <td>Total Raised</td>
-            <td>${{ section.fec_summary.total_raised|floatformat:0|intcomma }} ({{section.fec_summary.total_receipts_rank}} out of {{section.fec_summary.max_rank}})</td>
-        </tr>
-        <tr class="even">
-            <td>Cash on Hand</td>
-            <td>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }} ({{section.fec_summary.cash_on_hand_rank}} out of {{section.fec_summary.max_rank}})</td>
+        <tr>
+            <td class="label">Cash on Hand</td>
+            <td>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}<br /><span class="tip">#{{section.fec_summary.cash_on_hand_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span></td>
         </tr>
     </table>
 </li>
