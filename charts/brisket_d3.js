@@ -92,7 +92,7 @@ D3Charts = {
                     parent.attr('xlink:href', d.href);
                 }
                 parent.append("text")
-                    .attr("dy", ".15em") // vertical-align: middle
+                    .attr("y", ".15em") // vertical-align: middle
                     .attr('fill', parent.node().tagName == 'a' ? opts.link_color : opts.text_color)
                     .text(function(d, i) { return d.key; })
                     .style('font', '11px arial,sans-serif');
@@ -233,8 +233,8 @@ D3Charts = {
                 .attr("r", opts.legend_r);
             
             legendItems.append("text")
-                .attr("dy", ".45em") // vertical-align: middle
-                .attr("dx", opts.legend_padding)
+                .attr("y", ".45em") // vertical-align: middle
+                .attr("x", opts.legend_padding)
                 .attr('fill', opts.text_color)
                 .text(function(d, i) { return d.key + " (" + Math.round(100 * d.value / sum) + "%)"; })
                 .style('font', '11px arial,sans-serif');
@@ -484,8 +484,8 @@ D3Charts = {
                 }
             
                 parent.append("text")
-                    .attr("dy", ".45em") // vertical-align: middle
-                    .attr("dx", opts.legend_padding)
+                    .attr("y", ".45em") // vertical-align: middle
+                    .attr("x", opts.legend_padding)
                     .attr('fill', parent.node().tagName == 'a' ? opts.link_color : opts.text_color)
                     .text(function(d, i) { return d.name; })
                     .style('font', '11px arial,sans-serif');
