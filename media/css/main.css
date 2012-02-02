@@ -301,6 +301,7 @@ th.right { padding-right: 10px;}
 .center, td.lawmakerName a { text-align: center;}
 .right { text-align: right;}
 td.lawmakerName a { float: none; margin-right: 0;}
+th { text-align: left;}
 
 table#mainPageTable { width: 100%; margin-top: 30px; border: none;}
 table#mainPageTable img { border: 2px solid #e0e0df; width: 40px; }
@@ -727,7 +728,6 @@ table .even.numerous{
 .ui-dialog button { text-indent: 0; display: inline;}
 
 .fecStats { margin-bottom: 20px !important; }
-.fecStats td { padding-bottom: 0px; padding-top: 0px; }
-.fecStats .label { text-transform: uppercase; color: #585352; font-weight: bold; text-align: left; }
-.fecStats .amount { text-align: right; }
-.fecStats .rank td { padding-bottom: 10px; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; line-height: 17px; }
+.blockedSpan { display: block; margin-bottom: 15px; }
+.fecStats dd { float: right; text-align: right; width: 50%; font-weight: bold;}
+.fecStats dd span { font-weight: normal;}
