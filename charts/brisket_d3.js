@@ -675,4 +675,4 @@ BrisketFallback = {
     }
 }
 
-Brisket = BrisketFallback;
+Brisket = BrisketModern;
