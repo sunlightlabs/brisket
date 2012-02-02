@@ -12,16 +12,25 @@
     </div>
     <table>
         <tr>
-            <td class="label">Disbursements</td>
-            <td>${{ section.fec_summary.disbursements|floatformat:0|intcomma }}<br /><span class="tip">#{{section.fec_summary.total_disbursements_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span></td>
+            <td class="label">Disbursements:</td>
+            <td class="amount">${{ section.fec_summary.disbursements|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="rank">
+            <td colspan="2">#{{section.fec_summary.total_disbursements_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</td>
         </tr>
         <tr>
-            <td class="label">Total Raised</td>
-            <td>${{ section.fec_summary.total_raised|floatformat:0|intcomma }}<br /><span class="tip">#{{section.fec_summary.total_receipts_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span></td>
+            <td class="label">Total Raised:</td>
+            <td class="amount">${{ section.fec_summary.total_raised|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="rank">
+            <td colspan="2">#{{section.fec_summary.total_receipts_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</td>
         </tr>
         <tr>
-            <td class="label">Cash on Hand</td>
-            <td>${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}<br /><span class="tip">#{{section.fec_summary.cash_on_hand_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span></td>
+            <td class="label">Cash on Hand:</td>
+            <td class="amount">${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}</td>
+        </tr>
+        <tr class="rank">
+            <td colspan="2">#{{section.fec_summary.cash_on_hand_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</td>
         </tr>
     </table>
 </li>

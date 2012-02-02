@@ -295,7 +295,7 @@ dt.pac { background-color: #f27e01;}
 
 table .even, li.even, div.even{ background-color: #f5f4f4;}
 td, .expandDocList th, th { padding: 10px;}
-th, .expandTableHead li, .fecStats .label { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; text-align: left; }
+th, .expandTableHead li, { text-transform: uppercase; padding-bottom: 5px; color: #585352; font-weight: bold; text-align: left; }
 th.left { padding-left: 10px;}
 th.right { padding-right: 10px;}
 .center, td.lawmakerName a { text-align: center;}
@@ -726,5 +726,8 @@ table .even.numerous{
 .tdata .pre, .tdata pre.literal-block { display: block; white-space: nowrap; overflow: auto;}
 .ui-dialog button { text-indent: 0; display: inline;}
 
-.fecStats .tip { margin-bottom: 0px; }
 .fecStats { margin-bottom: 20px !important; }
+.fecStats td { padding-bottom: 0px; padding-top: 0px; }
+.fecStats .label { text-transform: uppercase; color: #585352; font-weight: bold; text-align: left; }
+.fecStats .amount { text-align: right; }
+.fecStats .rank td { padding-bottom: 10px; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; font-size: 100%; text-transform: lowercase; line-height: 17px; }
