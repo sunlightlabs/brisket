@@ -40,14 +40,14 @@ require('./canvg.js');
 var express = require('express');
 var app = express.createServer();
 
-app.get('/chart/:chart/:data', function(req, res) {
-    console.log(request.params.chart);
-    if (typeof Brisket[req.params.chart] == 'undefined') {
+app.get(/^\/chart\/([a-zA-Z_]+)\/(.+)/, function(req, res) {
+    var chart = req.params[0], in_data = req.params[1];
+    if (typeof BrisketServer[chart] == 'undefined') {
         res.send(404);
         return;
     }
     /* decode the data */
-    var data = JSON.parse(new Buffer(req.params.data, 'base64').toString('ascii'));
+    var data = JSON.parse(new Buffer(in_data, 'base64').toString('ascii'));
 
     /* draw the chart */
     var div = document.createElement('div');
@@ -57,7 +57,7 @@ app.get('/chart/:chart/:data', function(req, res) {
     var canvas = new Canvas(0,0);
     canvas.style = {};
 
-    Brisket.local_piechart(div.id, data);
+    BrisketServer[chart](div.id, data);
 
     canvg(canvas, div.innerHTML, { ignoreMouse: true, ignoreAnimation: true });
 
