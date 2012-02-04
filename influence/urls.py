@@ -1,7 +1,4 @@
-from django.conf.urls.defaults import *
-from django.views.generic.simple import redirect_to
-from django.conf import settings
-
+from django.conf.urls.defaults import patterns, url
 from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
 
 urlpatterns = patterns('brisket.influence.views',
