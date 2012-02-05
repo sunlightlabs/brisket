@@ -6,23 +6,23 @@
 
 <li class="oneColumn fecStats">
     <h4 class="withTip">FEC Summary</h4>
-    <span class="tip">The latest tallies straight from the FEC.</span>
+    <span class="tip">overview of how much the candidate raised and spent, and where that money came from</span>
     <div class="graph piechart" id="piechart_fec">
       <!-- raphael charts -->
     </div>
     <dl>
-        <dt>Disbursements:</dt>
-        <dd>
-            ${{ section.fec_summary.disbursements|floatformat:0|intcomma }}
-            <span class="blockedSpan tip">#{{section.fec_summary.total_disbursements_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>
-        </dd>
-        
         <dt class="clear">Total Raised:</dt>
         <dd class="amount">
             ${{ section.fec_summary.total_raised|floatformat:0|intcomma }}
             <span class="blockedSpan tip">#{{section.fec_summary.total_receipts_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>
         </dd>
 
+        <dt class="clear">Total Spent:</dt>
+        <dd>
+            ${{ section.fec_summary.disbursements|floatformat:0|intcomma }}
+            <span class="blockedSpan tip">#{{section.fec_summary.total_disbursements_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>
+        </dd>
+        
         <dt class="clear">Cash on Hand:</dt>
         <dd>
             ${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}
@@ -32,7 +32,7 @@
 </li>
 <li class="twoColumn">
     <h4 class="withTip">Contributions Over Time</h4>
-    <span class="tip">How this candidate's receipts compare to competitors in this election cycle.</span>
+    <span class="tip">reflects only contributions over $200, as smaller contributions are not individually reported. For some candidates a significant portion of their fundraising may not be captured by this chart.</span>
     <div id="timeline_fec"></div>
 </li>
 <div class="clear"></div>
