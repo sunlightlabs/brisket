@@ -306,7 +306,7 @@ D3Charts = {
         
         // scalers
         y = d3.scale.linear().domain([0, d3.max(_.flatten(_.map(data, function(d) { return d.timeline; })))]).range([opts.chart_height, 0]);
-        x = d3.scale.linear().domain([0, data[0].timeline.length - 1]).range([opts.chart_x, opts.chart_x + opts.chart_width]);
+        x = d3.scale.linear().domain([0, d3.max(_.map(data, function(item) { return item.timeline.length; })) - 1]).range([opts.chart_x, opts.chart_x + opts.chart_width]);
 
         // y-ticks
         var ticks = chart.append('g')
