@@ -146,6 +146,7 @@ from local_settings import *
 MEDIASYNC['JOINED'] = {
     'js/brisket-all.js': [
         'js/jquery.tablesorter.min.js',
+        'js/jquery.json-2.3.min.js',
         'js/underscore-min.js',
         'js/brisket.js',
         'js/d3.min.js',

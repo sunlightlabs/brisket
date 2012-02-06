@@ -597,7 +597,7 @@ var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456
 BrisketFallback = {
     PATH: 'http://localhost:3000/chart/',
     draw_graph: function(div, data, remote_name, size) {
-        var url = BrisketFallback.PATH + remote_name + '/' + Base64.encode(JSON.stringify(data));
+        var url = BrisketFallback.PATH + remote_name + '/' + Base64.encode($.toJSON(data));
         var graph = document.getElementById(div);
         if (!graph) return;
         graph.style.width = size.width + 'px';
@@ -628,7 +628,7 @@ BrisketFallback = {
 }
 _.defaults(BrisketFallback, BrisketModern);
 
-if (document.location.search && document.location.search.search(/fallback/) >= 0) {
+if (!(document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")) || (document.location.search && document.location.search.search(/fallback/) >= 0)) {
     Brisket = BrisketFallback;
 } else {
     Brisket = BrisketModern;
