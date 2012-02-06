@@ -1,0 +1,17 @@
+{
+    "name": "node_chart",
+    "version": "0.1.0",
+    "dependencies": {
+        "underscore": "*",
+        "xmldom": "*",
+        "jsdom": "*",
+        "canvas": "*",
+        "express": "*",
+        "sizzle": "*",
+        "request": "*",
+        "cssom": "*",
+        "contextify": "*",
+        "htmlparser": "*",
+        "formidable": "*"
+    }
+}
