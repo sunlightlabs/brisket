@@ -100,7 +100,7 @@ D3Charts = {
                 parent.append("text")
                     .attr("y", ".15em") // vertical-align: middle
                     .attr('fill', parent.node().tagName.toLowerCase() == 'a' ? opts.link_color : opts.text_color)
-                    .text(function(d, i) { return d.key; })
+                    .text(function(d, i) { return d.name; })
                     .style('font', '11px arial,sans-serif');
             })
         
@@ -250,7 +250,7 @@ D3Charts = {
                 .attr("y", ".45em") // vertical-align: middle
                 .attr("x", opts.legend_padding)
                 .attr('fill', opts.text_color)
-                .text(function(d, i) { return d.key + " (" + Math.round(100 * d.value / sum) + "%)"; })
+                .text(function(d, i) { return d.key? d.key + " (" + Math.round(100 * d.value / sum) + "%)" : ""; })
                 .style('font', '11px arial,sans-serif');
         
         // amounts
@@ -517,37 +517,40 @@ D3Charts = {
 }
 
 BrisketModern = {
+    contribution_barchart: function(div, data) {
+        D3Charts.barchart(div, data);
+    },
     contribution_single_barchart: function(div, data) {
         if (data.length === 0) return;
         
         graph_data = _.map(data, function(item) {
             return {
-                key: item.key,
+                name: item.key,
                 href: item.href,
                 values: [parseFloat(item.value)]
             };
         });
 
-        D3Charts.barchart(div, graph_data);
+        Brisket.contribution_barchart(div, graph_data);
     },
     contribution_stacked_barchart: function(div, data) {
         if (data.length === 0) return;
 
         graph_data = _.map(data, function(item) {
             return {
-                key: item.key,
+                name: item.key,
                 href: item.href,
                 values: [parseFloat(item.value_employee), parseFloat(item.value_pac)]
             };
         });
-        D3Charts.barchart(div, graph_data);
+        Brisket.contribution_barchart(div, graph_data);
     },
     piechart: function(div, data, colors) {
         var in_data = []
         var opts = {colors: []}
         _.each(data, function(value, key) {
             if (value > 0) {
-                in_data.push({'key': key, 'value': value})
+                in_data.push({'key': key, 'value': value});
                 opts.colors.push(colors[key]);
             }
         })
@@ -579,14 +582,36 @@ BrisketModern = {
 }
 
 BrisketServer = {
+    contribution_barchart: function(div, data) {
+        var in_data = [];
+        _.each(data, function(item) {
+            in_data.push({
+                'name': '',
+                'href': '',
+                'values': item
+            })
+        });
+        D3Charts.barchart(div, in_data);
+    },
     piechart: function(div, data) {
         var in_data = []
         var opts = {colors: []}
         _.each(data, function(value) {
-            in_data.push({'key': value[0], 'value': value[1]})
+            in_data.push({'key': '', 'value': value[1]});
             opts.colors.push(value[2]);
         })
         D3Charts.piechart(div, in_data, opts);
+    },
+    timeline_chart: function(div, data) {
+        var in_data = [];
+        _.each(data, function(item) {
+            in_data.push({
+                'name': '',
+                'href': '',
+                'timeline': item
+            });
+        })
+        D3Charts.timeline_chart(div, in_data);
     }
 }
 _.defaults(BrisketServer, BrisketModern);
@@ -604,26 +629,79 @@ BrisketFallback = {
         graph.style.height = size.height + 'px';
         graph.style.background = 'url(' + url + ') no-repeat top left';
     },
-    contribution_single_barchart: function(div, data) {
-        if (data.length === 0) return;
-        BrisketFallback.draw_graph(div, data, 'contribution_single_barchart', D3Charts._get_barchart_size(D3Charts.BARCHART_DEFAULTS));
+    draw_legend: function(chart, legend_x, legend_y, row_height, items) {
+        chart.css('position', 'relative');
+        _.each(items, function(item, index) {
+            var listing = $('<div>')
+                .html(
+                    typeof item.href !== 'undefined' && item.href ?
+                    '<a href="' + item.href + '">' + item.name + '</a>' :
+                    item.name
+                )
+                .css({
+                    'position': 'absolute',
+                    'left': legend_x + 'px',
+                    'top': (legend_y + (row_height * index) + 2) + 'px',
+                    'font': '11px arial,sans-serif'
+                });
+            chart.append(listing);
+        })
     },
-    contribution_stacked_barchart: function(div, data) {
-        if (data.length === 0) return;
-        BrisketFallback.draw_graph(div, data, 'contribution_stacked_barchart', D3Charts._get_barchart_size(D3Charts.BARCHART_DEFAULTS));
+    contribution_barchart: function(div, data) {
+        var legend_data = [];
+        var in_data = [];
+        _.each(data, function(item) {
+            console.log(item);
+            legend_data.push({
+                'name': item.name,
+                'href': item.href,
+                'values': item.values
+            })
+            in_data.push(item.values);
+        });
+
+        BrisketFallback.draw_graph(div, in_data, 'contribution_barchart', D3Charts._get_barchart_size(D3Charts.BARCHART_DEFAULTS));
+
+        var chart = $('#' + div);
+        var opts = D3Charts.BARCHART_DEFAULTS;
+        var legend_x = opts.left_gutter;
+        var legend_y = opts.chart_y + 3;
+        BrisketFallback.draw_legend(chart, legend_x, legend_y, opts.row_height, legend_data);
     },
     piechart: function(div, data, colors) {
         var in_data = [];
+        var legend_data = [];
+        var sum = d3.sum(_.map(data, function(item) { return item; }));;
         _.each(data, function(value, key) {
             if (value > 0) {
-                in_data.push([key, value, colors[key]])
+                in_data.push([key, value, colors[key]]);
+                legend_data.push({'name': key + " (" + Math.round(100 * value / sum) + "%)", 'value': value});
             }
         })
         BrisketFallback.draw_graph(div, in_data, 'piechart', D3Charts._get_piechart_size(D3Charts.PIECHART_DEFAULTS));
+
+        /* emulate legend locally */
+        var legend_data = _.sortBy(legend_data, function(d) { return d.value; }).reverse();
+        var opts = D3Charts.PIECHART_DEFAULTS;
+        var legend_x = opts.chart_cx + opts.chart_r + (2 * opts.legend_padding);
+        var legend_y = opts.chart_cy - (legend_data.length * opts.row_height / 2);
+        var chart = $('#' + div);
+        BrisketFallback.draw_legend(chart, legend_x, legend_y, opts.row_height, legend_data);
     },
     timeline_chart: function(div, data) {
         if (data.length === 0) return;
-        BrisketFallback.draw_graph(div, data, 'timeline_chart', D3Charts._get_timeline_size(D3Charts.TIMELINE_DEFAULTS));
+
+        var in_data = _.map(data, function(item) {
+            return item.timeline;
+        })
+        BrisketFallback.draw_graph(div, in_data, 'timeline_chart', D3Charts._get_timeline_size(D3Charts.TIMELINE_DEFAULTS));
+
+        /* emulate legend locally */
+        var opts = D3Charts.TIMELINE_DEFAULTS;
+        var legend_x = opts.chart_x + opts.chart_width + (2 * opts.legend_padding);
+        var legend_y = opts.chart_y + (opts.chart_height / 2) - (data.length * opts.row_height / 2);
+        var chart = $('#' + div);
+        BrisketFallback.draw_legend(chart, legend_x, legend_y, opts.row_height, data);
     }
 }
 _.defaults(BrisketFallback, BrisketModern);
