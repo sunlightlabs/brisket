@@ -306,7 +306,9 @@ D3Charts = {
         
         // scalers
         y = d3.scale.linear().domain([0, d3.max(_.flatten(_.map(data, function(d) { return d.timeline; })))]).range([opts.chart_height, 0]);
-        x = d3.scale.linear().domain([0, d3.max(_.map(data, function(item) { return item.timeline.length; })) - 1]).range([opts.chart_x, opts.chart_x + opts.chart_width]);
+
+        var max_weeks = d3.max(_.map(data, function(item) { return item.timeline.length; }));
+        x = d3.scale.linear().domain([0, max_weeks - 1]).range([opts.chart_x, opts.chart_x + opts.chart_width]);
 
         // y-ticks
         var ticks = chart.append('g')
@@ -346,7 +348,7 @@ D3Charts = {
             {'label': 'Apr. 1', 'day': 455}, // apr 1
             {'label': 'Jul. 1', 'day': 546}, // jul 1
             {'label': 'Oct. 1', 'day': 638} // oct 1
-        ], function(day) { return day.day < data[0].timeline.length * 7; });
+        ], function(day) { return day.day < max_weeks * 7; });
 
         var ticks = chart.append('g')
             .classed('ticks', true)
