@@ -21,11 +21,13 @@
 </li>
 
 <li class="oneColumn chart">
+    {% if not section.fec_summary %}
     <h4 class="withTip">Individuals vs. PACs</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_entity">
       <!-- raphael charts -->
     </div>
+    {% endif %}
 </li>
 
 <li class="twoColumn chart">
