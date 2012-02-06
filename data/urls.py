@@ -86,3 +86,6 @@ if settings.DEBUG:
         url(r'^%s/(?P<path>.*)$' % settings.MEDIA_URL.strip('/'),
                 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
     )
+
+handler404 = 'brisket.views.page_not_found'
+handler500 = 'brisket.views.server_error'
