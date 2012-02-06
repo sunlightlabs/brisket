@@ -8,7 +8,8 @@ django-nose
 selenium
 django-indexer
 django-paging
-django-sentry
+django-sentry==1.13.5
+raven==1.1.5
 -e git://github.com/sunlightlabs/name-cleaver.git#egg=name-cleaver
 -e git://github.com/sunlightlabs/python-transparencydata.git#egg=transparencydata
 -e git://github.com/sunlightlabs/django-simplepay.git#egg=simplepay
