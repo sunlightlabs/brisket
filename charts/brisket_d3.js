@@ -122,7 +122,7 @@ D3Charts = {
             .style("stroke-width", "1");
     },
 
-    PIECHART_OPTS: {
+    PIECHART_DEFAULTS: {
         chart_height: 116,
         chart_width: 240,
         chart_r: 54,
@@ -143,7 +143,7 @@ D3Charts = {
     },
     piechart: function(div, data, opts) {
         if (typeof opts === 'undefined') opts = {};
-        _.defaults(opts, D3Charts.PIECHART_OPTS);
+        _.defaults(opts, D3Charts.PIECHART_DEFAULTS);
 
         var twopi = 2 * Math.PI;
         
@@ -270,32 +270,39 @@ D3Charts = {
                 .style('text-anchor', 'middle')
                 .style('display', 'none');
     },
+    TIMELINE_DEFAULTS: {
+        chart_height: 195,
+        chart_width: 300,
+        chart_x: 85,
+        chart_y: 10,
+        right_gutter: 135,
+        label_padding: 10,
+        legend_padding: 15,
+        legend_r: 5,
+        dot_r: 5,
+        row_height: 14,
+        colors : ["#e96d24", "#15576e", "#f2e388", "#f2f1e4", "#efcc01"],
+        axis_color: "#827d7d",
+        tick_color: '#dcddde',
+        text_color: "#666666",
+        link_color: "#0a6e92",
+        tick_length: 5
+    },
+    _get_timeline_size: function(opts) {
+        return {
+            'width': opts.chart_x + opts.chart_width + opts.right_gutter,
+            'height': opts.chart_y + opts.chart_height + opts.tick_length + opts.label_padding + opts.row_height
+        }
+    },
     timeline_chart: function(div, data, opts) {
-        var default_opts = {
-            chart_height: 195,
-            chart_width: 300,
-            chart_x: 85,
-            chart_y: 10,
-            right_gutter: 135,
-            label_padding: 10,
-            legend_padding: 15,
-            legend_r: 5,
-            dot_r: 5,
-            row_height: 14,
-            colors : ["#e96d24", "#15576e", "#f2e388", "#f2f1e4", "#efcc01"],
-            axis_color: "#827d7d",
-            tick_color: '#dcddde',
-            text_color: "#666666",
-            link_color: "#0a6e92",
-            tick_length: 5
-        };
         if (typeof opts === 'undefined') opts = {};
-        _.defaults(opts, default_opts);
+        _.defaults(opts, D3Charts.TIMELINE_DEFAULTS);
 
+        var size = D3Charts._get_timeline_size(opts);
         var chart = d3.select('#' + div).append("svg")
             .classed("chart-canvas", true)
-            .attr("width", opts.chart_x + opts.chart_width + opts.right_gutter)
-            .attr("height", opts.chart_y + opts.chart_height + opts.tick_length + opts.label_padding + opts.row_height);
+            .attr("width", size.width)
+            .attr("height", size.height);
         
         // scalers
         y = d3.scale.linear().domain([0, d3.max(_.flatten(_.map(data, function(d) { return d.timeline; })))]).range([opts.chart_height, 0]);
@@ -563,6 +570,9 @@ BrisketModern = {
     fec_piechart: function(div, data) {
         var fec_colors = {"Individuals": "#efcc01", "PACs": "#f2e388", "Party": "#15576e", "Self-Financing": "#f2f1e4", "Transfers": "#e96d24"};
         Brisket.piechart(div, data, fec_colors);
+    },
+    timeline_chart: function(div, data) {
+        D3Charts.timeline_chart(div, data);
     }
 }
 
@@ -607,10 +617,17 @@ BrisketFallback = {
                 in_data.push([key, value, colors[key]])
             }
         })
-        BrisketFallback.draw_graph(div, in_data, 'piechart', D3Charts._get_piechart_size(D3Charts.BARCHART_DEFAULTS));
+        BrisketFallback.draw_graph(div, in_data, 'piechart', D3Charts._get_piechart_size(D3Charts.PIECHART_DEFAULTS));
+    },
+    timeline_chart: function(div, data) {
+        if (data.length === 0) return;
+        BrisketFallback.draw_graph(div, data, 'timeline_chart', D3Charts._get_timeline_size(D3Charts.TIMELINE_DEFAULTS));
     }
 }
 _.defaults(BrisketFallback, BrisketModern);
 
-Brisket = BrisketModern;
-// Brisket = BrisketFallback;
+if (document.location.search && document.location.search.search(/fallback/) >= 0) {
+    Brisket = BrisketFallback;
+} else {
+    Brisket = BrisketModern;
+}
