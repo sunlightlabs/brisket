@@ -1,12 +1,12 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<p>This section is based on data directly from the FEC, which is updated on a weekly basis. Candidate filings usually appear here within one week of submission to the FEC.</p>
-<span class="tip external">covers through candidate's {{section.fec_summary.clean_date|date:"F j, Y"}} filing</span>
+<h3>Latest FEC Data</h3>
+<span class="tip external">covers through candidate's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. data downloaded weekly from the FEC.</span>
 <ul>
 
 <li class="oneColumn fecStats">
-    <h4 class="withTip">FEC Summary</h4>
+    <h4 class="withTip">Summary</h4>
     <span class="tip">overview of how much the candidate raised and spent, and where that money came from</span>
     <div class="graph piechart" id="piechart_fec">
       <!-- raphael charts -->

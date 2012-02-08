@@ -32,9 +32,11 @@
 <div class="chartModule withNav">
     {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
         {% include "pol_fec.html" %}
-        <p>The following charts are based on data from the Center for Responsive Politics. The data has been standardized and annotated so that contributors can be reliably identified. Because this standardization process takes time, the charts in this section are not as current as the data from the FEC in the section above.</p>
+        <h3>Donor Information</h3>
+        <span class="tip external">covers through Q2, 2011. may lag behind FEC section above, as donors and industries are identified by hand.</span>    
+    {% else %}
+        <span class="tip external">covers through Q2, 2011</span>    
     {% endif %}
-    <span class="tip external">covers through Q2, 2011</span>
     <ul>
       {% block charts %}   
       {% if not section.suppress_contrib_graphs %}
