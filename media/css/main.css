@@ -731,3 +731,7 @@ table .even.numerous{
 .blockedSpan { display: block; margin-bottom: 15px; }
 .fecStats dd { float: right; text-align: right; width: 50%; font-weight: bold;}
 .fecStats dd span { font-weight: normal;}
+
+.electionHeader { margin-top: 40px; border-bottom: 1px dashed #DCDCD8; margin-bottom: 25px;}
+.electionHeader h4 { font-weight: bold;}
+.electionHeader .tip { margin-bottom: 5px;}

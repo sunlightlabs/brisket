@@ -1,8 +1,10 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<h3>Latest FEC Data</h3>
-<span class="tip external">covers through candidate's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. data downloaded weekly from the FEC.</span>
+<div class="electionHeader">
+    <h4 class="withTip">Latest FEC Data</h4>
+    <span class="tip external">covers through candidate's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. data downloaded weekly from the FEC.</span>
+</div>
 <ul>
 
 <li class="oneColumn fecStats">

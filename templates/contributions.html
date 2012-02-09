@@ -31,12 +31,14 @@
 </div>
 <div class="chartModule withNav">
     {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
-        {% include "pol_fec.html" %}
-        <h3>Donor Information</h3>
-        <span class="tip external">covers through Q2, 2011. may lag behind FEC section above, as donors and industries are identified by hand.</span>    
-    {% else %}
-        <span class="tip external">covers through Q2, 2011</span>    
-    {% endif %}
+    {% include "pol_fec.html" %}
+    <div class="electionHeader">
+            <h4 class="withTip">Donor Information</h4>
+            <span class="tip external">covers through Q2, 2011. may lag behind FEC section above, as donors and industries are identified by hand.</span>    
+        {% else %}
+            <span class="tip external">covers through Q2, 2011</span>    
+        {% endif %}
+    </div>
     <ul>
       {% block charts %}   
       {% if not section.suppress_contrib_graphs %}
