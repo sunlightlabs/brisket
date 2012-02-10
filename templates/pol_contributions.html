@@ -21,11 +21,13 @@
 </li>
 
 <li class="oneColumn chart">
+    {% if not section.fec_summary %}
     <h4 class="withTip">Individuals vs. PACs</h4>
     <span class="tip">in dollars</span>
     <div class="graph piechart" id="piechart_entity">
       <!-- raphael charts -->
     </div>
+    {% endif %}
 </li>
 
 <li class="twoColumn chart">
@@ -39,7 +41,7 @@
         <dd>PAC</dd>
     </dl>
     <div class="clear"></div>
-    <span class="tip">Includes contributions from an organization’s employees, their family members, and its political action committee.</span>
+    <span class="tip">Includes contributions from an organization’s employees, their family members and its political action committee.</span>
     <div class="graph" id="contributors_barchart">
       <!-- raphael charts -->
     </div>

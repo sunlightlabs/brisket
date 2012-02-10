@@ -6,7 +6,11 @@
         {% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
             ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
         {% else %}
-            ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+            {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
+                ${{section.fec_summary.total_raised|floatformat:0|intcomma }} Received
+            {% else %}
+                ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+            {% endif %}
         {% endif %}</span>
     <div class="interiorMethodology">
         <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
@@ -26,7 +30,15 @@
     <div class="clear"></div>
 </div>
 <div class="chartModule withNav">
-    <span class="tip external">covers through Q2, 2011</span>
+    {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
+        {% include "pol_fec.html" %}
+        <div class="electionHeader">
+            <h4 class="withTip">Donor Information</h4>
+            <span class="tip external">covers through Q2, 2011. may lag behind FEC section above, as donors and industries are identified by hand.</span>    
+        </div>
+    {% else %}
+        <span class="tip external">covers through Q2, 2011</span>    
+    {% endif %}
     <ul>
       {% block charts %}   
       {% if not section.suppress_contrib_graphs %}
