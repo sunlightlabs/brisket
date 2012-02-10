@@ -25,11 +25,10 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
-//  sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
   {% if not suppress_contrib_graphs %}
-  piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party");
-  barchart("recipients_barchart", {% if sections.contributions.candidates_barchart_data %}{{ sections.contributions.candidates_barchart_data|safe }}{% else %} [] {% endif %});  
-  barchart("orgs_barchart", {% if sections.contributions.orgs_barchart_data %}{{ sections.contributions.orgs_barchart_data|safe }}{% else %} [] {% endif %});
+  Brisket.party_piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party");
+  Brisket.contribution_single_barchart("recipients_barchart", {% if sections.contributions.candidates_barchart_data %}{{ sections.contributions.candidates_barchart_data|safe }}{% else %} [] {% endif %});  
+  Brisket.contribution_single_barchart("orgs_barchart", {% if sections.contributions.orgs_barchart_data %}{{ sections.contributions.orgs_barchart_data|safe }}{% else %} [] {% endif %});
   {% endif %}
 });
 

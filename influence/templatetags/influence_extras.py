@@ -46,10 +46,26 @@ seat_labels = {'federal:senate': 'US Senate',
                'state:office': 'Other State Office'
                }
 
+seat_adjectives = {'federal:senate': 'Senate',
+               'federal:house': 'House',
+               'federal:president': 'Presidential',
+               'state:upper': 'State Upper Chamber',
+               'state:lower': 'State Lower Chamber',
+               'state:governor': 'Gubernatorial',
+               'state:ltgovernor': 'Lt. Governor',
+               'state:judicial': 'State Judiciary',
+               'state:office': 'Other State Office'
+               }
+
 @register.filter(name='seat_label')
 @stringfilter
 def seat_label_filter(raw):
     return seat_labels.get(raw, raw)
+
+@register.filter(name='seat_adjective')
+@stringfilter
+def seat_adjective_filter(raw):
+    return seat_adjectives.get(raw, raw)
 
 
 seat_titles = {'federal:senate': 'Sen.',

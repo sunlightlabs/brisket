@@ -28,10 +28,10 @@
 $(document).ready(function() {
   // {% if sections.contributions.sparkline_data %}sparkline_by_party("sparklines", {{ sections.contributions.sparkline_data|safe }}, {{ sections.contributions.cut_off_sparkline_at_step }});{% endif %}
   {% if not sections.contributions.suppress_contrib_graphs %}
-  piechart("piechart_level", {% if sections.contributions.level_breakdown %}{{ sections.contributions.level_breakdown|safe }}{% else %}{}{% endif %});
-  piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
-  barchart("pol_recipients_barchart", {% if sections.contributions.pol_recipients_barchart_data %}{{ sections.contributions.pol_recipients_barchart_data|safe }} {% else %} [] {% endif %});
-  barchart("pacs_barchart", {% if sections.contributions.pacs_barchart_data %}{{ sections.contributions.pacs_barchart_data|safe }} {% else %} [] {% endif %});
+  Brisket.level_piechart("piechart_level", {% if sections.contributions.level_breakdown %}{{ sections.contributions.level_breakdown|safe }}{% else %}{}{% endif %});
+  Brisket.party_piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
+  Brisket.contribution_single_barchart("pol_recipients_barchart", {% if sections.contributions.pol_recipients_barchart_data %}{{ sections.contributions.pol_recipients_barchart_data|safe }} {% else %} [] {% endif %});
+  Brisket.contribution_stacked_barchart("pacs_barchart", {% if sections.contributions.pacs_barchart_data %}{{ sections.contributions.pacs_barchart_data|safe }} {% else %} [] {% endif %});
   {% endif %}
   
   $('table#grantsContracts td').multiellipsis(3);

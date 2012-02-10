@@ -357,7 +357,7 @@ TD.Filter = {
         return node;
     },
     value: function() {
-        return _.reduce(this.fields, '', function(memo, item) {
+        return _.reduce(this.fields, function(memo, item) {
             var value = item.value();
             if (value) {
                 if (memo) {
@@ -366,6 +366,6 @@ TD.Filter = {
                 memo += '' + value;
             }
             return memo;
-        });
+        }, '');
     }
 };
