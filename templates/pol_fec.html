@@ -57,5 +57,9 @@ $(function() {
 </script>
 
 </ul>
+
+<a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/pol/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
+<span class="tip">note: data comes from latest FEC filings and has not been cleaned or standardized. See section below for standardized data.</span>
+
 <div class="clear"></div>
 <hr class="section-divider" />
