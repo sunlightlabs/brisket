@@ -38,7 +38,38 @@
     <span class="tip">reflects only contributions over $200, as smaller contributions are not individually reported. For some candidates a significant portion of their fundraising may not be captured by this chart.</span>
     <div id="timeline_fec"></div>
 </li>
-<div class="clear"></div>
+{% if section.fec_indexp %}
+    <div class="clear"></div>
+    <li class="twoColumn">
+        <h4 class="withTip">Independent Expenditures</h4>
+        <span class="tip">outside groups that spent money supporting or opposing the candidate</span>
+        <table class="twoColumn">
+            <thead>
+                <tr>
+                    <th>Committee Name</th>
+                    <th>Support/Oppose</th>
+                    <th>Amount</th>
+                </tr> 
+            </thead>
+            <tbody>
+            {% for indexp in section.fec_indexp %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td>
+                    {% if indexp.committee_entity %}
+                        <a href="/organization/{{indexp.committee_name|slugify}}/{{indexp.committee_entity}}&cycle={{ cycle }}">{{ indexp.committee_name|standardize_organization_name }}</a>
+                    {% else %}
+                        {{ indexp.committee_name|standardize_organization_name }}
+                    {% endif %}
+                <td>{{ indexp.support_oppose }}</td>
+                <td>${{ indexp.amount|floatformat:0|intcomma }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+    </li>
+    <div class="clear"></div>
+{% endif %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
 $(function() {

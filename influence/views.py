@@ -550,6 +550,8 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
             timelines = timelines[:5]
         
         section['fec_timelines'] = json.dumps(timelines)
+        
+        section['fec_indexp'] = api.pol.fec_indexp(entity_id, cycle)[:10]
 
     return section
 
