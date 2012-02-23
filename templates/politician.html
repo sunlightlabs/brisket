@@ -41,16 +41,14 @@
 <script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-//    sparkline("sparklines", {% if sections.contributions.sparkline_data %}{{ sections.contributions.sparkline_data|safe }}{% else %}[]{% endif %});
-
     {% if not sections.contributions.suppress_contrib_graphs %}
-    piechart("piechart_local", {% if sections.contributions.local_breakdown %} {{ sections.contributions.local_breakdown|safe }} {% else %} {} {% endif %} );
-    piechart("piechart_entity", {% if sections.contributions.entity_breakdown %} {{ sections.contributions.entity_breakdown|safe }} {% else %} {} {% endif %} );
-    barchart("industries_barchart", {% if sections.contributions.industries_barchart_data %}{{ sections.contributions.industries_barchart_data|safe }} {% else %}[]{% endif %});
-    barchart("contributors_barchart", {% if sections.contributions.contributors_barchart_data %}{{ sections.contributions.contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    Brisket.local_piechart("piechart_local", {% if sections.contributions.local_breakdown %} {{ sections.contributions.local_breakdown|safe }} {% else %} {} {% endif %} );
+    Brisket.indiv_pac_piechart("piechart_entity", {% if sections.contributions.entity_breakdown %} {{ sections.contributions.entity_breakdown|safe }} {% else %} {} {% endif %} );
+    Brisket.contribution_single_barchart("industries_barchart", {% if sections.contributions.industries_barchart_data %}{{ sections.contributions.industries_barchart_data|safe }} {% else %}[]{% endif %});
+    Brisket.contribution_single_barchart("contributors_barchart", {% if sections.contributions.contributors_barchart_data %}{{ sections.contributions.contributors_barchart_data|safe }} {% else %}[]{% endif %});
     {% endif %}
 
-    piechart("earmarks_local", {% if sections.earmarks.earmarks_local %} {{ sections.earmarks.earmarks_local|safe }} {% else %} {} {% endif %} );
+    Brisket.local_piechart("earmarks_local", {% if sections.earmarks.earmarks_local %} {{ sections.earmarks.earmarks_local|safe }} {% else %} {} {% endif %} );
 
     $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
     $('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
