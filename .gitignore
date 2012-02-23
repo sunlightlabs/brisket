@@ -2,6 +2,10 @@
 *.pyc
 .project
 .pydevproject
+*.swp
+*.swo
+*.swn
+*.swm
 local_settings.py
 fabfile.py
 media/sitemaps
