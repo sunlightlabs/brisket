@@ -73,7 +73,7 @@ DOCS_SECTIONS = [
 for doc_page in API_SECTIONS + DOCS_SECTIONS:
     urlpatterns += patterns('django.views.generic.simple',
         url(
-            '^%s$' % doc_page.path[1:],
+            '^%s?$' % doc_page.path[1:], # the ? makes the trailing slash optional
             'direct_to_template',
             {'template': 'data/' + '/'.join(doc_page.name.split('_', 1)) + '.html', 'extra_context': {'API_SECTIONS': API_SECTIONS, 'DOCS_SECTIONS': DOCS_SECTIONS}},
             name=doc_page.name,
