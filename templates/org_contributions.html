@@ -37,7 +37,6 @@
 
 {% if section.pacs_barchart_data and section.pacs_barchart_data != "[]" %}
 <li class="twoColumn">
-    {% if section.pacs_barchart_data %}
     <h4 class="key withTip">Top PAC Recipients</h4>
     <dl class="key">
         <dt class="employees">Employee Color Block</dt>
@@ -51,8 +50,62 @@
     <div class="graph" id="pacs_barchart">
       <!-- raphael charts here -->
     </div>
-    {% endif %}
 </li>
+
+{% if section.fec_indexp %}
+    <div class="clear"></div>
+    <li class="twoColumn">
+        <h4 class="withTip">Independent Expenditures</h4>
+        <span class="tip">money spent supporting or opposing a candidate</span>
+        <table class="twoColumn">
+            <thead>
+                <tr>
+                    <th>Candidate</th>
+                    <th>Support/Oppose</th>
+                    <th>Amount</th>
+                </tr> 
+            </thead>
+            <tbody>
+            {% for indexp in section.fec_indexp %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td>
+                    {% if indexp.candidate_entity %}
+                        <a href="/politician/{{indexp.candidate_name|slugify}}/{{indexp.candidate_entity}}&cycle={{ cycle }}">{{ indexp.candidate_name|standardize_politician_name }}</a>
+                    {% else %}
+                        {{ indexp.candidate_name|standardize_politician_name }}
+                    {% endif %}</td>
+                <td>{{ indexp.support_oppose }}</td>
+                <td>${{ indexp.amount|floatformat:0|intcomma }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+    </li>
+    <li class="twoColumn">
+        <h4 class="withTip">Top Contributors</h4>
+        <span class="tip">largest single contributions to the organization</span>
+        <table class="twoColumn">
+            <thead>
+                <tr>
+                    <th>Contributor</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                </tr> 
+            </thead>
+            <tbody>
+            {% for row in section.fec_top_contribs %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td>{{ row.contributor_name }}</td>
+                <td>{{ row.date }}</td>
+                <td>${{ row.amount|floatformat:0|intcomma }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+    </li>
+    <div class="clear"></div>{% endif %}
 
 <div class="clear"></div> <!-- start a new row -->
 {% endif %}

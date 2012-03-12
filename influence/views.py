@@ -280,6 +280,12 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     bundling = api.entities.bundles(entity_id, cycle)
     section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type lobbyist_entity lobbyist_name firm_name amount'.split()] for x in bundling ]
 
+    if int(cycle) == LATEST_CYCLE:
+        indexp = api.org.fec_indexp(entity_id, cycle)[:10]
+        if indexp:
+            section['fec_indexp'] = indexp
+            section['fec_top_contribs'] = api.org.fec_top_contribs(entity_id)
+
     return section
 
 
