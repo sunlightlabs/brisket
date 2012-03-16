@@ -56,7 +56,7 @@
             <tr class="{% cycle 'even' 'odd' %}">
                 <td>
                     {% if indexp.committee_entity %}
-                        <a href="/organization/{{indexp.committee_name|slugify}}/{{indexp.committee_entity}}&cycle={{ cycle }}">{{ indexp.committee_name|standardize_organization_name }}</a>
+                        <a href="/organization/{{indexp.committee_name|slugify}}/{{indexp.committee_entity}}?cycle={{ cycle }}">{{ indexp.committee_name|standardize_organization_name }}</a>
                     {% else %}
                         {{ indexp.committee_name|standardize_organization_name }}
                     {% endif %}

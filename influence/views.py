@@ -283,6 +283,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     if int(cycle) == LATEST_CYCLE:
         indexp = api.org.fec_indexp(entity_id, cycle)[:10]
         if indexp:
+            section['include_fec'] = True
             section['fec_indexp'] = indexp
             section['fec_top_contribs'] = api.org.fec_top_contribs(entity_id)
 
@@ -533,6 +534,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
     if int(cycle) == LATEST_CYCLE:
+        section['include_fec'] = True
         section['fec_summary'] = api.pol.fec_summary(entity_id, cycle)
         if section['fec_summary'] and 'date' in section['fec_summary']:
             section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
