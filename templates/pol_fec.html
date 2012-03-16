@@ -48,7 +48,7 @@
                 <tr>
                     <th>Committee Name</th>
                     <th>Support/Oppose</th>
-                    <th>Amount</th>
+                    <th>Total Spending</th>
                 </tr> 
             </thead>
             <tbody>
@@ -91,6 +91,7 @@ $(function() {
 
 <a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/pol/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
 <span class="tip">note: data comes from latest FEC filings and has not been cleaned or standardized. See section below for standardized data.</span>
+<a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/pol/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures for or against {{ entity_info.name|standardize_name:entity_info.type }}</a>
 
 <div class="clear"></div>
 <hr class="section-divider" />
