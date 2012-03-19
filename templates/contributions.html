@@ -4,7 +4,9 @@
     <h3 class="insideBar">Campaign Finance</h3>
     <span class="amount">
         {% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
-            ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
+            {% if not section.include_fec %} {# presence of FEC data means special handling is needed to determine total. Which we don't do at the moment. #}
+                ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
+            {% endif %}
         {% else %}
             {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
                 ${{section.fec_summary.total_raised|floatformat:0|intcomma }} Received
