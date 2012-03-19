@@ -252,9 +252,10 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
     # section except the overview bar
-    if amount < 0:
+    if amount <= 0:
         section['suppress_contrib_graphs'] = True
-        section['reason'] = "negative"
+        if amount < 0:
+            section['reason'] = "negative"
 
     elif (not section['pol_recipients_barchart_data']
           and not section['party_breakdown']
