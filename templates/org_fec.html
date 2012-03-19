@@ -37,12 +37,11 @@
 </li>
 <li class="twoColumn">
     <h4 class="withTip">Top Contributors</h4>
-    <span class="tip">largest single contributions to the organization</span>
+    <span class="tip">largest contributors to the organization</span>
     <table class="twoColumn">
         <thead>
             <tr>
                 <th>Contributor</th>
-                <th>Date</th>
                 <th>Amount</th>
             </tr> 
         </thead>
@@ -50,7 +49,6 @@
         {% for row in section.fec_top_contribs %}
         <tr class="{% cycle 'even' 'odd' %}">
             <td>{{ row.contributor_name }}</td>
-            <td>{{ row.date }}</td>
             <td>${{ row.amount|floatformat:0|intcomma }}</td>
         </tr>
         {% endfor %}
