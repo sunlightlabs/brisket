@@ -49,8 +49,7 @@ def entity_context(request, cycle, available_cycles):
     context_variables = {}
 
     params = request.GET.copy()
-    if 'cycle' not in params:
-        params['cycle'] = DEFAULT_CYCLE
+    params['cycle'] = cycle
 
     context_variables['cycle_form'] = ElectionCycle(available_cycles, params)
 

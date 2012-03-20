@@ -13,6 +13,7 @@ DEFAULT_ELECTION_CYCLES = [('1990', '1990'),
                            ('2006', '2006'), 
                            ('2008', '2008'), 
                            ('2010', '2010'),
+                           ('2012', '2012'),
                            (-1, 'Lifetime')]
 
 class SearchForm(forms.Form):

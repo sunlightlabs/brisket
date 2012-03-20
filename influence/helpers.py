@@ -64,55 +64,57 @@ def generate_label(string):
     return string[:max_length] + (lambda x, l: (len(x)>l and "...")
                                    or "")(string, max_length)
 
-def get_metadata(entity_id, cycle, entity_type):
-    data = {}
-    cycle_str = unicode(cycle)
 
-    # check the metadata to see which of the fields are present. this
-    # determines which sections to display on the entity page.
-    section_indicators = {
-        'individual':   {
-            'contributions': ['contributor_count'], 
-            'lobbying': ['lobbying_count']},
-        'organization': {
-            'contributions': ['contributor_count', 'independent_expenditure_amount'], 
-            'lobbying': ['lobbying_count'], 
-            'fed_spending':['loan_count', 'grant_count', 'contract_count'],
-            'earmarks': ['earmark_count'],
-            'contractor_misconduct': ['contractor_misconduct_count'],
-            'regulations': ['regs_document_count', 'regs_submitted_document_count'],
-            'epa_echo': ['epa_actions_count'],
-            'faca': ['faca_committee_count', 'faca_member_count']},
-        'industry': {
-            'contributions': ['contributor_count'], 
-            'lobbying': ['lobbying_count'],
-            'fed_spending':['loan_count', 'grant_count', 'contract_count']},
-        'politician':   {
-            'contributions': ['recipient_count'],
-            'earmarks': ['earmark_count']}
-    }
+section_indicators = {
+   'individual':   {
+       'contributions': ['contributor_count'], 
+       'lobbying': ['lobbying_count']},
+   'organization': {
+       'contributions': ['contributor_count', 'independent_expenditure_amount'], 
+       'lobbying': ['lobbying_count'], 
+       'fed_spending':['loan_count', 'grant_count', 'contract_count'],
+       'earmarks': ['earmark_count'],
+       'contractor_misconduct': ['contractor_misconduct_count'],
+       'regulations': ['regs_document_count', 'regs_submitted_document_count'],
+       'epa_echo': ['epa_actions_count'],
+       'faca': ['faca_committee_count', 'faca_member_count']},
+   'industry': {
+       'contributions': ['contributor_count'], 
+       'lobbying': ['lobbying_count'],
+       'fed_spending':['loan_count', 'grant_count', 'contract_count']},
+   'politician':   {
+       'contributions': ['recipient_count'],
+       'earmarks': ['earmark_count']}
+}
 
+def get_metadata(entity_id, request, entity_type):
     entity_info = api.entities.metadata(entity_id)
 
-    # check which types of data are available about this entity
-    for data_type, indicators in section_indicators[entity_type].iteritems():
-        if (entity_info['totals'].get(cycle_str, False) and
-            [True for ind in indicators if entity_info['totals'][cycle_str][ind]]):
-            data[data_type] = True
-        else:
-            data[data_type] = False
-
+    data = {}
     data['available_cycles'] = [c for c in entity_info['totals'].keys() if int(c) <= LATEST_CYCLE]
 
     if entity_info['years']:
         entity_info['years']['end'] = min(LATEST_CYCLE, entity_info['years']['end'])
 
+    if 'cycle' in request.GET:
+        cycle = str(request.GET['cycle'])
+    else:
+        cycle = str(LATEST_CYCLE) if str(LATEST_CYCLE) in data['available_cycles'] else str(DEFAULT_CYCLE)
+        
+    # check which types of data are available about this entity
+    for data_type, indicators in section_indicators[entity_type].iteritems():
+        if (entity_info['totals'].get(cycle, False) and
+            [True for ind in indicators if entity_info['totals'][cycle][ind]]):
+            data[data_type] = True
+        else:
+            data[data_type] = False
+
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
-        entity_info['totals'] = entity_info['totals'][cycle_str]
+        entity_info['totals'] = entity_info['totals'][cycle]
     data['entity_info'] = entity_info
 
-    return data
+    return data, cycle
 
 def months_into_cycle_for_date(date, cycle):
     end_of_cycle = datetime.datetime.strptime("{0}1231".format(cycle), "%Y%m%d").date()
@@ -145,10 +147,8 @@ def get_source_display_name(metadata):
     source_display_names = {'wikipedia_info': 'Wikipedia', 'bioguide_info': 'Bioguide', 'sunlight_info': 'Sunlight'}
     return source_display_names.get(metadata.get('source_name', ''), '')
 
-def prepare_entity_view(request, entity_id, type):
-    cycle = request.GET.get('cycle', DEFAULT_CYCLE)
-    
-    metadata = get_metadata(entity_id, cycle, type)
+def prepare_entity_view(request, entity_id, type):    
+    metadata, cycle = get_metadata(entity_id, request, type)
     check_entity(metadata['entity_info'], cycle, type)
     standardized_name = standardize_name(metadata['entity_info']['name'], type)
 
