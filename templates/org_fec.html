@@ -3,7 +3,7 @@
 
 <div class="electionHeader">
     <h4 class="withTip">Latest FEC Data</h4>
-    <span class="tip external">fundraising data updated weekly from FEC. independent expenditure data updated daily.</span>
+    <span class="tip external">fundraising data updated weekly from the FEC. independent expenditures updated daily.</span>
 </div>
 
 <div class="clear"></div>
@@ -37,7 +37,6 @@
 </li>
 <li class="twoColumn">
     <h4 class="withTip">Top Contributors</h4>
-    <span class="tip">largest contributors to the organization</span>
     <table class="twoColumn">
         <thead>
             <tr>
@@ -61,7 +60,9 @@
 
 
 <a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
-<span class="tip">note: data comes from latest FEC filings and has not been cleaned or standardized. See section below for standardized data.</span>
+{% if not section.suppress_contrib_graphs %}
+    <span class="tip">note: data comes from latest FEC filings and has not been cleaned or standardized. See section below for standardized data.</span>
+{% endif %}
 <a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures made by {{ entity_info.name|standardize_name:entity_info.type }}</a>
 
 <div class="clear"></div>
