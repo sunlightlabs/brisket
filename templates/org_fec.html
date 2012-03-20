@@ -60,9 +60,6 @@
 
 
 <a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
-{% if not section.suppress_contrib_graphs %}
-    <span class="tip">note: data comes from latest FEC filings and has not been cleaned or standardized. See section below for standardized data.</span>
-{% endif %}
 <a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures made by {{ entity_info.name|standardize_name:entity_info.type }}</a>
 
 <div class="clear"></div>
