@@ -285,7 +285,8 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         if indexp:
             section['include_fec'] = True
             section['fec_indexp'] = indexp
-            section['fec_top_contribs'] = api.org.fec_top_contribs(entity_id)
+            section['fec_top_contribs_data'] = json.dumps([dict(key=row['contributor_name'], value=row['amount'], href='') 
+                                                    for row in api.org.fec_top_contribs(entity_id)])
 
     return section
 

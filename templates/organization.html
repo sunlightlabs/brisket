@@ -34,6 +34,10 @@ $(document).ready(function() {
   Brisket.contribution_stacked_barchart("pacs_barchart", {% if sections.contributions.pacs_barchart_data %}{{ sections.contributions.pacs_barchart_data|safe }} {% else %} [] {% endif %});
   {% endif %}
   
+  {% if sections.contributions.include_fec %}
+  Brisket.contribution_single_barchart("fec_committee_donors_barchart", {% if sections.contributions.fec_top_contribs_data %}{{ sections.contributions.fec_top_contribs_data|safe }}{% else %} [] {% endif %});
+  {% endif %}
+  
   $('table#grantsContracts td').multiellipsis(3);
   $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
   $('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');

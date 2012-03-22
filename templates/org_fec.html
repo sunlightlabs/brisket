@@ -37,23 +37,8 @@
 </li>
 <li class="twoColumn">
     <h4 class="withTip">Top Contributors</h4>
-    <table class="twoColumn">
-        <thead>
-            <tr>
-                <th>Contributor</th>
-                <th>Amount</th>
-            </tr> 
-        </thead>
-        <tbody>
-        {% for row in section.fec_top_contribs %}
-        <tr class="{% cycle 'even' 'odd' %}">
-            <td>{{ row.contributor_name }}</td>
-            <td>${{ row.amount|floatformat:0|intcomma }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    
+    <div class="graph" id="fec_committee_donors_barchart">
+    </div>
 </li>
 <div class="clear"></div>
 
