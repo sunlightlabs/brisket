@@ -28,7 +28,7 @@
                     {% else %}
                         {{ indexp.candidate_name|standardize_politician_name }}
                     {% endif %}</td>
-                <td>{{ indexp.support_oppose }}</td>
+                <td><div class="label-{{ indexp.support_oppose|lower }}">{{ indexp.support_oppose }}</div></td>
                 <td>${{ indexp.amount|floatformat:0|intcomma }}</td>
             </tr>
             {% endfor %}
