@@ -3,7 +3,7 @@
 
 <div class="electionHeader">
     <h4 class="withTip">Latest FEC Data</h4>
-    <span class="tip external">covers through candidate's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. independent expenditures downloaded daily.</span>
+    <span class="tip external">covers through candidate's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. independent expenditures updated daily.</span>
 </div>
 <ul>
 
@@ -60,7 +60,8 @@
                     {% else %}
                         {{ indexp.committee_name|standardize_organization_name }}
                     {% endif %}
-                <td>{{ indexp.support_oppose }}</td>
+                </td>
+                <td><div class="label-{{ indexp.support_oppose|lower }}">{{ indexp.support_oppose }}</div></td>
                 <td>${{ indexp.amount|floatformat:0|intcomma }}</td>
             </tr>
             {% endfor %}

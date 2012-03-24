@@ -3,11 +3,33 @@
 
 <div class="electionHeader">
     <h4 class="withTip">Latest FEC Data</h4>
-    <span class="tip external">fundraising data updated weekly from the FEC. independent expenditures updated daily.</span>
+    <span class="tip external">covers through committee's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. independent expenditures updated daily.</span>
 </div>
 
 <div class="clear"></div>
 <ul>
+    <li class="oneColumn fecStats">
+        <h4 class="withTip">Summary</h4>
+        <span class="tip">overview of how much the committee's finances</span>
+        <dl>
+            <dt class="clear">Total Raised:</dt>
+            <dd class="amount">
+                ${{ section.fec_summary.total_raised|floatformat:0|intcomma }}
+            </dd>
+            <dt class="clear">Total Spent:</dt>
+            <dd>
+                ${{ section.fec_summary.disbursements|floatformat:0|intcomma }}
+            </dd>
+            <dt class="clear">Cash on Hand:</dt>
+            <dd>
+                ${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}
+            </dd>
+            <dt class="clear">Debts:</dt>
+            <dd>
+                ${{ section.fec_summary.debts|floatformat:0|intcomma }}
+            </dd>        
+        </dl>
+    </li>    
     <li class="twoColumn">
         <h4 class="withTip">Independent Expenditures</h4>
         <span class="tip">money spent supporting or opposing a candidate</span>
