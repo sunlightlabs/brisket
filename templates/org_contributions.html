@@ -37,7 +37,6 @@
 
 {% if section.pacs_barchart_data and section.pacs_barchart_data != "[]" %}
 <li class="twoColumn">
-    {% if section.pacs_barchart_data %}
     <h4 class="key withTip">Top PAC Recipients</h4>
     <dl class="key">
         <dt class="employees">Employee Color Block</dt>
@@ -51,11 +50,9 @@
     <div class="graph" id="pacs_barchart">
       <!-- raphael charts here -->
     </div>
-    {% endif %}
 </li>
-
-<div class="clear"></div> <!-- start a new row -->
 {% endif %}
+
 
 {% if section.bundling_data %}
     <li class="twoColumn">

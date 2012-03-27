@@ -4,7 +4,9 @@
     <h3 class="insideBar">Campaign Finance</h3>
     <span class="amount">
         {% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
-            ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
+            {% if not section.include_fec %} {# presence of FEC data means special handling is needed to determine total. Which we don't do at the moment. #}
+                ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
+            {% endif %}
         {% else %}
             {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
                 ${{section.fec_summary.total_raised|floatformat:0|intcomma }} Received
@@ -30,6 +32,7 @@
     <div class="clear"></div>
 </div>
 <div class="chartModule withNav">
+<<<<<<< HEAD
     {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
         {% include "pol_fec.html" %}
         <div class="electionHeader">
@@ -46,22 +49,56 @@
         {% include "indiv_contributions.html" %}
         {% else %}{% if entity_info.type == "politician" %}
         {% include "pol_contributions.html" %}
+=======
+    {% if section.include_fec %}
+        {% if entity_info.type == "politician" %}
+            {% include "pol_fec.html" %}
+>>>>>>> origin/indexp
         {% else %}{% if entity_info.type == "organization" %}
-        {% include "org_contributions.html" %}
-        {% else %}{% if entity_info.type == "industry" %}
-        {% include "industry_contributions.html" %}
-        {% endif %}{% endif %}{% endif %}{% endif %}
-      {% else %}
-      {% if section.reason == "negative" %}
-      <p>Due to refunds and other accounting issues, aggregate totals
-      for this time frame were negative.</p>  
-      {% endif %}
-      {% endif %}
-
-      {% endblock %} <!-- end chart block -->
-
-    </ul><!-- end chartModule -->
-    <div class="clear"></div>
+            {% include "org_fec.html" %}
+        {% endif %}{% endif %}
+    {% endif %}
     
-    {% include "external_links.html" with external_links=section.external_links %}
+    {% if section.include_fec and not section.suppress_contrib_graphs %}
+        <hr class="section-divider" />
+    {% endif %}
+        
+    {% if section.suppress_contrib_graphs %}
+        {% if section.reason == "negative" %}
+          <p>Due to refunds and other accounting issues, aggregate totals for this time frame were negative.</p>  
+        {% endif %}
+    {% else %}
+        {% if section.include_fec %}
+                <div class="electionHeader">
+                    {% if entity_info.type == "politician" %}
+                        <h4 class="withTip">Donor Information</h4>
+                    {% else %}{% if entity_info.type == "organization" %}
+                        <h4 class="withTip">Standardized Donation Information</h4>
+                    {% endif %}{% endif %}
+                <span class="tip external">covers the majority of 2011 filings. may lag behind FEC section above, as donors and industries are identified by hand.</span>
+            </div>
+        {% else %}
+            <span class="tip external">covers the majority of 2011 filings</span>
+        {% endif %}
+    
+        <ul>
+          {% block charts %}
+            {% if entity_info.type == "individual" %}
+            {% include "indiv_contributions.html" %}
+            {% else %}{% if entity_info.type == "politician" %}
+            {% include "pol_contributions.html" %}
+            {% else %}{% if entity_info.type == "organization" %}
+            {% include "org_contributions.html" %}
+            {% else %}{% if entity_info.type == "industry" %}
+            {% include "industry_contributions.html" %}
+            {% endif %}{% endif %}{% endif %}{% endif %}
+          {% endblock %} <!-- end chart block -->
+
+        </ul><!-- end chartModule -->
+        <div class="clear"></div>
+    
+        {% include "external_links.html" with external_links=section.external_links %}
+
+    {% endif %}
+
 </div>

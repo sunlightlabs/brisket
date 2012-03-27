@@ -49,8 +49,7 @@ def entity_context(request, cycle, available_cycles):
     context_variables = {}
 
     params = request.GET.copy()
-    if 'cycle' not in params:
-        params['cycle'] = DEFAULT_CYCLE
+    params['cycle'] = cycle
 
     context_variables['cycle_form'] = ElectionCycle(available_cycles, params)
 
@@ -252,9 +251,10 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
     # section except the overview bar
-    if amount < 0:
+    if amount <= 0:
         section['suppress_contrib_graphs'] = True
-        section['reason'] = "negative"
+        if amount < 0:
+            section['reason'] = "negative"
 
     elif (not section['pol_recipients_barchart_data']
           and not section['party_breakdown']
@@ -279,6 +279,16 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 
     bundling = api.entities.bundles(entity_id, cycle)
     section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type lobbyist_entity lobbyist_name firm_name amount'.split()] for x in bundling ]
+
+    if int(cycle) == LATEST_CYCLE:
+        fec_summary = api.org.fec_summary(entity_id)
+        if fec_summary:
+            section['include_fec'] = True
+            section['fec_summary'] = fec_summary
+            section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
+            section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
+            section['fec_top_contribs_data'] = json.dumps([dict(key=row['contributor_name'], value=row['amount'], href='') 
+                                                    for row in api.org.fec_top_contribs(entity_id)])
 
     return section
 
@@ -527,6 +537,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
     if int(cycle) == LATEST_CYCLE:
+        section['include_fec'] = True
         section['fec_summary'] = api.pol.fec_summary(entity_id, cycle)
         if section['fec_summary'] and 'date' in section['fec_summary']:
             section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
@@ -550,6 +561,8 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
             timelines = timelines[:5]
         
         section['fec_timelines'] = json.dumps(timelines)
+        
+        section['fec_indexp'] = api.pol.fec_indexp(entity_id, cycle)[:10]
 
     return section
 
