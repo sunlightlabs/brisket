@@ -1,10 +1,15 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="electionHeader">
+<div class="electionHeader withTip">
     <h4 class="withTip">Latest FEC Data</h4>
     <span class="tip external">covers through committee's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. independent expenditures updated daily.</span>
 </div>
+<div class="downloadLinks">
+    <a href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
+    <a href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures made by {{ entity_info.name|standardize_name:entity_info.type }}</a>
+    <div class="clear"></div>
+</div>    
 
 <div class="clear"></div>
 <ul>
@@ -64,11 +69,4 @@
         </div>
     </li>
 </ul>
-<div class="clear"></div>
-
-
-
-<a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
-<a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures made by {{ entity_info.name|standardize_name:entity_info.type }}</a>
-
 <div class="clear"></div>
