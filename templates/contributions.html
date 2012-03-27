@@ -32,28 +32,9 @@
     <div class="clear"></div>
 </div>
 <div class="chartModule withNav">
-<<<<<<< HEAD
-    {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
-        {% include "pol_fec.html" %}
-        <div class="electionHeader">
-            <h4 class="withTip">Donor Information</h4>
-            <span class="tip external">covers through 2011. may lag behind FEC section above, as donors and industries are identified by hand.</span>
-        </div>
-    {% else %}
-        <span class="tip external">covers through 2011.</span>
-    {% endif %}
-    <ul>
-      {% block charts %}
-      {% if not section.suppress_contrib_graphs %}
-        {% if entity_info.type == "individual" %}
-        {% include "indiv_contributions.html" %}
-        {% else %}{% if entity_info.type == "politician" %}
-        {% include "pol_contributions.html" %}
-=======
     {% if section.include_fec %}
         {% if entity_info.type == "politician" %}
             {% include "pol_fec.html" %}
->>>>>>> origin/indexp
         {% else %}{% if entity_info.type == "organization" %}
             {% include "org_fec.html" %}
         {% endif %}{% endif %}
