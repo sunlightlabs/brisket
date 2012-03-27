@@ -29,7 +29,8 @@
                 ${{ section.fec_summary.debts|floatformat:0|intcomma }}
             </dd>        
         </dl>
-    </li>    
+    </li>
+    {% if section.fec_indexp %}
     <li class="twoColumn">
         <h4 class="withTip">Independent Expenditures</h4>
         <span class="tip">money spent supporting or opposing a candidate</span>
@@ -56,8 +57,8 @@
             {% endfor %}
             </tbody>
         </table>
-    
     </li>
+    {% endif %}
     <li class="twoColumn">
         <h4 class="withTip">Top Contributors</h4>
         <div class="graph" id="fec_committee_donors_barchart">
@@ -66,9 +67,9 @@
 </ul>
 <div class="clear"></div>
 
-
-
 <a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
+{% if section.fec_indexp %}
 <a class="moreLink" href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures made by {{ entity_info.name|standardize_name:entity_info.type }}</a>
+{% endif %}
 
 <div class="clear"></div>
