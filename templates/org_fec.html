@@ -1,0 +1,75 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="electionHeader withTip">
+    <h4 class="withTip">Latest FEC Data</h4>
+    <span class="tip external">covers through committee's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. independent expenditures updated daily.</span>
+</div>
+<div class="downloadLinks">
+    <a href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
+    {% if section.fec_indexp %}
+    <a href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures made by {{ entity_info.name|standardize_name:entity_info.type }}</a>
+    {% endif %}
+    <div class="clear"></div>
+</div>    
+
+<div class="clear"></div>
+<ul>
+    <li class="oneColumn fecStats">
+        <h4 class="withTip">Summary</h4>
+        <span class="tip">overview of the committee's finances</span>
+        <dl>
+            <dt class="clear">Total Raised:</dt>
+            <dd class="amount">
+                ${{ section.fec_summary.total_raised|floatformat:0|intcomma }}
+            </dd>
+            <dt class="clear">Total Spent:</dt>
+            <dd>
+                ${{ section.fec_summary.disbursements|floatformat:0|intcomma }}
+            </dd>
+            <dt class="clear">Cash on Hand:</dt>
+            <dd>
+                ${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}
+            </dd>
+            <dt class="clear">Debts:</dt>
+            <dd>
+                ${{ section.fec_summary.debts|floatformat:0|intcomma }}
+            </dd>        
+        </dl>
+    </li>
+    {% if section.fec_indexp %}
+    <li class="twoColumn">
+        <h4 class="withTip">Independent Expenditures</h4>
+        <span class="tip">money spent supporting or opposing a candidate</span>
+        <table class="twoColumn">
+            <thead>
+                <tr>
+                    <th>Candidate</th>
+                    <th>Support/Oppose</th>
+                    <th>Total Spent</th>
+                </tr> 
+            </thead>
+            <tbody>
+            {% for indexp in section.fec_indexp %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td>
+                    {% if indexp.candidate_entity %}
+                        <a href="/politician/{{indexp.candidate_name|slugify}}/{{indexp.candidate_entity}}?cycle={{ cycle }}">{{ indexp.candidate_name|standardize_politician_name }}</a>
+                    {% else %}
+                        {{ indexp.candidate_name|standardize_politician_name }}
+                    {% endif %}</td>
+                <td><div class="label-{{ indexp.support_oppose|lower }}">{{ indexp.support_oppose }}</div></td>
+                <td>${{ indexp.amount|floatformat:0|intcomma }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </li>
+    {% endif %}
+    <li class="twoColumn">
+        <h4 class="withTip">Top Contributors</h4>
+        <div class="graph" id="fec_committee_donors_barchart">
+        </div>
+    </li>
+</ul>
+<div class="clear"></div>
