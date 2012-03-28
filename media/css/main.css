@@ -738,3 +738,9 @@ table .even.numerous{
 .electionHeader { margin-top: 40px; border-bottom: 1px dashed #DCDCD8; margin-bottom: 25px;}
 .electionHeader h4 { font-weight: bold;}
 .electionHeader .tip { margin-bottom: 5px;}
+
+.downloadLinks { margin-bottom: 40px; margin-right: 35px; font-size: 95%;}
+.downloadLinks a { display: block; text-align: right; background: url(../images/down_16.png) bottom left no-repeat; padding-left: 20px; height: 16px; clear: both; float: right;}
+.downloadLinks a:hover { background: url(../images/down_16.png) top left no-repeat; }
+
+.chartModule .withTip { margin-bottom: 5px;}
