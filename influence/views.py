@@ -263,18 +263,6 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'
 
-    if cycle != DEFAULT_CYCLE:
-
-        if int(cycle) == int(LATEST_CYCLE):
-            cut_off_at_step = months_into_cycle_for_date(datetime.date.today(), cycle)
-        else:
-            cut_off_at_step = 24
-    else:
-        cut_off_at_step = 9999
-
-    section['cut_off_sparkline_at_step'] = cut_off_at_step
-    section['sparkline_data'] = json.dumps(api.org.sparkline_by_party(entity_id, cycle))
-
     section['external_links'] = external_sites.get_contribution_links(type, standardized_name, external_ids, cycle)
 
     bundling = api.entities.bundles(entity_id, cycle)
@@ -515,8 +503,6 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'
 
-    section['sparkline_data'] = json.dumps(api.pol.sparkline(entity_id, cycle))
-    
     partytime_link, section['partytime_data'] = external_sites.get_partytime_data(external_ids)
     
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name.name_str(), external_ids, cycle)
@@ -642,8 +628,6 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
     section['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
-
-    section['sparkline_data'] = json.dumps(api.indiv.sparkline(entity_id, cycle))
 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
