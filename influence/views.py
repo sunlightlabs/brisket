@@ -272,7 +272,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         section['fec_summary'] = api.org.fec_summary(entity_id)
         if section['fec_summary']:
             section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
-            section['fec_top_contribs_data'] = json.dumps([dict(key=row['contributor_name'], value=row['amount'], href='') 
+            section['fec_top_contribs_data'] = json.dumps([dict(key=generate_label(row['contributor_name'], 27), value=row['amount'], href='') 
                                                     for row in api.org.fec_top_contribs(entity_id)])
             
         section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
