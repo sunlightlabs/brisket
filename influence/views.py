@@ -263,32 +263,22 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'
 
-    if cycle != DEFAULT_CYCLE:
-
-        if int(cycle) == int(LATEST_CYCLE):
-            cut_off_at_step = months_into_cycle_for_date(datetime.date.today(), cycle)
-        else:
-            cut_off_at_step = 24
-    else:
-        cut_off_at_step = 9999
-
-    section['cut_off_sparkline_at_step'] = cut_off_at_step
-    section['sparkline_data'] = json.dumps(api.org.sparkline_by_party(entity_id, cycle))
-
     section['external_links'] = external_sites.get_contribution_links(type, standardized_name, external_ids, cycle)
 
     bundling = api.entities.bundles(entity_id, cycle)
     section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type lobbyist_entity lobbyist_name firm_name amount'.split()] for x in bundling ]
 
     if int(cycle) == LATEST_CYCLE:
-        fec_summary = api.org.fec_summary(entity_id)
-        if fec_summary:
-            section['include_fec'] = True
-            section['fec_summary'] = fec_summary
+        section['fec_summary'] = api.org.fec_summary(entity_id)
+        if section['fec_summary']:
             section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
-            section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
-            section['fec_top_contribs_data'] = json.dumps([dict(key=row['contributor_name'], value=row['amount'], href='') 
+            section['fec_top_contribs_data'] = json.dumps([dict(key=generate_label(row['contributor_name'], 27), value=row['amount'], href='') 
                                                     for row in api.org.fec_top_contribs(entity_id)])
+            
+        section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
+        
+        if section['fec_summary'] or section['fec_indexp']:
+            section['include_fec'] = True
 
     return section
 
@@ -525,8 +515,6 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'
 
-    section['sparkline_data'] = json.dumps(api.pol.sparkline(entity_id, cycle))
-    
     partytime_link, section['partytime_data'] = external_sites.get_partytime_data(external_ids)
     
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name.name_str(), external_ids, cycle)
@@ -537,32 +525,34 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
     if int(cycle) == LATEST_CYCLE:
-        section['include_fec'] = True
         section['fec_summary'] = api.pol.fec_summary(entity_id, cycle)
-        if section['fec_summary'] and 'date' in section['fec_summary']:
-            section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
+        if section['fec_summary']:
+            section['include_fec'] = True
+
+            if section['fec_summary'] and 'date' in section['fec_summary']:
+                section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
         
-        timelines = []
-        for pol in api.pol.fec_timeline(entity_id, cycle):
-            tl = {
-                'name': pol['candidate_name'],
-                'party': pol['party'],
-                'is_this': pol['entity_id'] == entity_id,
-                'timeline': map(lambda item: item if item >= 0 else 0, pol['timeline']),
-                'href': '/politician/%s/%s?cycle=%s' % (slugify(PoliticianNameCleaver(pol['candidate_name']).parse().name_str()), pol['entity_id'], cycle)
-            }
-            tl['sum'] = sum(tl['timeline'])
-            timelines.append(tl)
-        timelines.sort(key=lambda t: (int(t['is_this']), t['sum']), reverse=True)
-        # restrict to top 5, and only those receiving at least 10% of this pol's total
-        if timelines:
-            this_sum = timelines[0]['sum']
-            timelines = [timeline for timeline in timelines if timeline['sum'] > 0.1 * this_sum]
-            timelines = timelines[:5]
+            timelines = []
+            for pol in api.pol.fec_timeline(entity_id, cycle):
+                tl = {
+                    'name': pol['candidate_name'],
+                    'party': pol['party'],
+                    'is_this': pol['entity_id'] == entity_id,
+                    'timeline': map(lambda item: item if item >= 0 else 0, pol['timeline']),
+                    'href': '/politician/%s/%s?cycle=%s' % (slugify(PoliticianNameCleaver(pol['candidate_name']).parse().name_str()), pol['entity_id'], cycle)
+                }
+                tl['sum'] = sum(tl['timeline'])
+                timelines.append(tl)
+            timelines.sort(key=lambda t: (int(t['is_this']), t['sum']), reverse=True)
+            # restrict to top 5, and only those receiving at least 10% of this pol's total
+            if timelines:
+                this_sum = timelines[0]['sum']
+                timelines = [timeline for timeline in timelines if timeline['sum'] > 0.1 * this_sum]
+                timelines = timelines[:5]
         
-        section['fec_timelines'] = json.dumps(timelines)
+            section['fec_timelines'] = json.dumps(timelines)
         
-        section['fec_indexp'] = api.pol.fec_indexp(entity_id, cycle)[:10]
+            section['fec_indexp'] = api.pol.fec_indexp(entity_id, cycle)[:10]
 
     return section
 
@@ -655,8 +645,6 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
     for key, values in party_breakdown.iteritems():
         party_breakdown[key] = float(values[1])
     section['party_breakdown'] = json.dumps(pie_validate(party_breakdown))
-
-    section['sparkline_data'] = json.dumps(api.indiv.sparkline(entity_id, cycle))
 
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content

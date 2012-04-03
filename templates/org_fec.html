@@ -3,18 +3,24 @@
 
 <div class="electionHeader withTip">
     <h4 class="withTip">Latest FEC Data</h4>
-    <span class="tip external">covers through committee's {{section.fec_summary.clean_date|date:"F j, Y"}} filing. independent expenditures updated daily.</span>
+    <span class="tip external">
+        {% if section.fec_summary %}covers through committee's {{section.fec_summary.clean_date|date:"F j, Y"}} filing.{% endif %}
+        {% if section.fec_indexp %}independent expenditures updated daily.{% endif %}
+    </span>
 </div>
 <div class="downloadLinks">
-    <a href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
+    {% if section.fec_summary %}
+        <a href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_itemized.csv?apikey={{ API_KEY }}&cycle={{cycle}}">Download all contributions to {{ entity_info.name|standardize_name:entity_info.type }}</a>
+    {% endif %}
     {% if section.fec_indexp %}
-    <a href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures made by {{ entity_info.name|standardize_name:entity_info.type }}</a>
+        <a href="{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/fec_indexp_itemized.csv?apikey={{ API_KEY }}">Download all independent expenditures made by {{ entity_info.name|standardize_name:entity_info.type }}</a>
     {% endif %}
     <div class="clear"></div>
 </div>    
 
 <div class="clear"></div>
 <ul>
+    {% if section.fec_summary %}
     <li class="oneColumn fecStats">
         <h4 class="withTip">Summary</h4>
         <span class="tip">overview of the committee's finances</span>
@@ -37,6 +43,7 @@
             </dd>        
         </dl>
     </li>
+    {% endif %}
     {% if section.fec_indexp %}
     <li class="twoColumn">
         <h4 class="withTip">Independent Expenditures</h4>
@@ -66,10 +73,12 @@
         </table>
     </li>
     {% endif %}
+    {% if section.fec_top_contribs_data %}
     <li class="twoColumn">
         <h4 class="withTip">Top Contributors</h4>
         <div class="graph" id="fec_committee_donors_barchart">
         </div>
     </li>
+    {% endif %}
 </ul>
 <div class="clear"></div>

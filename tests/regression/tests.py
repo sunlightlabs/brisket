@@ -13,7 +13,6 @@ politician_methods = [
     TransparencyDataAPI.pol_industries,
     TransparencyDataAPI.pol_local_breakdown,
     TransparencyDataAPI.pol_contributor_type_breakdown,
-    TransparencyDataAPI.pol_sparkline,
 ]
 
 politician_entities = [
@@ -26,8 +25,6 @@ organization_methods = [
     TransparencyDataAPI.org_recipients,
     TransparencyDataAPI.org_party_breakdown,
     TransparencyDataAPI.org_level_breakdown,
-    TransparencyDataAPI.org_sparkline,
-    TransparencyDataAPI.org_sparkline_by_party,
     TransparencyDataAPI.org_registrants,
     TransparencyDataAPI.org_issues,
     TransparencyDataAPI.org_lobbyists,
@@ -47,7 +44,6 @@ individual_methods = [
     TransparencyDataAPI.indiv_org_recipients,
     TransparencyDataAPI.indiv_pol_recipients,
     TransparencyDataAPI.indiv_party_breakdown,
-    TransparencyDataAPI.indiv_sparkline,
     TransparencyDataAPI.indiv_registrants,
     TransparencyDataAPI.indiv_issues,
     TransparencyDataAPI.indiv_clients,
