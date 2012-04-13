@@ -7,7 +7,7 @@ $().ready(function() {
     
     TD.ContractsFilter.row_content = function(row) {
         var content = '<td class="fiscal_year">' + row.fiscal_year + '</td>';
-        content += '<td class="current_amount">$' + TD.Utils.currencyFormat(row.baseandexercisedoptionsvalue) + '</td>';
+        content += '<td class="obligated_amount">$' + TD.Utils.currencyFormat(row.obligatedamount) + '</td>';
         content += '<td class="vendor_name">' + row.vendorname + '</td>';
         content += '<td class="contract_description">' + row.descriptionofcontractrequirement + '</td>';
         return content;
