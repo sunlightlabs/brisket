@@ -572,6 +572,10 @@ BrisketModern = {
         var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
         Brisket.piechart(div, data, level_colors);
     },
+    office_type_piechart: function(div, data) {
+        var level_colors = {"federal:president": '#efcc01', "federal:house": '#f2e388'};
+        Brisket.piechart(div, data, level_colors);
+    },
     fec_piechart: function(div, data) {
         var fec_colors = {"Individuals": "#efcc01", "PACs": "#f2e388", "Party": "#15576e", "Self-Financing": "#f2f1e4", "Transfers": "#e96d24"};
         Brisket.piechart(div, data, fec_colors);

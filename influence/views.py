@@ -248,6 +248,11 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         level_breakdown[key] = float(values[1])
     section['level_breakdown'] = json.dumps(pie_validate(level_breakdown))
 
+    office_type_breakdown = api.org.office_type_breakdown(entity_id, cycle)
+    for key, values in office_type_breakdown.iteritems():
+        office_type_breakdown[key] = float(values[1])
+    section['office_type_breakdown'] = json.dumps(pie_validate(office_type_breakdown))
+
     # if none of the charts have data, or if the aggregate total
     # received was negative, then suppress that whole content
     # section except the overview bar
@@ -259,6 +264,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     elif (not section['pol_recipients_barchart_data']
           and not section['party_breakdown']
           and not section['level_breakdown']
+          and not section['office_type_breakdown']
           and not section['pacs_barchart_data']):
         section['suppress_contrib_graphs'] = True
         section['reason'] = 'empty'

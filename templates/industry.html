@@ -26,6 +26,7 @@
 $(document).ready(function() {
   {% if not sections.contributions.suppress_contrib_graphs %}
   Brisket.level_piechart("piechart_level", {% if sections.contributions.level_breakdown %}{{ sections.contributions.level_breakdown|safe }}{% else %}{}{% endif %});
+  Brisket.office_type_piechart("piechart_office_type", {% if sections.contributions.office_type_breakdown %}{{ sections.contributions.office_type_breakdown|safe }}{% else %}{}{% endif %});
   Brisket.party_piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party" );
   Brisket.contribution_single_barchart("pol_recipients_barchart", {% if sections.contributions.pol_recipients_barchart_data %}{{ sections.contributions.pol_recipients_barchart_data|safe }} {% else %} [] {% endif %});
   Brisket.contribution_stacked_barchart("organizations_barchart", {% if sections.contributions.top_orgs %}{{ sections.contributions.top_orgs|safe }} {% else %} [] {% endif %});
