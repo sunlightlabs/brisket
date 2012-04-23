@@ -273,8 +273,9 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         if section['fec_indexp']:
             section['include_fec'] = True
 
-            section['fec_summary'] = api.org.fec_summary(entity_id)
-            if section['fec_summary']:
+            fec_summary = api.org.fec_summary(entity_id)
+            if fec_summary and fec_summary['num_committee_filings'] > 0:
+                section['fec_summary'] = fec_summary
                 section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['first_filing_date'], "%Y-%m-%d")
                 top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27), 
                                             value=row['amount'], href='')
