@@ -101,10 +101,12 @@ def search(request):
             kwargs['sorted_results'] = None
         else:
             # sort the results by type
-            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': [], 'industry': []}
+            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': [], 'industry': [], 'superpac': []}
             for result in entity_results:
                 if result['type'] == 'organization' and result['lobbying_firm'] == True:
                     sorted_results['lobbying_firm'].append(result)
+                elif result['type'] == 'organization' and result['is_superpac'] == True:
+                    sorted_results['superpac'].append(result)
                 else:
                     sorted_results[result['type']].append(result)
 
@@ -121,6 +123,7 @@ def search(request):
             kwargs['num_pols']   = len(sorted_results['politician'])
             kwargs['num_indivs'] = len(sorted_results['individual'])
             kwargs['num_firms']  = len(sorted_results['lobbying_firm'])
+            kwargs['num_superpacs'] = len(sorted_results['superpac'])
             kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results
         return render_to_response('results.html', kwargs, brisket_context(request))
