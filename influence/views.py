@@ -280,7 +280,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
                 top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27), 
                                             value=row['amount'], href='')
                                     for row in api.org.fec_top_contribs(entity_id)
-                                    if row['amount'] >= 100000]
+                                    if float(row['amount']) >= 100000]
                 if top_contribs_data:
                     section['fec_top_contribs_data'] = json.dumps(top_contribs_data)
 
