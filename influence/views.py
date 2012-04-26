@@ -273,19 +273,20 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 
     if int(cycle) == LATEST_CYCLE:
         section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
-        if section['fec_indexp']:
-            section['include_fec'] = True
 
-            fec_summary = api.org.fec_summary(entity_id)
-            if fec_summary and fec_summary['num_committee_filings'] > 0:
-                section['fec_summary'] = fec_summary
-                section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['first_filing_date'], "%Y-%m-%d")
-                top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27), 
-                                            value=row['amount'], href='')
-                                    for row in api.org.fec_top_contribs(entity_id)
-                                    if float(row['amount']) >= 100000]
-                if top_contribs_data:
-                    section['fec_top_contribs_data'] = json.dumps(top_contribs_data)
+        fec_summary = api.org.fec_summary(entity_id)
+        if fec_summary and fec_summary['num_committee_filings'] > 0:
+            section['fec_summary'] = fec_summary
+            section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['first_filing_date'], "%Y-%m-%d")
+            top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27), 
+                                        value=row['amount'], href='')
+                                for row in api.org.fec_top_contribs(entity_id)
+                                if float(row['amount']) >= 100000]
+            if top_contribs_data:
+                section['fec_top_contribs_data'] = json.dumps(top_contribs_data)
+
+        if section.get('fec_indexp') or section.get('fec_summary'):
+            section['include_fec'] = True
 
     return section
 
