@@ -101,10 +101,12 @@ def search(request):
             kwargs['sorted_results'] = None
         else:
             # sort the results by type
-            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': [], 'industry': []}
+            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': [], 'industry': [], 'superpac': []}
             for result in entity_results:
                 if result['type'] == 'organization' and result['lobbying_firm'] == True:
                     sorted_results['lobbying_firm'].append(result)
+                elif result['type'] == 'organization' and result['is_superpac'] == True:
+                    sorted_results['superpac'].append(result)
                 else:
                     sorted_results[result['type']].append(result)
 
@@ -121,6 +123,7 @@ def search(request):
             kwargs['num_pols']   = len(sorted_results['politician'])
             kwargs['num_indivs'] = len(sorted_results['individual'])
             kwargs['num_firms']  = len(sorted_results['lobbying_firm'])
+            kwargs['num_superpacs'] = len(sorted_results['superpac'])
             kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results
         return render_to_response('results.html', kwargs, brisket_context(request))
@@ -270,19 +273,20 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 
     if int(cycle) == LATEST_CYCLE:
         section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
-        if section['fec_indexp']:
-            section['include_fec'] = True
 
-            fec_summary = api.org.fec_summary(entity_id)
-            if fec_summary and fec_summary['num_committee_filings'] > 0:
-                section['fec_summary'] = fec_summary
-                section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['first_filing_date'], "%Y-%m-%d")
-                top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27), 
-                                            value=row['amount'], href='')
-                                    for row in api.org.fec_top_contribs(entity_id)
-                                    if row['amount'] >= 100000]
-                if top_contribs_data:
-                    section['fec_top_contribs_data'] = json.dumps(top_contribs_data)
+        fec_summary = api.org.fec_summary(entity_id)
+        if fec_summary and fec_summary['num_committee_filings'] > 0:
+            section['fec_summary'] = fec_summary
+            section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['first_filing_date'], "%Y-%m-%d")
+            top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27), 
+                                        value=row['amount'], href='')
+                                for row in api.org.fec_top_contribs(entity_id)
+                                if float(row['amount']) >= 100000]
+            if top_contribs_data:
+                section['fec_top_contribs_data'] = json.dumps(top_contribs_data)
+
+        if section.get('fec_indexp') or section.get('fec_summary'):
+            section['include_fec'] = True
 
     return section
 
