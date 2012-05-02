@@ -69,7 +69,7 @@ $(document).ready(function() {
     {% endif %}
     {% if entity_info.metadata.controlling_org %}
     <div class="relationship">
-        <span class="relationshipTitle">Controlling Organization:</span>
+        <span class="relationshipTitle">Affiliated Organization:</span>
         <a href="/organization/{{ entity_info.metadata.controlling_org.name|slugify}}/{{entity_info.metadata.controlling_org.id}}">{{ entity_info.metadata.controlling_org.name|standardize_organization_name }}</a>
     </div>
     {% endif %}
