@@ -578,7 +578,7 @@ BrisketModern = {
     },
     timeline_chart: function(div, data) {
         D3Charts.timeline_chart(div, data);
-    }
+    },
 }
 
 BrisketServer = {

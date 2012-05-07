@@ -6,12 +6,32 @@
     Individuals | 
 {% endblock %}
 
+{% block extrajs %}
+<script type="text/javascript" charset="utf-8"> 
+$(document).ready(function() {
+    {% if top_n_lobbyist_bundlers %}
+    Brisket.contribution_single_barchart("bundlers_barchart", {% if top_n_lobbyist_bundlers %}{{ top_n_lobbyist_bundlers|safe }}{% else %}{}{% endif %});
+    {% endif %}
+});
+</script>
+{% endblock %}
+
 {% block body_class %}individual{% endblock %}
 
 {% block main %}
     {% if num_indivs %}
     <div id="contentHeader">
         <h2>People</h2>
+    </div>
+    <div class="chartModule">
+        <li class="twoColumn chart">
+            {% if top_n_lobbyist_bundlers %}
+            <h4 class="withTip">Top Lobbyist Bundlers</h4>
+            <div class="graph" id="bundlers_barchart">
+                <!-- chart here -->
+            </div>
+            {% endif %}
+        </li>
     </div>
     <div id="ltColumn">
         <p>The following individuals have contributed the greatest dollar amounts during the current election cycle.</p>

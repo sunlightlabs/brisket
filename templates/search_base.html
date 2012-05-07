@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block js %}
+{% block extrajs %}
+<!-- extrajs is where the charts are loaded and must go *before* the --
+  -- div is hidden -->
+{% endblock %}
+{% endblock %}
 {% block body_class %}search{% endblock %}
 
 {% block search %}

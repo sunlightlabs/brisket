@@ -139,6 +139,14 @@ def people_landing(request):
     context['top_n_individuals'] = api.entities.top_n_individuals(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_indivs'] = len(context['top_n_individuals'])
     context['cycle'] = TOP_LISTS_CYCLE
+#    context['top_n_donors_to_democrats'] = api.entities.top_n_individual_donors_to_democrats(cycle=TOP_LISTS_CYCLE, limit=10)
+#    context['top_n_donors_to_republicans'] = api.entities.top_n_individual_donors_to_republicans(cycle=TOP_LISTS_CYCLE, limit=10)
+    lobbyist_bundlers = api.entities.top_n_lobbyist_bundlers(cycle=TOP_LISTS_CYCLE, limit=10)
+    context['top_n_lobbyist_bundlers'] = json.dumps([ {
+        'name': PoliticianNameCleaver(x['name']).parse().name_str(),
+        'href': '/individual/{}/{}?cycle={}'.format(slugify(PoliticianNameCleaver(x['name']).parse().name_str()), x['entity_id'], TOP_LISTS_CYCLE),
+        'value': x['amount']
+    } for x in lobbyist_bundlers])
     return render_to_response('indiv_landing.html', context, brisket_context(request))
 
 def politician_landing(request):
