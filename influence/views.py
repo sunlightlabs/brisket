@@ -143,7 +143,7 @@ def people_landing(request):
 #    context['top_n_donors_to_republicans'] = api.entities.top_n_individual_donors_to_republicans(cycle=TOP_LISTS_CYCLE, limit=10)
     lobbyist_bundlers = api.entities.top_n_lobbyist_bundlers(cycle=TOP_LISTS_CYCLE, limit=10)
     context['top_n_lobbyist_bundlers'] = json.dumps([ {
-        'name': PoliticianNameCleaver(x['name']).parse().name_str(),
+        'key': PoliticianNameCleaver(x['name']).parse().name_str(),
         'href': '/individual/{}/{}?cycle={}'.format(slugify(PoliticianNameCleaver(x['name']).parse().name_str()), x['entity_id'], TOP_LISTS_CYCLE),
         'value': x['amount']
     } for x in lobbyist_bundlers])
