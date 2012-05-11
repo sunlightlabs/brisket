@@ -9,9 +9,9 @@
 {% block extrajs %}
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
-    {% if top_n_lobbyist_bundlers %}
     Brisket.contribution_single_barchart("bundlers_barchart", {% if top_n_lobbyist_bundlers %}{{ top_n_lobbyist_bundlers|safe }}{% else %}{}{% endif %});
-    {% endif %}
+    Brisket.contribution_single_barchart("democratic_donors_barchart", {% if top_n_donors_to_democrats %}{{ top_n_donors_to_democrats|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("republican_donors_barchart", {% if top_n_donors_to_republicans %}{{ top_n_donors_to_republicans|safe }}{% else %}{}{% endif %});
 });
 </script>
 {% endblock %}
@@ -24,14 +24,32 @@ $(document).ready(function() {
         <h2>People</h2>
     </div>
     <div class="chartModule">
-        <li class="twoColumn chart">
-            {% if top_n_lobbyist_bundlers %}
-            <h4 class="withTip">Top Lobbyist Bundlers</h4>
-            <div class="graph" id="bundlers_barchart">
-                <!-- chart here -->
-            </div>
-            {% endif %}
-        </li>
+        <ul>
+            <li class="twoColumn chart">
+                {% if top_n_donors_to_republicans %}
+                <h4 class="withTip">Top Donors to Republicans</h4>
+                <div class="graph" id="republican_donors_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_n_lobbyist_bundlers %}
+                <h4 class="withTip">Top Lobbyist Bundlers</h4>
+                <div class="graph" id="bundlers_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_n_donors_to_democrats %}
+                <h4 class="withTip">Top Donors to Democrats</h4>
+                <div class="graph" id="democratic_donors_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+        </ul>
     </div>
     <div id="ltColumn">
         <p>The following individuals have contributed the greatest dollar amounts during the current election cycle.</p>

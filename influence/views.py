@@ -13,7 +13,8 @@ from influence.helpers import prepare_entity_view, generate_label, barchart_href
     bar_validate, pie_validate, months_into_cycle_for_date, \
     filter_bad_spending_descriptions, make_bill_link, get_top_pages
 from influenceexplorer import DEFAULT_CYCLE
-from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
+from name_cleaver import PoliticianNameCleaver, IndividualNameCleaver,\
+        OrganizationNameCleaver
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import URLError
 import datetime
@@ -139,15 +140,24 @@ def people_landing(request):
     context['top_n_individuals'] = api.entities.top_n_individuals(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_indivs'] = len(context['top_n_individuals'])
     context['cycle'] = TOP_LISTS_CYCLE
-#    context['top_n_donors_to_democrats'] = api.entities.top_n_individual_donors_to_democrats(cycle=TOP_LISTS_CYCLE, limit=10)
-#    context['top_n_donors_to_republicans'] = api.entities.top_n_individual_donors_to_republicans(cycle=TOP_LISTS_CYCLE, limit=10)
+
+    democratic_donors = api.entities.top_n_indiv_democratic_donors(cycle=TOP_LISTS_CYCLE, limit=10)
+    context['top_n_democratic_donors'] = translate_top_list_api_to_chart_format(democratic_donors)
+
+    republican_donors = api.entities.top_n_indiv_republican_donors(cycle=TOP_LISTS_CYCLE, limit=10)
+    context['top_n_republican_donors'] = translate_top_list_api_to_chart_format(republican_donors)
+
     lobbyist_bundlers = api.entities.top_n_lobbyist_bundlers(cycle=TOP_LISTS_CYCLE, limit=10)
-    context['top_n_lobbyist_bundlers'] = json.dumps([ {
-        'key': PoliticianNameCleaver(x['name']).parse().name_str(),
-        'href': '/individual/{}/{}?cycle={}'.format(slugify(PoliticianNameCleaver(x['name']).parse().name_str()), x['entity_id'], TOP_LISTS_CYCLE),
-        'value': x['amount']
-    } for x in lobbyist_bundlers])
+    context['top_n_lobbyist_bundlers'] = translate_top_list_api_to_chart_format(lobbyist_bundlers)
+
     return render_to_response('indiv_landing.html', context, brisket_context(request))
+
+def translate_top_list_api_to_chart_format(data):
+    return json.dumps([ {
+        'key': IndividualNameCleaver(x['name']).parse().name_str(),
+        'href': '/individual/{}/{}?cycle={}'.format(slugify(IndividualNameCleaver(x['name']).parse().name_str()), x['entity_id'], TOP_LISTS_CYCLE),
+        'value': x['amount']
+    } for x in data])
 
 def politician_landing(request):
     context = {}
