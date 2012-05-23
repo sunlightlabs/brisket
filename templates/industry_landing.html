@@ -10,6 +10,8 @@
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
     Brisket.contribution_single_barchart("lobbying_barchart", {% if top_industries_by_lobbying %}{{ top_industries_by_lobbying|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("democratic_barchart", {% if top_donors_to_democrats %}{{ top_donors_to_democrats|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("republican_barchart", {% if top_donors_to_republicans %}{{ top_donors_to_republicans|safe }}{% else %}{}{% endif %});
 });
 </script>
 {% endblock %}
@@ -27,6 +29,22 @@ $(document).ready(function() {
                 {% if top_industries_by_lobbying %}
                 <h4 class="withTip">Highest Lobbying Spending</h4>
                 <div class="graph" id="lobbying_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_donors_to_democrats %}
+                <h4 class="withTip">Top Donors to Democrats</h4>
+                <div class="graph" id="democratic_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_donors_to_republicans %}
+                <h4 class="withTip">Top Donors to Republicans</h4>
+                <div class="graph" id="republican_barchart">
                     <!-- chart here -->
                 </div>
                 {% endif %}
