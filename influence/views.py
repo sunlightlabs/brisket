@@ -177,6 +177,10 @@ def industry_landing(request):
     context['top_n_industries'] = api.entities.top_n_industries(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_industries'] = len(context['top_n_industries'])
     context['cycle'] = TOP_LISTS_CYCLE
+
+    lobbying_industries = api.entities.top_n_industries_lobbying(cycle=TOP_LISTS_CYCLE, limit=50)
+    context['top_industries_by_lobbying'] = translate_top_list_for_chart(lobbying_industries, type_='organization')
+
     return render_to_response('industry_landing.html', context, brisket_context(request))
 
 @handle_errors

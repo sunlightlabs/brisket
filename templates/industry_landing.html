@@ -6,12 +6,32 @@
     Industries | 
 {% endblock %}
 
+{% block extrajs %}
+<script type="text/javascript" charset="utf-8"> 
+$(document).ready(function() {
+    Brisket.contribution_single_barchart("lobbying_barchart", {% if top_industries_by_lobbying %}{{ top_industries_by_lobbying|safe }}{% else %}{}{% endif %});
+});
+</script>
+{% endblock %}
+
 {% block body_class %}industry{% endblock %}
 
 {% block main %}
     {% if num_industries %}
     <div id="contentHeader">
         <h2>Industries</h2>
+    </div>
+    <div class="chartModule">
+        <ul>
+            <li class="twoColumn chart">
+                {% if top_industries_by_lobbying %}
+                <h4 class="withTip">Highest Lobbying Spending</h4>
+                <div class="graph" id="lobbying_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+        </ul>
     </div>
     <div id="ltColumn">
         <p>The following industries have contributed the greatest dollar amounts during the current election cycle.</p>
