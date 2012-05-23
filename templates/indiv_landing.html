@@ -10,8 +10,8 @@
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
     Brisket.contribution_single_barchart("bundlers_barchart", {% if top_n_lobbyist_bundlers %}{{ top_n_lobbyist_bundlers|safe }}{% else %}{}{% endif %});
-    Brisket.contribution_single_barchart("democratic_donors_barchart", {% if top_n_donors_to_democrats %}{{ top_n_donors_to_democrats|safe }}{% else %}{}{% endif %});
-    Brisket.contribution_single_barchart("republican_donors_barchart", {% if top_n_donors_to_republicans %}{{ top_n_donors_to_republicans|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("democratic_donors_barchart", {% if top_n_democratic_donors %}{{ top_n_democratic_donors|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("republican_donors_barchart", {% if top_n_republican_donors %}{{ top_n_republican_donors|safe }}{% else %}{}{% endif %});
 });
 </script>
 {% endblock %}
@@ -26,7 +26,7 @@ $(document).ready(function() {
     <div class="chartModule">
         <ul>
             <li class="twoColumn chart">
-                {% if top_n_donors_to_republicans %}
+                {% if top_n_republican_donors %}
                 <h4 class="withTip">Top Donors to Republicans</h4>
                 <div class="graph" id="republican_donors_barchart">
                     <!-- chart here -->
@@ -42,7 +42,7 @@ $(document).ready(function() {
                 {% endif %}
             </li>
             <li class="twoColumn chart">
-                {% if top_n_donors_to_democrats %}
+                {% if top_n_democratic_donors %}
                 <h4 class="withTip">Top Donors to Democrats</h4>
                 <div class="graph" id="democratic_donors_barchart">
                     <!-- chart here -->
