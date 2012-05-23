@@ -11,7 +11,8 @@ from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, months_into_cycle_for_date, \
-    filter_bad_spending_descriptions, make_bill_link, get_top_pages
+    filter_bad_spending_descriptions, make_bill_link, get_top_pages, \
+    standardize_name
 from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver import PoliticianNameCleaver, IndividualNameCleaver,\
         OrganizationNameCleaver
@@ -142,20 +143,21 @@ def people_landing(request):
     context['cycle'] = TOP_LISTS_CYCLE
 
     democratic_donors = api.entities.top_n_indiv_democratic_donors(cycle=TOP_LISTS_CYCLE, limit=10)
-    context['top_n_democratic_donors'] = translate_top_list_api_to_chart_format(democratic_donors)
+    context['top_n_democratic_donors'] = translate_top_list_for_chart(democratic_donors)
 
     republican_donors = api.entities.top_n_indiv_republican_donors(cycle=TOP_LISTS_CYCLE, limit=10)
-    context['top_n_republican_donors'] = translate_top_list_api_to_chart_format(republican_donors)
+    context['top_n_republican_donors'] = translate_top_list_for_chart(republican_donors)
 
     lobbyist_bundlers = api.entities.top_n_lobbyist_bundlers(cycle=TOP_LISTS_CYCLE, limit=10)
-    context['top_n_lobbyist_bundlers'] = translate_top_list_api_to_chart_format(lobbyist_bundlers)
+    context['top_n_lobbyist_bundlers'] = translate_top_list_for_chart(lobbyist_bundlers)
 
     return render_to_response('indiv_landing.html', context, brisket_context(request))
 
-def translate_top_list_api_to_chart_format(data):
+def translate_top_list_for_chart(data, type_='individual'):
+    name = lambda x: str(standardize_name(x['name'], type_)) if type_ == 'organization' else standardize_name(x['name'], type_).name_str()
     return json.dumps([ {
-        'key': IndividualNameCleaver(x['name']).parse().name_str(),
-        'href': '/individual/{}/{}?cycle={}'.format(slugify(IndividualNameCleaver(x['name']).parse().name_str()), x['entity_id'], TOP_LISTS_CYCLE),
+        'key': name(x),
+        'href': '/{}/{}/{}?cycle={}'.format(type_, slugify(name(x)), x['entity_id'], TOP_LISTS_CYCLE),
         'value': x['amount']
     } for x in data])
 
