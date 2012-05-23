@@ -134,6 +134,9 @@ def organization_landing(request):
     context['top_n_organizations'] = api.entities.top_n_organizations(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_orgs'] = len(context['top_n_organizations'])
     context['cycle'] = TOP_LISTS_CYCLE
+
+    context['top_indexp_pacs'] = translate_top_list_for_chart(api.entities.top_n_pacs_by_indexp(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
+
     return render_to_response('org_landing.html', context, brisket_context(request))
 
 def people_landing(request):

@@ -6,12 +6,32 @@
     Organizations | 
 {% endblock %}
 
+{% block extrajs %}
+<script type="text/javascript" charset="utf-8"> 
+$(document).ready(function() {
+    Brisket.contribution_single_barchart("indexp_barchart", {% if top_indexp_pacs %}{{ top_indexp_pacs|safe }}{% else %}{}{% endif %});
+});
+</script>
+{% endblock %}
+
 {% block body_class %}organization{% endblock %}
 
 {% block main %}
     {% if num_orgs %}
     <div id="contentHeader">
         <h2>Organizations</h2>
+    </div>
+    <div class="chartModule">
+        <ul>
+            <li class="twoColumn chart">
+                {% if top_indexp_pacs %}
+                <h4 class="withTip">Top PACs by Independent Expenditures</h4>
+                <div class="graph" id="indexp_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+        </ul>
     </div>
     <div id="ltColumn">
         <p>The following organizations have contributed the greatest dollar amounts during the current election cycle.</p>
