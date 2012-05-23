@@ -6,11 +6,31 @@
     Politicians | 
 {% endblock %}
 
+{% block extrajs %}
+<script type="text/javascript" charset="utf-8"> 
+$(document).ready(function() {
+    Brisket.contribution_single_barchart("largest_donations_barchart", {% if largest_donations_in_last_month %}{{ largest_donations_in_last_month|safe }}{% else %}{}{% endif %});
+});
+</script>
+{% endblock %}
+
 {% block body_class %}politician{% endblock %}
 
 {% block main %}
     <div id="contentHeader">
         <h2>Politicians</h2>
+    </div>
+    <div class="chartModule">
+        <ul>
+            <li class="twoColumn chart">
+                {% if largest_donations_in_last_month %}
+                <h4 class="withTip">Recipients of Largest Donations in Last Month</h4>
+                <div class="graph" id="largest_donations_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+        </ul>
     </div>
     <div id="ltColumn">
         <p>The following politicians have received the greatest dollar amounts during the current election cycle.</p>

@@ -170,6 +170,8 @@ def politician_landing(request):
     context['top_n_politicians'] = api.entities.top_n_politicians(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_pols'] = len(context['top_n_politicians'])
     context['cycle'] = TOP_LISTS_CYCLE
+
+    context['largest_donations_in_last_month'] = translate_top_list_for_chart(api.entities.top_n_largest_donations_in_last_month(limit=10))
     return render_to_response('pol_landing.html', context, brisket_context(request))
 
 def industry_landing(request):
