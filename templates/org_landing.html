@@ -10,6 +10,7 @@
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
     Brisket.contribution_single_barchart("indexp_barchart", {% if top_indexp_pacs %}{{ top_indexp_pacs|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("firms_barchart", {% if top_firms %}{{ top_firms|safe }}{% else %}{}{% endif %});
 });
 </script>
 {% endblock %}
@@ -27,6 +28,14 @@ $(document).ready(function() {
                 {% if top_indexp_pacs %}
                 <h4 class="withTip">Top PACs by Independent Expenditures</h4>
                 <div class="graph" id="indexp_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_firms %}
+                <h4 class="withTip">Top Lobbying Firms by Income</h4>
+                <div class="graph" id="firms_barchart">
                     <!-- chart here -->
                 </div>
                 {% endif %}
