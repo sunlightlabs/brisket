@@ -52,24 +52,37 @@ $(document).ready(function() {
     <img class="corporateLogo" alt="corporate logo" src="{{ entity_info.metadata.photo_url }}"/>
 {% endif %}
 
-{% if entity_info.metadata.child_entities or entity_info.metadata.parent_entity %}
-    <div class="relationships">
-        {% if entity_info.metadata.parent_entity %}
-        <div class="relationship">
-            <span class="relationshipTitle">Parent Organization:</span>
-            <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{{cycle|pretty_cycle}}">{{ entity_info.metadata.parent_entity.name|standardize_organization_name }}</a>
-        </div>
-        {% endif %}
-        {% if entity_info.metadata.child_entities %}
-        <div class="relationship">
-            <span class="relationshipTitle">Child Organization{{ entity_info.metadata.child_entities|pluralize }}:</span>
-            {% for child_entity in entity_info.metadata.child_entities %}
-            <a href="/organization/{{ child_entity.name|standardize_organization_name|slugify }}/{{ child_entity.id }}{{cycle|pretty_cycle}}">{{ child_entity.name|standardize_organization_name }}</a>
-            {% endfor %}
-        </div>
-        {% endif %}
+<div class="relationships">
+    {% if entity_info.metadata.parent_entity %}
+    <div class="relationship">
+        <span class="relationshipTitle">Parent Organization:</span>
+        <a href="/organization/{{ entity_info.metadata.parent_entity.name|standardize_organization_name|slugify }}/{{ entity_info.metadata.parent_entity.id }}{{cycle|pretty_cycle}}">{{ entity_info.metadata.parent_entity.name|standardize_organization_name }}</a>
     </div>
     {% endif %}
+    {% if entity_info.metadata.child_entities %}
+    <div class="relationship">
+        <span class="relationshipTitle">Child Organization{{ entity_info.metadata.child_entities|pluralize }}:</span>
+        {% for child_entity in entity_info.metadata.child_entities %}
+        <a href="/organization/{{ child_entity.name|standardize_organization_name|slugify }}/{{ child_entity.id }}{{cycle|pretty_cycle}}">{{ child_entity.name|standardize_organization_name }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if entity_info.metadata.controlling_org %}
+    <div class="relationship">
+        <span class="relationshipTitle">Affiliated Organization:</span>
+        <a href="/organization/{{ entity_info.metadata.controlling_org.name|slugify}}/{{entity_info.metadata.controlling_org.id}}">{{ entity_info.metadata.controlling_org.name|standardize_organization_name }}</a>
+    </div>
+    {% endif %}
+    {% if entity_info.metadata.affiliated_superpacs %}
+    <div class="relationship">
+        <span class="relationshipTitle">Affiliated SuperPACs:</span>
+        {% for superpac in entity_info.metadata.affiliated_superpacs %}
+        <a href="/organization/{{ superpac.name|slugify}}/{{superpac.id}}">{{ superpac.name|standardize_organization_name }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
 <div class="clear"></div>
 {% endblock %}
 

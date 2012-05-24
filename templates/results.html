@@ -123,6 +123,27 @@
   </div>
   {% endif %}
   
+  {% if num_superpacs %}
+  <div class="searchBox">
+    <h3>Matching SuperPACs</h3>
+    <span class="results">{{ num_superpacs }} Result{{num_superpacs|pluralize}}</span>
+      <table class="threeColumn clear sortable">
+          <thead>
+              <tr id="titles">
+                  <th class="left sort">Name</th>
+              </tr>
+          </thead>
+          <tbody>
+          {% for result in sorted_results.superpac %}
+              <tr class="{% cycle 'even' 'odd' %}">
+                  <td class="left"><a href="/{{ result.type }}/{{result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{result.name|standardize_organization_name}}</a></td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  {% endif %}
+  
   {% if num_orgs %}
   <div class="searchBox">
     <h3>Matching Organizations</h3>

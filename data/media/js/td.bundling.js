@@ -5,9 +5,9 @@ $().ready(function() {
     TD.BundlingFilter.path = 'contributions/bundled';
 
     TD.BundlingFilter.row_content = function(row) {
-        var content = ''
+        var content = '';
         content += '<td class="recipient_name">' + TD.Utils.coalesce(new Array(row.recipient_name, row.committee_name)) + '</td>';
-        content += '<td class="lobbyist_name">' + TD.Utils.coalesce(new Array(row.lobbyist_name, row.firm_name)) + '</td>';
+        content += '<td class="lobbyist_name">' + TD.Utils.coalesce(new Array(row.bundler_name, row.bundler_employer)) + '</td>';
         content += '<td class="coverage_start">' + row.start_date + '</td>';
         content += '<td class="coverage_end">' + row.end_date + '</td>';
 

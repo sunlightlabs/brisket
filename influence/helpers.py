@@ -69,7 +69,7 @@ section_indicators = {
        'contributions': ['contributor_count'], 
        'lobbying': ['lobbying_count']},
    'organization': {
-       'contributions': ['contributor_count', 'independent_expenditure_amount'], 
+       'contributions': ['contributor_count', 'independent_expenditure_amount', 'fec_summary_count'],
        'lobbying': ['lobbying_count'], 
        'fed_spending':['loan_count', 'grant_count', 'contract_count'],
        'earmarks': ['earmark_count'],
