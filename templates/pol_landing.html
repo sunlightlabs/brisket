@@ -10,6 +10,10 @@
 <script type="text/javascript" charset="utf-8"> 
 $(document).ready(function() {
     Brisket.contribution_single_barchart("largest_donations_barchart", {% if largest_donations_in_last_month %}{{ largest_donations_in_last_month|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("top_pols_house_barchart", {% if top_by_receipts_for_house %}{{ top_by_receipts_for_house|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("top_pols_senate_barchart", {% if top_by_receipts_for_senate %}{{ top_by_receipts_for_senate|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("top_pols_president_barchart", {% if top_by_receipts_for_president %}{{ top_by_receipts_for_president|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("top_pols_governor_barchart", {% if top_by_receipts_for_governor %}{{ top_by_receipts_for_governor|safe }}{% else %}{}{% endif %});
 });
 </script>
 {% endblock %}
@@ -26,6 +30,38 @@ $(document).ready(function() {
                 {% if largest_donations_in_last_month %}
                 <h4 class="withTip">Recipients of Largest Donations in Last Month</h4>
                 <div class="graph" id="largest_donations_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_by_receipts_for_house %}
+                <h4 class="withTip">Recipients of Most Money in House Races</h4>
+                <div class="graph" id="top_pols_house_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_by_receipts_for_senate %}
+                <h4 class="withTip">Recipients of Most Money in Senate Races</h4>
+                <div class="graph" id="top_pols_senate_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_by_receipts_for_president %}
+                <h4 class="withTip">Recipients of Most Money in Presidential Race</h4>
+                <div class="graph" id="top_pols_president_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_by_receipts_for_governor %}
+                <h4 class="withTip">Recipients of Most Money in Gubernatorial Races</h5>
+                <div class="graph" id="top_pols_governor_barchart">
                     <!-- chart here -->
                 </div>
                 {% endif %}
