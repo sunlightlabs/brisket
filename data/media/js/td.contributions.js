@@ -39,14 +39,14 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'amount',
             label: 'Amount',
-            help: 'This is the amount of the contribution',
+            help: 'The dollar amount of the transaction',
             field: TD.DataFilter.OperatorField
         });
 
         TD.ContributionFilter.registerFilter({
             name: 'cycle',
             label: 'Cycle',
-            help: 'The two-year span in which the contributions were reported',
+            help: 'The two-year span in which the transaction was reported',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
             options: [
@@ -60,7 +60,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'contributor_ft',
             label: 'Contributor',
-            help: 'Name of individual, employer, or organization that made contribution',
+            help: 'Name of individual, employer, or organization in transaction',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
@@ -68,7 +68,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'contributor_industry',
             label: 'Contributor Industry',
-            help: 'The industry in which the person or organization making the contribution is involved',
+            help: 'The industry in which the person or organization making the transaction is involved',
             field: TD.DataFilter.DualDropDownField,
             allowMultipleFields: true,
             options: TD.INDUSTRIES
@@ -77,7 +77,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'contributor_state',
             label: 'Contributor State',
-            help: 'State from which the contribution was made',
+            help: 'State from which the transaction was made',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
             options: TD.STATES
@@ -94,14 +94,14 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'date',
             label: 'Date',
-            help: 'This is the date of the contribution',
+            help: 'Date of transaction',
             field: TD.DataFilter.DateRangeField
         });
 
         TD.ContributionFilter.registerFilter({
             name: 'transaction_namespace',
             label: 'Federal/State',
-            help: 'State or federal office',
+            help: 'transaction at state or federal level',
             field: TD.DataFilter.DropDownField,
             options: [
                 ['urn:fec:transaction','Federal'],
@@ -142,7 +142,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'organization_ft',
             label: 'Organization',
-            help: 'Name of employer or pass-through organization associated with contribution',
+            help: 'Name of employer or pass-through organization associated with transaction',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
@@ -150,7 +150,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'recipient_ft',
             label: 'Recipient',
-            help: 'Name of candidate or PAC that received contribution',
+            help: 'Name of candidate or PAC that received contribution or was targed by transaction',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
