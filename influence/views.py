@@ -140,6 +140,7 @@ def organization_landing(request):
 
     context['top_indexp_pacs'] = translate_top_list_for_chart(api.entities.top_n_pacs_by_indexp(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
     context['top_firms'] = translate_top_list_for_chart(api.entities.top_n_firms_by_income(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
+    context['top_lobbying_clients'] = translate_top_list_for_chart(api.entities.top_n_orgs_lobbying(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
 
     return render_to_response('org_landing.html', context, brisket_context(request))
 
@@ -187,8 +188,8 @@ def industry_landing(request):
     context['num_industries'] = len(context['top_n_industries'])
     context['cycle'] = TOP_LISTS_CYCLE
 
-    lobbying_industries = api.entities.top_n_industries_lobbying(cycle=TOP_LISTS_CYCLE, limit=50)
-    context['top_industries_by_lobbying'] = translate_top_list_for_chart(lobbying_industries, type_='organization')
+    lobbying_industries = api.entities.top_n_orgs_lobbying(cycle=TOP_LISTS_CYCLE, limit=50, is_industry=True)
+    context['top_lobbying_clients'] = translate_top_list_for_chart(lobbying_industries, type_='organization')
 
     democratic_industries = api.entities.top_n_industry_donors_to_democrats(cycle=TOP_LISTS_CYCLE, limit=10)
     context['top_donors_to_democrats'] = translate_top_list_for_chart(democratic_industries, type_='organization')
