@@ -117,7 +117,9 @@ TD.DataFilter.DropDownField.render = function() {
         content += '<option value="' + opts[i][0] + '">' + opts[i][1] + '</option>';
     }
     content += '</select>';
-    content += '<a href="#" title="remove filter" class="remove">-</a>';
+    if (this.filter.fieldCount > 0) {
+        content += '<a href="#" title="remove filter" class="remove">-</a>';
+    }
     content += '</li>';
     
     var node = $(content);

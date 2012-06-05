@@ -108,19 +108,6 @@ $().ready(function() {
                 ['urn:nimsp:transaction','State']
             ]
         });
-
-        TD.ContributionFilter.registerFilter({
-            name: 'for_against',
-            label: 'For/against candidate',
-            help: 'Contributions can be made in support of or against a candidate',
-            field: TD.DataFilter.DropDownField,
-            //required: true,
-            options: [
-                ['for','In support of the candidate'],
-                ['against','Against the candidate'],
-                ['electioneering', 'Electioneering']
-            ]
-        });
     
         TD.ContributionFilter.registerFilter({
             label: 'Office',
@@ -163,36 +150,26 @@ $().ready(function() {
             allowMultipleFields: true,
             options: TD.STATES
         });
-
+        
         TD.ContributionFilter.registerFilter({
             label: 'Transaction Type',
-            name: 'transaction_type',
-            help: 'The FEC transaction type of the contribution. You must remove the for/against filter for this filter to work properly.',
+            name: 'general_transaction_type',
+            help: 'Transactions can be contributions, independent expenditures or a variety of more esoteric types',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
+            required: true,
             options: [
-                ['15', 'Contribution (15)'],
-                ['15e', 'Earmarked contribution (15e)'],
-                ['15j', 'Joint fundraising committee contribution (15j)'],
-                ['22y', 'Refund (22y)'],
-                ['22z', 'Contribution refund to a candidate or committee (22z)'],
-                ['24a', 'Independent expenditure against candidate (24a)'],
-                ['24c', 'Coordinated expenditure (24c)'],
-                ['24e', 'Independent expenditure for candidate (24e)'],
-                ['24f', 'Communication cost for candidate (24f)'],
-                ['24g', 'Transfer to affiliated committee (24g)'],
-                ['24k', 'Direct contribution (24k)'],
-                ['24n', 'Communication cost against candidate (24n)'],
-                ['24r', 'Election recount disbursement (24r)'],
-                ['24z', 'In kind contribution (24z)'],
-                ['10', '"Soft" money or Levin fund (10)'],
-                ['11', 'Tribal contribution (11)']
+                ['all', 'All (includes types below and other types)'],
+                ['standard', 'Standard Contributions'],
+                ['ie_supporting', 'Independent Expenditures Supporting Candidate'],
+                ['ie_opposing', 'Independent Expenditures Opposing Candidate'],
+                ['electioneering', 'Electioneering (Issue Ads)']
             ]
         });
         
         var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.HashMonitor.setAnchor('for_against=for&cycle=2012');
+            TD.HashMonitor.setAnchor('general_transaction_type=standard&cycle=2012');
             this.loadHash();
         }
         
