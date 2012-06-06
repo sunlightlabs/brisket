@@ -142,6 +142,8 @@ def organization_landing(request):
     context['top_firms'] = translate_top_list_for_chart(api.entities.top_n_firms_by_income(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
     context['top_lobbying_clients'] = translate_top_list_for_chart(api.entities.top_n_orgs_lobbying(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
 
+    context['top_regs_submitters'] = api.entities.top_n_regs_submitters(cycle=TOP_LISTS_CYCLE, limit=10)
+
     return render_to_response('org_landing.html', context, brisket_context(request))
 
 def people_landing(request):

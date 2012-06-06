@@ -49,6 +49,30 @@ $(document).ready(function() {
                 </div>
                 {% endif %}
             </li>
+            {% if top_regs_submitters %}
+                <li class="twoColumn">
+                    <h4 class="withTip">Top Submitters of Regulations Comments</h4>
+                    <span class="tip">TODO: something goes here, maybe</span>
+                    <table class="twoColumn">
+                        <thead>
+                            <tr>
+                                <th>Organization</th>
+                                <th>Submission Count</th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                        {% for row in top_regs_submitters %}
+                        <tr class="{% cycle 'even' 'odd' %}">
+                            <td>
+                                <a href="/organization/{{row.name|slugify}}/{{row.entity_id}}">{{ row.name|standardize_organization_name }}</a>
+                            </td>
+                            <td>${{ row.count|intcomma }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+            {% endif %}
         </ul>
     </div>
     <div id="ltColumn">
