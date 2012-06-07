@@ -12,6 +12,8 @@ $(document).ready(function() {
     Brisket.contribution_single_barchart("bundlers_barchart", {% if top_n_lobbyist_bundlers %}{{ top_n_lobbyist_bundlers|safe }}{% else %}{}{% endif %});
     Brisket.contribution_single_barchart("democratic_donors_barchart", {% if top_n_democratic_donors %}{{ top_n_democratic_donors|safe }}{% else %}{}{% endif %});
     Brisket.contribution_single_barchart("republican_donors_barchart", {% if top_n_republican_donors %}{{ top_n_republican_donors|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("state_donors_barchart", {% if top_n_state_donors %}{{ top_n_state_donors|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("federal_donors_barchart", {% if top_n_federal_donors %}{{ top_n_federal_donors|safe }}{% else %}{}{% endif %});
 });
 </script>
 {% endblock %}
@@ -45,6 +47,22 @@ $(document).ready(function() {
                 {% if top_n_democratic_donors %}
                 <h4 class="withTip">Top Donors to Democrats</h4>
                 <div class="graph" id="democratic_donors_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_n_state_donors %}
+                <h4 class="withTip">Top State Donors</h4>
+                <div class="graph" id="state_donors_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_n_federal_donors %}
+                <h4 class="withTip">Top Federal Donors</h4>
+                <div class="graph" id="federal_donors_barchart">
                     <!-- chart here -->
                 </div>
                 {% endif %}

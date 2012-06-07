@@ -161,6 +161,12 @@ def people_landing(request):
     lobbyist_bundlers = api.entities.top_n_lobbyist_bundlers(cycle=TOP_LISTS_CYCLE, limit=10)
     context['top_n_lobbyist_bundlers'] = translate_top_list_for_chart(lobbyist_bundlers)
 
+    top_state_donors = api.entities.top_n_indivs_by_area(cycle=TOP_LISTS_CYCLE, limit=10, area='state')
+    context['top_n_state_donors'] = translate_top_list_for_chart(top_state_donors)
+
+    top_federal_donors = api.entities.top_n_indivs_by_area(cycle=TOP_LISTS_CYCLE, limit=10, area='federal')
+    context['top_n_federal_donors'] = translate_top_list_for_chart(top_federal_donors)
+
     return render_to_response('indiv_landing.html', context, brisket_context(request))
 
 def translate_top_list_for_chart(data, type_='individual'):
