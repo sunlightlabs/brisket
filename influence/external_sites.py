@@ -36,6 +36,7 @@ def _get_td_url(type, standardized_name, ids, cycle):
         query_string = "%s=%s" % (keywords[type], standardized_name)
     if cycle:
         query_string += "&cycle=%s" % cycle
+    query_string += '&general_transaction_type=standard'
     return "http://transparencydata.com/contributions/#%s" % base64.b64encode(query_string)
 
 def get_contribution_links(type, standardized_name, namespaces_and_ids, cycle):
