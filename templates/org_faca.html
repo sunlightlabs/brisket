@@ -18,7 +18,7 @@
 </div>
 
 <div class="chartModule withNav">
-    <span class="tip external">covers through 2011</span>
+    {% if cycle in "-1 2012" %}<span class="tip external">covers through 2011</span>{% endif %}
     <p class="tip">Table shows employees of "{{ entity_info.name|standardize_organization_name }}" that sat on federal advisory committees.</p>
 
     {% if section.faca %}
