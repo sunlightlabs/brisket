@@ -49,7 +49,7 @@ $(document).ready(function() {
 		<p>In these cases, we suggest searching the raw records in the <a href="http://data.influenceexplorer.com/contributions/">campaign finance Data section</a>, which provides extra information about each contribution, such as the donor's city, state and employer.  This information should allow you to judge for yourself if the contribution came from the person for whom you searched.</p>
 		{% if sections.contributions.external_links %}
     	    {% for link in sections.contributions.external_links %}
-    	    	{% if link.text == "TransparencyData.com" %}
+    	    	{% if "data.influenceexplorer.com" in link.url %}
     				<p><a href="{{ link.url }}" class="external" target="_blank">Click here for campaign contributions with the name "{{ entity_info.name|standardize_individual_name }}".</a></p>
     	    	{% endif %}
     	    {% endfor %}

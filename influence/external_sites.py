@@ -37,7 +37,7 @@ def _get_td_url(type, standardized_name, ids, cycle):
     if cycle:
         query_string += "&cycle=%s" % cycle
     query_string += '&general_transaction_type=standard'
-    return "http://transparencydata.com/contributions/#%s" % base64.b64encode(query_string)
+    return "http://data.influenceexplorer.com/contributions/#%s" % base64.b64encode(query_string)
 
 def get_contribution_links(type, standardized_name, namespaces_and_ids, cycle):
     """ Return a list of (label, url) pairs for an organization. """
@@ -49,7 +49,7 @@ def get_contribution_links(type, standardized_name, namespaces_and_ids, cycle):
     links = [
         dict(text='OpenSecrets.org', url=_get_crp_url(type, standardized_name, ids, cycle)),
         dict(text='FollowTheMoney.org', url=_get_nimsp_url(type, standardized_name, ids, cycle)),
-        dict(text='TransparencyData.com', url=_get_td_url(type, standardized_name, ids, cycle)),
+        dict(text='campaign finance', url=_get_td_url(type, standardized_name, ids, cycle)),
     ]
     
     links = filter(lambda link: link['url'] is not None, links)
@@ -71,8 +71,8 @@ def get_gc_links(standardized_name, cycle):
     contract_keywords.update({'vendor_name': standardized_name})
     
     links = [
-        dict(text='Grants & Loans on TransparencyData.com', url="http://transparencydata.com/grants/#%s" % base64.b64encode(urllib.urlencode(grant_keywords))),
-        dict(text='Contracts on TransparencyData.com', url="http://transparencydata.com/contracts/#%s" % base64.b64encode(urllib.urlencode(contract_keywords)))
+        dict(text='Grants & Loans', url="http://data.influenceexplorer.com/grants/#%s" % base64.b64encode(urllib.urlencode(grant_keywords))),
+        dict(text='Contractsm', url="http://data.influenceexplorer.com/contracts/#%s" % base64.b64encode(urllib.urlencode(contract_keywords)))
     ]
     
     # USA Spending
@@ -99,7 +99,7 @@ def get_pogo_links(ids, standardized_name, cycle):
 
     td_params['contractor'] = standardized_name
 
-    links.append({ 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/contractor_misconduct/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
+    links.append({ 'text': 'contractor misconduct', 'url': 'http://data.influenceexplorer.com/contractor_misconduct/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
     return links
 
 
@@ -113,20 +113,18 @@ def get_epa_links(standardized_name, cycle):
     td_params['defendants'] = standardized_name
 
     links.append({ 'text': 'EPA ECHO Enforcement Data', 'url': 'http://www.epa-echo.gov/echo/compliance_report_icis.html' })
-    links.append({ 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/epa_echo/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
+    links.append({ 'text': 'EPA violations', 'url': 'http://data.influenceexplorer.com/epa_echo/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
     return links
 
 def get_faca_links(standardized_name, cycle):
     links = []
 
     td_params = {}
-    # TODO: Fix back-end issue that doesn't allow filtering by more than one year and put this code back in
-    #if int(cycle) != -1:
-    #    td_params['year'] = "{0}|{1}".format(int(cycle) - 1, cycle)
-
+    if int(cycle) != -1:
+       td_params['year'] = "{0}|{1}".format(int(cycle) - 1, cycle)
     td_params['affiliation'] = standardized_name
 
-    links.append({ 'text': 'TransparencyData.com', 'url': 'http://transparencydata.com/faca/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
+    links.append({ 'text': 'advisory committee', 'url': 'http://data.influenceexplorer.com/faca/#{0}'.format(base64.b64encode(urllib.urlencode(td_params))) })
     return links
 
 
@@ -151,7 +149,7 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
         td_params[td_types[type]] = standardized_name
         
         links.append(
-            dict(text='TransparencyData.com', url="http://transparencydata.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))
+            dict(text='lobbying', url="http://data.influenceexplorer.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))
         )
     
     # OpenSecrets
@@ -177,7 +175,7 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
                 dict(text='OpenSecrets.org', url="http://www.opensecrets.org/lobby/indusclient.php?%s" % urllib.urlencode(os_params))
             )
             links.append(
-                dict(text='TransparencyData.com', url="http://transparencydata.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))
+                dict(text='lobbying', url="http://data.influenceexplorer.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))
             )
     
     else:
@@ -200,7 +198,7 @@ def get_earmark_links(type, standardized_name, ids, cycle):
         td_params[td_types[type]] = standardized_name
         
         links.append(
-            dict(text='TransparencyData.com', url="http://transparencydata.com/earmarks/#%s" % base64.b64encode(urllib.urlencode(td_params)))
+            dict(text='Earmarks', url="http://data.influenceexplorer.com/earmarks/#%s" % base64.b64encode(urllib.urlencode(td_params)))
         )
     
     # OpenSecrets
