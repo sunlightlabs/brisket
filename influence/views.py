@@ -174,7 +174,16 @@ def translate_top_list_for_chart(data, type_='individual'):
     return json.dumps([ {
         'key': name(x),
         'href': '/{}/{}/{}?cycle={}'.format(type_, slugify(name(x)), x['entity_id'], TOP_LISTS_CYCLE),
-        'value': x['amount']
+        'value': x.get('amount', x.get('count'))
+    } for x in data])
+
+def translate_top_list_for_stacked_chart(data, amount_fields, type_='individual'):
+    name = lambda x: str(standardize_name(x['name'], type_)) if type_ == 'organization' else standardize_name(x['name'], type_).name_str()
+    return json.dumps([ {
+        'name': name(x),
+        'href': '/{}/{}/{}?cycle={}'.format(type_, slugify(name(x)), x['entity_id'], TOP_LISTS_CYCLE),
+        'value_a': x.get(amount_fields[0]),
+        'value_b': x.get(amount_fields[1])
     } for x in data])
 
 def politician_landing(request):
@@ -188,6 +197,11 @@ def politician_landing(request):
     context['top_by_receipts_for_senate'] = translate_top_list_for_chart(api.entities.top_n_politicians(limit=10, office='senate'), type_='politician')
     context['top_by_receipts_for_president'] = translate_top_list_for_chart(api.entities.top_n_politicians(limit=10, office='president'), type_='politician')
     context['top_by_receipts_for_governor'] = translate_top_list_for_chart(api.entities.top_n_politicians(limit=10, office='governor'), type_='politician')
+
+    context['top_by_indexp_for_house'] = translate_top_list_for_stacked_chart(api.entities.top_n_pols_by_indexp_by_office('house', limit=10), ['oppose_amount', 'support_amount'], type_='politician')
+    context['top_by_indexp_for_senate'] = translate_top_list_for_stacked_chart(api.entities.top_n_pols_by_indexp_by_office('senate', limit=10), ['oppose_amount', 'support_amount'], type_='politician')
+    context['top_by_indexp_for_president'] = translate_top_list_for_stacked_chart(api.entities.top_n_pols_by_indexp_by_office('president', limit=10), ['oppose_amount', 'support_amount'], type_='politician')
+
     return render_to_response('pol_landing.html', context, brisket_context(request))
 
 def industry_landing(request):

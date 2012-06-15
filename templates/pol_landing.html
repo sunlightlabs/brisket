@@ -14,6 +14,9 @@ $(document).ready(function() {
     Brisket.contribution_single_barchart("top_pols_senate_barchart", {% if top_by_receipts_for_senate %}{{ top_by_receipts_for_senate|safe }}{% else %}{}{% endif %});
     Brisket.contribution_single_barchart("top_pols_president_barchart", {% if top_by_receipts_for_president %}{{ top_by_receipts_for_president|safe }}{% else %}{}{% endif %});
     Brisket.contribution_single_barchart("top_pols_governor_barchart", {% if top_by_receipts_for_governor %}{{ top_by_receipts_for_governor|safe }}{% else %}{}{% endif %});
+    Brisket.indexp_stacked_barchart("top_pols_indexp_house_barchart", {% if top_by_indexp_for_house %}{{ top_by_indexp_for_house|safe }}{% else %}{}{% endif %});
+    Brisket.indexp_stacked_barchart("top_pols_indexp_senate_barchart", {% if top_by_indexp_for_senate %}{{ top_by_indexp_for_senate|safe }}{% else %}{}{% endif %});
+    Brisket.indexp_stacked_barchart("top_pols_indexp_president_barchart", {% if top_by_indexp_for_president %}{{ top_by_indexp_for_president|safe }}{% else %}{}{% endif %});
 });
 </script>
 {% endblock %}
@@ -62,6 +65,58 @@ $(document).ready(function() {
                 {% if top_by_receipts_for_governor %}
                 <h4 class="withTip">Recipients of Most Money in Gubernatorial Races</h5>
                 <div class="graph" id="top_pols_governor_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_by_indexp_for_house %}
+                <h4 class="key">Targets of Most Independent Expenditures in House Races</h5>
+
+                <dl class="key">
+                    <dt class="support">Support Color Block</dt>
+                    <dd>Support</dd>
+
+                    <dt class="opposition">Opposition Color Block</dt>
+                    <dd>Oppose</dd>
+                </dl>
+                <div class="clear"></div>
+
+                <div class="graph" id="top_pols_indexp_house_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_by_indexp_for_senate %}
+                <h4 class="key">Targets of Most Independent Expenditures in Senate Races</h5>
+                <dl class="key">
+                    <dt class="support">Support Color Block</dt>
+                    <dd>Support</dd>
+
+                    <dt class="opposition">Opposition Color Block</dt>
+                    <dd>Oppose</dd>
+                </dl>
+                <div class="clear"></div>
+
+                <div class="graph" id="top_pols_indexp_senate_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_by_indexp_for_president %}
+                <h4 class="key">Comparison of Independent Expenditures in Presidential Race</h5>
+                <dl class="key">
+                    <dt class="support">Support Color Block</dt>
+                    <dd>Support</dd>
+
+                    <dt class="opposition">Opposition Color Block</dt>
+                    <dd>Oppose</dd>
+                </dl>
+                <div class="clear"></div>
+
+                <div class="graph" id="top_pols_indexp_president_barchart">
                     <!-- chart here -->
                 </div>
                 {% endif %}

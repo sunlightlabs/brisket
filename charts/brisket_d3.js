@@ -545,6 +545,18 @@ BrisketModern = {
         });
         Brisket.contribution_barchart(div, graph_data);
     },
+    indexp_stacked_barchart: function(div, data) {
+        if (data.length === 0) return;
+
+        graph_data = _.map(data, function(item) {
+            return {
+                name: item.name,
+                href: item.href,
+                values: [parseFloat(item.value_a), parseFloat(item.value_b)]
+            };
+        });
+        Brisket.contribution_barchart(div, graph_data);
+    },
     piechart: function(div, data, colors) {
         var in_data = []
         var opts = {colors: []}
