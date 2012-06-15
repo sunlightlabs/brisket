@@ -177,6 +177,15 @@ def translate_top_list_for_chart(data, type_='individual'):
         'value': x.get('amount', x.get('count'))
     } for x in data])
 
+def translate_top_list_for_lg_donations_chart(data, type_='individual'):
+    contrib_name = lambda x: standardize_name(x['contributor_name'], 'individual').name_str()
+    committee_name = lambda x: str(standardize_name(x['committee_name'], 'organization'))
+    return json.dumps([ {
+        'key': '{1} (from {0})'.format(contrib_name(x), committee_name(x)) if x['contributor_name'] else committee_name(x),
+        'href': '/{}/{}/{}?cycle={}'.format('organization', slugify(committee_name(x)), x['committee_entity'], TOP_LISTS_CYCLE),
+        'value': x.get('amount')
+    } for x in data])
+
 def translate_top_list_for_stacked_chart(data, amount_fields, type_='individual'):
     name = lambda x: str(standardize_name(x['name'], type_)) if type_ == 'organization' else standardize_name(x['name'], type_).name_str()
     return json.dumps([ {
@@ -192,7 +201,8 @@ def politician_landing(request):
     context['num_pols'] = len(context['top_n_politicians'])
     context['cycle'] = TOP_LISTS_CYCLE
 
-    context['largest_donations_in_last_month'] = translate_top_list_for_chart(api.entities.top_n_largest_donations_in_last_month(limit=10), type_='politician')
+    context['largest_donations_in_last_month'] = translate_top_list_for_lg_donations_chart(api.entities.top_n_largest_donations_in_last_month(limit=10))
+
     context['top_by_receipts_for_house'] = translate_top_list_for_chart(api.entities.top_n_politicians(limit=10, office='house'), type_='politician')
     context['top_by_receipts_for_senate'] = translate_top_list_for_chart(api.entities.top_n_politicians(limit=10, office='senate'), type_='politician')
     context['top_by_receipts_for_president'] = translate_top_list_for_chart(api.entities.top_n_politicians(limit=10, office='president'), type_='politician')

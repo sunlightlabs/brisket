@@ -522,7 +522,20 @@ BrisketModern = {
     },
     contribution_single_barchart: function(div, data) {
         if (data.length === 0) return;
-        
+
+        graph_data = _.map(data, function(item) {
+            return {
+                name: item.key,
+                href: item.href,
+                values: [parseFloat(item.value)]
+            };
+        });
+
+        Brisket.contribution_barchart(div, graph_data);
+    },
+    large_donations_barchart: function(div, data) {
+        if (data.length === 0) return;
+
         graph_data = _.map(data, function(item) {
             return {
                 name: item.key,
