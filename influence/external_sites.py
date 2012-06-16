@@ -71,8 +71,8 @@ def get_gc_links(standardized_name, cycle):
     contract_keywords.update({'vendor_name': standardized_name})
     
     links = [
-        dict(text='Grants & Loans', url="http://data.influenceexplorer.com/grants/#%s" % base64.b64encode(urllib.urlencode(grant_keywords))),
-        dict(text='Contractsm', url="http://data.influenceexplorer.com/contracts/#%s" % base64.b64encode(urllib.urlencode(contract_keywords)))
+        dict(text='grant & loan', url="http://data.influenceexplorer.com/grants/#%s" % base64.b64encode(urllib.urlencode(grant_keywords))),
+        dict(text='contract', url="http://data.influenceexplorer.com/contracts/#%s" % base64.b64encode(urllib.urlencode(contract_keywords)))
     ]
     
     # USA Spending
@@ -198,7 +198,7 @@ def get_earmark_links(type, standardized_name, ids, cycle):
         td_params[td_types[type]] = standardized_name
         
         links.append(
-            dict(text='Earmarks', url="http://data.influenceexplorer.com/earmarks/#%s" % base64.b64encode(urllib.urlencode(td_params)))
+            dict(text='earmarks', url="http://data.influenceexplorer.com/earmarks/#%s" % base64.b64encode(urllib.urlencode(td_params)))
         )
     
     # OpenSecrets
