@@ -18,7 +18,7 @@
 </div>
 
 <div class="chartModule withNav">
-    <span class="tip external">covers through 2011</span>
+    {% if cycle in "-1 2012" %}<span class="tip external">covers through 2011</span>{% endif %}
     <p class="tip">Table shows employees of "{{ entity_info.name|standardize_organization_name }}" that sat on federal advisory committees.</p>
 
     {% if section.faca %}
@@ -56,7 +56,7 @@
     <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
       <td>
         <strong>
-            <a href="http://transparencydata.com/faca/#<%=Base64.encode("committee_name=" + encodeURIComponent(documents[i].committee_name){% if cycle != '-1'%} + "&year={{ cycle|add:-1 }}|{{ cycle }}"{% endif %})%>" target="_blank">
+            <a href="http://data.influenceexplorer.com/faca/#<%=Base64.encode("committee_name=" + encodeURIComponent(documents[i].committee_name){% if cycle != '-1'%} + "&year={{ cycle|add:-1 }}|{{ cycle }}"{% endif %})%>" target="_blank">
                 <%=documents[i].committee_name%></strong>
             </a>
         <br />

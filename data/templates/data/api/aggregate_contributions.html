@@ -254,23 +254,6 @@
         </div>
     </div>
     <div class="section">
-        <h4 class="withTip">Top Industries within Sector</h4>
-        <p class="tip">Return the top contributing industries within a particular sector. Industries are identified by the three character category code assigned by CRP or NIMSP. See <a class="reference external" href="http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv">http://assets.transparencydata.org.s3.amazonaws.com/docs/catcodes-20100402.csv</a>.</p>
-        <div class="section interiorSection">
-            <h5>End Point</h5>
-            <p><tt><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/&lt;entity</span> <span class="pre">ID&gt;/contributors/sector/&lt;sector&gt;/industries.json</span></tt></p>
-        </div>
-        <div class="section interiorSection">
-            <h5>Example</h5>
-            <p><tt class="docutils literal"><span class="pre">http://transparencydata.com/api/1.0/aggregates/pol/85ab2e74589a414495d18cc7a9233981/contributors/sector/F/industries.json?apikey=&lt;your-key&gt;&amp;limit=3</span></tt></p>
-            <pre class="literal-block">
-            [{&quot;count&quot;: 387, &quot;industry&quot;: &quot;F07&quot;, &quot;amount&quot;: &quot;590200.00&quot;},
-             {&quot;count&quot;: 432, &quot;industry&quot;: &quot;F10&quot;, &quot;amount&quot;: &quot;553222.00&quot;},
-             {&quot;count&quot;: 238, &quot;industry&quot;: &quot;F09&quot;, &quot;amount&quot;: &quot;323500.00&quot;}]
-            </pre>
-        </div>
-    </div>
-    <div class="section">
         <h4 class="withTip">Local Breakdown</h4>
         <p class="tip">Return a breakdown of how much of the money raised was from contributors in the politician's state versus outside the politician's state.</p>
         <div class="section interiorSection">
