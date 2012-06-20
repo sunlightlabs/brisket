@@ -8,7 +8,7 @@
 </div>
 
 <div class="chartModule withNav">
-    <span class="tip external">covers through Q3, 2011</span>
+    {% if cycle in "-1 2012" %}<span class="tip external">covers through Q3, 2011</span>{% endif %}
         <h4>Lobbying by {{ entity_info.name|standardize_individual_name }}</h4>
         <ul>
             {% if section.lobbying_with_firm %}

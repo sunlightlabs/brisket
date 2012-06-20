@@ -5,10 +5,10 @@
 
 <dl>
     <dt>cycle</dt>
-    <dd>The election cycle in which the contribution was given. Valid values are even years between 1990 and 2010 (inclusive).</dd>
+    <dd>The election cycle in which the transaction occurred. Valid values are even years between 1990 and 2010 (inclusive).</dd>
 
     <dt>transaction_namespace</dt>
-    <dd><p class="first">Indicates the source of the contribution record.</p>
+    <dd><p class="first">Indicates the source of the transaction.</p>
     <table border="1">
         <colgroup>
         <col width="46%" />
@@ -21,35 +21,38 @@
         </thead>
         <tbody valign="top">
             <tr><td><tt>urn:fec:transaction</tt></td>
-                <td>federal contributions (CRP)</td>
+                <td>federal transactions (CRP)</td>
             </tr>
             <tr><td><tt>urn:nimsp:transaction</tt></td>
-                <td>state contributions (NIMSP)</td>
+                <td>state transactions (NIMSP)</td>
             </tr>
         </tbody>
     </table>
     </dd>
 
     <dt>transaction_id</dt>
-    <dd>Unique record ID given to the contribution by the FEC (federal) or NIMSP (state). Federal records are only guaranteed to be unique per year so they are prepended with the cycle.</dd>
+    <dd>Unique record ID given to the transaction by the FEC (federal) or NIMSP (state). Federal records are only guaranteed to be unique per year so they are prepended with the cycle.</dd>
 
     <dt>transaction_type</dt>
-    <dd>Transaction type assigned by the FEC. State records do not yet have transaction types.</dd>
+    <dd>Federal records have transaction types assigned by the FEC. The transaction type indicates whether the record is, for instance, a contribution, an independent expenditure, a loan or one of many more esoteric types. The interpretation of the remaining columns may depend on the transaction type. A full list of transaction types is available <a href="http://www.fec.gov/finance/disclosure/metadata/DataDictionaryTransactionTypeCodes.shtml">from the FEC</a>. See also the <a href="http://influenceexplorer.com/about/methodology/campaign_finance">campaign finance methodology page</a> for how transaction types are used in Influence Explorer. State records do not have transaction types.</dd>
 
+    <dt>transaction_type_description</dt>
+    <dd>A description of the transaction_type code, taken from the FEC descriptions <a href="http://www.fec.gov/finance/disclosure/metadata/DataDictionaryTransactionTypeCodes.shtml">here</a>.</dd>
+    
     <dt>filing_id</dt>
     <dd>Unique identifier for the actual filing with the FEC. State records do not yet have filing identifiers.</dd>
 
     <dt>is_amendment</dt>
-    <dd><tt>TRUE</tt> if transaction is an amendment to a previously reported contribution, otherwise <tt>FALSE</tt>.</dd>
+    <dd><tt>TRUE</tt> if transaction is an amendment to a previously reported transaction, otherwise <tt>FALSE</tt>.</dd>
 
     <dt>amount</dt>
-    <dd>Amount of the contribution in US dollars.</dd>
+    <dd>Amount of the transaction in US dollars.</dd>
 
     <dt>date</dt>
-    <dd>Date the contribution was made.</dd>
+    <dd>Date of the transaction.</dd>
 
     <dt>contributor_name</dt>
-    <dd>Name of the person or organization making the contribution.</dd>
+    <dd>Typically indicates the name of the person or organization making the contribution. Exact meaning is dependent on transaction_type. For independent expenditures and electioneering cost this is the name of the committee making the expenditure.</dd>
 
     <dt>contributor_ext_id</dt>
     <dd>The NIMSP or CRP ID of the contributor, if an ID exists.</dd>
@@ -94,7 +97,7 @@
     <dd>The NIMSP or CRP ID of the parent organization, if an ID exists.</dd>
 
     <dt>recipient_name</dt>
-    <dd>Name of the candidate or organization receiving the contribution.</dd>
+    <dd>Typically indicates the name of the candidate or organization receiving the contribution. For independent expenditures and electioneering cost this is the name of the candidate that was targeted in the spending.</dd>
 
     <dt>recipient_ext_id</dt>
     <dd>The NIMSP or CRP ID of the recipient.</dd>

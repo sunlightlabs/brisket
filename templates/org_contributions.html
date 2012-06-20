@@ -21,7 +21,7 @@
 
 <li class="oneColumn chart">
     <h4 class="withTip">Republicans vs. Democrats</h4>
-    <span class="tip">in dollars</span>
+    <span class="tip">in dollars{% if "Other" in section.party_breakdown %}. "Other" includes 3rd parties and organizations without official party affiliation.{% endif %}</span>
     <div class="graph piechart" id="piechart_party">
       <!-- raphael charts here -->
     </div>

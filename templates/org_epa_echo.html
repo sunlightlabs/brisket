@@ -18,7 +18,7 @@
 
 
 <div class="chartModule withNav">
-    <span class="tip external">covers through EPA's October 19, 2011 release</span>
+    {% if cycle in "-1 2012" %}<span class="tip external">covers through EPA's October 19, 2011 release</span>{% endif %}
     {% include "epa_echo_table.html" with epa_echo=section.epa_echo %}
 
     <div class="clear"></div>

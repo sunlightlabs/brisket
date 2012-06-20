@@ -5,6 +5,22 @@ $().ready(function() {
     TD.ContributionFilter.path = 'contributions';
     TD.ContributionFilter.ignoreForBulk = ['for_against', 'cycle', 'transaction_namespace'];
     
+    TD.ContributionFilter.transaction_type_description = function(transaction_type) {
+        if (transaction_type == '29') {
+            return "<em>electioneering communication about</em> "
+        }
+        if (transaction_type == '24a') {
+            return "<em>independent expenditure opposing</em> "
+        }
+        if (transaction_type == '24e') {
+            return "<em>independent expenditure supporting</em> "
+        }
+        if (transaction_type.substring(0,2) == '16') {
+            return "<em>loan to</em> "
+        }
+        return ""
+    };
+    
     TD.ContributionFilter.row_content = function(row) {
         var jurisdiction = (row.transaction_namespace == 'urn:fec:transaction') ? 'Federal' : 'State';
         var content = '<td class="jurisdiction">' + jurisdiction + '</td>';
@@ -13,7 +29,7 @@ $().ready(function() {
         content += '<td class="contributor_name">' + row.contributor_name + '</td>';
         content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(row.contributor_city, row.contributor_state) + '</td>';
         content += '<td class="organization_name">' + (row.organization_name || '&nbsp;') + '</td>';
-        content += '<td class="recipient_name">' + row.recipient_name + '</td>';   
+        content += '<td class="recipient_name">' + this.transaction_type_description(row.transaction_type) + row.recipient_name + '</td>';
         return content;
     };
     
@@ -23,14 +39,14 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'amount',
             label: 'Amount',
-            help: 'This is the amount of the contribution',
+            help: 'The dollar amount of the transaction',
             field: TD.DataFilter.OperatorField
         });
 
         TD.ContributionFilter.registerFilter({
             name: 'cycle',
             label: 'Cycle',
-            help: 'The two-year span in which the contributions were reported',
+            help: 'The two-year span in which the transaction was reported',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
             options: [
@@ -44,7 +60,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'contributor_ft',
             label: 'Contributor',
-            help: 'Name of individual, employer, or organization that made contribution',
+            help: 'Name of individual, employer, or organization in transaction',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
@@ -52,7 +68,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'contributor_industry',
             label: 'Contributor Industry',
-            help: 'The industry in which the person or organization making the contribution is involved',
+            help: 'The industry in which the person or organization making the transaction is involved',
             field: TD.DataFilter.DualDropDownField,
             allowMultipleFields: true,
             options: TD.INDUSTRIES
@@ -61,7 +77,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'contributor_state',
             label: 'Contributor State',
-            help: 'State from which the contribution was made',
+            help: 'State from which the transaction was made',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
             options: TD.STATES
@@ -78,31 +94,18 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'date',
             label: 'Date',
-            help: 'This is the date of the contribution',
+            help: 'Date of transaction',
             field: TD.DataFilter.DateRangeField
         });
 
         TD.ContributionFilter.registerFilter({
             name: 'transaction_namespace',
             label: 'Federal/State',
-            help: 'State or federal office',
+            help: 'transaction at state or federal level',
             field: TD.DataFilter.DropDownField,
             options: [
                 ['urn:fec:transaction','Federal'],
                 ['urn:nimsp:transaction','State']
-            ]
-        });
-
-        TD.ContributionFilter.registerFilter({
-            name: 'for_against',
-            label: 'For/against candidate',
-            help: 'Contributions can be made in support of or against a candidate',
-            field: TD.DataFilter.DropDownField,
-            //required: true,
-            options: [
-                ['for','In support of the candidate'],
-                ['against','Against the candidate'],
-                ['electioneering', 'Electioneering']
             ]
         });
     
@@ -126,7 +129,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'organization_ft',
             label: 'Organization',
-            help: 'Name of employer or pass-through organization associated with contribution',
+            help: 'Name of employer or pass-through organization associated with transaction',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
@@ -134,7 +137,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'recipient_ft',
             label: 'Recipient',
-            help: 'Name of candidate or PAC that received contribution',
+            help: 'Name of candidate or PAC that received contribution or was targed by transaction',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });
@@ -147,36 +150,26 @@ $().ready(function() {
             allowMultipleFields: true,
             options: TD.STATES
         });
-
+        
         TD.ContributionFilter.registerFilter({
             label: 'Transaction Type',
-            name: 'transaction_type',
-            help: 'The FEC transaction type of the contribution. You must remove the for/against filter for this filter to work properly.',
+            name: 'general_transaction_type',
+            help: 'Transactions can be contributions, independent expenditures or a variety of more esoteric types',
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
+            required: true,
             options: [
-                ['15', 'Contribution (15)'],
-                ['15e', 'Earmarked contribution (15e)'],
-                ['15j', 'Joint fundraising committee contribution (15j)'],
-                ['22y', 'Refund (22y)'],
-                ['22z', 'Contribution refund to a candidate or committee (22z)'],
-                ['24a', 'Independent expenditure against candidate (24a)'],
-                ['24c', 'Coordinated expenditure (24c)'],
-                ['24e', 'Independent expenditure for candidate (24e)'],
-                ['24f', 'Communication cost for candidate (24f)'],
-                ['24g', 'Transfer to affiliated committee (24g)'],
-                ['24k', 'Direct contribution (24k)'],
-                ['24n', 'Communication cost against candidate (24n)'],
-                ['24r', 'Election recount disbursement (24r)'],
-                ['24z', 'In kind contribution (24z)'],
-                ['10', '"Soft" money or Levin fund (10)'],
-                ['11', 'Tribal contribution (11)']
+                ['all', 'All (includes types below and other types)'],
+                ['standard', 'Standard Contributions'],
+                ['ie_supporting', 'Independent Expenditures Supporting Candidate'],
+                ['ie_opposing', 'Independent Expenditures Opposing Candidate'],
+                ['electioneering', 'Electioneering (Issue Ads)']
             ]
         });
         
         var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.HashMonitor.setAnchor('for_against=for&cycle=2012');
+            TD.HashMonitor.setAnchor('general_transaction_type=standard&cycle=2012');
             this.loadHash();
         }
         

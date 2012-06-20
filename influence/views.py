@@ -10,7 +10,7 @@ from feedinator.models import Feed
 from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
-    bar_validate, pie_validate, months_into_cycle_for_date, \
+    bar_validate, pie_validate, \
     filter_bad_spending_descriptions, make_bill_link, get_top_pages, \
     standardize_name
 from influenceexplorer import DEFAULT_CYCLE
@@ -19,11 +19,7 @@ from name_cleaver import PoliticianNameCleaver, IndividualNameCleaver,\
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import URLError
 import datetime
-
-try:
-    import json
-except:
-    import simplejson as json
+import json
 
 
 # Exceptions need a functioning unicode method
