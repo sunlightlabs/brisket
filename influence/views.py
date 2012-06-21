@@ -137,6 +137,10 @@ def organization_landing(request):
     context['top_indexp_pacs'] = translate_top_list_for_chart(api.entities.top_n_pacs_by_indexp(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
     context['top_firms'] = translate_top_list_for_chart(api.entities.top_n_firms_by_income(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
     context['top_lobbying_clients'] = translate_top_list_for_chart(api.entities.top_n_orgs_lobbying(cycle=TOP_LISTS_CYCLE, limit=10), type_='organization')
+    context['top_state_pac_donors'] = translate_top_list_for_chart(api.entities.top_n_org_donors_by_area_contributor_type(cycle=TOP_LISTS_CYCLE, limit=10, area='state', contributor_type='pac'), type_='organization')
+    context['top_state_employee_donors'] = translate_top_list_for_chart(api.entities.top_n_org_donors_by_area_contributor_type(cycle=TOP_LISTS_CYCLE, limit=10, area='state', contributor_type='employee'), type_='organization')
+    context['top_federal_pac_donors'] = translate_top_list_for_chart(api.entities.top_n_org_donors_by_area_contributor_type(cycle=TOP_LISTS_CYCLE, limit=10, area='federal', contributor_type='pac'), type_='organization')
+    context['top_federal_employee_donors'] = translate_top_list_for_chart(api.entities.top_n_org_donors_by_area_contributor_type(cycle=TOP_LISTS_CYCLE, limit=10, area='federal', contributor_type='employee'), type_='organization')
 
     context['top_regs_submitters'] = api.entities.top_n_regs_submitters(cycle=TOP_LISTS_CYCLE, limit=10)
 

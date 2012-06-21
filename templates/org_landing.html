@@ -12,6 +12,10 @@ $(document).ready(function() {
     Brisket.contribution_single_barchart("indexp_barchart", {% if top_indexp_pacs %}{{ top_indexp_pacs|safe }}{% else %}{}{% endif %});
     Brisket.contribution_single_barchart("firms_barchart", {% if top_firms %}{{ top_firms|safe }}{% else %}{}{% endif %});
     Brisket.contribution_single_barchart("lobbying_clients_barchart", {% if top_lobbying_clients %}{{ top_lobbying_clients|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("state_pac_donors_barchart", {% if top_state_pac_donors %}{{ top_state_pac_donors|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("state_employee_donors_barchart", {% if top_state_employee_donors %}{{ top_state_employee_donors|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("federal_pac_donors_barchart", {% if top_federal_pac_donors %}{{ top_federal_pac_donors|safe }}{% else %}{}{% endif %});
+    Brisket.contribution_single_barchart("federal_employee_donors_barchart", {% if top_federal_employee_donors %}{{ top_federal_employee_donors|safe }}{% else %}{}{% endif %});
 });
 </script>
 {% endblock %}
@@ -45,6 +49,38 @@ $(document).ready(function() {
                 {% if top_lobbying_clients %}
                 <h4 class="withTip">Highest Lobbying Spending</h4>
                 <div class="graph" id="lobbying_clients_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_state_pac_donors %}
+                <h4 class="withTip">Top PAC Donors at State Level</h4>
+                <div class="graph" id="state_pac_donors_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_state_employee_donors %}
+                <h4 class="withTip">Top Employee Donors at State Level</h4>
+                <div class="graph" id="state_employee_donors_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_federal_pac_donors %}
+                <h4 class="withTip">Top PAC Donors at Federal Level</h4>
+                <div class="graph" id="federal_pac_donors_barchart">
+                    <!-- chart here -->
+                </div>
+                {% endif %}
+            </li>
+            <li class="twoColumn chart">
+                {% if top_federal_employee_donors %}
+                <h4 class="withTip">Top Employee Donors at Federal Level</h4>
+                <div class="graph" id="federal_employee_donors_barchart">
                     <!-- chart here -->
                 </div>
                 {% endif %}
