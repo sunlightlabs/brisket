@@ -7,6 +7,7 @@
 
 from django.conf.urls.defaults import patterns, url
 from django.conf import settings
+from django.views.generic.simple import redirect_to
 
 urlpatterns = patterns('brisket.data.views',
     url(r'^bulk/$', 'bulk_index', name="bulk_index"),
@@ -43,6 +44,7 @@ urlpatterns = patterns('brisket.data.views',
  
     # doc lookups
 #   url(r'^docs/lookup/(?P<dataset>\w+)/(?P<field>[\w\-_]+)/$', 'lookup', name="doc_lookup"),
+    url(r'^index.php$', redirect_to, {'url': '/'}),
     
     url(r'^$', 'index', name="index"),
 )
