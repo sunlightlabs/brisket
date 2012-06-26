@@ -229,5 +229,10 @@ MEDIASYNC['JOINED'] = {
     ],
 }
 
+import re
+IGNORABLE_404_URLS = (
+    re.compile(r'\.php$'),
+)
+
 from influenceexplorer import InfluenceExplorer
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
