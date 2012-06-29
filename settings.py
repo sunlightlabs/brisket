@@ -32,7 +32,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -228,6 +228,11 @@ MEDIASYNC['JOINED'] = {
         'data/js/td.bundling.js'
     ],
 }
+
+import re
+IGNORABLE_404_URLS = (
+    re.compile(r'\.php$'),
+)
 
 from influenceexplorer import InfluenceExplorer
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
