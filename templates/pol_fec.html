@@ -22,7 +22,7 @@
         <dt class="clear">Total Raised:</dt>
         <dd class="amount">
             ${{ section.fec_summary.total_raised|floatformat:0|intcomma }}
-            {% if section.fec_summary.total_receipts_rank %}}<span class="blockedSpan tip">#{{section.fec_summary.total_receipts_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>{% endif %}
+            {% if section.fec_summary.total_receipts_rank %}<span class="blockedSpan tip">#{{section.fec_summary.total_receipts_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>{% endif %}
         </dd>
 
         <dt class="clear">Total Spent:</dt>
