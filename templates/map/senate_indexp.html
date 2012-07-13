@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load media %}
+
+{% block js %}
+{% css "css/wax-controls.css" %}
+{% css "css/leaflet.css" %}
+{% js "js/leaflet.js" %}
+{% js "js/wax.leaf.min.js" %}
+<!-- extrajs is where the charts are loaded and must go *before* the --
+  -- div is hidden -->
+<script type="text/javascript">
+    jQuery.getJSON('http://localhost:8000/api/1.0/aggregates/map/indexp/senate/lat_lng.geo.json?cycle=2012&apikey=sunlight9&callback=?', function (indexp_data) {
+        var url = "http://a.tiles.mapbox.com/v3/arowland-sf.map-9ifbg053.jsonp";
+        var map = new L.Map('mapbox', {maxZoom: 8, maxBounds: L.LatLngBounds(new L.LatLng(-168.9258,24.4471), new L.LatLng(-66.1816,60.6360)) }) // container's id="mapbox"
+        // Center the map on the lower 48, with zoom at 3
+        .setView(new L.LatLng(39.9097,-95.625), 3);
+
+        var geojsonLayer = new L.GeoJSON(null, {
+            pointToLayer: function (latlng) {
+                return new L.CircleMarker(latlng);
+            }
+        });
+
+        wax.tilejson(url, function(tilejson) {
+            map.addLayer(new wax.leaf.connector(tilejson), {maxZoom: 8});
+            map.addLayer(geojsonLayer);
+
+            geojsonLayer.on("featureparse", function (e) {
+                if (e.properties && e.properties.name){
+                e.layer.bindPopup(e.properties.name+': '+e.properties.party+': $'+e.properties.amount);
+                }
+                if (e.properties && e.properties.party && e.layer.setStyle) {
+                    e.layer.setStyle(e.properties.style);
+                    e.layer.setRadius(Math.sqrt(e.properties.amount) / 100 * Math.sqrt(map.getZoom() *2));
+                    e.layer.setStyle({zIndexOffset: e.properties.amount * -1});
+                }
+            });
+            geojsonLayer.addGeoJSON(indexp_data);
+        });
+    });
+</script>
+{% endblock %}
+
+{% block title %}Senate Independent Expenditures in 2012{% endblock %}
+{% block body_class %}individual{% endblock %}
+
+{% block main %}
+<h1 style="margin-left: 20px">Senate Race Independent Expenditures (of at least $50,000 total per state) 2012</h1>
+
+<div id="mapbox" style="width: 570px; height: 400px; margin-left: 20px;"></div>
+{% endblock %}
+

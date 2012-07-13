@@ -686,3 +686,9 @@ def indiv_lobbying_section(entity_id, name, cycle, external_ids):
     return section
 
 
+def senate_indexp_map(request):
+    map_geo_json = api.map_.senate_independent_expenditures()
+
+    return render_to_response('map/senate_indexp.html', map_geo_json)
+
+

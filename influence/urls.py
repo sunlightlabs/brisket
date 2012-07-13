@@ -24,6 +24,9 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^industry/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'industry_entity',
         name='industry_entity'),
 
+    # maps
+    url(r'^map/senate_indexps.html', 'senate_indexp_map', name='senate_indexp_map'),
+
     # utility
     #url(r'^reset$', 'clear_network', name='clear_network'),
 
