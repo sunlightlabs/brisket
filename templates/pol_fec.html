@@ -22,27 +22,29 @@
         <dt class="clear">Total Raised:</dt>
         <dd class="amount">
             ${{ section.fec_summary.total_raised|floatformat:0|intcomma }}
-            <span class="blockedSpan tip">#{{section.fec_summary.total_receipts_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>
+            {% if section.fec_summary.total_receipts_rank %}<span class="blockedSpan tip">#{{section.fec_summary.total_receipts_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>{% endif %}
         </dd>
 
         <dt class="clear">Total Spent:</dt>
         <dd>
             ${{ section.fec_summary.disbursements|floatformat:0|intcomma }}
-            <span class="blockedSpan tip">#{{section.fec_summary.total_disbursements_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>
+            {% if section.fec_summary.total_disbursements_rank %}<span class="blockedSpan tip">#{{section.fec_summary.total_disbursements_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>{% endif %}
         </dd>
         
         <dt class="clear">Cash on Hand:</dt>
         <dd>
             ${{ section.fec_summary.cash_on_hand|floatformat:0|intcomma }}
-            <span class="blockedSpan tip">#{{section.fec_summary.cash_on_hand_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>
+            {% if section.fec_summary.cash_on_hand_rank %}<span class="blockedSpan tip">#{{section.fec_summary.cash_on_hand_rank}} of {{section.fec_summary.max_rank}} {{ entity_info.metadata.seat|seat_adjective }} candidates</span>{% endif %}
         </dd>
     </dl>
 </li>
+{% if section.fec_timelines != "[]" %}
 <li class="twoColumn">
     <h4 class="withTip">Contributions Over Time</h4>
     <span class="tip">reflects only contributions over $200, as smaller contributions are not individually reported. For some candidates a significant portion of their fundraising may not be captured by this chart.</span>
     <div id="timeline_fec"></div>
 </li>
+{% endif %}
 {% if section.fec_indexp %}
     <div class="clear"></div>
     <li class="twoColumn">
