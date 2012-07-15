@@ -14,7 +14,7 @@ from influence.helpers import prepare_entity_view, generate_label, barchart_href
     filter_bad_spending_descriptions, make_bill_link, get_top_pages
 from influenceexplorer import DEFAULT_CYCLE
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
-from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
+from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api, DATA_API_BASE_URL
 from urllib2 import URLError
 import datetime
 import json
@@ -687,8 +687,11 @@ def indiv_lobbying_section(entity_id, name, cycle, external_ids):
 
 
 def senate_indexp_map(request):
-    map_geo_json = api.map_.senate_independent_expenditures()
+    import geojson
+    context = {}
+    context['map_geo_json'] = geojson.loads(api.map_.senate_independent_expenditures())
+    context['data_api_base_url'] = DATA_API_BASE_URL
 
-    return render_to_response('map/senate_indexp.html', map_geo_json)
+    return render_to_response('map/senate_indexp.html', context)
 
 
