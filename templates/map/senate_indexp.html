@@ -16,9 +16,9 @@
 {% block main %}
 <h1 style="margin-left: 20px">Senate Race Independent Expenditures (of at least $50,000 total per state) 2012</h1>
 
-<div id="mapbox" style="width: 570px; height: 400px; margin-left: 20px;"></div>
+<div id="mapbox" style="width: 760px; height: 570px; margin-left: 20px;"></div>
 <script type="text/javascript">
-    var indexp_data = {{ map_geo_json }}
+    var indexp_data = {{ map_geo_json|safe }}
     var url = "http://a.tiles.mapbox.com/v3/arowland-sf.map-9ifbg053.jsonp";
     var map = new L.Map('mapbox', {maxZoom: 8, maxBounds: L.LatLngBounds(new L.LatLng(-168.9258,24.4471), new L.LatLng(-66.1816,60.6360)) }) // container's id="mapbox"
     // Center the map on the lower 48, with zoom at 3

@@ -687,10 +687,8 @@ def indiv_lobbying_section(entity_id, name, cycle, external_ids):
 
 
 def senate_indexp_map(request):
-    import geojson
     context = {}
-    context['map_geo_json'] = geojson.loads(api.map_.senate_independent_expenditures())
-    context['data_api_base_url'] = DATA_API_BASE_URL
+    context['map_geo_json'] = json.dumps(api.map_.senate_independent_expenditures())
 
     return render_to_response('map/senate_indexp.html', context)
 
