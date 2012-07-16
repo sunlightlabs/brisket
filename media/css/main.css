@@ -185,6 +185,23 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 
 #search { float: right; padding-top: 20px; width: 370px;}
 
+.promo-banner {
+    border: 1px dashed rgba(153, 32, 4, .5);
+    clear: both;
+    margin: 5px 10px 5px 10px;
+    color: #ffffff;
+    font-style: oblique; font-family: Georgia, Times New Roman, Times, serif;
+}
+.promo-banner-inner {
+    background: rgba(153, 32, 4, .5);
+    margin: 1px;
+    padding: 15px;
+}
+.promo-banner a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
 dl { margin-top: 15px;}
 .noshow { display: none; }
 dt { float: left; margin-right: 5px; font-weight: bold; }
