@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load media %}
+
+{% block js %}
+{% css "css/wax-controls.css" %}
+{% css "css/leaflet.css" %}
+{% js "js/leaflet.js" %}
+{% js "js/wax.leaf.min.js" %}
+<!-- extrajs is where the charts are loaded and must go *before* the --
+  -- div is hidden -->
+{% endblock %}
+
+{% block title %}Maps!{% endblock %}
+{% block body_class %}individual{% endblock %}
+
+{% block main %}
+<h1 style="margin-left: 20px">Origin of Presidential Race Contributions (of at least $50,000 total per state) 2012</h1>
+
+<div id="mapbox_pres_contribs" style="width: 760px; height: 570px; margin-left: 20px;"></div>
+<script type="text/javascript">
+    var create_map3 = function() {
+        var indexp_data = {{ map_geo_json__pres_contribs|safe }}
+        var url = "http://a.tiles.mapbox.com/v3/arowland-sf.states_new.jsonp?foo=1";
+        var map = new L.Map('mapbox_pres_contribs', {maxZoom: 8, maxBounds: L.LatLngBounds(new L.LatLng(-111.893596,26.029345), new L.LatLng(-71.070738,47.064327)) }) // container's id="mapbox"
+        //-111.893596 26.029345,-71.070738 47.064327
+        // Center the map on the lower 48, with zoom at 3
+        .setView(new L.LatLng(39.100,-76.8916), 8);
+
+        var geojsonLayer = new L.GeoJSON(null, {
+            // pointToLayer: function (latlng) {
+            //     return new L.CircleMarker(latlng);
+            // }
+        });
+        var defaultStyle = {
+            color: "#ccc",
+            weight: 1,
+            opacity: 0.6,
+            fillOpaacity: 0.1,
+        };
+        geojsonLayer.on("featureparse", function (e) {
+            e.layer.setStyle(defaultStyle);
+            if (e.properties && e.properties.state){
+                e.layer.bindPopup(e.properties.state+': '+e.properties.party+': $'+e.properties.amount);
+            }
+            if (e.properties && e.properties.amount) {
+                //e.layer.setRadius(Math.sqrt(e.properties.amount) / 70);
+            }
+            if (e.properties && e.properties.style && e.layer.setStyle) {
+                e.layer.setStyle(e.properties.style);
+            }
+        });
+
+        wax.tilejson(url, function(tilejson) {
+            map.addLayer(new wax.leaf.connector(tilejson), {maxZoom: 8});
+            map.addLayer(geojsonLayer);
+            geojsonLayer.addGeoJSON(indexp_data);
+        });
+        return map;
+    };
+
+    var map_pres_contribs = create_map3();
+</script>
+{% endblock %}
+

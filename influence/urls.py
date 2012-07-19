@@ -26,6 +26,7 @@ urlpatterns = patterns('brisket.influence.views',
 
     # maps
     url(r'^map/senate_indexps.html', 'senate_indexp_map', name='senate_indexp_map'),
+    url(r'^map/pres_contribs.html', 'pres_contribs_map', name='pres_contribs_map'),
 
     # utility
     #url(r'^reset$', 'clear_network', name='clear_network'),
