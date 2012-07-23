@@ -384,8 +384,8 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 
 #footerPolicy { margin-bottom: 70px;}
 #footerPolicy a.logo { float: left; border-right: 2px dotted #dcdcd8; text-indent: -9999em; display: block; margin-left: 25px; padding-right: 25px;} 
-#sunlightFoundation { background: url(../images/logo_sunlight.jpg) top left no-repeat; width: 130px; height: 60px; margin: 0 0 0 30px;}
-#sunlightFoundation:hover { background: url(../images/logo_sunlight.jpg) left -60px no-repeat; }
+#sunlightFoundation { background: url(../images/logo_sunlight.jpg) top left no-repeat; width: 162px; height: 49px; margin: 0 0 0 30px;}
+#sunlightFoundation:hover { background: url(../images/logo_sunlight.jpg) left bottom no-repeat; }
 #openSecrets { background: url(../images/logo_opensecrets.jpg) top left no-repeat; width: 172px; height: 60px;}
 #openSecrets:hover { background: url(../images/logo_opensecrets.jpg) left -60px no-repeat; }
 #followthemoney { background: url(../images/logo_followthemoney.jpg) top left no-repeat; width: 87px; height: 66px;}
