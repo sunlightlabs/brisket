@@ -25,8 +25,7 @@ urlpatterns = patterns('brisket.influence.views',
         name='industry_entity'),
 
     # maps
-    url(r'^map/senate_indexps.html', 'senate_indexp_map', name='senate_indexp_map'),
-    url(r'^map/pres_contribs.html', 'pres_contribs_map', name='pres_contribs_map'),
+    url(r'^map/senate_indexps', 'senate_indexp_map', name='senate_indexp_map'),
 
     # utility
     #url(r'^reset$', 'clear_network', name='clear_network'),
@@ -77,6 +76,9 @@ urlpatterns += patterns('django.views.generic.simple',
    
     url(r'^checking/?$', 'direct_to_template',
         {'template': 'checking.html'}),
+
+    url(r'^map/presidential', 'direct_to_template',
+        {'template': 'map/pres_contribs.html'}),
 )
 
 urlpatterns += patterns('',

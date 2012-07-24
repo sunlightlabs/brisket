@@ -694,8 +694,3 @@ def senate_indexp_map(request):
     return render_to_response('map/senate_indexp.html', context)
 
 
-def pres_contribs_map(request):
-    context = {}
-    context['map_geo_json__pres_contribs'] = json.dumps(api.map_.presidential_contribs('MD'))
-
-    return render_to_response('map/pres_contribs.html', context)
