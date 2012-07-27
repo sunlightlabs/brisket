@@ -18,12 +18,22 @@
 
 <div id="mapbox_pres_contribs" style="width: 760px; height: 570px; margin-left: 20px;"></div>
 <script type="text/javascript">
-    var url = "http://a.tiles.mapbox.com/v3/sunlightlabs-datacommons.InfluenceExplorerMaps.jsonp";
+    var map_url = "http://a.tiles.mapbox.com/v3/sunlightlabs-datacommons.InfluenceExplorerMaps.jsonp";
+    var bounds_url_template = "{{AGGREGATES_API_BASE_URL}}geo/boundingbox/{zipcode}?apikey={{API_KEY}}&callback=?"
 
-    wax.tilejson(url, function(tilejson) {
+    wax.tilejson(map_url, function(tilejson) {
         var map = new L.Map('mapbox_pres_contribs', {maxZoom: 11, maxBounds: L.LatLngBounds(new L.LatLng(-111.893596,26.029345), new L.LatLng(-71.070738,47.064327)) }) 
             .setView(new L.LatLng(39.100,-76.8916), 8)
             .addLayer(new wax.leaf.connector(tilejson), {maxZoom: 11});
+
+        if (window.location.hash.length == 6) {
+            bounds_url = bounds_url_template.replace('{zipcode}', window.location.hash.substring(1))
+            $.getJSON(bounds_url, function(bounds) {
+                var latLngBounds = new L.LatLngBounds(new L.LatLng(bounds[0],bounds[1]),
+                                             new L.LatLng(bounds[2],bounds[3]));
+                map.fitBounds(latLngBounds);
+            });
+        }
 
         wax.leaf.interaction()
             .map(map)
