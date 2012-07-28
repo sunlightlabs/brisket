@@ -14,26 +14,45 @@
 {% block body_class %}individual{% endblock %}
 
 {% block main %}
-<h1 style="margin-left: 20px">Origin of Presidential Race Contributions (of at least $50,000 total per state) 2012</h1>
+<h1 style="margin-left: 20px">Presidential Contributions by Zipcode</h1>
+
+<form onsubmit="
+        window.location.hash = '#' + $('#zipcode_input').val();
+        return false;
+        ">
+    Enter Zipcode: <input type="text" name="zipcode" id="zipcode_input"/>
+    <input type="submit" value="Go"/>
+</form>
 
 <div id="mapbox_pres_contribs" style="width: 760px; height: 570px; margin-left: 20px;"></div>
+
 <script type="text/javascript">
-    var map_url = "http://a.tiles.mapbox.com/v3/sunlightlabs-datacommons.InfluenceExplorerMaps.jsonp";
+    var map_url = "http://a.tiles.mapbox.com/v3/sunlight.Presidential.jsonp";
     var bounds_url_template = "{{AGGREGATES_API_BASE_URL}}geo/boundingbox/{zipcode}?apikey={{API_KEY}}&callback=?"
 
+    var map = null;
+
+    var zoomToHash = function() {
+        if (window.location.hash.length == 6) {
+            bounds_url = bounds_url_template.replace('{zipcode}', window.location.hash.substring(1))
+            $.getJSON(bounds_url)
+                .success(function(bounds) {
+                    var latLngBounds = new L.LatLngBounds(new L.LatLng(bounds[0],bounds[1]),
+                                                 new L.LatLng(bounds[2],bounds[3]));
+                    map.fitBounds(latLngBounds);
+                })
+                .error(function() { })
+        }
+    };
+
+    window.onhashchange = zoomToHash
+
     wax.tilejson(map_url, function(tilejson) {
-        var map = new L.Map('mapbox_pres_contribs', {maxZoom: 11, maxBounds: L.LatLngBounds(new L.LatLng(-111.893596,26.029345), new L.LatLng(-71.070738,47.064327)) }) 
+        map = new L.Map('mapbox_pres_contribs', {maxZoom: 11, maxBounds: L.LatLngBounds(new L.LatLng(-111.893596,26.029345), new L.LatLng(-71.070738,47.064327)) }) 
             .setView(new L.LatLng(39.100,-76.8916), 8)
             .addLayer(new wax.leaf.connector(tilejson), {maxZoom: 11});
 
-        if (window.location.hash.length == 6) {
-            bounds_url = bounds_url_template.replace('{zipcode}', window.location.hash.substring(1))
-            $.getJSON(bounds_url, function(bounds) {
-                var latLngBounds = new L.LatLngBounds(new L.LatLng(bounds[0],bounds[1]),
-                                             new L.LatLng(bounds[2],bounds[3]));
-                map.fitBounds(latLngBounds);
-            });
-        }
+        zoomToHash();
 
         wax.leaf.interaction()
             .map(map)
