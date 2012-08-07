@@ -145,6 +145,7 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 #share-buttons-reaction1-twitter_img { background: url(../images/socialSprites.png) left -16px no-repeat !important; }
 #share-buttons-reaction1-twitter_img:hover { background: url(../images/socialSprites.png) left top no-repeat !important; }
 #share-buttons .gig-share-button { padding: 4px 0px 0px 5px !important; }
+#share-buttons .gig-bar-container table { margin-top: 0 !important; }
 
 #newsTitle { color: #b5c6c3; text-transform: lowercase; font-weight: normal; margin-bottom: -10px; padding-left: 40px;}
 #news { background: url(../images/bg_news.jpg) top left repeat-y; border-top: 1px solid #eae9e9; border-bottom: 1px solid #eae9e9; padding: 25px 40px;}
