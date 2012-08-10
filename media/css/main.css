@@ -139,14 +139,13 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 #tools img { float: left; margin-right: 20px;}
 .toolDes { float: left; width: 280px;}
 
-#socialIcons { float: right; height: 16px; margin-bottom: 10px; }
-.addthis_toolbox .at15t_facebook { background: url(../images/socialSprites.png) left -48px no-repeat !important; }
-.addthis_toolbox .at15t_facebook:hover { background: url(../images/socialSprites.png) left -32px no-repeat !important; }
-.addthis_toolbox .at15t_twitter { background: url(../images/socialSprites.png) left -16px no-repeat !important; }
-.addthis_toolbox .at15t_twitter:hover { background: url(../images/socialSprites.png) left top no-repeat !important; }
-.addthis_toolbox .at300b:hover { opacity: 1 !important; }
-.addthis_toolbox { width: auto; margin-right: 5px; }
-.addthis_toolbox a { padding: 0 5px !important;}
+#share-buttons { float: right; height: 16px; margin-bottom: 10px; margin-right: 15px; }
+#share-buttons-reaction0-facebook_img { background: url(../images/socialSprites.png) left -48px no-repeat !important; }
+#share-buttons-reaction0-facebook_img:hover { background: url(../images/socialSprites.png) left -32px no-repeat !important; }
+#share-buttons-reaction1-twitter_img { background: url(../images/socialSprites.png) left -16px no-repeat !important; }
+#share-buttons-reaction1-twitter_img:hover { background: url(../images/socialSprites.png) left top no-repeat !important; }
+#share-buttons .gig-share-button { padding: 4px 0px 0px 5px !important; }
+#share-buttons .gig-bar-container table { margin-top: 0 !important; }
 
 #newsTitle { color: #b5c6c3; text-transform: lowercase; font-weight: normal; margin-bottom: -10px; padding-left: 40px;}
 #news { background: url(../images/bg_news.jpg) top left repeat-y; border-top: 1px solid #eae9e9; border-bottom: 1px solid #eae9e9; padding: 25px 40px;}
@@ -410,12 +409,6 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 .label-loan { width: 60px; text-align: center; padding: 2px; background: #f27e01; color: white; text-transform: uppercase; font-size: 75%; }
 .label-support { width: 60px; text-align: center; padding: 2px; background: #f2e388; color: black; text-transform: uppercase; font-size: 75%; }
 .label-oppose { width: 60px; text-align: center; padding: 2px; background: #f27e01; color: black; text-transform: uppercase; font-size: 75%; }
-
-
-.addthis_toolbox { float: right; line-height: 24px; vertical-align: middle; text-transform: uppercase; font-size: 120%; margin-bottom: 10px; margin-right: 15px; width: 90px;}
-.addthis_toolbox span { float: left; margin-top: 4px;}
-.addthis_toolbox a { text-decoration: none; color: #989393; }
-.addthis_toolbox img { float: right; margin-left: 6px; }
 
 .cell-type { width: 65px; }
 .cell-recipient { width: 165px; }

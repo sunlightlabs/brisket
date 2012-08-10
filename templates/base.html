@@ -55,21 +55,7 @@
                     {% block search %}
                     {% endblock %}
                     <h1><a id="logo" href="{{ IE_BASE_URL }}">Influence Explorer</a></h1>
-                    <!-- <ul class="clear" id="socialIcons">
-                        <li id="facebookIcon"><a href="#">facebook</a></li>
-                        <li id="twitterIcon"><a href="#">twitter</a></li>
-                    </ul> -->
-                    <!-- AddThis Button BEGIN -->
-                    <div id="socialIcons" class="clear addthis_toolbox addthis_default_style ">
-                        <a class="addthis_button_facebook"></a>
-                        <a class="addthis_button_twitter"></a>
-                    </div>
-                    <script type="text/javascript">
-                        var addthis_share = {templates: {twitter: 'Check out {% templatetag openvariable %}title{% templatetag closevariable %}: {% templatetag openvariable %}url{% templatetag closevariable %} from @SunFoundation'}}
-                        var addthis_config = { data_ga_property: 'UA-1265484-62', data_ga_social : true };
-                    </script>
-                    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=sunlightfoundation"></script>
-                    <!-- AddThis Button END -->
+                    <div id="share-buttons" class="clear"></div>
                     <nav class="clear">
                         <ul>
                             <li id="people"><a href="{{ IE_BASE_URL }}people">People</a></li>
@@ -200,6 +186,47 @@
     	qacct:"p-c3mmNWXstPmj6"
     	});
     	</script>
+
+        <script>
+            (function() {
+                var insertScript = function(url) {
+                    var elem = document.createElement('script');
+                    elem.src = (document.location.protocol == "https:" ? "https://cdns" : "http://cdn") + ".gigya.com/js/" + url;
+                    elem.async = true;
+                    elem.type = "text/javascript";
+                    $('script').eq(0).before(elem);
+                }
+                window.onGigyaServiceReady = function(type) {
+                    if (type !== "socialize") return;
+                    insertScript("gigyaGAIntegration.js")
+
+                    var ua = new gigya.socialize.UserAction();
+                    var head = $('head');
+                    var url = head.find('meta[name=og:url]').attr('content');
+                    ua.setLinkBack(url);
+                    ua.setTitle(head.find('meta[name=og:title]').attr('content'));
+                    ua.setDescription(head.find('meta[name=og:description]').attr('content'));
+                    ua.addMediaItem({
+                        type: 'image',
+                        href: url,
+                        src: head.find('meta[name=og:image]').attr('content')
+                    });
+
+                    var params = {
+                        containerID: 'share-buttons',
+                        iconsOnly: true,
+                        layout: 'horizontal',
+                        noButtonBorders: true,
+                        shareButtons: 'facebook,twitter',
+                        shortURLs: 'never',
+                        showCounts: 'none',
+                        userAction: ua
+                    };
+                    gigya.socialize.showShareBarUI(params);
+                }
+                insertScript("socialize.js?apiKey=3_BLRB_2LlQJZDUW1wb9_ZOps-sOnnzA_e6xxNSwJBBGoB-SavmPAKHkaVVZPE5Kx8")
+            })();
+        </script>
 	
     	<noscript>
     	<div style="display:none;">
