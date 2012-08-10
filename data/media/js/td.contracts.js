@@ -43,6 +43,7 @@ $().ready(function() {
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
             options: [
+                ['', 'All'],
                 ['1998','1998'], ['1999','1999'],
                 ['2000','2000'], ['2001','2001'],
                 ['2002','2002'], ['2003','2003'],
