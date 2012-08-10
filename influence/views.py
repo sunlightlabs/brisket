@@ -13,6 +13,7 @@ from influence.helpers import prepare_entity_view, generate_label, barchart_href
     bar_validate, pie_validate, \
     filter_bad_spending_descriptions, make_bill_link, get_top_pages
 from influenceexplorer import DEFAULT_CYCLE
+from influence.external_sites import _get_td_url
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import URLError
@@ -92,6 +93,7 @@ def search(request):
             return HttpResponseRedirect('/%s/%s/%s%s' % (result_type, name, _id, "?cycle=" + cycle if cycle != "-1" else ""))
 
         kwargs['query'] = query
+        kwargs['contributor_search_link'] = _get_td_url('individual', query, None, None)
 
         if len(entity_results) == 0:
             kwargs['sorted_results'] = None

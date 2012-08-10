@@ -96,6 +96,7 @@ $().ready(function() {
             field: TD.DataFilter.DropDownField,
             allowMultipleFields: true,
             options: [
+				['', 'All'],
                 ['2008','2008'],
                 ['2009','2009'],
                 ['2010','2010']
