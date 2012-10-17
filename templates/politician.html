@@ -80,7 +80,7 @@ $(document).ready(function() {
   <dd>{{ entity_info.metadata.seat_held|seat_label }}{% if entity_info.metadata.state_held %}, {{ entity_info.metadata.state_held }}{% endif %}</dd>
   {% endif %}
   <dt>{% ifequal cycle "-1" %}Latest {% endifequal %}Office Sought:</dt>
-  <dd>{{ entity_info.metadata.seat|seat_label }}{% if entity_info.metadata.state %}, {{ entity_info.metadata.state }}{% endif %}</dd>
+  <dd>{{ entity_info.metadata.seat|seat_label }}{% if 'president' not in entity_info.metadata.seat and entity_info.metadata.state %}, {{ entity_info.metadata.state }}{% endif %}</dd>
 
   {% if entity_info.metadata.yrs_of_service %}
   <dt>Years of Service:</dt>
