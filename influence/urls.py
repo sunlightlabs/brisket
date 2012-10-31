@@ -23,6 +23,7 @@ urlpatterns = patterns('brisket.influence.views',
         name='individual_entity'),
     url(r'^industry/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'industry_entity',
         name='industry_entity'),
+    url(r'^entity/(?P<entity_id>[a-f0-9-]{32,36})', 'entity_redirect', name='entity_redirect'),
 
     # utility
     #url(r'^reset$', 'clear_network', name='clear_network'),
