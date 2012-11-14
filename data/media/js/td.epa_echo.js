@@ -31,7 +31,7 @@ $().ready(function() {
             help: 'Most recent date of significance to the case',
             field: TD.DataFilter.DateRangeField,
             allowMultipleFields: false,
-            yearRange: '1973:2011'
+            yearRange: '1973:2012'
         });
 
         TD.EpaEchoFilter.registerFilter({

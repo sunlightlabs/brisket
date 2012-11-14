@@ -209,13 +209,14 @@ $().ready(function() {
                 ['2004','2004'], ['2005','2005'],
                 ['2006','2006'], ['2007','2007'],
                 ['2008','2008'], ['2009','2009'],
-                ['2010','2010'], ['2011','2011']
+                ['2010','2010'], ['2011','2011'],
+                ['2012','2012']
             ]
         });
 
         var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.HashMonitor.setAnchor('year=2011');
+            TD.HashMonitor.setAnchor('year=2012');
             this.loadHash();
         }
         

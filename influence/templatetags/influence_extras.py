@@ -54,7 +54,11 @@ seat_adjectives = {'federal:senate': 'Senate',
                'state:governor': 'Gubernatorial',
                'state:ltgovernor': 'Lt. Governor',
                'state:judicial': 'State Judiciary',
-               'state:office': 'Other State Office'
+               'state:office': 'Other State Office',
+               # for FEC
+               'H': 'House',
+               'S': 'Senate',
+               'P': 'Presidential',
                }
 
 @register.filter(name='seat_label')

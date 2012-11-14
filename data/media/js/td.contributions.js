@@ -138,7 +138,7 @@ $().ready(function() {
         TD.ContributionFilter.registerFilter({
             name: 'recipient_ft',
             label: 'Recipient',
-            help: 'Name of candidate or PAC that received contribution or was targed by transaction',
+            help: 'Name of candidate or PAC that received contribution or was targeted by a transaction',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
         });

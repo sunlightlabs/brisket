@@ -2,7 +2,7 @@
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
 from django.utils.datastructures import SortedDict
@@ -43,6 +43,7 @@ def handle_errors(f):
 def brisket_context(request):
     return RequestContext(request, {'search_form': SearchForm()})
 
+
 def entity_context(request, cycle, available_cycles):
     context_variables = {}
 
@@ -53,6 +54,15 @@ def entity_context(request, cycle, available_cycles):
 
     return RequestContext(request, context_variables)
 
+
+def entity_redirect(request, entity_id):
+    entity = api.entities.metadata(entity_id)
+
+    name = slugify(entity['name'])
+
+    return redirect('{}_entity'.format(entity['type']), entity_id=entity_id)
+
+
 #this is the index
 def index(request):
     #ID of the feed is hardcoded as feed 1 since it's the only feed we're using right now. This may change!
@@ -60,6 +70,7 @@ def index(request):
     entry = feed.entries.values().latest('date_published')
     entry['title'] = entry['title'].replace('Influence Explored: ', '')
     return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, brisket_context(request))
+
 
 def search(request):
     if not request.GET.get('query', None):
@@ -349,10 +360,10 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
 
         fec_summary = api.org.fec_summary(entity_id)
-        if fec_summary and fec_summary['num_committee_filings'] > 0:
+        if fec_summary and fec_summary['num_committee_filings'] > 0 and fec_summary.get('first_filing_date'):
             section['fec_summary'] = fec_summary
             section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['first_filing_date'], "%Y-%m-%d")
-            top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27), 
+            top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27),
                                         value=row['amount'], href='')
                                 for row in api.org.fec_top_contribs(entity_id)
                                 if float(row['amount']) >= 100000]
