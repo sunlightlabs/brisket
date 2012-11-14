@@ -190,7 +190,16 @@ def translate_top_list_for_chart(data, type_='individual'):
     } for x in data])
 
 def translate_top_list_for_lg_donations_chart(data, type_='individual'):
-    contrib_name = lambda x: standardize_name(x['contributor_name'], 'individual').name_str()
+
+    def parse_contributor_name(row):
+        try:
+            name = str(standardize_name(row['contributor_name'], 'individual'))
+        except:
+            name = str(standardize_name(row['contributor_name'], 'organization'))
+
+        return name
+
+    contrib_name = parse_contributor_name
     committee_name = lambda x: str(standardize_name(x['committee_name'], 'organization'))
     return json.dumps([ {
         'key': '{1} (from {0})'.format(contrib_name(x), committee_name(x)) if x['contributor_name'] else committee_name(x),
@@ -292,7 +301,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     if type == 'industry':
         section['top_orgs'] = json.dumps([
             {
-                'key': generate_label(str(OrganizationNameCleaver(org['name']).parse())),
+                'key': generate_label(str(OrganizationNameCleaver(org['name']).parse(safe=True))),
                 'value': org['total_amount'],
                 'value_employee': org['employee_amount'],
                 'value_pac': org['direct_amount'],
@@ -318,7 +327,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     pacs_barchart_data = []
     for record in recipient_pacs:
         pacs_barchart_data.append({
-                'key': generate_label(str(OrganizationNameCleaver(record['name']).parse())),
+                'key': generate_label(str(OrganizationNameCleaver(record['name']).parse(safe=True))),
                 'value' : record['total_amount'],
                 'value_employee' : record['employee_amount'],
                 'value_pac' : record['direct_amount'],
@@ -564,7 +573,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     contributors_barchart_data = []
     for record in top_contributors:
         contributors_barchart_data.append({
-            'key': generate_label(str(OrganizationNameCleaver(record['name']).parse())),
+            'key': generate_label(str(OrganizationNameCleaver(record['name']).parse(safe=True))),
             'value' : record['total_amount'],
             'value_employee' : record['employee_amount'],
             'value_pac' : record['direct_amount'],
@@ -576,7 +585,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     industries_barchart_data = []
     for record in top_industries:
         industries_barchart_data.append({
-            'key': generate_label(str(OrganizationNameCleaver(record['name']).parse())),
+            'key': generate_label(str(OrganizationNameCleaver(record['name']).parse(safe=True))),
             'href': barchart_href(record, cycle, 'industry'),
             'value' : record['amount'],
         })
@@ -728,7 +737,7 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
     orgs_barchart_data = []
     for record in recipient_orgs:
         orgs_barchart_data.append({
-                'key': generate_label(str(OrganizationNameCleaver(record['recipient_name']).parse())),
+                'key': generate_label(str(OrganizationNameCleaver(record['recipient_name']).parse(safe=True))),
                 'value' : record['amount'],
                 'href' : barchart_href(record, cycle, entity_type="organization"),
                 })
