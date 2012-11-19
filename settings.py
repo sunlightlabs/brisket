@@ -5,11 +5,6 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 TEMPLATE_DEBUG = True
 
-SENTRY_ADMINS = (
-    # So Sentry will send emails
-    'arowland@sunlightfoundation.com',
-)
-
 DATABASE_ENGINE = ''           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = ''             # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
@@ -94,8 +89,6 @@ INSTALLED_APPS = (
     'brisket.util',
 #    'django.contrib.admin',
     'django_nose',
-    'sentry',
-    'raven.contrib.django',
     'indexer',
     'paging',
     'gunicorn',
