@@ -78,16 +78,16 @@
             		  <div class="clear"></div>
             	  </li>
             {% endif %}
-  
-  
+
+
     {% else %}
-	  
-	  <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
+
+      <h4>Lobbying on Behalf of {{ entity_info.name|standardize_industry_name }}</h4>
       <ul>
-		  <li class="interiorList oneColumn">
+          <li class="interiorList oneColumn">
               {% include "org_lobbying_lobbyists.html" with lobbyists=section.lobbying_lobbyists %}
-		  </li>
-		  
+          </li>
+
 		  {% if section.lobbying_clients %}
         	  <li class="twoColumn">
         		  <table class="twoColumn">
