@@ -79,11 +79,11 @@
                     </table>
                 </li>
             {% endif %}
-      
+
             {% if section.lobbying_issues %}
                 <li class="oneColumn interiorList">
                     <span class="secondaryTitle">Most Frequently Disclosed Lobbying Issues:</span>  
-                    <ul> 
+                    <ul>
                         {% for issue in section.lobbying_issues %}
                         <li>
                             {{issue}}{% if forloop.last %}{% else %},{% endif %}
@@ -93,8 +93,8 @@
                 </li>
             {% endif %}
 
-            {% else %}    
-                <h4>Lobbying On Behalf of {{ entity_info.name }}</h4>
+            {% else %}
+                <h4>Lobbying on Behalf of {{ entity_info.name|standardize_industry_name }}</h4>
                 <ul>
                     {% if section.lobbying_lobbyists %}
                         <li class="oneColumn interiorList">
@@ -113,7 +113,7 @@
                             <div class="clear"></div>
                         </li>
                     {% endif %}
-            
+
             {% if section.lobbying_clients %}
                 <li class="twoColumn">
                     <table class="twoColumn">
