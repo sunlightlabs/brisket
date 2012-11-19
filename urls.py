@@ -16,7 +16,6 @@ urlpatterns = patterns('',
 #    (r'^admin_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.dirname(admin.__file__) + '/media'}),
     # everything else goes to influence
     url(r'^', include('brisket.influence.urls')),
-    url(r'^sentry/', include('sentry.web.urls')),
     url('^fec/', include('fec.urls')),
 )
 
