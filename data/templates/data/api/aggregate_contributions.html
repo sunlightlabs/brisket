@@ -46,7 +46,7 @@
     </div>
     <div class="section">
         <h4>ID Lookup</h4>
-        <p>Look up the entity ID based on an ID from a different data set. Currently we provide a mapping from the ID schemes used by Center for Reponsive Politics (CRP) and the National Institute for Money in State Politics (NIMSP). The result is a JSON object listing the TransparencyData IDs matching the given external ID.</p>
+        <p>Look up the entity ID based on an ID from a different data set. Currently we provide a mapping from the ID schemes used by Center for Reponsive Politics (CRP) and the National Institute for Money in State Politics (NIMSP), as well as a few other datasets. The result is a JSON object listing the TransparencyData IDs matching the given external ID.</p>
         <div class="section interiorSection">
             <h5>End Point</h5>
             <p><tt><span class="pre">http://transparencydata.com/api/1.0/entities/id_lookup.json</span></tt></p>
@@ -76,19 +76,37 @@
                             <tr><td><tt class="docutils literal">urn:crp:recipient</tt></td>
                                 <td>A CRP ID for a politician. Begins with <tt class="docutils literal">N</tt>.</td>
                             </tr>
+                            <tr><td><tt class="docutils literal">urn:crp:industry</tt></td>
+                                <td>CRP's 3-letter category order.</td>
+                            </tr>
+                            <tr><td><tt class="docutils literal">urn:crp:subindustry</tt></td>
+                                <td>CRP's 5-letter category code.</td>
+                            </tr>
+                            <tr><td><tt class="docutils literal">urn:crp:subindustry</tt></td>
+                                <td>CRP's 5-letter category code.</td>
+                            </tr>
                             <tr><td><tt class="docutils literal">urn:nimsp:organization</tt></td>
                                 <td>A NIMSP ID for an organization. Integer-valued.</td>
                             </tr>
                             <tr><td><tt class="docutils literal">urn:nimsp:recipient</tt></td>
                                 <td>A NIMSP ID for a politician. Integer-valued.</td>
                             </tr>
+                            <tr><td><tt class="docutils literal">urn:nimsp:subindustry</tt></td>
+                                <td>NIMSP's 5-letter category code.</td>
+                            </tr>
+                            <tr><td><tt class="docutils literal">urn:sunlight:lobbyist_registration_tracker_url</tt></td>
+                                <td>URL of Sunlight's lobbyist registration tracker page</td>
+                            </tr>
                         </tbody>
                     </table>
                     <p class="last">More namespaces may be added in the future as other ID schemes are reconciled with the TransparencyData dataset.</p>
                 </dd>
-                
+
                 <dt>id</dt>
                 <dd>The ID of the entity in the given namespace.</dd>
+
+                <dt>bioguide_id</dt>
+                <dd>The ID of a member of congress in the <a href="http://bioguide.congress.gov">Congressional Bioguide</a>. Use of this parameter is mutually exclusive to the 'id' and 'namespace' parameters.</dd>
             </dl>
         </div>
         <div class="section interiorSection">
