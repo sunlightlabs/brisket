@@ -265,15 +265,15 @@ def org_industry_entity(request, entity_id, type):
         is_lobbying_firm = bool(metadata['entity_info']['metadata'].get('lobbying_firm', False))
         context['sections']['lobbying'] = \
             org_lobbying_section(entity_id, standardized_name, cycle, type, metadata['entity_info']['external_ids'], is_lobbying_firm)
-    
+
     if 'regulations' in metadata and metadata['regulations']:
         context['sections']['regulations'] = \
             org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
-    
+
     if 'earmarks' in metadata and metadata['earmarks']:
         context['sections']['earmarks'] = \
             org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
-    
+
     if metadata['fed_spending']:
         context['sections']['federal_spending'] = \
             org_spending_section(entity_id, standardized_name, cycle, metadata['entity_info']['totals'])
@@ -285,10 +285,10 @@ def org_industry_entity(request, entity_id, type):
     if 'epa_echo' in metadata and metadata['epa_echo']:
         context['sections']['epa_echo'] = \
             org_epa_echo_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'], metadata['entity_info']['totals'])
-    
+
     if 'faca' in metadata and metadata['faca']:
         context['sections']['faca'] = org_faca_section(entity_id, standardized_name, cycle)
-    
+
     return render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
@@ -297,7 +297,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
         'name': 'Campaign Finance',
         'template': 'contributions.html',
     }
-    
+
     if type == 'industry':
         section['top_orgs'] = json.dumps([
             {
@@ -314,14 +314,18 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     recipient_pacs = api.org.pac_recipients(entity_id, cycle)
 
     pol_recipients_barchart_data = []
+
     for record in recipients:
-        pol_recipients_barchart_data.append({
-                'key': generate_label(str(PoliticianNameCleaver(record['name']).parse().plus_metadata(record['party'], record['state']))),
-                'value' : record['total_amount'],
-                'value_employee' : record['employee_amount'],
-                'value_pac' : record['direct_amount'],
-                'href' : barchart_href(record, cycle, entity_type='politician')
-                })
+        if not record['name']:
+            continue
+        else:
+            pol_recipients_barchart_data.append({
+                    'key': generate_label(str(PoliticianNameCleaver(record['name']).parse().plus_metadata(record['party'], record['state']))),
+                    'value' : record['total_amount'],
+                    'value_employee' : record['employee_amount'],
+                    'value_pac' : record['direct_amount'],
+                    'href' : barchart_href(record, cycle, entity_type='politician')
+                    })
     section['pol_recipients_barchart_data'] = json.dumps(bar_validate(pol_recipients_barchart_data))
 
     pacs_barchart_data = []
@@ -390,7 +394,7 @@ def org_lobbying_section(entity_id, name, cycle, type, external_ids, is_lobbying
         'name': 'Lobbying',
         'template': '%s_lobbying.html' % ('org' if type == 'organization' else 'industry'),
     }
-    
+
     section['lobbying_data'] = True
     section['is_lobbying_firm'] = is_lobbying_firm
 
@@ -416,11 +420,11 @@ def org_lobbying_section(entity_id, name, cycle, type, external_ids, is_lobbying
             'link': make_bill_link(bill),
             'congress': bill['congress_no'],
         } for bill in api.org.bills(entity_id, cycle) ]
-        
+
         section['lobbying_links'] = external_sites.get_lobbying_links('industry' if type == 'industry' else 'client', name, external_ids, cycle)
 
     section['lobbyist_registration_tracker'] = external_sites.get_lobbyist_tracker_data(external_ids)
-    
+
     return section
 
 def org_earmarks_section(entity_id, name, cycle, external_ids):
@@ -428,10 +432,10 @@ def org_earmarks_section(entity_id, name, cycle, external_ids):
         'name': 'Earmarks',
         'template': 'org_earmarks.html',
     }
-    
+
     section['earmarks'] = earmarks_table_data(entity_id, cycle)
     section['earmark_links'] = external_sites.get_earmark_links('organization', name, external_ids, cycle)
-    
+
     return section
 
 def org_contractor_misconduct_section(entity_id, name, cycle, external_ids):
@@ -439,10 +443,10 @@ def org_contractor_misconduct_section(entity_id, name, cycle, external_ids):
         'name': 'Contractor Misconduct',
         'template': 'org_contractor_misconduct.html',
     }
-    
+
     section['contractor_misconduct'] = api.org.contractor_misconduct(entity_id, cycle)
     section['pogo_links'] = external_sites.get_pogo_links(external_ids, name, cycle)
-    
+
     return section
 
 
@@ -451,12 +455,12 @@ def org_epa_echo_section(entity_id, name, cycle, external_ids, totals):
         'name': 'EPA Violations',
         'template': 'org_epa_echo.html',
     }
-    
+
     section['epa_echo'] = api.org.epa_echo(entity_id, cycle)
 
     section['epa_found_things'] = totals['epa_actions_count']
     section['epa_links'] = external_sites.get_epa_links(name, cycle)
-    
+
     return section
 
 
@@ -465,7 +469,7 @@ def org_spending_section(entity_id, name, cycle, totals):
         'name': 'Federal Spending',
         'template': 'org_grants_and_contracts.html',
     }
-    
+
     spending = api.org.fed_spending(entity_id, cycle)
 
     filter_bad_spending_descriptions(spending)
@@ -483,7 +487,7 @@ def org_spending_section(entity_id, name, cycle, totals):
             ))
 
     section['gc_found_things'] = gc_found_things
-    
+
     return section
 
 def org_regulations_section(entity_id, name, cycle, external_ids):
@@ -491,21 +495,21 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
         'name': 'Regulations',
         'template': 'org_regulations.html',
     }
-    
+
     section['regulations_text'] = api.org.regulations_text(entity_id, cycle)
     section['regulations_submitter'] = api.org.regulations_submitter(entity_id, cycle)
-    
+
     return section
-    
+
 def org_faca_section(entity_id, name, cycle):
     section = {
         'name': 'Advisory Committees',
         'template': 'org_faca.html',
     }
-    
+
     section['faca'] = api.org.faca(entity_id, cycle=cycle)
     section['faca_links'] = external_sites.get_faca_links(name, cycle)
-    
+
     return section
 
 def organization_entity(request, entity_id):
@@ -562,7 +566,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
         'name': 'Campaign Finance',
         'template': 'contributions.html',
     }
-    
+
     section['contributions_data'] = True
 
     top_contributors = api.pol.contributors(entity_id, cycle)
@@ -618,11 +622,11 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
         section['reason'] = 'empty'
 
     partytime_link, section['partytime_data'] = external_sites.get_partytime_data(external_ids)
-    
+
     section['external_links'] = external_sites.get_contribution_links('politician', standardized_name.name_str(), external_ids, cycle)
     if partytime_link:
         section['external_links'].append({'url': partytime_link, 'text': 'Party Time'})
-    
+
     bundling = api.entities.bundles(entity_id, cycle)
     section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
@@ -633,7 +637,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
 
             if section['fec_summary'] and 'date' in section['fec_summary']:
                 section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['date'], "%Y-%m-%d")
-        
+
             timelines = []
             for pol in api.pol.fec_timeline(entity_id, cycle):
                 tl = {
@@ -651,9 +655,9 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
                 this_sum = timelines[0]['sum']
                 timelines = [timeline for timeline in timelines if timeline['sum'] > 0.1 * this_sum]
                 timelines = timelines[:5]
-        
+
             section['fec_timelines'] = json.dumps(timelines)
-        
+
             section['fec_indexp'] = api.pol.fec_indexp(entity_id, cycle)[:10]
 
     return section
@@ -684,7 +688,7 @@ def pol_earmarks_section(entity_id, name, cycle, external_ids):
         'name': 'Earmarks',
         'template': 'pol_earmarks.html',
     }
-    
+
     section['earmarks'] = earmarks_table_data(entity_id, cycle)
 
     local_breakdown = api.pol.earmarks_local_breakdown(entity_id, cycle)
@@ -694,7 +698,7 @@ def pol_earmarks_section(entity_id, name, cycle, external_ids):
 
     ordered_pie = SortedDict([(key, local_breakdown.get(key, 0)) for key in ['unknown', 'in-state', 'out-of-state']])
     section['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
-    
+
     return section
 
 
@@ -720,7 +724,7 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
         'name': 'Campaign Finance',
         'template': 'contributions.html',
     }
-    
+
     section['contributions_data'] = True
     recipient_candidates = api.indiv.pol_recipients(entity_id, cycle)
     recipient_orgs = api.indiv.org_recipients(entity_id, cycle)
@@ -774,13 +778,13 @@ def indiv_lobbying_section(entity_id, name, cycle, external_ids):
         'name': 'Lobbying',
         'template': 'indiv_lobbying.html',
     }
-    
+
     section['lobbying_data'] = True
     section['lobbying_with_firm'] = api.indiv.registrants(entity_id, cycle)
     section['issues_lobbied_for'] =  [item['issue'] for item in api.indiv.issues(entity_id, cycle)]
     section['lobbying_for_clients'] = api.indiv.clients(entity_id, cycle)
     section['lobbying_links'] = external_sites.get_lobbying_links('lobbyist', name, external_ids, cycle)
-    
+
     return section
 
 
