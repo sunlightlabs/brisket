@@ -589,7 +589,11 @@ def earmarks_table_data(entity_id, cycle):
     rows = api.pol.earmarks(entity_id, cycle)
     for row in rows:
         for member in row['members']:
-            member['name'] = str(PoliticianNameCleaver(member['name']).parse().plus_metadata(member['party'], member['state']))
+            member_obj_or_str = PoliticianNameCleaver(member['name']).parse()
+            if isinstance(member_obj_or_str, PoliticianName):
+                member['name'] = str(member_obj_or_str.plus_metadata(member['party'], member['state']))
+            else:
+                member['name'] = member_obj_or_str
 
     return rows
 
