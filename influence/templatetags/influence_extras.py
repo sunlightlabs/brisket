@@ -12,7 +12,7 @@ SUNLIGHT_STAFF_BASE_URI = "http://sunlightfoundation.com/people/"
 @register.filter(name='standardize_politician_name')
 @stringfilter
 def standardize_politician_name_filter(name):
-    return str(PoliticianNameCleaver(name).parse())
+    return str(PoliticianNameCleaver(name).parse(safe=True))
 
 @register.filter(name='standardize_individual_name')
 @stringfilter
