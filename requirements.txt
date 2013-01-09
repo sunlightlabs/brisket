@@ -5,6 +5,8 @@ boto
 -e git://github.com/sunlightlabs/django-mediasync.git@2.1.0#egg=mediasync
 nose
 django-nose
+django-indexer
+django-paging
 selenium
 name-cleaver
 -e git://github.com/sunlightlabs/python-transparencydata.git#egg=transparencydata
