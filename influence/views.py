@@ -20,6 +20,7 @@ from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import URLError
 import datetime
 import json
+import unicodedata
 
 
 # Exceptions need a functioning unicode method
@@ -84,6 +85,8 @@ def search(request):
 
         # see ticket #545
         query = query.replace(u"’", "'")
+
+        query = unicodedata.normalize('NFKD',query).encode('ascii','ignore')
 
         # if a user submitted the search value from the form, then
         # treat the hyphens as intentional. if it was from a url, then
