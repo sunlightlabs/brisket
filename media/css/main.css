@@ -135,6 +135,7 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 #featureContent li li { width: auto;}
 #featureContent li h3 { background: url(../images/bg_highlightCircle.png) left top no-repeat; padding-left: 35px;}
 .shift { margin-left: 35px;}
+.colOne.shift {padding-right:10px;}
 
 #tools img { float: left; margin-right: 20px;}
 .toolDes { float: left; width: 280px;}
