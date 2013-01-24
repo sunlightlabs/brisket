@@ -458,7 +458,7 @@ def politician_entity(request, entity_id):
     # make a shorter-named copy
     meta = metadata['entity_info']['metadata']
     # check that seat_held is properly defined and zero it out if not
-    seat_held = meta.get('seat_held') if meta.get('district_held', '').strip() != '-' else ''
+    seat_held = meta['seat_held'] if meta.get('district_held', '').strip() != '-' else ''
     metadata['entity_info']['metadata']['seat_held'] = seat_held
 
     metadata['entity_info']['name_with_meta'] = str(standardized_name.plus_metadata(meta.get('party'), meta.get('state')))
