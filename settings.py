@@ -140,6 +140,9 @@ MEDIASYNC['JOINED'] = {
         'js/d3.min.js',
         'js/d3.geom.min.js',
         'js/brisket_d3.js',
+        'js/social/socialite.min.js',
+        'js/social/socialite.twitter-simple.js',
+        'js/social/socialite.facebook-share.js'
     ],
     'data/css/all.css': [
         'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
