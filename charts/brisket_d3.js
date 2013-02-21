@@ -590,7 +590,7 @@ BrisketModern = {
         Brisket.piechart(div, data, indiv_pac_colors);
     },
     local_piechart: function(div, data) {
-        var local_colors = {"in-state": '#efcc01', "out-of-state": '#f2e388', "unknown": '#dcddde'};
+        var local_colors = {"In-State": '#efcc01', "Out-of-State": '#f2e388', "Unknown": '#dcddde'};
         Brisket.piechart(div, data, local_colors);
     },
     level_piechart: function(div, data) {

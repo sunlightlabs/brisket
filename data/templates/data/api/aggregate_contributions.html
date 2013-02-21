@@ -4,25 +4,29 @@
     <h3>Contribution Aggregates API</h3>
     <div class="section">
         <h4>Search Methods</h4>
-        
+
         <div class="section interiorSection">
             <h5>Search by Name</h5>
             <p>Search for entities--that is, politicians, individuals, or organizations--with the given name. Returns basic information about the the contributions to and from each entity, as well as an ID that can be used in other API methods to retrieve more information.</p>
+            <p>Note that name searches will by default return matches from all entity types. If you are searching for entities of a particular type, politicians, for example, we
+            recommend that you use the <tt class="docutils literal">type</tt> parameter to limit your search results.</p>
         </div>
-        
+
         <div class="section interiorSection">
             <h5>End Point</h5>
             <p><tt><span class="pre">http://transparencydata.com/api/1.0/entities.json</span></tt></p>
         </div>
-        
+
         <div class="section interiorSection">
             <h5>Parameters</h5>
             <dl>
                 <dt>search</dt>
                 <dd>The query string. Spaces should be URL-encoded or represented as <tt class="docutils literal">+</tt>. There are no logic operators or grouping.</dd>
+                <dt>type</dt>
+                <dd>The entity type to search for. Can include "politician", "organization", "individual", or "industry".</dd>
             </dl>
         </div>
-        
+
         <div class="section interiorSection">
             <h5>Example</h5>
             <p><tt><span class="pre">http://transparencydata.com/api/1.0/entities.json?apikey=&lt;your-key&gt;&amp;search=nancy+pelosi</span></tt></p>

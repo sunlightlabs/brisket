@@ -16,10 +16,12 @@ from influence.helpers import prepare_entity_view, generate_label, barchart_href
 from influenceexplorer import DEFAULT_CYCLE
 from influence.external_sites import _get_td_url
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
+from name_cleaver.names import PoliticianName
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
 from urllib2 import URLError
 import datetime
 import json
+import unicodedata
 
 
 # Exceptions need a functioning unicode method
@@ -84,6 +86,8 @@ def search(request):
 
         # see ticket #545
         query = query.replace(u"’", "'")
+
+        query = unicodedata.normalize('NFKD',query).encode('ascii','ignore')
 
         # if a user submitted the search value from the form, then
         # treat the hyphens as intentional. if it was from a url, then
@@ -678,7 +682,11 @@ def earmarks_table_data(entity_id, cycle):
     rows = api.pol.earmarks(entity_id, cycle)
     for row in rows:
         for member in row['members']:
-            member['name'] = str(PoliticianNameCleaver(member['name']).parse().plus_metadata(member['party'], member['state']))
+            member_obj_or_str = PoliticianNameCleaver(member['name']).parse()
+            if isinstance(member_obj_or_str, PoliticianName):
+                member['name'] = str(member_obj_or_str.plus_metadata(member['party'], member['state']))
+            else:
+                member['name'] = member_obj_or_str
 
     return rows
 
@@ -696,7 +704,8 @@ def pol_earmarks_section(entity_id, name, cycle, external_ids):
 
     section['earmark_links'] = external_sites.get_earmark_links('politician', name.name_str(), external_ids, cycle)
 
-    ordered_pie = SortedDict([(key, local_breakdown.get(key, 0)) for key in ['unknown', 'in-state', 'out-of-state']])
+    ordered_pie = SortedDict([(key, local_breakdown.get(key, 0)) for key in
+        ['Unknown', 'In-State', 'Out-of-State']])
     section['earmarks_local'] = json.dumps(pie_validate(ordered_pie))
 
     return section
