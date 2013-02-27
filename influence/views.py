@@ -411,8 +411,9 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
         'template': 'org_regulations.html',
     }
     
-    section['regulations_text'] = api.org.regulations_text(entity_id, cycle)
-    section['regulations_submitter'] = api.org.regulations_submitter(entity_id, cycle)
+    dw_data = external_sites.get_docketwrench_entity_data(entity_id, cycle)
+    section['regulations_text'] = dw_data['stats']['text_mentions']['top_dockets']
+    section['regulations_submitter'] = dw_data['stats']['submitter_mentions']['top_dockets']
     
     return section
     

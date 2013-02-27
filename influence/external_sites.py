@@ -2,7 +2,8 @@ import base64, urllib, urllib2
 import json
 from datetime import datetime, timedelta
 from django.utils.datastructures import SortedDict
-from settings import api
+import settings
+api = settings.api
 
 # contribution links
 def _get_crp_url(type, standardized_name, ids, cycle=None):
@@ -251,3 +252,8 @@ def get_lobbyist_tracker_data(ids):
         if lookup:
             record[id_fetch_type]['ie_path'] = '/organization/%s/%s' % (record[id_fetch_type]['path'].split('/')[-1], lookup[0]['id'])
     return out
+
+def get_docketwrench_entity_data(entity_id, cycle=-1):
+    dw = getattr(settings, "DOCKETWRENCH_URL", "http://docketwrench.sunlightfoundation.com/")
+    page = urllib2.urlopen(dw + "api/1.0/entity/" + entity_id + "?format=json")
+    return json.loads(page.read())

@@ -40,11 +40,11 @@
             </ul>
             <ul class='expandTable clear insideList' id="regulations_submitter" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_submitter_by_docket/{id}.json?apikey={{ API_KEY }}&cycle=-1&callback=?' data-expand-template="#regPopDownTemplate">
             {% for row in section.regulations_submitter %}
-                <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
+                <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.id }}">
                     <a class="expandCol toggle">Toggle</a>
                     <span class="expandCol regColCount">{{ row.count }}</span>
                     <span class="expandCol regColSmall">{{ row.agency }}</span>
-                    <a class="expandCol regColLarge docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}" target="_blank">{{ row.title }}</a>
+                    <a class="expandCol regColLarge docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.id }}" title="{{ row.id }}" target="_blank">{{ row.title }}</a>
                     <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
                     <div class="clear"></div>
                     <div class="loading"></div>
@@ -69,11 +69,11 @@
             </ul>
             <ul class='expandTable insideList' id="regulations_text" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/regulations_text_by_docket/{id}.json?apikey={{ API_KEY }}&cycle={{ cycle }}&callback=?' data-expand-template="#regPopDownTemplate">
                 {% for row in section.regulations_text %}
-                <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.docket }}">
+                <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.id }}">
                     <a class="expandCol toggle">Toggle</a>
                     <span class="expandCol regColCount">{{ row.count }}</span>
                     <span class="expandCol regColSmall">{{ row.agency }}</span>
-                    <a class="expandCol regColLarge docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.docket }}" title="{{ row.docket }}" target="_blank">{{ row.title }}</a>
+                    <a class="expandCol regColLarge docketTitle" href="http://www.regulations.gov/#!docketDetail;dct=FR+PR+N+O+SR+PS;rpp=10;po=0;D={{ row.id }}" title="{{ row.id }}" target="_blank">{{ row.title }}</a>
                     <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
                     <div class="clear"></div>
                     <div class="loading"></div>
