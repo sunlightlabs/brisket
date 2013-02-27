@@ -16,7 +16,7 @@ from influenceexplorer import DEFAULT_CYCLE
 from influence.external_sites import _get_td_url
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from name_cleaver.names import PoliticianName
-from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
+from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, api
 from urllib2 import URLError
 import datetime
 import json
@@ -414,6 +414,19 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
     dw_data = external_sites.get_docketwrench_entity_data(entity_id, cycle)
     section['regulations_text'] = dw_data['stats']['text_mentions']['top_dockets']
     section['regulations_submitter'] = dw_data['stats']['submitter_mentions']['top_dockets']
+
+    rdg_generic = {
+        'url': 'http://regulations.gov',
+        'text': 'Regulations.gov'
+    }
+    section['regulations_text_links'] = [{
+        'url': "http://docketwrench.sunlightfoundation.com" + dw_data['stats']['text_mentions']['docket_search_url'],
+        'text': "mentions"
+    }, rdg_generic]
+    section['regulations_submitter_links'] = [{
+        'url': "http://docketwrench.sunlightfoundation.com" + dw_data['stats']['submitter_mentions']['docket_search_url'],
+        'text': "submissions"
+    }, rdg_generic]
     
     return section
     

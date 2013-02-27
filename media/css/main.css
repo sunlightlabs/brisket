@@ -475,6 +475,7 @@ dt.moneyTitle { margin-top: 8px;}
 .toggle { background: url(../images/toggle.png) bottom left no-repeat; width: 13px; height: 12px; margin-top: 22px; display: block; text-indent: -9999em; margin: 10px; padding: 0;}
 .toggle.active { background: url(../images/toggle.png) top left no-repeat; }
 .toggle.noshow { background: none;}
+.regsTip { margin-bottom: 0; padding: 10px; padding-top: 0px; }
 
 .expandDocList {
     display: none;
