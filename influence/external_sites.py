@@ -255,5 +255,6 @@ def get_lobbyist_tracker_data(ids):
 
 def get_docketwrench_entity_data(entity_id, cycle=-1):
     dw = getattr(settings, "DOCKETWRENCH_URL", "http://docketwrench.sunlightfoundation.com/")
-    page = urllib2.urlopen(dw + "api/1.0/entity/" + entity_id + "?format=json")
+    icycle, scycle = int(cycle), str(cycle)
+    page = urllib2.urlopen(dw + "api/1.0/entity/" + entity_id + "?format=json" + ("" if icycle == -1 else "&years=%s" % ",".join([str(icycle - 1), scycle])))
     return json.loads(page.read())
