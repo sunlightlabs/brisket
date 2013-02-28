@@ -3,6 +3,9 @@ import json
 from datetime import datetime, timedelta
 from django.utils.datastructures import SortedDict
 from settings import api
+import logging
+
+logger = logging.getLogger('django.request')
 
 # contribution links
 def _get_crp_url(type, standardized_name, ids, cycle=None):
@@ -41,7 +44,7 @@ def _get_td_url(type, standardized_name, ids, cycle):
 
 def get_contribution_links(type, standardized_name, namespaces_and_ids, cycle):
     """ Return a list of (label, url) pairs for an organization. """
-    
+
     ids = dict([(item['namespace'], item['id']) for item in namespaces_and_ids])
     if cycle == '-1':
         cycle = None
@@ -51,7 +54,7 @@ def get_contribution_links(type, standardized_name, namespaces_and_ids, cycle):
         dict(text='FollowTheMoney.org', url=_get_nimsp_url(type, standardized_name, ids, cycle)),
         dict(text='campaign finance', url=_get_td_url(type, standardized_name, ids, cycle)),
     ]
-    
+
     links = filter(lambda link: link['url'] is not None, links)
 
     return links
@@ -63,18 +66,18 @@ def get_gc_links(standardized_name, cycle):
     td_keywords = {}
     if cycle != '-1':
         td_keywords['fiscal_year'] = "%s|%s" % (int(cycle) - 1, cycle)
-    
+
     grant_keywords = td_keywords.copy()
     grant_keywords.update({'recipient_ft': standardized_name})
-    
+
     contract_keywords = td_keywords.copy()
     contract_keywords.update({'vendor_name': standardized_name})
-    
+
     links = [
         dict(text='grant & loan', url="http://data.influenceexplorer.com/grants/#%s" % base64.b64encode(urllib.urlencode(grant_keywords))),
         dict(text='contract', url="http://data.influenceexplorer.com/contracts/#%s" % base64.b64encode(urllib.urlencode(contract_keywords)))
     ]
-    
+
     # USA Spending
     usa_keywords = {'RecipientNameText': [standardized_name]}
     if cycle != '-1':
@@ -82,7 +85,7 @@ def get_gc_links(standardized_name, cycle):
     links.append(
         dict(text='USASpending.gov', url="http://usaspending.gov/search?query=&formFields=%s" % base64.b64encode(urllib.quote(json.dumps(usa_keywords))))
     )
-    
+
     return links
 
 
@@ -130,7 +133,7 @@ def get_faca_links(standardized_name, cycle):
 
 def get_lobbying_links(type, standardized_name, ids, cycle):
     links = []
-    
+
     # Reporting's Lobbyist Registration Tracker
     if type in ('firm', 'client'):
         tracker_urls = filter(lambda s: s['namespace'] == 'urn:sunlight:lobbyist_registration_tracker_url', ids)
@@ -138,20 +141,20 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
             links.append(
                 dict(text='Lobbyist Registration Tracker', url="http://reporting.sunlightfoundation.com" + tracker_urls[0]['id'])
             )
-    
+
     # TD
     td_types = {'firm': 'registrant_ft', 'lobbyist': 'lobbyist_ft', 'client': 'client_ft'}
     td_params = {}
     if cycle != '-1':
         td_params['year'] = "%s|%s" % (int(cycle) - 1, cycle)
-    
+
     if type in td_types:
         td_params[td_types[type]] = standardized_name
-        
+
         links.append(
             dict(text='lobbying', url="http://data.influenceexplorer.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))
         )
-    
+
     # OpenSecrets
     os_types = {'firm': 'f', 'lobbyist': 'l', 'client': 'c'}
     if type == 'lobbyist':
@@ -177,30 +180,30 @@ def get_lobbying_links(type, standardized_name, ids, cycle):
             links.append(
                 dict(text='lobbying', url="http://data.influenceexplorer.com/lobbying/#%s" % base64.b64encode(urllib.urlencode(td_params)))
             )
-    
+
     else:
         links.append(
             dict(text='OpenSecrets.org', url="http://www.opensecrets.org/lobby/lookup.php?%s" % urllib.urlencode({'type': os_types[type], 'lname': standardized_name}))
         )
-    
+
     return links
 
 def get_earmark_links(type, standardized_name, ids, cycle):
     links = []
-    
+
     # TD
     td_types = {'organization': 'recipient', 'politician': 'member'}
     td_params = {}
     if cycle != '-1':
         td_params['year'] = "%s|%s" % (int(cycle) - 1, cycle)
-    
+
     if type in td_types:
         td_params[td_types[type]] = standardized_name
-        
+
         links.append(
             dict(text='earmarks', url="http://data.influenceexplorer.com/earmarks/#%s" % base64.b64encode(urllib.urlencode(td_params)))
         )
-    
+
     # OpenSecrets
     politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
     if politician_ids:
@@ -210,7 +213,7 @@ def get_earmark_links(type, standardized_name, ids, cycle):
         links.append(
             dict(text='OpenSecrets.org', url="http://www.opensecrets.org/politicians/earmarks.php?%s" % urllib.urlencode(os_params))
         )
-    
+
     return links
 
 from influence.cache import cache
@@ -218,21 +221,27 @@ from influence.cache import cache
 @cache(seconds=86400)
 def get_partytime_data(ids):
     politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
-    
+
     if not politician_ids:
         return (None, {'past': [], 'upcoming': []})
-      
-    page = urllib2.urlopen("http://politicalpartytime.org/json/%s/" % politician_ids[0]['id'])
-    records = json.loads(page.read())
-    
-    today = datetime.now()
-    cutoff = today - timedelta(days=180)
-    
-    out = SortedDict()
-    out['upcoming'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3], key=lambda x: x['fields']['start_date'], reverse=True)
-    out['past'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):], key=lambda x: x['fields']['start_date'], reverse=True)
-    
-    return ("http://politicalpartytime.org/pol/%s/" % politician_ids[0]['id'], out)
+
+    try:
+        page = urllib2.urlopen("http://politicalpartytime.org/json/%s/" % politician_ids[0]['id'], None, 2)
+        records = json.loads(page.read())
+
+        today = datetime.now()
+        cutoff = today - timedelta(days=180)
+
+        out = SortedDict()
+        out['upcoming'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3], key=lambda x: x['fields']['start_date'], reverse=True)
+        out['past'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):], key=lambda x: x['fields']['start_date'], reverse=True)
+
+    except urllib2.URLError as e:
+        out = None
+        logger.exception(e)
+
+    finally:
+        return ("http://politicalpartytime.org/pol/%s/" % politician_ids[0]['id'], out)
 
 @cache(seconds=86400)
 def get_lobbyist_tracker_data(ids):
