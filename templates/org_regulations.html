@@ -4,11 +4,11 @@
 <div class="overviewBar withNav withTip">
     <h3>Regulations</h3>
     <span class="amount">
-        {% if entity_info.totals.regs_docket_count %}
-            {{ entity_info.totals.regs_docket_count }} Mentions{% if entity_info.totals.regs_submitted_docket_count %};{% endif %}
+        {% if section.regulations_text_count %}
+            Mentioned in {{ section.regulations_text_count }} docket{{ section.regulations_text_count|pluralize }}{% if section.regulations_submitter_count %};{% endif %}
         {% endif %}
-            {% if entity_info.totals.regs_submitted_docket_count %}
-            {{ entity_info.totals.regs_submitted_docket_count }} Submissions
+        {% if section.regulations_submitter_count %}
+            Submitted to {{ section.regulations_submitter_count }} docket{{ section.regulations_submitter_count|pluralize }}
         {% endif %}
     </span>
     <div class="interiorMethodology">
@@ -53,9 +53,9 @@
             {% endfor %}
             </ul>
         </li>
-    {% endif %}
 
-    {% include "external_links.html" with external_links=section.regulations_submitter_links %}
+        {% include "external_links.html" with external_links=section.regulations_submitter_links %}
+    {% endif %}
 
     {% if section.regulations_submitter and section.regulations_text %}
     <div class="module"></div>
@@ -87,12 +87,12 @@
                 {% endfor %}
             </ul>
         </li>
+
+        {% include "external_links.html" with external_links=section.regulations_text_links %}
     {% endif %}
     </ul>
   <div class="clear"></div>
 
-  {% include "external_links.html" with external_links=section.regulations_text_links %}
-    
 </div><!-- end chartModule -->
 
 <script type="text/html" id="regPopDownTemplate">

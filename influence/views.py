@@ -185,9 +185,9 @@ def org_industry_entity(request, entity_id, type):
         context['sections']['lobbying'] = \
             org_lobbying_section(entity_id, standardized_name, cycle, type, metadata['entity_info']['external_ids'], is_lobbying_firm)
     
-    if 'regulations' in metadata and metadata['regulations']:
-        context['sections']['regulations'] = \
-            org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
+    regulations_section = org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
+    if regulations_section:
+        context['sections']['regulations'] = regulations_section
     
     if 'earmarks' in metadata and metadata['earmarks']:
         context['sections']['earmarks'] = \
@@ -411,9 +411,19 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
         'template': 'org_regulations.html',
     }
     
-    dw_data = external_sites.get_docketwrench_entity_data(entity_id, cycle)
-    section['regulations_text'] = dw_data['stats']['text_mentions']['top_dockets']
-    section['regulations_submitter'] = dw_data['stats']['submitter_mentions']['top_dockets']
+    try:
+        dw_data = external_sites.get_docketwrench_entity_data(entity_id, cycle)
+    except urllib2.HTTPError as e:
+        if e.code == 404:
+            return None
+        else:
+            raise
+
+    try:
+        section['regulations_text'] = dw_data['stats']['text_mentions']['top_dockets']
+        section['regulations_submitter'] = dw_data['stats']['submitter_mentions']['top_dockets']
+    except KeyError:
+        return None
 
     rdg_generic = {
         'url': 'http://regulations.gov',
@@ -427,6 +437,9 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
         'url': "http://docketwrench.sunlightfoundation.com" + dw_data['stats']['submitter_mentions']['docket_search_url'],
         'text': "submissions"
     }, rdg_generic]
+
+    section['regulations_text_count'] = dw_data['stats']['text_mentions']['docket_count']
+    section['regulations_submitter_count'] = dw_data['stats']['submitter_mentions']['docket_count']
     
     return section
     
