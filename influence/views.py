@@ -17,7 +17,7 @@ from influence.external_sites import _get_td_url
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from name_cleaver.names import PoliticianName
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, api
-from urllib2 import URLError
+from urllib2 import URLError, HTTPError
 import datetime
 import json
 import unicodedata
@@ -174,6 +174,7 @@ def industry_landing(request):
 @handle_errors
 def org_industry_entity(request, entity_id, type):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
+    suppress_cache = False
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
@@ -184,10 +185,13 @@ def org_industry_entity(request, entity_id, type):
         is_lobbying_firm = bool(metadata['entity_info']['metadata'].get('lobbying_firm', False))
         context['sections']['lobbying'] = \
             org_lobbying_section(entity_id, standardized_name, cycle, type, metadata['entity_info']['external_ids'], is_lobbying_firm)
-    
-    regulations_section = org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
-    if regulations_section:
-        context['sections']['regulations'] = regulations_section
+
+    if type == "organization":    
+        regulations_section = org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
+        if regulations_section:
+            context['sections']['regulations'] = regulations_section
+            if regulations_section.get('error', False):
+                suppress_cache = True
     
     if 'earmarks' in metadata and metadata['earmarks']:
         context['sections']['earmarks'] = \
@@ -208,8 +212,13 @@ def org_industry_entity(request, entity_id, type):
     if 'faca' in metadata and metadata['faca']:
         context['sections']['faca'] = org_faca_section(entity_id, standardized_name, cycle)
     
-    return render_to_response('%s.html' % type, context,
+    response = render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
+
+    if suppress_cache:
+        response['Cache-Control'] = "max-age=0"
+
+    return response
 
 def org_contribution_section(entity_id, standardized_name, cycle, amount, type, external_ids):
     section = {
@@ -413,11 +422,16 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
     
     try:
         dw_data = external_sites.get_docketwrench_entity_data(entity_id, cycle)
-    except urllib2.HTTPError as e:
+    except HTTPError as e:
         if e.code == 404:
             return None
         else:
             raise
+    except:
+        return {
+            'name': 'Regulations',
+            'template': 'section_error.html'
+        }
 
     try:
         section['regulations_text'] = dw_data['stats']['text_mentions']['top_dockets']

@@ -404,6 +404,7 @@ form#contact li, #postcardBox form li, #vdayForm li { margin-bottom: 15px;}
 .error #ltColumn #search { float: none; background: #eaeaea; display: inline-block; padding: 10px; margin-top: 10px; margin-bottom: 10px; }
 .error #ltColumn ul { list-style: disc; margin-left: 30px; }
 .error #ltColumn ul li { margin-top: 10px; }
+.section-error { padding:10px; width: 760px; margin-top:8px; border:2px solid #fbc2c4; background:#fbe3e4; color:#8a1f11; }
 
 .label-grant { width: 60px; text-align: center; padding: 2px; background: #f2e388; color: black; text-transform: uppercase; font-size: 75%; }
 .label-contract { width: 60px; text-align: center; padding: 2px; background: #efcc01; color: black; text-transform: uppercase; font-size: 75%; }
