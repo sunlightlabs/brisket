@@ -253,6 +253,7 @@ def get_lobbyist_tracker_data(ids):
             record[id_fetch_type]['ie_path'] = '/organization/%s/%s' % (record[id_fetch_type]['path'].split('/')[-1], lookup[0]['id'])
     return out
 
+@cache(seconds=86400)
 def get_docketwrench_entity_data(entity_id, cycle=-1):
     dw = getattr(settings, "DOCKETWRENCH_URL", "http://docketwrench.sunlightfoundation.com/")
     icycle, scycle = int(cycle), str(cycle)
