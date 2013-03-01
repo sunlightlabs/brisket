@@ -430,7 +430,8 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
     except:
         return {
             'name': 'Regulations',
-            'template': 'section_error.html'
+            'template': 'section_error.html',
+            'error': True
         }
 
     try:
