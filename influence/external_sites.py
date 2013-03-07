@@ -1,8 +1,9 @@
 import base64, urllib, urllib2
-import json
+import json, itertools
 from datetime import datetime, timedelta
 from django.utils.datastructures import SortedDict
 from settings import api
+from django.conf import settings
 
 # contribution links
 def _get_crp_url(type, standardized_name, ids, cycle=None):
@@ -215,6 +216,16 @@ def get_earmark_links(type, standardized_name, ids, cycle):
 
 from influence.cache import cache
 
+def _pt_iter(crp_id):
+    page = urllib2.urlopen("http://politicalpartytime.org/api/v1/event/?apikey=%s&format=json&beneficiaries__crp_id=%s" % (settings.API_KEY, crp_id))
+    records = json.loads(page.read())
+    yield records['objects']
+
+    while records['meta']['next']:
+        page = urllib2.urlopen("http://politicalpartytime.org%s" % records['meta']['next'])
+        records = json.loads(page.read())
+        yield records['objects']
+
 @cache(seconds=86400)
 def get_partytime_data(ids):
     politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
@@ -222,15 +233,14 @@ def get_partytime_data(ids):
     if not politician_ids:
         return (None, {'past': [], 'upcoming': []})
       
-    page = urllib2.urlopen("http://politicalpartytime.org/json/%s/" % politician_ids[0]['id'])
-    records = json.loads(page.read())
+    records = list(itertools.chain.from_iterable(_pt_iter(politician_ids[0]['id'])))
     
     today = datetime.now()
     cutoff = today - timedelta(days=180)
     
     out = SortedDict()
-    out['upcoming'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3], key=lambda x: x['fields']['start_date'], reverse=True)
-    out['past'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):], key=lambda x: x['fields']['start_date'], reverse=True)
+    out['upcoming'] = sorted([dict(date=datetime.strptime(record['start_date'], '%Y-%m-%d'), **record) for record in records if record['start_date'] >= today.strftime('%Y-%m-%d')], key=lambda x: x['start_date'], reverse=True)[:3]
+    out['past'] =sorted([dict(date=datetime.strptime(record['start_date'], '%Y-%m-%d'), **record) for record in records if record['start_date'] < today.strftime('%Y-%m-%d') and record['start_date'] >= cutoff.strftime('%Y-%m-%d')], key=lambda x: x['start_date'], reverse=True)[:(5 - len(out['upcoming']))]
     
     return ("http://politicalpartytime.org/pol/%s/" % politician_ids[0]['id'], out)
 
