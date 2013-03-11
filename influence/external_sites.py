@@ -1,8 +1,10 @@
 import base64, urllib, urllib2
-import json
+import json, itertools
 from datetime import datetime, timedelta
 from django.utils.datastructures import SortedDict
-from settings import api
+from django.conf import settings
+
+api = settings.api
 
 # contribution links
 def _get_crp_url(type, standardized_name, ids, cycle=None):
@@ -215,6 +217,16 @@ def get_earmark_links(type, standardized_name, ids, cycle):
 
 from influence.cache import cache
 
+def _pt_iter(crp_id):
+    page = urllib2.urlopen("http://politicalpartytime.org/api/v1/event/?apikey=%s&format=json&beneficiaries__crp_id=%s" % (settings.API_KEY, crp_id))
+    records = json.loads(page.read())
+    yield records['objects']
+
+    while records['meta']['next']:
+        page = urllib2.urlopen("http://politicalpartytime.org%s" % records['meta']['next'])
+        records = json.loads(page.read())
+        yield records['objects']
+
 @cache(seconds=86400)
 def get_partytime_data(ids):
     politician_ids = filter(lambda s: s['namespace'] == 'urn:crp:recipient', ids)
@@ -232,8 +244,8 @@ def get_partytime_data(ids):
     cutoff = today - timedelta(days=180)
     
     out = SortedDict()
-    out['upcoming'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] >= today.strftime('%Y-%m-%d')][:3], key=lambda x: x['fields']['start_date'], reverse=True)
-    out['past'] = sorted([dict(date=datetime.strptime(record['fields']['start_date'], '%Y-%m-%d'), **record) for record in records if record['fields']['start_date'] < today.strftime('%Y-%m-%d') and record['fields']['start_date'] >= cutoff.strftime('%Y-%m-%d')][(-1 * (5 - len(out['upcoming']))):], key=lambda x: x['fields']['start_date'], reverse=True)
+    out['upcoming'] = sorted([dict(date=datetime.strptime(record['start_date'], '%Y-%m-%d'), **record) for record in records if record['start_date'] >= today.strftime('%Y-%m-%d')], key=lambda x: x['start_date'], reverse=True)[:3]
+    out['past'] =sorted([dict(date=datetime.strptime(record['start_date'], '%Y-%m-%d'), **record) for record in records if record['start_date'] < today.strftime('%Y-%m-%d') and record['start_date'] >= cutoff.strftime('%Y-%m-%d')], key=lambda x: x['start_date'], reverse=True)[:(5 - len(out['upcoming']))]
     
     return ("http://politicalpartytime.org/pol/%s/" % politician_ids[0]['id'], out)
 
@@ -257,3 +269,10 @@ def get_lobbyist_tracker_data(ids):
         if lookup:
             record[id_fetch_type]['ie_path'] = '/organization/%s/%s' % (record[id_fetch_type]['path'].split('/')[-1], lookup[0]['id'])
     return out
+
+@cache(seconds=86400)
+def get_docketwrench_entity_data(entity_id, cycle=-1):
+    dw = getattr(settings, "DOCKETWRENCH_URL", "http://docketwrench.sunlightfoundation.com/")
+    icycle, scycle = int(cycle), str(cycle)
+    page = urllib2.urlopen(dw + "api/1.0/entity/" + entity_id + "?format=json" + ("" if icycle == -1 else "&years=%s" % ",".join([str(icycle - 1), scycle])))
+    return json.loads(page.read())
