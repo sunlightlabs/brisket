@@ -233,8 +233,11 @@ def get_partytime_data(ids):
     
     if not politician_ids:
         return (None, {'past': [], 'upcoming': []})
-      
-    records = list(itertools.chain.from_iterable(_pt_iter(politician_ids[0]['id'])))
+    
+    try:
+        records = list(itertools.chain.from_iterable(_pt_iter(politician_ids[0]['id'])))
+    except:
+        return None, None
     
     today = datetime.now()
     cutoff = today - timedelta(days=180)
@@ -250,7 +253,10 @@ def get_lobbyist_tracker_data(ids):
     out = []
     tracker_urls = filter(lambda s: s['namespace'] == 'urn:sunlight:lobbyist_registration_tracker_url', ids)
     if tracker_urls:
-        page = urllib2.urlopen("http://reporting.sunlightfoundation.com%s.json" % tracker_urls[0]['id'])
+        try:
+            page = urllib2.urlopen("http://reporting.sunlightfoundation.com%s.json" % tracker_urls[0]['id'])
+        except:
+            return []
         records = json.loads(page.read())
         cutoff = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d %H:%M:%S')
         out = [record for record in records['registrations'] if record['received'] >= cutoff][:5]
