@@ -100,13 +100,13 @@
                   <td>
                     <dl>
                       <dt>Venue:</dt> 
-                      <dd>{{ row.fields.entertainment }} at {{ row.fields.venue }}</dd>
+                      <dd>{{ row.entertainment }} at {{ row.venue.venue_name }}</dd>
                   
-                      {% if row.fields.hosts %}
+                      {% if row.hosts %}
                         <dt class="clear">Hosted by:</dt>
                         <dd>
-                        {% for host in row.fields.hosts %}
-                          {{ host }}{% if not forloop.last %}, {% endif %}
+                        {% for host in row.hosts %}
+                          {{ host.name }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                         </dd>
                       {% endif %}
