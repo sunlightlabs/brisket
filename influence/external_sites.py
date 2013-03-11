@@ -2,9 +2,8 @@ import base64, urllib, urllib2
 import json, itertools
 from datetime import datetime, timedelta
 from django.utils.datastructures import SortedDict
+from settings import api
 from django.conf import settings
-
-api = settings.api
 
 # contribution links
 def _get_crp_url(type, standardized_name, ids, cycle=None):
