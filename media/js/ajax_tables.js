@@ -29,14 +29,11 @@ $(function() {
                     
                     $loading.slideDown('fast', function() { $this.trigger('reflow'); });
                     $.getJSON(url, function(data) {
-                        var table = template({'documents': $.map(data, function(row) {
-                            var out = $.extend({}, row);
-                            if (typeof(row.date_posted) != 'undefined') {
-                                var date = row.date_posted.split('-');
-                                $.extend(out, {'nice_date': months[parseInt(date[1], 10) - 1] + ' ' + parseInt(date[2], 10) + ', ' + date[0]});
-                            }
-                            return out;
-                        })});
+                        var rData = _.extend({'formatDate': function(d) {
+                            var date = d.split('-');
+                            return months[parseInt(date[1], 10) - 1] + ' ' + parseInt(date[2], 10) + ', ' + date[0];
+                        }}, $.isArray(data) ? {'documents': data} : data);
+                        var table = template(rData);
                         
                         $popdown.append(table);
                         
