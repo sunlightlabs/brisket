@@ -294,8 +294,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type lobbyist_entity lobbyist_name firm_name amount'.split()] for x in bundling ]
 
     if int(cycle) != -1:
-        # TODO: the fec_indexp method should be passed the cycle, too
-        section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
+        section['fec_indexp'] = api.org.fec_indexp(entity_id, cycle)[:10]
 
         fec_summary = api.org.fec_summary(entity_id, cycle)
         if fec_summary and fec_summary['num_committee_filings'] > 0 and fec_summary.get('first_filing_date'):
