@@ -2,7 +2,7 @@
 
 {% if external_links %}
     {% for link in external_links %}
-        {% if 'data.influenceexplorer.com' in link.url %}
+        {% if 'data.influenceexplorer.com' in link.url or 'docketwrench.sunlightfoundation.com' in link.url %}
             <a class="moreLink" href="{{ link.url }}">
                 View all {{ link.text }} data for {{ entity_info.name|standardize_name:entity_info.type }}
             </a>
@@ -13,7 +13,7 @@
         <span class="external clear">
             Sources:
             {% for link in external_links %}
-                {% if 'data.influenceexplorer.com' not in link.url %}<a href="{{ link.url }}" target="_blank">{{ link.text }}</a>{% endif %}
+                {% if 'data.influenceexplorer.com' not in link.url and 'docketwrench.sunlightfoundation.com' not in link.url %}<a href="{{ link.url }}" target="_blank">{{ link.text }}</a>{% endif %}
             {% endfor %}
         </span>
         <div class="clear"></div>

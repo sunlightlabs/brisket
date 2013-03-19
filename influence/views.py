@@ -17,8 +17,8 @@ from influenceexplorer import DEFAULT_CYCLE
 from influence.external_sites import _get_td_url
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from name_cleaver.names import PoliticianName
-from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, api
-from urllib2 import URLError
+from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, api
+from urllib2 import URLError, HTTPError
 import datetime
 import json
 import unicodedata
@@ -259,6 +259,7 @@ def industry_landing(request):
 @handle_errors
 def org_industry_entity(request, entity_id, type):
     cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
+    suppress_cache = False
 
     if metadata['contributions']:
         amount = int(float(metadata['entity_info']['totals']['contributor_amount']))
@@ -270,10 +271,13 @@ def org_industry_entity(request, entity_id, type):
         context['sections']['lobbying'] = \
             org_lobbying_section(entity_id, standardized_name, cycle, type, metadata['entity_info']['external_ids'], is_lobbying_firm)
 
-    if 'regulations' in metadata and metadata['regulations']:
-        context['sections']['regulations'] = \
-            org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
-
+    if type == "organization":    
+        regulations_section = org_regulations_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
+        if regulations_section:
+            context['sections']['regulations'] = regulations_section
+            if regulations_section.get('error', False):
+                suppress_cache = True
+    
     if 'earmarks' in metadata and metadata['earmarks']:
         context['sections']['earmarks'] = \
             org_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
@@ -292,9 +296,14 @@ def org_industry_entity(request, entity_id, type):
 
     if 'faca' in metadata and metadata['faca']:
         context['sections']['faca'] = org_faca_section(entity_id, standardized_name, cycle)
-
-    return render_to_response('%s.html' % type, context,
+    
+    response = render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
+
+    if suppress_cache:
+        response['Cache-Control'] = "max-age=0"
+
+    return response
 
 def org_contribution_section(entity_id, standardized_name, cycle, amount, type, external_ids):
     section = {
@@ -499,10 +508,43 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
         'name': 'Regulations',
         'template': 'org_regulations.html',
     }
+    
+    try:
+        dw_data = external_sites.get_docketwrench_entity_data(entity_id, cycle)
+    except HTTPError as e:
+        if e.code == 404:
+            return None
+        else:
+            raise
+    except:
+        return {
+            'name': 'Regulations',
+            'template': 'section_error.html',
+            'error': True
+        }
 
-    section['regulations_text'] = api.org.regulations_text(entity_id, cycle)
-    section['regulations_submitter'] = api.org.regulations_submitter(entity_id, cycle)
+    try:
+        section['regulations_text'] = dw_data['stats']['text_mentions']['top_dockets']
+        section['regulations_submitter'] = dw_data['stats']['submitter_mentions']['top_dockets']
+    except KeyError:
+        return None
 
+    rdg_generic = {
+        'url': 'http://regulations.gov',
+        'text': 'Regulations.gov'
+    }
+    section['regulations_text_links'] = [{
+        'url': "http://docketwrench.sunlightfoundation.com" + dw_data['stats']['text_mentions']['docket_search_url'],
+        'text': "mentions"
+    }, rdg_generic]
+    section['regulations_submitter_links'] = [{
+        'url': "http://docketwrench.sunlightfoundation.com" + dw_data['stats']['submitter_mentions']['docket_search_url'],
+        'text': "submissions"
+    }, rdg_generic]
+
+    section['regulations_text_count'] = dw_data['stats']['text_mentions']['docket_count']
+    section['regulations_submitter_count'] = dw_data['stats']['submitter_mentions']['docket_count']
+    
     return section
 
 def org_faca_section(entity_id, name, cycle):
@@ -547,7 +589,7 @@ def politician_entity(request, entity_id):
     # make a shorter-named copy
     meta = metadata['entity_info']['metadata']
     # check that seat_held is properly defined and zero it out if not
-    seat_held = meta['seat_held'] if meta['district_held'].strip() != '-' else ''
+    seat_held = meta.get('seat_held') if meta.get('district_held', '').strip() != '-' else ''
     metadata['entity_info']['metadata']['seat_held'] = seat_held
 
     metadata['entity_info']['name_with_meta'] = str(standardized_name.plus_metadata(meta.get('party'), meta.get('state')))
