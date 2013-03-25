@@ -38,7 +38,7 @@ require('./canvg.js');
 
 /* set up express */
 var express = require('express');
-var app = express.createServer();
+var app = express();
 
 app.get(/^\/chart\/([a-zA-Z_]+)\/(.+)/, function(req, res) {
     var chart = req.params[0], in_data = req.params[1];
@@ -70,4 +70,5 @@ app.get(/^\/chart\/([a-zA-Z_]+)\/(.+)/, function(req, res) {
     });
 });
 
-module.exports = app;
+var http = require("http");
+module.exports = http.createServer(app);

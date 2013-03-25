@@ -123,6 +123,8 @@ SELENIUM_BROWSER_COMMAND = 'firefox'
 SELENIUM_URL_ROOT = 'http://localhost:8001'
 #FORCE_SELENIUM_TESTS = False # default
 
+DOCKETWRENCH_URL = "http://docketwrench.sunlightfoundation.com/"
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',

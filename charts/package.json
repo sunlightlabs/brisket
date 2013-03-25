@@ -15,6 +15,7 @@
         "cssom": "*",
         "contextify": "*",
         "htmlparser": "*",
-        "formidable": "*"
+        "formidable": "*",
+        "up": "*"
     }
 }
