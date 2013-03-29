@@ -42,6 +42,25 @@
                     <a id="contributionsPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
                 </div>
             </li>
+            <li class="intro" id="intro-contributions-dc">
+                <h3>Search DC Campaign Finance</h3>
+                <div class="leftIntro">
+                    <form id="contributionsDCDataFilter" class="datafilter">
+                        <fieldset>
+                            <span class="tip tipHeight">Have a specific committee, giver or date in mind? Add some filters below to search them</span>
+                            <label class="mainLabel">Search for</label>
+                            <select id="filterselect">
+                                <option value="">Select a category to narrow your search...</option>
+                            </select>
+                        </fieldset>
+                        <ul id="filters"></ul> <!-- end filters -->
+                    </form>
+                </div>
+                <div class="rightIntro">
+                    <span class="tip tipHeight">Once you're done adding filters press the button below to view the sorted data.</span>
+                    <a id="contributionsDCPreviewButton" class="previewButton linkBtn" href="#">Preview Data</a>
+                </div>
+            </li>
             <li class="intro" id="intro-earmarks">
                 <h3>Search Earmarks</h3>
                 <div class="leftIntro">
@@ -209,6 +228,7 @@
             all_filters['grants'] = TD.GrantsFilter;
             all_filters['contracts'] = TD.ContractsFilter;
             all_filters['contributions'] = TD.ContributionFilter;
+            all_filters['contributions_dc'] = TD.ContributionDCFilter;
             all_filters['contractorMisconduct'] = TD.ContractorMisconductFilter;
             all_filters['epaEcho'] = TD.EpaEchoFilter;
             all_filters['faca'] = TD.FacaFilter;

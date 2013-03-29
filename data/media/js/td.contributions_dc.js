@@ -1,11 +1,11 @@
 $().ready(function() {
     
-    TD.ContributionFilter = new TD.DataFilter();
+    TD.ContributionDCFilter = new TD.DataFilter();
     
-    TD.ContributionFilter.path = 'contributions/dc';
-    TD.ContributionFilter.ignoreForBulk = ['cycle', 'transaction_namespace'];
+    TD.ContributionDCFilter.path = 'contributions/dc';
+    TD.ContributionDCFilter.ignoreForBulk = ['cycle', 'transaction_namespace'];
     
-    /* TD.ContributionFilter.transaction_type_description = function(transaction_type) {
+    /* TD.ContributionDCFilter.transaction_type_description = function(transaction_type) {
         if (transaction_type == '29') {
             return "<em>electioneering communication about</em> "
         }
@@ -21,7 +21,7 @@ $().ready(function() {
         return ""
     };*/
     
-    TD.ContributionFilter.row_content = function(row) {
+    TD.ContributionDCFilter.row_content = function(row) {
         var content = '<td class="jurisdiction">DC</td>';
         content += '<td class="datestamp">' + (row.date || '&nbsp;') + '</td>';
         content += '<td class="amount">$' + TD.Utils.currencyFormat(row.amount) + '</td>';
@@ -32,16 +32,16 @@ $().ready(function() {
     };
     
 
-    TD.ContributionFilter.init = function() {
+    TD.ContributionDCFilter.init = function() {
 
-        TD.ContributionFilter.registerFilter({
+        TD.ContributionDCFilter.registerFilter({
             name: 'amount',
             label: 'Amount',
             help: 'The dollar amount of the transaction',
             field: TD.DataFilter.OperatorField
         });
 
-        TD.ContributionFilter.registerFilter({
+        TD.ContributionDCFilter.registerFilter({
             name: 'contributor_ft',
             label: 'Contributor',
             help: 'Name of individual or organization contributing in the transaction',
@@ -49,7 +49,7 @@ $().ready(function() {
             allowMultipleFields: true
         });
 
-        TD.ContributionFilter.registerFilter({
+        TD.ContributionDCFilter.registerFilter({
             name: 'contributor_state',
             label: 'Contributor State',
             help: 'State from which the transaction was made',
@@ -58,7 +58,7 @@ $().ready(function() {
             options: TD.STATES
         });
         
-        /* TD.ContributionFilter.registerFilter({
+        /* TD.ContributionDCFilter.registerFilter({
             name: 'msa_ft',
             label: 'Contributor Metropolitan Area',
             help: 'Metropolitan Statistical Area of the contributor',
@@ -66,14 +66,14 @@ $().ready(function() {
             allowMultipleFields: false
         }); */
 
-        TD.ContributionFilter.registerFilter({
+        TD.ContributionDCFilter.registerFilter({
             name: 'date',
             label: 'Date',
             help: 'Date of transaction',
             field: TD.DataFilter.DateRangeField
         });
 
-        /* TD.ContributionFilter.registerFilter({
+        /* TD.ContributionDCFilter.registerFilter({
             label: 'Office',
             name: 'seat',
             help: 'Office for which candidate is running',
@@ -90,7 +90,7 @@ $().ready(function() {
             ]
         }); */
 
-        TD.ContributionFilter.registerFilter({
+        TD.ContributionDCFilter.registerFilter({
             name: 'recipient_ft',
             label: 'Recipient',
             help: 'Name of candidate or PAC that received contribution or was targeted by a transaction',
@@ -98,7 +98,7 @@ $().ready(function() {
             allowMultipleFields: true
         });
 
-        TD.ContributionFilter.registerFilter({
+        TD.ContributionDCFilter.registerFilter({
             name: 'committee_ft',
             label: 'Recipient Committee',
             help: 'Name of PAC that received contribution',
@@ -112,7 +112,7 @@ $().ready(function() {
             this.loadHash();
         }
         
-        TD.ContributionFilter.renumberFilters();
+        TD.ContributionDCFilter.renumberFilters();
         
     };
 
