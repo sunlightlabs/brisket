@@ -293,16 +293,16 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
     bundling = api.entities.bundles(entity_id, cycle)
     section['bundling_data'] = [ [x[key] for key in 'recipient_entity recipient_name recipient_type lobbyist_entity lobbyist_name firm_name amount'.split()] for x in bundling ]
 
-    if int(cycle) == LATEST_CYCLE:
-        section['fec_indexp'] = api.org.fec_indexp(entity_id)[:10]
+    if int(cycle) != -1:
+        section['fec_indexp'] = api.org.fec_indexp(entity_id, cycle)[:10]
 
-        fec_summary = api.org.fec_summary(entity_id)
+        fec_summary = api.org.fec_summary(entity_id, cycle)
         if fec_summary and fec_summary['num_committee_filings'] > 0 and fec_summary.get('first_filing_date'):
             section['fec_summary'] = fec_summary
             section['fec_summary']['clean_date'] = datetime.datetime.strptime(section['fec_summary']['first_filing_date'], "%Y-%m-%d")
             top_contribs_data = [dict(key=generate_label(row['contributor_name'] if row['contributor_name'] else '<Name Missing>', 27),
                                         value=row['amount'], href='')
-                                for row in api.org.fec_top_contribs(entity_id)
+                                for row in api.org.fec_top_contribs(entity_id, cycle)
                                 if float(row['amount']) >= 100000]
             if top_contribs_data:
                 section['fec_top_contribs_data'] = json.dumps(top_contribs_data)
@@ -587,7 +587,7 @@ def pol_contribution_section(entity_id, standardized_name, cycle, amount, extern
     bundling = api.entities.bundles(entity_id, cycle)
     section['bundling_data'] = [ [x[key] for key in 'lobbyist_entity lobbyist_name firm_entity firm_name amount'.split()] for x in bundling ]
 
-    if int(cycle) == LATEST_CYCLE:
+    if int(cycle) != -1:
         section['fec_summary'] = api.pol.fec_summary(entity_id, cycle)
         if section['fec_summary']:
             section['include_fec'] = True
