@@ -20,7 +20,10 @@ urlpatterns = patterns('brisket.data.views',
     
     # contributions
     url(r'^contributions/$', 'filter_contributions', name="filter_contributions"),
-    
+
+    # contributions DC
+    url(r'^contributions/dc/$', 'filter_contributions_dc', name="filter_contributions_dc"),
+
     # earmarks
     url(r'^earmarks/$', 'filter_earmarks', name="filter_earmarks"),
      
@@ -55,6 +58,7 @@ Section = namedtuple('Section', ['path', 'name', 'title'])
 API_SECTIONS = [
     Section('/api/', 'api_index', 'Overview'),
     Section('/api/contributions/', 'api_contributions', 'Campaign Contributions'),
+    Section('/api/contributions/dc/', 'api_contributions_dc', 'Campaign Contributions (DC)'),
     Section('/api/lobbying/', 'api_lobbying', 'Federal Lobbying'),
     Section('/api/grants/', 'api_grants', 'Federal Grants'),
     Section('/api/contracts/', 'api_contracts', 'Federal Contracts'),
@@ -64,6 +68,7 @@ API_SECTIONS = [
 DOCS_SECTIONS = [
     Section('/docs/', 'docs_index', 'Overview'),
     Section('/docs/contributions/', 'docs_contributions', 'Campaign Finance'),
+    Section('/docs/contributions/dc', 'docs_contributions/dc', 'Campaign Finance (DC)'),
     Section('/docs/lobbying/', 'docs_lobbying', 'Federal Lobbying'),
     Section('/docs/grants/', 'docs_grants', 'Federal Grants'),
     Section('/docs/contracts/', 'docs_contracts', 'Federal Contracts'),

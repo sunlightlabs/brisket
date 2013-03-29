@@ -1,0 +1,37 @@
+{% extends "data/filter.html" %}
+{% load media %}
+
+{% block bodyid %}contributionsDC{% endblock %}
+{% block dataset_name %}ContributionsDC{% endblock %}
+
+{% block table_header %}
+	<th>Jurisdiction</th>
+	<th>Date</th>
+	<th>Amount</th>
+	<th>Contributor</th>
+	<th>Contributor Location</th>
+	<th>Committee</th>
+	<th>Recipient</th>
+{% endblock %}
+
+{% block dataset_license %}
+    <!-- TODO: license put forth by the DC Board of Elections? -->
+	<p>Data returned by this service is subject to the <a href="http://www.fec.gov/pages/brochures/sale_and_use_brochure.pdf">use restrictions set by the Federal Election Commission</a>. By accessing this data, you understand that you are using the data subject to all applicable local, state and federal law, including FEC restrictions.</p>
+{% endblock %}
+
+{% block dataset_scripts %}
+    {% js "data/contributions_dc.js" %}
+    {{ block.super }}
+	<script type="text/javascript">
+		$().ready(function() {
+			TD.ContributionsDCFilter.bindDataFilter('#datafilter');
+			TD.ContributionsDCFilter.bindPreview('#previewButton');
+			TD.ContributionsDCFilter.bindDownload('#downloadButton');
+		    TD.ContributionsDCFilter.init();
+			
+		    TD.activeFilter = TD.ContributionsDCFilter;
+		
+			TD.init();
+		});
+	</script>
+{% endblock %}

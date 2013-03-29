@@ -72,12 +72,12 @@ TD.DataFilter.DateRangeField.render = function() {
     
     dstart.bind('change', function() {
         TD.activeFilter.node.trigger('filterchange');
-    }).val('01/01/2009').datepicker({
+    }).val('01/01/2011').datepicker({
         changeMonth: true,
         changeYear: true,
-        defaultDate: new Date(2009, 0, 1),
+        defaultDate: new Date(2011, 0, 1),
         duration: '',
-        yearRange: this.filter.config.yearRange || '1990:2012',
+        yearRange: this.filter.config.yearRange || '1990:2014',
         onSelect: function(dateText, inst) {
             if (!dend.val()) {
                 dend.datepicker('setDate',
@@ -94,7 +94,7 @@ TD.DataFilter.DateRangeField.render = function() {
         changeYear: true,
         defaultDate: null,
         duration: '',
-        yearRange: this.filter.config.yearRange || '1990:2012',
+        yearRange: this.filter.config.yearRange || '1990:2014',
         onSelect: function(dateText, inst) {
             dend.trigger('change');
         }
