@@ -90,13 +90,13 @@ $().ready(function() {
             ]
         }); */
 
-        TD.ContributionsDCFilter.registerFilter({
+        /* TD.ContributionsDCFilter.registerFilter({
             name: 'recipient_ft',
             label: 'Recipient',
             help: 'Name of candidate or PAC that received contribution or was targeted by a transaction',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
-        });
+        }); */
 
         TD.ContributionsDCFilter.registerFilter({
             name: 'committee_ft',
