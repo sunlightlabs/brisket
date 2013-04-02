@@ -32,6 +32,9 @@ def filter_faca(request):
 def filter_contributions(request):
     return render_to_response('data/filter_contributions.html', context_instance=RequestContext(request))
 
+def filter_contributions_dc(request):
+    return render_to_response('data/filter_contributions_dc.html', context_instance=RequestContext(request))
+
 def filter_bundling(request):
     return render_to_response('data/filter_bundling.html', context_instance=RequestContext(request))
 

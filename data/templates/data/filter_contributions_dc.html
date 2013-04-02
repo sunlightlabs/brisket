@@ -1,8 +1,8 @@
 {% extends "data/filter.html" %}
 {% load media %}
 
-{% block bodyid %}contributions{% endblock %}
-{% block dataset_name %}Contributions{% endblock %}
+{% block bodyid %}contributions_dc{% endblock %}
+{% block dataset_name %}ContributionsDC{% endblock %}
 
 {% block table_header %}
 	<th>Type</th>
@@ -24,12 +24,12 @@
     {{ block.super }}
 	<script type="text/javascript">
 		$().ready(function() {
-			TD.ContributionFilter.bindDataFilter('#datafilter');
-			TD.ContributionFilter.bindPreview('#previewButton');
-			TD.ContributionFilter.bindDownload('#downloadButton');
-		    TD.ContributionFilter.init();
+			TD.ContributionsDCFilter.bindDataFilter('#datafilter');
+			TD.ContributionsDCFilter.bindPreview('#previewButton');
+			TD.ContributionsDCFilter.bindDownload('#downloadButton');
+		    TD.ContributionsDCFilter.init();
 			
-		    TD.activeFilter = TD.ContributionFilter;
+		    TD.activeFilter = TD.ContributionsDCFilter;
 		
 			TD.init();
 		});

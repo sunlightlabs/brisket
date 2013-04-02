@@ -222,6 +222,7 @@ MEDIASYNC['JOINED'] = {
         'data/js/td.grants.js',
         'data/js/td.lobbying.js',
         'data/js/td.contributions.js',
+        'data/js/td.contributions_dc.js',
         'data/js/td.contractor_misconduct.js',
         'data/js/td.epa_echo.js',
         'data/js/td.faca.js',
