@@ -12,10 +12,10 @@ $().ready(function() {
         content += '<td class="contributor_name">' + row.contributor_name + '</td>';
         content += '<td class="contributor_location">' + TD.Utils.cityStateFormat(row.contributor_city, row.contributor_state) + '</td>';
         content += '<td class="committee_name">' + row.committee_name + '</td>';
+        content += '<td class="recipient_name">' + row.recipient_name + '</td>';
         return content;
     };
     
-
     TD.ContributionsDCFilter.init = function() {
 
         TD.ContributionsDCFilter.registerFilter({
@@ -74,13 +74,13 @@ $().ready(function() {
             ]
         }); */
 
-        /* TD.ContributionsDCFilter.registerFilter({
+        TD.ContributionsDCFilter.registerFilter({
             name: 'recipient_ft',
             label: 'Recipient',
-            help: 'Name of candidate or PAC that received contribution or was targeted by a transaction',
+            help: 'Name of candidate that received contribution',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true
-        }); */
+        });
 
         TD.ContributionsDCFilter.registerFilter({
             name: 'committee_ft',
