@@ -5,22 +5,6 @@ $().ready(function() {
     TD.ContributionsDCFilter.path = 'contributions/dc';
     TD.ContributionsDCFilter.ignoreForBulk = ['cycle', 'transaction_namespace'];
     
-    /* TD.ContributionsDCFilter.transaction_type_description = function(transaction_type) {
-        if (transaction_type == '29') {
-            return "<em>electioneering communication about</em> "
-        }
-        if (transaction_type == '24a') {
-            return "<em>independent expenditure opposing</em> "
-        }
-        if (transaction_type == '24e') {
-            return "<em>independent expenditure supporting</em> "
-        }
-        if (transaction_type.substring(0,2) == '16') {
-            return "<em>loan to</em> "
-        }
-        return ""
-    };*/
-    
     TD.ContributionsDCFilter.row_content = function(row) {
         var content = '<td class="jurisdiction">DC</td>';
         content += '<td class="datestamp">' + (row.date || '&nbsp;') + '</td>';
