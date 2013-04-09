@@ -50,10 +50,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-#    'django.contrib.sessions.middleware.SessionMiddleware',
-    'postcards.cookie.SessionMiddleware',
     'data.middleware.DataRedirectMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
@@ -79,15 +76,12 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
-#    'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates
     'django.contrib.sitemaps',
     'mediasync',
-#    'simplepay',
     'brisket.influence',
     'brisket.util',
-#    'django.contrib.admin',
     'django_nose',
     'indexer',
     'paging',
