@@ -35,7 +35,7 @@
         <h4>Lobbying Carried Out by {{ entity_info.name }}</h4>
         <ul>
             <li class="interiorList oneColumn">
-                {% include "org_lobbying_lobbyists.html" with lobbyists=section.lobbying_lobbyists %}
+                {% include "entities/org_lobbying_lobbyists.html" with lobbyists=section.lobbying_lobbyists %}
             </li>
 
             {% if section.lobbying_clients %}
@@ -85,7 +85,7 @@
       <h4>Lobbying on Behalf of {{ entity_info.name|standardize_industry_name }}</h4>
       <ul>
           <li class="interiorList oneColumn">
-              {% include "org_lobbying_lobbyists.html" with lobbyists=section.lobbying_lobbyists %}
+              {% include "entities/org_lobbying_lobbyists.html" with lobbyists=section.lobbying_lobbyists %}
           </li>
 
 		  {% if section.lobbying_clients %}
@@ -198,5 +198,5 @@
 </ul>
   <div class="clear"></div>
   
-  {% include "external_links.html" with external_links=section.lobbying_links %}
+  {% include "section_base/external_links.html" with external_links=section.lobbying_links %}
 </div>

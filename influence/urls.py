@@ -55,22 +55,22 @@ urlpatterns += patterns('django.views.generic.simple',
         {'template': 'about.html'}),
         
     url(r'^about/methodology/campaign_finance/?$', 'direct_to_template',
-        {'template': 'campaign_finance_methodology.html'}),
+        {'template': 'methodology/campaign_finance_methodology.html'}),
 
     url(r'^about/methodology/lobbying/?$', 'direct_to_template',
-        {'template': 'lobbying_methodology.html'}),
+        {'template': 'methodology/lobbying_methodology.html'}),
     
     url(r'^about/methodology/lobbyist_bundling/?$', 'direct_to_template',
-        {'template': 'lobbyist_bundling_methodology.html'}),
+        {'template': 'methodology/lobbyist_bundling_methodology.html'}),
                 
     url(r'^about/methodology/fed_spending/?$', 'direct_to_template',
-        {'template': 'fed_spending_methodology.html'}),
+        {'template': 'methodology/fed_spending_methodology.html'}),
         
     url(r'^about/methodology/earmarks/?$', 'direct_to_template',
-        {'template': 'earmark_methodology.html'}),
+        {'template': 'methodology/earmark_methodology.html'}),
 
     url(r'^about/methodology/echo/?$', 'direct_to_template',
-        {'template': 'epa_echo_methodology.html'}),
+        {'template': 'methodology/epa_echo_methodology.html'}),
    
     url(r'^checking/?$', 'direct_to_template',
         {'template': 'checking.html'}),

@@ -54,7 +54,7 @@
             </ul>
         </li>
 
-        {% include "external_links.html" with external_links=section.regulations_submitter_links %}
+        {% include "section_base/external_links.html" with external_links=section.regulations_submitter_links %}
     {% endif %}
 
     {% if section.regulations_submitter and section.regulations_text %}
@@ -88,7 +88,7 @@
             </ul>
         </li>
 
-        {% include "external_links.html" with external_links=section.regulations_text_links %}
+        {% include "section_base/external_links.html" with external_links=section.regulations_text_links %}
     {% endif %}
     </ul>
   <div class="clear"></div>

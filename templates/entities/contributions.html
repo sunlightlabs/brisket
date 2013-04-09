@@ -34,9 +34,9 @@
 <div class="chartModule withNav">
     {% if section.include_fec %}
         {% if entity_info.type == "politician" %}
-            {% include "pol_fec.html" %}
+            {% include "entities/pol_fec.html" %}
         {% else %}{% if entity_info.type == "organization" %}
-            {% include "org_fec.html" %}
+            {% include "entities/org_fec.html" %}
         {% endif %}{% endif %}
     {% endif %}
     
@@ -65,20 +65,20 @@
         <ul>
           {% block charts %}
             {% if entity_info.type == "individual" %}
-            {% include "indiv_contributions.html" %}
+            {% include "entities/indiv_contributions.html" %}
             {% else %}{% if entity_info.type == "politician" %}
-            {% include "pol_contributions.html" %}
+            {% include "entities/pol_contributions.html" %}
             {% else %}{% if entity_info.type == "organization" %}
-            {% include "org_contributions.html" %}
+            {% include "entities/org_contributions.html" %}
             {% else %}{% if entity_info.type == "industry" %}
-            {% include "industry_contributions.html" %}
+            {% include "entities/industry_contributions.html" %}
             {% endif %}{% endif %}{% endif %}{% endif %}
           {% endblock %} <!-- end chart block -->
 
         </ul><!-- end chartModule -->
         <div class="clear"></div>
     
-        {% include "external_links.html" with external_links=section.external_links %}
+        {% include "section_base/external_links.html" with external_links=section.external_links %}
 
     {% endif %}
 

@@ -17,8 +17,8 @@
 
 <div class="chartModule withNav">
     <span class="tip external"></span>
-    {% include "earmarks_table.html" with earmarks=section.earmarks %}
+    {% include "entities/earmarks_table.html" with earmarks=section.earmarks %}
     <div class="clear"></div>
     
-    {% include "external_links.html" with external_links=section.earmark_links %}
+    {% include "section_base/external_links.html" with external_links=section.earmark_links %}
 </div><!-- end chartModule -->

@@ -19,9 +19,9 @@
 
 <div class="chartModule withNav">
     {% if cycle in "-1 2012" %}<span class="tip external">covers through EPA's October 19, 2011 release</span>{% endif %}
-    {% include "epa_echo_table.html" with epa_echo=section.epa_echo %}
+    {% include "entities/epa_echo_table.html" with epa_echo=section.epa_echo %}
 
     <div class="clear"></div>
     
-    {% include "external_links.html" with external_links=section.epa_links section_label='EPA violations' %}
+    {% include "section_base/external_links.html" with external_links=section.epa_links section_label='EPA violations' %}
 </div><!-- end chartModule -->

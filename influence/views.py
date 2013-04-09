@@ -139,7 +139,7 @@ def search(request):
             kwargs['num_superpacs'] = len(sorted_results['superpac'])
             kwargs['cycle'] = cycle
             kwargs['sorted_results'] = sorted_results
-        return render_to_response('results.html', kwargs, brisket_context(request))
+        return render_to_response('search/results.html', kwargs, brisket_context(request))
     else:
         return HttpResponseRedirect('/')
 
@@ -148,28 +148,28 @@ def organization_landing(request):
     context['top_n_organizations'] = api.entities.top_n_organizations(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_orgs'] = len(context['top_n_organizations'])
     context['cycle'] = TOP_LISTS_CYCLE
-    return render_to_response('org_landing.html', context, brisket_context(request))
+    return render_to_response('entity_landing/org_landing.html', context, brisket_context(request))
 
 def people_landing(request):
     context = {}
     context['top_n_individuals'] = api.entities.top_n_individuals(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_indivs'] = len(context['top_n_individuals'])
     context['cycle'] = TOP_LISTS_CYCLE
-    return render_to_response('indiv_landing.html', context, brisket_context(request))
+    return render_to_response('entity_landing/indiv_landing.html', context, brisket_context(request))
 
 def politician_landing(request):
     context = {}
     context['top_n_politicians'] = api.entities.top_n_politicians(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_pols'] = len(context['top_n_politicians'])
     context['cycle'] = TOP_LISTS_CYCLE
-    return render_to_response('pol_landing.html', context, brisket_context(request))
+    return render_to_response('entity_landing/pol_landing.html', context, brisket_context(request))
 
 def industry_landing(request):
     context = {}
     context['top_n_industries'] = api.entities.top_n_industries(cycle=TOP_LISTS_CYCLE, limit=50)
     context['num_industries'] = len(context['top_n_industries'])
     context['cycle'] = TOP_LISTS_CYCLE
-    return render_to_response('industry_landing.html', context, brisket_context(request))
+    return render_to_response('entity_landing/industry_landing.html', context, brisket_context(request))
 
 @handle_errors
 def org_industry_entity(request, entity_id, type):
@@ -212,7 +212,7 @@ def org_industry_entity(request, entity_id, type):
     if 'faca' in metadata and metadata['faca']:
         context['sections']['faca'] = org_faca_section(entity_id, standardized_name, cycle)
     
-    response = render_to_response('%s.html' % type, context,
+    response = render_to_response('entities/%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
     if suppress_cache:
@@ -223,7 +223,7 @@ def org_industry_entity(request, entity_id, type):
 def org_contribution_section(entity_id, standardized_name, cycle, amount, type, external_ids):
     section = {
         'name': 'Campaign Finance',
-        'template': 'contributions.html',
+        'template': 'entities/contributions.html',
     }
     
     if type == 'industry':
@@ -316,7 +316,7 @@ def org_contribution_section(entity_id, standardized_name, cycle, amount, type, 
 def org_lobbying_section(entity_id, name, cycle, type, external_ids, is_lobbying_firm):
     section = {
         'name': 'Lobbying',
-        'template': '%s_lobbying.html' % ('org' if type == 'organization' else 'industry'),
+        'template': 'entities/%s_lobbying.html' % ('org' if type == 'organization' else 'industry'),
     }
     
     section['lobbying_data'] = True
@@ -354,7 +354,7 @@ def org_lobbying_section(entity_id, name, cycle, type, external_ids, is_lobbying
 def org_earmarks_section(entity_id, name, cycle, external_ids):
     section = {
         'name': 'Earmarks',
-        'template': 'org_earmarks.html',
+        'template': 'entities/org_earmarks.html',
     }
     
     section['earmarks'] = earmarks_table_data(entity_id, cycle)
@@ -365,7 +365,7 @@ def org_earmarks_section(entity_id, name, cycle, external_ids):
 def org_contractor_misconduct_section(entity_id, name, cycle, external_ids):
     section = {
         'name': 'Contractor Misconduct',
-        'template': 'org_contractor_misconduct.html',
+        'template': 'entities/org_contractor_misconduct.html',
     }
     
     section['contractor_misconduct'] = api.org.contractor_misconduct(entity_id, cycle)
@@ -377,7 +377,7 @@ def org_contractor_misconduct_section(entity_id, name, cycle, external_ids):
 def org_epa_echo_section(entity_id, name, cycle, external_ids, totals):
     section = {
         'name': 'EPA Violations',
-        'template': 'org_epa_echo.html',
+        'template': 'entities/org_epa_echo.html',
     }
     
     section['epa_echo'] = api.org.epa_echo(entity_id, cycle)
@@ -391,7 +391,7 @@ def org_epa_echo_section(entity_id, name, cycle, external_ids, totals):
 def org_spending_section(entity_id, name, cycle, totals):
     section = {
         'name': 'Federal Spending',
-        'template': 'org_grants_and_contracts.html',
+        'template': 'entities/org_grants_and_contracts.html',
     }
     
     spending = api.org.fed_spending(entity_id, cycle)
@@ -417,7 +417,7 @@ def org_spending_section(entity_id, name, cycle, totals):
 def org_regulations_section(entity_id, name, cycle, external_ids):
     section = {
         'name': 'Regulations',
-        'template': 'org_regulations.html',
+        'template': 'entities/org_regulations.html',
     }
     
     try:
@@ -430,7 +430,7 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
     except:
         return {
             'name': 'Regulations',
-            'template': 'section_error.html',
+            'template': 'section_base/section_error.html',
             'error': True
         }
 
@@ -461,7 +461,7 @@ def org_regulations_section(entity_id, name, cycle, external_ids):
 def org_faca_section(entity_id, name, cycle):
     section = {
         'name': 'Advisory Committees',
-        'template': 'org_faca.html',
+        'template': 'entities/org_faca.html',
     }
     
     section['faca'] = api.org.faca(entity_id, cycle=cycle)
@@ -514,14 +514,14 @@ def politician_entity(request, entity_id):
         context['sections']['earmarks'] = \
             pol_earmarks_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
 
-    return render_to_response('politician.html', context,
+    return render_to_response('entities/politician.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
 
 def pol_contribution_section(entity_id, standardized_name, cycle, amount, external_ids):
     section = {
         'name': 'Campaign Finance',
-        'template': 'contributions.html',
+        'template': 'entities/contributions.html',
     }
     
     section['contributions_data'] = True
@@ -647,7 +647,7 @@ def earmarks_table_data(entity_id, cycle):
 def pol_earmarks_section(entity_id, name, cycle, external_ids):
     section = {
         'name': 'Earmarks',
-        'template': 'pol_earmarks.html',
+        'template': 'entities/pol_earmarks.html',
     }
     
     section['earmarks'] = earmarks_table_data(entity_id, cycle)
@@ -677,14 +677,14 @@ def individual_entity(request, entity_id):
         context['sections']['lobbying'] = \
             indiv_lobbying_section(entity_id, standardized_name, cycle, metadata['entity_info']['external_ids'])
 
-    return render_to_response('individual.html', context,
+    return render_to_response('entities/individual.html', context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
 
 def indiv_contribution_section(entity_id, standardized_name, cycle, amount, external_ids):
     section = {
         'name': 'Campaign Finance',
-        'template': 'contributions.html',
+        'template': 'entities/contributions.html',
     }
     
     section['contributions_data'] = True
@@ -738,7 +738,7 @@ def indiv_contribution_section(entity_id, standardized_name, cycle, amount, exte
 def indiv_lobbying_section(entity_id, name, cycle, external_ids):
     section = {
         'name': 'Lobbying',
-        'template': 'indiv_lobbying.html',
+        'template': 'entities/indiv_lobbying.html',
     }
     
     section['lobbying_data'] = True

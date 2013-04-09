@@ -17,11 +17,11 @@
 
 <div class="chartModule withNav">
     {% if cycle in "-1 2012" %}<span class="tip external">covers through POGO's March 5, 2013 release</span>{% endif %}
-    {% include "contractor_misconduct_table.html" with contractor_misconduct=section.contractor_misconduct %}
+    {% include "entities/contractor_misconduct_table.html" with contractor_misconduct=section.contractor_misconduct %}
 
     <div class="clear"></div>
     
-    {% include "external_links.html" with external_links=section.pogo_links %}
+    {% include "section_base/external_links.html" with external_links=section.pogo_links %}
 
     <div class="clear"></div>
 </div><!-- end chartModule -->
