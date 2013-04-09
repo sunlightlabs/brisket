@@ -196,13 +196,15 @@ dd { float: left; margin-right: 15px;}
 table dl { margin-top: 0;}
 table dd { width: 320px;}
 
+/* main nav */
 header nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
 .flexwidth header nav { background: url(../images/nav_bgFlex.jpg) top left repeat-x; }
-header nav li {
+header nav > ul > li {
     float: left;
     background: url("../images/nav_tick.png") no-repeat top right;
+    position: relative;
 }
-header nav li a {
+header nav > ul > li > a {
     display: block;
     height: 42px;
     margin-top: 2px;
@@ -214,18 +216,41 @@ header nav li a {
     color: #000000 !important;
     border: 1px solid rgba(0,0,0,0);
 }
-header nav li a:hover,
-body.individual li#people a,
-body.organization li#orgs a,
-body.politician li#politicians a,
-body.industry li#industries a,
-body.tdata li#data a {
+header nav > ul > li > a:hover,
+body.individual li#people > a,
+body.organization li#orgs > a,
+body.politician li#politicians > a,
+body.industry li#industries > a,
+body.tdata li#data > a {
     border: 1px solid rgba(108, 98, 98, .14);
     background: rgba(90, 157, 141, .14);
 }
 nav li#data {
     float: right;
     background: url("../images/nav_tick.png") no-repeat top left;
+}
+
+/* sub-nav items */
+header nav > ul > li > ul {
+    position: absolute;
+    top: 48px;
+    z-index: 999;
+    border: 1px solid rgba(108, 98, 98, .14);
+    background: rgba(255,255,255,0.9);
+    padding: 4px 0px 4px 0px;
+    width: 160px;
+    display: none;
+}
+header nav > ul > li > ul li a {
+    display: block;
+    border: 1px solid rgba(0,0,0,0);
+    width: 110px;
+    margin-left: -5px;
+    padding: 4px 29px 4px 29px;
+}
+header nav > ul > li > ul li a:hover {
+    background: rgba(90, 157, 141, .14);
+    border: 1px solid rgba(108, 98, 98, .14);
 }
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}

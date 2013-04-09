@@ -50,6 +50,18 @@ $(function() {
 
     /* make entity landing pages sortable */
     $(".sortable").tablesorter({ widgets: ['zebra']});
+
+    /* deal with top menu */
+    $("nav > ul > li")
+        .hover(function() {
+            $(this).find("ul").fadeIn("fast");
+        }, function() {
+            $(this).find("ul").fadeOut("fast");
+        }).find(">a").click(function(evt) {
+            if ($(this).attr('href') == "#") {
+                evt.preventDefault();
+            }
+        })
     
     /* deal with the floating TOC */
     var $navbar = $('#floatingNav');

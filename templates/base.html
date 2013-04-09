@@ -57,10 +57,46 @@
                     <div id="share-buttons" class="clear"></div>
                     <nav class="clear">
                         <ul>
-                            <li id="people"><a href="{{ IE_BASE_URL }}people">People</a></li>
-                            <li id="orgs"><a href="{{ IE_BASE_URL }}organizations">Organizations</a></li>
-                            <li id="politicians"><a href="{{ IE_BASE_URL }}politicians">Politicians</a></li>
-	                        <li id="industries"><a href="{{ IE_BASE_URL }}industries">Industries</a></li>
+                            <li id="groups">
+                                <a href="#">Groups</a>
+                                <ul>
+                                    <li><a href="{{ IE_BASE_URL }}industries">Industries</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}organizations">Organizations</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}political-groups">Political Groups</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}lobbying-firms">Lobbying Firms</a></li>
+                                </ul>
+                            </li>
+                            
+                            <li id="places">
+                                <a href="#">Places</a>
+                                <ul>
+                                    <li><a href="{{ IE_BASE_URL }}cities">Cities</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}states">States</a></li>
+                                </ul>
+                            </li>
+                            
+                            <li id="people">
+                                <a href="#">People</a>
+                                <ul>
+                                    <li><a href="{{ IE_BASE_URL }}contributors">Contributors</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}lobbyists">Lobbyists</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}politicians">Politicians</a></li>
+                                </ul>
+                            </li>
+
+                            <li id="collections">
+                                <a href="#">Collections</a>
+                                <ul>
+                                    <li><a href="{{ IE_BASE_URL }}collections/campaign-finance">Campaign Finance</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}collections/lobbying">Lobbying</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}collections/regulations">Regulations</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}collections/federal-spending">Federal Spending</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}collections/contractor-misconduct">Contractor Misconduct</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}collections/epa-violations">EPA Violations</a></li>
+                                    <li><a href="{{ IE_BASE_URL }}collections/advisory-committees">Advisory Committees</a></li>
+                                </ul>
+                            </li>
+                            
 	                        <li id="data"><a href="{{ DATA_BASE_URL }}">Data</a></li>
                         </ul>
                     </nav>
