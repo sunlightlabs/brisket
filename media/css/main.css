@@ -196,29 +196,37 @@ dd { float: left; margin-right: 15px;}
 table dl { margin-top: 0;}
 table dd { width: 320px;}
 
-header nav li { float: left; }
 header nav { background: url(../images/nav_bg.jpg) top left no-repeat; height: 48px; margin: 0 10px;}
 .flexwidth header nav { background: url(../images/nav_bgFlex.jpg) top left repeat-x; }
-header nav li a { text-indent: -9999em; display: block; height: 61px;}
-li#people { width: 115px;}
-li#people a { background: url(../images/nav_people.png) left 1px no-repeat; width: 115px; }
-li#people a:hover, body.individual li#people a { background: url(../images/nav_people.png) left -60px no-repeat; }
-li#orgs { width: 182px;}
-li#orgs a { background: url(../images/nav_orgs.png) left 1px no-repeat; width: 182px;}
-li#orgs a:hover, body.organization li#orgs a { background: url(../images/nav_orgs.png) left -60px no-repeat; }
-li#politicians { width: 151px;}
-li#politicians a { background: url(../images/nav_politicians.png) left 1px no-repeat; width: 151px;}
-li#politicians a:hover, body.politician li#politicians a { background: url(../images/nav_politicians.png) left -60px no-repeat; }
-li#industries { width: 146px;}
-li#industries a { background: url(../images/nav_industries.png) left 1px no-repeat; width: 146px;}
-li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries.png) left -60px no-repeat; }
-li#data a { background: url(../images/nav_data.png) left 1px no-repeat; width: 91px; }
-li#data a:hover { background: url(../images/nav_data.png) left -60px no-repeat; width: 91px; }
-nav li#data { float: right; width: 91px;}
-
-div#nav li#data { float: right;}
-li#data a { background: url(../images/nav_data.png) left 1px no-repeat; width: 91px; }
-li#data a:hover, body.tdata li#data a { background: url(../images/nav_data.png) left -60px no-repeat; }
+header nav li {
+    float: left;
+    background: url("../images/nav_tick.png") no-repeat top right;
+}
+header nav li a {
+    display: block;
+    height: 42px;
+    margin-top: 2px;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px 24px 0px 24px;
+    color: #000000 !important;
+    border: 1px solid rgba(0,0,0,0);
+}
+header nav li a:hover,
+body.individual li#people a,
+body.organization li#orgs a,
+body.politician li#politicians a,
+body.industry li#industries a,
+body.tdata li#data a {
+    border: 1px solid rgba(108, 98, 98, .14);
+    background: rgba(90, 157, 141, .14);
+}
+nav li#data {
+    float: right;
+    background: url("../images/nav_tick.png") no-repeat top left;
+}
 
 input#id_query { background: url(../images/searchBox.png) top left no-repeat; display: block; width: 261px; height: 37px; margin-right: 10px; padding: 7px 10px 8px; border: none; float: left; font-size: 250%; text-transform: uppercase; font-family: Impact, Helvetica Neue, Helvetica, Arial, sans-serif;}
 
@@ -742,3 +750,15 @@ table .even.numerous{
 .downloadLinks a:hover { background: url(../images/down_16.png) top left no-repeat; }
 
 .chartModule .withTip { margin-bottom: 5px;}
+
+
+#featureBox p span.differentText,
+.tk-proxima-nova-extra-condensed,
+h1 a#logo,
+h2,
+input#id_query,
+input#id_search {
+    font-family: "proxima-nova-extra-condensed-1","proxima-nova-extra-condensed-2","Helvetica Neue","Helvetica","Arial",sans-serif;
+    font-style: normal;
+    font-weight: normal !important;
+}

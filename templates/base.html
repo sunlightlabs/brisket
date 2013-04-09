@@ -15,7 +15,6 @@
         <link rel="canonical" rel="{% block canonicalurl %}{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}{% endblock %}" />
 
         {% css "css/main.css" %}
-        <!--[if IE 6]>{% css "css/buggy.css" %}<![endif]-->
         <!--[if IE 7]>{% css "css/buggy7.css" %}<![endif]-->
         <!--[if lt IE 9]>
             <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
