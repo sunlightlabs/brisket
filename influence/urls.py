@@ -9,10 +9,26 @@ urlpatterns = patterns('brisket.influence.views',
     #     name='sector_detail'),
 
     # landing pages
+    # -> groups
+    url(r'^industries$', 'industry_landing'),
     url(r'^organizations$', 'organization_landing'),
-    url(r'^politicians$',   'politician_landing'),
-    url(r'^people$',        'people_landing'),
-    url(r'^industries$',    'industry_landing'),
+    url(r'^political-groups$', 'pol_group_landing'),
+    url(r'^lobbying-firms$', 'lobbying_firm_landing'),
+    # -> places
+    url(r'^cities$', 'city_landing'),
+    url(r'^states$', 'state_landing'),
+    # -> people
+    url(r'^contributors$', 'contributor_landing'),
+    url(r'^lobbyists$', 'lobbyist_landing'),
+    url(r'^politicians$', 'politician_landing'),
+    # -> collections
+    url(r'^collections/campaign-finance', 'campaign_finance_landing'),
+    url(r'^collections/lobbying', 'lobbying_landing'),
+    url(r'^collections/regulations', 'regs_landing'),
+    url(r'^collections/federal-spending', 'fed_spending_landing'),
+    url(r'^collections/contractor-misconduct', 'contractor_misconduct_landing'),
+    url(r'^collections/epa-violations', 'epa_echo_landing'),
+    url(r'^collections/advisory-committees', 'faca_landing'),
 
     # entity pages
     url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'organization_entity',
@@ -47,6 +63,8 @@ urlpatterns += patterns('django.views.generic.simple',
     
     url(r'^industry/(?P<query_string>[\w\-]+)', 'redirect_to',
         {'url': '/search?query=%(query_string)s'}),
+
+    url(r'^people$', 'redirect_to', {'url': '/contributors'}), # backwards compatability redirect
 
     url(r'^contact/?$', 'direct_to_template',
         {'template': 'contact.html'}),

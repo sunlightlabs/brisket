@@ -1,9 +1,9 @@
-{% extends "search_base.html" %}
+{% extends "entity_landing/entity_landing_base.html" %}
 {% load humanize %}
 {% load influence_extras %}
 
 {% block pagetitle %}
-    Individuals | 
+    Contributor | 
 {% endblock %}
 
 {% block body_class %}individual{% endblock %}
@@ -11,7 +11,7 @@
 {% block main %}
     {% if num_indivs %}
     <div id="contentHeader">
-        <h2>People</h2>
+        <h2>Contributors</h2>
     </div>
     <div id="ltColumn">
         <p>The following individuals have contributed the greatest dollar amounts during the current election cycle.</p>

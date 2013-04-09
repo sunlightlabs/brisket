@@ -218,9 +218,9 @@ header nav > ul > li > a {
 }
 header nav > ul > li > a:hover,
 body.individual li#people > a,
-body.organization li#orgs > a,
-body.politician li#politicians > a,
-body.industry li#industries > a,
+body.group li#groups > a,
+body.place li#places > a,
+body.collection li#collections > a,
 body.tdata li#data > a {
     border: 1px solid rgba(108, 98, 98, .14);
     background: rgba(90, 157, 141, .14);

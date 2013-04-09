@@ -14,7 +14,7 @@
 
 {% block metadesc %}{% if entity_info.metadata.seat %}{{ entity_info.name|standardize_politician_name|seat_title:entity_info.metadata.seat }}{% else %}{{ entity_info.name|standardize_politician_name }}{% endif %} {% if entity_info.metadata.party %}({{entity_info.metadata.party}}{% if entity_info.metadata.state %}-{{entity_info.metadata.state}}{% endif %}){% endif %} has received ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money came from on Influence Explorer.{% endblock %}
 
-{% block body_class %}politician{% endblock %}
+{% block body_class %}individual{% endblock %}
 
 {% block og %}
   <meta name="og:title" content="{% spaceless %}

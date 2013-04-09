@@ -1,4 +1,4 @@
-{% extends "search_base.html" %}
+{% extends "entity_landing/entity_landing_base.html" %}
 {% load humanize %}
 {% load influence_extras %}
 
@@ -6,7 +6,7 @@
     Industries | 
 {% endblock %}
 
-{% block body_class %}industry{% endblock %}
+{% block body_class %}group{% endblock %}
 
 {% block main %}
     {% if num_industries %}
