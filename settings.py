@@ -125,6 +125,9 @@ CACHES = {
     }
 }
 
+# this will get overwritten either in local_settings or below
+DEFAULT_CYCLE = None
+
 from local_settings import *
 
 MEDIASYNC['JOINED'] = {
@@ -223,5 +226,8 @@ IGNORABLE_404_URLS = (
     re.compile(r'\.php$'),
 )
 
-from influenceexplorer import InfluenceExplorer
+from influenceexplorer import InfluenceExplorer, ALL_CYCLES
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
+
+if not DEFAULT_CYCLE:
+    DEFAULT_CYCLE = ALL_CYCLES
