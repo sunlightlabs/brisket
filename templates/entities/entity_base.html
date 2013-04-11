@@ -5,7 +5,9 @@
 {% block pagetopics %}: {% spaceless %}
     {% filter nonempty_lines|pretty_list %}
         {% for section in sections.values %}
-            {{ section.name }}
+            {% if section.enabled %}
+                {{ section.name }}
+            {% endif %}
         {% endfor %}
     {% endfilter %}
 {% endspaceless %}{% endblock %}
@@ -40,7 +42,9 @@
                 <div id="miniNav">
                     <ul>
                         {% for section_id, section in sections.items %}
-                            <li><a href="#{{ section_id }}_section">{{ section.name }}</a></li>
+                            {% if section.enabled %}
+                                <li><a href="#{{ section_id }}_section">{{ section.name }}</a></li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
@@ -62,8 +66,14 @@
 
     {% block sections %}
     {% for section_id, section in sections.items %}
-    	<a class="sectionLink" name="{{ section_id }}_section"></a>
-    	{% include section.template with section=section section_id=section_id %}
+        {% if section.enabled %}
+            <a class="sectionLink" name="{{ section_id }}_section"></a>
+            {% if section.failed %}
+                {% include section.error_template with section=section section_id=section_id %}
+            {% else %}
+                {% include section.template with section=section section_id=section_id %}
+            {% endif %}
+        {% endif %}
     {% endfor %}
     {% endblock %}
 

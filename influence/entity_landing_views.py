@@ -9,7 +9,7 @@ from django.utils.datastructures import SortedDict
 from feedinator.models import Feed
 from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
-from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
+from influence.helpers import generate_label, barchart_href, \
     bar_validate, pie_validate, \
     filter_bad_spending_descriptions, make_bill_link, get_top_pages
 from influenceexplorer import DEFAULT_CYCLE

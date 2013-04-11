@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
+from brisket.influence.views import PoliticianEntityView, IndividualEntityView, OrganizationEntityView, IndustryEntityView
 
 urlpatterns = patterns('brisket.influence.views',
     url(r'^search', 'search', name='search'),
@@ -31,13 +32,13 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^collections/advisory-committees', 'faca_landing'),
 
     # entity pages
-    url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'organization_entity',
+    url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', OrganizationEntityView.as_view(),
         name='organization_entity'),
-    url(r'^politician/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'politician_entity',
+    url(r'^politician/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', PoliticianEntityView.as_view(),
         name='politician_entity'),
-    url(r'^individual/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'individual_entity',
+    url(r'^individual/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', IndividualEntityView.as_view(),
         name='individual_entity'),
-    url(r'^industry/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'industry_entity',
+    url(r'^industry/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', IndustryEntityView.as_view(),
         name='industry_entity'),
     url(r'^entity/(?P<entity_id>[a-f0-9-]{32,36})', 'entity_redirect', name='entity_redirect'),
 

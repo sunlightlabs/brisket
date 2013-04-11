@@ -8,6 +8,7 @@ import re
 from django.utils.datastructures import SortedDict
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver, \
         IndividualNameCleaver
+from name_cleaver.names import PoliticianName
 
 
 _standardizers = {
@@ -115,26 +116,22 @@ def get_metadata(entity_id, request, entity_type):
 
     return data, cycle
 
+def earmarks_table_data(entity_id, cycle):
+    rows = api.pol.earmarks(entity_id, cycle)
+    for row in rows:
+        for member in row['members']:
+            member_obj_or_str = PoliticianNameCleaver(member['name']).parse()
+            if isinstance(member_obj_or_str, PoliticianName):
+                member['name'] = str(member_obj_or_str.plus_metadata(member['party'], member['state']))
+            else:
+                member['name'] = member_obj_or_str
+
+    return rows
+
 def months_into_cycle_for_date(date, cycle):
     end_of_cycle = datetime.datetime.strptime("{0}1231".format(cycle), "%Y%m%d").date()
     step = 24 - abs(((end_of_cycle.year - date.year) * 12) + end_of_cycle.month - date.month)
     return step
-
-
-def check_entity(entity_info, cycle, entity_type):
-    try:
-        icycle = int(cycle)
-    except:
-        raise Http404
-    if not entity_info['years']:
-        raise Http404
-    elif icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end'])):
-        raise Http404
-    elif icycle > LATEST_CYCLE:
-        raise Http404
-    elif entity_info['type'] != entity_type:
-        raise Http404
-
 
 def filter_bad_spending_descriptions(spending):
     for r in spending:
@@ -145,26 +142,6 @@ def filter_bad_spending_descriptions(spending):
 def get_source_display_name(metadata):
     source_display_names = {'wikipedia_info': 'Wikipedia', 'bioguide_info': 'Bioguide', 'sunlight_info': 'Sunlight'}
     return source_display_names.get(metadata.get('source_name', ''), '')
-
-def prepare_entity_view(request, entity_id, type):    
-    metadata, cycle = get_metadata(entity_id, request, type)
-    check_entity(metadata['entity_info'], cycle, type)
-    standardized_name = standardize_name(metadata['entity_info']['name'], type)
-
-    context = {}
-    context['entity_id'] = entity_id
-    context['cycle'] = cycle
-    context['entity_info'] = metadata['entity_info']
-    context['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
-    
-    context['sections'] = SortedDict()
-
-    if cycle != DEFAULT_CYCLE and unicode(str(cycle)) in metadata['entity_info']['metadata']:
-        # copy the current cycle's metadata into the generic metadata spot
-        metadata['entity_info']['metadata'].update(metadata['entity_info']['metadata'][unicode(str(cycle))])
-
-    return cycle, standardized_name, metadata, context
-
 
 def make_bill_link(bill):
     if bill['bill_type'] in 'h hr hc hj s sr sc sj'.split():
