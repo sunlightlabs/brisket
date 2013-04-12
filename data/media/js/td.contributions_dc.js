@@ -54,7 +54,8 @@ $().ready(function() {
             name: 'date',
             label: 'Date',
             help: 'Date of transaction',
-            field: TD.DataFilter.DateRangeField
+            field: TD.DataFilter.DateRangeField,
+            yearRange: '2011:2013'
         });
 
         /* TD.ContributionsDCFilter.registerFilter({
