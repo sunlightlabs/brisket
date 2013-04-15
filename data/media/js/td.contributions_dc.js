@@ -42,14 +42,6 @@ $().ready(function() {
             options: TD.STATES
         });
         
-        /* TD.ContributionsDCFilter.registerFilter({
-            name: 'msa_ft',
-            label: 'Contributor Metropolitan Area',
-            help: 'Metropolitan Statistical Area of the contributor',
-            field: TD.DataFilter.TextField,
-            allowMultipleFields: false
-        }); */
-
         TD.ContributionsDCFilter.registerFilter({
             name: 'date',
             label: 'Date',
@@ -58,21 +50,12 @@ $().ready(function() {
             yearRange: '2011:2013'
         });
 
-        /* TD.ContributionsDCFilter.registerFilter({
+         TD.ContributionsDCFilter.registerFilter({
+            name: 'office_ft',
             label: 'Office',
-            name: 'seat',
             help: 'Office for which candidate is running',
-            field: TD.DataFilter.DropDownField,
+            field: TD.DataFilter.TextField,
             allowMultipleFields: true,
-            options: [
-                ['federal:senate', 'US Senate'],
-                ['federal:house', 'US House of Representatives'],
-                ['federal:president', 'US President'],
-                ['state:upper', 'State Upper Chamber'],
-                ['state:lower', 'State Lower Chamber'],
-                ['state:governor', 'State Governor'],
-                ['state:judicial', 'State Judicial']
-            ]
         }); */
 
         TD.ContributionsDCFilter.registerFilter({
