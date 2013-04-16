@@ -11,7 +11,7 @@ from influenceexplorer import DEFAULT_CYCLE
 
 class MultiSectionView(View):
     sections = []
-    template = 'section_base/multisection_page.html'
+    template = 'section_base/multisection_base.html'
 
     def prepare_context(self, request):
         return {'sections': OrderedDict()}
@@ -95,6 +95,17 @@ class EntityView(MultiSectionView):
         self.entity_id = entity_id
 
         return super(EntityView, self).get(request)
+
+class EntityLandingView(MultiSectionView):
+    label = None
+
+    @property
+    def template(self):
+        return 'entity_landing/%s_landing.html' % self.label
+
+    def prepare_context(self, request):
+        self.cycle = str(request.GET.get('cycle', DEFAULT_CYCLE))
+        return super(EntityLandingView, self).prepare_context(request)
 
 class Section(object):
     template = None
