@@ -1,26 +1,8 @@
 # coding=utf-8
 
-from django.contrib.humanize.templatetags.humanize import intcomma
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.template.defaultfilters import pluralize, slugify
-from django.utils.datastructures import SortedDict
-from feedinator.models import Feed
-from influence import external_sites
-from influence.forms import SearchForm, ElectionCycle
-from influence.helpers import generate_label, barchart_href, \
-    bar_validate, pie_validate, \
-    filter_bad_spending_descriptions, make_bill_link, get_top_pages
-from influenceexplorer import DEFAULT_CYCLE
-from influence.external_sites import _get_td_url
-from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
-from name_cleaver.names import PoliticianName
-from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, api
-from urllib2 import URLError, HTTPError
-import datetime
-import json
-import unicodedata
+from settings import TOP_LISTS_CYCLE, api
 
 ### Groups
 def organization_landing(request):
