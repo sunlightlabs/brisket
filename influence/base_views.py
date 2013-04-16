@@ -6,12 +6,51 @@ from django.template import RequestContext
 
 from influence.forms import ElectionCycle
 from influence.helpers import get_metadata, standardize_name, get_source_display_name
-from settings import LATEST_CYCLE
+from settings import LATEST_CYCLE, DEBUG
 from influenceexplorer import DEFAULT_CYCLE
 
-class EntityView(View):
+class MultiSectionView(View):
     sections = []
+    template = 'section_base/multisection_page.html'
+
+    def prepare_context(self, request):
+        return {'sections': OrderedDict()}
+
+    def get(self, request):
+        context = self.prepare_context(request)
+        
+        suppress_cache = False
+        for section in self.sections:
+            s = section(self)
+            s.build_section()
+            context['sections'][section.label] = s
+
+            if s.failed or s.suppress_cache:
+                suppress_cache = True
+
+        response = render_to_response(self.template, context, self.build_request_context(request))
+
+        if suppress_cache:
+            response['Cache-Control'] = "max-age=0"
+
+        return response
+
+    def build_request_context(self, request):
+        context_variables = {}
+
+        params = request.GET.copy()
+        params['cycle'] = self.cycle
+
+        context_variables['cycle_form'] = ElectionCycle(self.metadata['available_cycles'], params)
+
+        return RequestContext(request, context_variables)
+
+class EntityView(MultiSectionView):
     type = None
+
+    @property
+    def template(self):
+        return 'entities/%s.html' % self.type
 
     def check_metadata(self):
         try:
@@ -40,54 +79,22 @@ class EntityView(View):
         self.standardized_name = standardize_name(self.metadata['entity_info']['name'], self.type)
         self.external_ids = self.metadata['entity_info']['external_ids']
 
-        context = {}
+        context = super(EntityView, self).prepare_context(request)
         context['entity_id'] = self.entity_id
         context['cycle'] = self.cycle
         context['entity_info'] = self.metadata['entity_info']
         context['entity_info']['metadata']['source_display_name'] = get_source_display_name(self.metadata['entity_info']['metadata'])
         
-        context['sections'] = OrderedDict()
-
         if self.cycle != DEFAULT_CYCLE and unicode(str(self.cycle)) in self.metadata['entity_info']['metadata']:
             # copy the current cycle's metadata into the generic metadata spot
             self.metadata['entity_info']['metadata'].update(self.metadata['entity_info']['metadata'][unicode(str(self.cycle))])
 
         return context
 
-    def build_request_context(self, request):
-        context_variables = {}
-
-        params = request.GET.copy()
-        params['cycle'] = self.cycle
-
-        context_variables['cycle_form'] = ElectionCycle(self.metadata['available_cycles'], params)
-
-        return RequestContext(request, context_variables)
-
-    def process_metadata(self, context):
-        pass
-
     def get(self, request, entity_id):
         self.entity_id = entity_id
 
-        context = self.prepare_context(request)
-        self.process_metadata(context)
-
-        suppress_cache = False
-        for section in self.sections:
-            s = section(self)
-            s.build_section()
-            context['sections'][section.label] = s
-
-            if s.failed or s.suppress_cache:
-                suppress_cache = True
-
-        response = render_to_response('entities/%s.html' % self.type, context, self.build_request_context(request))
-
-        if suppress_cache:
-            response['Cache-Control'] = "max-age=0"
-
-        return response
+        return super(EntityView, self).get(request)
 
 class Section(object):
     template = None
@@ -121,8 +128,16 @@ class Section(object):
             try:
                 self.enabled = self.fetch()
             except:
+                if DEBUG:
+                    raise
                 self.failed = True
                 return
 
         if self.enabled:
-            self.build_section_data()
+            try:
+                self.build_section_data()
+            except:
+                if DEBUG:
+                    raise
+                self.failed = True
+                return

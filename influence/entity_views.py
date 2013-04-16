@@ -500,7 +500,9 @@ class PoliticianEntityView(EntityView):
         PolEarmarksSection
     ]
 
-    def process_metadata(self, context):
+    def prepare_context(self, request):
+        context = super(PoliticianEntityView, self).prepare_context(request)
+
         metadata, cycle = self.metadata, self.cycle
         if cycle == DEFAULT_CYCLE:
             """
@@ -525,6 +527,8 @@ class PoliticianEntityView(EntityView):
         metadata['entity_info']['metadata']['seat_held'] = seat_held
 
         metadata['entity_info']['name_with_meta'] = str(self.standardized_name.plus_metadata(meta.get('party'), meta.get('state')))
+
+        return context
 
 
 ### Individuals ###
