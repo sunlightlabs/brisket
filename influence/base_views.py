@@ -105,7 +105,11 @@ class EntityLandingView(MultiSectionView):
 
     def prepare_context(self, request):
         self.cycle = str(request.GET.get('cycle', DEFAULT_CYCLE))
-        return super(EntityLandingView, self).prepare_context(request)
+        context = super(EntityLandingView, self).prepare_context(request)
+        context['cycle'] = self.cycle
+        context['name'] = self.name
+        context['label'] = self.label
+        return context
 
 class Section(object):
     template = None

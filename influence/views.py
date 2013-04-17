@@ -25,6 +25,7 @@ import unicodedata
 from entity_views import *
 from entity_landing_views import *
 from dataset_landing_views import *
+from place_landing_views import *
 
 #this is the index
 def index(request):
