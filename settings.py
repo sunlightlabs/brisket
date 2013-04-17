@@ -131,6 +131,9 @@ CACHES = {
     }
 }
 
+# this will get overwritten either in local_settings or below
+DEFAULT_CYCLE = None
+
 from local_settings import *
 
 MEDIASYNC['JOINED'] = {
@@ -179,6 +182,11 @@ MEDIASYNC['JOINED'] = {
         'data/js/td.fields.js',
         'data/js/td.contributions.js'
     ],
+    'data/contributions_dc.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contributions_dc.js'
+    ],
     'data/earmarks.js': [
         'data/js/td.js',
         'data/js/td.fields.js',
@@ -217,6 +225,7 @@ MEDIASYNC['JOINED'] = {
         'data/js/td.grants.js',
         'data/js/td.lobbying.js',
         'data/js/td.contributions.js',
+        'data/js/td.contributions_dc.js',
         'data/js/td.contractor_misconduct.js',
         'data/js/td.epa_echo.js',
         'data/js/td.faca.js',
@@ -229,5 +238,8 @@ IGNORABLE_404_URLS = (
     re.compile(r'\.php$'),
 )
 
-from influenceexplorer import InfluenceExplorer
+from influenceexplorer import InfluenceExplorer, ALL_CYCLES
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
+
+if not DEFAULT_CYCLE:
+    DEFAULT_CYCLE = ALL_CYCLES

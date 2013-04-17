@@ -1,7 +1,6 @@
 from django.http import Http404
 from django.template.defaultfilters import slugify
-from influenceexplorer import DEFAULT_CYCLE
-from settings import api, LATEST_CYCLE
+from settings import api, LATEST_CYCLE, DEFAULT_CYCLE
 import datetime
 import googleanalytics
 import re
@@ -98,7 +97,7 @@ def get_metadata(entity_id, request, entity_type):
     if 'cycle' in request.GET:
         cycle = str(request.GET['cycle'])
     else:
-        cycle = str(LATEST_CYCLE) if str(LATEST_CYCLE) in data['available_cycles'] else str(DEFAULT_CYCLE)
+        cycle = str(DEFAULT_CYCLE)
         
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():
