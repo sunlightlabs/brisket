@@ -68,7 +68,7 @@ API_SECTIONS = [
 DOCS_SECTIONS = [
     Section('/docs/', 'docs_index', 'Overview'),
     Section('/docs/contributions/', 'docs_contributions', 'Campaign Finance'),
-    Section('/docs/contributions/dc', 'docs_contributions/dc', 'Campaign Finance (DC)'),
+    Section('/docs/contributions/dc', 'docs_contributions_dc', 'Campaign Finance (DC)'),
     Section('/docs/lobbying/', 'docs_lobbying', 'Federal Lobbying'),
     Section('/docs/grants/', 'docs_grants', 'Federal Grants'),
     Section('/docs/contracts/', 'docs_contracts', 'Federal Contracts'),
