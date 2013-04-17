@@ -102,6 +102,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
+FIRST_CYCLE = 1990
 LATEST_CYCLE = 2014
 TOP_LISTS_CYCLE = 2012
 

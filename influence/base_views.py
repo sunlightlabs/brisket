@@ -6,7 +6,7 @@ from django.template import RequestContext
 
 from influence.forms import ElectionCycle
 from influence.helpers import get_metadata, standardize_name, get_source_display_name
-from settings import LATEST_CYCLE, DEBUG
+from settings import FIRST_CYCLE, LATEST_CYCLE, DEBUG
 from influenceexplorer import DEFAULT_CYCLE
 
 class MultiSectionView(View):
@@ -41,7 +41,10 @@ class MultiSectionView(View):
         params = request.GET.copy()
         params['cycle'] = self.cycle
 
-        context_variables['cycle_form'] = ElectionCycle(self.metadata['available_cycles'], params)
+        available_cycles = [str(x) for x in range(int(FIRST_CYCLE), int(LATEST_CYCLE) + 1, 2)]
+        available_cycles.append("-1")
+
+        context_variables['cycle_form'] = ElectionCycle(available_cycles, params)
 
         return RequestContext(request, context_variables)
 

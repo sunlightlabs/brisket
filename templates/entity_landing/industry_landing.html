@@ -1,39 +1,4 @@
 {% extends "entity_landing/entity_landing_base.html" %}
 {% load humanize %}
 {% load influence_extras %}
-
-{% block pagetitle %}
-    Industries | 
-{% endblock %}
-
 {% block body_class %}group{% endblock %}
-
-{% block main %}
-    {% if num_industries %}
-    <div id="contentHeader">
-        <h2>Industries</h2>
-    </div>
-    <div id="ltColumn">
-        <p>OpenSecrets.org and FollowTheMoney.org classify contribution data into about <a href="http://www.opensecrets.org/lobby/list_indus.php">100 industries</a>. The following industries have contributed the greatest dollar amounts during the current election cycle.</p>
-        <span class="tip external">based on contributions made in 2011-2012</span>
-        <table id="mainPageTable" class="sortable">
-            <thead>
-                  <tr id="titles">
-                      <th class="sort">Name</th>
-                      <th class="sort">Given</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for result in top_n_industries %}
-                  <tr class="{% cycle 'even' 'odd' %}">
-                      <td>
-                          <a href="/industry/{{ result.name|standardize_industry_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{ result.name|standardize_industry_name }}</a>
-                      </td>
-                      <td>${{ result.amount|floatformat:0|intcomma }}</td>
-                  </tr>
-                  {% endfor %}
-              </tbody>
-        </table>
-    </div>
-    {% endif %}
-{% endblock %}

@@ -3,56 +3,187 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from settings import TOP_LISTS_CYCLE, api
+from influence.base_views import EntityLandingView, Section
 
-### Groups
-def organization_landing(request):
-    context = {}
-    context['top_n_organizations'] = api.entities.top_n_organizations(cycle=TOP_LISTS_CYCLE, limit=50)
-    context['num_orgs'] = len(context['top_n_organizations'])
-    context['cycle'] = TOP_LISTS_CYCLE
-    return render_to_response('entity_landing/org_landing.html', context, RequestContext(request))
+### Groups ###
+class IndustryContributionsLandingSection(Section):
+    name = 'Campaign Finance'
+    label = 'contributions'
+    template = 'entity_landing/industry_landing_contributions.html'
 
-def industry_landing(request):
-    context = {}
-    context['top_n_industries'] = api.entities.top_n_industries(cycle=TOP_LISTS_CYCLE, limit=50)
-    context['num_industries'] = len(context['top_n_industries'])
-    context['cycle'] = TOP_LISTS_CYCLE
-    return render_to_response('entity_landing/industry_landing.html', context, RequestContext(request))
+class IndustryLobbyingLandingSection(Section):
+    name = 'Lobbying'
+    label = 'lobbying'
+    template = 'entity_landing/industry_landing_lobbying.html'
 
-def pol_group_landing(request):
-    context = {}
-    return render_to_response('entity_landing/pol_group_landing.html', context, RequestContext(request))
+class IndustryGrantsAndContractsLandingSection(Section):
+    name = 'Federal Spending'
+    label = 'grants_and_contracts'
+    template = 'entity_landing/industry_landing_grants_and_contracts.html'
 
-def lobbying_firm_landing(request):
-    context = {}
-    return render_to_response('entity_landing/lobbying_firm_landing.html', context, RequestContext(request))
+class IndustryLandingView(EntityLandingView):
+    label = 'industry'
+    name = 'Industries'
+    sections = [
+        IndustryContributionsLandingSection,
+        IndustryLobbyingLandingSection,
+        IndustryGrantsAndContractsLandingSection,
+    ]
 
+class OrgContributionsLandingSection(Section):
+    name = 'Campaign Finance'
+    label = 'contributions'
+    template = 'entity_landing/org_landing_contributions.html'
 
-### Places
-def city_landing(request):
-    context = {}
-    return render_to_response('entity_landing/city_landing.html', context, RequestContext(request))
+class OrgLobbyingLandingSection(Section):
+    name = 'Lobbying'
+    label = 'lobbying'
+    template = 'entity_landing/org_landing_lobbying.html'
 
-def state_landing(request):
-    context = {}
-    return render_to_response('entity_landing/state_landing.html', context, RequestContext(request))
+class OrgRegulationsLandingSection(Section):
+    name = 'Regulations'
+    label = 'regulations'
+    template = 'entity_landing/org_landing_regulations.html'
 
+class OrgEarmarksLandingSection(Section):
+    name = 'Earmarks'
+    label = 'earmarks'
+    template = 'entity_landing/org_landing_earmarks.html'
 
-### People
-def contributor_landing(request):
-    context = {}
-    context['top_n_individuals'] = api.entities.top_n_individuals(cycle=TOP_LISTS_CYCLE, limit=50)
-    context['num_indivs'] = len(context['top_n_individuals'])
-    context['cycle'] = TOP_LISTS_CYCLE
-    return render_to_response('entity_landing/contributor_landing.html', context, RequestContext(request))
+class OrgGrantsAndContractsLandingSection(Section):
+    name = 'Federal Spending'
+    label = 'grants_and_contracts'
+    template = 'entity_landing/org_landing_grants_and_contracts.html'
 
-def lobbyist_landing(request):
-    context = {}
-    return render_to_response('entity_landing/lobbyist_landing.html', context, RequestContext(request))
+class OrgContractorMisconductLandingSection(Section):
+    name = 'Contractor Misconduct'
+    label = 'contractor_misconduct'
+    template = 'entity_landing/org_landing_contractor_misconduct.html'
 
-def politician_landing(request):
-    context = {}
-    context['top_n_politicians'] = api.entities.top_n_politicians(cycle=TOP_LISTS_CYCLE, limit=50)
-    context['num_pols'] = len(context['top_n_politicians'])
-    context['cycle'] = TOP_LISTS_CYCLE
-    return render_to_response('entity_landing/pol_landing.html', context, RequestContext(request))
+class OrgEpaEchoLandingSection(Section):
+    name = 'EPA Violations'
+    label = 'epa_echo'
+    template = 'entity_landing/org_landing_epa_echo.html'
+
+class OrgFacaLandingSection(Section):
+    name = 'Advisory Committees'
+    label = 'faca'
+    template = 'entity_landing/org_landing_faca.html'
+
+class OrgLandingView(EntityLandingView):
+    label = 'org'
+    name = 'Organizations'
+    sections = [
+        OrgContributionsLandingSection,
+        OrgLobbyingLandingSection,
+        OrgRegulationsLandingSection,
+        OrgEarmarksLandingSection,
+        OrgGrantsAndContractsLandingSection,
+        OrgContractorMisconductLandingSection,
+        OrgEpaEchoLandingSection,
+        OrgFacaLandingSection,
+    ]
+
+class PolGroupContributionsLandingSection(Section):
+    name = 'Campaign Finance'
+    label = 'contributions'
+    template = 'entity_landing/pol_group_landing_contributions.html'
+
+class PolGroupLobbyingLandingSection(Section):
+    name = 'Lobbying'
+    label = 'lobbying'
+    template = 'entity_landing/pol_group_landing_lobbying.html'
+
+class PolGroupRegulationsLandingSection(Section):
+    name = 'Regulations'
+    label = 'regulations'
+    template = 'entity_landing/pol_group_landing_regulations.html'
+
+class PolGroupFacaLandingSection(Section):
+    name = 'Advisory Committees'
+    label = 'faca'
+    template = 'entity_landing/pol_group_landing_faca.html'
+
+class PolGroupLandingView(EntityLandingView):
+    label = 'pol_group'
+    name = 'Political Groups'
+    sections = [
+        PolGroupContributionsLandingSection,
+        PolGroupLobbyingLandingSection,
+        PolGroupRegulationsLandingSection,
+        PolGroupFacaLandingSection,
+    ]
+
+class LobbyingFirmContributionsLandingSection(Section):
+    name = 'Campaign Finance'
+    label = 'contributions'
+    template = 'entity_landing/lobbying_firm_landing_contributions.html'
+
+class LobbyingFirmLobbyingLandingSection(Section):
+    name = 'Lobbying'
+    label = 'lobbying'
+    template = 'entity_landing/lobbying_firm_landing_lobbying.html'
+
+class LobbyingFirmRegulationsLandingSection(Section):
+    name = 'Regulations'
+    label = 'regulations'
+    template = 'entity_landing/lobbying_firm_landing_regulations.html'
+
+class LobbyingFirmFacaLandingSection(Section):
+    name = 'Advisory Committees'
+    label = 'faca'
+    template = 'entity_landing/lobbying_firm_landing_faca.html'
+
+class LobbyingFirmLandingView(EntityLandingView):
+    label = 'lobbying_firm'
+    name = 'Lobbying Firms'
+    sections = [
+        LobbyingFirmContributionsLandingSection,
+        LobbyingFirmLobbyingLandingSection,
+        LobbyingFirmRegulationsLandingSection,
+        LobbyingFirmFacaLandingSection,
+    ]
+
+### People ###
+class ContributorContributionsLandingSection(Section):
+    name = 'Campaign Finance'
+    label = 'contributions'
+    template = 'entity_landing/contributor_landing_contributions.html'
+
+class ContributorLandingView(EntityLandingView):
+    label = 'contributor'
+    name = 'Contributors'
+    sections = [
+        ContributorContributionsLandingSection,
+    ]
+
+class LobbyistContributionsLandingSection(Section):
+    name = 'Campaign Finance'
+    label = 'contributions'
+    template = 'entity_landing/lobbyist_landing_contributions.html'
+
+class LobbyistLobbyingLandingSection(Section):
+    name = 'Lobbying'
+    label = 'lobbying'
+    template = 'entity_landing/lobbyist_landing_lobbying.html'
+
+class LobbyistLandingView(EntityLandingView):
+    label = 'lobbyist'
+    name = 'Lobbyists'
+    sections = [
+        LobbyistContributionsLandingSection,
+        LobbyistLobbyingLandingSection,
+    ]
+
+class PolContributionsLandingSection(Section):
+    name = 'Campaign Finance'
+    label = 'contributions'
+    template = 'entity_landing/pol_landing_contributions.html'
+
+class PolLandingView(EntityLandingView):
+    label = 'pol'
+    name = 'Politicians'
+    sections = [
+        PolContributionsLandingSection,
+    ]
+

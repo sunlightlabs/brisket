@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
 from brisket.influence.views import PoliticianEntityView, IndividualEntityView, OrganizationEntityView, IndustryEntityView
+from brisket.influence.views import IndustryLandingView, OrgLandingView, PolGroupLandingView, LobbyingFirmLandingView, ContributorLandingView, LobbyistLandingView, PolLandingView
 
 urlpatterns = patterns('brisket.influence.views',
     url(r'^search', 'search', name='search'),
@@ -9,19 +10,21 @@ urlpatterns = patterns('brisket.influence.views',
     # url(r'^sector/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'sector_detail',
     #     name='sector_detail'),
 
-    # landing pages
+    # entity landing pages
     # -> groups
-    url(r'^industries$', 'industry_landing'),
-    url(r'^organizations$', 'organization_landing'),
-    url(r'^political-groups$', 'pol_group_landing'),
-    url(r'^lobbying-firms$', 'lobbying_firm_landing'),
+    url(r'^industries$', IndustryLandingView.as_view()),
+    url(r'^organizations$', OrgLandingView.as_view()),
+    url(r'^political-groups$', PolGroupLandingView.as_view()),
+    url(r'^lobbying-firms$', LobbyingFirmLandingView.as_view()),
+    # -> people
+    url(r'^contributors$', ContributorLandingView.as_view()),
+    url(r'^lobbyists$', LobbyistLandingView.as_view()),
+    url(r'^politicians$', PolLandingView.as_view()),
+
+    # other landing pages
     # -> places
     url(r'^cities$', 'city_landing'),
     url(r'^states$', 'state_landing'),
-    # -> people
-    url(r'^contributors$', 'contributor_landing'),
-    url(r'^lobbyists$', 'lobbyist_landing'),
-    url(r'^politicians$', 'politician_landing'),
     # -> collections
     url(r'^collections/campaign-finance', 'campaign_finance_landing'),
     url(r'^collections/lobbying', 'lobbying_landing'),
