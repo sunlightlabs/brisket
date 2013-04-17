@@ -58,6 +58,14 @@ $().ready(function() {
             allowMultipleFields: true,
         }); */
 
+         TD.ContributionsDCFilter.registerFilter({
+            name: 'payment_type_ft',
+            label: 'Payment Type',
+            help: 'Type of payment, e.g. cash/check. Also used to indicate audit adjustments.',
+            field: TD.DataFilter.TextField,
+            allowMultipleFields: true,
+        }); */
+
         TD.ContributionsDCFilter.registerFilter({
             name: 'recipient_ft',
             label: 'Recipient',
