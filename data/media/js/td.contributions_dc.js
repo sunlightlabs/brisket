@@ -56,7 +56,7 @@ $().ready(function() {
             help: 'Office for which candidate is running',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true,
-        }); */
+        });
 
          TD.ContributionsDCFilter.registerFilter({
             name: 'payment_type_ft',
@@ -64,7 +64,7 @@ $().ready(function() {
             help: 'Type of payment, e.g. cash/check. Also used to indicate audit adjustments.',
             field: TD.DataFilter.TextField,
             allowMultipleFields: true,
-        }); */
+        });
 
         TD.ContributionsDCFilter.registerFilter({
             name: 'recipient_ft',
