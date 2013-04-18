@@ -3,7 +3,7 @@ from django.conf import settings
 
 def custom_context(request):
     out = {}
-    if hasattr(request, 'urlconf') and request.urlconf == 'brisket.data.urls':
+    if hasattr(request, 'urlconf') and request.urlconf == 'data.urls':
         # we're on data.X, so TD urls can be root-relative and IE urls need a full path
         out['IE_BASE_URL'] = getattr(settings, "IE_BASE_URL", "http://influenceexplorer.com/")
         out['DATA_BASE_URL'] = "/"
