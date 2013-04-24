@@ -177,6 +177,11 @@ MEDIASYNC['JOINED'] = {
         'data/js/td.fields.js',
         'data/js/td.contributions.js'
     ],
+    'data/contributions_dc.js': [
+        'data/js/td.js',
+        'data/js/td.fields.js',
+        'data/js/td.contributions_dc.js'
+    ],
     'data/earmarks.js': [
         'data/js/td.js',
         'data/js/td.fields.js',
@@ -215,6 +220,7 @@ MEDIASYNC['JOINED'] = {
         'data/js/td.grants.js',
         'data/js/td.lobbying.js',
         'data/js/td.contributions.js',
+        'data/js/td.contributions_dc.js',
         'data/js/td.contractor_misconduct.js',
         'data/js/td.epa_echo.js',
         'data/js/td.faca.js',
