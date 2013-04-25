@@ -86,6 +86,44 @@ section_indicators = {
        'earmarks': ['earmark_count']}
 }
 
+landing_page_section_indicators = {
+    # GROUPS
+   'industry': {
+       'contributions': ['party_summary','seat_race_summary','pol_group_summary','state_fed_summary'], 
+       'lobbying': ['issue_summary','bill_summary']
+       'fed_spending':['loan_summary', 'grant_summary', 'contract_summary']},
+   'organization': {
+       'contributions': ['party_summary','seat_race_summary','pol_group_summary','state_fed_summary'], 
+       'lobbying': ['issue_summary','bill_summary']
+       'fed_spending':['loan_summary', 'grant_summary', 'contract_summary'],
+       'earmarks': ['earmark_summary'],
+       'contractor_misconduct': ['contractor_misconduct_summary'],
+       'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       'epa_echo': ['epa_actions_summary'],
+       'faca': ['faca_committee_summary', 'faca_member_summary']},
+   'pol_group': {
+       'contributions': ['party_summary','seat_race_summary','pol_group_summary','state_fed_summary'], 
+       'lobbying': ['issue_summary','bill_summary']
+       'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       'faca': ['faca_committee_summary', 'faca_member_summary']},
+   'lobbying_firm': {
+       'contributions': ['party_summary','seat_race_summary','pol_group_summary','state_fed_summary'], 
+       'lobbying': ['issue_summary','bill_summary']
+       'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       'faca': ['faca_committee_summary', 'faca_member_summary']},
+   # PEOPLE
+   'contributor':   {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'],
+       #'lobbying': ['issue_summary','bill_summary']
+       },
+   'lobbyist':   {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'],
+       'lobbying': ['issue_summary','bill_summary']},
+   'politician':   {
+       'contributions': ['recipient_summary'],
+       'earmarks': ['earmark_summary']},
+}
+
 def get_metadata(entity_id, request, entity_type):
     entity_info = api.entities.metadata(entity_id)
 
