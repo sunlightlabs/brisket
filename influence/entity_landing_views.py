@@ -180,10 +180,16 @@ class PolContributionsLandingSection(Section):
     label = 'contributions'
     template = 'entity_landing/pol_landing_contributions.html'
 
+class PolEarmarksLandingSection(Section):
+    name = 'Earmarks'
+    label = 'earmarks'
+    template = 'entity_landing/pol_landing_earmarks.html'
+
 class PolLandingView(EntityLandingView):
     label = 'pol'
     name = 'Politicians'
     sections = [
         PolContributionsLandingSection,
+        PolEarmarksLandingSection,
     ]
 
