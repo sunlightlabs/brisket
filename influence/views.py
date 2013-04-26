@@ -63,12 +63,12 @@ def entity_redirect(request, entity_id):
 
     return redirect('{}_entity'.format(entity['type']), entity_id=entity_id)
 
-def entity_preview_redirect(request, entity_id, type):
+def entity_preview_redirect(request, entity_id, type=None):
     entity = api.entities.metadata(entity_id)
 
     name = slugify(entity['name'])
 
-    return redirect('entity_preview', entity_id=entity_id, type=type)
+    return redirect('entity_preview', entity_id=entity_id, type=entity['type'])
 
 
 def entity_preview(request, entity_id, type):
