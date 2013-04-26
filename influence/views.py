@@ -63,6 +63,23 @@ def entity_redirect(request, entity_id):
 
     return redirect('{}_entity'.format(entity['type']), entity_id=entity_id)
 
+def entity_preview_redirect(request, entity_id, type):
+    entity = api.entities.metadata(entity_id)
+
+    name = slugify(entity['name'])
+
+    return redirect('entity_preview', entity_id=entity_id, type=type)
+
+
+def entity_preview(request, entity_id, type):
+
+    if type == 'politician':
+        cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
+
+        return render_to_response('{}_preview.html'.format(type), context,
+                              entity_context(request, cycle, metadata['available_cycles']))
+    else:
+        return entity_redirect(request, entity_id)
 
 #this is the index
 def index(request):
