@@ -1,0 +1,48 @@
+{% if entity_info.metadata.photo_url %}
+<img alt="political photo" src="{{ entity_info.metadata.photo_url }}" style="float:left; margin-right: 1.5em;"/>
+{% endif %}
+
+{% load influence_extras %}
+<p><strong>{{ entity_info.name|standardize_politician_name }}</strong> (<a href="/politician/{{entity_info.name|slugify}}/{{entity_info.entity_id}}">Full IE Page</a>)</p>
+<ul>
+  {% if entity_info.metadata.party == 'D' %}
+  <li>Party: <strong>Democrat</strong></li>
+  {% else %}{% if entity_info.metadata.party == 'R' %}
+  <li>Party: <strong>Republican</strong></li>
+  {% else %}
+  <li>Party: <strong>{{ entity_info.metadata.party }}</strong></li>
+  {% endif %}{% endif %}
+
+  {% if entity_info.metadata.seat_held %}
+  <li>{% ifequal cycle "-1" %}Latest {% endifequal %}Office Held: <strong>{{ entity_info.metadata.seat_held|seat_label }}{% if entity_info.metadata.state_held %}, {{ entity_info.metadata.state_held }}{% endif %}</strong></li>
+  {% endif %}
+  <li>{% ifequal cycle "-1" %}Latest {% endifequal %}Office Sought: <strong>{{ entity_info.metadata.seat|seat_label }}{% if 'president' not in entity_info.metadata.seat and entity_info.metadata.state %}, {{ entity_info.metadata.state }}{% endif %}</strong></li>
+
+  {% if entity_info.metadata.yrs_of_service %}
+  <li>Years of Service: {{entity_info.metadata.yrs_of_service}}</li>
+  {% endif %}
+
+  {% if entity_info.metadata.revolving_door_entity %}
+  <li>Has lobbying activity. See: <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbyist profile for {{ entity_info.name|standardize_politician_name }}</a></li>
+  {% endif %}
+
+  {% for state_pol in entity_info.metadata.state_politician_entities %}
+  <li>Also ran for or held STATE office: <a href="/politician/{{state_pol.name|slugify}}/{{state_pol.id}}">State profile for {{ state_pol.name|standardize_politician_name }}</a></li>
+  {% endfor %}
+
+  {% for fed_pol in entity_info.metadata.federal_politician_entities %}
+  <li>Also ran for or held FEDERAL office: <a href="/politician/{{fed_pol.name|slugify}}/{{fed_pol.id}}">Federal profile for {{ fed_pol.name|standardize_politician_name }}</a></li>
+  {% endfor %}
+</ul>
+<div class="clear"></div>
+
+{% block description %}
+<div style="text-size: xsmall">
+{% if entity_info.metadata.bio %}
+{{ entity_info.metadata.bio|first_paragraph|safe }}
+{% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
+<em>Source: <a href="{{ entity_info.metadata.bio_url }}" target="_blank">{{ entity_info.metadata.source_display_name }}</a></em>
+{% endif %}
+{% endif %}
+</div>
+{% endblock %}
