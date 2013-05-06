@@ -1,0 +1,13 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="result-row">
+    {% if result.metadata.photo_url %}
+    <div class="result-photo" style="background-image: url('{{ result.metadata.photo_url }}');"></div>
+    {% endif %}
+
+    <a href="/{{ result.type }}/{{ result.name|standardize_name:result.type|slugify }}/{{ result.id }}" class="result-name">{{ result.name|standardize_name:result.type }}</a>
+    <span class="result-type">{% block result-type %}<strong>{{ result.type|capfirst }}</strong>{% endblock %}</span>
+
+    <div class="clear"></div>
+</div>

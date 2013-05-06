@@ -1,0 +1,10 @@
+{% extends "search/result_row.html" %}
+
+{% block result-type %}
+    <strong>
+    {% if result.totals.contributor_count %}
+    Contributor{% if result.totals.lobbying_count %},{% endif %}
+    {% endif %}
+    {% if result.totals.lobbying_count %}Lobbyist{% endif %}
+    </strong>
+{% endblock %}

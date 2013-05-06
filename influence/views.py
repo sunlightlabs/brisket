@@ -21,6 +21,7 @@ from urllib2 import URLError, HTTPError
 import datetime
 import json
 import unicodedata
+import operator
 
 from entity_views import *
 from entity_landing_views import *
@@ -42,9 +43,7 @@ def search(request):
 
     submitted_form = SearchForm(request.GET)
     if submitted_form.is_valid():
-        kwargs = {}
         query = submitted_form.cleaned_data['query'].strip()
-        cycle = request.GET.get('cycle', DEFAULT_CYCLE)
 
         # see ticket #545
         query = query.replace(u"’", "'")
@@ -58,50 +57,24 @@ def search(request):
         if not request.GET.get('from_form', None):
             query = query.replace('-', ' ')
 
-        results = api.entities.search(query)
+        results = {
+            'people': api.entities.adv_search(query, type=('individual', 'politician'), per_page=5),
+            'groups': api.entities.adv_search(query, type=('organization', 'industry'), per_page=5)
+        }
 
-        # limit the results to only those entities with an ID.
-        entity_results = [result for result in results if result['id']]
+        all_results = reduce(operator.add, [t['results'] for t in results.values()])
 
         # if there's just one results, redirect to that entity's page
-        if len(entity_results) == 1:
-            result_type = entity_results[0]['type']
-            name = slugify(entity_results[0]['name'])
-            _id = entity_results[0]['id']
-            return HttpResponseRedirect('/%s/%s/%s%s' % (result_type, name, _id, "?cycle=" + cycle if cycle != "-1" else ""))
+        if len(all_results) == 1:
+            result_type = all_results[0]['type']
+            # FIXME: cleave first
+            name = slugify(all_results[0]['name'])
+            _id = all_results[0]['id']
+            return HttpResponseRedirect('/%s/%s/%s' % (result_type, name, _id))
 
-        kwargs['query'] = query
-        kwargs['contributor_search_link'] = _get_td_url('individual', query, None, None)
-
-        if len(entity_results) == 0:
-            kwargs['sorted_results'] = None
-        else:
-            # sort the results by type
-            sorted_results = {'organization': [], 'politician': [], 'individual': [], 'lobbying_firm': [], 'industry': [], 'superpac': []}
-            for result in entity_results:
-                if result['type'] == 'organization' and result['lobbying_firm'] == True:
-                    sorted_results['lobbying_firm'].append(result)
-                elif result['type'] == 'organization' and result['is_superpac'] == True:
-                    sorted_results['superpac'].append(result)
-                else:
-                    sorted_results[result['type']].append(result)
-
-            # sort each type by amount
-            sorted_results['industry']      = sorted(sorted_results['industry'],      key=lambda x: float(x['total_given']), reverse=True)
-            sorted_results['organization']  = sorted(sorted_results['organization'],  key=lambda x: float(x['total_given']), reverse=True)
-            sorted_results['individual']    = sorted(sorted_results['individual'],    key=lambda x: float(x['total_given']), reverse=True)
-            sorted_results['politician']    = sorted(sorted_results['politician'],    key=lambda x: float(x['total_received']), reverse=True)
-            sorted_results['lobbying_firm'] = sorted(sorted_results['lobbying_firm'], key=lambda x: float(x['firm_income']), reverse=True)
-
-            # keep track of how many there are of each type of result
-            kwargs['num_industries']   = len(sorted_results['industry'])
-            kwargs['num_orgs']   = len(sorted_results['organization'])
-            kwargs['num_pols']   = len(sorted_results['politician'])
-            kwargs['num_indivs'] = len(sorted_results['individual'])
-            kwargs['num_firms']  = len(sorted_results['lobbying_firm'])
-            kwargs['num_superpacs'] = len(sorted_results['superpac'])
-            kwargs['cycle'] = cycle
-            kwargs['sorted_results'] = sorted_results
-        return render_to_response('search/results.html', kwargs, RequestContext(request))
+        results['has_results'] = results['people']['total'] + results['groups']['total'] > 0
+        results['query'] = query
+        
+        return render_to_response('search/results.html', results, RequestContext(request))
     else:
         return HttpResponseRedirect('/')

@@ -294,6 +294,19 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 #fullColumn { padding: 0 40px 80px 40px; }
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 
+.search-sidebar { padding: 45px 25px 80px 40px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px; background: url(../images/bg_postcard.jpg) top left repeat-y; }
+.search-main { padding: 0; width: 725px; float: right; overflow: hidden; }
+.search-main #contentHeader { padding: 0 25px 10px !important; }
+.search-results { padding-left: 25px; }
+.search-results h3 { margin-bottom: 10px; }
+.search-results .search-preview { margin-bottom: 25px; margin-right: 25px; }
+.search-results .result-rows { border-top: 1px dotted #e6e6e4; }
+.search-results .result-row { padding: 25px; border-bottom: 1px dotted #e6e6e4; }
+a.result-name { font-size: 145%; display: block; }
+.result-type { font-size: 110%; }
+.result-photo { float: right; width: 80px; height: 80px; background-repeat: no-repeat; background-position: top right; background-size: contain; }
+.results-drilldown { display: block; margin-top: 5px; font-size: 110%; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
+
 #mainContent .withTabs { padding-left: 0;}
 
 .piechart { margin-top: 20px;}
