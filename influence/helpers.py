@@ -86,6 +86,16 @@ section_indicators = {
        'earmarks': ['earmark_count']}
 }
 
+def get_data_types(entity_type, totals):
+    data = {}
+    for data_type, indicators in section_indicators[entity_type].iteritems():
+        if (totals and
+            [True for ind in indicators if totals[ind]]):
+            data[data_type] = True
+        else:
+            data[data_type] = False
+    return data
+
 def get_metadata(entity_id, request, entity_type):
     entity_info = api.entities.metadata(entity_id)
 
@@ -101,12 +111,8 @@ def get_metadata(entity_id, request, entity_type):
         cycle = str(DEFAULT_CYCLE)
         
     # check which types of data are available about this entity
-    for data_type, indicators in section_indicators[entity_type].iteritems():
-        if (entity_info['totals'].get(cycle, False) and
-            [True for ind in indicators if entity_info['totals'][cycle][ind]]):
-            data[data_type] = True
-        else:
-            data[data_type] = False
+    totals_for_cycle = entity_info['totals'].get(cycle, False)
+    data.update(get_data_types(entity_type, totals_for_cycle))
 
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
@@ -180,3 +186,8 @@ def get_top_pages():
     } for page in pages if entity_signature.match(page.dimensions[0]) and 'error' not in page.dimensions[1].lower()]
     
     return entity_pages[:5]
+
+# dummy class used in search
+class DummyEntity(object):
+    def __init__(self, metadata):
+        self.metadata = metadata

@@ -10,8 +10,9 @@ from feedinator.models import Feed
 from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import generate_label, barchart_href, \
-    bar_validate, pie_validate, \
-    filter_bad_spending_descriptions, make_bill_link, get_top_pages
+    bar_validate, pie_validate, get_data_types, DummyEntity, \
+    filter_bad_spending_descriptions, make_bill_link, get_top_pages, \
+    standardize_name
 from influenceexplorer import DEFAULT_CYCLE
 from influence.external_sites import _get_td_url
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
@@ -71,6 +72,21 @@ def search(request):
             name = slugify(all_results[0]['name'])
             _id = all_results[0]['id']
             return HttpResponseRedirect('/%s/%s/%s' % (result_type, name, _id))
+
+        for result in all_results:
+            result['url'] = "/%s/%s/%s" % (result['type'], slugify(standardize_name(result['name'], result['type'])), result['id'])
+
+            # munge results a bit to handle available sections
+            result.update(get_data_types(result['type'], result['totals']))
+            result['sections'] = []
+            # simulate an entity view so we can query said entity view's sections to see if they're availble
+            dummy_view = DummyEntity(result)
+
+            view_type = entity_views[result['type']]
+            for section_type in view_type.sections:
+                dummy_section = section_type(dummy_view)
+                if dummy_section.should_fetch():
+                    result['sections'].append(dummy_section)
 
         results['has_results'] = results['people']['total'] + results['groups']['total'] > 0
         results['query'] = query

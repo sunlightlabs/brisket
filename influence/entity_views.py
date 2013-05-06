@@ -621,3 +621,9 @@ class IndividualEntityView(EntityView):
         IndivContributionSection,
         IndivLobbyingSection
     ]
+
+# map all the entity view classes for later use
+entity_views = {}
+for klass in globals().values():
+    if type(klass) == type and issubclass(klass, EntityView) and klass.type:
+        entity_views[klass.type] = klass

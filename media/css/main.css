@@ -306,6 +306,7 @@ a.result-name { font-size: 145%; display: block; }
 .result-type { font-size: 110%; }
 .result-photo { float: right; width: 80px; height: 80px; background-repeat: no-repeat; background-position: top right; background-size: contain; }
 .results-drilldown { display: block; margin-top: 5px; font-size: 110%; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
+.result-sections { margin-top: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 
 #mainContent .withTabs { padding-left: 0;}
 

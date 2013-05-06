@@ -6,8 +6,17 @@
     <div class="result-photo" style="background-image: url('{{ result.metadata.photo_url }}');"></div>
     {% endif %}
 
-    <a href="/{{ result.type }}/{{ result.name|standardize_name:result.type|slugify }}/{{ result.id }}" class="result-name">{{ result.name|standardize_name:result.type }}</a>
+    <a href="{{ result.url }}" class="result-name">{{ result.name|standardize_name:result.type }}</a>
     <span class="result-type">{% block result-type %}<strong>{{ result.type|capfirst }}</strong>{% endblock %}</span>
+
+    {% if result.sections %}
+    <div class="result-sections">
+        Available data:
+        {% for section in result.sections %}
+            <a href="{{ result.url }}#{{ section.label }}_section">{{ section.name|lower }}</a>{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <div class="clear"></div>
 </div>
