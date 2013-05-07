@@ -33,7 +33,7 @@
         {% endwith %}
       {% endfor %}
       </div>
-      <a class="results-drilldown">see all {{ groups.total }} result{{groups.total|pluralize}} &raquo;</a>
+      <a href="/search/groups?{{ qs }}" class="results-drilldown">see all {{ groups.total }} result{{groups.total|pluralize}} &raquo;</a>
     </div>
     {% endif %}
 
@@ -43,11 +43,11 @@
       <div class="result-rows">
       {% for result in people.results %}
         {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
-          {% include template with result=result profile="slim" %}
+          {% include template with result=result search_type=search_type %}
         {% endwith %}
       {% endfor %}
       </div>
-      <a class="results-drilldown">see all {{ people.total }} result{{people.total|pluralize}} &raquo;</a>
+      <a href="/search/people?{{ qs }}" class="results-drilldown">see all {{ people.total }} result{{people.total|pluralize}} &raquo;</a>
     </div>
     {% endif %}
 

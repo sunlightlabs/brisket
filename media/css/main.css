@@ -308,6 +308,7 @@ a.result-name { font-size: 145%; display: block; }
 .result-photo img { max-width: 100%; max-height: 100%; border: 1px solid #eeeeee; padding: 2px; background: #ffffff; }
 .results-drilldown { display: block; margin-top: 5px; font-size: 110%; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 .result-sections { margin-top: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
+.result-bio { margin-top: 1em; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 
 #mainContent .withTabs { padding-left: 0;}
 

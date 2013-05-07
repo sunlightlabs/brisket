@@ -38,7 +38,7 @@ def index(request):
     return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, RequestContext(request))
 
 
-def search(request):
+def search(request, search_type):
     if not request.GET.get('query', None):
         HttpResponseRedirect('/')
 
@@ -58,9 +58,10 @@ def search(request):
         if not request.GET.get('from_form', None):
             query = query.replace('-', ' ')
 
+        per_page = 5 if search_type == 'all' else 10
         results = {
-            'people': api.entities.adv_search(query, type=('individual', 'politician'), per_page=5),
-            'groups': api.entities.adv_search(query, type=('organization', 'industry'), per_page=5)
+            'people': api.entities.adv_search(query, type=('individual', 'politician'), per_page=per_page) if search_type in ('people', 'all') else {'results': []},
+            'groups': api.entities.adv_search(query, type=('organization', 'industry'), per_page=per_page) if search_type in ('groups', 'all') else {'results': []}
         }
 
         all_results = reduce(operator.add, [t['results'] for t in results.values()])
@@ -88,8 +89,10 @@ def search(request):
                 if dummy_section.should_fetch():
                     result['sections'].append(dummy_section)
 
-        results['has_results'] = results['people']['total'] + results['groups']['total'] > 0
+        results['has_results'] = results['people'].get('total', 0) + results['groups'].get('total', 0) > 0
         results['query'] = query
+        results['qs'] = request.META['QUERY_STRING']
+        results['search_type'] = search_type
         
         return render_to_response('search/results.html', results, RequestContext(request))
     else:
