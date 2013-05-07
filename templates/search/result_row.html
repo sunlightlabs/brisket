@@ -1,9 +1,11 @@
 {% load humanize %}
 {% load influence_extras %}
 
-<div class="result-row">
+<div class="result-row {% if counter|divisibleby:2 %}even{% else %}odd{% endif %}">
     {% if result.metadata.photo_url %}
-    <div class="result-photo" style="background-image: url('{{ result.metadata.photo_url }}');"></div>
+    <div class="result-photo">
+        <img src="{{ result.metadata.photo_url }}" alt="{{ result.name }}" />
+    </div>
     {% endif %}
 
     <a href="{{ result.url }}" class="result-name">{{ result.name|standardize_name:result.type }}</a>

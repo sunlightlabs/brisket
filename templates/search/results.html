@@ -28,7 +28,7 @@
       <h3>Groups</h3>
       <div class="result-rows">
       {% for result in groups.results %}
-        {% with "search/"|add:result.type|add:"_row.html" as template %}
+        {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
           {% include template with result=result profile="slim" %}
         {% endwith %}
       {% endfor %}
@@ -42,7 +42,7 @@
       <h3>People</h3>
       <div class="result-rows">
       {% for result in people.results %}
-        {% with "search/"|add:result.type|add:"_row.html" as template %}
+        {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
           {% include template with result=result profile="slim" %}
         {% endwith %}
       {% endfor %}
