@@ -215,4 +215,3 @@ class PolLandingView(EntityLandingView):
         PolContributionsLandingSection,
         PolEarmarksLandingSection,
     ]
-
