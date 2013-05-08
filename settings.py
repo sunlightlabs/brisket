@@ -227,7 +227,7 @@ IGNORABLE_404_URLS = (
     re.compile(r'\.php$'),
 )
 
-from influenceexplorer import InfluenceExplorer, ALL_CYCLES
+from influenceexplorer import InfluenceExplorer, DEFAULT_CYCLE
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
 
 if not DEFAULT_CYCLE:

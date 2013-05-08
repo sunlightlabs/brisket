@@ -1,5 +1,7 @@
 # coding=utf-8
 
+import json
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from settings import TOP_LISTS_CYCLE, api
@@ -34,6 +36,27 @@ class OrgContributionsLandingSection(Section):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/org_landing_contributions.html'
+
+    def should_fetch(self):
+        return bool(self.entity.summaries[self.label])
+
+    def fetch(self):
+        self.data = self.entity.summaries[self.label]
+        return True
+
+    def build_section_data(self):
+        amount = sum([float(n['amount']) for n in self.data['party_summary']])
+
+        self.party_summary_data = json.dumps(self.data['party_summary'])
+        self.pol_group_summary_data = json.dumps(self.data['pol_group_summary'])
+        self.state_fed_summary_data = json.dumps(self.data['state_fed_summary'])
+
+        if amount <= 0:
+            self.suppress_contrib_graphs = True
+            if amount < 0:
+                self.reason = "negative"
+
+
 
 class OrgLobbyingLandingSection(Section):
     name = 'Lobbying'

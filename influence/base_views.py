@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from influence.forms import ElectionCycle
-from influence.helpers import get_metadata, standardize_name, get_source_display_name
+from influence.helpers import get_metadata, get_summaries, standardize_name, get_source_display_name
 from settings import FIRST_CYCLE, LATEST_CYCLE, DEBUG
 from influenceexplorer import DEFAULT_CYCLE
 
@@ -106,13 +106,30 @@ class EntityLandingView(MultiSectionView):
     def template(self):
         return 'entity_landing/%s_landing.html' % self.label
 
+    def check_summaries(self):
+        pass
+
     def prepare_context(self, request):
-        self.cycle = str(request.GET.get('cycle', DEFAULT_CYCLE))
+        try:
+            self.summaries, self.cycle = get_summaries(self.label, request)
+        except Exception as e:
+            if hasattr(e, 'code') and e.code == 404:
+                raise Http404
+            raise
+
+        self.check_summaries()
+
         context = super(EntityLandingView, self).prepare_context(request)
         context['cycle'] = self.cycle
         context['name'] = self.name
         context['label'] = self.label
+        context['summaries'] = self.summaries
+
         return context
+
+    def get(self, request):
+
+        return super(EntityLandingView, self).get(request)
 
 class Section(object):
     template = None
@@ -159,3 +176,13 @@ class Section(object):
                     raise
                 self.failed = True
                 return
+
+class EntityLandingSection(Section):
+
+    def should_fetch(self):
+        return bool(self.entity.summaries[self.label])
+
+    def fetch(self):
+        self.data = self.entity.summaries[self.label]
+        return True
+

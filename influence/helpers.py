@@ -66,11 +66,11 @@ def generate_label(string, max_length=34):
 
 section_indicators = {
    'individual':   {
-       'contributions': ['contributor_count'], 
+       'contributions': ['contributor_count'],
        'lobbying': ['lobbying_count']},
    'organization': {
        'contributions': ['contributor_count', 'independent_expenditure_amount', 'fec_summary_count'],
-       'lobbying': ['lobbying_count'], 
+       'lobbying': ['lobbying_count'],
        'fed_spending':['loan_count', 'grant_count', 'contract_count'],
        'earmarks': ['earmark_count'],
        'contractor_misconduct': ['contractor_misconduct_count'],
@@ -78,7 +78,7 @@ section_indicators = {
        'epa_echo': ['epa_actions_count'],
        'faca': ['faca_committee_count', 'faca_member_count']},
    'industry': {
-       'contributions': ['contributor_count'], 
+       'contributions': ['contributor_count'],
        'lobbying': ['lobbying_count'],
        'fed_spending':['loan_count', 'grant_count', 'contract_count']},
    'politician':   {
@@ -89,36 +89,40 @@ section_indicators = {
 landing_page_section_indicators = {
     # GROUPS
    'industry': {
-       'contributions': ['party_summary','seat_race_summary','pol_group_summary','state_fed_summary'], 
-       'lobbying': ['issue_summary','bill_summary']
-       'fed_spending':['loan_summary', 'grant_summary', 'contract_summary']},
-   'organization': {
-       'contributions': ['party_summary','seat_race_summary','pol_group_summary','state_fed_summary'], 
-       'lobbying': ['issue_summary','bill_summary']
-       'fed_spending':['loan_summary', 'grant_summary', 'contract_summary'],
-       'earmarks': ['earmark_summary'],
-       'contractor_misconduct': ['contractor_misconduct_summary'],
-       'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
-       'epa_echo': ['epa_actions_summary'],
-       'faca': ['faca_committee_summary', 'faca_member_summary']},
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary'],
+       #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary']
+       },
+   'org': {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary'],
+       #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary'],
+       #'earmarks': ['earmark_summary'],
+       #'contractor_misconduct': ['contractor_misconduct_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'epa_echo': ['epa_actions_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
    'pol_group': {
-       'contributions': ['party_summary','seat_race_summary','pol_group_summary','state_fed_summary'], 
-       'lobbying': ['issue_summary','bill_summary']
-       'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
-       'faca': ['faca_committee_summary', 'faca_member_summary']},
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
    'lobbying_firm': {
-       'contributions': ['party_summary','seat_race_summary','pol_group_summary','state_fed_summary'], 
-       'lobbying': ['issue_summary','bill_summary']
-       'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
-       'faca': ['faca_committee_summary', 'faca_member_summary']},
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
    # PEOPLE
    'contributor':   {
-       'contributions': ['party_summary','pol_group_summary','state_fed_summary'],
-       #'lobbying': ['issue_summary','bill_summary']
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary']
        },
    'lobbyist':   {
-       'contributions': ['party_summary','pol_group_summary','state_fed_summary'],
-       'lobbying': ['issue_summary','bill_summary']},
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary']},
    'politician':   {
        'contributions': ['recipient_summary'],
        'earmarks': ['earmark_summary']},
@@ -152,6 +156,31 @@ def get_metadata(entity_id, request, entity_type):
     data['entity_info'] = entity_info
 
     return data, cycle
+
+def get_summaries(entity_type, request):
+    data = {}
+
+    if 'cycle' in request.GET:
+        cycle = str(request.GET['cycle'])
+    else:
+        cycle = str(DEFAULT_CYCLE)
+
+    if 'limit' in request.GET:
+        limit = str(request.GET['limit'])
+    else:
+        limit = str(-1)
+
+    for data_type,indicators in landing_page_section_indicators[entity_type].iteritems():
+        print 'summary for %s'%(data_type,)
+        inds = {}
+        for indicator in indicators:
+            print  '>>> %s'%(indicator,)
+            inds[indicator] = api.summaries.summarize(entity_type,indicator.replace('_summary',''),cycle=cycle,limit=limit)
+        data[data_type] = inds
+
+    return data,cycle
+    #for data_type, indicators in section_indicators[entity_type].iteritems():
+    #data['available_cycles'] = [c for c in en
 
 def earmarks_table_data(entity_id, cycle):
     rows = api.pol.earmarks(entity_id, cycle)
