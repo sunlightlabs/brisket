@@ -18,7 +18,7 @@ class MultiSectionView(View):
 
     def get(self, request):
         context = self.prepare_context(request)
-        
+
         suppress_cache = False
         for section in self.sections:
             s = section(self)
@@ -76,9 +76,9 @@ class EntityView(MultiSectionView):
             if hasattr(e, 'code') and e.code == 404:
                 raise Http404
             raise
-        
+
         self.check_metadata()
-        
+
         self.standardized_name = standardize_name(self.metadata['entity_info']['name'], self.type)
         self.external_ids = self.metadata['entity_info']['external_ids']
 
@@ -87,7 +87,7 @@ class EntityView(MultiSectionView):
         context['cycle'] = self.cycle
         context['entity_info'] = self.metadata['entity_info']
         context['entity_info']['metadata']['source_display_name'] = get_source_display_name(self.metadata['entity_info']['metadata'])
-        
+
         if self.cycle != DEFAULT_CYCLE and unicode(str(self.cycle)) in self.metadata['entity_info']['metadata']:
             # copy the current cycle's metadata into the generic metadata spot
             self.metadata['entity_info']['metadata'].update(self.metadata['entity_info']['metadata'][unicode(str(self.cycle))])
@@ -141,7 +141,7 @@ class Section(object):
     def build_section(self):
         if self.enabled:
             self.enabled = self.should_fetch()
-        
+
         if self.enabled:
             try:
                 self.enabled = self.fetch()

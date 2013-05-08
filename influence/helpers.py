@@ -137,7 +137,7 @@ def get_metadata(entity_id, request, entity_type):
         cycle = str(request.GET['cycle'])
     else:
         cycle = str(DEFAULT_CYCLE)
-        
+
     # check which types of data are available about this entity
     for data_type, indicators in section_indicators[entity_type].iteritems():
         if (entity_info['totals'].get(cycle, False) and
@@ -190,16 +190,16 @@ from influence.cache import cache
 @cache(seconds=86400)
 def get_top_pages():
     end_dt = datetime.datetime.now()
-    
+
     end_date = end_dt.date()
     start_date = (end_dt - datetime.timedelta(days=7)).date()
-    
+
     from django.conf import settings
-    
+
     try:
         connection = googleanalytics.Connection(settings.GOOGLE_ANALYTICS_USER, settings.GOOGLE_ANALYTICS_PASSWORD)
         account = connection.get_account(settings.GOOGLE_ANALYTICS_PROFILE_ID)
-        
+
         pages = account.get_data(
             start_date=start_date,
             end_date=end_date,
@@ -209,12 +209,12 @@ def get_top_pages():
         )
     except:
         return None
-    
+
     entity_signature = re.compile(r'^/[\w\-]+/[\w\-]+/[a-f0-9-]{32,36}')
     entity_pages = [{
         'views': page.metric,
         'path': page.dimensions[0],
         'title': page.dimensions[1].split('|')[0].strip()
     } for page in pages if entity_signature.match(page.dimensions[0]) and 'error' not in page.dimensions[1].lower()]
-    
+
     return entity_pages[:5]
