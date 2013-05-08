@@ -139,6 +139,7 @@ MEDIASYNC['JOINED'] = {
         'js/brisket.js',
         'js/d3.min.js',
         'js/d3.geom.min.js',
+        'js/d3.layout.min.js',
         'js/brisket_d3.js',
     ],
     'data/css/all.css': [
