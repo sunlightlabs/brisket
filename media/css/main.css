@@ -787,3 +787,60 @@ input#id_search {
     font-style: normal;
     font-weight: normal !important;
 }
+
+/*
+ * ADDITIONS THAT MAKE ENTITY LANDING PAGES WORK *
+ */
+
+.twopanePie {
+  text-align: center;
+  font: 10px sans-serif;
+}
+
+.twopanePie svg {
+  font: 10px sans-serif;
+}
+
+.twopanePie circle {
+  font: 10px sans-serif;
+}
+
+.twopanePie .axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.twopanePie .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.twopanePie .ylabel {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+}
+
+.twopanePie .ytitle {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+
+}
+
+.twopanePie .allLabel {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+}

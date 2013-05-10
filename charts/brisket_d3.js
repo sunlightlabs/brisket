@@ -831,7 +831,19 @@ BrisketModern = {
     },
     timeline_chart: function(div, data) {
         D3Charts.timeline_chart(div, data);
-    }
+    },
+    party_twopane_pie : function(div,data) {
+        var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "gray"};
+        Brisket.twopane_pie(div, data, party_colors);
+    },
+    pol_group_twopane_pie : function(div,data) {
+        var pol_group_colors = {"Direct": "#f27e01", "Associated Individuals": "#efcc01"};
+        Brisket.twopane_pie(div, data, pol_group_colors);
+    },
+    state_fed_twopane_pie : function(div,data) {
+        var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
+        Brisket.twopane_pie(div, data, level_colors);
+    },
 }
 
 BrisketServer = {
