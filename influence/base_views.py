@@ -5,9 +5,13 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from influence.forms import ElectionCycle
-from influence.helpers import get_metadata, get_summaries, standardize_name, get_source_display_name
+from influence.helpers import get_metadata, get_summaries, standardize_name, \
+        get_source_display_name, generate_label
+from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver, \
+        IndividualNameCleaver
 from settings import FIRST_CYCLE, LATEST_CYCLE, DEBUG
 from influenceexplorer import DEFAULT_CYCLE
+import json
 
 class MultiSectionView(View):
     sections = []
@@ -179,6 +183,18 @@ class Section(object):
 
 class EntityLandingSection(Section):
 
+    def __init__(self, entity_view):
+        super(EntityLandingSection, self).__init__(entity_view)
+        self.select_cleaver()
+
+    def select_cleaver(self):
+        if self.entity.label in ['contributor','lobbyist']:
+            self.cleaver = IndividualNameCleaver
+        elif self.entity.label == 'pol':
+            self.cleaver = PoliticianNameCleaver
+        else:
+            self.cleaver = OrganizationNameCleaver
+
     def should_fetch(self):
         return bool(self.entity.summaries[self.label])
 
@@ -186,3 +202,10 @@ class EntityLandingSection(Section):
         self.data = self.entity.summaries[self.label]
         return True
 
+    def prepare_parent_child_tree(self,indicator):
+        obj = self.data[indicator]
+        for parent in obj:
+            for child in parent['children']:
+                child['name'] = generate_label(
+                                 str(self.cleaver(child['name']).parse()))
+        return json.dumps(obj)
