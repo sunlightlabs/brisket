@@ -13,16 +13,19 @@ class IndustryContributionsLandingSection(Section):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/industry_landing_contributions.html'
+    enabled = False
 
 class IndustryLobbyingLandingSection(Section):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/industry_landing_lobbying.html'
+    enabled = False
 
 class IndustryGrantsAndContractsLandingSection(Section):
     name = 'Federal Spending'
     label = 'grants_and_contracts'
     template = 'entity_landing/industry_landing_grants_and_contracts.html'
+    enabled = False
 
 class IndustryLandingView(EntityLandingView):
     label = 'industry'
@@ -66,31 +69,37 @@ class OrgRegulationsLandingSection(Section):
     name = 'Regulations'
     label = 'regulations'
     template = 'entity_landing/org_landing_regulations.html'
+    enabled = False
 
 class OrgEarmarksLandingSection(Section):
     name = 'Earmarks'
     label = 'earmarks'
     template = 'entity_landing/org_landing_earmarks.html'
+    enabled = False
 
 class OrgGrantsAndContractsLandingSection(Section):
     name = 'Federal Spending'
     label = 'grants_and_contracts'
     template = 'entity_landing/org_landing_grants_and_contracts.html'
+    enabled = False
 
 class OrgContractorMisconductLandingSection(Section):
     name = 'Contractor Misconduct'
     label = 'contractor_misconduct'
     template = 'entity_landing/org_landing_contractor_misconduct.html'
+    enabled = False
 
 class OrgEpaEchoLandingSection(Section):
     name = 'EPA Violations'
     label = 'epa_echo'
     template = 'entity_landing/org_landing_epa_echo.html'
+    enabled = False
 
 class OrgFacaLandingSection(Section):
     name = 'Advisory Committees'
     label = 'faca'
     template = 'entity_landing/org_landing_faca.html'
+    enabled = False
 
 class OrgLandingView(EntityLandingView):
     label = 'org'
@@ -110,21 +119,25 @@ class PolGroupContributionsLandingSection(Section):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/pol_group_landing_contributions.html'
+    enabled = False
 
 class PolGroupLobbyingLandingSection(Section):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/pol_group_landing_lobbying.html'
+    enabled = False
 
 class PolGroupRegulationsLandingSection(Section):
     name = 'Regulations'
     label = 'regulations'
     template = 'entity_landing/pol_group_landing_regulations.html'
+    enabled = False
 
 class PolGroupFacaLandingSection(Section):
     name = 'Advisory Committees'
     label = 'faca'
     template = 'entity_landing/pol_group_landing_faca.html'
+    enabled = False
 
 class PolGroupLandingView(EntityLandingView):
     label = 'pol_group'
@@ -135,26 +148,31 @@ class PolGroupLandingView(EntityLandingView):
         PolGroupRegulationsLandingSection,
         PolGroupFacaLandingSection,
     ]
+    enabled = False
 
 class LobbyingFirmContributionsLandingSection(Section):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/lobbying_firm_landing_contributions.html'
+    enabled = False
 
 class LobbyingFirmLobbyingLandingSection(Section):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/lobbying_firm_landing_lobbying.html'
+    enabled = False
 
 class LobbyingFirmRegulationsLandingSection(Section):
     name = 'Regulations'
     label = 'regulations'
     template = 'entity_landing/lobbying_firm_landing_regulations.html'
+    enabled = False
 
 class LobbyingFirmFacaLandingSection(Section):
     name = 'Advisory Committees'
     label = 'faca'
     template = 'entity_landing/lobbying_firm_landing_faca.html'
+    enabled = False
 
 class LobbyingFirmLandingView(EntityLandingView):
     label = 'lobbying_firm'
@@ -171,6 +189,7 @@ class ContributorContributionsLandingSection(Section):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/contributor_landing_contributions.html'
+    enabled = False
 
 class ContributorLandingView(EntityLandingView):
     label = 'contributor'
@@ -183,11 +202,13 @@ class LobbyistContributionsLandingSection(Section):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/lobbyist_landing_contributions.html'
+    enabled = False
 
 class LobbyistLobbyingLandingSection(Section):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/lobbyist_landing_lobbying.html'
+    enabled = False
 
 class LobbyistLandingView(EntityLandingView):
     label = 'lobbyist'
@@ -201,11 +222,13 @@ class PolContributionsLandingSection(Section):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/pol_landing_contributions.html'
+    enabled = False
 
 class PolEarmarksLandingSection(Section):
     name = 'Earmarks'
     label = 'earmarks'
     template = 'entity_landing/pol_landing_earmarks.html'
+    enabled = False
 
 class PolLandingView(EntityLandingView):
     label = 'pol'
