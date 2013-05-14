@@ -9,7 +9,17 @@
 {% block main %}
 
 <div class="search-sidebar">
-  <div style="height:100px;"><!-- filler --></div>
+  <h4>Filter Results</h4>
+  <div class="search-filters">
+    <div class="search-filter search-select">
+      <ul>
+        <li><a href="/search?{{ qs }}" class="{% if search_type == "all" %}selected{% endif %}">Everything &raquo;</a></li>
+        {% for result_type, result_set in result_sets %}
+          <li><a href="/search/{{ result_type }}?{{ qs }}" class="{% if search_type == result_type %}selected{% endif %}">{{ result_type|capfirst }} &raquo;</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 </div>
 
 <div class="search-main">
@@ -23,34 +33,29 @@
 
 
   <div class="search-results">
-    {% if groups.total %}
-    <div class="search-preview">
-      <h3>Groups</h3>
-      <div class="result-rows">
-      {% for result in groups.results %}
-        {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
-          {% include template with result=result profile="slim" %}
-        {% endwith %}
-      {% endfor %}
+    {% for result_type, result_set in result_sets %}
+      {% if result_set.total %}
+      <div class="search-preview">
+        <h3>{{ result_type|capfirst }}</h3>
+        <div class="result-rows">
+        {% for result in result_set.results %}
+          {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
+            {% include template with result=result profile="slim" %}
+          {% endwith %}
+        {% endfor %}
+        </div>
+        {% if search_type == "all" %}
+        <a href="/search/{{ result_type }}?{{ qs }}" class="results-drilldown">see all {{ result_set.total }} result{{result_set.total|pluralize}} &raquo;</a>
+        {% else %}
+        <div class="pagination">
+          {% if result_set.page > 1 %}<a href="/search/{{ result_type }}?{{ qs }}&page={{ result_set.page|add:-1 }}" class="prev">&laquo; previous</a>{% else %}<span class="prev"></span>{% endif %}
+          <span class="pages">(page {{ result_set.page }} of {{ result_set.pages|floatformat:"0" }})</span>
+          {% if result_set.page < result_set.pages %}<a href="/search/{{ result_type }}?{{ qs }}&page={{ result_set.page|add:1 }}" class="next">next &raquo;</a>{% else %}<span class="next"></span>{% endif %}
+        </div>
+        {% endif %}
       </div>
-      <a href="/search/groups?{{ qs }}" class="results-drilldown">see all {{ groups.total }} result{{groups.total|pluralize}} &raquo;</a>
-    </div>
-    {% endif %}
-
-    {% if people.total %}
-    <div class="search-preview">
-      <h3>People</h3>
-      <div class="result-rows">
-      {% for result in people.results %}
-        {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
-          {% include template with result=result search_type=search_type %}
-        {% endwith %}
-      {% endfor %}
-      </div>
-      <a href="/search/people?{{ qs }}" class="results-drilldown">see all {{ people.total }} result{{people.total|pluralize}} &raquo;</a>
-    </div>
-    {% endif %}
-
+      {% endif %}
+    {% endfor %}
   </div>
 
 </div>

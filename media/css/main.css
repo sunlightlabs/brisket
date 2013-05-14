@@ -294,7 +294,7 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 #fullColumn { padding: 0 40px 80px 40px; }
 #mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
 
-.search-sidebar { padding: 45px 25px 80px 40px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px; background: url(../images/bg_postcard.jpg) top left repeat-y; }
+.search-sidebar { padding: 30px 25px 80px 40px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px; background: url(../images/bg_postcard.jpg) top left repeat-y; }
 .search-main { padding: 0; width: 725px; float: right; overflow: hidden; }
 .search-main #contentHeader { padding: 0 25px 10px !important; }
 .search-results { padding-left: 25px; }
@@ -302,6 +302,10 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 .search-results .search-preview { margin-bottom: 25px; margin-right: 25px; }
 .search-results .result-rows { border-top: 1px dotted #e6e6e4; }
 .search-results .result-row { padding: 15px; border-bottom: 1px dotted #e6e6e4; }
+.search-sidebar .search-filters { border-top: 1px dotted #ccc; margin-left: -40px; margin-right: -25px; }
+.search-sidebar .search-filter { border-bottom: 1px dotted #ccc; padding: 15px; padding-left: 40px; padding-right: 25px; }
+.search-sideber .search-select li { padding: 2px 0 2px 0; }
+.search-sidebar .search-select a.selected { font-weight: bold; color: #3b3130; }
 a.result-name { font-size: 145%; display: block; }
 .result-type { font-size: 110%; }
 .result-photo { float: right; width: 80px; height: 80px; text-align: right; }
@@ -309,6 +313,9 @@ a.result-name { font-size: 145%; display: block; }
 .results-drilldown { display: block; margin-top: 5px; font-size: 110%; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 .result-sections { margin-top: 10px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 .result-bio { margin-top: 1em; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
+.pagination { margin-top: 10px; font-size: 110%; text-align: center; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
+.pagination .prev { display: inline-block; width: 150px; text-align: left; }
+.pagination .next { display: inline-block; width: 150px; text-align: right; }
 
 #mainContent .withTabs { padding-left: 0;}
 

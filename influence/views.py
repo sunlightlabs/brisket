@@ -23,6 +23,7 @@ import datetime
 import json
 import unicodedata
 import operator
+import urllib
 
 from entity_views import *
 from entity_landing_views import *
@@ -59,12 +60,15 @@ def search(request, search_type):
             query = query.replace('-', ' ')
 
         per_page = 5 if search_type == 'all' else 10
+        page = 1 if search_type == 'all' else request.GET.get('page', 1)
         results = {
-            'people': api.entities.adv_search(query, type=('individual', 'politician'), per_page=per_page) if search_type in ('people', 'all') else {'results': []},
-            'groups': api.entities.adv_search(query, type=('organization', 'industry'), per_page=per_page) if search_type in ('groups', 'all') else {'results': []}
+            'result_sets': [
+                ('people', api.entities.adv_search(query, type=('individual', 'politician'), per_page=per_page, page=page) if search_type in ('people', 'all') else {'results': []}),
+                ('groups', api.entities.adv_search(query, type=('organization', 'industry'), per_page=per_page, page=page) if search_type in ('groups', 'all') else {'results': []})
+            ]
         }
 
-        all_results = reduce(operator.add, [t['results'] for t in results.values()])
+        all_results = reduce(operator.add, [t[1]['results'] for t in results['result_sets']])
 
         # if there's just one results, redirect to that entity's page
         if len(all_results) == 1:
@@ -89,10 +93,15 @@ def search(request, search_type):
                 if dummy_section.should_fetch():
                     result['sections'].append(dummy_section)
 
-        results['has_results'] = results['people'].get('total', 0) + results['groups'].get('total', 0) > 0
+        results['has_results'] = sum([result[1].get('total', 0) for result in results['result_sets']]) > 0
         results['query'] = query
-        results['qs'] = request.META['QUERY_STRING']
         results['search_type'] = search_type
+        results['total'] = len(all_results)
+
+        qs_attrs = request.GET.copy()
+        if 'page' in qs_attrs:
+            del qs_attrs['page']
+        results['qs'] = urllib.urlencode(qs_attrs)
         
         return render_to_response('search/results.html', results, RequestContext(request))
     else:
