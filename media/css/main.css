@@ -306,6 +306,7 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 .search-sidebar .search-filter { border-bottom: 1px dotted #ccc; padding: 15px; padding-left: 40px; padding-right: 25px; }
 .search-sideber .search-select li { padding: 2px 0 2px 0; }
 .search-sidebar .search-select a.selected { font-weight: bold; color: #3b3130; }
+.search-sidebar select { width: 100%; }
 a.result-name { font-size: 145%; display: block; }
 .result-type { font-size: 110%; }
 .result-photo { float: right; width: 80px; height: 80px; text-align: right; }

@@ -4,8 +4,9 @@ from brisket.influence.views import PoliticianEntityView, IndividualEntityView, 
 from brisket.influence.views import IndustryLandingView, OrgLandingView, PolGroupLandingView, LobbyingFirmLandingView, ContributorLandingView, LobbyistLandingView, PolLandingView
 
 urlpatterns = patterns('brisket.influence.views',
-    url(r'^search$', 'search', name='search', kwargs={'search_type': 'all'}),
-    url(r'^search/(?P<search_type>[a-z]+)$', 'search', name='search'),
+    url(r'^search$', 'search', name='search', kwargs={'search_type': 'all', 'search_subtype': 'all'}),
+    url(r'^search/(?P<search_type>[a-z]+)$', 'search', name='search', kwargs={'search_subtype': 'all'}),
+    url(r'^search/(?P<search_type>[a-z]+)/(?P<search_subtype>[a-z_]+)$', 'search', name='search'),
 
     # industry
     # url(r'^sector/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', 'sector_detail',

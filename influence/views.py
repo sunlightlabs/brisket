@@ -39,7 +39,7 @@ def index(request):
     return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, RequestContext(request))
 
 
-def search(request, search_type):
+def search(request, search_type, search_subtype):
     if not request.GET.get('query', None):
         HttpResponseRedirect('/')
 
@@ -63,8 +63,8 @@ def search(request, search_type):
         page = 1 if search_type == 'all' else request.GET.get('page', 1)
         results = {
             'result_sets': [
-                ('people', api.entities.adv_search(query, type=('individual', 'politician'), per_page=per_page, page=page) if search_type in ('people', 'all') else {'results': []}),
-                ('groups', api.entities.adv_search(query, type=('organization', 'industry'), per_page=per_page, page=page) if search_type in ('groups', 'all') else {'results': []})
+                ('people', api.entities.adv_search(query, per_page=per_page, page=page, **({'type': ('individual', 'politician')} if search_subtype == 'all' else {'subtype': search_subtype})) if search_type in ('people', 'all') else {'results': []}),
+                ('groups', api.entities.adv_search(query, per_page=per_page, page=page, **({'type': ('organization', 'industry')} if search_subtype == 'all' else {'subtype': search_subtype})) if search_type in ('groups', 'all') else {'results': []})
             ]
         }
 
@@ -97,6 +97,12 @@ def search(request, search_type):
         results['query'] = query
         results['search_type'] = search_type
         results['total'] = len(all_results)
+
+        results['search_subtype'] = search_subtype
+        results['search_subtypes'] = {
+            'people': [('all', 'All people'), ('contributors', 'Contributors'), ('lobbyists', 'Lobbyists'), ('politicians', 'Politicians')],
+            'groups': [('all', 'All groups'), ('industries', 'Industries'), ('lobbying_firms', 'Lobbying firms'), ('political_groups', 'Political groups'), ('other_orgs', 'Businesses and other organizations')]
+        }
 
         qs_attrs = request.GET.copy()
         if 'page' in qs_attrs:

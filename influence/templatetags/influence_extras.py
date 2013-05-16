@@ -146,3 +146,23 @@ def first_paragraph_filter(t):
         return unicode(paras[0])
     else:
         return t
+
+# from http://djangosnippets.org/snippets/1412/
+@register.filter
+def get( dict, key, default = '' ):
+  """
+  Usage: 
+
+  view: 
+  some_dict = {'keyA':'valueA','keyB':{'subKeyA':'subValueA','subKeyB':'subKeyB'},'keyC':'valueC'}
+  keys = ['keyA','keyC']
+  template: 
+  {{ some_dict|get:"keyA" }}
+  {{ some_dict|get:"keyB"|get:"subKeyA" }}
+  {% for key in keys %}{{ some_dict|get:key }}{% endfor %}
+  """
+
+  try:
+    return dict.get(key,default)
+  except:
+    return default

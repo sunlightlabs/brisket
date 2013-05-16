@@ -6,11 +6,24 @@
     Results {% if has_results %}for &#8220;{{ query }}&#8221; {% endif %}| 
 {% endblock %}
 
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+  $(function() {
+    $('.select-subtype').change(function() {
+      console.log('called');
+      document.location.href = $(this).val();
+    })
+  });
+</script>
+{% endblock %}
+
 {% block main %}
 
 <div class="search-sidebar">
   <h4>Filter Results</h4>
   <div class="search-filters">
+    
     <div class="search-filter search-select">
       <ul>
         <li><a href="/search?{{ qs }}" class="{% if search_type == "all" %}selected{% endif %}">Everything &raquo;</a></li>
@@ -19,6 +32,20 @@
         {% endfor %}
       </ul>
     </div>
+
+    {% if search_type != "all" %}
+    <div class="search-filter">
+      <strong>Type</strong>
+      <select name="subtype" class="select-subtype">
+        {% with search_subtypes|get:search_type as subtypes %}
+          {% for subtype, label in subtypes %}
+          <option value="/search/{{ search_type }}/{{ subtype }}?{{ qs }}" {% if search_subtype == subtype %}selected="selected"{% endif %}>{{ label }}</option>
+          {% endfor %}
+        {% endwith %}
+      </select>
+    </div>
+    {% endif %}
+
   </div>
 </div>
 
@@ -48,9 +75,21 @@
         <a href="/search/{{ result_type }}?{{ qs }}" class="results-drilldown">see all {{ result_set.total }} result{{result_set.total|pluralize}} &raquo;</a>
         {% else %}
         <div class="pagination">
-          {% if result_set.page > 1 %}<a href="/search/{{ result_type }}?{{ qs }}&page={{ result_set.page|add:-1 }}" class="prev">&laquo; previous</a>{% else %}<span class="prev"></span>{% endif %}
+          
+          {% if result_set.page > 1 %}
+            <a href="/search/{{ result_type }}{% if search_subtype != "all" %}/{{ search_subtype }}{% endif %}?{{ qs }}&amp;page={{ result_set.page|add:-1 }}" class="prev">&laquo; previous</a>
+          {% else %}
+            <span class="prev"></span>
+          {% endif %}
+          
           <span class="pages">(page {{ result_set.page }} of {{ result_set.pages|floatformat:"0" }})</span>
-          {% if result_set.page < result_set.pages %}<a href="/search/{{ result_type }}?{{ qs }}&page={{ result_set.page|add:1 }}" class="next">next &raquo;</a>{% else %}<span class="next"></span>{% endif %}
+          
+          {% if result_set.page < result_set.pages %}
+            <a href="/search/{{ result_type }}{% if search_subtype != "all" %}/{{ search_subtype }}{% endif %}?{{ qs }}&amp;page={{ result_set.page|add:1 }}" class="next">next &raquo;</a>
+          {% else %}
+            <span class="next"></span>
+          {% endif %}
+
         </div>
         {% endif %}
       </div>
