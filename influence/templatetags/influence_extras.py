@@ -1,6 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 from BeautifulSoup import BeautifulSoup
+import urlparse, urllib
 from name_cleaver import PoliticianNameCleaver, IndividualNameCleaver, \
         OrganizationNameCleaver
 from influence.helpers import standardize_name
@@ -146,6 +147,17 @@ def first_paragraph_filter(t):
         return unicode(paras[0])
     else:
         return t
+
+@register.filter
+@stringfilter
+def qs_without(value, fields):
+    qs = dict(urlparse.parse_qsl(value))
+    for field in fields.split(","):
+        try:
+            del qs[field]
+        except KeyError:
+            pass
+    return urllib.urlencode(qs)
 
 # from http://djangosnippets.org/snippets/1412/
 @register.filter

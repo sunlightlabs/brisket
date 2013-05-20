@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
 from django.utils.datastructures import SortedDict
+from django_localflavor_us.us_states import US_STATES, US_TERRITORIES
 from feedinator.models import Feed
 from influence import external_sites
 from influence.forms import SearchForm, ElectionCycle
@@ -39,6 +40,8 @@ def index(request):
     return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, RequestContext(request))
 
 
+POL_STATES = STATE_CHOICES = tuple(sorted(US_STATES + US_TERRITORIES, key=lambda obj: obj[1]))
+
 def search(request, search_type, search_subtype):
     if not request.GET.get('query', None):
         HttpResponseRedirect('/')
@@ -61,12 +64,27 @@ def search(request, search_type, search_subtype):
 
         per_page = 5 if search_type == 'all' else 10
         page = 1 if search_type == 'all' else request.GET.get('page', 1)
-        results = {
-            'result_sets': [
-                ('people', api.entities.adv_search(query, per_page=per_page, page=page, **({'type': ('individual', 'politician')} if search_subtype == 'all' else {'subtype': search_subtype})) if search_type in ('people', 'all') else {'results': []}),
-                ('groups', api.entities.adv_search(query, per_page=per_page, page=page, **({'type': ('organization', 'industry')} if search_subtype == 'all' else {'subtype': search_subtype})) if search_type in ('groups', 'all') else {'results': []})
-            ]
-        }
+
+        results = {}
+
+        search_kwargs = {}
+        if search_subtype:
+            search_kwargs['subtype'] = search_subtype
+            if search_subtype == 'politicians':
+                state = request.GET.get('state', None)
+                seat = request.GET.get('seat', None)
+
+                if state:
+                    results['state_filter'] = state
+                    search_kwargs['state'] = state
+                if seat:
+                    results['seat_filter'] = seat
+                    search_kwargs['seat'] = seat
+
+        results['result_sets'] = [
+            ('people', api.entities.adv_search(query, per_page=per_page, page=page, type=('individual', 'politician'), **search_kwargs) if search_type in ('people', 'all') else {'results': []}),
+            ('groups', api.entities.adv_search(query, per_page=per_page, page=page, type=('organization', 'industry'), **search_kwargs) if search_type in ('groups', 'all') else {'results': []})
+        ]
 
         all_results = reduce(operator.add, [t[1]['results'] for t in results['result_sets']])
 
@@ -108,6 +126,10 @@ def search(request, search_type, search_subtype):
         if 'page' in qs_attrs:
             del qs_attrs['page']
         results['qs'] = urllib.urlencode(qs_attrs)
+
+        if search_subtype == 'politicians':
+            results['states'] = POL_STATES
+            results['seats'] = ["federal:president", "federal:senate", "federal:house", "state:governor", "state:judicial", "state:lower", "state:upper", "state:office"]
         
         return render_to_response('search/results.html', results, RequestContext(request))
     else:

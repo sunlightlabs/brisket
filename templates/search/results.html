@@ -11,8 +11,17 @@
 <script type="text/javascript">
   $(function() {
     $('.select-subtype').change(function() {
-      console.log('called');
       document.location.href = $(this).val();
+    })
+
+    var polFilter = $('.pol-filter');
+    polFilter.find('select').change(function() {
+      var filters = {};
+      _.each(['seat', 'state'], function(type) {
+        var val = polFilter.find('select[name=' + type + ']').val();
+        if (val) filters[type] = val;
+      })
+      document.location.href = polFilter.attr('data-search-url') + "&" + $.param(filters);
     })
   });
 </script>
@@ -42,6 +51,25 @@
           <option value="/search/{{ search_type }}/{{ subtype }}?{{ qs }}" {% if search_subtype == subtype %}selected="selected"{% endif %}>{{ label }}</option>
           {% endfor %}
         {% endwith %}
+      </select>
+    </div>
+    {% endif %}
+
+    {% if search_subtype == "politicians" %}
+    <div class="search-filter pol-filter" data-search-url="/search/{{ search_type }}/{{ search_subtype }}?{{ qs|qs_without:'state,seat' }}">
+      <strong>Office</strong>
+      <select name="seat" class="select-seat">
+        <option value="" {% if not seat_filter %}selected="selected"{% endif %}>All offices</option>
+        {% for seat in seats %}
+        <option value="{{ seat }}" {% if seat_filter == seat %}selected="selected"{% endif %}>{{ seat|seat_label }}</option>
+        {% endfor %}
+      </select>
+      <strong>State</strong>
+      <select name="state" class="select-state">
+        <option value="" {% if not state_filter %}selected="selected"{% endif %}>All states</option>
+        {% for abbrev, label in states %}
+        <option value="{{ abbrev }}" {% if state_filter == abbrev %}selected="selected"{% endif %}>{{ label }}</option>
+        {% endfor %}
       </select>
     </div>
     {% endif %}
