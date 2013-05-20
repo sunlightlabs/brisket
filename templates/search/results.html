@@ -17,7 +17,7 @@
     var polFilter = $('.pol-filter');
     polFilter.find('select').change(function() {
       var filters = {};
-      _.each(['seat', 'state'], function(type) {
+      _.each(['seat', 'state', 'party'], function(type) {
         var val = polFilter.find('select[name=' + type + ']').val();
         if (val) filters[type] = val;
       })
@@ -64,11 +64,20 @@
         <option value="{{ seat }}" {% if seat_filter == seat %}selected="selected"{% endif %}>{{ seat|seat_label }}</option>
         {% endfor %}
       </select>
+      
       <strong>State</strong>
       <select name="state" class="select-state">
         <option value="" {% if not state_filter %}selected="selected"{% endif %}>All states</option>
         {% for abbrev, label in states %}
         <option value="{{ abbrev }}" {% if state_filter == abbrev %}selected="selected"{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+
+      <strong>Party</strong>
+      <select name="party" class="select-party">
+        <option value="" {% if not party_filter %}selected="selected"{% endif %}>All parties</option>
+        {% for abbrev, label in parties %}
+        <option value="{{ abbrev }}" {% if party_filter == abbrev %}selected="selected"{% endif %}>{{ label }}</option>
         {% endfor %}
       </select>
     </div>

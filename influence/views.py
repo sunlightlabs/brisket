@@ -73,6 +73,7 @@ def search(request, search_type, search_subtype):
             if search_subtype == 'politicians':
                 state = request.GET.get('state', None)
                 seat = request.GET.get('seat', None)
+                party = request.GET.get('party', None)
 
                 if state:
                     results['state_filter'] = state
@@ -80,6 +81,9 @@ def search(request, search_type, search_subtype):
                 if seat:
                     results['seat_filter'] = seat
                     search_kwargs['seat'] = seat
+                if party:
+                    results['party_filter'] = party
+                    search_kwargs['party'] = party
 
         results['result_sets'] = [
             ('people', api.entities.adv_search(query, per_page=per_page, page=page, type=('individual', 'politician'), **search_kwargs) if search_type in ('people', 'all') else {'results': []}),
@@ -130,6 +134,7 @@ def search(request, search_type, search_subtype):
         if search_subtype == 'politicians':
             results['states'] = POL_STATES
             results['seats'] = ["federal:president", "federal:senate", "federal:house", "state:governor", "state:judicial", "state:lower", "state:upper", "state:office"]
+            results['parties'] = [('D', 'Democrat'), ('R', 'Republican'), ('O', 'Other')]
         
         return render_to_response('search/results.html', results, RequestContext(request))
     else:
