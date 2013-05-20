@@ -36,12 +36,12 @@ D3Charts = {
         var width = d3.scale.linear()
             .domain([0, d3.max(totals)])
             .range([0, opts.chart_width]);
-        
+
         var yPos = d3.scale.ordinal()
             .domain(d3.range(totals.length))
             .rangeBands([opts.chart_y + opts.chart_padding, opts.chart_y + (opts.row_height * data.length) + opts.chart_padding]);
 
-        
+
         // bars
         chart.selectAll("g")
             .data(data)
@@ -71,7 +71,7 @@ D3Charts = {
                 return array.join(" ");
             })
             .attr("fill", function(d, i) { return opts.colors[data[0].values.length - i - 1] });
-        
+
         // numbers
         var format = d3.format(',.0f');
         chart.selectAll("text.chart-number")
@@ -84,7 +84,7 @@ D3Charts = {
             .attr('fill', opts.text_color)
             .text(function(d, i) { return '$' + format(d); })
             .style('font', '11px arial,sans-serif');
-        
+
         // labels
         chart.selectAll("g.chart-label")
             .data(data)
@@ -103,7 +103,7 @@ D3Charts = {
                     .text(function(d, i) { return d.name; })
                     .style('font', '11px arial,sans-serif');
             })
-        
+
         // axes
         chart.append("line")
             .attr("x1", opts.chart_x - .5)
@@ -112,7 +112,7 @@ D3Charts = {
             .attr("y2", opts.chart_y + (data.length * opts.row_height) + opts.chart_padding)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
-        
+
         chart.append("line")
             .attr("x1", opts.chart_x)
             .attr("x2", opts.chart_x + opts.chart_width + opts.right_gutter)
@@ -146,14 +146,14 @@ D3Charts = {
         _.defaults(opts, D3Charts.PIECHART_DEFAULTS);
 
         var twopi = 2 * Math.PI;
-        
+
         var size = D3Charts._get_piechart_size(opts);
         var chart = d3.select("#" + div)
             .append("svg")
                 .classed('chart-canvas', true)
                 .attr("width", size.width)
                 .attr("height", size.height);
-        
+
         // pie
         _.each(data, function(d, i) { d.color = opts.colors[i]; });
         data = _.sortBy(data, function(d) { return d.value; }).reverse();
@@ -162,7 +162,7 @@ D3Charts = {
         var aScale = d3.scale.linear()
             .domain([0, d3.sum(values)])
             .range([0, twopi]);
-        
+
         var marker = -1 * aScale(values[0]) / 2;
         var sectors = []
         for (var i = 0; i < values.length; i++) {
@@ -180,14 +180,14 @@ D3Charts = {
                 .attr("transform", "translate(" + opts.chart_cx + "," + opts.chart_cy + ")")
 
         var arc = d3.svg.arc();
-                            
+
         var arcs = circle.selectAll("g.slice")
             .data(sectors)
             .enter()
                 .append("g")
                 .classed("slice", true)
                 .attr("data-slice", function(d, i) { return i; });
-            
+
             arcs.append("path")
                 .attr("fill", function(d, i) { return data[i].color; } )
                 .attr("d", arc)
@@ -224,13 +224,13 @@ D3Charts = {
                 .text(function(d, i) { return data[i].key; })
                 .attr('fill', opts.text_color)
                 .style('font', '11px arial,sans-serif'); */
-        
+
         // legend
         var legend_x = opts.chart_cx + opts.chart_r + opts.legend_padding;
         var legend_y = opts.chart_cy - (data.length * opts.row_height / 2);
         var legend = chart.append("g")
             .attr("transform", "translate(" + legend_x + "," + legend_y + ")");
-        
+
         var sum = d3.sum(values);
         var legendItems = legend.selectAll("g.legend-item")
             .data(data)
@@ -239,20 +239,20 @@ D3Charts = {
                 .classed("legend-item", true)
                 .attr("data-slice", function(d, i) { return i; })
                 .attr("transform", function(d, i) { return "translate(0," + ((i + .5) * opts.row_height) + ")"; })
-        
+
             legendItems.append("circle")
                 .attr("fill", function(d, i) { return d.color; })
                 .attr("cx", 0)
                 .attr("cy", 0)
                 .attr("r", opts.legend_r);
-            
+
             legendItems.append("text")
                 .attr("y", ".45em") // vertical-align: middle
                 .attr("x", opts.legend_padding)
                 .attr('fill', opts.text_color)
                 .text(function(d, i) { return d.key? d.key + " (" + Math.round(100 * d.value / sum) + "%)" : ""; })
                 .style('font', '11px arial,sans-serif');
-        
+
         // amounts
         var format = d3.format(',.0f');
         var amounts = chart.selectAll("text.amount")
@@ -303,7 +303,7 @@ D3Charts = {
             .classed("chart-canvas", true)
             .attr("width", size.width)
             .attr("height", size.height);
-        
+
         // scalers
         y = d3.scale.linear().domain([0, d3.max(_.flatten(_.map(data, function(d) { return d.timeline; })))]).range([opts.chart_height, 0]);
 
@@ -335,7 +335,7 @@ D3Charts = {
                     .text(function(d, i) { return '$' + format(d); })
                     .style('font', '11px arial,sans-serif')
                     .style('text-anchor', 'end');
-        
+
         // x-ticks
         var dayToPx = function(d) { return x(d.day / 7) - .5; };
         // 0-indexed quarter starts
@@ -372,12 +372,12 @@ D3Charts = {
                     .text(function(d, i) { return String(d.label); })
                     .style('font', '11px arial,sans-serif')
                     .style('text-anchor', 'middle');
-        
+
         // lines
         var line = d3.svg.line()
             .x(function(d,i) { return x(i); })
             .y(y);
-        
+
         chart.append('g')
             .classed('lines', true)
             .attr('transform', 'translate(0,' + (opts.chart_y) + ')')
@@ -390,14 +390,14 @@ D3Charts = {
                 .style('stroke-width', '3')
                 .style('stroke', function(d, i) { return opts.colors[i]; })
                 .style('fill', 'none');
-        
+
         // floating box
         var make_box = function(x, y, color, text) {
             var box = chart.append('g')
                 .classed('graph-float', true);
-                
+
             var rect = box.append('rect');
-            
+
             var label = box.append("text")
                 .classed('chart-number', true)
                 .attr("x", x - (2 * opts.label_padding))
@@ -407,7 +407,7 @@ D3Charts = {
                 .text(text)
                 .style('font', '11px arial,sans-serif')
                 .style('text-anchor', 'end');
-            
+
             var width = label.node().getComputedTextLength();
             rect.attr('width', width + (2 * opts.label_padding))
                 .attr('height', opts.row_height + opts.label_padding)
@@ -416,7 +416,7 @@ D3Charts = {
                 .style('fill', '#fff')
                 .style('stroke', color)
                 .style('stroke-width', 1);
-            
+
             return box;
         };
 
@@ -475,13 +475,13 @@ D3Charts = {
             .attr("y2", opts.chart_y + opts.chart_height + opts.tick_length)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
-        
+
         // legend
         var legend_x = opts.chart_x + opts.chart_width + opts.legend_padding;
         var legend_y = opts.chart_y + (opts.chart_height / 2) - (data.length * opts.row_height / 2);
         var legend = chart.append("g")
             .attr("transform", "translate(" + legend_x + "," + legend_y + ")");
-        
+
         var legendItems = legend.selectAll("g.legend-item")
             .data(data)
             .enter()
@@ -489,7 +489,7 @@ D3Charts = {
                 .classed("legend-item", true)
                 .attr("data-series", function(d, i) { return i; })
                 .attr("transform", function(d, i) { return "translate(0," + ((i + .5) * opts.row_height) + ")"; })
-        
+
             legendItems.append("circle")
                 .attr("fill", function(d, i) { return opts.colors[i]; })
                 .attr("cx", 0)
@@ -498,14 +498,14 @@ D3Charts = {
                 .each(function() {
                     this.timeout = null;
                 })
-            
+
             legendItems.each(function(d, i) {
                 var parent = d3.select(this);
                 if (d.href) {
                     parent = parent.append("a")
                     parent.attr('xlink:href', d.href);
                 }
-            
+
                 parent.append("text")
                     .attr("y", ".45em") // vertical-align: middle
                     .attr("x", opts.legend_padding)
@@ -513,7 +513,256 @@ D3Charts = {
                     .text(function(d, i) { return d.name; })
                     .style('font', '11px arial,sans-serif');
             });
-    }
+    },
+    TWOPANE_PIE_DEFAULTS: {
+        chart_height: 260,
+        chart_width: 750,
+        donut_outer_r: 100,
+        colors : ["#efcc01", "#f2e388"],
+        text_color: "#666666",
+        amount_color: "#000000"
+    },
+    twopane_pie: function(div, data, opts) {
+
+        if (typeof opts == 'undefined') opts = {};
+        _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
+
+        var pieMargin = (opts.chart_height - (opts.donut_outer_r*2)) / 2,
+            rad = opts.donut_outer_r,
+            innerRad = opts.donut_outer_r / 3,
+            svgtransbase = "translate(" + (rad + pieMargin) + "," + (rad + pieMargin) + ")",
+            leftFullWidth = (rad+pieMargin) * 2,
+            leftFullHeight = (rad+pieMargin) * 2;
+
+        var barMargin = {top: 20, right: 25, bottom: 20, left: 220},
+            rightFullWidth = opts.chart_width - leftFullWidth;
+            rightWidth = rightFullWidth - barMargin.left - barMargin.right,
+            rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
+
+        var formatNumber = d3.format(",.1s");   //FIXME: currency formatting
+        var formatPercent = function(d) { return "$"+formatNumber(d);};
+        var formatTickLabel = function(d) { return d.split("_")[0];};
+
+        var y = d3.scale.ordinal()
+        .rangeRoundBands([0, rightHeight], .1);
+
+        var x = d3.scale.linear()
+        .range([0, rightWidth]);
+
+        var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .tickFormat(formatTickLabel);
+
+        var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("top")
+        .ticks(5)
+        .tickFormat(formatPercent);
+
+        //Set up panes
+        mainDiv = d3.select("#"+div)
+          .append("div") // http://code.google.com/p/chromium/issues/detail?id=98951
+          .style("display", "inline-block")
+          .style("width", leftFullWidth + rightFullWidth + "px")
+          .style("height", leftFullHeight + "px");
+
+        var leftPane = mainDiv.append("div")
+          .style("display", "inline-block")
+          .attr("width", leftFullWidth)
+          .attr("height", leftFullHeight)
+          .append("svg:svg")
+          .attr("width",leftFullWidth)
+          .attr("height",leftFullHeight);
+
+        var rightPane = mainDiv.append("div")
+          .style("display", "inline-block")
+          .attr("width", rightFullWidth)
+          .attr("height", leftFullHeight)
+          .append("svg:svg")
+          .attr("width", rightFullWidth)
+          .attr("height", leftFullHeight);
+
+        var barChart = rightPane.append("svg:g")
+              .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
+
+        var categories = data;
+
+        var allData = [];
+        categories.forEach(function(d){
+          d.children.forEach(function(f){
+            f.categoryName = d.name;
+            newf = f;
+            newf['categoryName'] = d.name;
+            newf['all_key'] = f.name+'_'+d.name;
+            allData.push(newf); })});
+        var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
+
+        x.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+        var pieChart = leftPane.append("svg:g")
+            .attr("transform", svgtransbase);
+
+        var pie = d3.layout.pie()
+            .value(function(d) { return d.amount; })
+            .sort(function(a, b) { return b.amount - a.amount; });
+
+        categories = pie(categories);
+
+        var arc = d3.svg.arc()
+            .innerRadius(innerRad)
+            .outerRadius(rad);
+
+        function resetRotation() {
+          pieChart.transition().duration(500).attr("transform",svgtransbase);
+        }
+
+        function allTopTen(){
+          drawRight(top10);
+        }
+
+        var center = leftPane.append("svg:g")
+            .attr("transform", svgtransbase);
+
+
+        var g = pieChart.selectAll("g")
+            .data(categories)
+            .enter().append("svg:g")
+            .attr("data-slice", function(d,i) { return i; });
+
+        //testfunc2 = pie;
+
+        g.append("svg:path")
+            .attr("d", arc)
+            .style("fill", function(d) { return opts.colors[d.data.name]; })
+            .on("click",(function(d,i) {
+                    pieChart.selectAll('g[data-slice="'+i+'"] path')
+                      .attr('transform', 'scale(1)');
+                    newtrans = svgtransbase + "rotate(" + (-1 * angle(d)) + ")";
+                    pieChart.transition().duration(500).attr("transform",newtrans);
+                    drawRight(d);
+                    }))
+            .on("mouseover",function(d,i){
+                pieChart.selectAll('g[data-slice="'+i+'"] path')
+                  .attr('transform', 'scale(1.05)');
+                  })
+            .on("mouseout",function(d,i){
+                pieChart.selectAll('g[data-slice="'+i+'"] path')
+                  .attr('transform', 'scale(1)');
+                  })
+          .append("svg:title")
+          .text(function(d) { return d.data.name + ": " + d.data.amount; });
+
+        center.append("svg:circle")
+            .attr("cx",0)
+            .attr("cy",0)
+            .attr("r",(innerRad * 1.2))
+            .attr("fill","#dcddde")
+            .on("click",function(d){
+                resetRotation();
+                allTopTen();});
+
+        center.append("svg:text")
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .classed("allLabel",true)
+            .text("All")
+            .style("pointer-events","none");
+
+         /* fade in pie chart
+         g.style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1); */
+
+        /* scale in pie chart */
+         g.attr("transform","scale(0.1)")
+                .transition()
+                .duration(1000)
+                .attr("transform","scale(1)");
+
+
+        function angle(d) {
+          var rot;
+          var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+          rot = a;
+          return rot;
+        }
+
+        var drawRight = function(parentCategory) {
+          if (parentCategory.hasOwnProperty('data')) {
+            var parentName = parentCategory.data.name;
+            var parentTotal = parentCategory.data.amount;
+            var childData = parentCategory.data.children;
+          } else {
+            var parentName = false;
+            var childData = parentCategory;
+          }
+
+          childData.forEach(function(d) {
+              if (parentName) {
+                d.all_key = d.name+'_'+parentName;
+              }
+          });
+
+          barChart.selectAll(".axis").remove();
+
+          y.domain(childData.map(function(d) {return d.all_key;}));
+
+          testvar = childData;
+
+          barChart.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(10,0)") // now just placing it at the top
+              .call(xAxis);
+
+          var yaxis = barChart.append("g")
+            .attr("class", "y axis");
+
+          var barTransition = barChart.transition().duration(1000);
+
+          barTransition.select(".y.axis")
+              .call(yAxis)
+            .selectAll("g");
+
+          yaxis.append("text")
+              .classed("ytitle",true)
+              .attr("transform", "translate(-"+barMargin.left+","+ ((rightHeight/2) - barMargin.top) +")rotate(-90)")
+              .attr("dy", ".85em")
+              .style("text-anchor", "middle")
+              .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
+              .text(function (d) { if (parentName) {return parentName +"s: $"+ parentTotal} else {return "Top 10 Overall";}});
+
+            bars = barChart.selectAll(".bar")
+              .data(childData,function(d){ return d.all_key;});
+
+            bars.enter().append("rect")
+                .attr("class", "bar")
+                .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return opts.colors[d.categoryName];} })
+                .attr("width", function(d) { return x(d.amount);})
+                .attr("height", y.rangeBand)
+                .attr("x", 10)
+                .attr("y", function(d) {
+                    return y(d.all_key); })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+
+            barTransition.selectAll(".bar")
+              .attr("y", function(d) {return y(d.all_key);});
+
+            bars.exit()
+              .transition()
+              .duration(1000)
+              .style("fill-opacity", 1e-6)
+              .remove();
+
+          };
+        resetRotation();
+        allTopTen();
+        }
+
 }
 
 BrisketModern = {
@@ -522,7 +771,7 @@ BrisketModern = {
     },
     contribution_single_barchart: function(div, data) {
         if (data.length === 0) return;
-        
+
         graph_data = _.map(data, function(item) {
             return {
                 name: item.key,
@@ -556,6 +805,10 @@ BrisketModern = {
         })
         D3Charts.piechart(div, in_data, opts);
     },
+    twopane_pie : function(div, data, colors) {
+        var opts = {'colors': colors};
+        D3Charts.twopane_pie(div, data, opts);
+    },
     party_piechart: function(div, data) {
         var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "#dcddde"};
         Brisket.piechart(div, data, party_colors);
@@ -578,7 +831,19 @@ BrisketModern = {
     },
     timeline_chart: function(div, data) {
         D3Charts.timeline_chart(div, data);
-    }
+    },
+    party_twopane_pie : function(div,data) {
+        var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "gray"};
+        Brisket.twopane_pie(div, data, party_colors);
+    },
+    pol_group_twopane_pie : function(div,data) {
+        var pol_group_colors = {"Direct": "#f27e01", "Associated Individuals": "#efcc01"};
+        Brisket.twopane_pie(div, data, pol_group_colors);
+    },
+    state_fed_twopane_pie : function(div,data) {
+        var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
+        Brisket.twopane_pie(div, data, level_colors);
+    },
 }
 
 BrisketServer = {
@@ -651,7 +916,6 @@ BrisketFallback = {
         var legend_data = [];
         var in_data = [];
         _.each(data, function(item) {
-            console.log(item);
             legend_data.push({
                 'name': item.name,
                 'href': item.href,
