@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 
 from django.views.generic.simple import direct_to_template
 
-from django.contrib.localflavor.us.us_states import US_STATES
+from django_localflavor_us.us_states import US_STATES
 backwards_states = dict([(s[1].upper(), s[0]) for s in US_STATES])
 
 from settings import api
