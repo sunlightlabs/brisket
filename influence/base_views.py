@@ -1,13 +1,18 @@
 from collections import OrderedDict
 
+from django.http import Http404
 from django.views.generic import View
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from influence.forms import ElectionCycle
-from influence.helpers import get_metadata, standardize_name, get_source_display_name
+from influence.helpers import get_metadata, get_summaries, standardize_name, \
+        get_source_display_name, generate_label, barchart_href
+from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver, \
+        IndividualNameCleaver
 from settings import FIRST_CYCLE, LATEST_CYCLE, DEBUG
 from influenceexplorer import DEFAULT_CYCLE
+import json
 
 class MultiSectionView(View):
     sections = []
@@ -18,7 +23,7 @@ class MultiSectionView(View):
 
     def get(self, request):
         context = self.prepare_context(request)
-        
+
         suppress_cache = False
         for section in self.sections:
             s = section(self)
@@ -76,9 +81,9 @@ class EntityView(MultiSectionView):
             if hasattr(e, 'code') and e.code == 404:
                 raise Http404
             raise
-        
+
         self.check_metadata()
-        
+
         self.standardized_name = standardize_name(self.metadata['entity_info']['name'], self.type)
         self.external_ids = self.metadata['entity_info']['external_ids']
 
@@ -87,7 +92,7 @@ class EntityView(MultiSectionView):
         context['cycle'] = self.cycle
         context['entity_info'] = self.metadata['entity_info']
         context['entity_info']['metadata']['source_display_name'] = get_source_display_name(self.metadata['entity_info']['metadata'])
-        
+
         if self.cycle != DEFAULT_CYCLE and unicode(str(self.cycle)) in self.metadata['entity_info']['metadata']:
             # copy the current cycle's metadata into the generic metadata spot
             self.metadata['entity_info']['metadata'].update(self.metadata['entity_info']['metadata'][unicode(str(self.cycle))])
@@ -106,13 +111,30 @@ class EntityLandingView(MultiSectionView):
     def template(self):
         return 'entity_landing/%s_landing.html' % self.label
 
+    def check_summaries(self):
+        pass
+
     def prepare_context(self, request):
-        self.cycle = str(request.GET.get('cycle', DEFAULT_CYCLE))
+        try:
+            self.summaries, self.cycle = get_summaries(self.label, request)
+        except Exception as e:
+            if hasattr(e, 'code') and e.code == 404:
+                raise Http404
+            raise
+
+        self.check_summaries()
+
         context = super(EntityLandingView, self).prepare_context(request)
         context['cycle'] = self.cycle
         context['name'] = self.name
         context['label'] = self.label
+        context['summaries'] = self.summaries
+
         return context
+
+    def get(self, request):
+
+        return super(EntityLandingView, self).get(request)
 
 class Section(object):
     template = None
@@ -141,7 +163,7 @@ class Section(object):
     def build_section(self):
         if self.enabled:
             self.enabled = self.should_fetch()
-        
+
         if self.enabled:
             try:
                 self.enabled = self.fetch()
@@ -159,3 +181,39 @@ class Section(object):
                     raise
                 self.failed = True
                 return
+
+class EntityLandingSection(Section):
+
+    def __init__(self, entity_view):
+        super(EntityLandingSection, self).__init__(entity_view)
+        self.select_cleaver()
+
+    def select_cleaver(self):
+        if self.entity.label in ['contributor','lobbyist']:
+            self.entity_type = 'individual'
+            self.cleaver = IndividualNameCleaver
+        elif self.entity.label == 'pol':
+            self.entity_type = 'politician'
+            self.cleaver = PoliticianNameCleaver
+        else:
+            if self.entity.label == 'industry':
+                self.entity_type = 'industry'
+            else:
+                self.entity_type = 'organization'
+            self.cleaver = OrganizationNameCleaver
+
+    def should_fetch(self):
+        return bool(self.entity.summaries[self.label])
+
+    def fetch(self):
+        self.data = self.entity.summaries[self.label]
+        return True
+
+    def prepare_parent_child_tree(self,indicator):
+        obj = self.data[indicator]
+        for parent in obj:
+            for child in parent['children']:
+                child['name'] = generate_label(
+                                 str(self.cleaver(child['name']).parse()))
+                child['href'] = barchart_href(child,self.entity.cycle,self.entity_type)
+        return json.dumps(obj)

@@ -66,11 +66,11 @@ def generate_label(string, max_length=34):
 
 section_indicators = {
    'individual':   {
-       'contributions': ['contributor_count'], 
+       'contributions': ['contributor_count'],
        'lobbying': ['lobbying_count']},
    'organization': {
        'contributions': ['contributor_count', 'independent_expenditure_amount', 'fec_summary_count'],
-       'lobbying': ['lobbying_count'], 
+       'lobbying': ['lobbying_count'],
        'fed_spending':['loan_count', 'grant_count', 'contract_count'],
        'earmarks': ['earmark_count'],
        'contractor_misconduct': ['contractor_misconduct_count'],
@@ -78,7 +78,7 @@ section_indicators = {
        'epa_echo': ['epa_actions_count'],
        'faca': ['faca_committee_count', 'faca_member_count']},
    'industry': {
-       'contributions': ['contributor_count'], 
+       'contributions': ['contributor_count'],
        'lobbying': ['lobbying_count'],
        'fed_spending':['loan_count', 'grant_count', 'contract_count']},
    'politician':   {
@@ -96,6 +96,48 @@ def get_data_types(entity_type, totals):
             data[data_type] = False
     return data
 
+landing_page_section_indicators = {
+    # GROUPS
+   'industry': {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary'],
+       #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary']
+       },
+   'org': {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary'],
+       #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary'],
+       #'earmarks': ['earmark_summary'],
+       #'contractor_misconduct': ['contractor_misconduct_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'epa_echo': ['epa_actions_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
+   'pol_group': {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
+   'lobbying_firm': {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
+   # PEOPLE
+   'contributor':   {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary']
+       },
+   'lobbyist':   {
+       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'lobbying': ['issues_summary','bills_summary']},
+   'pol':   {
+       'contributions': ['recipient_summary'],
+       'earmarks': ['earmark_summary']},
+}
+
 def get_metadata(entity_id, request, entity_type):
     entity_info = api.entities.metadata(entity_id)
 
@@ -109,7 +151,7 @@ def get_metadata(entity_id, request, entity_type):
         cycle = str(request.GET['cycle'])
     else:
         cycle = str(DEFAULT_CYCLE)
-        
+
     # check which types of data are available about this entity
     totals_for_cycle = entity_info['totals'].get(cycle, False)
     data.update(get_data_types(entity_type, totals_for_cycle))
@@ -120,6 +162,31 @@ def get_metadata(entity_id, request, entity_type):
     data['entity_info'] = entity_info
 
     return data, cycle
+
+def get_summaries(entity_type, request):
+    data = {}
+
+    if 'cycle' in request.GET:
+        cycle = str(request.GET['cycle'])
+    else:
+        cycle = str(DEFAULT_CYCLE)
+
+    if 'limit' in request.GET:
+        limit = str(request.GET['limit'])
+    else:
+        limit = str(-1)
+
+    for data_type,indicators in landing_page_section_indicators[entity_type].iteritems():
+        print 'summary for %s'%(data_type,)
+        inds = {}
+        for indicator in indicators:
+            print  '>>> %s'%(indicator,)
+            inds[indicator] = api.summaries.summarize(entity_type,indicator.replace('_summary',''),cycle=cycle,limit=limit)
+        data[data_type] = inds
+
+    return data,cycle
+    #for data_type, indicators in section_indicators[entity_type].iteritems():
+    #data['available_cycles'] = [c for c in en
 
 def earmarks_table_data(entity_id, cycle):
     rows = api.pol.earmarks(entity_id, cycle)
@@ -158,16 +225,16 @@ from influence.cache import cache
 @cache(seconds=86400)
 def get_top_pages():
     end_dt = datetime.datetime.now()
-    
+
     end_date = end_dt.date()
     start_date = (end_dt - datetime.timedelta(days=7)).date()
-    
+
     from django.conf import settings
-    
+
     try:
         connection = googleanalytics.Connection(settings.GOOGLE_ANALYTICS_USER, settings.GOOGLE_ANALYTICS_PASSWORD)
         account = connection.get_account(settings.GOOGLE_ANALYTICS_PROFILE_ID)
-        
+
         pages = account.get_data(
             start_date=start_date,
             end_date=end_date,
@@ -177,14 +244,14 @@ def get_top_pages():
         )
     except:
         return None
-    
+
     entity_signature = re.compile(r'^/[\w\-]+/[\w\-]+/[a-f0-9-]{32,36}')
     entity_pages = [{
         'views': page.metric,
         'path': page.dimensions[0],
         'title': page.dimensions[1].split('|')[0].strip()
     } for page in pages if entity_signature.match(page.dimensions[0]) and 'error' not in page.dimensions[1].lower()]
-    
+
     return entity_pages[:5]
 
 # dummy class used in search
