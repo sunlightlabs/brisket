@@ -520,7 +520,8 @@ D3Charts = {
         donut_outer_r: 100,
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
-        amount_color: "#000000"
+        amount_color: "#000000",
+        link_color: "#0a6e92"
     },
     twopane_pie: function(div, data, opts) {
 
@@ -534,14 +535,15 @@ D3Charts = {
             leftFullWidth = (rad+pieMargin) * 2,
             leftFullHeight = (rad+pieMargin) * 2;
 
-        var barMargin = {top: 20, right: 25, bottom: 20, left: 220},
+        var barMargin = {top: 20, right: 70, bottom: 20, left: 220},
             rightFullWidth = opts.chart_width - leftFullWidth;
             rightWidth = rightFullWidth - barMargin.left - barMargin.right,
             rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
 
         var formatNumber = d3.format(",.1s");   //FIXME: currency formatting
         var formatPercent = function(d) { return "$"+formatNumber(d);};
-        var formatTickLabel = function(d) { return d.split("_")[0];};
+        var formatTickLabel = function(d) { return "";};
+                                                    //d.split("_")[0];};
 
         var y = d3.scale.ordinal()
         .rangeRoundBands([0, rightHeight], .1);
@@ -718,11 +720,45 @@ D3Charts = {
           var yaxis = barChart.append("g")
             .attr("class", "y axis");
 
-          var barTransition = barChart.transition().duration(1000);
+          var barTransition = rightPane.transition().duration(1000);
 
           barTransition.select(".y.axis")
               .call(yAxis)
             .selectAll("g");
+
+            // labels
+            labels = rightPane.selectAll("g.chart-label")
+                  .data(childData,function(d){ return d.all_key;});
+
+            labels.enter().append("g")
+                .classed('chart-label', true)
+                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .each(function(d, i) {
+                    var parent = d3.select(this);
+                    if (d.href) {
+                        parent = parent.append("a")
+                        parent.attr('xlink:href', d.href);
+                    }
+                    parent.append("text")
+                        .attr("y", ".15em") // vertical-align: middle
+                        .attr('fill', parent.node().tagName.toLowerCase() == 'a' ? opts.link_color : opts.text_color)
+                        .text(function(d, i) { return d.name; })
+                        .style('font', '11px arial,sans-serif');
+                })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+
+            barTransition.selectAll("g.chart-label")
+                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+
+            labels.exit()
+                .transition()
+                .duration(1000)
+                .style("fill-opacity", 1e-6)
+                .remove()
 
           yaxis.append("text")
               .classed("ytitle",true)
@@ -730,7 +766,7 @@ D3Charts = {
               .attr("dy", ".85em")
               .style("text-anchor", "middle")
               .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
-              .text(function (d) { if (parentName) {return parentName +"s: $"+ parentTotal} else {return "Top 10 Overall";}});
+              .text(function (d) { if (parentName) {return parentName +": $"+ parentTotal} else {return "Top 10 Overall";}});
 
             bars = barChart.selectAll(".bar")
               .data(childData,function(d){ return d.all_key;});

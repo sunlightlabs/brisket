@@ -7,7 +7,7 @@ from django.template import RequestContext
 
 from influence.forms import ElectionCycle
 from influence.helpers import get_metadata, get_summaries, standardize_name, \
-        get_source_display_name, generate_label
+        get_source_display_name, generate_label, barchart_href
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver, \
         IndividualNameCleaver
 from settings import FIRST_CYCLE, LATEST_CYCLE, DEBUG
@@ -190,10 +190,16 @@ class EntityLandingSection(Section):
 
     def select_cleaver(self):
         if self.entity.label in ['contributor','lobbyist']:
+            self.entity_type = 'individual'
             self.cleaver = IndividualNameCleaver
         elif self.entity.label == 'pol':
+            self.entity_type = 'politician'
             self.cleaver = PoliticianNameCleaver
         else:
+            if self.entity.label == 'industry':
+                self.entity_type = 'industry'
+            else:
+                self.entity_type = 'organization'
             self.cleaver = OrganizationNameCleaver
 
     def should_fetch(self):
@@ -209,4 +215,5 @@ class EntityLandingSection(Section):
             for child in parent['children']:
                 child['name'] = generate_label(
                                  str(self.cleaver(child['name']).parse()))
+                child['href'] = barchart_href(child,self.entity.cycle,self.entity_type)
         return json.dumps(obj)
