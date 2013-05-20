@@ -720,11 +720,45 @@ D3Charts = {
           var yaxis = barChart.append("g")
             .attr("class", "y axis");
 
-          var barTransition = barChart.transition().duration(1000);
+          var barTransition = rightPane.transition().duration(1000);
 
           barTransition.select(".y.axis")
               .call(yAxis)
             .selectAll("g");
+
+            // labels
+            labels = rightPane.selectAll("g.chart-label")
+                  .data(childData,function(d){ return d.all_key;});
+
+            labels.enter().append("g")
+                .classed('chart-label', true)
+                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .each(function(d, i) {
+                    var parent = d3.select(this);
+                    if (d.href) {
+                        parent = parent.append("a")
+                        parent.attr('xlink:href', d.href);
+                    }
+                    parent.append("text")
+                        .attr("y", ".15em") // vertical-align: middle
+                        .attr('fill', parent.node().tagName.toLowerCase() == 'a' ? opts.link_color : opts.text_color)
+                        .text(function(d, i) { return d.name; })
+                        .style('font', '11px arial,sans-serif');
+                })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+
+            barTransition.selectAll("g.chart-label")
+                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+
+            labels.exit()
+                .transition()
+                .duration(1000)
+                .style("fill-opacity", 1e-6)
+                .remove()
 
           yaxis.append("text")
               .classed("ytitle",true)
