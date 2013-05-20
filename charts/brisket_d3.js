@@ -520,7 +520,8 @@ D3Charts = {
         donut_outer_r: 100,
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
-        amount_color: "#000000"
+        amount_color: "#000000",
+        link_color: "#0a6e92"
     },
     twopane_pie: function(div, data, opts) {
 
@@ -534,14 +535,15 @@ D3Charts = {
             leftFullWidth = (rad+pieMargin) * 2,
             leftFullHeight = (rad+pieMargin) * 2;
 
-        var barMargin = {top: 20, right: 25, bottom: 20, left: 220},
+        var barMargin = {top: 20, right: 70, bottom: 20, left: 220},
             rightFullWidth = opts.chart_width - leftFullWidth;
             rightWidth = rightFullWidth - barMargin.left - barMargin.right,
             rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
 
         var formatNumber = d3.format(",.1s");   //FIXME: currency formatting
         var formatPercent = function(d) { return "$"+formatNumber(d);};
-        var formatTickLabel = function(d) { return d.split("_")[0];};
+        var formatTickLabel = function(d) { return "";};
+                                                    //d.split("_")[0];};
 
         var y = d3.scale.ordinal()
         .rangeRoundBands([0, rightHeight], .1);
