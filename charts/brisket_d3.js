@@ -730,7 +730,7 @@ D3Charts = {
               .attr("dy", ".85em")
               .style("text-anchor", "middle")
               .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
-              .text(function (d) { if (parentName) {return parentName +"s: $"+ parentTotal} else {return "Top 10 Overall";}});
+              .text(function (d) { if (parentName) {return parentName +": $"+ parentTotal} else {return "Top 10 Overall";}});
 
             bars = barChart.selectAll(".bar")
               .data(childData,function(d){ return d.all_key;});
