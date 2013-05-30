@@ -122,7 +122,8 @@ landing_page_section_indicators = {
        },
    'lobbyist':   {
        'contributions': ['party_summary','recipient_type_summary','state_fed_summary'], #,'office_type_summary'
-       'lobbying': ['issues_summary','bills_summary']},
+       #'lobbying': ['issues_summary','bills_summary']
+       },
    'pol':   {
        'contributions': ['recipient_summary'],
        'earmarks': ['earmark_summary']},

@@ -16,7 +16,24 @@
 </div>
 
 <div class="chartModule withNav">
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      {% if not sections.contributions.suppress_contrib_graphs %}
+      Brisket.party_twopane_pie("partyTwopanePie", {% if section.party_summary_data %}{{ section.party_summary_data|safe }}{% else %}{}{% endif %});
+      //Brisket.recipient_type_twopane_pie("recipientTypeGroupTwopanePie", {% if section.recipient_type_summary_data %}{{ section.recipient_type_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.state_fed_twopane_pie("stateFedTwopanePie", {% if section.state_fed_summary_data %}{{ section.state_fed_summary_data|safe }}{% else %}{}{% endif %});
+      {% endif %}
+
+      //$('table#grantsContracts td').multiellipsis(3);
+      //$('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+      //$('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
+    });
+    </script>
     <span class="tip external">covers through [FIXME: date]</span>
     
-    <div class="threeColumn mainTable">FIXME: section's contents go here.</div>
+    <div class="threeColumn mainTable">
+        <div id="partyTwopanePie" class="twopanePie"></div>
+        <div id="recipientTypeTwopanePie" class="twopanePie"></div>
+        <div id="stateFedTwopanePie" class="twopanePie"></div>
+    </div>
 </div>

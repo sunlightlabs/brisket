@@ -205,13 +205,20 @@ class ContributorLandingView(EntityLandingView):
         ContributorContributionsLandingSection,
     ]
 
-class LobbyistContributionsLandingSection(Section):
+class LobbyistContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/lobbyist_landing_contributions.html'
-    enabled = False
+    enabled = True
 
-class LobbyistLobbyingLandingSection(Section):
+    def build_section_data(self):
+        amount = sum([float(n['amount']) for n in self.data['party_summary']])
+
+        self.party_summary_data = self.prepare_parent_child_tree('party_summary')
+        self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
+        self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
+
+class LobbyistLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/lobbyist_landing_lobbying.html'
