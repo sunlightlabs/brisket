@@ -31,6 +31,64 @@ from entity_landing_views import *
 from dataset_landing_views import *
 from place_landing_views import *
 
+# Exceptions need a functioning unicode method
+# for Sentry. URLError and its subclass HTTPError
+# do not. So monkey patching.
+URLError.__unicode__ = lambda self: unicode(self.__str__())
+
+
+def handle_errors(f):
+    def wrapped_f(*args, **params):
+        try:
+            return f(*args, **params)
+        except Exception as e:
+            if hasattr(e, 'code') and e.code == 404:
+                raise Http404
+            raise
+
+    return wrapped_f
+
+
+def brisket_context(request):
+    return RequestContext(request, {'search_form': SearchForm()})
+
+
+def entity_context(request, cycle, available_cycles):
+    context_variables = {}
+
+    params = request.GET.copy()
+    params['cycle'] = cycle
+
+    context_variables['cycle_form'] = ElectionCycle(available_cycles, params)
+
+    return RequestContext(request, context_variables)
+
+
+def entity_redirect(request, entity_id):
+    entity = api.entities.metadata(entity_id)
+
+    name = slugify(entity['name'])
+
+    return redirect('{}_entity'.format(entity['type']), entity_id=entity_id)
+
+def entity_preview_redirect(request, entity_id, type=None):
+    entity = api.entities.metadata(entity_id)
+
+    name = slugify(entity['name'])
+
+    return redirect('entity_preview', entity_id=entity_id, type=entity['type'])
+
+
+def entity_preview(request, entity_id, type):
+
+    if type == 'politician':
+        cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
+
+        return render_to_response('{}_preview.html'.format(type), context,
+                              entity_context(request, cycle, metadata['available_cycles']))
+    else:
+        return entity_redirect(request, entity_id)
+
 #this is the index
 def index(request):
     #ID of the feed is hardcoded as feed 1 since it's the only feed we're using right now. This may change!

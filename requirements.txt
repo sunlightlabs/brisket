@@ -7,6 +7,7 @@ nose
 django-nose
 django-indexer
 django-paging
+requests
 selenium
 name-cleaver
 -e git://github.com/sunlightlabs/python-transparencydata.git#egg=transparencydata
