@@ -127,12 +127,13 @@ landing_page_section_indicators = {
        },
    # PEOPLE
    'contributor':   {
-       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
-       'lobbying': ['issues_summary','bills_summary']
+       'contributions': ['party_summary','recipient_type_summary','state_fed_summary'], #,'office_type_summary'
+       #'lobbying': ['issues_summary','bills_summary']
        },
    'lobbyist':   {
-       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
-       'lobbying': ['issues_summary','bills_summary']},
+       'contributions': ['party_summary','recipient_type_summary','state_fed_summary'], #,'office_type_summary'
+       #'lobbying': ['issues_summary','bills_summary']
+       },
    'pol':   {
        'contributions': ['recipient_summary'],
        'earmarks': ['earmark_summary']},
