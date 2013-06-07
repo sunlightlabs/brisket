@@ -1,0 +1,31 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar withNav withTip">
+    <h3>Campaign Finance</h3>
+    <span class="amount">FIXME: amount</span>
+    <div  class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
+        <div class="clear"></div>      
+        <div class="descriptorText" id='contributionsDescriptor'>
+            <p>FIXME: put some descriptive text here.</p>
+            <p>For more information, see our <a href="/about/methodology/contributions/">Campaign Finance Methodology</a> page.</p>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="chartModule withNav">
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      {% if not sections.contributions.suppress_contrib_graphs %}
+      Brisket.industry_hierarchical_bar("industryHierarchicalBar", {% if section.subindustry_total_data %}{{ section.subindustry_total_data|safe }}{% else %}{}{% endif %});
+      {% endif %}
+
+    });
+    </script
+    <span class="tip external">covers through [FIXME: date]</span>
+    <div class="threeColumn mainTable">
+        <div id="industryHierarchicalBar" class="Bar"></div>
+    </div>
+</div>

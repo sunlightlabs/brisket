@@ -513,6 +513,311 @@ D3Charts = {
                     .text(function(d, i) { return d.name; })
                     .style('font', '11px arial,sans-serif');
             });
+    },
+    TWOPANE_PIE_DEFAULTS: {
+        chart_height: 260,
+        chart_width: 750,
+        donut_outer_r: 100,
+        colors : ["#efcc01", "#f2e388"],
+        text_color: "#666666",
+        amount_color: "#000000",
+        link_color: "#0a6e92"
+    },
+    twopane_pie: function(div, data, opts) {
+
+        if (typeof opts == 'undefined') opts = {};
+        _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
+
+        console.log(data);
+
+        var pieMargin = (opts.chart_height - (opts.donut_outer_r*2)) / 2,
+            rad = opts.donut_outer_r,
+            innerRad = opts.donut_outer_r / 3,
+            svgtransbase = "translate(" + (rad + pieMargin) + "," + (rad + pieMargin) + ")",
+            leftFullWidth = (rad+pieMargin) * 2,
+            leftFullHeight = (rad+pieMargin) * 2;
+
+        var barMargin = {top: 20, right: 70, bottom: 20, left: 220},
+            rightFullWidth = opts.chart_width - leftFullWidth;
+            rightWidth = rightFullWidth - barMargin.left - barMargin.right,
+            rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
+
+        var formatNumber = d3.format(",.1s");   //FIXME: currency formatting
+        var formatPercent = function(d) { return "$"+formatNumber(d);};
+        var formatTickLabel = function(d) { return "";};
+                                                    //d.split("_")[0];};
+
+        var y = d3.scale.ordinal()
+        .rangeRoundBands([0, rightHeight], .1);
+
+        var x = d3.scale.linear()
+        .range([0, rightWidth]);
+
+        var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .tickFormat(formatTickLabel);
+
+        var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("top")
+        .ticks(5)
+        .tickFormat(formatPercent);
+
+        //Set up panes
+        mainDiv = d3.select("#"+div)
+          .append("div") // http://code.google.com/p/chromium/issues/detail?id=98951
+          .style("display", "inline-block")
+          .style("width", leftFullWidth + rightFullWidth + "px")
+          .style("height", leftFullHeight + "px");
+
+        var leftPane = mainDiv.append("div")
+          .style("display", "inline-block")
+          .attr("width", leftFullWidth)
+          .attr("height", leftFullHeight)
+          .append("svg:svg")
+          .attr("width",leftFullWidth)
+          .attr("height",leftFullHeight);
+
+        var rightPane = mainDiv.append("div")
+          .style("display", "inline-block")
+          .attr("width", rightFullWidth)
+          .attr("height", leftFullHeight)
+          .append("svg:svg")
+          .attr("width", rightFullWidth)
+          .attr("height", leftFullHeight);
+
+        var barChart = rightPane.append("svg:g")
+              .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
+
+        var categories = data;
+
+        var allData = [];
+        categories.forEach(function(d){
+          d.children.forEach(function(f){
+            f.categoryName = d.name;
+            newf = f;
+            newf['categoryName'] = d.name;
+            newf['all_key'] = f.name+'_'+d.name;
+            allData.push(newf); })});
+        var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
+
+        x.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+        var pieChart = leftPane.append("svg:g")
+            .attr("transform", svgtransbase);
+
+        var pie = d3.layout.pie()
+            .value(function(d) { return d.amount; })
+            .sort(function(a, b) { return b.amount - a.amount; });
+
+        categories = pie(categories);
+
+        var arc = d3.svg.arc()
+            .innerRadius(innerRad)
+            .outerRadius(rad);
+
+        function resetRotation() {
+          pieChart.transition().duration(500).attr("transform",svgtransbase);
+        }
+
+        function allTopTen(){
+          drawRight(top10);
+        }
+
+        var center = leftPane.append("svg:g")
+            .attr("transform", svgtransbase);
+
+
+        var g = pieChart.selectAll("g")
+            .data(categories)
+            .enter().append("svg:g")
+            .attr("data-slice", function(d,i) { return i; });
+
+        //testfunc2 = pie;
+
+        g.append("svg:path")
+            .attr("d", arc)
+            .style("fill", function(d) { return opts.colors[d.data.name]; })
+            .on("click",(function(d,i) {
+                    pieChart.selectAll('g[data-slice="'+i+'"] path')
+                      .attr('transform', 'scale(1)');
+                    newtrans = svgtransbase + "rotate(" + (-1 * angle(d)) + ")";
+                    pieChart.transition().duration(500).attr("transform",newtrans);
+                    drawRight(d);
+                    }))
+            .on("mouseover",function(d,i){
+                pieChart.selectAll('g[data-slice="'+i+'"] path')
+                  .attr('transform', 'scale(1.05)');
+                  })
+            .on("mouseout",function(d,i){
+                pieChart.selectAll('g[data-slice="'+i+'"] path')
+                  .attr('transform', 'scale(1)');
+                  })
+          .append("svg:title")
+          .text(function(d) { return d.data.name + ": " + d.data.amount; });
+
+        center.append("svg:circle")
+            .attr("cx",0)
+            .attr("cy",0)
+            .attr("r",(innerRad * 1.2))
+            .attr("fill","#dcddde")
+            .on("click",function(d){
+                resetRotation();
+                allTopTen();});
+
+        center.append("svg:text")
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .classed("allLabel",true)
+            .text("All")
+            .style("pointer-events","none");
+
+         /* fade in pie chart
+         g.style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1); */
+
+        /* scale in pie chart */
+         g.attr("transform","scale(0.1)")
+                .transition()
+                .duration(1000)
+                .attr("transform","scale(1)");
+
+
+        function angle(d) {
+          var rot;
+          var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+          rot = a;
+          return rot;
+        }
+
+        var drawRight = function(parentCategory) {
+          if (parentCategory.hasOwnProperty('data')) {
+            var parentName = parentCategory.data.name;
+            var parentTotal = parentCategory.data.amount;
+            var childData = parentCategory.data.children;
+          } else {
+            var parentName = false;
+            var childData = parentCategory;
+          }
+
+          childData.forEach(function(d) {
+              if (parentName) {
+                d.all_key = d.name+'_'+parentName;
+              }
+          });
+
+          barChart.selectAll(".axis").remove();
+
+          y.domain(childData.map(function(d) {return d.all_key;}));
+
+          testvar = childData;
+
+          barChart.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(10,0)") // now just placing it at the top
+              .call(xAxis);
+
+          var yaxis = barChart.append("g")
+            .attr("class", "y axis");
+
+          var barTransition = rightPane.transition().duration(1000);
+
+          barTransition.select(".y.axis")
+              .call(yAxis)
+            .selectAll("g");
+
+            // labels
+            labels = rightPane.selectAll("g.chart-label")
+                  .data(childData,function(d){ return d.all_key;});
+
+            labels.enter().append("g")
+                .classed('chart-label', true)
+                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .each(function(d, i) {
+                    var parent = d3.select(this);
+                    if (d.href) {
+                        parent = parent.append("a")
+                        parent.attr('xlink:href', d.href);
+                    }
+                    parent.append("text")
+                        .attr("y", ".15em") // vertical-align: middle
+                        .attr('fill', parent.node().tagName.toLowerCase() == 'a' ? opts.link_color : opts.text_color)
+                        .text(function(d, i) { return d.name; })
+                        .style('font', '11px arial,sans-serif');
+                })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+
+            barTransition.selectAll("g.chart-label")
+                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+
+            labels.exit()
+                .transition()
+                .duration(1000)
+                .style("fill-opacity", 1e-6)
+                .remove()
+
+          yaxis.append("text")
+              .classed("ytitle",true)
+              .attr("transform", "translate(-"+barMargin.left+","+ ((rightHeight/2) - barMargin.top) +")rotate(-90)")
+              .attr("dy", ".85em")
+              .style("text-anchor", "middle")
+              .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
+              .text(function (d) { if (parentName) {return parentName +": $"+ parentTotal} else {return "Top 10 Overall";}});
+
+            bars = barChart.selectAll(".bar")
+              .data(childData,function(d){ return d.all_key;});
+
+            bars.enter().append("rect")
+                .attr("class", "bar")
+                .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return opts.colors[d.categoryName];} })
+                .attr("width", function(d) { return x(d.amount);})
+                .attr("height", y.rangeBand)
+                .attr("x", 10)
+                .attr("y", function(d) {
+                    return y(d.all_key); })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+
+            barTransition.selectAll(".bar")
+              .attr("y", function(d) {return y(d.all_key);});
+
+            bars.exit()
+              .transition()
+              .duration(1000)
+              .style("fill-opacity", 1e-6)
+              .remove();
+
+          };
+        resetRotation();
+        allTopTen();
+        },
+    HIERARCHICAL_BAR_DEFAULTS: {
+        chart_height: 6000,
+        chart_width: 960,
+        bar_height: 20,
+        colors: ['#006D2C','#31A354','#74C476'],
+        text_color: "#666666",
+        amount_color: "#000000"
+    },
+    hierarchical_bar: function(div, data, opts) {
+        if (typeof opts == 'undefined') opts = {};
+        _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
+
+        var indent = barHeight/4,
+            triangleBase = barHeight/2,
+            maxBarWidth = opts.chart_width/3.2,
+            duration = 400,
+            root,
+            st_data;
     }
 }
 
