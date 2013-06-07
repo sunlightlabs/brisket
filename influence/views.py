@@ -226,7 +226,7 @@ def politician_landing(request):
     context['num_pols'] = len(context['top_n_politicians'])
     context['cycle'] = TOP_LISTS_CYCLE
 
-    context['largest_donations_in_last_month'] = translate_top_list_for_lg_donations_chart(api.entities.top_n_largest_donations_in_last_month(limit=10))
+    context['largest_recent_donations'] = translate_top_list_for_lg_donations_chart(api.entities.top_n_largest_recent_donations(limit=10))
 
     context['top_by_receipts_for_house'] = translate_top_list_for_chart(api.entities.top_n_politicians(limit=10, office='house'), type_='politician')
     context['top_by_receipts_for_senate'] = translate_top_list_for_chart(api.entities.top_n_politicians(limit=10, office='senate'), type_='politician')
@@ -296,7 +296,6 @@ def org_industry_entity(request, entity_id, type):
 
     if 'faca' in metadata and metadata['faca']:
         context['sections']['faca'] = org_faca_section(entity_id, standardized_name, cycle)
-
     response = render_to_response('%s.html' % type, context,
                               entity_context(request, cycle, metadata['available_cycles']))
 
