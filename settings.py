@@ -139,6 +139,7 @@ MEDIASYNC['JOINED'] = {
         'js/brisket.js',
         'js/d3.min.js',
         'js/d3.geom.min.js',
+        'js/d3.layout.min.js',
         'js/brisket_d3.js',
     ],
     'data/css/all.css': [
@@ -233,7 +234,7 @@ IGNORABLE_404_URLS = (
     re.compile(r'\.php$'),
 )
 
-from influenceexplorer import InfluenceExplorer, ALL_CYCLES
+from influenceexplorer import InfluenceExplorer, DEFAULT_CYCLE
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
 
 if not DEFAULT_CYCLE:
