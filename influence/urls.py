@@ -34,6 +34,12 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^collections/epa-violations', 'epa_echo_landing'),
     url(r'^collections/advisory-committees', 'faca_landing'),
 
+    # entity previews (mainly for OpenRefine)
+    url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview', {'type': 'organization'}, name='entity_preview'),
+    url(r'^politician/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview', {'type': 'politician'}, name='entity_preview'),
+    url(r'^individual/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview', {'type': 'individual'}, name='entity_preview'),
+    url(r'^entity/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview_redirect', name='entity_preview_redirect'),
+
     # entity pages
     url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', OrganizationEntityView.as_view(),
         name='organization_entity'),
