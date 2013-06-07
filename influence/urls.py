@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
-from brisket.influence.views import PoliticianEntityView, IndividualEntityView, OrganizationEntityView, IndustryEntityView
+from brisket.influence.views import PoliticianEntityView, IndividualEntityView, OrganizationEntityView, IndustryEntityView, PoliticianPreviewView
 from brisket.influence.views import IndustryLandingView, OrgLandingView, PolGroupLandingView, LobbyingFirmLandingView, ContributorLandingView, LobbyistLandingView, PolLandingView
 
 urlpatterns = patterns('brisket.influence.views',
@@ -35,9 +35,9 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^collections/advisory-committees', 'faca_landing'),
 
     # entity previews (mainly for OpenRefine)
-    url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview', {'type': 'organization'}, name='entity_preview'),
-    url(r'^politician/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview', {'type': 'politician'}, name='entity_preview'),
-    url(r'^individual/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview', {'type': 'individual'}, name='entity_preview'),
+    url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_redirect', name='organization_preview'),
+    url(r'^politician/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', PoliticianPreviewView.as_view(), name='politician_preview'),
+    url(r'^individual/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_redirect', name='individual_preview'),
     url(r'^entity/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview_redirect', name='entity_preview_redirect'),
 
     # entity pages

@@ -27,26 +27,6 @@ from entity_landing_views import *
 from dataset_landing_views import *
 from place_landing_views import *
 
-def entity_preview_redirect(request, entity_id, type=None):
-    entity = api.entities.metadata(entity_id)
-
-    name = slugify(entity['name'])
-
-    return redirect('entity_preview', entity_id=entity_id, type=entity['type'])
-
-
-def entity_preview(request, entity_id, type):
-
-    if type == 'politician':
-        pol = PoliticianEntityView()
-        pol.entity_id = entity_id
-        pol.type = type
-        context = pol.prepare_context(request)
-
-        return render_to_response('{}_preview.html'.format(type), context)
-    else:
-        return entity_redirect(request, entity_id)
-
 #this is the index
 def index(request):
     #ID of the feed is hardcoded as feed 1 since it's the only feed we're using right now. This may change!

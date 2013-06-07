@@ -621,3 +621,16 @@ class IndividualEntityView(EntityView):
         IndivContributionSection,
         IndivLobbyingSection
     ]
+
+### Preview Views ###
+class PoliticianPreviewView(PoliticianEntityView):
+    sections = []
+    template = "entities/politician_preview.html"
+
+def entity_preview_redirect(request, entity_id, type=None):
+    entity = api.entities.metadata(entity_id)
+    if entity['type'] == 'politician':
+        name = slugify(entity['name'])
+        return redirect('{}_preview'.format(entity['type']), entity_id=entity_id)
+    else:
+        return redirect('{}_entity'.format(entity['type']), entity_id=entity_id)
