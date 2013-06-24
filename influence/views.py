@@ -103,6 +103,9 @@ def search(request, search_type, search_subtype):
         for result in all_results:
             result['url'] = "/%s/%s/%s" % (result['type'], slugify(standardize_name(result['name'], result['type'])), result['id'])
 
+            if result['type'] == 'organization':
+                result['has_fec_id'] = len([eid for eid in result['external_ids'] if eid['namespace'] == "urn:fec:committee"]) > 0
+
             # munge results a bit to handle available sections
             result.update(get_data_types(result['type'], result['totals']))
             result['sections'] = []
