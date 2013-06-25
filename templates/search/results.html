@@ -44,7 +44,6 @@
 
     {% if search_type != "all" %}
     <div class="search-filter">
-      <strong>Type</strong>
       <select name="subtype" class="select-subtype">
         {% with search_subtypes|get:search_type as subtypes %}
           {% for subtype, label in subtypes %}
@@ -57,7 +56,6 @@
 
     {% if search_subtype == "politicians" %}
     <div class="search-filter pol-filter" data-search-url="/search/{{ search_type }}/{{ search_subtype }}?{{ qs|qs_without:'state,seat' }}">
-      <strong>Office</strong>
       <select name="seat" class="select-seat">
         <option value="" {% if not seat_filter %}selected="selected"{% endif %}>All offices</option>
         {% for seat in seats %}
@@ -65,7 +63,6 @@
         {% endfor %}
       </select>
       
-      <strong>State</strong>
       <select name="state" class="select-state">
         <option value="" {% if not state_filter %}selected="selected"{% endif %}>All states</option>
         {% for abbrev, label in states %}
@@ -73,7 +70,6 @@
         {% endfor %}
       </select>
 
-      <strong>Party</strong>
       <select name="party" class="select-party">
         <option value="" {% if not party_filter %}selected="selected"{% endif %}>All parties</option>
         {% for abbrev, label in parties %}
