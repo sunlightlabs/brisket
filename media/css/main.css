@@ -149,7 +149,11 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 #share-buttons .gig-bar-container table { margin-top: 0 !important; }
 
 #newsTitle { color: #b5c6c3; text-transform: lowercase; font-weight: normal; margin-bottom: -10px; padding-left: 40px;}
-#news { background: url(../images/bg_news.jpg) top left repeat-y; border-top: 1px solid #eae9e9; border-bottom: 1px solid #eae9e9; padding: 25px 40px;}
+#news {
+    background: #e6f0ef;
+    background: rgba(105,165,159,.17);
+    border-top: 1px solid #eae9e9; border-bottom: 1px solid #eae9e9; padding: 25px 40px;
+}
 #newsWrapper { border-bottom: 1px dashed #e0e0df; border-top: 1px dashed #e0e0df; padding: 3px 0; margin-bottom: 50px;}
 
 .colOne {
@@ -290,11 +294,23 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
 .chart .tip { margin-bottom: 0px;}
 
 #ltColumn { padding: 0 25px 0 40px; width: 565px; float: left; overflow: hidden;}
-#rtColumn { padding: 45px 40px 80px 25px; width: 265px; float: left; overflow: hidden; margin-bottom: 50px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
+#rtColumn {
+    background: #f1f2ed;
+    background: rgba(199,203,183,0.25);
+    padding: 45px 40px 80px 25px; width: 265px; float: left; overflow: hidden; margin-bottom: 50px;
+}
 #fullColumn { padding: 0 40px 80px 40px; }
-#mainContent .withBg { margin-top: -25px; padding-top: 25px; background: url(../images/bg_postcard.jpg) top right repeat-y;}
+#mainContent .withBg {
+    background: #f1f2ed;
+    background: rgba(199,203,183,0.25);
+    margin-top: -25px; padding-top: 25px;
+}
 
-.search-sidebar { padding: 30px 25px 80px 40px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px; background: url(../images/bg_postcard.jpg) top left repeat-y; }
+.search-sidebar {
+    background: #f1f2ed;
+    background: rgba(199,203,183,0.25);
+    padding: 30px 25px 80px 40px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px;
+}
 .search-main { padding: 0; width: 725px; float: right; overflow: hidden; }
 .search-main #contentHeader { padding: 0 25px 10px !important; }
 .search-results { padding-left: 25px; }
