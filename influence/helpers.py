@@ -259,3 +259,7 @@ def get_top_pages():
 class DummyEntity(object):
     def __init__(self, metadata):
         self.metadata = metadata
+
+    @property
+    def entity_id(self):
+        return self.metadata['id']

@@ -92,13 +92,18 @@ def search(request, search_type, search_subtype):
 
         all_results = reduce(operator.add, [t[1]['results'] for t in results['result_sets']])
 
-        # if there's just one results, redirect to that entity's page
+        # if there's just one result, redirect to that entity's page
         if len(all_results) == 1:
             result_type = all_results[0]['type']
             # FIXME: cleave first
             name = slugify(all_results[0]['name'])
             _id = all_results[0]['id']
             return HttpResponseRedirect('/%s/%s/%s' % (result_type, name, _id))
+
+        # do a tiny bit of regulations-specific hackery: if there are org results, stash a thread-local copy of the Docket Wrench entity list so it doesn't have to be recreated for each result
+        dw_entity_list = None
+        if results['result_sets'][1][1]['results']:
+            external_sites._dw_local.dw_entity_list = dw_entity_list = external_sites.get_docketwrench_entity_list()
 
         for result in all_results:
             result['url'] = "/%s/%s/%s" % (result['type'], slugify(standardize_name(result['name'], result['type'])), result['id'])
@@ -117,6 +122,10 @@ def search(request, search_type, search_subtype):
                 dummy_section = section_type(dummy_view)
                 if dummy_section.should_fetch():
                     result['sections'].append(dummy_section)
+
+        # clean up after DW hackery
+        if dw_entity_list:
+            del external_sites._dw_local.dw_entity_list
 
         results['has_results'] = sum([result[1].get('total', 0) for result in results['result_sets']]) > 0
         results['query'] = query

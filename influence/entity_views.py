@@ -282,6 +282,15 @@ class OrgRegulationsSection(Section):
     template = 'entities/org_regulations.html'
     label = 'regulations'
 
+    def should_fetch(self):
+        # we cheat slightly for the sake of search and use a thread-local so as not to have to unpickle a giant list over and over
+        if hasattr(external_sites._dw_local, "dw_entity_list"):
+            dw_entity_list = external_sites._dw_local.dw_entity_list
+        else:
+            # this is the standard code path, where we hit the (possibly-memcache-stored) list of entities
+            dw_entity_list = external_sites.get_docketwrench_entity_list()
+        return self.entity.entity_id in dw_entity_list
+
     def fetch(self):
         try:
             self.data['dw_data'] = external_sites.get_docketwrench_entity_data(self.entity.entity_id, self.entity.cycle)
