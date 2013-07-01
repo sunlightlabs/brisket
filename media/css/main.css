@@ -335,7 +335,7 @@ a.result-name { font-size: 145%; display: block; }
 .result-photo { float: right; width: 80px; height: 80px; text-align: right; }
 .result-photo img { max-width: 100%; max-height: 100%; border: 1px solid #eeeeee; padding: 2px; background: #ffffff; }
 .results-drilldown { display: block; margin-top: 5px; font-size: 110%; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
-.result-sections { width: 565px; margin-top: 5px; padding-top: 5px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; border-top: 1px dotted #cccccc; }
+.result-sections { margin-top: 5px; padding-top: 5px; padding-right: 80px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; border-top: 1px dotted #cccccc; }
 .result-bio { width: 565px; margin-top: 1em; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 .pagination { margin-top: 10px; font-size: 110%; text-align: center; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 .pagination .prev { display: inline-block; width: 150px; text-align: left; }
