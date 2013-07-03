@@ -514,6 +514,285 @@ D3Charts = {
                     .style('font', '11px arial,sans-serif');
             });
     },
+    THREEPANE_BAR_DEFAULTS: {
+        chart_height: 260,
+        chart_width: 750,
+        colors : ["#efcc01", "#f2e388"],
+        text_color: "#666666",
+        amount_color: "#000000",
+        link_color: "#0a6e92",
+        show_description: true
+    },
+    threepane_bar: function(div, data, opts) {
+        if (typeof opts == 'undefined') opts = {};
+        _.defaults(opts, D3Charts.THREEPANE_BAR_DEFAULTS);
+
+        //console.log(opts);
+
+        var leftFullWidth = opts.chart_width / 5,
+            leftFullHeight = opts.chart_height;
+
+        //console.log(leftFullWidth);
+
+        var barMargin = {top: 45, right: 70, bottom: 5, left: 220},
+            centerFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 5,
+            centerWidth = centerFullWidth - barMargin.left - barMargin.right,
+            centerHeight = leftFullHeight - barMargin.top - barMargin.bottom;
+
+        //console.log(centerFullWidth);
+
+        var rightFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 1;
+
+
+        var formatNumber = d3.format(",.1s");   //FIXME: currency formatting
+        var formatMoney = function(d) { return "$"+formatNumber(d);};
+        var formatTickLabel = function(d) { return "";};
+
+        var y = d3.scale.ordinal()
+        .rangeRoundBands([0, centerHeight], .1);
+
+        var x = d3.scale.linear()
+        .range([0, centerWidth]);
+
+        var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .tickFormat(formatTickLabel);
+
+        var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("top")
+        .ticks(5)
+        .tickFormat(formatMoney);
+        
+        // Set up panes
+        mainDiv = d3.select("#"+div)
+          /*
+          .append("div") // http://code.google.com/p/chromium/issues/detail?id=98951
+            */
+          .style("display", "block")
+          .style("width", leftFullWidth + rightFullWidth + centerFullWidth + "px")
+          .style("height", leftFullHeight + "px");
+
+        console.log(div);
+        console.log(mainDiv);
+
+        var leftPane = mainDiv.append("div")
+          .style("float", "left")
+          .style("width", leftFullWidth + "px")
+          .style("height", leftFullHeight + "px");
+        /* might not need this
+          .append("svg:svg")
+          .attr("width",leftFullWidth)
+          .attr("height",leftFullHeight); */
+
+        var centerPane = mainDiv.append("div")
+          .style("float", "left")
+          .style("background-color", "#f5f4f4")
+          .style("width", centerFullWidth + "px")
+          .style("height", leftFullHeight + "px")
+          .append("svg:svg")
+          .attr("width", centerFullWidth)
+          .attr("height", leftFullHeight);
+
+        var rightPane = mainDiv.append("div")
+          .style("float", "left")
+          .style("width", rightFullWidth + "px")
+          .style("height", leftFullHeight + "px");
+        
+        var categoryTitle = rightPane.append("div")
+          .style("width","100%")
+          .style("height","15%")
+          .classed("categoryTitle",true);
+
+        var categorySubtitle = rightPane.append("div")
+          .style("width","100%")
+          .style("height","10%")
+          .classed("categorySubtitle",true);
+
+        var categoryDescription = rightPane.append("div")
+          .style("width","100%")
+          .style("height","75%")
+          .classed("categoryDescription",true);
+
+        /* probably don't need this
+          .append("svg:svg")
+          .attr("width", centerFullWidth)
+          .attr("height", leftFullHeight);*/
+            
+        var barChart = centerPane.append("svg:g")
+              .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
+
+        var categories = data;
+
+        var allData = [];
+        categories.forEach(function(d){
+          d.identifier = d.name;
+          d.children.forEach(function(f){
+            f.categoryName = d.name;
+            newf = f;
+            newf['categoryName'] = d.name;
+            newf['all_key'] = f.name+'_'+d.identifier;
+            allData.push(newf); })});
+        var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
+ 
+        x.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+
+        function allTopTen(){
+          drawRight(top10);
+        }
+
+        function category_selector_label(d) {
+            return d.name;
+        }
+
+        leftPane.selectAll("div")
+            .data(categories)
+            .enter()
+            .append("div")
+            .style("width",leftFullWidth+"px")
+            .style("height",opts.chart_height / 10 + "px")
+            .classed("selector","true")
+            .on("mouseover", function() { darken(d3.select(this)); } )
+            .on("mouseout", function() { undarken(d3.select(this)); })
+            .on("click", function(d) {
+                d3.select(this.parentNode).select('.focused').classed("focused",false);
+                d3.select(this).classed("focused",true);
+                drawCenter(d);
+                drawRight(d);})
+            .append("div").html(function(d) { return category_selector_label(d) }).style("pointer-events","none").style("line-height",opts.chart_height / 10 + "px");
+
+        var darken = function(selection) { 
+                selection.classed("darkened",true);
+        }
+
+        var undarken = function(selection) { 
+                selection.classed("darkened",false);
+        }
+
+        var drawCenter = function(parentCategory) {
+          if (parentCategory.hasOwnProperty('name')) {
+            var parentIdentifier = parentCategory.identifier;
+            var parentTotal = parentCategory.amount;
+            var childData = parentCategory.children;
+          } else {
+            var parentIdentifier = false;
+            var childData = parentCategory;
+          }
+
+          childData.forEach(function(d) {
+              if (parentIdentifier) {
+                d.all_key = d.name+'_'+parentIdentifier;
+              }
+          });
+
+          barChart.selectAll(".axis").remove();
+
+          y.domain(childData.map(function(d) {return d.all_key;}));
+
+          testvar = childData;
+
+          barChart.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(10,0)") // now just placing it at the top
+              .call(xAxis);
+
+          var yaxis = barChart.append("g")
+            .attr("class", "y axis");
+
+          var barTransition = centerPane.transition().duration(1000);
+
+          barTransition.select(".y.axis")
+              .call(yAxis)
+            .selectAll("g");
+
+            // labels
+            labels = centerPane.selectAll("g.chart-label")
+                  .data(childData,function(d){ return d.all_key;});
+
+            labels.enter().append("g")
+                .classed('chart-label', true)
+                .attr("transform", function(d, i) { return "translate(5," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .each(function(d, i) {
+                    var parent = d3.select(this);
+                    if (d.href) {
+                        parent = parent.append("a")
+                        parent.attr('xlink:href', d.href);
+                    }
+                    parent.append("text")
+                        .attr("y", ".15em") // vertical-align: middle
+                        .attr('fill', parent.node().tagName.toLowerCase() == 'a' ? opts.link_color : opts.text_color)
+                        .text(function(d, i) { return d.name; })
+                        .style('font', '11px arial,sans-serif');
+                })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+
+            barTransition.selectAll("g.chart-label")
+                .attr("transform", function(d, i) { return "translate(5," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+
+            labels.exit()
+                .transition()
+                .duration(1000)
+                .style("fill-opacity", 1e-6)
+                .remove()
+            
+           /* barTransition.select('barTitle').remove();
+            barTransition.select(.append("text")
+              .classed("ytitle",true)
+              .attr("transform", "translate(-"+barMargin.left+","+ ((centerHeight/2) - barMargin.top) +")rotate(-90)")
+              .attr("dy", ".85em")
+              .style("text-anchor", "middle")
+              .style("fill", function(d) { if (parentIdentifier) { return opts.colors[parentIdentifier] } else { return 'All';} })
+              .text(function (d) { if (parentIdentifier) {return parentIdentifier +": $"+ parentTotal} else {return "Top 10 Overall";}});*/
+
+            bars = barChart.selectAll(".bar")
+              .data(childData,function(d){ return d.all_key;});
+
+            bars.enter().append("rect")
+                .attr("class", "bar")
+                //.style("fill", function(d) { if (parentIdentifier) { return opts.colors[parentIdentifier] } else { return opts.colors[d.categoryName];} })
+                .style("fill",opts.colors[0])
+                .attr("width", function(d) { return x(d.amount);})
+                .attr("height", y.rangeBand)
+                .attr("x", 10)
+                .attr("y", function(d) {
+                    return y(d.all_key); })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+
+            barTransition.selectAll(".bar")
+              .attr("y", function(d) {return y(d.all_key);});
+
+            bars.exit()
+              .transition()
+              .duration(1000)
+              .style("fill-opacity", 1e-6)
+              .remove();
+
+          };
+
+        var drawRight = function(parentCategory) {
+          if (parentCategory.hasOwnProperty('name')) {
+            var parentIdentifier = parentCategory.identifier;
+            var parentTotal = parentCategory.amount;
+          } else {
+            var parentIdentifier = 'All Bills';
+            var parentTotal = parentCategory.amount;
+          }
+
+          categoryTitle.html(parentIdentifier);
+          categorySubtitle.html(parentIdentifier);
+          categoryDescription.html('This has no description, yet');
+        };
+
+    },
     TWOPANE_PIE_DEFAULTS: {
         chart_height: 260,
         chart_width: 750,
@@ -841,6 +1120,10 @@ BrisketModern = {
         })
         D3Charts.piechart(div, in_data, opts);
     },
+    threepane_bar : function(div, data) {
+        var opts = undefined;
+        D3Charts.threepane_bar(div, data, opts);
+    },
     twopane_pie : function(div, data, colors) {
         var opts = {'colors': colors};
         D3Charts.twopane_pie(div, data, opts);
@@ -867,6 +1150,12 @@ BrisketModern = {
     },
     timeline_chart: function(div, data) {
         D3Charts.timeline_chart(div, data);
+    },
+    bills_threepane_bar : function(div, data) {
+        Brisket.threepane_bar(div, data);
+    },
+    issues_threepane_bar : function(div, data) {
+        Brisket.threepane_bar(div, data);
     },
     party_twopane_pie : function(div,data) {
         var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "gray"};

@@ -16,7 +16,37 @@
 </div>
 
 <div class="chartModule withNav">
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        {% if section.bills_summary_data %}
+          Brisket.threepane_bar("billsThreepaneBar", {{ section.bills_summary_data|safe }});
+        {% else %}{}
+        {% endif %}
+        {% if section.issues_summary_data %}
+          Brisket.threepane_bar("issuesThreepaneBar", {{ section.issues_summary_data|safe }});
+        {% else %}{}
+        {% endif %}
+    });
+    </script>
     <span class="tip external">covers through [FIXME: date]</span>
     
-    <div class="threeColumn mainTable">FIXME: section's contents go here.</div>
+    <div class="threeColumn mainTable">
+    {% if section.issues_summary_data %}
+       <div class="electionHeader">
+          <h4 class="withTip">Top Issues Lobbied on By Organizations  </h4>
+          <span class="tip external">Ranked by total amount spent</span>
+       </div> 
+        <div id="issuesThreepaneBar" class="threepaneBar"></div>
+    {% else %}{}
+    {% endif %}
+    {% if section.bills_summary_data %}
+       <div class="clear"></div>
+       <div class="electionHeader">
+          <h4 class="withTip">Top Bills Lobbied on By Organizations  </h4>
+          <span class="tip external">Ranked by total amount spent</span>
+       </div> 
+        <div id="billsThreepaneBar" class="threepaneBar"></div>
+    {% else %}{}
+    {% endif %}
+    </div>
 </div>

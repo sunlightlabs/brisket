@@ -891,3 +891,67 @@ input#id_search {
     line-height: normal;
     font-family: arial, sans-serif;
 }
+
+/* threepaneBar */
+
+.threepaneBar {
+    font: 10px sans-serif;
+}
+
+
+.threepaneBar svg {
+  font: 10px sans-serif;
+}
+
+.threepaneBar .axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.threepaneBar .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.threepaneBar .ylabel {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+}
+
+.threepaneBar .ytitle {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+
+}
+
+.threepaneBar .allLabel {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+}
+
+.threepaneBar .selector {
+    padding-right: 20px;
+}
+
+.threepaneBar .focused {
+    font-weight: bold;
+    background-color: #f5f4f4;
+}
+
+.threepaneBar .darkened { 
+    background-color: #f5f4f4;
+}
