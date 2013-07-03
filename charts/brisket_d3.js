@@ -534,14 +534,14 @@ D3Charts = {
 
         //console.log(leftFullWidth);
 
-        var barMargin = {top: 45, right: 70, bottom: 5, left: 220},
-            centerFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 5,
+        var barMargin = {top: 45, right: 50, bottom: 5, left: 200},
+            centerFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 4,
             centerWidth = centerFullWidth - barMargin.left - barMargin.right,
             centerHeight = leftFullHeight - barMargin.top - barMargin.bottom;
 
         //console.log(centerFullWidth);
 
-        var rightFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 1;
+        var rightFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 2;
 
 
         var formatNumber = d3.format(",.1s");   //FIXME: currency formatting
