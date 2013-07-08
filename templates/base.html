@@ -47,11 +47,22 @@
         </script>
     </head>
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="{% block body_class %}search{% endblock %}">
         <div id="wrapper">
             <div id="pageMain">
                 <header>
                     {% block search %}
+                        <div id="search">
+                            <form id="searchForm" action="{{ IE_BASE_URL }}search" method="get">
+                                {{ search_form.query }}
+                                <input type="hidden" name="from_form" value="1" />
+                                <button class="searchBtn_sm" type="submit">
+                                <span>Go</span>
+                                </button>
+                            </form>
+                            <div class="clear"></div>
+                            <span class="tip">Enter a politician, company or individual donor</span>
+                        </div>
                     {% endblock %}
                     <h1><a id="logo" href="{{ IE_BASE_URL }}">Influence Explorer</a></h1>
                     <div id="share-buttons" class="clear"></div>
