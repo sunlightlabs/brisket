@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^%s/(?P<path>.*)$' % settings.MEDIA_URL.strip('/'), 
         'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
     url('^contact/$', 'brisket.views.contact', name='contact_form'),
-    url('^about/$', direct_to_template, {'template': 'about.html'}),
+    url('^about/$', TemplateView.as_view(template_name='about.html')),
 #    (r'^admin/', include(admin.site.urls)),
 #    (r'^admin_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.dirname(admin.__file__) + '/media'}),
     # everything else goes to influence

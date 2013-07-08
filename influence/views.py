@@ -18,7 +18,7 @@ from influenceexplorer import DEFAULT_CYCLE
 from influence.external_sites import _get_td_url
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from name_cleaver.names import PoliticianName
-from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, api
+from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, INSTALLED_APPS, api
 from urllib2 import URLError, HTTPError
 import datetime
 import json
@@ -33,10 +33,12 @@ from place_landing_views import *
 
 #this is the index
 def index(request):
-    #ID of the feed is hardcoded as feed 1 since it's the only feed we're using right now. This may change!
-    feed = Feed.objects.get(pk=1)
-    entry = feed.entries.values().latest('date_published')
-    entry['title'] = entry['title'].replace('Influence Explored: ', '')
+    feed, entry = None, None
+    if 'feedinator' in INSTALLED_APPS:
+        #ID of the feed is hardcoded as feed 1 since it's the only feed we're using right now. This may change!
+        feed = Feed.objects.get(pk=1)
+        entry = feed.entries.values().latest('date_published')
+        entry['title'] = entry['title'].replace('Influence Explored: ', '')
     return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, RequestContext(request))
 
 

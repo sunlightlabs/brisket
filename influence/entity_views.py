@@ -6,7 +6,6 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
 from django.utils.datastructures import SortedDict
-from feedinator.models import Feed
 from influence import external_sites
 from influence.helpers import generate_label, barchart_href, \
     bar_validate, pie_validate, earmarks_table_data, \
