@@ -87,6 +87,7 @@ INSTALLED_APPS = (
     'paging',
     'gunicorn',
     #'feedinator',
+    'dryrub',
     'fec',
     'data',
 )
