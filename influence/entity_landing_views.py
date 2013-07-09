@@ -64,10 +64,10 @@ class OrgLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/org_landing_lobbying.html'
-
+    
     def build_section_data(self):
-        self.bills_summary_data = self.prepare_parent_child_tree('issues_summary')
-        self.issues_summary_data = self.prepare_parent_child_tree('bills_summary')
+        self.bills_summary_data = self.prepare_parent_child_tree('bills_summary')
+        self.issues_summary_data = self.prepare_parent_child_tree('issues_summary')
 
         # TODO: add metadata
         # http://congress.api.sunlightfoundation.com/bills?bill_type={bill_type}&number={bill_number}&congress={congress_number}&apikey=sunlight9&fields=official_title,short_title,title,popular_title,nicknames,last_action,summary_short
