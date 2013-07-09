@@ -896,6 +896,70 @@ input#id_search {
 
 .threepaneBar {
     font: 10px sans-serif;
+    display: block;
+    
+}
+
+.threepaneBar .leftPane {
+    float: left;
+}
+
+.threepaneBar .centerPane {
+    float: left;
+    background-color: #f5f4f4; /* should be the same as .threepaneBar .focused */
+}
+    
+.threepaneBar .rightPane {
+    float: left;
+}
+
+.rightPane .categoryTitle {
+    width: 100%;
+}
+
+.rightPane .categorySubtitle {
+    width: 100%;
+}
+
+.rightPane .categoryDescription {
+    width: 100%;
+}
+
+.rightPane h2 {
+    font-size: 250%;
+    line-height: 100%;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.rightPane h3 {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+}
+
+.rightPane a:active, a:visited {
+    color: #0a6e92;
+}
+
+.rightPane dl {
+    margin: 0;
+}
+
+.rightPane dt {
+    float: none;
+    margin-left: 5px;
+    margin-right: 0px;
+}
+
+.rightPane dd {
+    float: none;
+    margin-left: 10px;
+    margin-right: 0px;
 }
 
 

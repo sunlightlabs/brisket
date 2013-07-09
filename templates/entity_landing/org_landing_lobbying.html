@@ -36,7 +36,15 @@
           <h4 class="withTip">Top Issues Lobbied on By Organizations  </h4>
           <span class="tip external">Ranked by total amount spent</span>
        </div> 
-        <div id="issuesThreepaneBar" class="threepaneBar"></div>
+       <div id="issuesThreepaneBar" class="threepaneBar">
+           <div class="leftPane"></div>
+           <div class="centerPane"></div>
+           <div class="rightPane">
+               <div class="categoryTitle"></div>
+               <div class="categorySubtitle"></div>
+               <div class="categoryDescription"></div>
+           </div>
+       </div>
     {% else %}{}
     {% endif %}
     {% if section.bills_summary_data %}
@@ -45,7 +53,15 @@
           <h4 class="withTip">Top Bills Lobbied on By Organizations  </h4>
           <span class="tip external">Ranked by total amount spent</span>
        </div> 
-        <div id="billsThreepaneBar" class="threepaneBar"></div>
+        <div id="billsThreepaneBar" class="threepaneBar">
+           <div class="leftPane"></div>
+           <div class="centerPane"></div>
+           <div class="rightPane">
+               <div class="categoryTitle"></div>
+               <div class="categorySubtitle"></div>
+               <div class="categoryDescription"></div>
+            </div>
+        </div>
     {% else %}{}
     {% endif %}
     </div>

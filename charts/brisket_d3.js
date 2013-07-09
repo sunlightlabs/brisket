@@ -577,8 +577,9 @@ D3Charts = {
         console.log(div);
         console.log(mainDiv);
 
-        var leftPane = mainDiv.append("div")
-          .style("float", "left")
+        //var leftPane = mainDiv.append("div")
+          //.style("float", "left")
+        var leftPane = mainDiv.select(".leftPane")
           .style("width", leftFullWidth + "px")
           .style("height", leftFullHeight + "px");
         /* might not need this
@@ -586,34 +587,42 @@ D3Charts = {
           .attr("width",leftFullWidth)
           .attr("height",leftFullHeight); */
 
-        var centerPane = mainDiv.append("div")
-          .style("float", "left")
-          .style("background-color", "#f5f4f4")
+        //var centerPane = mainDiv.append("div")
+          //.style("float", "left")
+          //.style("background-color", "#f5f4f4")
+        var centerPane = mainDiv.select(".centerPane")
           .style("width", centerFullWidth + "px")
           .style("height", leftFullHeight + "px")
           .append("svg:svg")
           .attr("width", centerFullWidth)
           .attr("height", leftFullHeight);
 
-        var rightPane = mainDiv.append("div")
-          .style("float", "left")
+        //var rightPane = mainDiv.append("div")
+          //.style("float", "left")
+        var rightPane = mainDiv.select(".rightPane")
           .style("width", rightFullWidth + "px")
           .style("height", leftFullHeight + "px");
         
-        var categoryTitle = rightPane.append("div")
+        var categoryTitle = rightPane.select(".categoryTitle");
+        /*
           .style("width","100%")
           .style("height","15%")
           .classed("categoryTitle",true);
+          */
 
-        var categorySubtitle = rightPane.append("div")
+        var categorySubtitle = rightPane.select(".categorySubtitle");
+        /*
           .style("width","100%")
           .style("height","10%")
-          .classed("categorySubtitle",true);
+          .classed("categorySubtitle",true);        
+          */
 
-        var categoryDescription = rightPane.append("div")
+        var categoryDescription = rightPane.select(".categoryDescription");
+        /*
           .style("width","100%")
-          .style("height","75%")
+          .style("height","100%")
           .classed("categoryDescription",true);
+          */
 
         /* probably don't need this
           .append("svg:svg")
