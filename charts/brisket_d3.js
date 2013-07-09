@@ -787,9 +787,13 @@ D3Charts = {
             var parentTotal = parentCategory.amount;
           }
 
-          categoryTitle.html(parentIdentifier);
-          categorySubtitle.html(parentIdentifier);
-          categoryDescription.html('This has no description, yet');
+          //console.log(opts.metadata_display_fct);
+
+          var display_metadata = opts.metadata_display_fct(parentCategory);
+          console.log(display_metadata);
+          categoryTitle.html(display_metadata.title);
+          categorySubtitle.html(display_metadata.subtitle);
+          categoryDescription.html(display_metadata.description);
         };
 
     },
@@ -1120,8 +1124,8 @@ BrisketModern = {
         })
         D3Charts.piechart(div, in_data, opts);
     },
-    threepane_bar : function(div, data) {
-        var opts = undefined;
+    threepane_bar : function(div, data, display_metadata) {
+        var opts = {'metadata_display_fct': display_metadata};
         D3Charts.threepane_bar(div, data, opts);
     },
     twopane_pie : function(div, data, colors) {
@@ -1152,10 +1156,58 @@ BrisketModern = {
         D3Charts.timeline_chart(div, data);
     },
     bills_threepane_bar : function(div, data) {
-        Brisket.threepane_bar(div, data);
+        console.log('bills function received: '+div);
+        function display_bills_metadata(node) {
+            var md_html = {'title':'', 'subtitle': '', 'description': ''};
+
+            summary = node.metadata.display_summary.substring(0,350) + '...'
+
+            md_html['title'] = '<a href="'+node.metadata.url+'">';
+            md_html['title'] += '<h3>' + node.metadata.display_title + '</h3></a>';
+            //md_html['subtitle'] = '<h3>' + node.metadata.display_subtitle +'</h3>';
+            md_html['description']  = '<dl>';
+            if (node.metadata.display_nicknames) {
+                md_html['description'] += '<dt>Nicknames</dt>';
+                md_html['description'] += '<dd>' + node.metadata.display_nicknames + '</dd>';
+            }
+            md_html['description'] += '<dt>Issue</dt>';
+            md_html['description'] += '<dd>' + node.metadata.bill_issue + '</dd>';
+            md_html['description'] += '<dt>Last Action</dt>';
+            if (node.metadata.last_action) {
+                md_html['description'] += '<dd>' + node.metadata.last_action.type.toUpperCase() + ': ' + node.metadata.last_action.text + '</dd>';
+            } else {
+                md_html['description'] += '<dd>No information available</dd>';
+            }
+            md_html['description'] += '<dt>Summary</dt>';
+            md_html['description'] += '<dd>' + summary + '</dd>'
+            md_html['description'] += '</dl>';
+            return md_html;
+        }
+
+        Brisket.threepane_bar(div, data, display_bills_metadata);
+
     },
     issues_threepane_bar : function(div, data) {
-        Brisket.threepane_bar(div, data);
+        console.log('issues function received: '+div);
+        
+        function display_issues_metadata(node) {
+            console.log(node);
+            var md_html = {'title':'', 'subtitle': '', 'description': ''};
+
+            md_html['title'] = '<h3>' + node.metadata.general_issue + '</h3>';
+            md_html['subtitle'] = '<h3>' + node.metadata.general_issue_code + '</h3>';
+            md_html['description']  = '<ul>';
+            /* Not populated yet
+            for (i in node.metadata.top_bills) {
+                md_html['description']  += '<li>' + node.metadata.top_bills[i];
+            } 
+            */
+            md_html['description'] += '</ul>';
+
+            return md_html;
+        }
+
+        Brisket.threepane_bar(div, data, display_issues_metadata);
     },
     party_twopane_pie : function(div,data) {
         var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "gray"};
