@@ -564,7 +564,7 @@ D3Charts = {
         .orient("top")
         .ticks(5)
         .tickFormat(formatMoney);
-        
+
         // Set up panes
         mainDiv = d3.select("#"+div)
           /*
@@ -602,7 +602,7 @@ D3Charts = {
         var rightPane = mainDiv.select(".rightPane")
           .style("width", rightFullWidth + "px")
           .style("height", leftFullHeight + "px");
-        
+
         var categoryTitle = rightPane.select(".categoryTitle");
         /*
           .style("width","100%")
@@ -614,7 +614,7 @@ D3Charts = {
         /*
           .style("width","100%")
           .style("height","10%")
-          .classed("categorySubtitle",true);        
+          .classed("categorySubtitle",true);
           */
 
         var categoryDescription = rightPane.select(".categoryDescription");
@@ -628,7 +628,7 @@ D3Charts = {
           .append("svg:svg")
           .attr("width", centerFullWidth)
           .attr("height", leftFullHeight);*/
-            
+
         var barChart = centerPane.append("svg:g")
               .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
 
@@ -644,7 +644,7 @@ D3Charts = {
             newf['all_key'] = f.name+'_'+d.identifier;
             allData.push(newf); })});
         var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
- 
+
         x.domain([0, d3.max(allData, function(d) {return d.amount;})]);
 
         function allTopTen(){
@@ -671,11 +671,11 @@ D3Charts = {
                 drawRight(d);})
             .append("div").html(function(d) { return category_selector_label(d) }).style("pointer-events","none").style("line-height",opts.chart_height / 10 + "px");
 
-        var darken = function(selection) { 
+        var darken = function(selection) {
                 selection.classed("darkened",true);
         }
 
-        var undarken = function(selection) { 
+        var undarken = function(selection) {
                 selection.classed("darkened",false);
         }
 
@@ -709,7 +709,7 @@ D3Charts = {
           var yaxis = barChart.append("g")
             .attr("class", "y axis");
 
-          var barTransition = centerPane.transition().duration(1000);
+          var barTransition = centerPane.transition().duration(500);
 
           barTransition.select(".y.axis")
               .call(yAxis)
@@ -736,19 +736,19 @@ D3Charts = {
                 })
                 .style("fill-opacity",1e-6)
                 .transition()
-                .duration(1000)
+                .duration(500)
                 .style("fill-opacity",1)
-                .delay(800);
+                .delay(400);
 
             barTransition.selectAll("g.chart-label")
                 .attr("transform", function(d, i) { return "translate(5," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
 
             labels.exit()
                 .transition()
-                .duration(1000)
+                .duration(500)
                 .style("fill-opacity", 1e-6)
                 .remove()
-            
+
            /* barTransition.select('barTitle').remove();
             barTransition.select(.append("text")
               .classed("ytitle",true)
@@ -772,16 +772,16 @@ D3Charts = {
                     return y(d.all_key); })
                 .style("fill-opacity",1e-6)
                 .transition()
-                .duration(1000)
+                .duration(500)
                 .style("fill-opacity",1)
-                .delay(800);
+                .delay(400);
 
             barTransition.selectAll(".bar")
               .attr("y", function(d) {return y(d.all_key);});
 
             bars.exit()
               .transition()
-              .duration(1000)
+              .duration(500)
               .style("fill-opacity", 1e-6)
               .remove();
 
@@ -1198,18 +1198,19 @@ BrisketModern = {
     },
     issues_threepane_bar : function(div, data) {
         console.log('issues function received: '+div);
-        
+
         function display_issues_metadata(node) {
             console.log(node);
             var md_html = {'title':'', 'subtitle': '', 'description': ''};
 
             md_html['title'] = '<h3>' + node.metadata.general_issue + '</h3>';
-            md_html['subtitle'] = '<h3>' + node.metadata.general_issue_code + '</h3>';
+            md_html['subtitle'] = '<h3></h3>';
+            // + node.metadata.general_issue_code + '</h3>';
             md_html['description']  = '<ul>';
             /* Not populated yet
             for (i in node.metadata.top_bills) {
                 md_html['description']  += '<li>' + node.metadata.top_bills[i];
-            } 
+            }
             */
             md_html['description'] += '</ul>';
 
