@@ -523,10 +523,7 @@ D3Charts = {
         text_color: "#666666",
         amount_color: "#000000",
         link_color: "#0a6e92",
-        show_description: true,
         axis_color: "#827d7d",
-        text_color: "#666666",
-        link_color: "#0a6e92"
     },
     threepane_bar: function(div, data, opts) {
         if (typeof opts == 'undefined') opts = {};
@@ -611,6 +608,8 @@ D3Charts = {
 
         var xScale = d3.scale.linear()
         .range([0, barWidth]);
+        
+        xScale.domain([0, d3.max(allData, function(d) {return d.amount;})]);
 
         var barChart = centerPane.append("svg:g")
               .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
@@ -630,8 +629,6 @@ D3Charts = {
             .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
-
-        xScale.domain([0, d3.max(allData, function(d) {return d.amount;})]);
 
         function allTopTen(){
           drawRight(top10);
@@ -797,11 +794,14 @@ D3Charts = {
     TWOPANE_PIE_DEFAULTS: {
         chart_height: 260,
         chart_width: 750,
+        row_height: 18,
+        bar_height:14,
         donut_outer_r: 100,
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
         amount_color: "#000000",
-        link_color: "#0a6e92"
+        link_color: "#0a6e92",
+        axis_color: "#827d7d",
     },
     twopane_pie: function(div, data, opts) {
 
@@ -817,7 +817,7 @@ D3Charts = {
 
         var barMargin = {top: 20, right: 70, bottom: 20, left: 220},
             rightFullWidth = opts.chart_width - leftFullWidth;
-            rightWidth = rightFullWidth - barMargin.left - barMargin.right,
+            barWidth = rightFullWidth - barMargin.left - barMargin.right,
             rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
 
         var formatMoney = function (e) {
@@ -839,23 +839,6 @@ D3Charts = {
 
         var formatTickLabel = function(d) { return "";};
                                                     //d.split("_")[0];};
-
-        var y = d3.scale.ordinal()
-        .rangeRoundBands([0, rightHeight], .1);
-
-        var x = d3.scale.linear()
-        .range([0, rightWidth]);
-
-        var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .tickFormat(formatTickLabel);
-
-        var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("top")
-        .ticks(5)
-        .tickFormat(formatMoney);
 
         //Set up panes
         mainDiv = d3.select("#"+div)
@@ -886,16 +869,57 @@ D3Charts = {
         var categories = data;
 
         var allData = [];
+        var mostChildren = 0;
         categories.forEach(function(d){
+          mostChildren = d3.max([d.children.length, mostChildren]);
           d.children.forEach(function(f){
             f.categoryName = d.name;
             newf = f;
             newf['categoryName'] = d.name;
             newf['all_key'] = f.name+'_'+d.name;
-            allData.push(newf); })});
+            allData.push(newf); 
+          })
+        });
         var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
+        
+        var yScale = d3.scale.ordinal()
+        .domain(d3.range(mostChildren))
+        .rangeBands([0, mostChildren * opts.row_height]);
 
-        x.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+        var xScale = d3.scale.linear()
+        .range([0, barWidth]);
+        
+        barChart.append("line")
+            .attr("x1", -.5)
+            .attr("x2", -.5)
+            .attr("y1", 0)
+            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .style("stroke", opts.axis_color)
+            .style("stroke-width", "1");
+
+        barChart.append("line")
+            .attr("x1", -.5)
+            .attr("x2", barWidth + barMargin.right - 5)
+            .attr("y1", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .style("stroke", opts.axis_color)
+            .style("stroke-width", "1");
+
+        /*
+        var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left")
+        .tickFormat(formatTickLabel);
+
+        var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("top")
+        .ticks(5)
+        .tickFormat(formatMoney);
+        */
+
+        xScale.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+        
         var pieChart = leftPane.append("svg:g")
             .attr("transform", svgtransbase);
 
@@ -1003,23 +1027,21 @@ D3Charts = {
 
           barChart.selectAll(".axis").remove();
 
-          y.domain(childData.map(function(d) {return d.all_key;}));
+          yScale.domain(childData.map(function(d) {return d.all_key;}));
 
-          testvar = childData;
-
-          barChart.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(10,0)") // now just placing it at the top
-              .call(xAxis);
+          //barChart.append("g")
+          //    .attr("class", "x axis")
+          //    .attr("transform", "translate(10,0)") // now just placing it at the top
+          //    .call(xAxis);
 
           var yaxis = barChart.append("g")
             .attr("class", "y axis");
 
           var barTransition = rightPane.transition().duration(1000);
 
-          barTransition.select(".y.axis")
-              .call(yAxis)
-            .selectAll("g");
+          //barTransition.select(".y.axis")
+            //  .call(yAxis)
+            //.selectAll("g");
 
             // labels
             labels = rightPane.selectAll("g.chart-label")
@@ -1027,7 +1049,7 @@ D3Charts = {
 
             labels.enter().append("g")
                 .classed('chart-label', true)
-                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .attr("transform", function(d, i) { return "translate(20," + ((yScale(d.all_key) + yScale.rangeBand() / 2) + barMargin.top) + ")"; })
                 .each(function(d, i) {
                     var parent = d3.select(this);
                     if (d.href) {
@@ -1047,7 +1069,7 @@ D3Charts = {
                 .delay(800);
 
             barTransition.selectAll("g.chart-label")
-                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .attr("transform", function(d, i) { return "translate(20," + ((yScale(d.all_key) + yScale.rangeBand() / 2) + barMargin.top) + ")"; })
 
             labels.exit()
                 .transition()
@@ -1069,11 +1091,11 @@ D3Charts = {
             bars.enter().append("rect")
                 .attr("class", "bar")
                 .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return opts.colors[d.categoryName];} })
-                .attr("width", function(d) { return x(d.amount);})
-                .attr("height", y.rangeBand)
+                .attr("width", function(d) { return xScale(d.amount);})
+                .attr("height", yScale.rangeBand)
                 .attr("x", 10)
                 .attr("y", function(d) {
-                    return y(d.all_key); })
+                    return yScale(d.all_key); })
                 .style("fill-opacity",1e-6)
                 .transition()
                 .duration(1000)
@@ -1081,7 +1103,7 @@ D3Charts = {
                 .delay(800);
 
             barTransition.selectAll(".bar")
-              .attr("y", function(d) {return y(d.all_key);});
+              .attr("y", function(d) {return yScale(d.all_key);});
 
             bars.exit()
               .transition()
