@@ -532,28 +532,22 @@ D3Charts = {
         if (typeof opts == 'undefined') opts = {};
         _.defaults(opts, D3Charts.THREEPANE_BAR_DEFAULTS);
 
-        //console.log(opts);
-
         var leftFullWidth = opts.chart_width / 5,
             leftFullHeight = opts.chart_height;
-
-        //console.log(leftFullWidth);
 
         var barMargin = {top: 80, right: 50, bottom: 5, left: 200},
             centerFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 4,
             barWidth = centerFullWidth - barMargin.left - barMargin.right,
             centerHeight = leftFullHeight - barMargin.top - barMargin.bottom;
 
-        //console.log(centerFullWidth);
-
         var rightFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 2;
 
-        var formatMoney = function (e) { 
+        var formatMoney = function (e) {
             var currencyString;
-            if (e < 1000) { 
-                currencyString = e; 
-            } else if (e > 999           && e < 1000000) { 
-                currencyString = e/1000+"K"; 
+            if (e < 1000) {
+                currencyString = e;
+            } else if (e > 999           && e < 1000000) {
+                currencyString = e/1000+"K";
             } else if (e > 999999        && e < 1000000000){
                 currencyString = e/1000000+"M"
             } else if (e > 999999999     && e < 1000000000000){
@@ -569,26 +563,14 @@ D3Charts = {
 
         // Set up panes
         mainDiv = d3.select("#"+div)
-          /*
-          .append("div") // http://code.google.com/p/chromium/issues/detail?id=98951
-            */
           .style("display", "block")
           .style("width", leftFullWidth + rightFullWidth + centerFullWidth + "px")
           .style("height", leftFullHeight + "px");
 
-        //var leftPane = mainDiv.append("div")
-          //.style("float", "left")
         var leftPane = mainDiv.select(".leftPane")
           .style("width", leftFullWidth + "px")
           .style("height", leftFullHeight + "px");
-        /* might not need this
-          .append("svg:svg")
-          .attr("width",leftFullWidth)
-          .attr("height",leftFullHeight); */
 
-        //var centerPane = mainDiv.append("div")
-          //.style("float", "left")
-          //.style("background-color", "#f5f4f4")
         var centerPane = mainDiv.select(".centerPane")
           .style("width", centerFullWidth + "px")
           .style("height", leftFullHeight + "px")
@@ -596,37 +578,15 @@ D3Charts = {
           .attr("width", centerFullWidth)
           .attr("height", leftFullHeight);
 
-        //var rightPane = mainDiv.append("div")
-          //.style("float", "left")
         var rightPane = mainDiv.select(".rightPane")
           .style("width", rightFullWidth + "px")
           .style("height", leftFullHeight + "px");
 
         var categoryTitle = rightPane.select(".categoryTitle");
-        /*
-          .style("width","100%")
-          .style("height","15%")
-          .classed("categoryTitle",true);
-          */
 
         var categorySubtitle = rightPane.select(".categorySubtitle");
-        /*
-          .style("width","100%")
-          .style("height","10%")
-          .classed("categorySubtitle",true);
-          */
 
         var categoryDescription = rightPane.select(".categoryDescription");
-        /*
-          .style("width","100%")
-          .style("height","100%")
-          .classed("categoryDescription",true);
-          */
-
-        /* probably don't need this
-          .append("svg:svg")
-          .attr("width", centerFullWidth)
-          .attr("height", leftFullHeight);*/
 
         var categories = data;
 
@@ -640,22 +600,21 @@ D3Charts = {
             newf = f;
             newf['categoryName'] = d.name;
             newf['all_key'] = f.name+'_'+d.identifier;
-            allData.push(newf); 
+            allData.push(newf);
             })
         });
         var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
-        
+
         var yScale = d3.scale.ordinal()
         .domain(d3.range(mostChildren))
         .rangeBands([0, mostChildren * opts.row_height]);
-        //.rangeRoundBands([0, centerHeight], .1);
 
         var xScale = d3.scale.linear()
         .range([0, barWidth]);
-        
+
         var barChart = centerPane.append("svg:g")
               .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
-        
+
         barChart.append("line")
             .attr("x1", -.5)
             .attr("x2", -.5)
@@ -672,19 +631,6 @@ D3Charts = {
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
-        /*
-        var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient("left")
-        .tickFormat(formatTickLabel);
-
-        var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient("top")
-        .ticks(4)
-        .tickFormat(formatMoney);
-        */
-
         xScale.domain([0, d3.max(allData, function(d) {return d.amount;})]);
 
         function allTopTen(){
@@ -694,15 +640,7 @@ D3Charts = {
         function category_selector_label(d) {
             return d.name;
         }
-        
-        function selectCategory(d) {
-                console.log(this);
-                console.log(d);
-                d3.select(this.parentNode).select('.focused').classed("focused",false);
-                d3.select(this).classed("focused",true);
-                drawCenter(d);
-                drawRight(d);
-        }
+
 
         leftPane.selectAll("div")
             .data(categories)
@@ -713,12 +651,12 @@ D3Charts = {
             .classed("selector","true")
             .on("mouseover", function() { darken(d3.select(this)); } )
             .on("mouseout", function() { undarken(d3.select(this)); })
-            .on("click", selectCategory)
-                    /*function(d) {
+            .on("click", function (d) {
                 d3.select(this.parentNode).select('.focused').classed("focused",false);
                 d3.select(this).classed("focused",true);
                 drawCenter(d);
-                drawRight(d);})*/
+                drawRight(d);
+            })
             .append("div").html(function(d) { return category_selector_label(d) }).style("pointer-events","none").style("line-height",opts.chart_height / 10 + "px");
 
         var darken = function(selection) {
@@ -749,22 +687,6 @@ D3Charts = {
           barChart.selectAll(".axis").remove();
 
           yScale.domain(childData.map(function(d) {return d.all_key;}));
-
-
-          /* 
-          barChart.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(10,0)") // now just placing it at the top
-              .call(xAxis);
-
-          var yaxis = barChart.append("g")
-            .attr("class", "y axis");
-          barTransition.select(".y.axis")
-            .call(yAxis)
-            .selectAll("g");
-
-            labels
-              */
 
           var barTransition = centerPane.transition().duration(500);
 
@@ -801,32 +723,8 @@ D3Charts = {
                 .style("fill-opacity", 1e-6)
                 .remove()
 
-           /* barTransition.select('barTitle').remove();
-            barTransition.select(.append("text")
-              .classed("ytitle",true)
-              .attr("transform", "translate(-"+barMargin.left+","+ ((centerHeight/2) - barMargin.top) +")rotate(-90)")
-              .attr("dy", ".85em")
-              .style("text-anchor", "middle")
-              .style("fill", function(d) { if (parentIdentifier) { return opts.colors[parentIdentifier] } else { return 'All';} })
-              .text(function (d) { if (parentIdentifier) {return parentIdentifier +": $"+ parentTotal} else {return "Top 10 Overall";}});*/
-
             bars = barChart.selectAll(".bar")
               .data(childData,function(d){ return d.all_key;});
-
-            /*bars.enter().append("rect")
-                .attr("class", "bar")
-                //.style("fill", function(d) { if (parentIdentifier) { return opts.colors[parentIdentifier] } else { return opts.colors[d.categoryName];} })
-                .style("fill",opts.colors[0])
-                .attr("width", function(d) { return x(d.amount);})
-                .attr("height", y.rangeBand)
-                .attr("x", 10)
-                .attr("y", function(d) {
-                    return y(d.all_key); })
-                .style("fill-opacity",1e-6)
-                .transition()
-                .duration(500)
-                .style("fill-opacity",1)
-                .delay(400);*/
 
             var barLeftMargin = 0;
 
@@ -835,7 +733,6 @@ D3Charts = {
                 .attr("transform", function(d) {
                     return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
                 })
-                //.style("fill", function(d) { if (parentIdentifier) { return opts.colors[parentIdentifier] } else { return opts.colors[d.categoryName];} })
                 .append("path")
                 .attr("d", function(d) {
                         var x = 0;
@@ -867,7 +764,6 @@ D3Charts = {
                 .attr("transform", function(d) {
                     return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
                 });
-              //.attr("y", function(d) {return yScale(d.all_key);});
 
             bars.exit()
               .transition()
@@ -886,15 +782,12 @@ D3Charts = {
             var parentTotal = parentCategory.amount;
           }
 
-          //console.log(opts.metadata_display_fct);
-
           var display_metadata = opts.metadata_display_fct(parentCategory);
-          //console.log(display_metadata);
           categoryTitle.html(display_metadata.title);
           categorySubtitle.html(display_metadata.subtitle);
           categoryDescription.html(display_metadata.description);
         };
-        
+
         function initCenter() {
             $('.leftPane .selector').first().click();
         }
@@ -927,12 +820,12 @@ D3Charts = {
             rightWidth = rightFullWidth - barMargin.left - barMargin.right,
             rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
 
-        var formatMoney = function (e) { 
+        var formatMoney = function (e) {
             var currencyString;
-            if (e < 1000) { 
-                currencyString = e; 
-            } else if (e > 999           && e < 1000000) { 
-                currencyString = e/1000+"K"; 
+            if (e < 1000) {
+                currencyString = e;
+            } else if (e > 999           && e < 1000000) {
+                currencyString = e/1000+"K";
             } else if (e > 999999        && e < 1000000000){
                 currencyString = e/1000000+"M"
             } else if (e > 999999999     && e < 1000000000000){
