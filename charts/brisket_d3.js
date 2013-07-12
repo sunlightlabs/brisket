@@ -792,11 +792,11 @@ D3Charts = {
         initCenter();
     },
     TWOPANE_PIE_DEFAULTS: {
-        chart_height: 260,
+        chart_height: 200,
         chart_width: 750,
-        row_height: 18,
-        bar_height:14,
-        donut_outer_r: 100,
+        row_height: 16,
+        bar_height:10,
+        donut_outer_r: 70,
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
         amount_color: "#000000",
@@ -808,14 +808,15 @@ D3Charts = {
         if (typeof opts == 'undefined') opts = {};
         _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
 
-        var pieMargin = (opts.chart_height - (opts.donut_outer_r*2)) / 2,
+        var pieMargin = {top: 25, right: 5, bottom: 20, left: 100},
+            //(opts.chart_height - (opts.donut_outer_r*2)) / 2,
             rad = opts.donut_outer_r,
             innerRad = opts.donut_outer_r / 3,
-            svgtransbase = "translate(" + (rad + pieMargin) + "," + (rad + pieMargin) + ")",
-            leftFullWidth = (rad+pieMargin) * 2,
-            leftFullHeight = (rad+pieMargin) * 2;
+            svgtransbase = "translate(" + (rad + pieMargin.left) + "," + (rad + pieMargin.top) + ")",
+            leftFullWidth = (rad*2) + pieMargin.left + pieMargin.right,
+            leftFullHeight = (rad*2) + pieMargin.top + pieMargin.bottom;
 
-        var barMargin = {top: 20, right: 70, bottom: 20, left: 220},
+        var barMargin = {top: 20, right: 30, bottom: 20, left: 220},
             rightFullWidth = opts.chart_width - leftFullWidth;
             barWidth = rightFullWidth - barMargin.left - barMargin.right,
             rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
@@ -1079,9 +1080,9 @@ D3Charts = {
 
           yaxis.append("text")
               .classed("ytitle",true)
-              .attr("transform", "translate(-"+barMargin.left+","+ ((rightHeight/2) - barMargin.top) +")rotate(-90)")
+              .attr("transform", "translate(-"+barMargin.left+",-"+ barMargin.top +")")
               .attr("dy", ".85em")
-              .style("text-anchor", "middle")
+              .style("text-anchor", "left")
               .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
               .text(function (d) { if (parentName) {return parentName +": $"+ parentTotal} else {return "Top 10 Overall";}});
 
