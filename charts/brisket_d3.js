@@ -517,11 +517,16 @@ D3Charts = {
     THREEPANE_BAR_DEFAULTS: {
         chart_height: 260,
         chart_width: 750,
+        row_height: 18,
+        bar_height:14,
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
         amount_color: "#000000",
         link_color: "#0a6e92",
-        show_description: true
+        show_description: true,
+        axis_color: "#827d7d",
+        text_color: "#666666",
+        link_color: "#0a6e92"
     },
     threepane_bar: function(div, data, opts) {
         if (typeof opts == 'undefined') opts = {};
