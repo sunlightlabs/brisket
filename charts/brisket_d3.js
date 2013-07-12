@@ -893,15 +893,15 @@ D3Charts = {
             .attr("x1", -.5)
             .attr("x2", -.5)
             .attr("y1", 0)
-            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .attr("y2", mostChildren * opts.row_height + 1.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
         barChart.append("line")
             .attr("x1", -.5)
             .attr("x2", barWidth + barMargin.right - 5)
-            .attr("y1", mostChildren * opts.row_height - barMargin.bottom + 1.5)
-            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .attr("y1", mostChildren * opts.row_height + 1.5)
+            .attr("y2", mostChildren * opts.row_height + 1.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
@@ -1037,7 +1037,7 @@ D3Charts = {
           var yaxis = barChart.append("g")
             .attr("class", "y axis");
 
-          var barTransition = rightPane.transition().duration(1000);
+          var barTransition = rightPane.transition().duration(1000).delay(1000);
 
           //barTransition.select(".y.axis")
             //  .call(yAxis)
@@ -1085,9 +1085,7 @@ D3Charts = {
               .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
               .text(function (d) { if (parentName) {return parentName +": $"+ parentTotal} else {return "Top 10 Overall";}});
 
-            bars = barChart.selectAll(".bar")
-              .data(childData,function(d){ return d.all_key;});
-
+            /*
             bars.enter().append("rect")
                 .attr("class", "bar")
                 .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return opts.colors[d.categoryName];} })
@@ -1101,15 +1099,58 @@ D3Charts = {
                 .duration(1000)
                 .style("fill-opacity",1)
                 .delay(800);
+                */
+            
+            bars = barChart.selectAll(".bar")
+              .data(childData,function(d){ return d.all_key;});
 
-            barTransition.selectAll(".bar")
-              .attr("y", function(d) {return yScale(d.all_key);});
+            var barLeftMargin = 0;
+            
+            bars.enter().append("g")
+                .attr("class", "bar")
+                .attr("transform", function(d) {
+                    return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
+                })
+                .append("path")
+                .attr("d", function(d) {
+                        var x = 0;
+                        var y = 0;
+                        //var h = yScale.rangeBand(d);
+                        var h = opts.bar_height;
 
+                        var r = 4;
+
+                        var w = xScale(d.amount);
+
+                        var array = [].concat(
+                            ["M", x, y],
+                            ["L", d3.max([x + w - r, 0]), y, "Q", x + w, y, x + w, y + r],
+                            ["L", x + w, d3.max([y + h - r, 0]), "Q", x + w, y + h, d3.max([x + w - r, 0]), y + h],
+                            ["L", x, y + h, "Z"]
+                    );
+
+                    return array.join(" ");
+                })
+                .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return opts.colors[d.categoryName];} })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+
+            //barTransition.selectAll(".bar")
+              //.attr("y", function(d) {return yScale(d.all_key);});
+           
+            barTransition.selectAll(".bar") 
+                .attr("transform", function(d) {
+                    return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
+                });
+            
             bars.exit()
               .transition()
               .duration(1000)
               .style("fill-opacity", 1e-6)
-              .remove();
+              .remove(); 
 
           };
         resetRotation();
