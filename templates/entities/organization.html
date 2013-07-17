@@ -1,6 +1,7 @@
 {% extends "entities/entity_base.html" %}
 {% load humanize %}
 {% load influence_extras %}
+{% load staticfiles %}
 {% block body_class %}group{% endblock %}
 
 {% block pagetitle %}
@@ -22,8 +23,8 @@
 {% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
-<script type="text/javascript" src="/media/js/ajax_tables.js"></script>
+<script type="text/javascript" src="{% static "dryrub/js/jquery.shorteners.js" %}"></script>
+<script type="text/javascript" src="{% static "dryrub/js/ajax_tables.js" %}"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   {% if not sections.contributions.suppress_contrib_graphs %}

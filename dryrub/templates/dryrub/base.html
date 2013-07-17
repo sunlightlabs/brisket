@@ -1,5 +1,6 @@
 <!doctype html>
-{% load media %}
+{% load compress %}
+{% load staticfiles %}
 <html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
         <title>{% block pagetitle %}{% endblock %}Influence Explorer{% block pagetopics %}{% endblock %}</title>
@@ -11,16 +12,16 @@
 	
         <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
 	
-        <link rel="icon" href="{% media_url %}/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="{% static "dryrub/images/favicon.ico" %}" type="image/x-icon">
         <link rel="canonical" rel="{% block canonicalurl %}{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}{% endblock %}" />
 
-        {% css "css/main.css" %}
-        <!--[if IE 7]>{% css "css/buggy7.css" %}<![endif]-->
+        <link rel="stylesheet" href="{% static "dryrub/css/main.css" %}" />
+        <!--[if IE 7]><link rel="stylesheet" href="{% static "dryrub/css/buggy7.css" %}" /><![endif]-->
         <!--[if lt IE 9]>
             <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        {% js "js/jquery-1.4.2.min.js" %}
-        {% js "js/jquery-placehold.min.js" %}
+        <script src="{% static "dryrub/js/jquery-1.4.2.min.js" %}"></script>
+        <script src="{% static "dryrub/js/jquery-placehold.min.js" %}"></script>
         
         {% block js %}{% endblock %}
 	    {% block og %}
@@ -174,7 +175,21 @@
         </div>
     
     	<img height="1" border="0" width="1" alt="" src="http://ad.doubleclick.net/activity;src=1379696;dcnet=4155;boom=41134;sz=1x1;ord=1?" />
-        {% js "js/brisket-all.js" %}
+        
+        {% compress js %}
+        <script type="text/javascript" src="{% static "dryrub/js/jquery.tablesorter.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "dryrub/js/jquery.json-2.3.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "dryrub/js/underscore-min.js" %}"></script>
+        <script type="text/javascript" src="{% static "dryrub/js/brisket.js" %}"></script>
+        {% endcompress %}
+
+        {% compress js %}
+        <script type="text/javascript" src="{% static "influence/js/d3.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "influence/js/d3.geom.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "influence/js/d3.layout.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "influence/js/brisket_d3.js" %}"></script>
+        {% endcompress %}
+
         <script type="text/javascript">BrisketFallback.PATH = "{{ CHART_FALLBACK_URL }}";</script>
 	
     	{% block gsfn %}

@@ -37,6 +37,7 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '(1yv=vnhqrvj%qjr%zd)fe*cr4785a#7$ju8km4%+tnscm&p_r'
@@ -79,6 +80,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates
     'django.contrib.sitemaps',
+    'django.contrib.staticfiles',
     'mediasync',
     'brisket.influence',
     'brisket.util',
@@ -87,9 +89,15 @@ INSTALLED_APPS = (
     'paging',
     'gunicorn',
     #'feedinator',
+    'compressor',
     'dryrub',
-    'fec',
     'data',
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -131,104 +139,6 @@ CACHES = {
 DEFAULT_CYCLE = None
 
 from local_settings import *
-
-MEDIASYNC['JOINED'] = {
-    'js/brisket-all.js': [
-        'js/jquery.tablesorter.min.js',
-        'js/jquery.json-2.3.min.js',
-        'js/underscore-min.js',
-        'js/brisket.js',
-        'js/d3.min.js',
-        'js/d3.geom.min.js',
-        'js/d3.layout.min.js',
-        'js/brisket_d3.js',
-    ],
-    'data/css/all.css': [
-        'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
-        'data/css/jquery.autocomplete.css',
-        'data/css/main.css',
-    ],
-    'data/css/3rdparty.css': [
-        'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
-        'data/css/jquery.autocomplete.css',
-    ],
-    'data/3rdparty.js': [
-        'data/js/jquery-ui-1.7.2.custom.min.js',
-        'data/js/jquery.currency.js',
-        'data/js/jquery.expander.js'
-    ],
-    'data/3rdparty_old.js': [
-        'data/js/jquery-1.4.2.min.js',
-        'data/js/jquery-ui-1.7.2.custom.min.js',
-        'data/js/jquery.currency.js',
-        'data/js/underscore-min.js',
-        'data/js/jquery.expander.js'
-    ],
-    'data/contracts.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contracts.js'
-    ],
-    'data/contractor_misconduct.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contractor_misconduct.js'
-    ],
-    'data/contributions.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contributions.js'
-    ],
-    'data/contributions_dc.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contributions_dc.js'
-    ],
-    'data/earmarks.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.earmarks.js'
-    ],
-    'data/grants.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.grants.js'
-    ],
-    'data/lobbying.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.lobbying.js'
-    ],
-    'data/faca.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.faca.js'
-    ],
-    'data/bundling.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.bundling.js'
-    ],
-    'data/epa_echo.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.epa_echo.js'
-    ],
-    'data/index.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contracts.js',
-        'data/js/td.earmarks.js',
-        'data/js/td.grants.js',
-        'data/js/td.lobbying.js',
-        'data/js/td.contributions.js',
-        'data/js/td.contributions_dc.js',
-        'data/js/td.contractor_misconduct.js',
-        'data/js/td.epa_echo.js',
-        'data/js/td.faca.js',
-        'data/js/td.bundling.js'
-    ],
-}
 
 import re
 IGNORABLE_404_URLS = (
