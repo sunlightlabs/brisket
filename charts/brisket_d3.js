@@ -517,126 +517,118 @@ D3Charts = {
     THREEPANE_BAR_DEFAULTS: {
         chart_height: 260,
         chart_width: 750,
+        row_height: 18,
+        bar_height:14,
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
         amount_color: "#000000",
         link_color: "#0a6e92",
-        show_description: true
+        axis_color: "#827d7d",
     },
     threepane_bar: function(div, data, opts) {
         if (typeof opts == 'undefined') opts = {};
         _.defaults(opts, D3Charts.THREEPANE_BAR_DEFAULTS);
 
-        //console.log(opts);
-
         var leftFullWidth = opts.chart_width / 5,
             leftFullHeight = opts.chart_height;
 
-        //console.log(leftFullWidth);
-
-        var barMargin = {top: 45, right: 70, bottom: 5, left: 220},
-            centerFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 5,
-            centerWidth = centerFullWidth - barMargin.left - barMargin.right,
+        var barMargin = {top: 80, right: 50, bottom: 5, left: 200},
+            centerFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 4,
+            barWidth = centerFullWidth - barMargin.left - barMargin.right,
             centerHeight = leftFullHeight - barMargin.top - barMargin.bottom;
 
-        //console.log(centerFullWidth);
+        var rightFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 2;
 
-        var rightFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 1;
+        var formatMoney = function (e) {
+            var currencyString;
+            if (e < 1000) {
+                currencyString = e;
+            } else if (e > 999           && e < 1000000) {
+                currencyString = e/1000+"K";
+            } else if (e > 999999        && e < 1000000000){
+                currencyString = e/1000000+"M"
+            } else if (e > 999999999     && e < 1000000000000){
+                currencyString = e/1000000000+"B"
+            } else {
+                // cry(forever);
+                currencyString = e/1000000000000 + "T"
+            }
+            return "$" + currencyString;
+        };
 
-
-        var formatNumber = d3.format(",.1s");   //FIXME: currency formatting
-        var formatMoney = function(d) { return "$"+formatNumber(d);};
         var formatTickLabel = function(d) { return "";};
 
-        var y = d3.scale.ordinal()
-        .rangeRoundBands([0, centerHeight], .1);
-
-        var x = d3.scale.linear()
-        .range([0, centerWidth]);
-
-        var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .tickFormat(formatTickLabel);
-
-        var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("top")
-        .ticks(5)
-        .tickFormat(formatMoney);
-        
         // Set up panes
         mainDiv = d3.select("#"+div)
-          /*
-          .append("div") // http://code.google.com/p/chromium/issues/detail?id=98951
-            */
           .style("display", "block")
           .style("width", leftFullWidth + rightFullWidth + centerFullWidth + "px")
           .style("height", leftFullHeight + "px");
 
-        console.log(div);
-        console.log(mainDiv);
-
-        var leftPane = mainDiv.append("div")
-          .style("float", "left")
+        var leftPane = mainDiv.select(".leftPane")
           .style("width", leftFullWidth + "px")
           .style("height", leftFullHeight + "px");
-        /* might not need this
-          .append("svg:svg")
-          .attr("width",leftFullWidth)
-          .attr("height",leftFullHeight); */
 
-        var centerPane = mainDiv.append("div")
-          .style("float", "left")
-          .style("background-color", "#f5f4f4")
+        var centerPane = mainDiv.select(".centerPane")
           .style("width", centerFullWidth + "px")
           .style("height", leftFullHeight + "px")
           .append("svg:svg")
           .attr("width", centerFullWidth)
           .attr("height", leftFullHeight);
 
-        var rightPane = mainDiv.append("div")
-          .style("float", "left")
+        var rightPane = mainDiv.select(".rightPane")
           .style("width", rightFullWidth + "px")
           .style("height", leftFullHeight + "px");
-        
-        var categoryTitle = rightPane.append("div")
-          .style("width","100%")
-          .style("height","15%")
-          .classed("categoryTitle",true);
 
-        var categorySubtitle = rightPane.append("div")
-          .style("width","100%")
-          .style("height","10%")
-          .classed("categorySubtitle",true);
+        var categoryTitle = rightPane.select(".categoryTitle");
 
-        var categoryDescription = rightPane.append("div")
-          .style("width","100%")
-          .style("height","75%")
-          .classed("categoryDescription",true);
+        var categorySubtitle = rightPane.select(".categorySubtitle");
 
-        /* probably don't need this
-          .append("svg:svg")
-          .attr("width", centerFullWidth)
-          .attr("height", leftFullHeight);*/
-            
-        var barChart = centerPane.append("svg:g")
-              .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
+        var categoryDescription = rightPane.select(".categoryDescription");
 
         var categories = data;
 
         var allData = [];
+        var mostChildren = 0;
         categories.forEach(function(d){
           d.identifier = d.name;
+          mostChildren = d3.max([d.children.length, mostChildren]);
           d.children.forEach(function(f){
             f.categoryName = d.name;
             newf = f;
             newf['categoryName'] = d.name;
             newf['all_key'] = f.name+'_'+d.identifier;
-            allData.push(newf); })});
+            allData.push(newf);
+            })
+        });
         var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
- 
-        x.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+
+        var yScale = d3.scale.ordinal()
+        .domain(d3.range(mostChildren))
+        .rangeBands([0, mostChildren * opts.row_height]);
+
+        var xScale = d3.scale.linear()
+        .range([0, barWidth]);
+        
+        xScale.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+
+        var barChart = centerPane.append("svg:g")
+              .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
+
+        barChart.append("line")
+            .attr("x1", -.5)
+            .attr("x2", -.5)
+            .attr("y1", 0)
+            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .style("stroke", opts.axis_color)
+            .style("stroke-width", "1");
+
+        barChart.append("line")
+            .attr("x1", -.5)
+            .attr("x2", barWidth + barMargin.right - 5)
+            .attr("y1", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .style("stroke", opts.axis_color)
+            .style("stroke-width", "1");
 
         function allTopTen(){
           drawRight(top10);
@@ -645,6 +637,7 @@ D3Charts = {
         function category_selector_label(d) {
             return d.name;
         }
+
 
         leftPane.selectAll("div")
             .data(categories)
@@ -655,22 +648,24 @@ D3Charts = {
             .classed("selector","true")
             .on("mouseover", function() { darken(d3.select(this)); } )
             .on("mouseout", function() { undarken(d3.select(this)); })
-            .on("click", function(d) {
+            .on("click", function (d) {
                 d3.select(this.parentNode).select('.focused').classed("focused",false);
                 d3.select(this).classed("focused",true);
                 drawCenter(d);
-                drawRight(d);})
+                drawRight(d);
+            })
             .append("div").html(function(d) { return category_selector_label(d) }).style("pointer-events","none").style("line-height",opts.chart_height / 10 + "px");
 
-        var darken = function(selection) { 
+        var darken = function(selection) {
                 selection.classed("darkened",true);
         }
 
-        var undarken = function(selection) { 
+        var undarken = function(selection) {
                 selection.classed("darkened",false);
         }
 
         var drawCenter = function(parentCategory) {
+          console.log(parentCategory);
           if (parentCategory.hasOwnProperty('name')) {
             var parentIdentifier = parentCategory.identifier;
             var parentTotal = parentCategory.amount;
@@ -688,31 +683,16 @@ D3Charts = {
 
           barChart.selectAll(".axis").remove();
 
-          y.domain(childData.map(function(d) {return d.all_key;}));
+          yScale.domain(childData.map(function(d) {return d.all_key;}));
 
-          testvar = childData;
+          var barTransition = centerPane.transition().duration(500);
 
-          barChart.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(10,0)") // now just placing it at the top
-              .call(xAxis);
-
-          var yaxis = barChart.append("g")
-            .attr("class", "y axis");
-
-          var barTransition = centerPane.transition().duration(1000);
-
-          barTransition.select(".y.axis")
-              .call(yAxis)
-            .selectAll("g");
-
-            // labels
             labels = centerPane.selectAll("g.chart-label")
                   .data(childData,function(d){ return d.all_key;});
 
             labels.enter().append("g")
                 .classed('chart-label', true)
-                .attr("transform", function(d, i) { return "translate(5," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .attr("transform", function(d, i) { return "translate(5," + ((yScale(d.all_key) + yScale.rangeBand() / 2) + barMargin.top) + ")"; })
                 .each(function(d, i) {
                     var parent = d3.select(this);
                     if (d.href) {
@@ -727,52 +707,64 @@ D3Charts = {
                 })
                 .style("fill-opacity",1e-6)
                 .transition()
-                .duration(1000)
+                .duration(500)
                 .style("fill-opacity",1)
-                .delay(800);
+                .delay(400);
 
             barTransition.selectAll("g.chart-label")
-                .attr("transform", function(d, i) { return "translate(5," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .attr("transform", function(d, i) { return "translate(5," + ((yScale(d.all_key) + yScale.rangeBand() / 2) + barMargin.top) + ")"; })
 
             labels.exit()
                 .transition()
-                .duration(1000)
+                .duration(500)
                 .style("fill-opacity", 1e-6)
                 .remove()
-            
-           /* barTransition.select('barTitle').remove();
-            barTransition.select(.append("text")
-              .classed("ytitle",true)
-              .attr("transform", "translate(-"+barMargin.left+","+ ((centerHeight/2) - barMargin.top) +")rotate(-90)")
-              .attr("dy", ".85em")
-              .style("text-anchor", "middle")
-              .style("fill", function(d) { if (parentIdentifier) { return opts.colors[parentIdentifier] } else { return 'All';} })
-              .text(function (d) { if (parentIdentifier) {return parentIdentifier +": $"+ parentTotal} else {return "Top 10 Overall";}});*/
 
             bars = barChart.selectAll(".bar")
               .data(childData,function(d){ return d.all_key;});
 
-            bars.enter().append("rect")
+            var barLeftMargin = 0;
+
+            bars.enter().append("g")
                 .attr("class", "bar")
-                //.style("fill", function(d) { if (parentIdentifier) { return opts.colors[parentIdentifier] } else { return opts.colors[d.categoryName];} })
+                .attr("transform", function(d) {
+                    return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
+                })
+                .append("path")
+                .attr("d", function(d) {
+                        var x = 0;
+                        var y = 0;
+                        var h = yScale.rangeBand(d);
+                        var h = 14;
+
+                        var r = 4;
+
+                        var w = xScale(d.amount);
+
+                        var array = [].concat(
+                            ["M", x, y],
+                            ["L", d3.max([x + w - r, 0]), y, "Q", x + w, y, x + w, y + r],
+                            ["L", x + w, d3.max([y + h - r, 0]), "Q", x + w, y + h, d3.max([x + w - r, 0]), y + h],
+                            ["L", x, y + h, "Z"]
+                    );
+
+                    return array.join(" ");
+                })
                 .style("fill",opts.colors[0])
-                .attr("width", function(d) { return x(d.amount);})
-                .attr("height", y.rangeBand)
-                .attr("x", 10)
-                .attr("y", function(d) {
-                    return y(d.all_key); })
                 .style("fill-opacity",1e-6)
                 .transition()
-                .duration(1000)
+                .duration(500)
                 .style("fill-opacity",1)
-                .delay(800);
+                .delay(400);
 
             barTransition.selectAll(".bar")
-              .attr("y", function(d) {return y(d.all_key);});
+                .attr("transform", function(d) {
+                    return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
+                });
 
             bars.exit()
               .transition()
-              .duration(1000)
+              .duration(500)
               .style("fill-opacity", 1e-6)
               .remove();
 
@@ -787,59 +779,67 @@ D3Charts = {
             var parentTotal = parentCategory.amount;
           }
 
-          categoryTitle.html(parentIdentifier);
-          categorySubtitle.html(parentIdentifier);
-          categoryDescription.html('This has no description, yet');
+          var display_metadata = opts.metadata_display_fct(parentCategory);
+          categoryTitle.html(display_metadata.title);
+          categorySubtitle.html(display_metadata.subtitle);
+          categoryDescription.html(display_metadata.description);
         };
 
+        function initCenter() {
+            $('.leftPane .selector').first().click();
+        }
+
+        initCenter();
     },
     TWOPANE_PIE_DEFAULTS: {
-        chart_height: 260,
+        chart_height: 200,
         chart_width: 750,
-        donut_outer_r: 100,
+        row_height: 16,
+        bar_height:10,
+        donut_outer_r: 70,
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
         amount_color: "#000000",
-        link_color: "#0a6e92"
+        link_color: "#0a6e92",
+        axis_color: "#827d7d",
     },
     twopane_pie: function(div, data, opts) {
 
         if (typeof opts == 'undefined') opts = {};
         _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
 
-        var pieMargin = (opts.chart_height - (opts.donut_outer_r*2)) / 2,
+        var pieMargin = {top: 25, right: 5, bottom: 20, left: 100},
+            //(opts.chart_height - (opts.donut_outer_r*2)) / 2,
             rad = opts.donut_outer_r,
             innerRad = opts.donut_outer_r / 3,
-            svgtransbase = "translate(" + (rad + pieMargin) + "," + (rad + pieMargin) + ")",
-            leftFullWidth = (rad+pieMargin) * 2,
-            leftFullHeight = (rad+pieMargin) * 2;
+            svgtransbase = "translate(" + (rad + pieMargin.left) + "," + (rad + pieMargin.top) + ")",
+            leftFullWidth = (rad*2) + pieMargin.left + pieMargin.right,
+            leftFullHeight = (rad*2) + pieMargin.top + pieMargin.bottom;
 
-        var barMargin = {top: 20, right: 70, bottom: 20, left: 220},
+        var barMargin = {top: 20, right: 30, bottom: 20, left: 220},
             rightFullWidth = opts.chart_width - leftFullWidth;
-            rightWidth = rightFullWidth - barMargin.left - barMargin.right,
+            barWidth = rightFullWidth - barMargin.left - barMargin.right,
             rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
 
-        var formatNumber = d3.format(",.1s");   //FIXME: currency formatting
-        var formatPercent = function(d) { return "$"+formatNumber(d);};
+        var formatMoney = function (e) {
+            var currencyString;
+            if (e < 1000) {
+                currencyString = e;
+            } else if (e > 999           && e < 1000000) {
+                currencyString = e/1000+"K";
+            } else if (e > 999999        && e < 1000000000){
+                currencyString = e/1000000+"M"
+            } else if (e > 999999999     && e < 1000000000000){
+                currencyString = e/1000000000+"B"
+            } else {
+                // cry(forever);
+                currencyString = e/1000000000000 + "T"
+            }
+            return "$" + currencyString;
+        };
+
         var formatTickLabel = function(d) { return "";};
                                                     //d.split("_")[0];};
-
-        var y = d3.scale.ordinal()
-        .rangeRoundBands([0, rightHeight], .1);
-
-        var x = d3.scale.linear()
-        .range([0, rightWidth]);
-
-        var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .tickFormat(formatTickLabel);
-
-        var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("top")
-        .ticks(5)
-        .tickFormat(formatPercent);
 
         //Set up panes
         mainDiv = d3.select("#"+div)
@@ -870,16 +870,57 @@ D3Charts = {
         var categories = data;
 
         var allData = [];
+        var mostChildren = 0;
         categories.forEach(function(d){
+          mostChildren = d3.max([d.children.length, mostChildren]);
           d.children.forEach(function(f){
             f.categoryName = d.name;
             newf = f;
             newf['categoryName'] = d.name;
             newf['all_key'] = f.name+'_'+d.name;
-            allData.push(newf); })});
+            allData.push(newf); 
+          })
+        });
         var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
+        
+        var yScale = d3.scale.ordinal()
+        .domain(d3.range(mostChildren))
+        .rangeBands([0, mostChildren * opts.row_height]);
 
-        x.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+        var xScale = d3.scale.linear()
+        .range([0, barWidth]);
+        
+        barChart.append("line")
+            .attr("x1", -.5)
+            .attr("x2", -.5)
+            .attr("y1", 0)
+            .attr("y2", mostChildren * opts.row_height + 1.5)
+            .style("stroke", opts.axis_color)
+            .style("stroke-width", "1");
+
+        barChart.append("line")
+            .attr("x1", -.5)
+            .attr("x2", barWidth + barMargin.right - 5)
+            .attr("y1", mostChildren * opts.row_height + 1.5)
+            .attr("y2", mostChildren * opts.row_height + 1.5)
+            .style("stroke", opts.axis_color)
+            .style("stroke-width", "1");
+
+        /*
+        var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left")
+        .tickFormat(formatTickLabel);
+
+        var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("top")
+        .ticks(5)
+        .tickFormat(formatMoney);
+        */
+
+        xScale.domain([0, d3.max(allData, function(d) {return d.amount;})]);
+        
         var pieChart = leftPane.append("svg:g")
             .attr("transform", svgtransbase);
 
@@ -987,23 +1028,21 @@ D3Charts = {
 
           barChart.selectAll(".axis").remove();
 
-          y.domain(childData.map(function(d) {return d.all_key;}));
+          yScale.domain(childData.map(function(d) {return d.all_key;}));
 
-          testvar = childData;
-
-          barChart.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(10,0)") // now just placing it at the top
-              .call(xAxis);
+          //barChart.append("g")
+          //    .attr("class", "x axis")
+          //    .attr("transform", "translate(10,0)") // now just placing it at the top
+          //    .call(xAxis);
 
           var yaxis = barChart.append("g")
             .attr("class", "y axis");
 
-          var barTransition = rightPane.transition().duration(1000);
+          var barTransition = rightPane.transition().duration(1000).delay(1000);
 
-          barTransition.select(".y.axis")
-              .call(yAxis)
-            .selectAll("g");
+          //barTransition.select(".y.axis")
+            //  .call(yAxis)
+            //.selectAll("g");
 
             // labels
             labels = rightPane.selectAll("g.chart-label")
@@ -1011,7 +1050,7 @@ D3Charts = {
 
             labels.enter().append("g")
                 .classed('chart-label', true)
-                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .attr("transform", function(d, i) { return "translate(20," + ((yScale(d.all_key) + yScale.rangeBand() / 2) + barMargin.top) + ")"; })
                 .each(function(d, i) {
                     var parent = d3.select(this);
                     if (d.href) {
@@ -1031,7 +1070,7 @@ D3Charts = {
                 .delay(800);
 
             barTransition.selectAll("g.chart-label")
-                .attr("transform", function(d, i) { return "translate(20," + ((y(d.all_key) + y.rangeBand() / 2) + barMargin.top) + ")"; })
+                .attr("transform", function(d, i) { return "translate(20," + ((yScale(d.all_key) + yScale.rangeBand() / 2) + barMargin.top) + ")"; })
 
             labels.exit()
                 .transition()
@@ -1041,37 +1080,78 @@ D3Charts = {
 
           yaxis.append("text")
               .classed("ytitle",true)
-              .attr("transform", "translate(-"+barMargin.left+","+ ((rightHeight/2) - barMargin.top) +")rotate(-90)")
+              .attr("transform", "translate(-"+barMargin.left+",-"+ barMargin.top +")")
               .attr("dy", ".85em")
-              .style("text-anchor", "middle")
+              .style("text-anchor", "left")
               .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
               .text(function (d) { if (parentName) {return parentName +": $"+ parentTotal} else {return "Top 10 Overall";}});
 
-            bars = barChart.selectAll(".bar")
-              .data(childData,function(d){ return d.all_key;});
-
+            /*
             bars.enter().append("rect")
                 .attr("class", "bar")
                 .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return opts.colors[d.categoryName];} })
-                .attr("width", function(d) { return x(d.amount);})
-                .attr("height", y.rangeBand)
+                .attr("width", function(d) { return xScale(d.amount);})
+                .attr("height", yScale.rangeBand)
                 .attr("x", 10)
                 .attr("y", function(d) {
-                    return y(d.all_key); })
+                    return yScale(d.all_key); })
+                .style("fill-opacity",1e-6)
+                .transition()
+                .duration(1000)
+                .style("fill-opacity",1)
+                .delay(800);
+                */
+            
+            bars = barChart.selectAll(".bar")
+              .data(childData,function(d){ return d.all_key;});
+
+            var barLeftMargin = 0;
+            
+            bars.enter().append("g")
+                .attr("class", "bar")
+                .attr("transform", function(d) {
+                    return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
+                })
+                .append("path")
+                .attr("d", function(d) {
+                        var x = 0;
+                        var y = 0;
+                        //var h = yScale.rangeBand(d);
+                        var h = opts.bar_height;
+
+                        var r = 4;
+
+                        var w = xScale(d.amount);
+
+                        var array = [].concat(
+                            ["M", x, y],
+                            ["L", d3.max([x + w - r, 0]), y, "Q", x + w, y, x + w, y + r],
+                            ["L", x + w, d3.max([y + h - r, 0]), "Q", x + w, y + h, d3.max([x + w - r, 0]), y + h],
+                            ["L", x, y + h, "Z"]
+                    );
+
+                    return array.join(" ");
+                })
+                .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return opts.colors[d.categoryName];} })
                 .style("fill-opacity",1e-6)
                 .transition()
                 .duration(1000)
                 .style("fill-opacity",1)
                 .delay(800);
 
-            barTransition.selectAll(".bar")
-              .attr("y", function(d) {return y(d.all_key);});
-
+            //barTransition.selectAll(".bar")
+              //.attr("y", function(d) {return yScale(d.all_key);});
+           
+            barTransition.selectAll(".bar") 
+                .attr("transform", function(d) {
+                    return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
+                });
+            
             bars.exit()
               .transition()
               .duration(1000)
               .style("fill-opacity", 1e-6)
-              .remove();
+              .remove(); 
 
           };
         resetRotation();
@@ -1120,8 +1200,8 @@ BrisketModern = {
         })
         D3Charts.piechart(div, in_data, opts);
     },
-    threepane_bar : function(div, data) {
-        var opts = undefined;
+    threepane_bar : function(div, data, display_metadata) {
+        var opts = {'metadata_display_fct': display_metadata};
         D3Charts.threepane_bar(div, data, opts);
     },
     twopane_pie : function(div, data, colors) {
@@ -1152,10 +1232,59 @@ BrisketModern = {
         D3Charts.timeline_chart(div, data);
     },
     bills_threepane_bar : function(div, data) {
-        Brisket.threepane_bar(div, data);
+        //console.log('bills function received: '+div);
+        function display_bills_metadata(node) {
+            var md_html = {'title':'', 'subtitle': '', 'description': ''};
+
+            summary = node.metadata.display_summary.substring(0,350) + '...'
+
+            md_html['title'] = '<a href="'+node.metadata.url+'">';
+            md_html['title'] += '<h3>' + node.metadata.display_title + '</h3></a>';
+            //md_html['subtitle'] = '<h3>' + node.metadata.display_subtitle +'</h3>';
+            md_html['description']  = '<dl>';
+            if (node.metadata.display_nicknames) {
+                md_html['description'] += '<dt>Nicknames</dt>';
+                md_html['description'] += '<dd>' + node.metadata.display_nicknames + '</dd>';
+            }
+            md_html['description'] += '<dt>Issue</dt>';
+            md_html['description'] += '<dd>' + node.metadata.bill_issue + '</dd>';
+            md_html['description'] += '<dt>Last Action</dt>';
+            if (node.metadata.last_action) {
+                md_html['description'] += '<dd>' + node.metadata.last_action.type.toUpperCase() + ': ' + node.metadata.last_action.text + '</dd>';
+            } else {
+                md_html['description'] += '<dd>No information available</dd>';
+            }
+            md_html['description'] += '<dt>Summary</dt>';
+            md_html['description'] += '<dd>' + summary + '</dd>'
+            md_html['description'] += '</dl>';
+            return md_html;
+        }
+
+        Brisket.threepane_bar(div, data, display_bills_metadata);
+
     },
     issues_threepane_bar : function(div, data) {
-        Brisket.threepane_bar(div, data);
+        //console.log('issues function received: '+div);
+
+        function display_issues_metadata(node) {
+            //console.log(node);
+            var md_html = {'title':'', 'subtitle': '', 'description': ''};
+
+            md_html['title'] = '<h3>' + node.metadata.general_issue + '</h3>';
+            md_html['subtitle'] = '<h3></h3>';
+            // + node.metadata.general_issue_code + '</h3>';
+            md_html['description']  = '<ul>';
+            /* Not populated yet
+            for (i in node.metadata.top_bills) {
+                md_html['description']  += '<li>' + node.metadata.top_bills[i];
+            }
+            */
+            md_html['description'] += '</ul>';
+
+            return md_html;
+        }
+
+        Brisket.threepane_bar(div, data, display_issues_metadata);
     },
     party_twopane_pie : function(div,data) {
         var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "gray"};

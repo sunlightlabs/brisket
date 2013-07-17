@@ -6,7 +6,7 @@
     <span class="amount">FIXME: amount</span>
     <div  class="interiorMethodology">
         <a class="descriptor" title="More Information" href="#lobbyingDescriptor">Information</a>
-        <div class="clear"></div>      
+        <div class="clear"></div>
         <div class="descriptorText" id='lobbyingDescriptor'>
             <p>FIXME: put some descriptive text here.</p>
             <p>For more information, see our <a href="/about/methodology/lobbying/">Lobbying Methodology</a> page.</p>
@@ -19,24 +19,32 @@
     <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
         {% if section.bills_summary_data %}
-          Brisket.threepane_bar("billsThreepaneBar", {{ section.bills_summary_data|safe }});
+            Brisket.bills_threepane_bar("billsThreepaneBar", {{ section.bills_summary_data|safe }});
         {% else %}{}
         {% endif %}
         {% if section.issues_summary_data %}
-          Brisket.threepane_bar("issuesThreepaneBar", {{ section.issues_summary_data|safe }});
+          Brisket.issues_threepane_bar("issuesThreepaneBar", {{ section.issues_summary_data|safe }});
         {% else %}{}
         {% endif %}
     });
     </script>
     <span class="tip external">covers through [FIXME: date]</span>
-    
+
     <div class="threeColumn mainTable">
     {% if section.issues_summary_data %}
        <div class="electionHeader">
           <h4 class="withTip">Top Issues Lobbied on By Organizations  </h4>
           <span class="tip external">Ranked by total amount spent</span>
-       </div> 
-        <div id="issuesThreepaneBar" class="threepaneBar"></div>
+       </div>
+       <div id="issuesThreepaneBar" class="threepaneBar">
+           <div class="leftPane"></div>
+           <div class="centerPane"></div>
+           <div class="rightPane">
+               <div class="categoryTitle"></div>
+               <div class="categorySubtitle"></div>
+               <div class="categoryDescription"></div>
+           </div>
+       </div>
     {% else %}{}
     {% endif %}
     {% if section.bills_summary_data %}
@@ -44,8 +52,16 @@
        <div class="electionHeader">
           <h4 class="withTip">Top Bills Lobbied on By Organizations  </h4>
           <span class="tip external">Ranked by total amount spent</span>
-       </div> 
-        <div id="billsThreepaneBar" class="threepaneBar"></div>
+       </div>
+        <div id="billsThreepaneBar" class="threepaneBar">
+           <div class="leftPane"></div>
+           <div class="centerPane"></div>
+           <div class="rightPane">
+               <div class="categoryTitle"></div>
+               <div class="categorySubtitle"></div>
+               <div class="categoryDescription"></div>
+            </div>
+        </div>
     {% else %}{}
     {% endif %}
     </div>
