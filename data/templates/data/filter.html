@@ -1,9 +1,11 @@
-{% extends "search_base.html" %}
-{% load media %}
+{% extends "brisket_base.html" %}
+{% load compress %}
+{% load staticfiles %}
 
-{% block js %}
+{% block sitecss %}
 {{ block.super }}
-{% css 'data/css/3rdparty.css' %}
+<link rel="stylesheet" href="{% static "data/css/ui-lightness/jquery-ui-1.7.2.custom.css" %}" />
+<link rel="stylesheet" href="{% static "data/css/jquery.autocomplete.css" %}" />
 {% endblock %}
 
 {% block pagetitle %}
@@ -63,9 +65,17 @@
     	</div>
         <div class="clear"></div>
     </div>
+
+    {% compress js %}
     {% block dataset_scripts %}
     {{ block.super }}
-    {% js "data/3rdparty.js" %}
+    <script type="text/javascript" src="{% static "data/js/jquery-ui-1.7.2.custom.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "data/js/jquery.currency.js" %}"></script>
+    <script type="text/javascript" src="{% static "data/js/jquery.expander.js" %}"></script>
+
+    <script type="text/javascript" src="{% static "data/js/td.js" %}"></script>
+    <script type="text/javascript" src="{% static "data/js/td.fields.js" %}"></script>
+
     <script type="text/javascript">
         TD.DATA_API_BASE_URL = "{{ DATA_API_BASE_URL }}";
         $(function() {
@@ -82,4 +92,5 @@
         });
     </script>
     {% endblock %}
+    {% endcompress %}
 {% endblock %}

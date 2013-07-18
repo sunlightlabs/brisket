@@ -7,7 +7,8 @@
 
 from django.conf.urls.defaults import patterns, url
 from django.conf import settings
-from django.views.generic.simple import redirect_to
+from django.views.generic import RedirectView
+from brisket.data.views import DirectTemplateView
 
 urlpatterns = patterns('brisket.data.views',
     url(r'^bulk/$', 'bulk_index', name="bulk_index"),
@@ -47,7 +48,7 @@ urlpatterns = patterns('brisket.data.views',
  
     # doc lookups
 #   url(r'^docs/lookup/(?P<dataset>\w+)/(?P<field>[\w\-_]+)/$', 'lookup', name="doc_lookup"),
-    url(r'^index.php$', redirect_to, {'url': '/'}),
+    url(r'^index.php$', RedirectView.as_view(url='/')),
     
     url(r'^$', 'index', name="index"),
 )
@@ -78,11 +79,10 @@ DOCS_SECTIONS = [
 ]
 
 for doc_page in API_SECTIONS + DOCS_SECTIONS:
-    urlpatterns += patterns('django.views.generic.simple',
+    urlpatterns += patterns('',
         url(
             '^%s?$' % doc_page.path[1:], # the ? makes the trailing slash optional
-            'direct_to_template',
-            {'template': 'data/' + '/'.join(doc_page.name.split('_', 1)) + '.html', 'extra_context': {'API_SECTIONS': API_SECTIONS, 'DOCS_SECTIONS': DOCS_SECTIONS}},
+            DirectTemplateView.as_view(template_name='data/' + '/'.join(doc_page.name.split('_', 1)) + '.html', extra_context={'API_SECTIONS': API_SECTIONS, 'DOCS_SECTIONS': DOCS_SECTIONS}),
             name=doc_page.name,
         ),
     )

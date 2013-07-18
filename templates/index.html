@@ -1,5 +1,6 @@
 {% extends "brisket_base.html" %}
 {% load influence_extras %}
+{% load staticfiles %}
 {% block body_class %}home{% endblock %}
 
 {% block js %}
@@ -9,7 +10,7 @@
           $('form#signupForm').submit(function() {
             var vals = {email: $('#id_email').val(), zip: $('#id_zip').val()};
             $(this).slideUp();
-            $('#bbjoin').html('<img src="/media/images/loading.gif" />');
+            $('#bbjoin').html('<img src="{% static "dryrub/images/loading.gif" %}" />');
             $('head').append('<script type="text/javascript" src="http://services.sunlightlabs.com/brandingbar/post_signup/?source=influenceexplorer&email=' + vals.email + '&zip=' + vals.zip + '">');
             return false;
           })
@@ -50,7 +51,7 @@
                 <span class="tip shift">bring influence data to your email, banking and news</span>
                 <ul class="shift normalList">
                     <li>
-                        <img alt="inbox influence icon" src="/media/images/img_inboxIEsm.jpg" />
+                        <img alt="inbox influence icon" src="{% static "dryrub/images/img_inboxIEsm.jpg" %}" />
                         <div class="toolDes">
                             <h4 class="withTip"><a href="https://inbox.influenceexplorer.com/">Inbox Influence</a></h4>
                             <p>See the political contributions of the people and organizations that are mentioned in emails you receive.</p>
@@ -58,7 +59,7 @@
                         <div class="clear"></div>
                     </li> 
                     <li>
-                        <img alt="checking influence icon" src="/media/images/img_checkingSm.jpg" />
+                        <img alt="checking influence icon" src="{% static "dryrub/images/img_checkingSm.jpg" %}" />
                         <div class="toolDes">
                             <h4 class="withTip"><a href="https://checking.influenceexplorer.com/">Checking Influence</a></h4>
                             <p>When you shop, do you wonder where your money really goes?</p>
@@ -66,7 +67,7 @@
                         <div class="clear"></div>
                     </li>  
                     <li>
-                        <img alt="poligraft icon" src="/media/images/img_poligraftSm.jpg" />
+                        <img alt="poligraft icon" src="{% static "dryrub/images/img_poligraftSm.jpg" %}" />
                         <div class="toolDes">
                             <h4 class="withTip"><a href="http://poligraft.com/">Poligraft</a></h4>
                             <p>See connections between money and politics in news articles you read everyday.</p>

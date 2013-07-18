@@ -1,5 +1,5 @@
 {% extends "data/filter.html" %}
-{% load media %}
+{% load staticfiles %}
 
 {% block bodyid %}earmarks{% endblock %}
 {% block dataset_name %}Earmarks{% endblock %}
@@ -18,8 +18,8 @@
 {% endblock %}
 
 {% block dataset_scripts %}
-    {% js "data/earmarks.js" %}
     {{ block.super }}
+    <script type="text/javascript" src="{% static "data/js/td.earmarks.js" %}"></script>
 	<script type="text/javascript">
 		$().ready(function() {
 			TD.EarmarksFilter.bindDataFilter('#datafilter');
