@@ -57,7 +57,7 @@ MIDDLEWARE_CLASSES = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'influence.context_processors.custom_context',
-    'data.context_processors.custom_context',
+    'dryrub.context_processors.custom_context',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
