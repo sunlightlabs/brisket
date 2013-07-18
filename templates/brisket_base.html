@@ -1,0 +1,14 @@
+{% extends "dryrub/base.html" %}
+
+{% load staticfiles %}
+
+{% block sitecss %}
+<link rel="stylesheet" href="{% static "influence/css/brisket.css" %}" />
+{% endblock %}
+
+{% block sitejs %}
+<script type="text/javascript" src="{% static "influence/js/d3.min.js" %}"></script>
+<script type="text/javascript" src="{% static "influence/js/d3.geom.min.js" %}"></script>
+<script type="text/javascript" src="{% static "influence/js/d3.layout.min.js" %}"></script>
+<script type="text/javascript" src="{% static "influence/js/brisket_d3.js" %}"></script>
+{% endblock %}

@@ -306,37 +306,6 @@ div#mainContent_bottom { background: url(../images/whitebox_bottom.png) center t
     margin-top: -25px; padding-top: 25px;
 }
 
-.search-sidebar {
-    background: #f1f2ed;
-    background: rgba(199,203,183,0.25);
-    padding: 30px 25px 20px 40px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px;
-}
-.search-main { padding: 0; width: 725px; float: right; overflow: hidden; }
-.search-main #contentHeader { padding: 0 25px 10px !important; }
-.search-results { padding-left: 25px; }
-.search-results h3 {
-    background: rgba(105,165,159,.17);
-    padding: 15px;
-    margin: 0px -25px -10px -15px;
-    z-index: 1000;
-    position: relative;
-}
-.search-results .search-preview { margin-bottom: 25px; margin-right: 25px; }
-.search-results .result-rows { border-top: 1px dotted #e6e6e4; }
-.search-results .result-row { padding: 15px; border-bottom: 1px dotted #e6e6e4; }
-.search-sidebar .search-filters { border-top: 1px dotted #ccc; margin-left: -40px; margin-right: -25px; }
-.search-sidebar .search-filter { border-bottom: 1px dotted #ccc; padding: 15px; padding-left: 40px; padding-right: 25px; }
-.search-sideber .search-select li { padding: 2px 0 2px 0; }
-.search-sidebar .search-select a.selected { font-weight: bold; color: #3b3130; }
-.search-sidebar select { width: 100%; font-size: 110%; margin-bottom: 12px; }
-.search-sidebar select:last-child { margin-bottom: 4px; }
-a.result-name { font-size: 145%; display: block; }
-.result-type { font-size: 110%; }
-.result-photo { float: right; width: 80px; height: 80px; text-align: right; }
-.result-photo img { max-width: 100%; max-height: 100%; border: 1px solid #eeeeee; padding: 2px; background: #ffffff; }
-.results-drilldown { display: block; margin-top: 5px; font-size: 110%; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
-.result-sections { margin-top: 5px; padding-top: 5px; padding-right: 80px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; border-top: 1px dotted #cccccc; }
-.result-bio { width: 565px; margin-top: 1em; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 .pagination { margin-top: 10px; font-size: 110%; text-align: center; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
 .pagination .prev { display: inline-block; width: 150px; text-align: left; }
 .pagination .next { display: inline-block; width: 150px; text-align: right; }
@@ -417,8 +386,6 @@ button.contBtn { background: url(../images/btn_continue.png) left top no-repeat;
 button.contBtn:hover { background: url(../images/btn_continue.png) left bottom no-repeat; }
 button.searchPostcardBtn { background: url(../images/btn_postcardSearch.png) left top no-repeat; width: 90px; height: 29px; margin-top: 2px; float: left;}
 button.searchPostcardBtn:hover { background: url(../images/btn_postcardSearch.png) left bottom no-repeat;  }
-#postcardBtn { background: url(../images/btn_sendPostcard.png) left top no-repeat; width: 259px; height: 46px; }
-#postcardBtn:hover { background: url(../images/btn_sendPostcard.png) left bottom no-repeat; }
 #checkingBtn { background: url(../images/btn_bookmarklet.jpg) left top no-repeat; width: 169px; height: 60px; float: right; margin-top: 20px;}
 #checkingBtn:hover { background: url(../images/btn_bookmarklet.jpg) left bottom no-repeat; }
 #learnMore { background: url(../images/btn_learnMore.png) left top no-repeat; width: 150px; height: 46px; margin-top: 20px; margin-bottom: 30px;}
@@ -583,29 +550,6 @@ dt.moneyTitle { margin-top: 8px;}
 .expandDocList tbody tr.even { background-color: #FdFdFd; }
 .expandDocList tbody tr.odd { background-color: #F5F5F5; }
 
-
-td.regDoc{
-    width: 515px;
-}
-
-.regDocDl {
-    min-width: 85px;
-}
-
-.regDocDate {
-    min-width: 115px;
-}
-
-.regDocDl a { text-indent: -9999em; display: block; float: left; width: 24px; height: 24px; }
-
-.regDocDl a.xml, .regDocDl a.html { background: url('../images/document_icons_html.png') top left no-repeat; }
-.regDocDl a.pdf { background: url('../images/document_icons_pdf.png') top left no-repeat; }
-.regDocDl a.msw, .regDocDl a.msw6, .regDocDl a.msw8 { background: url('../images/document_icons_doc.png') top left no-repeat; }
-.regDocDl a.msw12 { background: url('../images/document_icons_docx.png') top left no-repeat; }
-.regDocDl a.rtf { background: url('../images/document_icons_rtf.png') top left no-repeat; }
-.regDocDl a.txt { background: url('../images/document_icons_text.png') top left no-repeat; }
-.regDocDl a.wp8 { background: url('../images/document_icons_wpm.png') top left no-repeat; }
-
 #revolvingDoor {
     float:right; font-style: italic; margin-right: 0pt; text-transform: uppercase; font-weight: bold;
 }
@@ -642,45 +586,6 @@ tr.numerous a{
 
 table .even.numerous{
     background-color: #f9f9f9;
-}
-
-
-/*fec page*/
-
-.tab {
-    font-size: 125%;
-    background: #edede6;
-    display: inline-block;
-    padding: 8px;
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-right: 10px;
-    cursor: pointer;
-}
-.tab.active {
-    background: #e2e2dc;
-}
-.tab-area {
-    padding: 10px;
-    background: #e2e2dc url('../images/loading_large.gif') center center no-repeat;
-    min-height: 100px;
-    display: none;
-}
-.tab-area table { background: #ffffff; width: 100%; }
-
-.fecThing .name { font-weight: bold; }
-
-.tab-area table.fecThing tr th{
-    padding-top: 10px;
-    padding-left: 25px;
-}
-
-.tab-area table.fecThing tr th.sort{
-    background-position: 10px 15px;
-}
-
-.fec-display .external{
-    margin-bottom: 10px;
 }
 
 .withCaps { text-transform: none; }
@@ -833,189 +738,4 @@ input#id_search {
     font-family: "proxima-nova-extra-condensed-1","proxima-nova-extra-condensed-2","Helvetica Neue","Helvetica","Arial",sans-serif;
     font-style: normal;
     font-weight: normal !important;
-}
-
-/*
- * ADDITIONS THAT MAKE ENTITY LANDING PAGES WORK *
- */
-
-.twopanePie {
-  text-align: center;
-  font: 10px sans-serif;
-}
-
-.twopanePie svg {
-  font: 10px sans-serif;
-}
-
-.twopanePie circle {
-  font: 10px sans-serif;
-}
-
-.twopanePie .axis path {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.twopanePie .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.twopanePie .ylabel {
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    font-size: 11px;
-    line-height: normal;
-    font-family: arial, sans-serif;
-}
-
-.twopanePie .ytitle {
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: normal;
-    font-family: arial, sans-serif;
-
-}
-
-.twopanePie .allLabel {
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: normal;
-    font-family: arial, sans-serif;
-}
-
-/* threepaneBar */
-
-.threepaneBar {
-    font: 10px sans-serif;
-    display: block;
-    
-}
-
-.threepaneBar .leftPane {
-    float: left;
-}
-
-.threepaneBar .centerPane {
-    float: left;
-    background-color: #f5f4f4; /* should be the same as .threepaneBar .focused */
-}
-    
-.threepaneBar .rightPane {
-    float: left;
-}
-
-.rightPane .categoryTitle {
-    width: 100%;
-}
-
-.rightPane .categorySubtitle {
-    width: 100%;
-}
-
-.rightPane .categoryDescription {
-    width: 100%;
-}
-
-.rightPane h2 {
-    font-size: 250%;
-    line-height: 100%;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.rightPane h3 {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    line-height: 100%;
-}
-
-.rightPane a:active, a:visited {
-    color: #0a6e92;
-}
-
-.rightPane dl {
-    margin: 0;
-}
-
-.rightPane dt {
-    float: none;
-    margin-left: 5px;
-    margin-right: 0px;
-}
-
-.rightPane dd {
-    float: none;
-    margin-left: 10px;
-    margin-right: 0px;
-}
-
-
-.threepaneBar svg {
-  font: 10px sans-serif;
-}
-
-.threepaneBar .axis path {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.threepaneBar .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.threepaneBar .ylabel {
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    font-size: 11px;
-    line-height: normal;
-    font-family: arial, sans-serif;
-}
-
-.threepaneBar .ytitle {
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: normal;
-    font-family: arial, sans-serif;
-
-}
-
-.threepaneBar .allLabel {
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: normal;
-    font-family: arial, sans-serif;
-}
-
-.threepaneBar .selector {
-    padding-right: 20px;
-}
-
-.threepaneBar .focused {
-    font-weight: bold;
-    background-color: #f5f4f4;
-}
-
-.threepaneBar .darkened { 
-    background-color: #f5f4f4;
 }
