@@ -1,6 +1,7 @@
 {% extends "entities/entity_base.html" %}
 {% load humanize %}
 {% load influence_extras %}
+{% load staticfiles %}
 
 {% block pagetitle %}{% spaceless %}
     {{ entity_info.name_with_meta }}
@@ -38,7 +39,7 @@
 
 {% block extrajs %}
 {% if not suppress_contrib_graphs %}
-<script type="text/javascript" src="/media/js/jquery.shorteners.js"></script>
+<script type="text/javascript" src="{% static "dryrub/js/jquery.shorteners.js" %}"></script>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
     {% if not sections.contributions.suppress_contrib_graphs %}
