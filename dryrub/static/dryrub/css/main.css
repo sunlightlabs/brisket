@@ -140,11 +140,12 @@ h6, .h6 { font-size: 110%; font-weight: bold;}
 #tools img { float: left; margin-right: 20px;}
 .toolDes { float: left; width: 280px;}
 
-#share-buttons { float: right; height: 16px; margin-bottom: 10px; margin-right: 15px; }
-#share-buttons-reaction0-facebook_img { background: url(../images/socialSprites.png) left -48px no-repeat !important; }
-#share-buttons-reaction0-facebook_img:hover { background: url(../images/socialSprites.png) left -32px no-repeat !important; }
-#share-buttons-reaction1-twitter_img { background: url(../images/socialSprites.png) left -16px no-repeat !important; }
-#share-buttons-reaction1-twitter_img:hover { background: url(../images/socialSprites.png) left top no-repeat !important; }
+#share-buttons { float: right; height: 16px; margin-bottom: 10px; margin-right: 18px; }
+#share-buttons div.socialite { display: inline-block; margin: 4px; margin-bottom: 0px; }
+#share-buttons a.facebook-share { background: url(../images/socialSprites.png) left -48px no-repeat !important; height: 16px; width: 16px; display: inline-block; }
+#share-buttons a.facebook-share:hover { background: url(../images/socialSprites.png) left -32px no-repeat !important; }
+#share-buttons a.twitter-simple { background: url(../images/socialSprites.png) left -16px no-repeat !important; height: 16px; width: 16px; display: inline-block; }
+#share-buttons a.twitter-simple:hover { background: url(../images/socialSprites.png) left top no-repeat !important; }
 #share-buttons .gig-share-button { padding: 4px 0px 0px 5px !important; }
 #share-buttons .gig-bar-container table { margin-top: 0 !important; }
 
