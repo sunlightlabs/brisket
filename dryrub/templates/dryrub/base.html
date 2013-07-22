@@ -60,7 +60,11 @@
                     {% block search %}
                         <div id="search">
                             <form id="searchForm" action="{{ IE_BASE_URL }}search" method="get">
-                                {{ search_form.query }}
+                                {% if search_form %}
+                                    {{ search_form.query }}
+                                {% else %}
+                                    <input data-initial="SEARCH" name="query" value="SEARCH" maxlength="200" type="text" id="id_query">
+                                {% endif %}
                                 <input type="hidden" name="from_form" value="1" />
                                 <button class="searchBtn_sm" type="submit">
                                 <span>Go</span>
