@@ -1,4 +1,3 @@
-from influence.forms import SearchForm
 from django.conf import settings
 
 def custom_context(request):
