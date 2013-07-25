@@ -21,5 +21,6 @@ def custom_context(request):
         out['DATA_BASE_URL'] = getattr(settings, "DATA_BASE_URL", "http://data.influenceexplorer.com/")
     
     out['DATA_API_BASE_URL'] = getattr(settings, "DATA_API_BASE_URL", "http://transparencydata.com/data/")
+    out['OG_DOMAIN'] = getattr(settings, "OG_DOMAIN", request.META['HTTP_HOST'] + (":%s" % request.META['SERVER_PORT'] if request.META['HTTP_HOST'] == 'localhost' else ""))
     
     return out
