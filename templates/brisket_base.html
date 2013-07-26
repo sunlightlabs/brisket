@@ -10,3 +10,7 @@
 <script type="text/javascript" src="{% static "influence/js/d3.min.js" %}"></script>
 <script type="text/javascript" src="{% static "influence/js/brisket_d3.js" %}"></script>
 {% endblock %}
+
+{% block sitejs_uncompressed %}
+<script type="text/javascript">BrisketFallback.PATH = "{{ CHART_FALLBACK_URL }}";</script>
+{% endblock %}

@@ -208,7 +208,7 @@
         {% block sitejs %}{% endblock %}
         {% endcompress %}
 
-        <script type="text/javascript">BrisketFallback.PATH = "{{ CHART_FALLBACK_URL }}";</script>
+        {% block sitejs_uncompressed %}{% endblock %}
 	
     	{% block gsfn %}
         <script type="text/javascript" charset="utf-8">
