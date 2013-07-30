@@ -755,7 +755,7 @@ D3Charts = {
                 .transition()
                 .duration(500)
                 .style("fill-opacity",1)
-                .delay(400);
+                .delay(200);
 
             barTransition.selectAll(".bar")
                 .attr("transform", function(d) {
