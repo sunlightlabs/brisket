@@ -18,3 +18,4 @@ gunicorn
 python-googleanalytics
 feedparser
 django-localflavor-us
+-e git+https://github.com/sunlightlabs/dryrub.git#egg=dryrub
