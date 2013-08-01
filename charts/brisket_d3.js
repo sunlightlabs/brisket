@@ -557,7 +557,7 @@ D3Charts = {
     },
     THREEPANE_BAR_DEFAULTS: {
         chart_height: 260,
-        chart_width: 800,
+        chart_width: 775,
         row_height: 16,
         bar_height:10,
         bar_gutter: 5,
@@ -665,15 +665,15 @@ D3Charts = {
             .attr("x1", -.5)
             .attr("x2", -.5)
             .attr("y1", 0)
-            .attr("y2", barChartHeight)
+            .attr("y2", barChartHeight - 0.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
         barChart.append("line")
             .attr("x1", -.5)
             .attr("x2", barChartWidth)
-            .attr("y1", barChartHeight)
-            .attr("y2", barChartHeight)
+            .attr("y1", barChartHeight - 0.5)
+            .attr("y2", barChartHeight - 0.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
@@ -956,15 +956,15 @@ D3Charts = {
             .attr("x1", -.5)
             .attr("x2", -.5)
             .attr("y1", 0)
-            .attr("y2", barChartHeight)
+            .attr("y2", barChartHeight - 0.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
         barChart.append("line")
             .attr("x1", -.5)
             .attr("x2", barChartWidth)
-            .attr("y1", barChartHeight)
-            .attr("y2", barChartHeight)
+            .attr("y1", barChartHeight - 0.5)
+            .attr("y2", barChartHeight - 0.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
@@ -1232,17 +1232,13 @@ D3Charts = {
               .remove(); 
             
             var format = d3.format(',.0f');
+            barChart.selectAll("g.chart-number-group").remove();
             var numbers = barChart.selectAll("g.chart-number-group")
               .data(childData,function(d){ return d.all_key;});    
             
             numbers.exit()
               .remove();
 
-            numbers.attr("transform", function(d){
-                    return "translate(0,"+yScale(d.all_key)+ yScale.rangeBand() / 2+")";
-                });
-                
-            
             numbers.enter().append("g")
                 .classed('chart-number-group', true)
                 .append("text")
