@@ -707,7 +707,7 @@ D3Charts = {
         }
 
         var drawCenter = function(parentCategory) {
-          console.log(parentCategory);
+          //console.log(parentCategory);
           if (parentCategory.hasOwnProperty('name')) {
             var parentIdentifier = parentCategory.identifier;
             var parentTotal = parentCategory.amount;
@@ -744,19 +744,19 @@ D3Charts = {
                         .attr('fill', parent.node().tagName.toLowerCase() == 'a' ? opts.link_color : opts.text_color)
                         .text(function(d, i) { return d.name; })
                         .style('font', '11px arial,sans-serif');
-                })
-                .style("fill-opacity",1e-6)
+                });
+                /*.style("fill-opacity",1e-6)
                 .transition()
                 .duration(500)
                 .style("fill-opacity",1)
-                .delay(200);
+                .delay(200);*/
 
             labels.exit()
-                .transition()
+                /*.transition()
                 .duration(500)
                 .style("fill-opacity", 1e-6)
-                .remove()
-                .delay(200);
+                .delay(200)*/
+                .remove();
 
             bars = barChart.selectAll(".bar")
               .data(childData,function(d){ return d.all_key;});
@@ -788,18 +788,18 @@ D3Charts = {
 
                     return array.join(" ");
                 })
-                .style("fill",opts.colors[0])
-                .style("fill-opacity",1e-6)
+                .style("fill",opts.colors[0]);
+                /*.style("fill-opacity",1e-6);
                 .transition()
                 .duration(500)
                 .style("fill-opacity",1)
-                .delay(200);
+                .delay(200);*/
       
             bars.exit()
-              .transition()
+              /*.transition()
               .duration(500)
               .style("fill-opacity", 1e-6)
-              .delay(200)
+              .delay(200)*/
               .remove();
         
             var format = d3.format(',.0f');
