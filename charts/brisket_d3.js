@@ -1,3 +1,42 @@
+(function($) {
+    $.fn.ellipsis = function()
+    {
+        return this.each(function()
+        {
+            var el = $(this);
+
+            if(el.css("overflow") == "hidden")
+            {
+                var text = el.html();
+                var multiline = el.hasClass('multiline');
+                var t = $(this.cloneNode(true))
+                        .hide()
+                        .css('position', 'absolute')
+                        .css('overflow', 'visible')
+                        .width(multiline ? el.width() : 'auto')
+                        .height(multiline ? 'auto' : el.height())
+                        ;
+
+                el.after(t);
+
+                function height() { return t.height() > el.height(); };
+                function width() { return t.width() > el.width(); };
+
+                var func = multiline ? height : width;
+
+                while (text.length > 0 && func())
+                {
+                        text = text.substr(0, text.length - 1);
+                        t.html(text + "...");
+                }
+
+                el.html(t.html());
+                t.remove();
+            }
+        });
+    };
+})(jQuery);
+
 D3Charts = {
     BARCHART_DEFAULTS: {
         chart_height: 195,
@@ -516,9 +555,10 @@ D3Charts = {
     },
     THREEPANE_BAR_DEFAULTS: {
         chart_height: 260,
-        chart_width: 750,
-        row_height: 18,
-        bar_height:14,
+        chart_width: 800,
+        row_height: 16,
+        bar_height:10,
+        bar_gutter: 5,
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
         amount_color: "#000000",
@@ -530,14 +570,16 @@ D3Charts = {
         _.defaults(opts, D3Charts.THREEPANE_BAR_DEFAULTS);
 
         var leftFullWidth = opts.chart_width / 5,
-            leftFullHeight = opts.chart_height;
+            leftFullHeight = opts.chart_height,
+            centerFullHeight = opts.chart_height * 0.65,
+            rightFullHeight = opts.chart_height * 0.35;
 
-        var barMargin = {top: 80, right: 50, bottom: 5, left: 200},
-            centerFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 4,
+        var barMargin = {top: 5, right: 100, bottom: 10, left: 200},
+            centerFullWidth = opts.chart_width - leftFullWidth,
             barWidth = centerFullWidth - barMargin.left - barMargin.right,
-            centerHeight = leftFullHeight - barMargin.top - barMargin.bottom;
+            barHeight = centerFullHeight - barMargin.top - barMargin.bottom;
 
-        var rightFullWidth = ((opts.chart_width - leftFullWidth) / 6) * 2;
+        var rightFullWidth = opts.chart_width - leftFullWidth;
 
         var formatMoney = function (e) {
             var currencyString;
@@ -568,16 +610,16 @@ D3Charts = {
           .style("width", leftFullWidth + "px")
           .style("height", leftFullHeight + "px");
 
-        var centerPane = mainDiv.select(".centerPane")
+        var centerPane = mainDiv.select(".rightTopPane")
           .style("width", centerFullWidth + "px")
-          .style("height", leftFullHeight + "px")
-          .append("svg:svg")
-          .attr("width", centerFullWidth)
-          .attr("height", leftFullHeight);
+          .style("height", centerFullHeight + "px")
+          .select("svg")
+          .attr("width", centerFullWidth + "px")
+          .attr("height", centerFullHeight + "px");
 
-        var rightPane = mainDiv.select(".rightPane")
-          .style("width", rightFullWidth + "px")
-          .style("height", leftFullHeight + "px");
+        var rightPane = mainDiv.select(".rightBottomPane")
+          .style("width", centerFullWidth + "px")
+          .style("height", rightFullHeight + "px");
 
         var categoryTitle = rightPane.select(".categoryTitle");
 
@@ -618,15 +660,15 @@ D3Charts = {
             .attr("x1", -.5)
             .attr("x2", -.5)
             .attr("y1", 0)
-            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 6.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
         barChart.append("line")
             .attr("x1", -.5)
             .attr("x2", barWidth + barMargin.right - 5)
-            .attr("y1", mostChildren * opts.row_height - barMargin.bottom + 1.5)
-            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 1.5)
+            .attr("y1", mostChildren * opts.row_height - barMargin.bottom + 6.5)
+            .attr("y2", mostChildren * opts.row_height - barMargin.bottom + 6.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
 
@@ -685,8 +727,6 @@ D3Charts = {
 
           yScale.domain(childData.map(function(d) {return d.all_key;}));
 
-          var barTransition = centerPane.transition().duration(500);
-
             labels = centerPane.selectAll("g.chart-label")
                   .data(childData,function(d){ return d.all_key;});
 
@@ -709,16 +749,14 @@ D3Charts = {
                 .transition()
                 .duration(500)
                 .style("fill-opacity",1)
-                .delay(400);
-
-            barTransition.selectAll("g.chart-label")
-                .attr("transform", function(d, i) { return "translate(5," + ((yScale(d.all_key) + yScale.rangeBand() / 2) + barMargin.top) + ")"; })
+                .delay(200);
 
             labels.exit()
                 .transition()
                 .duration(500)
                 .style("fill-opacity", 1e-6)
                 .remove()
+                .delay(200);
 
             bars = barChart.selectAll(".bar")
               .data(childData,function(d){ return d.all_key;});
@@ -734,8 +772,8 @@ D3Charts = {
                 .attr("d", function(d) {
                         var x = 0;
                         var y = 0;
-                        var h = yScale.rangeBand(d);
-                        var h = 14;
+                        //var h = yScale.rangeBand(d);
+                        var h = opts.bar_height;
 
                         var r = 4;
 
@@ -756,16 +794,28 @@ D3Charts = {
                 .duration(500)
                 .style("fill-opacity",1)
                 .delay(200);
-
-            barTransition.selectAll(".bar")
-                .attr("transform", function(d) {
-                    return "translate("+barLeftMargin+","+yScale(d.all_key)+")"
-                });
-
+      
             bars.exit()
               .transition()
               .duration(500)
               .style("fill-opacity", 1e-6)
+              .delay(200)
+              .remove();
+        
+            var format = d3.format(',.0f');
+            var numbers = barChart.selectAll("text.chart-number")
+              .data(childData,function(d){ return d.all_key;});    
+            
+            numbers.enter().append("text")
+                .classed('chart-number', true)
+                .attr("x", function(d, i) { return xScale(d.amount) + opts.bar_gutter; })
+                .attr("y", function(d, i) { return yScale(d.all_key) + yScale.rangeBand() / 2; })
+                .attr("dy", ".15em") // vertical-align: middle
+                .attr('fill', opts.text_color)
+                .text(function(d, i) { return '$' + format(d.amount); })
+                .style('font', '11px arial,sans-serif');
+
+            numbers.exit()
               .remove();
 
           };
@@ -783,6 +833,7 @@ D3Charts = {
           categoryTitle.html(display_metadata.title);
           categorySubtitle.html(display_metadata.subtitle);
           categoryDescription.html(display_metadata.description);
+          $('.ellipsis').ellipsis();
         };
 
         function initCenter() {
@@ -808,7 +859,7 @@ D3Charts = {
         if (typeof opts == 'undefined') opts = {};
         _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
 
-        var pieMargin = {top: 25, right: 5, bottom: 20, left: 100},
+        var pieMargin = {top: 25, right: 15, bottom: 20, left: 90},
             //(opts.chart_height - (opts.donut_outer_r*2)) / 2,
             rad = opts.donut_outer_r,
             innerRad = opts.donut_outer_r / 3,
@@ -820,26 +871,29 @@ D3Charts = {
             rightFullWidth = opts.chart_width - leftFullWidth;
             barWidth = rightFullWidth - barMargin.left - barMargin.right,
             rightHeight = leftFullHeight - barMargin.top - barMargin.bottom;
+            
+        var decFormat = d3.format(',.2f');
 
         var formatMoney = function (e) {
             var currencyString;
             if (e < 1000) {
-                currencyString = e;
+                currencyString = decFormat(e);
             } else if (e > 999           && e < 1000000) {
-                currencyString = e/1000+"K";
+                currencyString = decFormat(e/1000)+"K";
             } else if (e > 999999        && e < 1000000000){
-                currencyString = e/1000000+"M"
+                currencyString = decFormat(e/1000000)+"M"
             } else if (e > 999999999     && e < 1000000000000){
-                currencyString = e/1000000000+"B"
+                currencyString = decFormat(e/1000000000)+"B"
             } else {
                 // cry(forever);
-                currencyString = e/1000000000000 + "T"
+                currencyString = decFormat(e/1000000000000) + "T"
             }
             return "$" + currencyString;
         };
 
         var formatTickLabel = function(d) { return "";};
                                                     //d.split("_")[0];};
+        var titleFormatMoney = d3.format(',.0f');
 
         //Set up panes
         mainDiv = d3.select("#"+div)
@@ -870,8 +924,10 @@ D3Charts = {
         var categories = data;
 
         var allData = [];
+        var overallSum = 0;
         var mostChildren = 0;
         categories.forEach(function(d){
+          overallSum += d.amount;
           mostChildren = d3.max([d.children.length, mostChildren]);
           d.children.forEach(function(f){
             f.categoryName = d.name;
@@ -938,6 +994,12 @@ D3Charts = {
           pieChart.transition().duration(500).attr("transform",svgtransbase);
         }
 
+        function resetAllSlices() {
+          pieChart.selectAll("g path")
+                .classed("focusedSlice",false)
+                .attr("transform","scale(1)");
+        }
+
         function allTopTen(){
           drawRight(top10);
         }
@@ -957,8 +1019,10 @@ D3Charts = {
             .attr("d", arc)
             .style("fill", function(d) { return opts.colors[d.data.name]; })
             .on("click",(function(d,i) {
+                    resetAllSlices();
                     pieChart.selectAll('g[data-slice="'+i+'"] path')
-                      .attr('transform', 'scale(1)');
+                      .classed('focusedSlice',true)
+                      .attr('transform', 'scale(1.2)');
                     newtrans = svgtransbase + "rotate(" + (-1 * angle(d)) + ")";
                     pieChart.transition().duration(500).attr("transform",newtrans);
                     drawRight(d);
@@ -969,10 +1033,16 @@ D3Charts = {
                   })
             .on("mouseout",function(d,i){
                 pieChart.selectAll('g[data-slice="'+i+'"] path')
-                  .attr('transform', 'scale(1)');
-                  })
+                  .each(function(d) { 
+                        var slice = d3.select(this);
+                        if (slice.classed('focusedSlice')){
+                                slice.attr('transform','scale(1.2)');
+                        } else {
+                                slice.attr('transform','scale(1)');
+                        }})
+                })
           .append("svg:title")
-          .text(function(d) { return d.data.name + ": " + d.data.amount; });
+          .text(function(d) { return d.data.name + ": " + formatMoney(d.data.amount); });
 
         center.append("svg:circle")
             .attr("cx",0)
@@ -981,6 +1051,7 @@ D3Charts = {
             .attr("fill","#dcddde")
             .on("click",function(d){
                 resetRotation();
+                resetAllSlices();
                 allTopTen();});
 
         center.append("svg:text")
@@ -1077,6 +1148,7 @@ D3Charts = {
                 .duration(1000)
                 .style("fill-opacity", 1e-6)
                 .remove()
+        
 
           yaxis.append("text")
               .classed("ytitle",true)
@@ -1084,7 +1156,7 @@ D3Charts = {
               .attr("dy", ".85em")
               .style("text-anchor", "left")
               .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
-              .text(function (d) { if (parentName) {return parentName +": $"+ parentTotal} else {return "Top 10 Overall";}});
+              .text(function (d) { if (parentName) {return parentName +": $"+ titleFormatMoney(parentTotal)} else {return "Top 10 Overall: $"+titleFormatMoney(overallSum);}});
 
             /*
             bars.enter().append("rect")
@@ -1236,12 +1308,12 @@ BrisketModern = {
         function display_bills_metadata(node) {
             var md_html = {'title':'', 'subtitle': '', 'description': ''};
 
-            summary = node.metadata.display_summary.substring(0,350) + '...'
+            summary = node.metadata.display_summary
 
             md_html['title'] = '<a href="'+node.metadata.url+'">';
-            md_html['title'] += '<h3>' + node.metadata.display_title + '</h3></a>';
+            md_html['title'] += '<h3 class="ellipsis">' + node.metadata.display_title + '</h3></a>';
             //md_html['subtitle'] = '<h3>' + node.metadata.display_subtitle +'</h3>';
-            md_html['description']  = '<dl>';
+            md_html['description']  = '<dl class="ellipsis multiline">';
             if (node.metadata.display_nicknames) {
                 md_html['description'] += '<dt>Nicknames</dt>';
                 md_html['description'] += '<dd>' + node.metadata.display_nicknames + '</dd>';
