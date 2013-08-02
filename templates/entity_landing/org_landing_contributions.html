@@ -3,7 +3,7 @@
 
 <div class="overviewBar withNav withTip">
     <h3>Campaign Finance</h3>
-    <span class="amount">FIXME: amount</span>
+    <span class="amount">${{ section.total_contribution_amount|floatformat:0|intcomma }} GIVEN</span>
     <div  class="interiorMethodology">
         <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
         <div class="clear"></div>      
@@ -29,7 +29,7 @@
       //$('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
     });
     </script>
-    <span class="tip external">covers through [FIXME: date]</span>
+    <span class="tip external">covers roughly through q4 2012</span>
     <div class="threeColumn mainTable">
        <div class="electionHeader">
           <h4 class="withTip">Contributions from Organizations by Recipient Party</h4>
