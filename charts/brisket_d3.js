@@ -576,7 +576,7 @@ D3Charts = {
             centerFullHeight = opts.chart_height * 0.65,
             rightFullHeight = opts.chart_height * 0.35;
 
-        var barMargin = {top: 5, right: 100, bottom: 10, left: 200},
+        var barMargin = {top: 5, right: 100, bottom: 20, left: 200},
             centerFullWidth = opts.chart_width - leftFullWidth,
             barChartWidth = centerFullWidth - barMargin.left - barMargin.right,
             barChartHeight = centerFullHeight - barMargin.top - barMargin.bottom;
@@ -599,6 +599,8 @@ D3Charts = {
             }
             return "$" + currencyString;
         };
+            
+        var formatNumbers = d3.format(',.0f');
 
         var formatTickLabel = function(d) { return "";};
 
@@ -614,10 +616,16 @@ D3Charts = {
 
         var centerPane = mainDiv.select(".rightTopPane")
           .style("width", centerFullWidth + "px")
-          .style("height", centerFullHeight + "px")
-          .select("svg")
+          .style("height", centerFullHeight + "px");
+
+        var barChartTitle = centerPane.select('.chartTitle');
+
+        var centerCanvas = centerPane.select("svg")
           .attr("width", centerFullWidth + "px")
           .attr("height", centerFullHeight + "px");
+
+        var barChart = centerCanvas.append("svg:g")
+            .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
 
         var rightPane = mainDiv.select(".rightBottomPane")
           .style("width", centerFullWidth + "px")
@@ -629,7 +637,7 @@ D3Charts = {
 
         var categoryDescription = rightPane.select(".categoryDescription");
 
-        var categories = data.slice(0,10);
+        var categories = data.sort(function(a,b){ return b.amount - a.amount; }).slice(0,10);
         testvar = categories;
         console.log(categories);
 
@@ -646,7 +654,8 @@ D3Charts = {
             allData.push(newf);
             })
         });
-        var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
+        
+       // allData = allData.sort(function(a,b){ return b.amount - a.amount })
 
         var yScale = d3.scale.ordinal()
         .domain(d3.range(mostChildren))
@@ -657,9 +666,6 @@ D3Charts = {
         .range([0, barChartWidth]);
         
         xScale.domain([0, d3.max(allData, function(d) {return d.amount;})]);
-
-        var barChart = centerPane.append("svg:g")
-              .attr("transform","translate(" + barMargin.left + "," + barMargin.top + ")");
 
         barChart.append("line")
             .attr("x1", -.5)
@@ -676,10 +682,6 @@ D3Charts = {
             .attr("y2", barChartHeight - 0.5)
             .style("stroke", opts.axis_color)
             .style("stroke-width", "1");
-
-        function allTopTen(){
-          drawRight(top10);
-        }
 
         function category_selector_label(d) {
             return d.name;
@@ -732,7 +734,7 @@ D3Charts = {
 
           yScale.domain(childData.map(function(d) {return d.all_key;}));
 
-            labels = centerPane.selectAll("g.chart-label")
+            labels = centerCanvas.selectAll("g.chart-label")
                   .data(childData,function(d){ return d.all_key;});
 
             labels.enter().append("g")
@@ -807,7 +809,6 @@ D3Charts = {
               .delay(200)*/
               .remove();
         
-            var format = d3.format(',.0f');
             var numbers = barChart.selectAll("text.chart-number")
               .data(childData,function(d){ return d.all_key;});    
             
@@ -817,7 +818,7 @@ D3Charts = {
                 .attr("y", function(d, i) { return yScale(d.all_key) + yScale.rangeBand() / 2; })
                 .attr("dy", ".15em") // vertical-align: middle
                 .attr('fill', opts.text_color)
-                .text(function(d, i) { return '$' + format(d.amount); })
+                .text(function(d, i) { return '$' + formatNumbers(d.amount); })
                 .style('font', '11px arial,sans-serif');
 
             numbers.exit()
@@ -835,6 +836,7 @@ D3Charts = {
           }
 
           var display_metadata = opts.metadata_display_fct(parentCategory);
+          barChartTitle.html('<h3>Total Spent: $'+formatNumbers(parentTotal));
           categoryTitle.html(display_metadata.title);
           categorySubtitle.html(display_metadata.subtitle);
           categoryDescription.html(display_metadata.description);
