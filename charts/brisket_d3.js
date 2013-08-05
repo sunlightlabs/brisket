@@ -1084,12 +1084,12 @@ D3Charts = {
                     resetAllSlices();
                     legend.selectAll('g[data-slice="'+i+'"] circle')
                       .classed('focusedSlice',true)
-                      .attr('transform', 'scale(1.2)');
+                      .attr('transform', 'scale(1.15)');
                     legend.selectAll('g[data-slice="'+i+'"] tspan')
                       .style('font-weight', 'bold');
                     pieChart.selectAll('g[data-slice="'+i+'"] path')
                       .classed('focusedSlice',true)
-                      .attr('transform', 'scale(1.2)');
+                      .attr('transform', 'scale(1.15)');
                     newtrans = svgtransbase + "rotate(" + (-1 * angle(d)) + ")";
                     pieChart.transition().duration(500).attr("transform",newtrans);
                     drawRight(d);
@@ -1112,11 +1112,11 @@ D3Charts = {
                   .each(function(d) { 
                         var slice = d3.select(this);
                         if (slice.classed('focusedSlice')){
-                                slice.attr('transform','scale(1.2)');
+                                slice.attr('transform','scale(1.15)');
                                 legend.selectAll('g[data-slice="'+i+'"] circle')
                                     .each(function(d) { 
                                         var c =d3.select(this);
-                                        c.attr('transform','scale(1.2)');
+                                        c.attr('transform','scale(1.15)');
                                     });
                                 legend.selectAll('g[data-slice="'+i+'"] tspan')
                                     .each(function(d) {
