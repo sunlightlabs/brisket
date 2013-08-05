@@ -565,7 +565,7 @@ D3Charts = {
         text_color: "#666666",
         amount_color: "#000000",
         link_color: "#0a6e92",
-        axis_color: "#827d7d",
+        axis_color: "#827d7d"
     },
     threepane_bar: function(div, data, opts) {
         if (typeof opts == 'undefined') opts = {};
@@ -654,6 +654,7 @@ D3Charts = {
             allData.push(newf);
             })
         });
+        
         
        // allData = allData.sort(function(a,b){ return b.amount - a.amount })
 
@@ -851,7 +852,7 @@ D3Charts = {
     },
     TWOPANE_PIE_DEFAULTS: {
         chart_height: 200,
-        chart_width: 750,
+        chart_width: 785,
         row_height: 16,
         bar_height:10,
         bar_gutter: 5,
@@ -861,7 +862,11 @@ D3Charts = {
         amount_color: "#000000",
         link_color: "#0a6e92",
         axis_color: "#827d7d",
+        legend_margin: 10,
+        legend_r: 5,
+        legend_padding: 7
     },
+    
     twopane_pie: function(div, data, opts) {
 
         if (typeof opts == 'undefined') opts = {};
@@ -946,6 +951,50 @@ D3Charts = {
           })
         });
         var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
+        
+        // legend
+        var legend_x = opts.legend_margin 
+        var legend_y = (pieMargin.top + opts.donut_outer_r) - (categories.length * opts.row_height);
+        var legend = leftPane.append("g")
+            .attr("transform", "translate(" + legend_x + "," + legend_y + ")");
+
+        var sum = d3.sum(categories,function(d){ return d.amount; });
+        var legendEntries
+        var legendItems = legend.selectAll("g.legend-item")
+            .data(data)
+            .enter()
+                .append("g")
+                .classed("legend-item", true)
+                .attr("data-slice", function(d, i) { return i; })
+                .attr("transform", function(d, i) { return "translate(0," + ((i + 0.5) * opts.row_height * 2) + ")"; })
+
+            legendItems.append("circle")
+                .attr("fill", function(d, i) { return opts.colors[d.name]; })
+                .attr("cx", 0)
+                .attr("cy", 0)
+                .attr("r", opts.legend_r);
+
+            texts = legendItems.append("text")
+                .attr('fill', opts.text_color);
+
+            texts.append("tspan")
+                .text(function(d, i) { return d.name? d.name : ""; })
+                .style('font', '11px arial,sans-serif') 
+                .attr("y", ".25em") // vertical-align: middle
+                .attr("x", opts.legend_padding);
+
+            texts.append("tspan")
+                .text(function(d, i) { return "(" + formatMoney(d.amount) + ")"; })
+                .style('font', '11px arial,sans-serif') 
+                .attr("y", "1.45em") // vertical-align: middle
+                .attr("x", opts.legend_padding);
+          
+        leftPane.append("text")
+              .classed("ytitle",true)
+              .attr("transform", "translate(,0)")
+              .attr("dy", ".85em")
+              .style("text-anchor", "left")
+              .text("Breakdown of all Contributions");
         
         var yScale = d3.scale.ordinal()
         .domain(d3.range(mostChildren))
@@ -1160,7 +1209,7 @@ D3Charts = {
 
           yaxis.append("text")
               .classed("ytitle",true)
-              .attr("transform", "translate(-"+barMargin.left+",-"+ barMargin.top +")")
+              .attr("transform", "translate(-"+(barMargin.left - 10)+",-"+ barMargin.top +")")
               .attr("dy", ".85em")
               .style("text-anchor", "left")
               .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
@@ -1323,19 +1372,19 @@ BrisketModern = {
         D3Charts.twopane_pie(div, data, opts);
     },
     party_piechart: function(div, data) {
-        var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "#dcddde"};
+        var party_colors = {"Republicans": "#981e37", "Democrats": "#0e487b", "Other" : "#b2b2b2"};
         Brisket.piechart(div, data, party_colors);
     },
     indiv_pac_piechart: function(div, data) {
-        var indiv_pac_colors = {"Individuals": '#efcc01', "PACs": '#f2e388', "Unknown": '#dcddde'};
+        var indiv_pac_colors = {"Individuals": '#e3ba22', "PACs": '#e6842a', "Unknown": '#b2b2b2'};
         Brisket.piechart(div, data, indiv_pac_colors);
     },
     local_piechart: function(div, data) {
-        var local_colors = {"In-State": '#efcc01', "Out-of-State": '#f2e388', "Unknown": '#dcddde'};
+        var local_colors = {"In-State": '#e3ba22', "Out-of-State": '#f9e671', "Unknown": '#b2b2b2'};
         Brisket.piechart(div, data, local_colors);
     },
     level_piechart: function(div, data) {
-        var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
+        var level_colors = {"Federal": '#5a7f26', "State": '#a0b73b'};
         Brisket.piechart(div, data, level_colors);
     },
     fec_piechart: function(div, data) {
@@ -1401,15 +1450,15 @@ BrisketModern = {
         Brisket.threepane_bar(div, data, display_issues_metadata);
     },
     party_twopane_pie : function(div,data) {
-        var party_colors = {"Republicans": "#e60002", "Democrats": "#186582", "Other" : "gray"};
+        var party_colors = {"Republicans": "#981e37", "Democrats": "#0e487b", "Other" : "#b2b2b2"};
         Brisket.twopane_pie(div, data, party_colors);
     },
     pol_group_twopane_pie : function(div,data) {
-        var pol_group_colors = {"Direct": "#f27e01", "Associated Individuals": "#efcc01"};
+        var pol_group_colors = {"Direct": "#e6842a", "Associated Individuals": "#e3ba22"};
         Brisket.twopane_pie(div, data, pol_group_colors);
     },
     state_fed_twopane_pie : function(div,data) {
-        var level_colors = {"Federal": '#efcc01', "State": '#f2e388'};
+        var level_colors = {"Federal": '#5A7F26', "State": '#A0B73B'};
         Brisket.twopane_pie(div, data, level_colors);
     },
 }
