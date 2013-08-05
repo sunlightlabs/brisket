@@ -1055,6 +1055,11 @@ D3Charts = {
           pieChart.selectAll("g path")
                 .classed("focusedSlice",false)
                 .attr("transform","scale(1)");
+          legend.selectAll("g circle")
+                .classed("focusedSlice",false)
+                .attr("transform","scale(1)");
+          legend.selectAll("tspan")
+                .style("font-weight","normal");
         }
 
         function allTopTen(){
@@ -1077,6 +1082,11 @@ D3Charts = {
             .style("fill", function(d) { return opts.colors[d.data.name]; })
             .on("click",(function(d,i) {
                     resetAllSlices();
+                    legend.selectAll('g[data-slice="'+i+'"] circle')
+                      .classed('focusedSlice',true)
+                      .attr('transform', 'scale(1.2)');
+                    legend.selectAll('g[data-slice="'+i+'"] tspan')
+                      .style('font-weight', 'bold');
                     pieChart.selectAll('g[data-slice="'+i+'"] path')
                       .classed('focusedSlice',true)
                       .attr('transform', 'scale(1.2)');
@@ -1085,18 +1095,62 @@ D3Charts = {
                     drawRight(d);
                     }))
             .on("mouseover",function(d,i){
-                pieChart.selectAll('g[data-slice="'+i+'"] path')
-                  .attr('transform', 'scale(1.05)');
-                  })
+                var slice = d3.select(this);
+                if (slice.classed('focusedSlice')){
+                    // do nothing
+                } else {
+                    pieChart.selectAll('g[data-slice="'+i+'"] path')
+                    .attr('transform', 'scale(1.05)');
+                    legend.selectAll('g[data-slice="'+i+'"] circle')
+                    .attr('transform', 'scale(1.05)');
+                    legend.selectAll('g[data-slice="'+i+'"] tspan')
+                    .style('font-weight', 'bold');
+                  }
+                })
             .on("mouseout",function(d,i){
                 pieChart.selectAll('g[data-slice="'+i+'"] path')
                   .each(function(d) { 
                         var slice = d3.select(this);
                         if (slice.classed('focusedSlice')){
                                 slice.attr('transform','scale(1.2)');
+                                legend.selectAll('g[data-slice="'+i+'"] circle')
+                                    .each(function(d) { 
+                                        var c =d3.select(this);
+                                        c.attr('transform','scale(1.2)');
+                                    });
+                                legend.selectAll('g[data-slice="'+i+'"] tspan')
+                                    .each(function(d) {
+                                        var t = d3.select(this);
+                                        t.style('font-weight','bold');
+                                    });
                         } else {
                                 slice.attr('transform','scale(1)');
-                        }})
+                                legend.selectAll('g[data-slice="'+i+'"] circle')
+                                    .each(function(d) { 
+                                        var c =d3.select(this);
+                                        c.attr('transform','scale(1)');});
+                                legend.selectAll('g[data-slice="'+i+'"] tspan')
+                                    .each(function(d) {
+                                        var t = d3.select(this);
+                                        t.style('font-weight','normal');});
+
+                        }});
+                /*legend.selectAll('g[data-slice="'+i+'"] circle')
+                  .each(function(d) { 
+                        var slice = d3.select(this);
+                        if (slice.classed('focusedSlice')){
+                                slice.attr('transform','scale(1.2)');
+                        } else {
+                                slice.attr('transform','scale(1)');
+                        }});
+                legend.selectAll('g[data-slice="'+i+'"] tspan')
+                  .each(function(d) { 
+                        var slice = d3.select(this);
+                        if (slice.classed('focusedSlice')){
+                                slice.style('font-weight','bold');
+                        } else {
+                                slice.style('font-weight','normal');
+                        }});*/
                 })
           .append("svg:title")
           .text(function(d) { return d.data.name + ": " + formatMoney(d.data.amount); });
