@@ -1026,6 +1026,7 @@ D3Charts = {
             .enter()
                 .append("g")
                 .classed("legend-item", true)
+                .attr("cursor","pointer")
                 .attr("data-slice", function(d, i) { return i; })
                 .attr("transform", function(d, i) { return "translate(0," + ((i + 0.5) * opts.row_height * 2) + ")"; })
                 .on("click",function(d,i) { 
@@ -1178,6 +1179,7 @@ D3Charts = {
 
         g.append("svg:path")
             .attr("d", arc)
+            .attr("cursor","pointer")
             .style("fill", function(d) { return opts.colors[d.data.name]; })
             .on("click",(function(d,i) {
                     resetAllSlices();
@@ -1206,6 +1208,7 @@ D3Charts = {
             .attr("cy",0)
             .attr("r",(innerRad * 1.2))
             .attr("fill","#dcddde")
+            .attr("cursor","pointer")
             .attr("data-slice",0)
             .on("click",function(d){
                 selectAllCenter(d);})
