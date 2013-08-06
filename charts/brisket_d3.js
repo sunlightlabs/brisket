@@ -885,7 +885,7 @@ D3Charts = {
             barChartWidth = rightFullWidth - barMargin.left - barMargin.right,
             barChartHeight = leftFullHeight - barMargin.top - barMargin.bottom;
             
-        var decFormat = d3.format(',.2f');
+        var decFormat = d3.format(',.1f');
 
         var formatMoney = function (e) {
             var currencyString;
@@ -939,6 +939,7 @@ D3Charts = {
         var allData = [];
         var overallSum = 0;
         var mostChildren = 0;
+
         categories.forEach(function(d){
           overallSum += d.amount;
           mostChildren = d3.max([d.children.length, mostChildren]);
@@ -952,42 +953,6 @@ D3Charts = {
         });
         var top10 = allData.sort(function(a,b){ return b.amount - a.amount }).slice(0,10)
         
-        // legend
-        var legend_x = opts.legend_margin 
-        var legend_y = (pieMargin.top + opts.donut_outer_r) - (categories.length * opts.row_height);
-        var legend = leftPane.append("g")
-            .attr("transform", "translate(" + legend_x + "," + legend_y + ")");
-
-        var sum = d3.sum(categories,function(d){ return d.amount; });
-        var legendEntries
-        var legendItems = legend.selectAll("g.legend-item")
-            .data(data)
-            .enter()
-                .append("g")
-                .classed("legend-item", true)
-                .attr("data-slice", function(d, i) { return i; })
-                .attr("transform", function(d, i) { return "translate(0," + ((i + 0.5) * opts.row_height * 2) + ")"; })
-
-            legendItems.append("circle")
-                .attr("fill", function(d, i) { return opts.colors[d.name]; })
-                .attr("cx", 0)
-                .attr("cy", 0)
-                .attr("r", opts.legend_r);
-
-            texts = legendItems.append("text")
-                .attr('fill', opts.text_color);
-
-            texts.append("tspan")
-                .text(function(d, i) { return d.name? d.name : ""; })
-                .style('font', '11px arial,sans-serif') 
-                .attr("y", ".25em") // vertical-align: middle
-                .attr("x", opts.legend_padding);
-
-            texts.append("tspan")
-                .text(function(d, i) { return "(" + formatMoney(d.amount) + ")"; })
-                .style('font', '11px arial,sans-serif') 
-                .attr("y", "1.45em") // vertical-align: middle
-                .attr("x", opts.legend_padding);
           
         leftPane.append("text")
               .classed("ytitle",true)
@@ -1042,6 +1007,80 @@ D3Charts = {
             .sort(function(a, b) { return b.amount - a.amount; });
 
         categories = pie(categories);
+        
+        // legend
+        var allAmount = d3.sum(categories,function(d){ return d.data.amount; });
+        var allCount = d3.sum(categories,function(d){ return d.data.count; });
+        var legendEntries = [];
+        legendEntries.push({data: {name: 'All', amount: allAmount, count: allCount, children: []}});
+        categories.forEach(function(d){
+            legendEntries.push(d);})
+
+        var legend_x = opts.legend_margin 
+        var legend_y = (pieMargin.top + opts.donut_outer_r) - (categories.length * opts.row_height);
+        var legend = leftPane.append("g")
+            .attr("transform", "translate(" + legend_x + "," + legend_y + ")");
+
+        var legendItems = legend.selectAll("g.legend-item")
+            .data(legendEntries)
+            .enter()
+                .append("g")
+                .classed("legend-item", true)
+                .attr("data-slice", function(d, i) { return i; })
+                .attr("transform", function(d, i) { return "translate(0," + ((i + 0.5) * opts.row_height * 2) + ")"; })
+                .on("click",function(d,i) { 
+                    entry = d3.select(this);
+                    if (i == 0) {
+                        resetRotation();
+                        resetAllSlices();
+                        allTopTen();
+                    } else if (entry.classed('focusedSlice')) {
+                    } else {
+                        resetAllSlices();
+                        selectSlice(d,i);
+                        drawRight(d);
+                    }})
+                .on("mouseover", function(d,i){
+                    entry = d3.select(this);
+                    if (i == 0) {
+                        highlightAllCenter(d);
+                    } else if (entry.classed('focusedSlice')) {
+                    } else {
+                        highlightSlice(d,i);
+                    }})
+                .on("mouseout", function(d,i){
+                    if (i == 0) {
+                        deHighlightAllCenter(d);
+                    } else {
+                        var slice = d3.select(this);
+                        if (slice.classed('focusedSlice')){
+                            // do nothing
+                        } else {
+                            deHighlightSlice(d,i);
+                        }
+                    }})
+                        
+
+            legendItems.append("circle")
+                .attr("fill", function(d, i) { return opts.colors[d.data.name]; })
+                .attr("cx", 0)
+                .attr("cy", 0)
+                .attr("r", opts.legend_r);
+
+            texts = legendItems.append("text")
+                .attr('fill', opts.text_color);
+
+            texts.append("tspan")
+                .text(function(d, i) { return d.data.name? d.data.name : ""; })
+                .style('font', '11px arial,sans-serif') 
+                .attr("y", ".35em") // vertical-align: middle
+                .attr("x", opts.legend_padding);
+
+            texts.append("tspan")
+                .text(function(d, i) { return "(" + formatMoney(d.data.amount) + ")"; })
+                .style('font', '11px arial,sans-serif') 
+                .attr("y", "1.45em") // vertical-align: middle
+                .attr("x", opts.legend_padding);
 
         var arc = d3.svg.arc()
             .innerRadius(innerRad)
@@ -1055,8 +1094,9 @@ D3Charts = {
           pieChart.selectAll("g path")
                 .classed("focusedSlice",false)
                 .attr("transform","scale(1)");
+          legend.selectAll("g")
+                .classed("focusedSlice",false);
           legend.selectAll("g circle")
-                .classed("focusedSlice",false)
                 .attr("transform","scale(1)");
           legend.selectAll("tspan")
                 .style("font-weight","normal");
@@ -1073,25 +1113,75 @@ D3Charts = {
         var g = pieChart.selectAll("g")
             .data(categories)
             .enter().append("svg:g")
-            .attr("data-slice", function(d,i) { return i; });
+            .attr("data-slice", function(d,i) { return i + 1; });
 
         //testfunc2 = pie;
+        function selectSlice(d,i) {
+            legend.selectAll('g[data-slice="'+i+'"]')
+              .classed('focusedSlice',true);  
+            legend.selectAll('g[data-slice="'+i+'"] circle')
+              .attr('transform', 'scale(1.15)');
+            legend.selectAll('g[data-slice="'+i+'"] tspan')
+              .style('font-weight', 'bold');
+            pieChart.select('g[data-slice="'+i+'"] path')
+              .classed('focusedSlice',true)
+              .attr('transform', 'scale(1.15)');
+            newtrans = svgtransbase + "rotate(" + (-1 * angle(d)) + ")";
+            pieChart.transition().duration(500).attr("transform",newtrans);
+        }
+                    
+        function highlightSlice(d,i) {
+            pieChart.selectAll('g[data-slice="'+i+'"] path')
+            .attr('transform', 'scale(1.05)')
+            legend.selectAll('g[data-slice="'+i+'"] circle')
+            .attr('transform', 'scale(1.05)')
+            legend.selectAll('g[data-slice="'+i+'"] tspan')
+            .style('font-weight', 'bold')
+        }
+
+        function deHighlightSlice(d,i) {
+            pieChart.selectAll('g[data-slice="'+i+'"] path')
+            .attr('transform', 'scale(1)')
+            legend.selectAll('g[data-slice="'+i+'"] circle')
+            .attr('transform', 'scale(1)')
+            legend.selectAll('g[data-slice="'+i+'"] tspan')
+            .style('font-weight', 'normal')
+        }
+       
+        function highlightAllCenter(d){
+            pieChart.selectAll('g[data-slice="0"] circle')
+            .attr('transform', 'scale(1.05)')
+            legend.selectAll('g[data-slice="0"] circle')
+              .classed('focusedSlice',true)
+              .attr('transform', 'scale(1.15)');
+            legend.selectAll('g[data-slice="0"] tspan')
+              .style('font-weight','bold');
+        }
+                
+       function deHighlightAllCenter(d){
+            legend.selectAll('g[data-slice="0"] circle')
+              .classed('focusedSlice',true)
+              .attr('transform', 'scale(1)');
+            legend.selectAll('g[data-slice="0"] tspan')
+              .style('font-weight','normal');
+       }
+
+
+        function selectAllCenter(d){
+            resetRotation();
+            resetAllSlices();
+            allTopTen();
+            pieChart.selectAll('g[data-slice="0"] circle')
+              .classed('focusedSlice',true)
+              .attr('transform', 'scale(1.15)');
+        }
 
         g.append("svg:path")
             .attr("d", arc)
             .style("fill", function(d) { return opts.colors[d.data.name]; })
             .on("click",(function(d,i) {
                     resetAllSlices();
-                    legend.selectAll('g[data-slice="'+i+'"] circle')
-                      .classed('focusedSlice',true)
-                      .attr('transform', 'scale(1.15)');
-                    legend.selectAll('g[data-slice="'+i+'"] tspan')
-                      .style('font-weight', 'bold');
-                    pieChart.selectAll('g[data-slice="'+i+'"] path')
-                      .classed('focusedSlice',true)
-                      .attr('transform', 'scale(1.15)');
-                    newtrans = svgtransbase + "rotate(" + (-1 * angle(d)) + ")";
-                    pieChart.transition().duration(500).attr("transform",newtrans);
+                    selectSlice(d,i+1);
                     drawRight(d);
                     }))
             .on("mouseover",function(d,i){
@@ -1099,71 +1189,30 @@ D3Charts = {
                 if (slice.classed('focusedSlice')){
                     // do nothing
                 } else {
-                    pieChart.selectAll('g[data-slice="'+i+'"] path')
-                    .attr('transform', 'scale(1.05)');
-                    legend.selectAll('g[data-slice="'+i+'"] circle')
-                    .attr('transform', 'scale(1.05)');
-                    legend.selectAll('g[data-slice="'+i+'"] tspan')
-                    .style('font-weight', 'bold');
-                  }
-                })
+                    highlightSlice(d,i+1);
+                }})
             .on("mouseout",function(d,i){
-                pieChart.selectAll('g[data-slice="'+i+'"] path')
-                  .each(function(d) { 
-                        var slice = d3.select(this);
-                        if (slice.classed('focusedSlice')){
-                                slice.attr('transform','scale(1.15)');
-                                legend.selectAll('g[data-slice="'+i+'"] circle')
-                                    .each(function(d) { 
-                                        var c =d3.select(this);
-                                        c.attr('transform','scale(1.15)');
-                                    });
-                                legend.selectAll('g[data-slice="'+i+'"] tspan')
-                                    .each(function(d) {
-                                        var t = d3.select(this);
-                                        t.style('font-weight','bold');
-                                    });
-                        } else {
-                                slice.attr('transform','scale(1)');
-                                legend.selectAll('g[data-slice="'+i+'"] circle')
-                                    .each(function(d) { 
-                                        var c =d3.select(this);
-                                        c.attr('transform','scale(1)');});
-                                legend.selectAll('g[data-slice="'+i+'"] tspan')
-                                    .each(function(d) {
-                                        var t = d3.select(this);
-                                        t.style('font-weight','normal');});
-
-                        }});
-                /*legend.selectAll('g[data-slice="'+i+'"] circle')
-                  .each(function(d) { 
-                        var slice = d3.select(this);
-                        if (slice.classed('focusedSlice')){
-                                slice.attr('transform','scale(1.2)');
-                        } else {
-                                slice.attr('transform','scale(1)');
-                        }});
-                legend.selectAll('g[data-slice="'+i+'"] tspan')
-                  .each(function(d) { 
-                        var slice = d3.select(this);
-                        if (slice.classed('focusedSlice')){
-                                slice.style('font-weight','bold');
-                        } else {
-                                slice.style('font-weight','normal');
-                        }});*/
-                })
+                var slice = d3.select(this);
+                if (slice.classed('focusedSlice')){
+                    // do nothing
+                } else {
+                    deHighlightSlice(d,i+1);
+                }})
           .append("svg:title")
           .text(function(d) { return d.data.name + ": " + formatMoney(d.data.amount); });
-
+                
         center.append("svg:circle")
             .attr("cx",0)
             .attr("cy",0)
             .attr("r",(innerRad * 1.2))
             .attr("fill","#dcddde")
+            .attr("data-slice",0)
             .on("click",function(d){
-                resetRotation();
-                resetAllSlices();
-                allTopTen();});
+                selectAllCenter(d);})
+            .on("mouseover",function(d){
+                highlightAllCenter(d);})
+            .on("mouseout",function(d){
+                deHighlightAllCenter(d);})
 
         center.append("svg:text")
             .attr("dy", ".35em")
