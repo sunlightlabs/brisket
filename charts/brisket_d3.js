@@ -51,7 +51,7 @@ D3Charts = {
         row_height: 18,
         bar_height: 14,
         chart_padding: 4,
-        colors : ["#efcc01", "#f27e01"],
+        colors : ["#f9e671", "#e3ba22"],
         axis_color: "#827d7d",
         text_color: "#666666",
         link_color: "#0a6e92"
@@ -1482,15 +1482,15 @@ BrisketModern = {
         Brisket.piechart(div, data, party_colors);
     },
     indiv_pac_piechart: function(div, data) {
-        var indiv_pac_colors = {"Individuals": '#e3ba22', "PACs": '#e6842a', "Unknown": '#b2b2b2'};
+        var indiv_pac_colors = {"Individuals": '#f93671', "PACs": '#e3ba22', "Unknown": '#b2b2b2'};
         Brisket.piechart(div, data, indiv_pac_colors);
     },
     local_piechart: function(div, data) {
-        var local_colors = {"In-State": '#e3ba22', "Out-of-State": '#f9e671', "Unknown": '#b2b2b2'};
+        var local_colors = {"In-State": '#e6842a', "Out-of-State": '#f6b656', "Unknown": '#b2b2b2'};
         Brisket.piechart(div, data, local_colors);
     },
     level_piechart: function(div, data) {
-        var level_colors = {"Federal": '#5a7f26', "State": '#a0b73b'};
+        var level_colors = {"Federal": '#5A7F26', "State": '#A0B73B'};
         Brisket.piechart(div, data, level_colors);
     },
     fec_piechart: function(div, data) {
@@ -1556,15 +1556,19 @@ BrisketModern = {
         Brisket.threepane_bar(div, data, display_issues_metadata);
     },
     party_twopane_pie : function(div,data) {
-        var party_colors = {"Republicans": "#981e37", "Democrats": "#0e487b", "Other" : "#b2b2b2"};
+        var party_colors = {"Republicans": "#981e37", "Democrats": "#0e487b", "Other" : "#b2b2b2", "All" : "#dcddde"};
         Brisket.twopane_pie(div, data, party_colors);
     },
     pol_group_twopane_pie : function(div,data) {
-        var pol_group_colors = {"Direct": "#e6842a", "Associated Individuals": "#e3ba22"};
+        var pol_group_colors = {"Org PAC": "#e3ba22", "Individuals": "#f9e671", "All" : "#dcddde"};
         Brisket.twopane_pie(div, data, pol_group_colors);
     },
     state_fed_twopane_pie : function(div,data) {
-        var level_colors = {"Federal": '#5A7F26', "State": '#A0B73B'};
+        var level_colors = {"Federal": '#5A7F26', "State": '#A0B73B', "All" : "#dcddde"};
+        Brisket.twopane_pie(div, data, level_colors);
+    },
+    in_state_out_of_state_twopane_pie : function(div,data) {
+        var level_colors = {"In-State": '#e6842a', "Out-Of-State": '#f6b656', "All" : "#dcddde"}; 
         Brisket.twopane_pie(div, data, level_colors);
     },
 }
