@@ -638,8 +638,8 @@ D3Charts = {
         var categoryDescription = rightPane.select(".categoryDescription");
 
         var categories = data.sort(function(a,b){ return b.amount - a.amount; }).slice(0,10);
-        testvar = categories;
-        console.log(categories);
+        //testvar = categories;
+        //console.log(categories);
 
         var allData = [];
         var mostChildren = 0;
@@ -1013,8 +1013,12 @@ D3Charts = {
         var allCount = d3.sum(categories,function(d){ return d.data.count; });
         var legendEntries = [];
         legendEntries.push({data: {name: 'All', amount: allAmount, count: allCount, children: []}});
+        //console.log(categories);
         categories.forEach(function(d){
             legendEntries.push(d);})
+
+        //legendEntries = legendEntries.sort(function(a,b){ return b.data.amount - a.data.amount;});
+        //console.log(legendEntries);
 
         var entryHeight = opts.row_height * 2;
         var entrySpacing = 0.5;
