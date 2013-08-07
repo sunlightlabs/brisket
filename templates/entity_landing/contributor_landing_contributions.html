@@ -3,7 +3,7 @@
 
 <div class="overviewBar withNav withTip">
     <h3>Campaign Finance</h3>
-    <span class="amount">FIXME: amount</span>
+    <span class="amount">${{ section.total_contribution_amount|floatformat:0|intcomma }} GIVEN</span>
     <div  class="interiorMethodology">
         <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
         <div class="clear"></div>      
@@ -22,6 +22,7 @@
       Brisket.party_twopane_pie("partyTwopanePie", {% if section.party_summary_data %}{{ section.party_summary_data|safe }}{% else %}{}{% endif %});
       //Brisket.recipient_type_twopane_pie("recipientTypeGroupTwopanePie", {% if section.recipient_type_summary_data %}{{ section.recipient_type_summary_data|safe }}{% else %}{}{% endif %});
       Brisket.state_fed_twopane_pie("stateFedTwopanePie", {% if section.state_fed_summary_data %}{{ section.state_fed_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.in_state_out_of_state_twopane_pie("inStateOutOfStateTwopanePie", {% if section.in_state_out_of_state_summary_data %}{{ section.in_state_out_of_state_summary_data|safe }}{% else %}{}{% endif %});
       {% endif %}
 
       //$('table#grantsContracts td').multiellipsis(3);
@@ -29,11 +30,23 @@
       //$('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
     });
     </script>
-    <span class="tip external">covers through [FIXME: date]</span>
+    <span class="tip external">covers roughly through Q4 2012</span>
     
     <div class="threeColumn mainTable">
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Individuals by Recipient Party</h4>
+          <span class="tip external">Ranked by total amount contributed</span>
+       </div>
         <div id="partyTwopanePie" class="twopanePie"></div>
-        <div id="recipientTypeTwopanePie" class="twopanePie"></div>
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Individuals in State and Federal Races</h4>
+          <span class="tip external">Ranked by total amount contributed</span>
+       </div>
         <div id="stateFedTwopanePie" class="twopanePie"></div>
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Individuals to In-State and Out-Of-State Candidates</h4>
+          <span class="tip external">Ranked by total amount contributed</span>
+       </div>
+        <div id="inStateOutOfStateTwopanePie" class="twopanePie"></div>
     </div>
 </div>
