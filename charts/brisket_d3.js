@@ -872,7 +872,7 @@ D3Charts = {
         if (typeof opts == 'undefined') opts = {};
         _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
 
-        var pieMargin = {top: 25, right: 15, bottom: 20, left: 90},
+        var pieMargin = {top: 30, right: 15, bottom: 25, left: 90},
             //(opts.chart_height - (opts.donut_outer_r*2)) / 2,
             rad = opts.donut_outer_r,
             innerRad = opts.donut_outer_r / 3,
@@ -880,7 +880,7 @@ D3Charts = {
             leftFullWidth = (rad*2) + pieMargin.left + pieMargin.right,
             leftFullHeight = (rad*2) + pieMargin.top + pieMargin.bottom;
 
-        var barMargin = {top: 20, right: 80, bottom: 20, left: 220},
+        var barMargin = {top: 25, right: 80, bottom: 25, left: 220},
             rightFullWidth = opts.chart_width - leftFullWidth;
             barChartWidth = rightFullWidth - barMargin.left - barMargin.right,
             barChartHeight = leftFullHeight - barMargin.top - barMargin.bottom;
@@ -1016,8 +1016,11 @@ D3Charts = {
         categories.forEach(function(d){
             legendEntries.push(d);})
 
+        var entryHeight = opts.row_height * 2;
+        var entrySpacing = 0.5;
+
         var legend_x = opts.legend_margin 
-        var legend_y = (pieMargin.top + opts.donut_outer_r) - (categories.length * opts.row_height);
+        var legend_y = (pieMargin.top + opts.donut_outer_r) - (legendEntries.length * entryHeight / 2);
         var legend = leftPane.append("g")
             .attr("transform", "translate(" + legend_x + "," + legend_y + ")");
 
@@ -1028,7 +1031,7 @@ D3Charts = {
                 .classed("legend-item", true)
                 .attr("cursor","pointer")
                 .attr("data-slice", function(d, i) { return i; })
-                .attr("transform", function(d, i) { return "translate(0," + ((i + 0.5) * opts.row_height * 2) + ")"; })
+                .attr("transform", function(d, i) { return "translate(0," + ((i + entrySpacing) * entryHeight) + ")"; })
                 .on("click",function(d,i) { 
                     entry = d3.select(this);
                     if (i == 0) {
