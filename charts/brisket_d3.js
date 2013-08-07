@@ -880,7 +880,7 @@ D3Charts = {
             leftFullWidth = (rad*2) + pieMargin.left + pieMargin.right,
             leftFullHeight = (rad*2) + pieMargin.top + pieMargin.bottom;
 
-        var barMargin = {top: 25, right: 80, bottom: 25, left: 220},
+        var barMargin = {top: 25, right: 80, bottom: 5, left: 220},
             rightFullWidth = opts.chart_width - leftFullWidth;
             barChartWidth = rightFullWidth - barMargin.left - barMargin.right,
             barChartHeight = leftFullHeight - barMargin.top - barMargin.bottom;
