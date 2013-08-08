@@ -100,12 +100,12 @@ landing_page_section_indicators = {
     # GROUPS
    'industry': {
        'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
-       'lobbying': ['issues_summary','bills_summary'],
+       #'lobbying': ['issues_summary','bills_summary'],
        #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary']
        },
    'org': {
-       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
-       'lobbying': ['issues_summary','bills_summary'],
+       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary'], #,'office_type_summary'
+       #'lobbying': ['issues_summary','bills_summary'],
        #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary'],
        #'earmarks': ['earmark_summary'],
        #'contractor_misconduct': ['contractor_misconduct_summary'],
@@ -115,13 +115,13 @@ landing_page_section_indicators = {
        },
    'pol_group': {
        'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
-       'lobbying': ['issues_summary','bills_summary'],
+       #'lobbying': ['issues_summary','bills_summary'],
        #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
        #'faca': ['faca_committee_summary', 'faca_member_summary']
        },
    'lobbying_firm': {
        'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
-       'lobbying': ['issues_summary','bills_summary'],
+       #'lobbying': ['issues_summary','bills_summary'],
        #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
        #'faca': ['faca_committee_summary', 'faca_member_summary']
        },
@@ -136,7 +136,8 @@ landing_page_section_indicators = {
        },
    'pol':   {
        'contributions': ['recipient_summary'],
-       'earmarks': ['earmark_summary']},
+       #'earmarks': ['earmark_summary']
+       },
 }
 
 def get_metadata(entity_id, request, entity_type):

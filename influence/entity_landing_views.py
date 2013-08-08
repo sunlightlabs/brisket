@@ -52,7 +52,7 @@ class OrgContributionsLandingSection(EntityLandingSection):
         self.total_contribution_amount = sum([float(n['amount']) for n in self.data['party_summary']])
 
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
-        self.pol_group_summary_data = self.prepare_parent_child_tree('pol_group_summary')
+        self.pol_group_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
 
         if self.total_contribution_amount <= 0:
@@ -64,6 +64,7 @@ class OrgLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/org_landing_lobbying.html'
+    enabled = False
     
     def build_section_data(self):
         self.bills_summary_data = self.prepare_parent_child_tree('bills_summary')
@@ -157,25 +158,25 @@ class PolGroupLandingView(EntityLandingView):
     ]
     enabled = False
 
-class LobbyingFirmContributionsLandingSection(Section):
+class LobbyingFirmContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/lobbying_firm_landing_contributions.html'
     enabled = False
 
-class LobbyingFirmLobbyingLandingSection(Section):
+class LobbyingFirmLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/lobbying_firm_landing_lobbying.html'
     enabled = False
 
-class LobbyingFirmRegulationsLandingSection(Section):
+class LobbyingFirmRegulationsLandingSection(EntityLandingSection):
     name = 'Regulations'
     label = 'regulations'
     template = 'entity_landing/lobbying_firm_landing_regulations.html'
     enabled = False
 
-class LobbyingFirmFacaLandingSection(Section):
+class LobbyingFirmFacaLandingSection(EntityLandingSection):
     name = 'Advisory Committees'
     label = 'faca'
     template = 'entity_landing/lobbying_firm_landing_faca.html'
