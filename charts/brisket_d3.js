@@ -1489,7 +1489,7 @@ BrisketModern = {
         Brisket.piechart(div, data, party_colors);
     },
     indiv_pac_piechart: function(div, data) {
-        var indiv_pac_colors = {"Individuals": '#f93671', "PACs": '#e3ba22', "Unknown": '#b2b2b2'};
+        var indiv_pac_colors = {"Individuals": '#f9e671', "PACs": '#e3ba22', "Unknown": '#b2b2b2'};
         Brisket.piechart(div, data, indiv_pac_colors);
     },
     local_piechart: function(div, data) {
