@@ -3,6 +3,8 @@ from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
 from brisket.influence.views import PoliticianEntityView, IndividualEntityView, OrganizationEntityView, IndustryEntityView, PoliticianPreviewView
 from brisket.influence.views import IndustryLandingView, OrgLandingView, PolGroupLandingView, LobbyingFirmLandingView, ContributorLandingView, LobbyistLandingView, PolLandingView
 
+from django.views.generic import TemplateView
+
 urlpatterns = patterns('brisket.influence.views',
     url(r'^search$', 'search', name='search', kwargs={'search_type': 'all', 'search_subtype': 'all'}),
     url(r'^search/(?P<search_type>[a-z]+)$', 'search', name='search', kwargs={'search_subtype': 'all'}),
@@ -78,32 +80,23 @@ urlpatterns += patterns('django.views.generic.simple',
 
     url(r'^people$', 'redirect_to', {'url': '/contributors'}), # backwards compatability redirect
 
-    url(r'^contact/?$', 'direct_to_template',
-        {'template': 'contact.html'}),
+    url(r'^contact/?$', TemplateView.as_view(template_name='contact.html')),
 
-    url(r'^about/?$', 'direct_to_template',
-        {'template': 'about.html'}),
+    url(r'^about/?$', TemplateView.as_view(template_name='about.html')),
         
-    url(r'^about/methodology/campaign_finance/?$', 'direct_to_template',
-        {'template': 'methodology/campaign_finance_methodology.html'}),
+    url(r'^about/methodology/campaign_finance/?$', TemplateView.as_view(template_name='methodology/campaign_finance_methodology.html')),
 
-    url(r'^about/methodology/lobbying/?$', 'direct_to_template',
-        {'template': 'methodology/lobbying_methodology.html'}),
+    url(r'^about/methodology/lobbying/?$', TemplateView.as_view(template_name='methodology/lobbying_methodology.html')),
     
-    url(r'^about/methodology/lobbyist_bundling/?$', 'direct_to_template',
-        {'template': 'methodology/lobbyist_bundling_methodology.html'}),
+    url(r'^about/methodology/lobbyist_bundling/?$', TemplateView.as_view(template_name='methodology/lobbyist_bundling_methodology.html')),
                 
-    url(r'^about/methodology/fed_spending/?$', 'direct_to_template',
-        {'template': 'methodology/fed_spending_methodology.html'}),
+    url(r'^about/methodology/fed_spending/?$', TemplateView.as_view(template_name='methodology/fed_spending_methodology.html')),
         
-    url(r'^about/methodology/earmarks/?$', 'direct_to_template',
-        {'template': 'methodology/earmark_methodology.html'}),
+    url(r'^about/methodology/earmarks/?$', TemplateView.as_view(template_name='methodology/earmark_methodology.html')),
 
-    url(r'^about/methodology/echo/?$', 'direct_to_template',
-        {'template': 'methodology/epa_echo_methodology.html'}),
+    url(r'^about/methodology/echo/?$', TemplateView.as_view(template_name='methodology/epa_echo_methodology.html')),
    
-    url(r'^checking/?$', 'direct_to_template',
-        {'template': 'checking.html'}),
+    url(r'^checking/?$', TemplateView.as_view(template_name='checking.html')),
 )
 
 urlpatterns += patterns('',
