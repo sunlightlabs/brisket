@@ -1,5 +1,5 @@
 psycopg2==2.4.1
-django
+django==1.4.4
 BeautifulSoup==3.2.0
 boto
 -e git://github.com/sunlightlabs/django-mediasync.git@2.1.0#egg=mediasync
