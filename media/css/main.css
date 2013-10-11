@@ -214,7 +214,7 @@ li#industries a { background: url(../images/nav_industries.png) left 1px no-repe
 li#industries a:hover, body.industry li#industries a { background: url(../images/nav_industries.png) left -60px no-repeat; }
 li#realtime { width: 200px;}
 li#realtime a { background: url(../images/nav_realtimefec.png) left 1px no-repeat; width: 200px; }
-li#realtime a:hover, body.individual li#realtime a { background: url(../images/nav_realtimefec.png) left -60px no-repeat; }
+li#realtime a:hover, body.realtime li#realtime a { background: url(../images/nav_realtimefec.png) left -60px no-repeat; }
 li#data a { background: url(../images/nav_data.png) left 1px no-repeat; width: 91px; }
 li#data a:hover { background: url(../images/nav_data.png) left -60px no-repeat; width: 91px; }
 nav li#data { float: right; width: 91px;}
