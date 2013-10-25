@@ -81,7 +81,7 @@
                 <span class="tip shift">regularly updated news and analysis using Influence Explorer</span>
                 <h4 class="withTip shift"><a href="{{ entry.link }}">{{entry.title|safe}}</a></h4>
                 <time class="published entryMetaData shift" pubdate="" datetime="{{entry.date_published|date:"c"}}">{{entry.date_published|date:"F j, Y, g:i a"}}</time>
-                <div class="colOne shift">{{entry.summary|safe|removetags:"img"|truncatewords_html:200}} <a href="{{ entry.link }}">Read More</a></div>
+                <div class="colOne shift">{{entry.summary|safe|removetags:"img"|removetags:"iframe"|truncatewords_html:200}} <a href="{{ entry.link }}">Read More</a></div>
             </li>
         </ul>
         <div class="clear"></div>

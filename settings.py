@@ -89,7 +89,7 @@ INSTALLED_APPS = (
     'indexer',
     'paging',
     'gunicorn',
-    #'feedinator',
+    'feedinator',
     'compressor',
     'dryrub',
     'data',
