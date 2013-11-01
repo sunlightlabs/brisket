@@ -216,7 +216,7 @@ $().ready(function() {
 
         var anchor = TD.HashMonitor.getAnchor();
         if (anchor === undefined) {
-            TD.HashMonitor.setAnchor('year=2012');
+            TD.HashMonitor.setAnchor('year=2013');
             this.loadHash();
         }
         
