@@ -149,6 +149,7 @@ MEDIASYNC['JOINED'] = {
     'data/css/all.css': [
         'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
         'data/css/jquery.autocomplete.css',
+        'data/css/donorbanner.css',
         'data/css/main.css',
     ],
     'data/css/3rdparty.css': [
