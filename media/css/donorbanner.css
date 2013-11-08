@@ -29,6 +29,10 @@
   text-indent: 0;
   }
 
+#donor_banner a, a:active, a:visited {
+  color: #ffffff;
+}
+
 html.revealbanner {
   transition: all .8s ease-in-out;
   -webkit-transition: all .8s ease-in-out; /** Chrome & Safari **/
