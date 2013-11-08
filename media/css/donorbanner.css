@@ -29,7 +29,7 @@
   text-indent: 0;
   }
 
-#donor_banner a, a:active, a:visited {
+#donor_banner a, #donor_banner a:active, #donor_banner a:visited {
   color: #ffffff;
 }
 
