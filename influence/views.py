@@ -12,11 +12,12 @@ from influence.forms import SearchForm, ElectionCycle
 from influence.helpers import prepare_entity_view, generate_label, barchart_href, \
     bar_validate, pie_validate, \
     filter_bad_spending_descriptions, make_bill_link, get_top_pages
-from influenceexplorer import DEFAULT_CYCLE
+#from influenceexplorer import DEFAULT_CYCLE
 from influence.external_sites import _get_td_url
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from name_cleaver.names import PoliticianName
-from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, api
+from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, api, \
+                     DEFAULT_CYCLE
 from urllib2 import URLError, HTTPError
 import datetime
 import json
