@@ -27,7 +27,7 @@
                   {% for result in top_n_organizations %}
                   <tr class="{% cycle 'even' 'odd' %}">
                       <td>
-                          <a href="/organization/{{ result.name|standardize_organization_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{ result.name|standardize_organization_name }}</a>
+                          <a href="/organization/{{ result.name|standardize_organization_name|slugify }}/{{ result.id }}{{-1|pretty_cycle}}">{{ result.name|standardize_organization_name }}</a>
                       </td>
                       <td>${{ result.amount|floatformat:0|intcomma }}</td>
                   </tr>

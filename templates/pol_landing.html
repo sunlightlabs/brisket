@@ -29,7 +29,7 @@
                   {% for result in top_n_politicians %}
                   <tr class="{% cycle 'even' 'odd' %}">
                       <td class="lawmakerName">
-                          <a href="/politician/{{ result.name|standardize_politician_name|slugify }}/{{ result.id }}{{cycle|pretty_cycle}}">{{ result.name|standardize_politician_name }}</a>
+                          <a href="/politician/{{ result.name|standardize_politician_name|slugify }}/{{ result.id }}{{-1|pretty_cycle}}">{{ result.name|standardize_politician_name }}</a>
                       </td>
                       <td>{{ result.seat|seat_label }}</td>
                       <td>{{ result.party }}</td>
