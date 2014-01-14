@@ -49,11 +49,12 @@ class OrgContributionsLandingSection(EntityLandingSection):
     #    return True
 
     def build_section_data(self):
-        self.total_contribution_amount = sum([float(n['amount']) for n in self.data['party_summary']])
+        self.total_contribution_amount = sum([float(n['amount']) for n in self.data['state_fed_summary']])
 
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
-        self.pol_group_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
+        self.pac_indiv_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
+        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
 
         if self.total_contribution_amount <= 0:
             self.suppress_contrib_graphs = True
@@ -152,72 +153,68 @@ class PolGroupLandingView(EntityLandingView):
     name = 'Political Groups'
     sections = [
         PolGroupContributionsLandingSection,
-        PolGroupLobbyingLandingSection,
-        PolGroupRegulationsLandingSection,
-        PolGroupFacaLandingSection,
     ]
-    enabled = False
 
-class LobbyingFirmContributionsLandingSection(EntityLandingSection):
+class LobbyingOrgContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
-    template = 'entity_landing/lobbying_firm_landing_contributions.html'
+    template = 'entity_landing/lobbying_org_landing_contributions.html'
     enabled = False
 
-class LobbyingFirmLobbyingLandingSection(EntityLandingSection):
+class LobbyingOrgLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'
     label = 'lobbying'
-    template = 'entity_landing/lobbying_firm_landing_lobbying.html'
+    template = 'entity_landing/lobbying_org_landing_lobbying.html'
     enabled = False
 
-class LobbyingFirmRegulationsLandingSection(EntityLandingSection):
+class LobbyingOrgRegulationsLandingSection(EntityLandingSection):
     name = 'Regulations'
     label = 'regulations'
-    template = 'entity_landing/lobbying_firm_landing_regulations.html'
+    template = 'entity_landing/lobbying_org_landing_regulations.html'
     enabled = False
 
-class LobbyingFirmFacaLandingSection(EntityLandingSection):
+class LobbyingOrgFacaLandingSection(EntityLandingSection):
     name = 'Advisory Committees'
     label = 'faca'
-    template = 'entity_landing/lobbying_firm_landing_faca.html'
+    template = 'entity_landing/lobbying_org_landing_faca.html'
     enabled = False
 
-class LobbyingFirmLandingView(EntityLandingView):
-    label = 'lobbying_firm'
+class LobbyingOrgLandingView(EntityLandingView):
+    label = 'lobbying_org'
     name = 'Lobbying Firms'
     sections = [
-        LobbyingFirmContributionsLandingSection,
-        LobbyingFirmLobbyingLandingSection,
-        LobbyingFirmRegulationsLandingSection,
-        LobbyingFirmFacaLandingSection,
+        LobbyingOrgContributionsLandingSection,
+        LobbyingOrgLobbyingLandingSection,
+        LobbyingOrgRegulationsLandingSection,
+        LobbyingOrgFacaLandingSection,
     ]
 
 ### People ###
-class ContributorContributionsLandingSection(EntityLandingSection):
+class IndividualContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
-    template = 'entity_landing/contributor_landing_contributions.html'
+    template = 'entity_landing/individual_landing_contributions.html'
     enabled = True
 
     def build_section_data(self):
-        self.total_contribution_amount = sum([float(n['amount']) for n in self.data['party_summary']])
+        self.total_contribution_amount = sum([float(n['amount']) for n in self.data['state_fed_summary']])
 
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
-        #self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
+        self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
+        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
-        self.in_state_out_of_state_summary_data = self.prepare_parent_child_tree(
-                'in_state_out_of_state_summary')
+        self.in_state_out_of_state_summary_data = self.prepare_parent_child_tree('in_state_out_of_state_summary')
         
         if self.total_contribution_amount <= 0:
             self.suppress_contrib_graphs = True
             if self.total_contribution_amount < 0:
                 self.reason = "negative"
 
-class ContributorLandingView(EntityLandingView):
-    label = 'contributor'
-    name = 'Contributors'
+class IndividualLandingView(EntityLandingView):
+    label = 'individual'
+    name = 'Individuals'
     sections = [
-        ContributorContributionsLandingSection,
+        IndividualContributionsLandingSection,
     ]
 
 class LobbyistContributionsLandingSection(EntityLandingSection):
@@ -227,11 +224,18 @@ class LobbyistContributionsLandingSection(EntityLandingSection):
     enabled = True
 
     def build_section_data(self):
-        amount = sum([float(n['amount']) for n in self.data['party_summary']])
+        self.total_contribution_amount = sum([float(n['amount']) for n in self.data['state_fed_summary']])
 
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
         self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
+        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
+        self.in_state_out_of_state_summary_data = self.prepare_parent_child_tree('in_state_out_of_state_summary')
+        
+        if self.total_contribution_amount <= 0:
+            self.suppress_contrib_graphs = True
+            if self.total_contribution_amount < 0:
+                self.reason = "negative"
 
 class LobbyistLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'

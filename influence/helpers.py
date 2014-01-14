@@ -99,12 +99,12 @@ def get_data_types(entity_type, totals):
 landing_page_section_indicators = {
     # GROUPS
    'industry': {
-       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
        #'lobbying': ['issues_summary','bills_summary'],
        #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary']
        },
    'org': {
-       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary'], #,'office_type_summary'
+       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
        #'lobbying': ['issues_summary','bills_summary'],
        #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary'],
        #'earmarks': ['earmark_summary'],
@@ -114,24 +114,24 @@ landing_page_section_indicators = {
        #'faca': ['faca_committee_summary', 'faca_member_summary']
        },
    'pol_group': {
-       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
        #'lobbying': ['issues_summary','bills_summary'],
        #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
        #'faca': ['faca_committee_summary', 'faca_member_summary']
        },
-   'lobbying_firm': {
-       'contributions': ['party_summary','pol_group_summary','state_fed_summary'], #,'office_type_summary'
+   'lobbying_org': {
+       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
        #'lobbying': ['issues_summary','bills_summary'],
        #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
        #'faca': ['faca_committee_summary', 'faca_member_summary']
        },
    # PEOPLE
-   'contributor':   {
-       'contributions': ['party_summary','state_fed_summary','in_state_out_of_state_summary'], #,'office_type_summary'
+   'individual':   {
+       'contributions': ['party_summary','recipient_type_summary','state_fed_summary','in_state_out_of_state_summary', 'seat_summary'],
        #'lobbying': ['issues_summary','bills_summary']
        },
    'lobbyist':   {
-       'contributions': ['party_summary','recipient_type_summary','state_fed_summary'], #,'office_type_summary'
+       'contributions': ['party_summary','recipient_type_summary','state_fed_summary', 'in_state_out_of_state_summary', 'seat_summary'],
        #'lobbying': ['issues_summary','bills_summary']
        },
    'pol':   {

@@ -1566,18 +1566,35 @@ BrisketModern = {
         var party_colors = {"Republicans": "#981e37", "Democrats": "#0e487b", "Other" : "#b2b2b2", "All" : "#dcddde"};
         Brisket.twopane_pie(div, data, party_colors);
     },
-    pol_group_twopane_pie : function(div,data) {
-        var pol_group_colors = {"Org PAC": "#e3ba22", "Individuals": "#f9e671", "All" : "#dcddde"};
-        Brisket.twopane_pie(div, data, pol_group_colors);
+    recipient_type_twopane_pie : function(div,data) {
+        var recipient_type_colors = {"Committee": "#137B80", "Politician": "#42A5B3", "All" : "#dcddde"};
+        Brisket.twopane_pie(div, data, recipient_type_colors);
+    },
+    pac_indiv_twopane_pie : function(div,data) {
+        var pac_indiv_colors = {"Org PAC": "#e3ba22", "Individuals": "#f9e671", "All" : "#dcddde"};
+        Brisket.twopane_pie(div, data, pac_indiv_colors);
     },
     state_fed_twopane_pie : function(div,data) {
-        var level_colors = {"Federal": '#5A7F26', "State": '#A0B73B', "All" : "#dcddde"};
-        Brisket.twopane_pie(div, data, level_colors);
+        var state_fed_colors = {"Federal": '#5A7F26', "State": '#A0B73B', "All" : "#dcddde"};
+        Brisket.twopane_pie(div, data, state_fed_colors);
     },
     in_state_out_of_state_twopane_pie : function(div,data) {
-        var level_colors = {"In-State": '#e6842a', "Out-Of-State": '#f6b656', "All" : "#dcddde"}; 
-        Brisket.twopane_pie(div, data, level_colors);
+        var in_state_out_of_state_colors = {"In-State": '#f6b656', "Out-Of-State": '#e6842a', "All" : "#dcddde"}; 
+        Brisket.twopane_pie(div, data, in_state_out_of_state_colors);
     },
+    seat_twopane_pie : function(div, data) {
+        var seat_colors = { 
+                            'US President': '#5A7F26', 
+                            'US House': '#7E9B56', 
+                            'US Senate': '#A3B786', 
+                            'Governor':'#A0B73B', 
+                            'State Upper House': '#AABF50', 
+                            'State Lower House': '#B5C766',
+                            'State Judicial': '#BFCF7C',
+                            'State Office': '#CAD792' 
+                          };
+        Brisket.twopane_pie(div, data, seat_colors);
+    }
 }
 
 BrisketServer = {

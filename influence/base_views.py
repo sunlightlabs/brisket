@@ -189,7 +189,7 @@ class EntityLandingSection(Section):
         self.select_cleaver()
 
     def select_cleaver(self):
-        if self.entity.label in ['contributor','lobbyist']:
+        if self.entity.label in ['individual','lobbyist']:
             self.entity_type = 'individual'
             self.cleaver = IndividualNameCleaver
         elif self.entity.label == 'pol':

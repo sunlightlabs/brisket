@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
 from brisket.influence.views import PoliticianEntityView, IndividualEntityView, OrganizationEntityView, IndustryEntityView, PoliticianPreviewView
-from brisket.influence.views import IndustryLandingView, OrgLandingView, PolGroupLandingView, LobbyingFirmLandingView, ContributorLandingView, LobbyistLandingView, PolLandingView
+from brisket.influence.views import IndustryLandingView, OrgLandingView, PolGroupLandingView, LobbyingOrgLandingView, IndividualLandingView, LobbyistLandingView, PolLandingView
 
 from django.views.generic import TemplateView
 
@@ -19,9 +19,9 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^industries$', IndustryLandingView.as_view()),
     url(r'^organizations$', OrgLandingView.as_view()),
     url(r'^political-groups$', PolGroupLandingView.as_view()),
-    url(r'^lobbying-firms$', LobbyingFirmLandingView.as_view()),
+    url(r'^lobbying-orgs$', LobbyingOrgLandingView.as_view()),
     # -> people
-    url(r'^contributors$', ContributorLandingView.as_view()),
+    url(r'^individuals$', IndividualLandingView.as_view()),
     url(r'^lobbyists$', LobbyistLandingView.as_view()),
     url(r'^politicians$', PolLandingView.as_view()),
 
