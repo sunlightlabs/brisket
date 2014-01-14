@@ -74,37 +74,37 @@ class OrgLobbyingLandingSection(EntityLandingSection):
         # TODO: add metadata
         # http://congress.api.sunlightfoundation.com/bills?bill_type={bill_type}&number={bill_number}&congress={congress_number}&apikey=sunlight9&fields=official_title,short_title,title,popular_title,nicknames,last_action,summary_short
 
-class OrgRegulationsLandingSection(Section):
+class OrgRegulationsLandingSection(EntityLandingSection):
     name = 'Regulations'
     label = 'regulations'
     template = 'entity_landing/org_landing_regulations.html'
     enabled = False
 
-class OrgEarmarksLandingSection(Section):
+class OrgEarmarksLandingSection(EntityLandingSection):
     name = 'Earmarks'
     label = 'earmarks'
     template = 'entity_landing/org_landing_earmarks.html'
     enabled = False
 
-class OrgGrantsAndContractsLandingSection(Section):
+class OrgGrantsAndContractsLandingSection(EntityLandingSection):
     name = 'Federal Spending'
     label = 'grants_and_contracts'
     template = 'entity_landing/org_landing_grants_and_contracts.html'
     enabled = False
 
-class OrgContractorMisconductLandingSection(Section):
+class OrgContractorMisconductLandingSection(EntityLandingSection):
     name = 'Contractor Misconduct'
     label = 'contractor_misconduct'
     template = 'entity_landing/org_landing_contractor_misconduct.html'
     enabled = False
 
-class OrgEpaEchoLandingSection(Section):
+class OrgEpaEchoLandingSection(EntityLandingSection):
     name = 'EPA Violations'
     label = 'epa_echo'
     template = 'entity_landing/org_landing_epa_echo.html'
     enabled = False
 
-class OrgFacaLandingSection(Section):
+class OrgFacaLandingSection(EntityLandingSection):
     name = 'Advisory Committees'
     label = 'faca'
     template = 'entity_landing/org_landing_faca.html'
@@ -124,25 +124,25 @@ class OrgLandingView(EntityLandingView):
         OrgFacaLandingSection,
     ]
 
-class PolGroupContributionsLandingSection(Section):
+class PolGroupContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/pol_group_landing_contributions.html'
     enabled = False
 
-class PolGroupLobbyingLandingSection(Section):
+class PolGroupLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/pol_group_landing_lobbying.html'
     enabled = False
 
-class PolGroupRegulationsLandingSection(Section):
+class PolGroupRegulationsLandingSection(EntityLandingSection):
     name = 'Regulations'
     label = 'regulations'
     template = 'entity_landing/pol_group_landing_regulations.html'
     enabled = False
 
-class PolGroupFacaLandingSection(Section):
+class PolGroupFacaLandingSection(EntityLandingSection):
     name = 'Advisory Committees'
     label = 'faca'
     template = 'entity_landing/pol_group_landing_faca.html'
@@ -251,13 +251,13 @@ class LobbyistLandingView(EntityLandingView):
         LobbyistLobbyingLandingSection,
     ]
 
-class PolContributionsLandingSection(Section):
+class PolContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/pol_landing_contributions.html'
     enabled = False
 
-class PolEarmarksLandingSection(Section):
+class PolEarmarksLandingSection(EntityLandingSection):
     name = 'Earmarks'
     label = 'earmarks'
     template = 'entity_landing/pol_landing_earmarks.html'
