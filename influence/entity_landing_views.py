@@ -172,7 +172,21 @@ class LobbyingOrgContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/lobbying_org_landing_contributions.html'
-    enabled = False
+    enabled = True
+
+    def build_section_data(self):
+        self.total_contribution_amount = sum([float(n['amount']) for n in self.data['state_fed_summary']])
+
+        self.party_summary_data = self.prepare_parent_child_tree('party_summary')
+        self.pac_indiv_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
+        self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
+        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
+
+        if self.total_contribution_amount <= 0:
+            self.suppress_contrib_graphs = True
+            if self.total_contribution_amount < 0:
+                self.reason = "negative"
+
 
 class LobbyingOrgLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'
@@ -194,7 +208,7 @@ class LobbyingOrgFacaLandingSection(EntityLandingSection):
 
 class LobbyingOrgLandingView(EntityLandingView):
     label = 'lobbying_org'
-    name = 'Lobbying Firms'
+    name = 'Lobbying Organizations'
     sections = [
         LobbyingOrgContributionsLandingSection,
         LobbyingOrgLobbyingLandingSection,
