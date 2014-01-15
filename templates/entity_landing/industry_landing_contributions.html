@@ -17,6 +17,53 @@
 
 <div class="chartModule withNav">
     <span class="tip external">covers through [FIXME: date]</span>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      {% if not sections.contributions.suppress_contrib_graphs %}
+      Brisket.party_twopane_pie("partyTwopanePie", {% if section.party_summary_data %}{{ section.party_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.pac_indiv_twopane_pie("pacIndivTwopanePie", {% if section.pac_indiv_summary_data %}{{ section.pac_indiv_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.state_fed_twopane_pie("stateFedTwopanePie", {% if section.state_fed_summary_data %}{{ section.state_fed_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.recipient_type_twopane_pie("recipientTypeTwopanePie", {% if section.recipient_type_summary_data %}{{ section.recipient_type_summary_data|safe }}{% else %}{}{% endif %});
+      //Brisket.seat_twopane_pie("seatTwopanePie", {% if section.seat_summary_data %}{{ section.seat_summary_data|safe }}{% else %}{}{% endif %});
+      {% endif %}
+
+      //$('table#grantsContracts td').multiellipsis(3);
+      //$('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+      //$('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
+    });
+    </script>
+    <span class="tip external">covers roughly through q4 2012</span>
+    <div class="threeColumn mainTable">
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Industries by Recipient Party</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="partyTwopanePie" class="twopanePie"></div>
+          <span class="tip external">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Industries by Recipient Type</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="recipientTypeTwopanePie" class="twopanePie"></div>
+          <span class="tip external">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Industries in State and Federal Races</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="stateFedTwopanePie" class="twopanePie"></div>
+          <span class="tip external">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+       <!-- div class="electionHeader">
+          <h4 class="withTip">Contributions from Industries to Federal and State Offices</h4>
+          <span class="tip external">Ranked by total amount contributed</span>
+       </div>
+        <div id="seatTwopanePie" class="twopanePie"></div>
+          <span class="tip external">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+    </div -->
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Industries and Their Associated Individuals</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="pacIndivTwopanePie" class="twopanePie"></div>
+          <span class="tip external">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
     
-    <div class="threeColumn mainTable">FIXME: section's contents go here.</div>
 </div>

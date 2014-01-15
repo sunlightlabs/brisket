@@ -99,12 +99,12 @@ def get_data_types(entity_type, totals):
 landing_page_section_indicators = {
     # GROUPS
    'industry': {
-       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
+       'contributions': ['party_summary','recipient_type_summary','pac_indiv_summary','state_fed_summary'], #, 'seat_summary'
        #'lobbying': ['issues_summary','bills_summary'],
        #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary']
        },
    'org': {
-       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
+       'contributions': ['party_summary','recipient_type_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
        #'lobbying': ['issues_summary','bills_summary'],
        #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary'],
        #'earmarks': ['earmark_summary'],

@@ -9,19 +9,33 @@ from influence.base_views import EntityLandingView, Section, \
                                  EntityLandingSection
 
 ### Groups ###
-class IndustryContributionsLandingSection(Section):
+class IndustryContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/industry_landing_contributions.html'
-    enabled = False
+    enabled = True
 
-class IndustryLobbyingLandingSection(Section):
+    def build_section_data(self):
+        self.total_contribution_amount = sum([float(n['amount']) for n in self.data['state_fed_summary']])
+
+        self.party_summary_data = self.prepare_parent_child_tree('party_summary')
+        self.pac_indiv_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
+        self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
+        self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
+        #self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
+
+        if self.total_contribution_amount <= 0:
+            self.suppress_contrib_graphs = True
+            if self.total_contribution_amount < 0:
+                self.reason = "negative"
+
+class IndustryLobbyingLandingSection(EntityLandingSection):
     name = 'Lobbying'
     label = 'lobbying'
     template = 'entity_landing/industry_landing_lobbying.html'
     enabled = False
 
-class IndustryGrantsAndContractsLandingSection(Section):
+class IndustryGrantsAndContractsLandingSection(EntityLandingSection):
     name = 'Federal Spending'
     label = 'grants_and_contracts'
     template = 'entity_landing/industry_landing_grants_and_contracts.html'
@@ -53,6 +67,7 @@ class OrgContributionsLandingSection(EntityLandingSection):
 
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
         self.pac_indiv_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
+        self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
         self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
 
