@@ -16,7 +16,30 @@
 </div>
 
 <div class="chartModule withNav">
-    <span class="tip external">covers through [FIXME: date]</span>
-    
-    <div class="threeColumn mainTable">FIXME: section's contents go here.</div>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      {% if not sections.contributions.suppress_contrib_graphs %}
+      Brisket.in_state_out_of_state_twopane_pie("inStateOutOfStateTwopanePie", {% if section.in_state_out_of_state_summary_data %}{{ section.in_state_out_of_state_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.org_pac_indiv_twopane_pie("orgPacIndivTwopanePie", {% if section.org_pac_indiv_summary_data %}{{ section.org_pac_indiv_summary_data|safe }}{% else %}{}{% endif %});
+      {% endif %}
+
+      //$('table#grantsContracts td').multiellipsis(3);
+      //$('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+      //$('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
+    });
+    </script>
+    <span class="tip external">covers roughly through q4 2012</span>
+    <div class="threeColumn mainTable">
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Organizations by Recipient Party</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="inStateOutOfStateTwopanePie" class="twopanePie"></div>
+          <span class="tip external">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Organizations by Recipient Type</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="orgPacIndivTwopanePie" class="twopanePie"></div>
+          <span class="tip external">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
 </div>

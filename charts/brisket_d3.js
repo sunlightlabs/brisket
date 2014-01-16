@@ -1574,6 +1574,10 @@ BrisketModern = {
         var pac_indiv_colors = {"Org PAC": "#e3ba22", "Individuals": "#f9e671", "All" : "#dcddde"};
         Brisket.twopane_pie(div, data, pac_indiv_colors);
     },
+    org_pac_indiv_twopane_pie : function(div,data) {
+        var org_pac_indiv_colors = {"Individuals": "#bd8f22", "Org PAC": "#e3ba22", "Org Individuals": "#f9e671", "All" : "#dcddde"};
+        Brisket.twopane_pie(div, data, org_pac_indiv_colors);
+    },
     state_fed_twopane_pie : function(div,data) {
         var state_fed_colors = {"Federal": '#5A7F26', "State": '#A0B73B', "All" : "#dcddde"};
         Brisket.twopane_pie(div, data, state_fed_colors);

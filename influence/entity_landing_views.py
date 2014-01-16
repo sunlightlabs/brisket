@@ -297,7 +297,19 @@ class PolContributionsLandingSection(EntityLandingSection):
     name = 'Campaign Finance'
     label = 'contributions'
     template = 'entity_landing/pol_landing_contributions.html'
-    enabled = False
+    enabled = True
+
+    def build_section_data(self):
+        self.total_contribution_amount = sum([float(n['amount']) for n in self.data['org_pac_indiv_summary']])
+
+        self.org_pac_indiv_summary_data = self.prepare_parent_child_tree('org_pac_indiv_summary')
+        self.in_state_out_of_state_summary_data = self.prepare_parent_child_tree('in_state_out_of_state_summary')
+        #self.industry_summary_data = self.prepare_parent_child_tree('industry_summary')
+        
+        if self.total_contribution_amount <= 0:
+            self.suppress_contrib_graphs = True
+            if self.total_contribution_amount < 0:
+                self.reason = "negative"
 
 class PolEarmarksLandingSection(EntityLandingSection):
     name = 'Earmarks'

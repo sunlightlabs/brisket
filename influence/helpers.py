@@ -135,7 +135,7 @@ landing_page_section_indicators = {
        #'lobbying': ['issues_summary','bills_summary']
        },
    'pol':   {
-       'contributions': ['recipient_summary'],
+       'contributions': ['in_state_out_of_state_summary', 'org_pac_indiv_summary'],
        #'earmarks': ['earmark_summary']
        },
 }
