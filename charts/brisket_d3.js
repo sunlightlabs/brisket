@@ -1571,7 +1571,7 @@ BrisketModern = {
         Brisket.twopane_pie(div, data, recipient_type_colors);
     },
     pac_indiv_twopane_pie : function(div,data) {
-        var pac_indiv_colors = {"Org PAC": "#e3ba22", "Individuals": "#f9e671", "All" : "#dcddde"};
+        var pac_indiv_colors = {"Org PAC": "#e3ba22", "Org Individuals": "#f9e671", "All" : "#dcddde"};
         Brisket.twopane_pie(div, data, pac_indiv_colors);
     },
     org_pac_indiv_twopane_pie : function(div,data) {
