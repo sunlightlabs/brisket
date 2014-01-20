@@ -23,6 +23,7 @@ import datetime
 import json
 import unicodedata
 
+from BeautifulSoup import BeautifulSoup
 
 # Exceptions need a functioning unicode method
 # for Sentry. URLError and its subclass HTTPError
@@ -76,7 +77,6 @@ def entity_preview(request, entity_id, type):
 
     if type == 'politician':
         cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
-
         return render_to_response('{}_preview.html'.format(type), context,
                               entity_context(request, cycle, metadata['available_cycles']))
     else:
@@ -88,6 +88,10 @@ def index(request):
     feed = Feed.objects.get(pk=1)
     entry = feed.entries.values().latest('date_published')
     entry['title'] = entry['title'].replace('Influence Explored: ', '')
+    parsed_summary = BeautifulSoup(entry['summary'])
+    for e in parsed_summary.findAll('figure'):
+        e.clear()
+    entry['summary'] = unicode(parsed_summary)
     return render_to_response('index.html', {"feed": feed, "entry": entry, "top_pages": get_top_pages()}, brisket_context(request))
 
 
