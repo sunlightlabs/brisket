@@ -127,7 +127,7 @@ class OrgFacaLandingSection(EntityLandingSection):
 
 class OrgLandingView(EntityLandingView):
     label = 'org'
-    name = 'Organizations'
+    name = 'Businesses & Other Organizations'
     sections = [
         OrgContributionsLandingSection,
         OrgLobbyingLandingSection,
