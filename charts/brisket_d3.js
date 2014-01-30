@@ -872,7 +872,7 @@ D3Charts = {
         if (typeof opts == 'undefined') opts = {};
         _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
 
-        var pieMargin = {top: 30, right: 15, bottom: 25, left: 90},
+        var pieMargin = {top: 30, right: 15, bottom: 25, left: 100},
             //(opts.chart_height - (opts.donut_outer_r*2)) / 2,
             rad = opts.donut_outer_r,
             innerRad = opts.donut_outer_r / 3,
@@ -1157,18 +1157,18 @@ D3Charts = {
         }
        
         function highlightAllCenter(d){
-            pieChart.selectAll('g[data-slice="0"] circle')
-            .attr('transform', 'scale(1.05)')
+            center.selectAll('circle[data-slice="0"]')
+            .attr('transform', 'scale(1.25)');
             legend.selectAll('g[data-slice="0"] circle')
-              .classed('focusedSlice',true)
               .attr('transform', 'scale(1.15)');
             legend.selectAll('g[data-slice="0"] tspan')
               .style('font-weight','bold');
         }
                 
        function deHighlightAllCenter(d){
-            legend.selectAll('g[data-slice="0"] circle')
-              .classed('focusedSlice',true)
+            center.selectAll('circle[data-slice="0"]')
+            .attr('transform', 'scale(1)');
+            legend.selectAll('circle[data-slice="0"]')
               .attr('transform', 'scale(1)');
             legend.selectAll('g[data-slice="0"] tspan')
               .style('font-weight','normal');
@@ -1322,7 +1322,7 @@ D3Charts = {
 
           yaxis.append("text")
               .classed("ytitle",true)
-              .attr("transform", "translate(-"+(barMargin.left - 10)+",-"+ barMargin.top +")")
+              .attr("transform", "translate(-"+(barMargin.left - 12)+",-"+ barMargin.top +")")
               .attr("dy", ".85em")
               .style("text-anchor", "left")
               .style("fill", function(d) { if (parentName) { return opts.colors[parentName] } else { return 'All';} })
