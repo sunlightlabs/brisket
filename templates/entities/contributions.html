@@ -1,0 +1,85 @@
+{% load humanize %}
+
+<div class="overviewBar withNav withTip">
+    <h3 class="insideBar">Campaign Finance</h3>
+    <span class="amount">
+        {% if entity_info.type == "individual" or entity_info.type == "organization" or entity_info.type == "industry" %}
+            {% if not section.include_fec %} {# presence of FEC data means special handling is needed to determine total. Which we don't do at the moment. #}
+                ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} Given
+            {% endif %}
+        {% else %}
+            {% if entity_info.type == "politician" and section.fec_summary and not section.suppress_contrib_graphs %}
+                ${{section.fec_summary.total_raised|floatformat:0|intcomma }} Received
+            {% else %}
+                ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} Received
+            {% endif %}
+        {% endif %}</span>
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
+        <div class="clear"></div>
+        <div class="descriptorText" id="contributionsDescriptor">
+    	    <p>Figures are based on itemized contributions reported to the Federal Election Commission and state agencies. Please note that:</p>
+        	<ul>
+        		<li>contributions under $200 are not reported, and so are not included in totals.</li>
+        		<li>only contributions from individuals and organizations to candidates are included. Various accounting measures and more exotic contribution types are excluded.</li>
+        		<li>contributions are matched based on organization and recipient name reported within each election cycle. Contributions using an incorrect or non-standard version of the name may be missed.</li>
+        		<li>corporate name changes and mergers may cause figures to differ from those of the Center for Responsive Politics.</li>
+        		<li>organization totals include known subsidiaries of the organization.</li>
+        	</ul>
+    	    <p>For more information, please see our <a href="/about/methodology/campaign_finance">campaign finance methodology</a> page. Lobbyist bundling data is described on our <a href="/about/methodology/lobbyist_bundling">lobbyist bundling methodology</a> page.</p>
+        </div>    
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="chartModule withNav">
+    {% if section.include_fec %}
+        {% if entity_info.type == "politician" %}
+            {% include "entities/pol_fec.html" %}
+        {% else %}{% if entity_info.type == "organization" %}
+            {% include "entities/org_fec.html" %}
+        {% endif %}{% endif %}
+    {% endif %}
+    
+    {% if section.include_fec and not section.suppress_contrib_graphs %}
+        <hr class="section-divider" />
+    {% endif %}
+        
+    {% if section.suppress_contrib_graphs %}
+        {% if section.reason == "negative" %}
+          <p>Due to refunds and other accounting issues, aggregate totals for this time frame were negative.</p>  
+        {% endif %}
+    {% else %}
+        {% if section.include_fec %}
+                <div class="electionHeader">
+                    {% if entity_info.type == "politician" %}
+                        <h4 class="withTip">Donor Information</h4>
+                    {% else %}{% if entity_info.type == "organization" %}
+                        <h4 class="withTip">Standardized Donation Information</h4>
+                    {% endif %}{% endif %}
+                <span class="tip external">covers roughly through Q3 2013. may lag behind FEC section above, as donors and industries are identified by hand.</span>
+            </div>
+        {% else %}
+            {% if cycle in "-1 2014" %}<span class="tip external">covers roughly through Q3 2013</span>{% endif %}
+        {% endif %}
+    
+        <ul>
+          {% block charts %}
+            {% if entity_info.type == "individual" %}
+            {% include "entities/indiv_contributions.html" %}
+            {% else %}{% if entity_info.type == "politician" %}
+            {% include "entities/pol_contributions.html" %}
+            {% else %}{% if entity_info.type == "organization" %}
+            {% include "entities/org_contributions.html" %}
+            {% else %}{% if entity_info.type == "industry" %}
+            {% include "entities/industry_contributions.html" %}
+            {% endif %}{% endif %}{% endif %}{% endif %}
+          {% endblock %} <!-- end chart block -->
+
+        </ul><!-- end chartModule -->
+        <div class="clear"></div>
+    
+        {% include "section_base/external_links.html" with external_links=section.external_links %}
+
+    {% endif %}
+
+</div>

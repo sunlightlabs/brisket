@@ -1,0 +1,302 @@
+/* brisket search */
+
+.search-sidebar {
+    background: #f1f2ed;
+    background: rgba(199,203,183,0.25);
+    padding: 30px 25px 20px 40px; width: 170px; float: left; overflow: hidden; margin-bottom: 50px;
+}
+.search-main { padding: 0; width: 725px; float: right; overflow: hidden; }
+.search-main #contentHeader { padding: 0 25px 10px !important; }
+.search-results { padding-left: 25px; }
+.search-results h3 {
+    background: rgba(105,165,159,.17);
+    padding: 15px;
+    margin: 0px -25px -10px -15px;
+    z-index: 1000;
+    position: relative;
+}
+.search-results .search-preview { margin-bottom: 25px; margin-right: 25px; }
+.search-results .result-rows { border-top: 1px dotted #e6e6e4; }
+.search-results .result-row { padding: 15px; border-bottom: 1px dotted #e6e6e4; }
+.search-sidebar .search-filters { border-top: 1px dotted #ccc; margin-left: -40px; margin-right: -25px; }
+.search-sidebar .search-filter { border-bottom: 1px dotted #ccc; padding: 15px; padding-left: 40px; padding-right: 25px; }
+.search-sideber .search-select li { padding: 2px 0 2px 0; }
+.search-sidebar .search-select a.selected { font-weight: bold; color: #3b3130; }
+.search-sidebar select { width: 100%; font-size: 110%; margin-bottom: 12px; }
+.search-sidebar select:last-child { margin-bottom: 4px; }
+a.result-name { font-size: 145%; display: block; }
+.result-type { font-size: 110%; }
+.result-photo { float: right; width: 80px; height: 80px; text-align: right; }
+.result-photo img { max-width: 100%; max-height: 100%; border: 1px solid #eeeeee; padding: 2px; background: #ffffff; }
+.results-drilldown { display: block; margin-top: 5px; font-size: 110%; text-align: right; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
+.result-sections { margin-top: 5px; padding-top: 5px; padding-right: 80px; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; border-top: 1px dotted #cccccc; }
+.result-bio { width: 565px; margin-top: 1em; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique; }
+
+/* brisket regs section */
+td.regDoc{
+    width: 515px;
+}
+
+.regDocDl {
+    min-width: 85px;
+}
+
+.regDocDate {
+    min-width: 115px;
+}
+
+.regDocDl a { text-indent: -9999em; display: block; float: left; width: 24px; height: 24px; }
+
+.regDocDl a.xml, .regDocDl a.html { background: url('../images/document_icons_html.png') top left no-repeat; }
+.regDocDl a.pdf { background: url('../images/document_icons_pdf.png') top left no-repeat; }
+.regDocDl a.msw, .regDocDl a.msw6, .regDocDl a.msw8 { background: url('../images/document_icons_doc.png') top left no-repeat; }
+.regDocDl a.msw12 { background: url('../images/document_icons_docx.png') top left no-repeat; }
+.regDocDl a.rtf { background: url('../images/document_icons_rtf.png') top left no-repeat; }
+.regDocDl a.txt { background: url('../images/document_icons_text.png') top left no-repeat; }
+.regDocDl a.wp8 { background: url('../images/document_icons_wpm.png') top left no-repeat; }
+
+/*
+ * ADDITIONS THAT MAKE ENTITY LANDING PAGES WORK *
+ */
+
+.twopanePie {
+  text-align: center;
+  font: 10px sans-serif;
+}
+
+.twopanePie svg {
+  font: 10px sans-serif;
+}
+
+.twopanePie circle {
+  font: 10px sans-serif;
+}
+
+.twopanePie .axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.twopanePie .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.twopanePie .ylabel {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+}
+
+.twopanePie .ytitle {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+
+}
+
+.twopanePie .allLabel {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+}
+
+/* threepaneBar */
+
+.threepaneBar {
+    font: 10px sans-serif;
+    display: block;
+    
+}
+
+.threepaneBar .leftPane {
+    float: left;
+}
+
+.threepaneBar .rightPane {
+    float: left;
+    background-color: #f5f4f4; /* should be the same as .threepaneBar .focused */
+}
+
+.threepaneBar .rightTopPane {
+    background-color: none;
+}
+
+.rightTopPane h3 {
+    padding: 0;
+    margin: 0;
+    margin-top: 0.5em;
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+}
+
+    
+.threepaneBar .rightBottomPane {
+    /*
+    float: left;*/
+    background-color: none; /* should be the same as .threepaneBar .focused */
+    overflow:hidden;
+}
+
+.rightBottomPane .categoryTitle {
+    width: 100%;
+    height: 15%;
+    margin-bottom: 0.5em;
+}
+
+.rightBottomPane .categorySubtitle {
+    width: 100%;
+    max-height: 10%;
+}
+
+.rightBottomPane .categoryDescription {
+    width: 100%;
+    height: 85%;
+}
+
+.rightBottomPane h2 {
+    font-size: 250%;
+    line-height: 100%;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.rightBottomPane h3 {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0.5em;
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+}
+
+/*
+.rightBottomPane a:active, a:visited {
+    color: #0a6e92;
+}
+*/
+
+.rightBottomPane h3:hover {
+    text-decoration: underline;
+}
+
+/*.rightPane dl {
+    margin: 0;
+}
+
+.rightPane dt {
+    float: left;
+    margin-left: 5px;
+    margin-right: 0px;
+}
+
+.rightPane dd {
+    float: none;
+    margin-left: 10px;
+    margin-right: 0px;
+}*/
+
+.rightBottomPane dl {
+    padding-left: 0.5em;
+    margin-top:0;
+    height: 100%;
+    overflow: hidden; 
+  }
+
+.rightBottomPane  dt {
+    float: left;
+    width: 80px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+.rightBottomPane dt:after {
+    content: ":";
+  }
+
+.rightBottomPane  dd {
+    float:none;
+    margin: 0 0 0 90px;
+    padding-bottom: 0.2em;
+    height: auto;
+  }
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ellipsis.multiline {
+    white-space:normal;
+}
+
+.threepaneBar svg {
+  font: 10px sans-serif;
+}
+
+.threepaneBar .axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.threepaneBar .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.threepaneBar .ylabel {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+}
+
+.threepaneBar .ytitle {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+
+}
+
+.threepaneBar .allLabel {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: normal;
+    font-family: arial, sans-serif;
+}
+
+.threepaneBar .selector {
+    padding-right: 20px;
+}
+
+.threepaneBar .focused {
+    font-weight: bold;
+    background-color: #f5f4f4;
+}
+
+.threepaneBar .darkened { 
+    background-color: #f5f4f4;
+}

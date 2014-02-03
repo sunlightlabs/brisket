@@ -1,5 +1,5 @@
 {% extends "data/filter.html" %}
-{% load media %}
+{% load staticfiles %}
 
 {% block bodyid %}epaEcho{% endblock %}
 {% block dataset_name %}EPA-ECHO{% endblock %}
@@ -18,8 +18,8 @@
 {% endblock %}
 
 {% block dataset_scripts %}
-    {% js "data/epa_echo.js" %}
     {{ block.super }}
+    <script type="text/javascript" src="{% static "data/js/td.epa_echo.js" %}"></script>
     <script type="text/javascript">
         $().ready(function() {
             TD.EpaEchoFilter.bindDataFilter('#datafilter');

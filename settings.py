@@ -32,11 +32,13 @@ USE_I18N = False
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '(1yv=vnhqrvj%qjr%zd)fe*cr4785a#7$ju8km4%+tnscm&p_r'
@@ -50,16 +52,13 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-#    'django.contrib.sessions.middleware.SessionMiddleware',
-    'postcards.cookie.SessionMiddleware',
     'data.middleware.DataRedirectMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'influence.context_processors.custom_context',
-    'data.context_processors.custom_context',
+    'dryrub.context_processors.custom_context',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
@@ -79,22 +78,27 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
-#    'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.humanize', #format numbers in templates
     'django.contrib.sitemaps',
-    'mediasync',
-#    'simplepay',
+    'django.contrib.staticfiles',
+    #'mediasync',
     'brisket.influence',
     'brisket.util',
-#    'django.contrib.admin',
     'django_nose',
     'indexer',
     'paging',
     'gunicorn',
     'feedinator',
-    'fec',
+    'compressor',
+    'dryrub',
     'data',
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
@@ -108,6 +112,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 EMAIL_SUBJECT_PREFIX = '[Brisket] '
 
+FIRST_CYCLE = 1990
 LATEST_CYCLE = 2014
 TOP_LISTS_CYCLE = 2012
 
@@ -136,109 +141,12 @@ DEFAULT_CYCLE = None
 
 from local_settings import *
 
-MEDIASYNC['JOINED'] = {
-    'js/brisket-all.js': [
-        'js/jquery.tablesorter.min.js',
-        'js/jquery.json-2.3.min.js',
-        'js/underscore-min.js',
-        'js/brisket.js',
-        'js/d3.min.js',
-        'js/d3.geom.min.js',
-        'js/brisket_d3.js',
-    ],
-    'data/css/all.css': [
-        'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
-        'data/css/jquery.autocomplete.css',
-        'data/css/main.css',
-    ],
-    'data/css/3rdparty.css': [
-        'data/css/ui-lightness/jquery-ui-1.7.2.custom.css',
-        'data/css/jquery.autocomplete.css',
-    ],
-    'data/3rdparty.js': [
-        'data/js/jquery-ui-1.7.2.custom.min.js',
-        'data/js/jquery.currency.js',
-        'data/js/jquery.expander.js'
-    ],
-    'data/3rdparty_old.js': [
-        'data/js/jquery-1.4.2.min.js',
-        'data/js/jquery-ui-1.7.2.custom.min.js',
-        'data/js/jquery.currency.js',
-        'data/js/underscore-min.js',
-        'data/js/jquery.expander.js'
-    ],
-    'data/contracts.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contracts.js'
-    ],
-    'data/contractor_misconduct.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contractor_misconduct.js'
-    ],
-    'data/contributions.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contributions.js'
-    ],
-    'data/contributions_dc.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contributions_dc.js'
-    ],
-    'data/earmarks.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.earmarks.js'
-    ],
-    'data/grants.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.grants.js'
-    ],
-    'data/lobbying.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.lobbying.js'
-    ],
-    'data/faca.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.faca.js'
-    ],
-    'data/bundling.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.bundling.js'
-    ],
-    'data/epa_echo.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.epa_echo.js'
-    ],
-    'data/index.js': [
-        'data/js/td.js',
-        'data/js/td.fields.js',
-        'data/js/td.contracts.js',
-        'data/js/td.earmarks.js',
-        'data/js/td.grants.js',
-        'data/js/td.lobbying.js',
-        'data/js/td.contributions.js',
-        'data/js/td.contributions_dc.js',
-        'data/js/td.contractor_misconduct.js',
-        'data/js/td.epa_echo.js',
-        'data/js/td.faca.js',
-        'data/js/td.bundling.js'
-    ],
-}
-
 import re
 IGNORABLE_404_URLS = (
     re.compile(r'\.php$'),
 )
 
-from influenceexplorer import InfluenceExplorer, ALL_CYCLES
+from influenceexplorer import InfluenceExplorer, DEFAULT_CYCLE
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
 
 if not DEFAULT_CYCLE:

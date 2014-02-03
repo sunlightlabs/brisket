@@ -7,6 +7,7 @@ import re
 from django.utils.datastructures import SortedDict
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver, \
         IndividualNameCleaver
+from name_cleaver.names import PoliticianName
 
 
 _standardizers = {
@@ -65,11 +66,11 @@ def generate_label(string, max_length=34):
 
 section_indicators = {
    'individual':   {
-       'contributions': ['contributor_count'], 
+       'contributions': ['contributor_count'],
        'lobbying': ['lobbying_count']},
    'organization': {
        'contributions': ['contributor_count', 'independent_expenditure_amount', 'fec_summary_count'],
-       'lobbying': ['lobbying_count'], 
+       'lobbying': ['lobbying_count'],
        'fed_spending':['loan_count', 'grant_count', 'contract_count'],
        'earmarks': ['earmark_count'],
        'contractor_misconduct': ['contractor_misconduct_count'],
@@ -77,12 +78,66 @@ section_indicators = {
        'epa_echo': ['epa_actions_count'],
        'faca': ['faca_committee_count', 'faca_member_count']},
    'industry': {
-       'contributions': ['contributor_count'], 
+       'contributions': ['contributor_count'],
        'lobbying': ['lobbying_count'],
        'fed_spending':['loan_count', 'grant_count', 'contract_count']},
    'politician':   {
        'contributions': ['recipient_count'],
        'earmarks': ['earmark_count']}
+}
+
+def get_data_types(entity_type, totals):
+    data = {}
+    for data_type, indicators in section_indicators[entity_type].iteritems():
+        if (totals and
+            [True for ind in indicators if totals[ind]]):
+            data[data_type] = True
+        else:
+            data[data_type] = False
+    return data
+
+landing_page_section_indicators = {
+    # GROUPS
+   'industry': {
+       'contributions': ['party_summary','recipient_type_summary','pac_indiv_summary','state_fed_summary'], #, 'seat_summary'
+       #'lobbying': ['issues_summary','bills_summary'],
+       #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary']
+       },
+   'org': {
+       'contributions': ['party_summary','recipient_type_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
+       #'lobbying': ['issues_summary','bills_summary'],
+       #'fed_spending':['loan_summary', 'grant_summary', 'contract_summary'],
+       #'earmarks': ['earmark_summary'],
+       #'contractor_misconduct': ['contractor_misconduct_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'epa_echo': ['epa_actions_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
+   'pol_group': {
+       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
+       #'lobbying': ['issues_summary','bills_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
+   'lobbying_org': {
+       'contributions': ['party_summary','pac_indiv_summary','state_fed_summary', 'seat_summary'],
+       #'lobbying': ['issues_summary','bills_summary'],
+       #'regulations': ['regs_document_summary', 'regs_submitted_document_summary'],
+       #'faca': ['faca_committee_summary', 'faca_member_summary']
+       },
+   # PEOPLE
+   'individual':   {
+       'contributions': ['party_summary','recipient_type_summary','state_fed_summary','in_state_out_of_state_summary', 'seat_summary'],
+       #'lobbying': ['issues_summary','bills_summary']
+       },
+   'lobbyist':   {
+       'contributions': ['party_summary','recipient_type_summary','state_fed_summary', 'in_state_out_of_state_summary', 'seat_summary'],
+       #'lobbying': ['issues_summary','bills_summary']
+       },
+   'pol':   {
+       'contributions': ['in_state_out_of_state_summary', 'org_pac_indiv_summary'],
+       #'earmarks': ['earmark_summary']
+       },
 }
 
 def get_metadata(entity_id, request, entity_type):
@@ -98,14 +153,10 @@ def get_metadata(entity_id, request, entity_type):
         cycle = str(request.GET['cycle'])
     else:
         cycle = str(DEFAULT_CYCLE)
-        
+
     # check which types of data are available about this entity
-    for data_type, indicators in section_indicators[entity_type].iteritems():
-        if (entity_info['totals'].get(cycle, False) and
-            [True for ind in indicators if entity_info['totals'][cycle][ind]]):
-            data[data_type] = True
-        else:
-            data[data_type] = False
+    totals_for_cycle = entity_info['totals'].get(cycle, False)
+    data.update(get_data_types(entity_type, totals_for_cycle))
 
     # discard the info from cycles that are not the current one
     if entity_info['totals'].get(cycle, None):
@@ -114,26 +165,47 @@ def get_metadata(entity_id, request, entity_type):
 
     return data, cycle
 
+def get_summaries(entity_type, request):
+    data = {}
+
+    if 'cycle' in request.GET:
+        cycle = str(request.GET['cycle'])
+    else:
+        cycle = str(DEFAULT_CYCLE)
+
+    if 'limit' in request.GET:
+        limit = str(request.GET['limit'])
+    else:
+        limit = str(-1)
+
+    for data_type,indicators in landing_page_section_indicators[entity_type].iteritems():
+        print 'summary for %s'%(data_type,)
+        inds = {}
+        for indicator in indicators:
+            print  '>>> %s'%(indicator,)
+            inds[indicator] = api.summaries.summarize(entity_type,indicator.replace('_summary',''),cycle=cycle,limit=limit)
+        data[data_type] = inds
+
+    return data,cycle
+    #for data_type, indicators in section_indicators[entity_type].iteritems():
+    #data['available_cycles'] = [c for c in en
+
+def earmarks_table_data(entity_id, cycle):
+    rows = api.pol.earmarks(entity_id, cycle)
+    for row in rows:
+        for member in row['members']:
+            member_obj_or_str = PoliticianNameCleaver(member['name']).parse()
+            if isinstance(member_obj_or_str, PoliticianName):
+                member['name'] = str(member_obj_or_str.plus_metadata(member['party'], member['state']))
+            else:
+                member['name'] = member_obj_or_str
+
+    return rows
+
 def months_into_cycle_for_date(date, cycle):
     end_of_cycle = datetime.datetime.strptime("{0}1231".format(cycle), "%Y%m%d").date()
     step = 24 - abs(((end_of_cycle.year - date.year) * 12) + end_of_cycle.month - date.month)
     return step
-
-
-def check_entity(entity_info, cycle, entity_type):
-    try:
-        icycle = int(cycle)
-    except:
-        raise Http404
-    if not entity_info['years']:
-        raise Http404
-    elif icycle != -1 and (icycle < int(entity_info['years']['start']) or icycle > int(entity_info['years']['end'])):
-        raise Http404
-    elif icycle > LATEST_CYCLE:
-        raise Http404
-    elif entity_info['type'] != entity_type:
-        raise Http404
-
 
 def filter_bad_spending_descriptions(spending):
     for r in spending:
@@ -145,26 +217,6 @@ def get_source_display_name(metadata):
     source_display_names = {'wikipedia_info': 'Wikipedia', 'bioguide_info': 'Bioguide', 'sunlight_info': 'Sunlight'}
     return source_display_names.get(metadata.get('source_name', ''), '')
 
-def prepare_entity_view(request, entity_id, type):    
-    metadata, cycle = get_metadata(entity_id, request, type)
-    check_entity(metadata['entity_info'], cycle, type)
-    standardized_name = standardize_name(metadata['entity_info']['name'], type)
-
-    context = {}
-    context['entity_id'] = entity_id
-    context['cycle'] = cycle
-    context['entity_info'] = metadata['entity_info']
-    context['entity_info']['metadata']['source_display_name'] = get_source_display_name(metadata['entity_info']['metadata'])
-    
-    context['sections'] = SortedDict()
-
-    if cycle != DEFAULT_CYCLE and unicode(str(cycle)) in metadata['entity_info']['metadata']:
-        # copy the current cycle's metadata into the generic metadata spot
-        metadata['entity_info']['metadata'].update(metadata['entity_info']['metadata'][unicode(str(cycle))])
-
-    return cycle, standardized_name, metadata, context
-
-
 def make_bill_link(bill):
     if bill['bill_type'] in 'h hr hc hj s sr sc sj'.split():
         if bill['congress_no'] and int(bill['congress_no']) >= 109:
@@ -175,16 +227,16 @@ from influence.cache import cache
 @cache(seconds=86400)
 def get_top_pages():
     end_dt = datetime.datetime.now()
-    
+
     end_date = end_dt.date()
     start_date = (end_dt - datetime.timedelta(days=7)).date()
-    
+
     from django.conf import settings
-    
+
     try:
         connection = googleanalytics.Connection(settings.GOOGLE_ANALYTICS_USER, settings.GOOGLE_ANALYTICS_PASSWORD)
         account = connection.get_account(settings.GOOGLE_ANALYTICS_PROFILE_ID)
-        
+
         pages = account.get_data(
             start_date=start_date,
             end_date=end_date,
@@ -194,12 +246,21 @@ def get_top_pages():
         )
     except:
         return None
-    
+
     entity_signature = re.compile(r'^/[\w\-]+/[\w\-]+/[a-f0-9-]{32,36}')
     entity_pages = [{
         'views': page.metric,
         'path': page.dimensions[0],
         'title': page.dimensions[1].split('|')[0].strip()
     } for page in pages if entity_signature.match(page.dimensions[0]) and 'error' not in page.dimensions[1].lower()]
-    
+
     return entity_pages[:5]
+
+# dummy class used in search
+class DummyEntity(object):
+    def __init__(self, metadata):
+        self.metadata = metadata
+
+    @property
+    def entity_id(self):
+        return self.metadata['id']

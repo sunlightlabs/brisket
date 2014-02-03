@@ -1,0 +1,68 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar withNav withTip">
+    <h3>Campaign Finance</h3>
+    <span class="amount">${{ section.total_contribution_amount|floatformat:0|intcomma }} GIVEN</span>
+    <div  class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#contributionsDescriptor">Information</a>
+        <div class="clear"></div>      
+        <div class="descriptorText" id='contributionsDescriptor'>
+            <p>The charts below display organizations' contributions to federal and state races.  For federal races, only political contributions over $200 are included in these totals. This is because the Federal Election Commission only requires campaigns to itemize contributions that are more than $200.  For state races, the threshhold for itemizing each contribution varies by state.</p>
+            <p>For more information, see our <a href="/about/methodology/contributions/">Campaign Finance Methodology</a> page.</p>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="chartModule withNav">
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      {% if not sections.contributions.suppress_contrib_graphs %}
+      Brisket.party_twopane_pie("partyTwopanePie", {% if section.party_summary_data %}{{ section.party_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.pac_indiv_twopane_pie("pacIndivTwopanePie", {% if section.pac_indiv_summary_data %}{{ section.pac_indiv_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.state_fed_twopane_pie("stateFedTwopanePie", {% if section.state_fed_summary_data %}{{ section.state_fed_summary_data|safe }}{% else %}{}{% endif %});
+      Brisket.recipient_type_twopane_pie("recipientTypeTwopanePie", {% if section.recipient_type_summary_data %}{{ section.recipient_type_summary_data|safe }}{% else %}{}{% endif %});
+      //Brisket.seat_twopane_pie("seatTwopanePie", {% if section.seat_summary_data %}{{ section.seat_summary_data|safe }}{% else %}{}{% endif %});
+      {% endif %}
+
+      //$('table#grantsContracts td').multiellipsis(3);
+      //$('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+      //$('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
+    });
+    </script>
+    <span class="tip external">covers roughly through q3 2013</span>
+    <div class="threeColumn mainTable">
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions to Parties from Organizations</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="partyTwopanePie" class="twopanePie"></div>
+          <span class="external">These charts show businesses and other organizations split their contributions between the political parties. The "Other" portion of the pie represents third party giving. The bar chart lists the top ten giving organizations by the party. The interactive pie chart can be used to toggle between the parties to see which organization gave the most to each.</span>
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions to Committees and Politicians' Campaigns from Organizations</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="recipientTypeTwopanePie" class="twopanePie"></div>
+          <span class="external">These charts show how organization money is divided between politicians and committees. The bar chart shows the top ten givers to politicians and committees. The interactive pie chart can be used to toggle between the types of recipients and see which organization gave the most in that category.</span>
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions in State and Federal Races from Organizations</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="stateFedTwopanePie" class="twopanePie"></div>
+          <span class="external">These charts show how giving from organizations is divided between state federal races. The bar chart shows the top ten organizations to give on the state and federal levels. The interactive pie chart can be used to toggle between the levels of government to see which organizations gave greatest amount there.</span>
+       <!-- div class="electionHeader">
+          <h4 class="withTip">Contributions from Organizations to Federal and State Offices</h4>
+          <span class="tip external">Ranked by total amount contributed</span>
+       </div>
+        <div id="seatTwopanePie" class="twopanePie"></div>
+          <span class="external">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+    </div -->
+       <div class="electionHeader">
+          <h4 class="withTip">Contributions from Organizations and Their Associated Individuals</h4>
+          <!-- span class="tip external">Ranked by total amount contributed</span-->
+       </div>
+        <div id="pacIndivTwopanePie" class="twopanePie"></div>
+          <span class="external">These charts show what money comes from political action committees associated with a particular organization and what money comes from individuals associated an organization. The bar chart shows the top ten organization PACs and organization-related individuals to give money.</span>
+    </div>
+</div>

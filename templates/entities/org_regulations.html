@@ -1,0 +1,129 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar withNav withTip">
+    <h3>Regulations</h3>
+    <span class="amount">
+        {% if section.regulations_text_count %}
+            Mentioned in {{ section.regulations_text_count }} docket{{ section.regulations_text_count|pluralize }}{% if section.regulations_submitter_count %};{% endif %}
+        {% endif %}
+        {% if section.regulations_submitter_count %}
+            Submitted to {{ section.regulations_submitter_count }} docket{{ section.regulations_submitter_count|pluralize }}
+        {% endif %}
+    </span>
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#regulationsDescriptor">Information</a>
+        <div class="clear"></div>      
+        <div class="descriptorText" id='regulationsDescriptor'>
+            <p>All data is based on documents downloaded from <a href="http://www.regulations.gov">Regulations.gov</a>. The first table shows mentions: all documents that include the name of the company anywhere in the document or document metadata. The second table shows submissions: all documents where the submitter metadata included the company name. Each table shows the top 10 dockets, ranked by number of occurrences.</p>
+            	<p>Matches are based on a search for the company name. Variations in the company name, such as acronyms, nicknames or alternate names may cause documents to be missed. The mention of a company name in a document may be incidental and does not necessarily indicate that the company has any relevance to the document. Company names that are common English words may erroneously match with text that is not referring to the company.</p>
+            	<p>Not all agencies submit public comments to Regulations.gov. For a list of participating and non-participating agencies see <a href="http://www.regulations.gov/#!aboutPartners">here</a>. Agencies that do submit to Regulations.gov have varying levels of accuracy and completeness.</p>
+            	<p>Regulations and public comments can be downloaded in bulk <a href="http://data.influenceexplorer.com/bulk/">here</a>.</p>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="chartModule withNav">
+    <span class="tip external">updated daily from <a class="no-padding" href="http://www.regulations.gov">Regulations.gov</a> by way of <a class="no-padding" href="http://docketwrench.sunlightfoundation.com">Docket Wrench</a> </span>
+    <p class="tip">The tables show occurrences of "{{ entity_info.name|standardize_organization_name }}" in public comments on proposed federal regulations.</p>
+    <ul class="chartWrapper">
+    {% if section.regulations_submitter %}
+        <li class="threeColumn">
+            <h5>Documents Submitted by the Organization</h5>
+            <ul class="expandTableHead insideList">
+                <li class="expandCol toggle noshow"></li>
+                <li class="expandCol regColCount">Submissions</li>
+                <li class="expandCol regColSmall">Agency</li>
+                <li class="expandCol regColLarge">Docket</li>
+                <li class="expandCol regColDate">Date</li>
+            </ul>
+            <ul class='expandTable clear insideList' id="regulations_submitter" data-expand-url='{{ DOCKETWRENCH_URL }}api/1.0/entity/{{ entity_info.id }}/submissions_in_docket/{id}?format=jsonp&apikey={{ API_KEY }}&cycle={{ cycle }}&callback=?' data-expand-template="#regPopDownTemplate">
+            {% for row in section.regulations_submitter %}
+                <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.id }}">
+                    <a class="expandCol toggle">Toggle</a>
+                    <span class="expandCol regColCount">{{ row.count }}</span>
+                    <span class="expandCol regColSmall">{{ row.agency }}</span>
+                    <a class="expandCol regColLarge docketTitle" href="{{ DOCKETWRENCH_URL }}docket/{{ row.id }}" title="{{ row.id }}" target="_blank">{{ row.title }}</a>
+                    <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
+                    <div class="clear"></div>
+                    <div class="loading"></div>
+                    <div class="expandDocList"></div>
+                </li>
+            {% endfor %}
+            </ul>
+        </li>
+
+        {% include "section_base/external_links.html" with external_links=section.regulations_submitter_links %}
+    {% endif %}
+
+    {% if section.regulations_submitter and section.regulations_text %}
+    <div class="module"></div>
+    {% endif %}
+
+    {% if section.regulations_text %}
+        <li class="threeColumn">
+            <h5>Mentions in Document Text</h5>
+            <ul class="expandTableHead insideList">
+                <li class="expandCol toggle noshow"></li>
+                <li class="expandCol regColCount">Mentions</li>
+                <li class="expandCol regColSmall">Agency</li>
+                <li class="expandCol regColLarge">Docket</li>
+                <li class="expandCol regColDate">Date</li>
+                <li class="clear"></li>
+            </ul>
+            <ul class='expandTable insideList' id="regulations_text" data-expand-url='{{ DOCKETWRENCH_URL }}api/1.0/entity/{{ entity_info.id }}/mentions_in_docket/{id}?format=jsonp&apikey={{ API_KEY }}&cycle={{ cycle }}&callback=?' data-expand-template="#regPopDownTemplate">
+                {% for row in section.regulations_text %}
+                <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.id }}">
+                    <a class="expandCol toggle">Toggle</a>
+                    <span class="expandCol regColCount">{{ row.count }}</span>
+                    <span class="expandCol regColSmall">{{ row.agency }}</span>
+                    <a class="expandCol regColLarge docketTitle" href="{{ DOCKETWRENCH_URL }}docket/{{ row.id }}" title="{{ row.id }}" target="_blank">{{ row.title }}</a>
+                    <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
+                    <div class="clear"></div>
+                    <div class="loading"></div>
+                    <div class="expandDocList"></div>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+
+        {% include "section_base/external_links.html" with external_links=section.regulations_text_links %}
+    {% endif %}
+    </ul>
+  <div class="clear"></div>
+
+</div><!-- end chartModule -->
+
+<script type="text/html" id="regPopDownTemplate">
+<table>
+  <thead>
+    <tr>
+      <th>Document</th>
+      <% if (typeof(documents[0].files) != "undefined") { %>
+      <th>View</th>
+      <% } %>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% _.each(documents, function(document, i) { %>
+    <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
+      <td class="regDoc"><a href="{{ DOCKETWRENCH_URL }}document/<%=document.id%>" title="<%=document.id%>" target="_blank"><%=document.title%></a></td>
+      <% if (typeof(document.files) != "undefined") { %>
+        <td class="regDocDl">
+        <% for (var j = 0; j < document.files.length; j++) { %>
+          <a href="http://www.regulations.gov/contentStreamer?objectId=<%=document.files[j].object_id%>&disposition=inline&contentType=<%=document.files[j].file_type%>" class="<%=document.files[j].file_type%>" target="_blank">Download <%=document.files[j].file_type.toUpperCase()%></a>
+        <% } %>
+        </td>
+      <% } %>
+      <td class="regDocDate"><%=formatDate(document.date_posted)%></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+<% if (has_more) { %>
+<a class="tip regsTip" href="{{ DOCKETWRENCH_URL|slice:":-1" }}<%=document_search_url%>">View all documents &raquo;</a>
+<div class="clear"></div>
+<% } %>
+</script>

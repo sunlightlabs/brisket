@@ -97,3 +97,17 @@ def search_download(request, search_resource):
     response['Content-Type'] = "application/vnd.ms-excel; charset=utf-8"
     return response
 
+# from http://stackoverflow.com/questions/11005733/moving-from-direct-to-template-to-new-templateview-in-django
+from django.views.generic import TemplateView
+
+class DirectTemplateView(TemplateView):
+    extra_context = None
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        if self.extra_context is not None:
+            for key, value in self.extra_context.items():
+                if callable(value):
+                    context[key] = value()
+                else:
+                    context[key] = value
+        return context

@@ -1,0 +1,116 @@
+{% extends "entities/entity_base.html" %}
+{% load humanize %}
+{% load influence_extras %}
+{% load staticfiles %}
+
+{% block pagetitle %}{% spaceless %}
+    {{ entity_info.name_with_meta }}
+    {% if entity_info.metadata.yrs_of_service %}
+        {{entity_info.metadata.yrs_of_service}}
+    {% endif %}
+    |
+{% endspaceless %} {% endblock %}
+
+{% block canonicalurl %}/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
+
+{% block metadesc %}{% if entity_info.metadata.seat %}{{ entity_info.name|standardize_politician_name|seat_title:entity_info.metadata.seat }}{% else %}{{ entity_info.name|standardize_politician_name }}{% endif %} {% if entity_info.metadata.party %}({{entity_info.metadata.party}}{% if entity_info.metadata.state %}-{{entity_info.metadata.state}}{% endif %}){% endif %} has received ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money came from on Influence Explorer.{% endblock %}
+
+{% block body_class %}individual{% endblock %}
+
+{% block og %}
+  <meta name="og:title" content="{% spaceless %}
+    {{ entity_info.name|standardize_politician_name }}
+    {% if entity_info.metadata.party %}
+        ({{entity_info.metadata.party}})
+    {% endif %}
+    {{entity_info.metadata.state}}
+    {% if entity_info.metadata.yrs_of_service %}
+        {{entity_info.metadata.yrs_of_service}}
+    {% endif %}
+    |
+{% endspaceless %} Influence Explorer">
+  <meta name="og:description" content="{% if entity_info.metadata.seat %}{{ entity_info.name|standardize_politician_name|seat_title:entity_info.metadata.seat }}{% else %}{{ entity_info.name|standardize_politician_name }}{% endif %} {% if entity_info.metadata.party %}({{entity_info.metadata.party}}{% if entity_info.metadata.state %}-{{entity_info.metadata.state}}{% endif %}){% endif %} has received ${{entity_info.totals.recipient_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money came from on Influence Explorer.">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="{% if entity_info.metadata.photo_url %}{{ entity_info.metadata.photo_url }}{% else %}http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png{% endif %}">
+  <meta name="og:url" content="http://influenceexplorer.com/politician/{{ entity_info.name|standardize_politician_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
+  <meta name="og:site_name" content="Influence Explorer">
+  <meta name="fb:admins" content="7812952,5308565">
+{% endblock %}
+
+{% block extrajs %}
+{% if not suppress_contrib_graphs %}
+<script type="text/javascript" src="{% static "dryrub/js/jquery.shorteners.js" %}"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+    {% if not sections.contributions.suppress_contrib_graphs %}
+    Brisket.local_piechart("piechart_local", {% if sections.contributions.local_breakdown %} {{ sections.contributions.local_breakdown|safe }} {% else %} {} {% endif %} );
+    Brisket.indiv_pac_piechart("piechart_entity", {% if sections.contributions.entity_breakdown %} {{ sections.contributions.entity_breakdown|safe }} {% else %} {} {% endif %} );
+    Brisket.contribution_single_barchart("industries_barchart", {% if sections.contributions.industries_barchart_data %}{{ sections.contributions.industries_barchart_data|safe }} {% else %}[]{% endif %});
+    Brisket.contribution_single_barchart("contributors_barchart", {% if sections.contributions.contributors_barchart_data %}{{ sections.contributions.contributors_barchart_data|safe }} {% else %}[]{% endif %});
+    {% endif %}
+
+    Brisket.local_piechart("earmarks_local", {% if sections.earmarks.earmarks_local %} {{ sections.earmarks.earmarks_local|safe }} {% else %} {} {% endif %} );
+
+    $('td.cell-earmark-description .earmark_mainDescription').multiellipsis(3);
+    $('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
+});
+</script>
+{% endif %}
+{% endblock %}
+
+{% block contentHeader %}
+
+
+{% if entity_info.metadata.photo_url %}
+<img alt="political photo" src="{{ entity_info.metadata.photo_url }}"/>
+{% endif %}
+
+<h2>{{ entity_info.name|standardize_politician_name }}</h2>
+<dl>
+  <dt class="noshow">Party</dt>
+  {% if entity_info.metadata.party == 'D' %}
+  <dd>Democrat</dd>
+  {% else %}{% if entity_info.metadata.party == 'R' %}
+  <dd>Republican</dd>
+  {% else %}
+  <dd>{{ entity_info.metadata.party }}</dd>
+  {% endif %}{% endif %}
+
+  {% if entity_info.metadata.seat_held %}
+  <dt>{% ifequal cycle "-1" %}Latest {% endifequal %}Office Held:</dt>
+  <dd>{{ entity_info.metadata.seat_held|seat_label }}{% if entity_info.metadata.state_held %}, {{ entity_info.metadata.state_held }}{% endif %}</dd>
+  {% endif %}
+  <dt>{% ifequal cycle "-1" %}Latest {% endifequal %}Office Sought:</dt>
+  <dd>{{ entity_info.metadata.seat|seat_label }}{% if 'president' not in entity_info.metadata.seat and entity_info.metadata.state %}, {{ entity_info.metadata.state }}{% endif %}</dd>
+
+  {% if entity_info.metadata.yrs_of_service %}
+  <dt>Years of Service:</dt>
+  <dd>{{entity_info.metadata.yrs_of_service}}</dd>
+  {% endif %}
+
+  {% if entity_info.metadata.revolving_door_entity %}
+  <dt class="noshow">Lobbying Activity</dt>
+  <dd id="revolvingDoor">See also: <a href="/individual/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">Lobbyist profile for {{ entity_info.name|standardize_politician_name }}</a></dd>
+  {% endif %}
+
+  {% for state_pol in entity_info.metadata.state_politician_entities %}
+  <dt class="noshow">State Candidancy or Office Held:</dt>
+  <dd id="revolvingDoor">See also: <a href="/politician/{{state_pol.name|slugify}}/{{state_pol.id}}">State profile for {{ state_pol.name|standardize_politician_name }}</a></dd>
+  {% endfor %}
+
+  {% for fed_pol in entity_info.metadata.federal_politician_entities %}
+  <dt class="noshow">Federal Candidancy or Office Held:</dt>
+  <dd id="revolvingDoor">See also: <a href="/politician/{{fed_pol.name|slugify}}/{{fed_pol.id}}">Federal profile for {{ fed_pol.name|standardize_politician_name }}</a></dd>
+  {% endfor %}
+</dl>
+<div class="clear"></div>
+{% endblock %}
+
+{% block description %}
+{% if entity_info.metadata.bio %}
+{{ entity_info.metadata.bio|first_paragraph|safe }}
+{% if entity_info.metadata.bio_url and entity_info.metadata.source_display_name != "Sunlight" %}
+<p id="bio_source">Source: <a href="{{ entity_info.metadata.bio_url }}" target="_blank">{{ entity_info.metadata.source_display_name }}</a></p>
+{% endif %}
+{% endif %}
+{% endblock %}

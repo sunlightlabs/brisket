@@ -1,0 +1,32 @@
+{% extends "brisket_base.html" %}
+
+{% block body_class %}methodology flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Earmark Methodology</h2>
+</div>
+
+<div id="ltColumn">
+	<p id="tip">This document describes the process we use to display earmark data.</p>
+	
+	<h3>Background</h3>
+	
+	<p>Earmarks are provisions inserted into federal legislation that direct funds to be spent on a particular project or recipient. There are varying definitions of precisely what constitutes an earmark. Our data comes from the non-profit non-partisan Taxpayers for Common Sense (TCS), and we rely on their definition and collection methodology.</p>
+	
+	<p>Earmark disclosure laws have been in a state of flux in recent years. Currently, congressional committees release an earmark list for each appropriations bill. TCS lists these as &#8220;disclosed&#8221; earmarks. To find &#8220;undisclosed&#8221; earmarks, TCS reads the full text of every bill to identify additional spending that matches its definition of an earmark.</p>
+	
+	<p>For more information on how TCS creates the earmark database, see their <a href="http://taxpayer.net/search_by_category.php?action=view&amp;proj_id=3193&amp;category=Earmarks&amp;type=Project">earmark FAQ</a>. Our partner organization, Center for Responsive Politics, also uses earmark data from TCS, and provides a good overview <a href="http://www.opensecrets.org/earmarks/methodology.php">here</a>.</p>
+	
+	<h3>Notes</h3>
+	
+	<p>The politician page lists the top 10 earmarks that that member sponsored, ordered by dollar amount in the final version of the bill. The organization page lists the top 10 earmarks that were given to that organization. &#8220;Presidential earmarks&#8221;&#8212;those that were listed in the president&#8217;s budget proposal&#8212;are not listed on members&#8217; pages, even if the member co-sponsors the earmark, but are listed on organizations&#8217; pages. Note that some earmarks are sponsored by only a single member and others are co-sponsored by dozens of members. In the latter case, the earmark still counts in full to each co-sponsor&#8217;s total earmark amount.</p>
+	
+	<p>TCS data lists earmark sponsors only by last name. This is usually enough to allow automated matching to a member, but there are occasional cases where no unique match can be found. This results in about 5% of earmark sponsorships being missed. Matching earmarks to recipients is more difficult. Most earmarks do not list a clear recipient to begin with. Of those that do, we attempt to match the recipient name to organizations in Influence Explorer. That matching may fail if the recipient name varies significantly from the name in Influence Explorer.  </p>
+	
+	<p>Note that earmarks for a given fiscal year are legislated in the previous calendar year. Therefore, the 2007-2008 view shows earmarks for fiscal years 2008 and 2009.</p>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="result-row {% if counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+    {% if result.metadata.photo_url %}
+    <div class="result-photo">
+        <img src="{{ result.metadata.photo_url }}" alt="{{ result.name }}" />
+    </div>
+    {% endif %}
+
+    <a href="{{ result.url }}" class="result-name">{{ result.name|standardize_name:result.type }}</a>
+    <span class="result-type">{% block result-type %}<strong>{{ result.type|capfirst }}</strong>{% endblock %}</span>
+
+    {% if search_type != 'all' and result.metadata.bio %}
+    <div class="result-bio">{{ result.metadata.bio|first_paragraph|safe }}</div>
+    {% endif %}
+
+    {% if result.sections %}
+    <div class="result-sections">
+        Available data:
+        {% for section in result.sections %}
+            <a href="{{ result.url }}#{{ section.label }}_section">{{ section.name|lower }}</a>{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="clear"></div>
+</div>

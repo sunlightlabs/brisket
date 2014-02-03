@@ -1,0 +1,83 @@
+{% extends "entities/entity_base.html" %}
+{% load humanize %}
+{% load influence_extras %}
+
+{% block pagetitle %}
+    {{ entity_info.name|standardize_individual_name }} | 
+{% endblock %}
+
+{% block canonicalurl %}/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}{% endblock %}
+
+{% block metadesc %}{{ entity_info.name|standardize_individual_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.{% endblock %}
+
+{% block body_class %}individual{% endblock %}
+
+{% block og %}
+  <meta name="og:title" content="{{ entity_info.name|standardize_individual_name }} | Influence Explorer">
+  <meta name="og:description" content="{{ entity_info.name|standardize_individual_name }} has given ${{entity_info.totals.contributor_amount|floatformat:0|intcomma }} in campaign contributions from {% ifequal cycle "-1" %}{{entity_info.camp_fin_years.start|add:-1}} to {{entity_info.camp_fin_years.end}}{% else %}{{cycle|add:-1}} to {{cycle}}{% endifequal %}. See where the money went on Influence Explorer.">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png">
+  <meta name="og:url" content="http://influenceexplorer.com/individual/{{ entity_info.name|standardize_individual_name|slugify }}/{{ entity_info.id }}{{cycle|pretty_cycle}}">
+  <meta name="og:site_name" content="Influence Explorer">
+  <meta name="fb:admins" content="7812952,5308565">
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" charset="utf-8"> 
+$(document).ready(function() {
+  {% if not suppress_contrib_graphs %}
+  Brisket.party_piechart("piechart_party", {% if sections.contributions.party_breakdown %}{{ sections.contributions.party_breakdown|safe }}{% else %}{}{% endif %}, type="party");
+  Brisket.contribution_single_barchart("recipients_barchart", {% if sections.contributions.candidates_barchart_data %}{{ sections.contributions.candidates_barchart_data|safe }}{% else %} [] {% endif %});  
+  Brisket.contribution_single_barchart("orgs_barchart", {% if sections.contributions.orgs_barchart_data %}{{ sections.contributions.orgs_barchart_data|safe }}{% else %} [] {% endif %});
+  {% endif %}
+});
+
+</script>
+{% endblock %}
+
+{% block timespan %}
+    {{ block.super }}
+{% endblock %}
+
+{% block contentHeader %}
+<h2 class="individualName">{{ entity_info.name|standardize_individual_name }}</h2>
+
+<div id="individualDisclaimer">
+    <a class="descriptor" href="#individualDescriptor">Not seeing what you expected?</a>
+    <div class="descriptorText" id="individualDescriptor">
+		<p>We rely on our partner organizations, the <a href="http://www.opensecrets.org/">Center for Responsive Politics</a> and the <a href="http://www.followthemoney.org/">National Institute on Money in State Politics</a>, to uniquely identify individuals' campaign finance and lobbying activity. If data appears to be missing, it may be that they have not identified all influence activity for this individual. If the data is completely different than you expected, it may be that you're looking at a different person with the same name.</p>
+		<p>In these cases, we suggest searching the raw records in the <a href="http://data.influenceexplorer.com/contributions/">campaign finance Data section</a>, which provides extra information about each contribution, such as the donor's city, state and employer.  This information should allow you to judge for yourself if the contribution came from the person for whom you searched.</p>
+		{% if sections.contributions.external_links %}
+    	    {% for link in sections.contributions.external_links %}
+    	    	{% if "data.influenceexplorer.com" in link.url %}
+    				<p><a href="{{ link.url }}" class="external" target="_blank">Click here for campaign contributions with the name "{{ entity_info.name|standardize_individual_name }}".</a></p>
+    	    	{% endif %}
+    	    {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="clear"></div>
+{% if entity_info.metadata.revolving_door_entity %}
+<dl class="related">
+  <dt class="noshow">Lobbying Activity</dt>
+  <dd id="revolvingDoor">See also: <a href="/politician/{{entity_info.metadata.revolving_door_entity.name|slugify}}/{{entity_info.metadata.revolving_door_entity.id}}">member profile for {{entity_info.name|standardize_individual_name}}</a></dd>
+</dl>
+{% endif %}
+<div class="clear"></div>
+{% endblock %}
+
+{% block description %}
+
+
+  {% if entity_info.metadata.affiliated_organizations %}
+  <div class="relationships">
+    <div class="relationship">
+      <span class="relationshipTitle">Organizational Association{{ entity_info.metadata.affiliated_organizations|pluralize }}:</span>
+      {% for affiliation in entity_info.metadata.affiliated_organizations %}
+        <a href="/{{ affiliation.type }}/{{ affiliation.name|standardize_organization_name|slugify }}/{{ affiliation.id }}{{cycle|pretty_cycle}}">{{ affiliation.name|standardize_organization_name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %} 
+  
+{% endblock %}

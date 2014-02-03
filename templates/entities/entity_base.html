@@ -1,0 +1,5 @@
+{% extends "section_base/multisection_base.html" %}
+
+{% load influence_extras %}
+
+{% block date_name %}{{ entity_info.name|standardize_name:entity_info.type }}{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "brisket_base.html" %}
+
+{% load influence_extras %}
+
+{% block pagetopics %}: {% spaceless %}
+    {% filter nonempty_lines|pretty_list %}
+        {% for section in sections.values %}
+            {% if section.enabled %}
+                {{ section.name }}
+            {% endif %}
+        {% endfor %}
+    {% endfilter %}
+{% endspaceless %}{% endblock %}
+
+{% block js %}
+{% block extrajs %}
+<!-- extrajs is where the charts are loaded and must go *before* the --
+  -- div is hidden -->
+{% endblock %}
+{% endblock %}
+
+{% block body_class %}entity{% endblock %}
+
+{% block main %}
+
+    <div id="contentHeader">
+        {% block contentHeader %}
+        {% endblock %}
+    </div>
+
+    <!-- if there's a description for the entity, override this -->
+    <div id="description" class="module clear">
+      {% block description %}
+      {% endblock %}
+    </div>
+    <div class="clear"></div>
+
+    <div id="floatingNavWrapper">
+        <div id="floatingNav">
+            {% if sections.keys|length > 1 %}
+            <div id="miniNavWrapper">
+                <div id="miniNav">
+                    <ul>
+                        {% for section_id, section in sections.items %}
+                            {% if section.enabled %}
+                                <li><a href="#{{ section_id }}_section">{{ section.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="withNav" id="changeDates">
+                <form action="" method="get" id="cycle_form">
+                    <label>Currently viewing {% block date_name %}{% endblock %} from</label>
+                    {{ cycle_form.cycle }}
+                    <button type="submit" id="cycle_submit">
+                        <span>Update</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    {% block sections %}
+    {% for section_id, section in sections.items %}
+        {% if section.enabled %}
+            <a class="sectionLink" name="{{ section_id }}_section"></a>
+            {% if section.failed %}
+                {% include section.error_template with section=section section_id=section_id %}
+            {% else %}
+                {% include section.template with section=section section_id=section_id %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% endblock %}
+
+    {% block regulations %}
+    {% endblock %}
+
+{% endblock %}<!-- end main -->

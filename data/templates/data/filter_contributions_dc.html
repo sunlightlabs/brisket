@@ -1,5 +1,5 @@
 {% extends "data/filter.html" %}
-{% load media %}
+{% load staticfiles %}
 
 {% block bodyid %}contributionsDC{% endblock %}
 {% block dataset_name %}ContributionsDC{% endblock %}
@@ -20,8 +20,8 @@
 {% endblock %}
 
 {% block dataset_scripts %}
-    {% js "data/contributions_dc.js" %}
     {{ block.super }}
+    <script type="text/javascript" src="{% static "data/js/td.contributions_dc.js" %}"></script>
 	<script type="text/javascript">
 		$().ready(function() {
 			TD.ContributionsDCFilter.bindDataFilter('#datafilter');

@@ -1,0 +1,33 @@
+{% extends "brisket_base.html" %}
+
+{% block body_class %}methodology flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Lobbying Methodology</h2>
+</div>
+
+<div id="ltColumn">
+	<p id="tip">This document describes the process we use to compute aggregate information from quarterly lobbying reports. It would be helpful to first read the <a href="/about/methodology/campaign_finance/">campaign finance methodology</a> section, as many of the issues there also apply to lobbying data. The information provided in these two documents should be detailed enough to allow a dedicated user to reproduce the figures in Influence Explorer using the <a href="http://data.influenceexplorer.com/lobbying/">underlying lobbying reports</a>.</p>
+	
+	<h3>Background</h3>
+	
+	<p>Any organization that lobbies Congress, or hires a firm to lobby on its behalf, is required to register with both the <a href="http://www.senate.gov/pagelayout/legislative/g_three_sections_with_teasers/lobbyingdisc.htm">Senate Office of Public Records</a> (SOPR) and the <a href="http://clerk.house.gov/public_disc/index.html">Clerk of the House</a>. Registrants file quarterly reports, disclosing names of individual lobbyists, the issues and bills lobbied on and money spent on lobbying activities. Firms that lobby on behalf of multiple clients file a disclosure for each client separately, along with the amount the firm was paid for lobbying. Organizations that lobby on their own behalf (&#8220;in-house lobbying&#8221;) report the total amount spent on their lobbying efforts, including money paid to outside firms. In either case, disclosure rules require the filer to report dollar amounts to the nearest $20,000. Spending or income under $10,000 may be reported as $0.  </p>
+	
+	<p>Our partner organization for lobbying data, the <a href="http://opensecrets.org">Center for Responsive Politics</a> (CRP), cleans the data from SOPR, and standardizes the names of individuals and organizations to be consistent with CRP&#8217;s campaign finance data sets. Details on CRP&#8217;s methodology can be found <a href="http://www.opensecrets.org/lobby/methodology.php">here</a>. The Sunlight Foundation combines CRP&#8217;s lobbying data with other data sets and makes it easily accessible through the Influence Explorer website and APIs. The format for the underlying lobbying records is described in the <a href="http://data.influenceexplorer.com/docs/lobbying/">data documentation</a>.</p>
+	
+	<h3>Summing Lobbying Reports</h3>
+	
+	<p>Influence Explorer provides three different views of the lobbying data. Individual lobbyists have one view. Organizations display one of two possible views, depending on whether or not the organizations is primarily a lobbying firm (as determined by the <code>registrant_is_firm</code> field.)</p>
+	
+	<ul>
+		<li>Organizations that are primarily lobbying firms display the total amount <em>earned</em> through lobbying. This is simply the total of all money disclosed by the firm as a registrant. Top clients, lobbyists and issues are also computed by matching on the firm as a registrant.</li>
+		<li>Organizations that are not primarily lobbying firms display the total amount <em>spent</em>. This information is encoded in the database in a somewhat unintuitive manner: Reports that list the same organization as both the registrant and the client are actually reports of total spending by the organization. Summing the amounts disclosed by such an organization gives the total spent. Some organizations do not file as registrants at all, and are only listed as clients of lobbying firms. In this case, the sum of the reports listing the organization as a client is used as the total spent. Top firms, lobbyists and issues tables are computed by matching against records that have the organization listed as a <em>client</em>.</li>
+		<li>Individual lobbyists are not associated directly with dollar amounts. Instead, we list the top registrant and client firms, as well as the top issues that appear in reports listing that lobbyist.</li>
+	</ul>
+	
+	<p>In all of these cases, it is important to use only the most up-to-date records, since reports are often amended after first submission. The database field <code>use</code> is true when a record is up-to-date.</p>
+</div>
+
+{% endblock %}

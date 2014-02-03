@@ -23,3 +23,4 @@ postcards/static/messages/png/*.png
 postcards/static/messages/png_large/*.png
 postcards/static/batches/*.pdf
 charts/node_modules/*
+static/*

@@ -1,0 +1,17 @@
+{% extends "search/result_row.html" %}
+{% load influence_extras %}
+
+{% block result-type %}
+    <strong>Politician:</strong>
+    {% if result.metadata.seat_held %}
+        {{ result.metadata.seat_held|seat_label }} ({{ result.metadata.party|slice:":1" }}{% if result.metadata.state_held %}-{{ result.metadata.state_held }}{% endif %}){% spaceless %}
+            {% if result.metadata.seat and result.metadata.seat != result.metadata.seat_held %},
+                candidate for {{ result.metadata.seat|seat_label }} ({{ result.metadata.party|slice:":1" }}{% if result.metadata.state %}&ndash;{{ result.metadata.state }}{% endif %})
+            {% endif %}
+        {% endspaceless %}
+    {% else %}
+    {% if result.metadata.seat %}
+        Candidate for {{ result.metadata.seat|seat_label }} ({{ result.metadata.party|slice:":1" }}{% if result.metadata.state %}&ndash;{{ result.metadata.state }}{% endif %})
+    {% endif %}
+    {% endif %}
+{% endblock %}

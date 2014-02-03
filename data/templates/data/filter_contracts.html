@@ -1,5 +1,5 @@
 {% extends "data/filter.html" %}
-{% load media %}
+{% load staticfiles %}
 
 {% block bodyid %}contracts{% endblock %}
 {% block dataset_name %}Federal Contracts{% endblock %}
@@ -17,8 +17,8 @@
 {% endblock %}
 
 {% block dataset_scripts %}
-    {% js "data/contracts.js" %}
     {{ block.super }}
+    <script type="text/javascript" src="{% static "data/js/td.contracts.js" %}"></script>
 	<script type="text/javascript">
 		$().ready(function() {
 			TD.ContractsFilter.bindDataFilter('#datafilter');

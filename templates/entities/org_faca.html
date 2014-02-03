@@ -1,0 +1,74 @@
+{% load humanize %}
+{% load influence_extras %}
+
+<div class="overviewBar withNav withTip">
+    <h3>{{ section.name }}</h3>
+    <span class="amount">
+        {{ entity_info.totals.faca_member_count }} {{ entity_info.totals.faca_member_count|pluralize:'person,people' }} on {{ entity_info.totals.faca_committee_count }} committee{{ entity_info.totals.faca_committee_count|pluralize }}
+    </span>
+    <div class="interiorMethodology">
+        <a class="descriptor" title="More Information" href="#facaDescriptor">Information</a>
+        <div class="clear"></div>      
+        <div class="descriptorText" id='facaDescriptor'>
+      	    <p>Data is based on disclosures required by the <a href="http://www.gsa.gov/efaca">Federal Advisory Committee Act (FACA)</a>. Matches are based on the occurrence of the company name in the committee member affiliation. Variations in company names may cause some matches to be missed.</p>
+      	    <p>The table shows only the top 10 agencies. To search and download raw records from the complete dataset see <a href="http://data.influenceexplorer.com/faca/">the FACA data section</a>.</p>
+        </div>      
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="chartModule withNav">
+    {% if cycle in "-1 2012" %}<span class="tip external">covers through 2011</span>{% endif %}
+    <p class="tip">Table shows employees of "{{ entity_info.name|standardize_organization_name }}" that sat on federal advisory committees.</p>
+
+    {% if section.faca %}
+        <ul class="expandTableHead insideList threeColumn">
+            <li class="expandCol toggle noshow"></li>
+            <li class="expandCol facaColLarge">Agency</li>
+            <li class="expandCol facaColLarge">Representation</li>
+        </ul>
+        <ul class='expandTable clear insideList mainTable threeColumn' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/faca/{id}.json?apikey={{ API_KEY }}&cycle={{cycle}}&callback=?' data-expand-template="#facaPopDownTemplate">
+            {% for row in section.faca %}
+            <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.agency_abbr }}">
+                <a class="expandCol toggle">Toggle</a>
+                <span class="expandCol facaColLarge">{{ row.agency_name }}</span>
+                <span class="expandCol facaColLarge">
+                    {{ row.member_count }} {{ row.member_count|pluralize:'person,people' }} on {{ row.committee_count }} committee{{ row.committee_count|pluralize }}
+                </span>
+                <div class="clear"></div>
+                <div class="loading"></div>
+                <div class="expandDocList"></div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="clear"></div>
+    
+    {% include "section_base/external_links.html" with external_links=section.faca_links %}
+
+</div>
+
+<script type="text/html" id="facaPopDownTemplate">
+<table>
+  <tbody>
+  <% for (var i = 0; i < documents.length; i++) { %>
+    <tr class="<%=(i % 2 == 0 ? 'even' : 'odd')%>">
+      <td>
+        <strong>
+            <a href="http://data.influenceexplorer.com/faca/#<%=Base64.encode("committee_name=" + encodeURIComponent(documents[i].committee_name){% if cycle != '-1'%} + "&year={{ cycle|add:-1 }}|{{ cycle }}"{% endif %})%>" target="_blank">
+                <%=documents[i].committee_name%></strong>
+            </a>
+        <br />
+        Members:
+        <ul class="advisoryMembers">
+            <% for (var j = 0; j < documents[i].memberships.length; j++) { %>
+              <li><%=documents[i].memberships[j].member_name%> <span class="tip withCaps">(<%=documents[i].memberships[j].affiliation%><% if (documents[i].memberships[j].start_date) { %>, <%=documents[i].memberships[j].start_date.split("-")[0]%>&ndash;<%=documents[i].memberships[j].end_date.split("-")[0]%><% } %>)</span></li>
+            <% } %>
+        </ul>
+      </td>
+    </tr>
+  <% } %>
+  </tbody>
+</table>
+</script>

@@ -1,4 +1,4 @@
-import base64, urllib, urllib2
+import base64, urllib, urllib2, struct, uuid, threading
 import json, itertools
 from datetime import datetime, timedelta
 from django.utils.datastructures import SortedDict
@@ -272,5 +272,21 @@ def get_lobbyist_tracker_data(ids):
 def get_docketwrench_entity_data(entity_id, cycle=-1):
     dw = getattr(settings, "DOCKETWRENCH_URL", "http://docketwrench.sunlightfoundation.com/")
     icycle, scycle = int(cycle), str(cycle)
-    page = urllib2.urlopen(dw + "api/1.0/entity/" + entity_id + "?format=json" + ("" if icycle == -1 else "&years=%s" % ",".join([str(icycle - 1), scycle])))
+    page = urllib2.urlopen(dw + "api/1.0/entity/" + entity_id + "?format=json" + "&apikey={}".format(settings.CLIENT_API_KEY) + ("" if icycle == -1 else "&years=%s" % ",".join([str(icycle - 1), scycle])))
     return json.loads(page.read())
+
+@cache(seconds=86400)
+def get_docketwrench_entity_list():
+    dw = getattr(settings, "DOCKETWRENCH_URL", "http://docketwrench.sunlightfoundation.com/")
+    page = urllib2.urlopen(dw + "api/1.0/entity_list?format=binary" + "&apikey={}".format(settings.CLIENT_API_KEY)) 
+    data = page.read()
+    out = []
+    for i in xrange(0, len(data), 16):
+        # unpack UUID
+        a, b = struct.unpack('>QQ', data[i:i+16])
+        unpacked = (a << 64) | b
+        out.append(uuid.UUID(int=unpacked).hex)
+    return set(out)
+
+# we'll keep a thread-local storage around as well, since even the pickling/unpickling of this giant thing is annoying and we'd prefer not to do it multiple times per request
+_dw_local = threading.local()
