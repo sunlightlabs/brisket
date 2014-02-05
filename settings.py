@@ -31,14 +31,14 @@ USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+#MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+#STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media/'
-STATIC_URL = '/static/'
+#MEDIA_URL = '/media/'
+#STATIC_URL = '/static/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '(1yv=vnhqrvj%qjr%zd)fe*cr4785a#7$ju8km4%+tnscm&p_r'
@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'feedinator',
     'compressor',
+    'storages',
     'dryrub',
     'data',
 )
@@ -100,6 +101,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
+
 
 #DATABASE_ROUTERS = ['db_router.BrisketDBRouter']
 
@@ -133,13 +135,51 @@ DOCKETWRENCH_URL = "http://docketwrench.sunlightfoundation.com/"
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    }
+    },
+    #'compressor': {
+    #    'BACKEND': 's3utils.StaticRootS3BotoStorage',
+    #},
 }
+
 
 # this will get overwritten either in local_settings or below
 DEFAULT_CYCLE = None
 
+
+ASSET_SITE_VERSION = '2.0'
+
+AWS_S3_SECURE_URLS = False
+AWS_PREFIX = 'brisket/{version}/'.format(version=ASSET_SITE_VERSION)
+S3_URL = "http://assets.sunlightfoundation.com.s3.amazonaws.com/"+AWS_PREFIX
+
+COMPRESS_URL = S3_URL + 'static/'
+COMPRESS_CSS_FILTERS = (
+            'compressor.filters.cssmin.CSSMinFilter',
+            'compressor.filters.css_default.CssAbsoluteFilter',
+)
+# COMPRESS_CSS_HASHING_METHOD = 'content'
+COMPRESS_JS_FILTERS = (
+            'compressor.filters.jsmin.JSMinFilter',
+            )
+
+#COMPRESS_OFFLINE = True
+
 from local_settings import *
+
+COMPRESS_STORAGE = 's3utils.StaticRootS3BotoStorage'
+COMPRESS_ROOT = os.path.join(PROJECT_ROOT, 'static-cache')
+
+# PRODUCTION STATIC VALUES
+STATICFILES_STORAGE = COMPRESS_STORAGE
+STATIC_ROOT = COMPRESS_ROOT
+STATIC_URL = COMPRESS_URL
+DEFAULT_FILE_STORAGE = 's3utils.MediaRootS3BotoStorage'
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media-cache')
+MEDIA_URL = S3_URL + 'media/'
+
+# LOOK LOCALLY FOR STATIC FILES IF DEBUG = True (which disables compressor)
+if DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 import re
 IGNORABLE_404_URLS = (
@@ -148,6 +188,7 @@ IGNORABLE_404_URLS = (
 
 from influenceexplorer import InfluenceExplorer, DEFAULT_CYCLE
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
+
 
 if not DEFAULT_CYCLE:
     DEFAULT_CYCLE = ALL_CYCLES

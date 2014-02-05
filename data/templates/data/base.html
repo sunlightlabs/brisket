@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-{% load media %}
+{% load static %}
 <html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
         <meta name="keywords" content="campaign finance, contributions, transparency, influence, data, government, state, federal" />
@@ -9,10 +9,10 @@
 		<!-- icons --> 
 	    <link rel="shortcut icon" href="http://assets.transparencydata.org.s3.amazonaws.com/1.1/images/favicon.ico" type="image/x-icon"> 
 	    <link rel="icon" href="http://assets.transparencydata.org.s3.amazonaws.com/1.1/images/favicon.ico" type="image/x-icon">
-		<!-- stylesheets -->
-		{% css "data/css/all.css" %}
-		<!-- scripts -->
-		{% js "data/3rdparty_old.js" %}
+            <!-- stylesheets -->
+                <link rel="stylesheet" href="{% static "data/css/all.css" %}" type="text/css">
+                <!-- scripts -->
+                <script src="{% static "data/3rdparty_old.js" %}" type="text/javascript"></script>
 		<script src="http://services.sunlightlabs.com/brandingbar/hat_js/transparencydata/" type="text/javascript"></script> 
     </head>
     <body id="{% block bodyid %}transparencydata{% endblock %}" class="{% block bodyclass %}{% endblock %}">
