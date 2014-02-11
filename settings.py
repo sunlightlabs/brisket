@@ -3,6 +3,7 @@ import os
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
+DEBUG = False
 TEMPLATE_DEBUG = True
 
 DATABASE_ENGINE = ''           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -164,8 +165,6 @@ COMPRESS_JS_FILTERS = (
 
 #COMPRESS_OFFLINE = True
 
-from local_settings import *
-
 COMPRESS_STORAGE = 's3utils.StaticRootS3BotoStorage'
 COMPRESS_ROOT = os.path.join(PROJECT_ROOT, 'static-cache')
 
@@ -177,14 +176,12 @@ DEFAULT_FILE_STORAGE = 's3utils.MediaRootS3BotoStorage'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media-cache')
 MEDIA_URL = S3_URL + 'media/'
 
-# LOOK LOCALLY FOR STATIC FILES IF DEBUG = True (which disables compressor)
-if DEBUG:
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
 import re
 IGNORABLE_404_URLS = (
     re.compile(r'\.php$'),
 )
+
+from local_settings import *
 
 from influenceexplorer import InfluenceExplorer, DEFAULT_CYCLE
 api = InfluenceExplorer(API_KEY, AGGREGATES_API_BASE_URL)
