@@ -45,7 +45,7 @@
                     <span class="expandCol regColCount">{{ row.count }}</span>
                     <span class="expandCol regColSmall">{{ row.agency }}</span>
                     <a class="expandCol regColLarge docketTitle" href="{{ DOCKETWRENCH_URL }}docket/{{ row.id }}" title="{{ row.id }}" target="_blank">{{ row.title }}</a>
-                    <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
+                    <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %} {% endif %}</span>
                     <div class="clear"></div>
                     <div class="loading"></div>
                     <div class="expandDocList"></div>
@@ -79,7 +79,7 @@
                     <span class="expandCol regColCount">{{ row.count }}</span>
                     <span class="expandCol regColSmall">{{ row.agency }}</span>
                     <a class="expandCol regColLarge docketTitle" href="{{ DOCKETWRENCH_URL }}docket/{{ row.id }}" title="{{ row.id }}" target="_blank">{{ row.title }}</a>
-                    <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %}Unknown{% endif %}</span>
+                    <span class="expandCol regColDate">{% if row.year %}{{ row.year }}{% else %} {% endif %}</span>
                     <div class="clear"></div>
                     <div class="loading"></div>
                     <div class="expandDocList"></div>
