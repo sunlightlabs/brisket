@@ -18,7 +18,15 @@ _standardizers = {
 }
 
 def standardize_name(name, type):
-    return _standardizers[type](name)
+    try:
+        standardized_name = _standardizers[type](name)
+        print standardized_name.honorific
+        if standardized_name.honorific:
+            standardized_name.honorific = "("+standardized_name.honorific+")"
+            print standardized_name.honorific
+        return standardized_name
+    except AttributeError:
+        return _standardizers[type](name)
 
 def bar_validate(data):
     ''' take a dict formatted for submission to the barchart

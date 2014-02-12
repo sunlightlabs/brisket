@@ -10,15 +10,19 @@ register = template.Library()
 
 SUNLIGHT_STAFF_BASE_URI = "http://sunlightfoundation.com/people/"
 
+def remove_honorific(cleaved_name):
+    cleaved_name.honorific = None
+    return cleaved_name
+
 @register.filter(name='standardize_politician_name')
 @stringfilter
 def standardize_politician_name_filter(name):
-    return str(PoliticianNameCleaver(name).parse(safe=True))
+    return str(remove_honorific(PoliticianNameCleaver(name).parse(safe=True)))
 
 @register.filter(name='standardize_individual_name')
 @stringfilter
 def standardize_individual_name_filter(name):
-    return str(IndividualNameCleaver(name).parse())
+    return str(remove_honorific(IndividualNameCleaver(name).parse()))
 
 @register.filter(name='standardize_organization_name')
 @stringfilter

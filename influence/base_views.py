@@ -213,7 +213,8 @@ class EntityLandingSection(Section):
         obj = self.data[indicator]
         for parent in obj:
             for child in parent['children']:
-                child['name'] = generate_label(
-                                 str(self.cleaver(child['name']).parse()))
+                child_name = self.cleaver(child['name']).parse()
+                child_name.honorific = None
+                child['name'] = generate_label(str(child_name))
                 child['href'] = barchart_href(child,self.entity.cycle,self.entity_type)
         return json.dumps(obj)
