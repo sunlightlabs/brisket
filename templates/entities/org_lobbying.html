@@ -147,7 +147,7 @@
 						{% else %}
 							<td>{{bill.bill}}</td>
 						{% endif %}
-							<td>{{bill.title}}</td>
+							<td>{{bill.title|default:"(Unknown)"}}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
