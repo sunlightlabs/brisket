@@ -14,6 +14,11 @@ from settings import FIRST_CYCLE, LATEST_CYCLE, DEBUG
 from influenceexplorer import DEFAULT_CYCLE
 import json
 
+def list_all_possible_cycles():
+    available_cycles = [str(x) for x in range(int(FIRST_CYCLE), int(LATEST_CYCLE) + 1, 2)]
+    available_cycles.append("-1")
+    return available_cycles
+
 class MultiSectionView(View):
     sections = []
     template = 'section_base/multisection_base.html'
@@ -33,6 +38,8 @@ class MultiSectionView(View):
             if s.failed or s.suppress_cache:
                 suppress_cache = True
 
+        self.available_cycles = context.get('available_cycles', list_all_possible_cycles())
+
         response = render_to_response(self.template, context, self.build_request_context(request))
 
         if suppress_cache:
@@ -46,10 +53,7 @@ class MultiSectionView(View):
         params = request.GET.copy()
         params['cycle'] = self.cycle
 
-        available_cycles = [str(x) for x in range(int(FIRST_CYCLE), int(LATEST_CYCLE) + 1, 2)]
-        available_cycles.append("-1")
-
-        context_variables['cycle_form'] = ElectionCycle(available_cycles, params)
+        context_variables['cycle_form'] = ElectionCycle(self.available_cycles, params)
 
         return RequestContext(request, context_variables)
 
@@ -88,6 +92,7 @@ class EntityView(MultiSectionView):
         self.external_ids = self.metadata['entity_info']['external_ids']
 
         context = super(EntityView, self).prepare_context(request)
+        context['available_cycles'] = self.metadata['available_cycles']
         context['entity_id'] = self.entity_id
         context['cycle'] = self.cycle
         context['entity_info'] = self.metadata['entity_info']
