@@ -7,7 +7,8 @@ from django.template import RequestContext
 
 from influence.forms import ElectionCycle
 from influence.helpers import get_metadata, get_summaries, standardize_name, \
-        get_source_display_name, generate_label, barchart_href
+        get_source_display_name, generate_label, barchart_href, \
+        get_entity_type_summary
 from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver, \
         IndividualNameCleaver
 from settings import FIRST_CYCLE, LATEST_CYCLE, DEBUG
@@ -121,6 +122,13 @@ class EntityLandingView(MultiSectionView):
 
     def prepare_context(self, request):
         try:
+            self.metadata, self.cycle = get_entity_type_summary(self.label, request)
+        except Exception as e:
+            if hasattr(e, 'code') and e.code == 404:
+                raise Http404
+            raise
+
+        try:
             self.summaries, self.cycle = get_summaries(self.label, request)
         except Exception as e:
             if hasattr(e, 'code') and e.code == 404:
@@ -134,6 +142,7 @@ class EntityLandingView(MultiSectionView):
         context['name'] = self.name
         context['label'] = self.label
         context['summaries'] = self.summaries
+        context.update(self.metadata)
 
         return context
 

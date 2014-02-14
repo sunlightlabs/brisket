@@ -148,6 +148,7 @@ landing_page_section_indicators = {
        },
 }
 
+
 def get_metadata(entity_id, request, entity_type):
     entity_info = api.entities.metadata(entity_id)
 
@@ -170,6 +171,23 @@ def get_metadata(entity_id, request, entity_type):
     if entity_info['totals'].get(cycle, None):
         entity_info['totals'] = entity_info['totals'][cycle]
     data['entity_info'] = entity_info
+
+    return data, cycle
+
+def get_entity_type_summary(entity_type, request):
+    entity_type_summary = api.summaries.metadata(entity_type)
+
+    data = {}
+    data['available_cycles'] = entity_type_summary['totals'].keys()
+
+    if 'cycle' in request.GET:
+        cycle = str(request.GET['cycle'])
+    else:
+        cycle = str(DEFAULT_CYCLE)
+
+    # check which types of data are available about this entity
+    totals_for_cycle = entity_type_summary['totals'].get(cycle, False)
+    data.update(totals_for_cycle)
 
     return data, cycle
 
