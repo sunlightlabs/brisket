@@ -869,6 +869,13 @@ D3Charts = {
     
     twopane_pie: function(div, data, opts) {
 
+        // this is not being used correctly, but it will help
+        var dispatch = d3.dispatch('highlightSlice', 'selectSlice', 'resetPie', 'resetRotation',
+                                    'resetAllSlices', 'drawRight', 'highlightAllCenter', 'deHighlightSlice',
+                                    'deHighlightAllCenter');
+
+        var transition_lock = false;
+
         if (typeof opts == 'undefined') opts = {};
         _.defaults(opts, D3Charts.TWOPANE_PIE_DEFAULTS);
 
@@ -905,7 +912,6 @@ D3Charts = {
         };
 
         var formatTickLabel = function(d) { return "";};
-                                                    //d.split("_")[0];};
         var titleFormatMoney = d3.format(',.0f');
 
         //Set up panes
@@ -1039,32 +1045,32 @@ D3Charts = {
                 .on("click",function(d,i) { 
                     entry = d3.select(this);
                     if (i == 0) {
-                        resetRotation();
-                        resetAllSlices();
+                        dispatch.resetRotation();
+                        dispatch.resetAllSlices();
                         allTopTen();
                     } else if (entry.classed('focusedSlice')) {
                     } else {
-                        resetAllSlices();
-                        selectSlice(d,i);
-                        drawRight(d);
+                        dispatch.resetAllSlices();
+                        dispatch.selectSlice(d,i);
+                        dispatch.drawRight(d);
                     }})
                 .on("mouseover", function(d,i){
                     entry = d3.select(this);
                     if (i == 0) {
-                        highlightAllCenter(d);
+                        dispatch.highlightAllCenter(d);
                     } else if (entry.classed('focusedSlice')) {
                     } else {
-                        highlightSlice(d,i);
+                        dispatch.highlightSlice(d,i);
                     }})
                 .on("mouseout", function(d,i){
                     if (i == 0) {
-                        deHighlightAllCenter(d);
+                        dispatch.deHighlightAllCenter(d);
                     } else {
                         var slice = d3.select(this);
                         if (slice.classed('focusedSlice')){
                             // do nothing
                         } else {
-                            deHighlightSlice(d,i);
+                            dispatch.deHighlightSlice(d,i);
                         }
                     }})
                         
@@ -1094,24 +1100,9 @@ D3Charts = {
             .innerRadius(innerRad)
             .outerRadius(rad);
 
-        function resetRotation() {
-          pieChart.transition().duration(500).attr("transform",svgtransbase);
-        }
-
-        function resetAllSlices() {
-          pieChart.selectAll("g path")
-                .classed("focusedSlice",false)
-                .attr("transform","scale(1)");
-          legend.selectAll("g")
-                .classed("focusedSlice",false);
-          legend.selectAll("g circle")
-                .attr("transform","scale(1)");
-          legend.selectAll("tspan")
-                .style("font-weight","normal");
-        }
 
         function allTopTen(){
-          drawRight(top10);
+          dispatch.drawRight(top10);
         }
 
         var center = leftPane.append("svg:g")
@@ -1124,60 +1115,117 @@ D3Charts = {
             .attr("data-slice", function(d,i) { return i + 1; });
 
         //testfunc2 = pie;
-        function selectSlice(d,i) {
-            legend.selectAll('g[data-slice="'+i+'"]')
-              .classed('focusedSlice',true);  
-            legend.selectAll('g[data-slice="'+i+'"] circle')
-              .attr('transform', 'scale(1.15)');
-            legend.selectAll('g[data-slice="'+i+'"] tspan')
-              .style('font-weight', 'bold');
-            pieChart.select('g[data-slice="'+i+'"] path')
-              .classed('focusedSlice',true)
-              .attr('transform', 'scale(1.15)');
-            newtrans = svgtransbase + "rotate(" + (-1 * angle(d)) + ")";
-            pieChart.transition().duration(500).attr("transform",newtrans);
-        }
+        dispatch.on('selectSlice', function(d,i) {
+            if(transition_lock==true) {
+                //setTimeout(dispatch.highlightSlice(d,i), 500);
+                return false;
+            } else {
+                transition_lock = true;
+                legend.selectAll('g[data-slice="'+i+'"]')
+                  .classed('focusedSlice',true);  
+                legend.selectAll('g[data-slice="'+i+'"] circle')
+                  .attr('transform', 'scale(1.15)');
+                legend.selectAll('g[data-slice="'+i+'"] tspan')
+                  .style('font-weight', 'bold');
+                pieChart.select('g[data-slice="'+i+'"] path')
+                  .classed('focusedSlice',true)
+                  .attr('transform', 'scale(1.15)');
+                newtrans = svgtransbase + "rotate(" + (-1 * angle(d)) + ")";
+                pieChart.transition().duration(500).attr("transform",newtrans);
+                transition_lock = false;
+            }});
                     
-        function highlightSlice(d,i) {
-            pieChart.selectAll('g[data-slice="'+i+'"] path')
-            .attr('transform', 'scale(1.05)')
-            legend.selectAll('g[data-slice="'+i+'"] circle')
-            .attr('transform', 'scale(1.05)')
-            legend.selectAll('g[data-slice="'+i+'"] tspan')
-            .style('font-weight', 'bold')
-        }
+        dispatch.on('highlightSlice', function(d,i) {
+            if(transition_lock==true) {
+                //setTimeout(dispatch.highlightSlice(d,i), 500);
+                return false;
+            } else {
+                transition_lock = true;
+                pieChart.selectAll('g[data-slice="'+i+'"] path')
+                .attr('transform', 'scale(1.05)')
+                legend.selectAll('g[data-slice="'+i+'"] circle')
+                .attr('transform', 'scale(1.05)')
+                legend.selectAll('g[data-slice="'+i+'"] tspan')
+                .style('font-weight', 'bold')
+                transition_lock = false;
+            }});
 
-        function deHighlightSlice(d,i) {
-            pieChart.selectAll('g[data-slice="'+i+'"] path')
-            .attr('transform', 'scale(1)')
-            legend.selectAll('g[data-slice="'+i+'"] circle')
-            .attr('transform', 'scale(1)')
-            legend.selectAll('g[data-slice="'+i+'"] tspan')
-            .style('font-weight', 'normal')
-        }
+        dispatch.on('deHighlightSlice', function(d,i) {
+            if(transition_lock==true) {
+                //setTimeout(dispatch.deHighlightSlice(d,i), 500);
+                return false;
+            } else {
+                transition_lock = true;
+                pieChart.selectAll('g[data-slice="'+i+'"] path')
+                .attr('transform', 'scale(1)')
+                legend.selectAll('g[data-slice="'+i+'"] circle')
+                .attr('transform', 'scale(1)')
+                legend.selectAll('g[data-slice="'+i+'"] tspan')
+                .style('font-weight', 'normal')
+                transition_lock = false;
+            }});
+
+        dispatch.on('highlightAllCenter', function(d) {
+            if(transition_lock==true) {
+                //setTimeout(dispatch.highlightAllCenter(d), 500);
+                return false;
+            } else {
+                transition_lock = true;
+                center.selectAll('circle[data-slice="0"]')
+                .attr('transform', 'scale(1.25)');
+                legend.selectAll('g[data-slice="0"] circle')
+                  .attr('transform', 'scale(1.15)');
+                legend.selectAll('g[data-slice="0"] tspan')
+                  .style('font-weight','bold');
+                transition_lock = false;
+            }});
        
-        function highlightAllCenter(d){
-            center.selectAll('circle[data-slice="0"]')
-            .attr('transform', 'scale(1.25)');
-            legend.selectAll('g[data-slice="0"] circle')
-              .attr('transform', 'scale(1.15)');
-            legend.selectAll('g[data-slice="0"] tspan')
-              .style('font-weight','bold');
-        }
-                
-       function deHighlightAllCenter(d){
-            center.selectAll('circle[data-slice="0"]')
-            .attr('transform', 'scale(1)');
-            legend.selectAll('circle[data-slice="0"]')
-              .attr('transform', 'scale(1)');
-            legend.selectAll('g[data-slice="0"] tspan')
-              .style('font-weight','normal');
-       }
+        dispatch.on('deHighlightAllCenter', function(d) {
+            if(transition_lock==true) {
+                //setTimeout(dispatch.deHighlightAllCenter(d), 500);
+                return false;
+            } else {
+                transition_lock = true;
+                center.selectAll('circle[data-slice="0"]')
+                .attr('transform', 'scale(1)');
+                legend.selectAll('circle[data-slice="0"]')
+                  .attr('transform', 'scale(1)');
+                legend.selectAll('g[data-slice="0"] tspan')
+                  .style('font-weight','normal');
+                transition_lock = false;
+            }});
 
+        dispatch.on('resetRotation', function() {
+            if(transition_lock==true) {
+                //setTimeout(dispatch.resetRotation(), 500);
+                return false;
+            } else {
+                transition_lock = true;
+                pieChart.transition().duration(500).attr("transform",svgtransbase);
+                transition_lock = false;
+            }});
+
+        dispatch.on('resetAllSlices', function() {
+            if(transition_lock==true) {
+                //setTimeout(dispatch.resetAllSlices(), 500);
+                return false;
+            } else {
+                transition_lock = true;
+                pieChart.selectAll("g path")
+                      .classed("focusedSlice",false)
+                      .attr("transform","scale(1)");
+                legend.selectAll("g")
+                      .classed("focusedSlice",false);
+                legend.selectAll("g circle")
+                      .attr("transform","scale(1)");
+                legend.selectAll("tspan")
+                      .style("font-weight","normal");
+                transition_lock = false;
+            }});
 
         function selectAllCenter(d){
-            resetRotation();
-            resetAllSlices();
+            dispatch.resetRotation();
+            dispatch.resetAllSlices();
             allTopTen();
             pieChart.selectAll('g[data-slice="0"] circle')
               .classed('focusedSlice',true)
@@ -1189,23 +1237,23 @@ D3Charts = {
             .attr("cursor","pointer")
             .style("fill", function(d) { return opts.colors[d.data.name]; })
             .on("click",(function(d,i) {
-                    resetAllSlices();
-                    selectSlice(d,i+1);
-                    drawRight(d);
+                    dispatch.resetAllSlices();
+                    dispatch.selectSlice(d,i+1);
+                    dispatch.drawRight(d);
                     }))
             .on("mouseover",function(d,i){
                 var slice = d3.select(this);
                 if (slice.classed('focusedSlice')){
                     // do nothing
                 } else {
-                    highlightSlice(d,i+1);
+                    dispatch.highlightSlice(d,i+1);
                 }})
             .on("mouseout",function(d,i){
                 var slice = d3.select(this);
                 if (slice.classed('focusedSlice')){
                     // do nothing
                 } else {
-                    deHighlightSlice(d,i+1);
+                    dispatch.deHighlightSlice(d,i+1);
                 }})
           .append("svg:title")
           .text(function(d) { return d.data.name + ": " + formatMoney(d.data.amount); });
@@ -1220,9 +1268,9 @@ D3Charts = {
             .on("click",function(d){
                 selectAllCenter(d);})
             .on("mouseover",function(d){
-                highlightAllCenter(d);})
+                dispatch.highlightAllCenter(d);})
             .on("mouseout",function(d){
-                deHighlightAllCenter(d);})
+                dispatch.deHighlightAllCenter(d);})
 
         center.append("svg:text")
             .attr("dy", ".35em")
@@ -1251,7 +1299,16 @@ D3Charts = {
           return rot;
         }
 
-        var drawRight = function(parentCategory) {
+        dispatch.on('drawRight', function(parentCategory) {
+        if(transition_lock==true) {
+            setTimeout(dispatch.drawRight(parentCategory), 1100);
+            return false;
+        } else {
+          drawBarChart(parentCategory);
+        }});
+
+        function drawBarChart(parentCategory) {
+          transition_lock = true;
           if (parentCategory.hasOwnProperty('data')) {
             var parentName = parentCategory.data.name;
             var parentTotal = parentCategory.data.amount;
@@ -1428,13 +1485,12 @@ D3Charts = {
                 });
             */
 
-
-          };
-        resetRotation();
-        allTopTen();
+            setTimeout(function(){ transition_lock = false;}, 1000);
         }
-
-}
+        dispatch.resetRotation();
+        allTopTen();
+    }
+};
 
 BrisketModern = {
     contribution_barchart: function(div, data) {
