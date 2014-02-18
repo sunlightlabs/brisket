@@ -174,7 +174,8 @@ D3Charts = {
         amount_color: '#000000',
         row_height: 14,
         legend_padding: 15,
-        legend_r: 5
+        legend_r: 5,
+        overlay_glow: true
     },
     _get_piechart_size: function(opts) {
         return {
@@ -298,18 +299,51 @@ D3Charts = {
         var format = d3.format(',.0f');
         var amounts = chart.selectAll("text.amount")
             .data(data)
-            .enter()
+            .enter();
+
+        if (opts.overlay_glow) {
+            // add filter
+            var filter = chart.append('defs')
+                .append('filter')
+                    .attr('id', 'gblur')
+                    .attr('height', '150%')
+            
+            filter.append('feGaussianBlur')
+                .attr('in', 'SourceGraphic')
+                .attr('stdDeviation', '3');
+            filter.append('feComponentTransfer')
+                .append('feFuncA')
+                    .attr('type', 'linear')
+                    .attr('slope', '2');
+
+            // add the text twice and blur the lower one
+            amounts
                 .append("text")
                 .classed("amount", true)
                 .attr("x", opts.chart_cx)
                 .attr("y", opts.chart_cy)
                 .attr("dy", ".5em") // vertical-align: middle
-                .attr('fill', opts.amount_color)
+                .attr('fill', "#ffffff")
                 .attr('data-slice', function(d, i) { return i; })
+                .attr('filter', 'url(#gblur)')
                 .text(function(d, i) { return '$' + format(d.value); })
                 .style('font', 'bold 12px arial,sans-serif')
                 .style('text-anchor', 'middle')
                 .style('display', 'none');
+        }
+
+        amounts
+            .append("text")
+            .classed("amount", true)
+            .attr("x", opts.chart_cx)
+            .attr("y", opts.chart_cy)
+            .attr("dy", ".5em") // vertical-align: middle
+            .attr('fill', opts.amount_color)
+            .attr('data-slice', function(d, i) { return i; })
+            .text(function(d, i) { return '$' + format(d.value); })
+            .style('font', 'bold 12px arial,sans-serif')
+            .style('text-anchor', 'middle')
+            .style('display', 'none');
     },
     TIMELINE_DEFAULTS: {
         chart_height: 195,
