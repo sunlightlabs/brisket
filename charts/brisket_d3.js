@@ -172,7 +172,7 @@ D3Charts = {
         colors : ["#efcc01", "#f2e388"],
         text_color: "#666666",
         amount_color: '#000000',
-        row_height: 14,
+        row_height: 16,
         legend_padding: 15,
         legend_r: 5
     },
@@ -237,9 +237,7 @@ D3Charts = {
                         .attr('transform', 'scale(1.05)');
                     chart.selectAll('g[data-slice="' + i + '"] circle')
                         .attr('transform', 'scale(1.5)');
-                    chart.selectAll('text[data-slice="' + i + '"]')
-                        .style('display', null);
-                    chart.selectAll('g[data-slice="' + i + '"] text')
+                    chart.selectAll('g[data-slice="' + i + '"] tspan')
                         .style('font-weight', 'bold');
                 })
                 .on("mouseout", function(d, i) {
@@ -247,9 +245,7 @@ D3Charts = {
                         .transition()
                             .duration(200)
                             .attr('transform', 'scale(1)');
-                    chart.selectAll('text[data-slice="' + i + '"]')
-                        .style('display', 'none');
-                    chart.selectAll('g[data-slice="' + i + '"] text')
+                    chart.selectAll('g[data-slice="' + i + '"] tspan')
                         .style('font-weight', null);
                 });
 
@@ -266,11 +262,35 @@ D3Charts = {
                 .attr('fill', opts.text_color)
                 .style('font', '11px arial,sans-serif'); */
 
+        var entryHeight = opts.row_height * 2;
+        var entrySpacing = 0.5;
+
         // legend
         var legend_x = opts.chart_cx + opts.chart_r + opts.legend_padding;
-        var legend_y = opts.chart_cy - (data.length * opts.row_height / 2);
+        //testvar = data;
+        var legend_y = (10 + opts.chart_r) - (data.length * entryHeight / 2);
         var legend = chart.append("g")
             .attr("transform", "translate(" + legend_x + "," + legend_y + ")");
+
+        var decFormat = d3.format(',.1f');
+
+        var formatMoney = function (e) {
+            var currencyString;
+            if (e < 1000) {
+                currencyString = decFormat(e);
+            } else if (e > 999           && e < 1000000) {
+                currencyString = decFormat(e/1000)+"K";
+            } else if (e > 999999        && e < 1000000000){
+                currencyString = decFormat(e/1000000)+"M"
+            } else if (e > 999999999     && e < 1000000000000){
+                currencyString = decFormat(e/1000000000)+"B"
+            } else {
+                // cry(forever);
+                currencyString = decFormat(e/1000000000000) + "T"
+            }
+            return "$" + currencyString;
+        };
+
 
         var sum = d3.sum(values);
         var legendItems = legend.selectAll("g.legend-item")
@@ -279,7 +299,7 @@ D3Charts = {
                 .append("g")
                 .classed("legend-item", true)
                 .attr("data-slice", function(d, i) { return i; })
-                .attr("transform", function(d, i) { return "translate(0," + ((i + .5) * opts.row_height) + ")"; })
+                .attr("transform", function(d, i) { return "translate(0," + ((i + entrySpacing) * entryHeight) + ")"; })
 
             legendItems.append("circle")
                 .attr("fill", function(d, i) { return d.color; })
@@ -287,12 +307,21 @@ D3Charts = {
                 .attr("cy", 0)
                 .attr("r", opts.legend_r);
 
-            legendItems.append("text")
-                .attr("y", ".45em") // vertical-align: middle
+            texts = legendItems.append("text")
+                .attr('fill', opts.text_color);
+
+            texts.append("tspan")
+                .text(function(d, i) { return d.key? d.key : ""; })
+                .style('font', '11px helvetica,arial,sans-serif')
+                .attr("y", ".35em") // vertical-align: middle
                 .attr("x", opts.legend_padding)
-                .attr('fill', opts.text_color)
-                .text(function(d, i) { return d.key? d.key + " (" + Math.round(100 * d.value / sum) + "%)" : ""; })
-                .style('font', '11px arial,sans-serif');
+                .attr('fill', opts.text_color);
+
+            texts.append("tspan")
+                .text(function(d, i) { return "(" + formatMoney(d.value) + ")"; })
+                .style('font', '11px helvetica,arial,sans-serif')
+                .attr("y", "1.45em") // vertical-align: middle
+                .attr("x", opts.legend_padding);
 
         // amounts
         var format = d3.format(',.0f');
