@@ -30,7 +30,7 @@
         <ul class='expandTable clear insideList mainTable threeColumn' id="faca" data-expand-url='{{ AGGREGATES_API_BASE_URL }}aggregates/org/{{ entity_info.id }}/faca/{id}.json?apikey={{ API_KEY }}&cycle={{cycle}}&callback=?' data-expand-template="#facaPopDownTemplate">
             {% for row in section.faca %}
             <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.agency_abbr }}">
-                <a class="expandCol toggle">Toggle</a>
+                <span class="expandCol"><a class="toggle">Toggle</a></span>
                 <span class="expandCol facaColLarge">{{ row.agency_name }}</span>
                 <span class="expandCol facaColLarge">
                     {{ row.member_count }} {{ row.member_count|pluralize:'person,people' }} on {{ row.committee_count }} committee{{ row.committee_count|pluralize }}
