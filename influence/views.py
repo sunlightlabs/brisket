@@ -203,6 +203,9 @@ def search(request, search_type, search_subtype):
         results['query'] = query
         results['search_type'] = search_type
         results['total'] = len(all_results)
+        for result_set in results['result_sets'].values():
+            result_set['start'] = (result_set['page'] - 1) * per_page + 1
+            result_set['end'] = result_set['start'] + min(per_page, len(result_set['results'])) - 1
 
         results['search_subtype'] = search_subtype
         results['search_subtypes'] = {

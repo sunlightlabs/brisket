@@ -35,9 +35,9 @@
     
     <div class="search-filter search-select">
       <ul>
-        <li><a href="/search?{{ qs }}" class="{% if search_type == "all" %}selected{% endif %}">Everything &raquo;</a></li>
+        <li><a href="/search?{{ qs }}" class="{% if search_type == "all" %}selected{% endif %}">Everything [{{ total_results }}] &raquo;</a></li>
         {% for result_type, result_set in result_sets.items %}
-          <li><a href="/search/{{ result_type }}?{{ qs }}" class="{% if search_type == result_type %}selected{% endif %}">{{ result_type|capfirst }} &raquo;</a></li>
+          <li><a href="/search/{{ result_type }}?{{ qs }}" class="{% if search_type == result_type %}selected{% endif %}">{{ result_type|capfirst }} [{{ result_set.total }}] &raquo;</a></li>
         {% endfor %}
       </ul>
     </div>
@@ -97,7 +97,10 @@
       {% if search_type == "all" or search_type == result_type %}
         {% if result_set.total %}
         <div class="search-preview">
-          <h3>{{ result_type|capfirst }}</h3>
+          <h3>
+            {{ result_type|capfirst }}
+            <span class="search-count">[{{ result_set.start}}&ndash;{{ result_set.end }} of {{ result_set.total }}]</span>
+          </h3>
           <div class="result-rows">
           {% for result in result_set.results|slice:per_page_slice %}
             {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
