@@ -17,7 +17,7 @@
 
     {% if result.sections %}
     <div class="result-sections">
-        Available data:
+        Jump to:
         {% for section in result.sections %}
             <a href="{{ result.url }}#{{ section.label }}_section">{{ section.name|lower }}</a>{% if not forloop.last %},{% endif %}
         {% endfor %}
