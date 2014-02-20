@@ -31,7 +31,9 @@
       //$('table td.cell-earmark-description').expando(4, '.earmark-requests', 'li.requestedList', 'moreEarmarks');
     });
     </script>
-    {% if cycle == "-1" or cycle == "2014" %}
+    {% if cycle == "-1" %}
+        <span class="tip external">covers from 1989 roughly through q3 2013</span>
+    {% elif cycle == "2014" %}
       <span class="tip external">covers roughly through q3 2013</span>
     {% endif %}
     
