@@ -3,7 +3,7 @@
 {% block result-type %}
     <strong>
     {% if result.metadata.lobbying_firm %}
-        Lobbying Org
+        Lobbying Organization
     {% else %}
         {% if result.has_fec_id %}
             Political Group{% if result.metadata.is_corporation or result.metadata.is_cooperative or result.metadata.is_corp_w_o_capital_stock %}, Business or Other Organization{% endif %}

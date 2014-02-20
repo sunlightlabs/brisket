@@ -20,6 +20,8 @@ from name_cleaver import PoliticianNameCleaver, OrganizationNameCleaver
 from name_cleaver.names import PoliticianName
 from settings import LATEST_CYCLE, TOP_LISTS_CYCLE, DOCKETWRENCH_URL, INSTALLED_APPS, api
 from urllib2 import URLError, HTTPError
+from collections import defaultdict, OrderedDict
+from influence.cache import cache
 import datetime
 import json
 import unicodedata
@@ -104,6 +106,8 @@ def index(request):
 
 POL_STATES = STATE_CHOICES = tuple(sorted(US_STATES + US_TERRITORIES, key=lambda obj: obj[1]))
 
+_cached_search = cache(seconds=900)(api.entities.adv_search)
+
 def search(request, search_type, search_subtype):
     if not request.GET.get('query', None):
         HttpResponseRedirect('/')
@@ -127,11 +131,11 @@ def search(request, search_type, search_subtype):
         per_page = 5 if search_type == 'all' else 10
         page = 1 if search_type == 'all' else request.GET.get('page', 1)
 
-        results = {}
+        results = {'per_page_slice': ":%s" % per_page}
 
-        search_kwargs = {}
+        search_kwargs = defaultdict(dict)
         if search_subtype:
-            search_kwargs['subtype'] = search_subtype
+            search_kwargs[search_type]['subtype'] = search_subtype
             if search_subtype == 'politicians':
                 state = request.GET.get('state', None)
                 seat = request.GET.get('seat', None)
@@ -139,35 +143,40 @@ def search(request, search_type, search_subtype):
 
                 if state:
                     results['state_filter'] = state
-                    search_kwargs['state'] = state
+                    search_kwargs[search_type]['state'] = state
                 if seat:
                     results['seat_filter'] = seat
-                    search_kwargs['seat'] = seat
+                    search_kwargs[search_type]['seat'] = seat
                 if party:
                     results['party_filter'] = party
-                    search_kwargs['party'] = party
+                    search_kwargs[search_type]['party'] = party
 
-        results['result_sets'] = [
-            ('groups', api.entities.adv_search(query, per_page=per_page, page=page, type=('organization', 'industry'), **search_kwargs) if search_type in ('groups', 'all') else {'results': []}),
-            ('people', api.entities.adv_search(query, per_page=per_page, page=page, type=('individual', 'politician'), **search_kwargs) if search_type in ('people', 'all') else {'results': []})
-        ]
+        results['result_sets'] = OrderedDict([
+            ('groups', _cached_search(query, per_page=10, page=page, type=('organization', 'industry'), **(search_kwargs['groups']))),
+            ('people', _cached_search(query, per_page=10, page=page, type=('individual', 'politician'), **(search_kwargs['people'])))
+        ])
 
-        all_results = reduce(operator.add, [t[1]['results'] for t in results['result_sets']])
+        all_results = reduce(operator.add, [t['results'] for t in results['result_sets'].values()])
 
-        # if there's just one result, redirect to that entity's page
         if len(all_results) == 1:
+            # if there's just one result, redirect to that entity's page
             result_type = all_results[0]['type']
-            # FIXME: cleave first
-            name = slugify(all_results[0]['name'])
+            name = slugify(standardize_name(all_results[0]['name'], result_type))
             _id = all_results[0]['id']
             return HttpResponseRedirect('/%s/%s/%s' % (result_type, name, _id))
+        elif len(all_results) > 0 and search_type == "all":
+            # if there's only one type of result, redirect to a sub-search
+            for result_type, result_set in results['result_sets'].items():
+                if len(result_set['results']) == len(all_results):
+                    return HttpResponseRedirect('/search/%s?%s' % (result_type, urllib.urlencode(request.GET)))
+
 
         # do a tiny bit of regulations-specific hackery: if there are org results, stash a thread-local copy of the Docket Wrench entity list so it doesn't have to be recreated for each result
         dw_entity_list = None
-        if results['result_sets'][1][1]['results']:
+        if results['result_sets']['groups']['results']:
             external_sites._dw_local.dw_entity_list = dw_entity_list = external_sites.get_docketwrench_entity_list()
 
-        for result in all_results:
+        for result in (all_results if search_type == 'all' else results['result_sets'][search_type]['results']):
             result['url'] = "/%s/%s/%s" % (result['type'], slugify(standardize_name(result['name'], result['type'])), result['id'])
 
             if result['type'] == 'organization':
@@ -189,7 +198,8 @@ def search(request, search_type, search_subtype):
         if dw_entity_list:
             del external_sites._dw_local.dw_entity_list
 
-        results['has_results'] = sum([result[1].get('total', 0) for result in results['result_sets']]) > 0
+        results['total_results'] = sum([result.get('total', 0) for result in results['result_sets'].values()])
+        results['has_results'] = (results['total_results'] if search_type == 'all' else results['result_sets'][search_type]['total']) > 0
         results['query'] = query
         results['search_type'] = search_type
         results['total'] = len(all_results)
@@ -197,7 +207,7 @@ def search(request, search_type, search_subtype):
         results['search_subtype'] = search_subtype
         results['search_subtypes'] = {
             'people': [('all', 'All people'), ('contributors', 'Contributors'), ('lobbyists', 'Lobbyists'), ('politicians', 'Politicians')],
-            'groups': [('all', 'All groups'), ('industries', 'Industries'), ('lobbying_firms', 'Lobbying firms'), ('political_groups', 'Political groups'), ('other_orgs', 'Businesses and other organizations')]
+            'groups': [('all', 'All groups'), ('industries', 'Industries'), ('lobbying_firms', 'Lobbying organizations'), ('political_groups', 'Political groups'), ('other_orgs', 'Businesses and other organizations')]
         }
 
         qs_attrs = request.GET.copy()

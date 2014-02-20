@@ -36,7 +36,7 @@
     <div class="search-filter search-select">
       <ul>
         <li><a href="/search?{{ qs }}" class="{% if search_type == "all" %}selected{% endif %}">Everything &raquo;</a></li>
-        {% for result_type, result_set in result_sets %}
+        {% for result_type, result_set in result_sets.items %}
           <li><a href="/search/{{ result_type }}?{{ qs }}" class="{% if search_type == result_type %}selected{% endif %}">{{ result_type|capfirst }} &raquo;</a></li>
         {% endfor %}
       </ul>
@@ -93,39 +93,41 @@
 
 
   <div class="search-results">
-    {% for result_type, result_set in result_sets %}
-      {% if result_set.total %}
-      <div class="search-preview">
-        <h3>{{ result_type|capfirst }}</h3>
-        <div class="result-rows">
-        {% for result in result_set.results %}
-          {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
-            {% include template with result=result profile="slim" %}
-          {% endwith %}
-        {% endfor %}
-        </div>
-        {% if search_type == "all" %}
-        <a href="/search/{{ result_type }}?{{ qs }}" class="results-drilldown">see all {{ result_set.total }} result{{result_set.total|pluralize}} &raquo;</a>
-        {% else %}
-        <div class="pagination">
-          
-          {% if result_set.page > 1 %}
-            <a href="/search/{{ result_type }}{% if search_subtype != "all" %}/{{ search_subtype }}{% endif %}?{{ qs }}&amp;page={{ result_set.page|add:-1 }}" class="prev">&laquo; previous</a>
+    {% for result_type, result_set in result_sets.items %}
+      {% if search_type == "all" or search_type == result_type %}
+        {% if result_set.total %}
+        <div class="search-preview">
+          <h3>{{ result_type|capfirst }}</h3>
+          <div class="result-rows">
+          {% for result in result_set.results|slice:per_page_slice %}
+            {% with template="search/"|add:result.type|add:"_row.html" counter=forloop.counter0 %}
+              {% include template with result=result profile="slim" %}
+            {% endwith %}
+          {% endfor %}
+          </div>
+          {% if search_type == "all" %}
+          <a href="/search/{{ result_type }}?{{ qs }}" class="results-drilldown">see all {{ result_set.total }} result{{result_set.total|pluralize}} &raquo;</a>
           {% else %}
-            <span class="prev"></span>
-          {% endif %}
-          
-          <span class="pages">(page {{ result_set.page }} of {{ result_set.pages|floatformat:"0" }})</span>
-          
-          {% if result_set.page < result_set.pages %}
-            <a href="/search/{{ result_type }}{% if search_subtype != "all" %}/{{ search_subtype }}{% endif %}?{{ qs }}&amp;page={{ result_set.page|add:1 }}" class="next">next &raquo;</a>
-          {% else %}
-            <span class="next"></span>
-          {% endif %}
+          <div class="pagination">
+            
+            {% if result_set.page > 1 %}
+              <a href="/search/{{ result_type }}{% if search_subtype != "all" %}/{{ search_subtype }}{% endif %}?{{ qs }}&amp;page={{ result_set.page|add:-1 }}" class="prev">&laquo; previous</a>
+            {% else %}
+              <span class="prev"></span>
+            {% endif %}
+            
+            <span class="pages">(page {{ result_set.page }} of {{ result_set.pages|floatformat:"0" }})</span>
+            
+            {% if result_set.page < result_set.pages %}
+              <a href="/search/{{ result_type }}{% if search_subtype != "all" %}/{{ search_subtype }}{% endif %}?{{ qs }}&amp;page={{ result_set.page|add:1 }}" class="next">next &raquo;</a>
+            {% else %}
+              <span class="next"></span>
+            {% endif %}
 
+          </div>
+          {% endif %}
         </div>
         {% endif %}
-      </div>
       {% endif %}
     {% endfor %}
   </div>
