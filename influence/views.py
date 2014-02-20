@@ -148,8 +148,8 @@ def search(request, search_type, search_subtype):
                     search_kwargs['party'] = party
 
         results['result_sets'] = [
-            ('people', api.entities.adv_search(query, per_page=per_page, page=page, type=('individual', 'politician'), **search_kwargs) if search_type in ('people', 'all') else {'results': []}),
-            ('groups', api.entities.adv_search(query, per_page=per_page, page=page, type=('organization', 'industry'), **search_kwargs) if search_type in ('groups', 'all') else {'results': []})
+            ('groups', api.entities.adv_search(query, per_page=per_page, page=page, type=('organization', 'industry'), **search_kwargs) if search_type in ('groups', 'all') else {'results': []}),
+            ('people', api.entities.adv_search(query, per_page=per_page, page=page, type=('individual', 'politician'), **search_kwargs) if search_type in ('people', 'all') else {'results': []})
         ]
 
         all_results = reduce(operator.add, [t[1]['results'] for t in results['result_sets']])
