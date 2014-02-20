@@ -20,10 +20,8 @@ _standardizers = {
 def standardize_name(name, type):
     try:
         standardized_name = _standardizers[type](name)
-        print standardized_name.honorific
         if standardized_name.honorific:
             standardized_name.honorific = "("+standardized_name.honorific+")"
-            print standardized_name.honorific
         return standardized_name
     except AttributeError:
         return _standardizers[type](name)
@@ -205,10 +203,8 @@ def get_summaries(entity_type, request):
         limit = str(-1)
 
     for data_type,indicators in landing_page_section_indicators[entity_type].iteritems():
-        print 'summary for %s'%(data_type,)
         inds = {}
         for indicator in indicators:
-            print  '>>> %s'%(indicator,)
             inds[indicator] = api.summaries.summarize(entity_type,indicator.replace('_summary',''),cycle=cycle,limit=limit)
         data[data_type] = inds
 
