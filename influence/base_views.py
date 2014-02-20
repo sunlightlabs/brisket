@@ -39,6 +39,7 @@ class MultiSectionView(View):
             if s.failed or s.suppress_cache:
                 suppress_cache = True
 
+        context['enabled_sections'] = lambda: OrderedDict([(key, section) for key, section in context['sections'].items() if section.enabled])
         self.available_cycles = context.get('available_cycles', list_all_possible_cycles())
 
         response = render_to_response(self.template, context, self.build_request_context(request))
