@@ -37,11 +37,12 @@
                 <li class="expandCol regColSmall">Agency</li>
                 <li class="expandCol regColLarge">Docket</li>
                 <li class="expandCol regColDate">Date</li>
+                <li class="clear"></li>
             </ul>
             <ul class='expandTable clear insideList' id="regulations_submitter" data-expand-url='{{ DOCKETWRENCH_URL }}api/1.0/entity/{{ entity_info.id }}/submissions_in_docket/{id}?format=jsonp&apikey={{ API_KEY }}&cycle={{ cycle }}&callback=?' data-expand-template="#regPopDownTemplate">
             {% for row in section.regulations_submitter %}
                 <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.id }}">
-                    <span class="expandCol"><a class="toggle">Toggle</a></span>
+                    <a class="expandCol toggle">Toggle</a>
                     <span class="expandCol regColCount">{{ row.count }}</span>
                     <span class="expandCol regColSmall">{{ row.agency }}</span>
                     <span class="expandCol regColLarge docketTitle"><a href="{{ DOCKETWRENCH_URL }}docket/{{ row.id }}" title="{{ row.id }}" target="_blank">{{ row.title }}</a></span>
@@ -75,7 +76,7 @@
             <ul class='expandTable insideList' id="regulations_text" data-expand-url='{{ DOCKETWRENCH_URL }}api/1.0/entity/{{ entity_info.id }}/mentions_in_docket/{id}?format=jsonp&apikey={{ API_KEY }}&cycle={{ cycle }}&callback=?' data-expand-template="#regPopDownTemplate">
                 {% for row in section.regulations_text %}
                 <li class="{% cycle 'even' 'odd' %} expandTableRow" data-expand-id="{{ row.id }}">
-                    <span class="expandCol"><a class="toggle">Toggle</a></span>
+                    <a class="expandCol toggle">Toggle</a>
                     <span class="expandCol regColCount">{{ row.count }}</span>
                     <span class="expandCol regColSmall">{{ row.agency }}</span>
                     <span class="expandCol regColLarge docketTitle"><a href="{{ DOCKETWRENCH_URL }}docket/{{ row.id }}" title="{{ row.id }}" target="_blank">{{ row.title }}</a></span>
