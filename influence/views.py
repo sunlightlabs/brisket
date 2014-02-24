@@ -1,7 +1,8 @@
 # coding=utf-8
 
 from django.contrib.humanize.templatetags.humanize import intcomma
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, \
+                        HttpResponsePermanentRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.template.defaultfilters import pluralize, slugify
@@ -68,12 +69,15 @@ def entity_context(request, cycle, available_cycles):
     return RequestContext(request, context_variables)
 
 
-def entity_redirect(request, entity_id):
+def entity_redirect(request, entity_id, entity_name=None):
     entity = api.entities.metadata(entity_id)
+    
+    if not entity_name:
+        entity_name = slugify(entity['name'])
 
-    name = slugify(entity['name'])
-
-    return redirect('{}_entity'.format(entity['type']), entity_id=entity_id)
+    return redirect('/{entity_type}/{name}/{entity_id}'.format(entity_type=entity['type'], 
+                                                              name=entity_name,
+                                                              entity_id=entity_id))
 
 def entity_preview_redirect(request, entity_id, type=None):
     entity = api.entities.metadata(entity_id)
@@ -82,13 +86,27 @@ def entity_preview_redirect(request, entity_id, type=None):
 
     return redirect('entity_preview', entity_id=entity_id, type=entity['type'])
 
+def search_redirect(request, **kwargs):
+    if kwargs['entity_type'] in ('organization', 'industry'):
+        return redirect('/search/groups?query={query_string}'.format(**kwargs), permanent=True)
+    elif kwargs['entity_type'] in ('politician', 'individual', 'entity'):
+        return redirect('/search/people?query={query_string}'.format(**kwargs), permanent=True)
+    else:
+        raise Http404()
+
+def bioguide_redirect(request, **kwargs):
+    entity_id = api.entities.id_lookup(namespace='urn:sunlight:congressional_bioguide',
+                                        id=kwargs['bioguide_id'])[0]['id']
+    entity = api.entities.metadata(entity_id)
+    entity_name = slugify(PoliticianNameCleaver(entity['name']).parse().name_str())
+    return entity_redirect(request, entity_id, entity_name)
 
 def entity_preview(request, entity_id, type):
 
     if type == 'politician':
         cycle, standardized_name, metadata, context = prepare_entity_view(request, entity_id, type)
         return render_to_response('{}_preview.html'.format(type), context,
-                              entity_context(request, cycle, metadata['available_cycles']))
+                            entity_context(request, cycle, metadata['available_cycles']))
     else:
         return entity_redirect(request, entity_id)
 

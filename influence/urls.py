@@ -1,9 +1,13 @@
 from django.conf.urls.defaults import patterns, url
 from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
 from brisket.influence.views import PoliticianEntityView, IndividualEntityView, OrganizationEntityView, IndustryEntityView, PoliticianPreviewView
-from brisket.influence.views import IndustryLandingView, OrgLandingView, PolGroupLandingView, LobbyingOrgLandingView, IndividualLandingView, LobbyistLandingView, PolLandingView
+from brisket.influence.views import IndustryLandingView, OrgLandingView, \
+                                    PolGroupLandingView, LobbyingOrgLandingView,\
+                                    IndividualLandingView, LobbyistLandingView, \
+                                    PolLandingView, search_redirect, \
+                                    bioguide_redirect
 
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 
 urlpatterns = patterns('brisket.influence.views',
     url(r'^search$', 'search', name='search', kwargs={'search_type': 'all', 'search_subtype': 'all'}),
@@ -63,22 +67,16 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^$', 'index', name='index'),
 )
 
-urlpatterns += patterns('django.views.generic.simple',
+urlpatterns += patterns('',
     # treat urls without the entity_id as search strings
 
-    url(r'^organization/(?P<query_string>[\w\-]+)', 'redirect_to',
-        {'url': '/search?query=%(query_string)s'}),
+    url(r'^(?P<entity_type>(individual|politician|organization|industry|entity)+)/(?P<query_string>[\w\-]+)$', search_redirect),
 
-    url(r'^politician/(?P<query_string>[\w\-]+)', 'redirect_to',
-        {'url': '/search?query=%(query_string)s'}),
+    url(r'^bioguide/(?P<bioguide_id>[a-zA-Z][0-9]{6})$', bioguide_redirect),
 
-    url(r'^individual/(?P<query_string>[\w\-]+)', 'redirect_to',
-        {'url': '/search?query=%(query_string)s'}),
+    url(r'^people$', RedirectView.as_view(url='/individuals')), # backwards compatability redirect
     
-    url(r'^industry/(?P<query_string>[\w\-]+)', 'redirect_to',
-        {'url': '/search?query=%(query_string)s'}),
-
-    url(r'^people$', 'redirect_to', {'url': '/contributors'}), # backwards compatability redirect
+    url(r'^contributors$', RedirectView.as_view(url='/individuals')), # backwards compatability redirect
 
     url(r'^contact/?$', TemplateView.as_view(template_name='contact.html')),
 
