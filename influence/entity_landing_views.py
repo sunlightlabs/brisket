@@ -69,7 +69,7 @@ class OrgContributionsLandingSection(EntityLandingSection):
         self.pac_indiv_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
         self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
-        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
+        #self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
 
         if self.total_contribution_amount <= 0:
             self.suppress_contrib_graphs = True
@@ -151,7 +151,7 @@ class PolGroupContributionsLandingSection(EntityLandingSection):
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
         self.pac_indiv_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
-        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
+        #self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
 
         if self.total_contribution_amount <= 0:
             self.suppress_contrib_graphs = True
@@ -243,7 +243,7 @@ class IndividualContributionsLandingSection(EntityLandingSection):
 
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
         self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
-        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
+        #self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
         self.in_state_out_of_state_summary_data = self.prepare_parent_child_tree('in_state_out_of_state_summary')
         
@@ -270,7 +270,7 @@ class LobbyistContributionsLandingSection(EntityLandingSection):
 
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
         self.recipient_type_summary_data = self.prepare_parent_child_tree('recipient_type_summary')
-        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
+        #self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
         self.in_state_out_of_state_summary_data = self.prepare_parent_child_tree('in_state_out_of_state_summary')
         
