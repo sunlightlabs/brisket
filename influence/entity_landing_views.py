@@ -195,7 +195,7 @@ class LobbyingOrgContributionsLandingSection(EntityLandingSection):
         self.party_summary_data = self.prepare_parent_child_tree('party_summary')
         self.pac_indiv_summary_data = self.prepare_parent_child_tree('pac_indiv_summary')
         self.state_fed_summary_data = self.prepare_parent_child_tree('state_fed_summary')
-        self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
+        #self.seat_summary_data = self.prepare_parent_child_tree('seat_summary')
 
         if self.total_contribution_amount <= 0:
             self.suppress_contrib_graphs = True
