@@ -76,6 +76,7 @@ DOCS_SECTIONS = [
     Section('/docs/earmarks/', 'docs_earmarks', 'Earmarks'),
     Section('/docs/echo/', 'docs_echo', 'EPA ECHO'),
     Section('/docs/changelog/', 'docs_changelog', 'Data Changelog'),
+    Section('/docs/foreign_lobbying/', 'docs_foreign_lobbying', 'Foreign Lobbying'),
 ]
 
 for doc_page in API_SECTIONS + DOCS_SECTIONS:
