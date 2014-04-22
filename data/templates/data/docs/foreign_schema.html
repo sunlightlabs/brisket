@@ -1,0 +1,283 @@
+{% extends "data/docs/index.html" %}
+
+{% block docsContent %}
+
+<div id="ltColumn" class="withTabs">
+        
+    <h3>Foreign Influence Explorer Schema</h3>
+    <p>
+        The foreign influence database accessed via the Sunlight Foundation's Influence Explorer is updated with a data entry process using the Department of Justice' Foreign Agents Registration Act records. Downloads are updated daily. It should be noted, however, that not all documents submitted to the Department of Justice under the Foreign Agents Registration Act have been processed by us. Currently, users of our site can access all of the records submitted in 2013. A portion of the documents submitted in 2011 and 2012 have been processed by us and are available on our site. We are working hard to standardize and make available for browsing and download as many documents as we can. Information is available if you would like to <a href="http://sunlightfoundation.com/blog/2013/10/11/volunteer-watchdogs-wanted-help-us-track-foreign-influence/">learn how to contribute to this project</a>.
+    </p>
+
+    <div class="sections">
+        <h4>Contacts</h4>
+
+        <dl>
+            <dt>date</dt>
+            <dd>The date of contact. Dates with an asterisk represent the date on the document.
+            </dd>
+
+            <dt>contact_title</dt>
+            <dd>The title of the person contacted. (Note: this may change over time.)
+            </dd>
+
+            <dt>contact_name</dt>
+            <dd>The name of the person contacted.
+            </dd>
+
+            <dt>contact_office</dt>
+            <dd>The office for which the person contacted works.
+            </dd>
+
+            <dt>contact_agency</dt>
+            <dd>The agency or category of the contact, such as White House or Media.
+            </dd>
+
+            <dt>client</dt>
+            <dd>The client represented by the registrant, which can be the same as the registrant.
+            </dd>
+
+            <dt>client_location</dt>
+            <dd>The client's self-identified home base—this not always an officially recognized state.
+            </dd>
+
+            <dt>registrant</dt>
+            <dd>The person or organization that is filing, also known as the foreign agent.
+            </dd>
+
+            <dt>description</dt>
+            <dd>A summary of the contact, if provided.
+            </dd>
+
+            <dt>type</dt>
+            <dd>This describes the nature of the contact in certain broad categories, such as phone, email, meeting, other or unknown.
+            </dd>
+
+            <dt>employees_mentioned</dt>
+            <dd>Individuals associated with the registrant who were mentioned in the contact summary.
+            </dd>
+
+            <dt>affiliated_member_bioguide_id</dt>
+            <dd>This is the unique identifier issued to members of Congress and would be used to identify contacts with that member as well as with his or her staff.
+            </dd>
+
+            <dt>source</dt>
+            <dd>Link to original document.
+            </dd>
+
+            <dt>document_id</dt>
+            <dd>An id for each document.
+            </dd>
+
+            <dt>registrant_id</dt>
+            <dd>An id for each registrant, issued by the Department of Justice.
+            </dd>
+
+            <dt>client_id</dt>
+            <dd>An id for each client.
+            </dd>
+
+            <dt>location_id</dt>
+            <dd>An id for location.
+            </dd>
+
+            <dt>recipient_id</dt>
+            <dd>An id for each person or organization contacted.
+            </dd>
+
+            <dt>record_id</dt>
+            <dd>An id for each interaction.
+            </dd>     
+        </dl> 
+    </div>
+
+    <div class="sections">
+        <h4>Contributions</h4>
+
+        <p>Note: Contribution amounts will likely NOT match records available at the Federal Election Commission, or those housed by the Sunlight Foundation's Influence Explorer and on OpenSecrets.org. Differences in reporting requirements between the FEC and the DOJ account for differences in amounts reported as well as different contribution dates.</p>
+
+        <dl>
+            <dt>date</dt>
+            <dd>The date of contact. Dates with an asterisk represent the date on the document.
+            </dd>
+       
+            <dt>amount</dt>
+            <dd>The dollar amount of the contribution.
+            </dd>
+       
+            <dt>recipient</dt>
+            <dd>The campaign, political action committee or individual receiving the contribution.
+            </dd>
+        
+            <dt>registrant</dt>
+            <dd>The person or organization that is filing, also known as the foreign agent.
+            </dd>
+        
+            <dt>contributing_individual_or_pac</dt>
+            <dd>The name of the political action committee or person making the contribution.
+            </dd>
+        
+            <dt>recipient_crp_id</dt>
+            <dd>This is the unique identifier issued to members of Congress by the Center for Responsive Politics and would be used to identify contributions to that member. In the case of leadership PACs, the member's ID is assigned to the PAC with the name of the PAC in the Recipient field.
+            </dd>
+        
+            <dt>recipient_bioguide_id</dt>
+            <dd>This is the unique identifier issued to members of Congress by the government and would be used to identify contributions to that member. In the case of leadership PACs, the member's ID is assigned to the PAC with the name of the PAC in the Recipient field.
+            </dd>
+        
+            <dt>source</dt>
+            <dd>Link to original document.
+            </dd>
+        
+            <dt>document_id</dt>
+            <dd>An id for each document.
+            </dd>
+        
+            <dt>registrant_id</dt>
+            <dd>An id for each registrant, issued by the Department of Justice.
+            </dd>
+        
+            <dt>recipient_id</dt>
+            <dd>An id for each person or political committee receiving contributions.
+            </dd>
+
+            <dt>record_id</dt>
+            <dd>An id for each contribution record.
+            </dd>
+
+            <dt>date_asterisk</dt>
+            <dd>if the value is True, no date is given and the date reflects the date of the document.
+            </dd>
+
+        </dl>
+    </div>
+
+    <div class="sections">
+        <h4>Payments</h4>
+
+        <dl>
+            <dt>date</dt>
+            <dd>The date of the payment. Dates with an asterisk represent the date on the document.
+            </dd>
+       
+            <dt>amount</dt>
+            <dd>The dollar amount of the payment.
+            </dd>
+       
+            <dt>client</dt>
+            <dd>The client represented by the registrant, which can be the same as the registrant.
+            </dd>
+        
+            <dt>registrant</dt>
+            <dd> The person or organization that is filing, also known as the foreign agent.
+            </dd>
+        
+            <dt>purpose</dt>
+            <dd>Description of the payment, if given.
+            </dd>
+        
+            <dt>from_subcontractor</dt>
+            <dd>A name is listed if the payment is coming from another registrant. Keep this in mind if trying to total clients, so that you do not count the same money twice.
+            </dd>
+        
+            <dt>source</dt>
+            <dd>Link to original document.
+            </dd>
+        
+            <dt>document_id</dt>
+            <dd>An id for each document.
+            </dd>
+        
+            <dt>registrant_id</dt>
+            <dd>An id for each registrant, issued by the Department of Justice.
+            </dd>
+        
+            <dt>client_id</dt>
+            <dd>A id for each client.
+            </dd>
+        
+            <dt>location_id</dt>
+            <dd>An id for each location.
+            </dd>
+
+            <dt>subcontractor_id</dt>
+            <dd>An id for a subcontractor, if applicable.
+            </dd>
+
+            <dt>record_id</dt>
+            <dd>An id for each payment record.
+            </dd>
+
+            <dt>date_asterisk</dt>
+            <dd>if the value is True, no date is given and the date reflects the date of the document.
+            </dd>
+
+        </dl>
+    </div>
+
+    <div class="sections">
+        <h4>Disbursements</h4>
+
+        <dl>
+            <dt>date</dt>
+            <dd>The date of the payment. Dates with an asterisk represent the date on the document.
+            </dd>
+       
+            <dt>amount</dt>
+            <dd>The dollar amount of the disbursement.
+            </dd>
+       
+            <dt>client</dt>
+            <dd>The client represented by the registrant, which can be the same as the registrant.
+            </dd>
+        
+            <dt>registrant</dt>
+            <dd>The person or organization that is filing, also known as the foreign agent.
+            </dd>
+        
+            <dt>purpose</dt>
+            <dd>Description of the disbursement, if given.
+            </dd>
+        
+            <dt>to_subcontractor</dt>
+            <dd>This money is going to another registrant. Keep this in mind for client totals.
+            </dd>
+        
+            <dt>source</dt>
+            <dd>Link to original document.
+            </dd>
+        
+            <dt>document_id</dt>
+            <dd>An id for each document.
+            </dd>
+        
+            <dt>registrant_id</dt>
+            <dd>An id for each registrant, issued by the Department of Justice.
+            </dd>
+        
+            <dt>client_id</dt>
+            <dd>An id for each client.
+            </dd>
+        
+            <dt>location_id</dt>
+            <dd>An id for each location.
+            </dd>
+
+            <dt>subcontractor_id</dt>
+            <dd>An id for a subcontractor, if applicable.
+            </dd>
+
+            <dt>record_id</dt>
+            <dd>An id for each contribution record.
+            </dd>
+
+            <dt>date_asterisk</dt>
+            <dd>if the value is True, no date is given and the date reflects the date of the document.
+            </dd>
+        </dl>
+    </div>
+
+</div>
+
+
+{% endblock %}
