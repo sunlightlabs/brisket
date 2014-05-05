@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from brisket.influence.sitemaps import sitemaps, index_wrapper, sitemap_wrapper
 from brisket.influence.views import PoliticianEntityView, IndividualEntityView, OrganizationEntityView, IndustryEntityView, PoliticianPreviewView
 from brisket.influence.views import IndustryLandingView, OrgLandingView, \

@@ -5,7 +5,7 @@
 #from dcapi.lobbying.urls import lobbyingfilter_handler
 #from dcapi.contractor_misconduct.urls import contractor_misconduct_filter_handler
 
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from django.conf import settings
 from django.views.generic import RedirectView
 from brisket.data.views import DirectTemplateView
