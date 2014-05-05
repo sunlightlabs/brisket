@@ -1,5 +1,5 @@
 psycopg2==2.4.1
-Django==1.5.1
+Django==1.6.4
 BeautifulSoup==3.2.0
 boto
 django_compressor
