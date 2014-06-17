@@ -1,7 +1,6 @@
 {% extends "brisket_base.html" %}
 
 {% load staticfiles %}
-{% load compress %}
 {% block body_class %}tdata searchTD{% endblock %}
 
 {% block pagetitle %}
@@ -11,7 +10,6 @@
 {% block js %}
 {{ block.super }}
 
-{% compress js %}
     <script type="text/javascript" src="{% static "data/js/jquery-ui-1.7.2.custom.min.js" %}"></script>
     <script type="text/javascript" src="{% static "data/js/jquery.currency.js" %}"></script>
     <script type="text/javascript" src="{% static "data/js/jquery.expander.js" %}"></script>
@@ -29,7 +27,6 @@
     <script type="text/javascript" src="{% static "data/js/td.epa_echo.js" %}"></script>
     <script type="text/javascript" src="{% static "data/js/td.faca.js" %}"></script>
     <script type="text/javascript" src="{% static "data/js/td.bundling.js" %}"></script>
-{% endcompress %}
 
 {% endblock %}
 

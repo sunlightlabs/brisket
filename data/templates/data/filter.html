@@ -1,6 +1,5 @@
 {% extends "brisket_base.html" %}
 {% load staticfiles %}
-{% load compress %}
 
 {% block sitecss %}
 {{ block.super }}
@@ -66,7 +65,6 @@
         <div class="clear"></div>
     </div>
 
-    {% compress js %}
     {% block dataset_scripts %}
     {{ block.super }}
     <script type="text/javascript" src="{% static "data/js/jquery-ui-1.7.2.custom.min.js" %}"></script>
@@ -92,5 +90,4 @@
         });
     </script>
     {% endblock %}
-    {% endcompress %}
 {% endblock %}
