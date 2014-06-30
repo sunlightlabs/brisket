@@ -12,6 +12,7 @@ urlpatterns = patterns('',
         'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
     url('^contact/$', 'brisket.views.contact', name='contact_form'),
     url('^about/$', TemplateView.as_view(template_name='about.html')),
+    url('^fortune-X00/', include('fortune_blank_hundred.urls')),
 #    (r'^admin/', include(admin.site.urls)),
 #    (r'^admin_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.dirname(admin.__file__) + '/media'}),
     # everything else goes to influence

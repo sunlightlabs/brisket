@@ -1,0 +1,41 @@
+{% extends "brisket_base.html" %}
+
+{% block body_class %}fortune flatText{% endblock %}
+
+{% block sitecss %}
+{% comment %}Put CSS in here to keep everything self-contained and not muck around with dryrub, etc., for a one-off.{% endcomment %}
+{{ block.super }}
+<style type="text/css">
+#td_nav {
+    margin-top: -15px;
+    list-style: none;
+}
+#td_nav li {
+    list-style: none;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Fortune Blank Hundred</h2>
+</div>
+<nav id="td_nav">
+    <ul>
+        <li class="last"><a href="#">Investigations</a></li>
+        <li><a href="#">Findings</a></li>
+        <li><a href="#">Methodology</a></li>
+    </ul>
+    <div class="clear"></div>
+</nav>
+
+<div class="module">
+<p>Grapheme-color synesthesia is a form of synesthesia in which an individual's perception of numbers and letters is associated with the experience of colors. Like all forms of synesthesia, grapheme-color synesthesia is involuntary, consistent, and memorable. Grapheme-color synesthesia is one of the most common forms of synesthesia, and because of the extensive knowledge of the visual system, one of the most studied.</p>
+
+<p>While it is extremely unlikely that any two synesthetes will report the same colors for all letters and numbers, studies of large numbers of synesthetes find that there are some commonalities across letters (e.g., "A" is likely to be red). Early studies argued that grapheme-color synesthesia was not due to associative learning, such as from playing with colored refrigerator magnets. However, one recent study has documented a case of synesthesia in which synesthetic associations could be traced back to colored refrigerator magnets. Despite the existence of this individual case, the majority of synesthetic associations do not seem to be driven by learning of this sort. Rather, it seems that more frequent letters are paired with more frequent colors, and some meaning-based rules, such as ‘b’ being blue, drive most synesthetic associations.</p>
+
+<p>There has been a lot more research as to why and how synesthesia occurs with more recent technology and as synesthesia has become more well known. It has been found that grapheme-color synesthetes have more grey matter in their brain. There is evidence of an increased grey matter volume in the left caudal intra-parietal sulcus (IPS). There was also found to be an increased grey matter volume in the right fusiform gyrus. These results are consistent with another study on the brain functioning of grapheme-color synesthetes. Grapheme-color synesthetes tend to have an increased thickness, volume, and surface area of the fusiform gyrus. Furthermore, the area of the brain where word, letter, and color processing are located, V4a, is where the most significant difference in make-up was found. Though not certain, these differences are thought to be part of the reasoning for the presence of grapheme-color synesthesia.</p>
+</div>
+
+{% endblock %}
