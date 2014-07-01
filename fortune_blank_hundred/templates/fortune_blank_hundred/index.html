@@ -1,4 +1,5 @@
 {% extends "brisket_base.html" %}
+{% load influence_extras %}
 
 {% block body_class %}fortune flatText{% endblock %}
 
@@ -12,6 +13,13 @@
 }
 #td_nav li {
     list-style: none;
+}
+
+.fx00-table .table-scroll {
+    overflow-x: auto;
+}
+.table-scroll #mainPageTable {
+    margin-bottom: 0;
 }
 </style>
 {% endblock %}
@@ -38,4 +46,36 @@
 <p>There has been a lot more research as to why and how synesthesia occurs with more recent technology and as synesthesia has become more well known. It has been found that grapheme-color synesthetes have more grey matter in their brain. There is evidence of an increased grey matter volume in the left caudal intra-parietal sulcus (IPS). There was also found to be an increased grey matter volume in the right fusiform gyrus. These results are consistent with another study on the brain functioning of grapheme-color synesthetes. Grapheme-color synesthetes tend to have an increased thickness, volume, and surface area of the fusiform gyrus. Furthermore, the area of the brain where word, letter, and color processing are located, V4a, is where the most significant difference in make-up was found. Though not certain, these differences are thought to be part of the reasoning for the presence of grapheme-color synesthesia.</p>
 </div>
 
+<div class="module fx00-table">
+    <div class="table-scroll">
+        <table id="mainPageTable" class="tablesorter">
+            <tr>
+                <th>Rank</th><th>Organization</th><th>Donor Total</th><th>Lobby Total</th><th>Influence Total</th><th>Incumbent %</th><th>Federal Business Total</th><th>Federa Aid Total</th><th>Effective Tax Rate</th><th>More Info</th>
+            </tr>
+            {% for row in table %}
+            <tr class="{% cycle 'even' 'odd' %}">
+                <td style="background: #{{ row.color }}; color: #ffffff;">{{ row.rank }}</td>
+                <td><a href="/organization/{{ row.organization|standardize_organization_name|slugify }}/{{ row.ie_id }}">{{ row.organization }}</a></td>
+                <td>{{ row.donor_total }}</td>
+                <td>{{ row.lobby_total }}</td>
+                <td>{{ row.influence_total }}</td>
+                <td>{{ row.incumbent_pct }}</td>
+                <td>{{ row.federal_biz_total }}</td>
+                <td>{{ row.federa_aid_total }}</td>
+                <td>{{ row.effective_tax_rate }}</td>
+                <td>{{ row.tax_link }} {{ row.state_subsidy_link }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(function() {
+    $('#mainPageTable').tablesorter();
+});
+</script>
 {% endblock %}
