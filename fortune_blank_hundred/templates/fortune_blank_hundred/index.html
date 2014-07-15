@@ -1,5 +1,6 @@
 {% extends "brisket_base.html" %}
 {% load influence_extras %}
+{% load humanize %}
 
 {% block body_class %}fortune flatText{% endblock %}
 
@@ -17,9 +18,22 @@
 
 .fx00-table .table-scroll {
     overflow-x: auto;
+    margin-bottom: 30px;
 }
 .table-scroll #mainPageTable {
     margin-bottom: 0;
+}
+tr.special {
+    background: #e4e2e2 !important;
+    border-bottom: 1px solid #cccccc;
+    font-weight: bold;
+}
+td.subsidy-link a {
+    text-indent: -9999px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('/static/dryrub/images/doc_text_image.png') no-repeat top left;
 }
 </style>
 {% endblock %}
@@ -31,14 +45,14 @@
 </div>
 <nav id="td_nav">
     <ul>
-        <li class="last"><a href="#">Investigations</a></li>
-        <li><a href="#">Findings</a></li>
-        <li><a href="#">Methodology</a></li>
+        <li class="last"><a href="#findings">Findings</a></li>
+        <li><a href="#data-table">Data</a></li>
+        <li><a href="#methodology">Methodology</a></li>
     </ul>
     <div class="clear"></div>
 </nav>
 
-<div class="module">
+<div class="module" id="methodology">
 <p>Grapheme-color synesthesia is a form of synesthesia in which an individual's perception of numbers and letters is associated with the experience of colors. Like all forms of synesthesia, grapheme-color synesthesia is involuntary, consistent, and memorable. Grapheme-color synesthesia is one of the most common forms of synesthesia, and because of the extensive knowledge of the visual system, one of the most studied.</p>
 
 <p>While it is extremely unlikely that any two synesthetes will report the same colors for all letters and numbers, studies of large numbers of synesthetes find that there are some commonalities across letters (e.g., "A" is likely to be red). Early studies argued that grapheme-color synesthesia was not due to associative learning, such as from playing with colored refrigerator magnets. However, one recent study has documented a case of synesthesia in which synesthetic associations could be traced back to colored refrigerator magnets. Despite the existence of this individual case, the majority of synesthetic associations do not seem to be driven by learning of this sort. Rather, it seems that more frequent letters are paired with more frequent colors, and some meaning-based rules, such as ‘b’ being blue, drive most synesthetic associations.</p>
@@ -47,27 +61,64 @@
 </div>
 
 <div class="module fx00-table">
-    <div class="table-scroll">
+    <div class="table-scroll" id="data-table">
         <table id="mainPageTable" class="tablesorter">
-            <tr>
-                <th>Rank</th><th>Organization</th><th>Donor Total</th><th>Lobby Total</th><th>Influence Total</th><th>Incumbent %</th><th>Federal Business Total</th><th>Federa Aid Total</th><th>Effective Tax Rate</th><th>More Info</th>
-            </tr>
-            {% for row in table %}
-            <tr class="{% cycle 'even' 'odd' %}">
-                <td style="background: #{{ row.color }}; color: #ffffff;">{{ row.rank }}</td>
-                <td><a href="/organization/{{ row.organization|standardize_organization_name|slugify }}/{{ row.ie_id }}">{{ row.organization }}</a></td>
-                <td>{{ row.donor_total }}</td>
-                <td>{{ row.lobby_total }}</td>
-                <td>{{ row.influence_total }}</td>
-                <td>{{ row.incumbent_pct }}</td>
-                <td>{{ row.federal_biz_total }}</td>
-                <td>{{ row.federa_aid_total }}</td>
-                <td>{{ row.effective_tax_rate }}</td>
-                <td>{{ row.tax_link }} {{ row.state_subsidy_link }}</td>
-            </tr>
-            {% endfor %}
+            <thead>
+                <tr>
+                    <th class="sort headerSortDown">Rank</th>
+                    <th class="sort">Organization</th>
+                    <th class="sort">Donor Total</th>
+                    <th class="sort">Lobby Total</th>
+                    <th class="sort">Influence Total</th>
+                    <th class="sort">Incumbent&nbsp;%</th>
+                    <th class="sort">Federal Business Total</th>
+                    <th class="sort">Federa Aid Total</th>
+                    <th class="sort">Effective Tax Rate</th>
+                    <th class="{sorter: false}">More Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table %}
+                <tr class="{% if row.special_title %}special{% else %}{% cycle 'even' 'odd' %}{% endif %}">
+                    {% if row.special_title %}
+                        <td>{{ row.special_title }}</td>
+                    {% else %}
+                        <td style="background: #{{ row.color }}; color: #ffffff;">{{ row.rank }}</td>
+                    {% endif %}
+                    <td><a href="/organization/{{ row.organization|standardize_organization_name|slugify }}/{{ row.ie_id }}">{{ row.organization }}</a></td>
+                    <td>${{ row.donor_total|intcomma }}</td>
+                    <td>${{ row.lobby_total|intcomma }}</td>
+                    <td>${{ row.influence_total|intcomma }}</td>
+                    <td>{{ row.incumbent_pct }}</td>
+                    <td>
+                        {% if row.federal_biz_total|add:"0" < 0 %}
+                            -${{ row.federal_biz_total|slice:"1:"|intcomma }}
+                        {% else %}
+                            ${{ row.federal_biz_total|intcomma }}
+                        {% endif %}
+                        </td>
+                    <td>${{ row.federal_aid_total|intcomma }}</td>
+                    <td>
+                        {% if row.effective_tax_rate.strip != "" %}
+                            <a href="{{ row.tax_link }}">{{ row.effective_tax_rate }}</a>
+                        {% endif %}
+                    </td>
+                    <td class="subsidy-link">
+                        {% if row.state_subsidy_link %}
+                            <a href="{{ row.state_subsidy_link }}">{{ row.organization }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
+</div>
+
+<div class="module" id="findings">
+    <h3>Findings</h3>
+    <p>These are the most commonly sighted of the three populations in the coastal waters of the northeast Pacific. Residents' diets consist primarily of fish and sometimes squid, and they live in complex and cohesive family groups called pods. Female residents characteristically have rounded dorsal fin tips that terminate in a sharp corner. They visit the same areas consistently. British Columbia and Washington resident populations are amongst the most intensively studied marine mammals. Researchers have identified and named over 300 killer whales over the past 30 years.</p>
+    <p>The diets of these whales consist almost exclusively of marine mammals. Transients generally travel in small groups, usually of two to six animals, and have less persistent family bonds than residents. Transients vocalize in less variable and less complex dialects. Female transients are characterized by more triangular and pointed dorsal fins than those of residents. The gray or white area around the dorsal fin, known as the "saddle patch", often contains some black colouring in residents. However, the saddle patches of transients are solid and uniformly gray. Transients roam widely along the coast; some individuals have been sighted in both southern Alaska and California. Transients are also referred to as Bigg's killer whale in honor of Michael Bigg. The term has become increasingly common and may eventually replace the transient label.</p>
 </div>
 {% endblock %}
 
@@ -75,7 +126,59 @@
 {{ block.super }}
 <script type="text/javascript">
 $(function() {
-    $('#mainPageTable').tablesorter();
+    // deal with negative dollars
+    $.tablesorter.addParser({
+        // set a unique id
+        id: 'negnumbers',
+        is: function(s) {
+            // return false so this parser is not auto detected
+            return false;
+        },
+        format: function(s) {
+            // format your data for normalization
+            var out = $.trim(s.replace(/(<([^>]+)>)/ig,"").replace(/\$/,'').replace(/,/g,'').replace(/%/g,''));
+            return (out == "" ? -99999999 : out);
+        },
+        // set type, either numeric or text
+        type: 'numeric'
+    });
+
+    // deal with total and average rows
+    $.tablesorter.addWidget({
+        // give the widget a id
+        id: "specialRows",
+        // format is called when the on init and when a sorting has finished
+        format: function(table) {
+            // cache and collect all TH headers
+            if (!this.specials) {
+                var s = this.specials = [];
+                $("tbody tr.special", table).each(function() {
+                    s.push($(this));
+                });
+            }
+            
+            // remove appended headers by classname.
+            $("tbody tr.special", table).remove();
+            
+            // loop all tr elements and insert a copy of the "headers"
+            for (var i=0; i < this.specials.length; i++) {
+                // insert a copy of the table head every 10th row
+                $("tbody", table).append(this.specials[i]);
+            }
+        }
+    });
+    
+    $('#mainPageTable').tablesorter({
+        headers: {
+            6: {
+                sorter: 'negnumbers'
+            },
+            8: {
+                sorter: 'negnumbers'
+            }
+        },
+        widgets: ['specialRows', 'zebra']
+    });
 });
 </script>
 {% endblock %}

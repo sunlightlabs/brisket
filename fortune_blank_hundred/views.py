@@ -1,6 +1,7 @@
 from django.views.generic.base import TemplateView
 from django.conf import settings
 from influence.cache import cache
+from collections import defaultdict
 import csv, urllib2
 
 MIN_COLOR = "A0B73B"
@@ -22,6 +23,9 @@ def get_table():
     maxr = max(ranks)
     diffr = float(maxr - minr)
 
+    numbers = set(['donor_total', 'lobby_total', 'influence_total', 'federal_biz_total', 'federal_aid_total', 'effective_tax_rate'])
+
+    values = defaultdict(list)
     for row in data:
         weight = (int(row['rank']) - minr) / diffr
         color = [int(round((weight * minc[i]) + ((1 - weight) * maxc[i]))) for i in range(3)]
@@ -31,10 +35,31 @@ def get_table():
         # strip out hyphens from ie ids
         row['ie_id'] = row['ie_id'].replace('-', '')
 
-    return data
+        for key, value in row.items():
+            if key in numbers:
+                intval = None
+                try:
+                    intval = int(value)
+                    values[key].append(intval)
+                except ValueError:
+                    pass
+
+    averages = {'special_title': 'Average'}
+    totals = {'special_title': 'Total'}
+    for key, value_list in values.items():
+        totals[key] = sum(value_list)
+        averages[key] = int(round(float(totals[key]) / len(value_list)))
+
+    return {
+        'rows': data,
+        'averages': averages,
+        'totals': totals
+    }
 
 class FortuneIndexView(TemplateView):
     template_name = "fortune_blank_hundred/index.html"
 
     def get_context_data(self):
-        return {'table': get_table()}
+        table = get_table()
+
+        return {'table': table['rows'] + [table['averages'], table['totals']]}
