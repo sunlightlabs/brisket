@@ -7,7 +7,7 @@ import csv, urllib2
 MIN_COLOR = "A0B73B"
 MAX_COLOR = "5A7F26"
 
-@cache(seconds=8600)
+@cache(seconds=600)
 def get_table():
     url = getattr(settings, "FORTUNE_BLANK_HUNDRED_CSV")
     if not url:
