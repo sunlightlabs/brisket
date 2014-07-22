@@ -4,8 +4,8 @@ from influence.cache import cache
 from collections import defaultdict
 import csv, urllib2
 
-MIN_COLOR = "A0B73B"
-MAX_COLOR = "5A7F26"
+MIN_COLOR = "002C49"
+MAX_COLOR = "0081A5"
 
 @cache(seconds=600)
 def get_table():
