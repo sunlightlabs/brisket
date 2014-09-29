@@ -56,10 +56,14 @@
                     {% else %}{% if entity_info.type == "organization" %}
                         <h4 class="withTip">Standardized Donation Information</h4>
                     {% endif %}{% endif %}
-                <span class="tip external">covers roughly through Q4 2013. may lag behind FEC section above, as donors and industries are identified by hand.</span>
+                <span class="tip external">covers roughly through Q2 2014. may lag behind FEC section above, as donors and industries are identified by hand.</span>
+                <span class="tip external">state-level data is not available for the 2013-2014 cycle. for more current data, we recommend using the search tool at http://followthemoney.org/</span>
             </div>
         {% else %}
-            {% if cycle in "-1 2014" %}<span class="tip external">covers roughly through Q4 2013</span>{% endif %}
+            {% if cycle in "-1 2014" %}
+                <span class="tip external">federal data covers from 1989 roughly through Q2 2014</span>
+                <span class="tip external">state-level data is not available for the 2013-2014 cycle. for more current data, we recommend using the search tool at http://followthemoney.org/</span>
+            {% endif %}
         {% endif %}
     
         <ul>
