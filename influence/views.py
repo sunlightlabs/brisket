@@ -112,7 +112,8 @@ def fuzzy_redirect(request, **kwargs):
         rows = cursor.fetchall()
         print "FOUND"
         print rows
-        best_row = sorted(rows, key=lambda r: SequenceMatcher(None, query, r[0]).ratio())[0]
+        #best_row = sorted(rows, key=lambda r: SequenceMatcher(None, query, r[0]).ratio())[0]
+        best_row = rows[0]
         print "BEST"
         print best_row
         return redirect('http://realtime.influenceexplorer.com'+best_row[1])
