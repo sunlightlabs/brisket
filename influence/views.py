@@ -29,6 +29,9 @@ import unicodedata
 import operator
 import urllib
 
+from django.db import connection
+from difflib import SequenceMatcher
+
 from entity_views import *
 from entity_landing_views import *
 from dataset_landing_views import *
@@ -100,6 +103,22 @@ def bioguide_redirect(request, **kwargs):
     entity = api.entities.metadata(entity_id)
     entity_name = slugify(PoliticianNameCleaver(entity['name']).parse().name_str())
     return entity_redirect(request, entity_id, entity_name)
+
+def fuzzy_redirect(request, **kwargs):
+    if request.GET['q']:
+        query = request.GET['q']
+        cursor = connection.cursor()
+        cursor.execute("select * from (select name, committee_url, similarity(name, '{query_string}') sim from rt_ie_meta) x order by sim desc limit 30;".format(query_string=query))
+        rows = cursor.fetchall()
+        print "FOUND"
+        print rows
+        best_row = sorted(rows, key=lambda r: SequenceMatcher(None, query, r[0]).ratio())[0]
+        print "BEST"
+        print best_row
+        return redirect('http://realtime.influenceexplorer.com'+best_row[1])
+    else:
+        raise Http404()
+
 
 def entity_preview(request, entity_id, type):
 
