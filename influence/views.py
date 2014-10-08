@@ -126,11 +126,11 @@ def fuzzy_match_view(request, **kwargs):
         from
             (select
                 rpm.*,
-                similarity(filer_name, '{q}') as sim_score
+                similarity(query, '{q}') as sim_score
             from
                 philly_ad_hacky_static rpm
             where 
-                similarity(filer_name, '{q}') > 0) s
+                similarity(query, '{q}') > 0) s
         order by
             sim_score desc;
     """
