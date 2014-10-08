@@ -10,9 +10,16 @@
 </div>
 
 <div id="ltColumn">
-            <a class="moreLink" href="http://politicaladsleuth.com/search/?q={{filer_data.query|urlencode}}">
-                View Advertising Purchase Data on Political Ad Sleuth
+	    <h3>Advertising Data</h3>
+            <p>
+            <a class="moreLink" style="background:url(/static/dryrub/images/sleuth.png) top left no-repeat;" href="http://politicaladsleuth.com/search/?q={{ad_sleuth_query|urlencode}}">
+                Search Advertising Purchase Data on Political Ad Sleuth
             </a>
+            
+            <a class="moreLink" style="background:url(/static/dryrub/images/hawk.png) top left no-repeat;" href="http://adhawk.sunlightfoundation.com/search/?q={{ad_sleuth_query|urlencode}}">
+                Search Ads Collected by Ad Hawk
+            </a>
+            </p>
 
         {% if filer_data.filer_id_namespace == "urn:fec:committee" %}
 	    <h3>FEC Committee</h3>

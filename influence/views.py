@@ -25,6 +25,7 @@ from collections import defaultdict, OrderedDict
 from influence.cache import cache
 import datetime
 import json
+import re
 import unicodedata
 import operator
 import urllib
@@ -147,7 +148,10 @@ def fuzzy_match_view(request, **kwargs):
         print "BEST"
         print best_row['filer_name']
         #return redirect('http://realtime.influenceexplorer.com'+best_row[1])
-        return render_to_response('fuzzy_match.html', {'filer_data': best_row}, RequestContext(request))
+        ad_sleuth_query = re.sub(r'[^a-zA-Z\ ]', '', best_row['filer_name']).lower()
+        context = {'filer_data': best_row,
+                   'ad_sleuth_query': ad_sleuth_query}
+        return render_to_response('fuzzy_match.html', context, RequestContext(request))
     else:
         raise Http404()
 
