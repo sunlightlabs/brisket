@@ -104,6 +104,14 @@ def bioguide_redirect(request, **kwargs):
     entity_name = slugify(PoliticianNameCleaver(entity['name']).parse().name_str())
     return entity_redirect(request, entity_id, entity_name)
 
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
+    ]
+
 def fuzzy_fine(rows, query):
     match_scores = map(lambda r: SequenceMatcher(None, query, r[0].lower()).find_longest_match(0,len(query),0,len(r[0])).size, rows)
     #print match_scores
@@ -111,18 +119,35 @@ def fuzzy_fine(rows, query):
     results = [rows[i] for i, s in enumerate(match_scores) if s == max_score]
     return sorted(results, key=lambda r: r[2])[-1]
 
-def fuzzy_redirect(request, **kwargs):
+def fuzzy_match_view(request, **kwargs):
+    sim_search = """
+        select 
+            *
+        from
+            (select
+                rpm.*,
+                similarity(filer_name, '{q}') as sim_score
+            from
+                philly_ad_hacky_static rpm
+            where 
+                similarity(filer_name, '{q}') > 0) s
+        order by
+            sim_score desc;
+    """
+
     if request.GET['q']:
         query = request.GET['q']
         cursor = connection.cursor()
-        cursor.execute("select * from (select name, committee_url, similarity(name, '{query_string}') sim from rt_ie_meta) x order by sim desc limit 30;".format(query_string=query))
-        rows = cursor.fetchall()
-        #print "FOUND"
-        #print rows
-        best_row = fuzzy_fine(rows, query)
-        #print "BEST"
-        #print best_row
-        return redirect('http://realtime.influenceexplorer.com'+best_row[1])
+        cursor.execute(sim_search.format(q=query))
+        rows = dictfetchall(cursor)
+        print "FOUND"
+        print [r['filer_name'] for r in rows]
+        #best_row = fuzzy_fine(rows, query)
+        best_row = rows[0]
+        print "BEST"
+        print best_row['filer_name']
+        #return redirect('http://realtime.influenceexplorer.com'+best_row[1])
+        return render_to_response('fuzzy_match.html', {'filer_data': best_row}, RequestContext(request))
     else:
         raise Http404()
 
