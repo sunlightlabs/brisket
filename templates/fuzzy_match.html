@@ -25,15 +25,15 @@
 	    <h3>FEC Committee</h3>
             
             <h4>Summary</h4>
-            <p>
-                <span class="amount_description">Total receipts:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_reciepts %}${{filer_data.total_reciepts|intcomma}}{% else %}$0{% endif %}</span>
-            </p>
-            <p>
-                <span class="amount_description">Total disbursements:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_disbursements %}${{filer_data.total_disbursements|intcomma}}{% else %}$0{% endif %}</span>
-            </p>
-            <p>
-                <span class="amount_description">Total cash on hand:</span>&nbsp;<span class="amount_dollars">{% if filer_data.cash_on_hand %}${{filer_data.cash_on_hand|intcomma}}{% else %}$0{% endif %}</span>
-            </p>
+            {% if filer_data.total_reciepts %}<p>
+               <span class="amount_description">Total receipts:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_reciepts %}${{filer_data.total_reciepts|intcomma}}{% else %}$0{% endif %}</span>
+           </p>{% endif %}
+           {% if filer_data.total_disbursements %}<p>
+               <span class="amount_description">Total disbursements:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_disbursements %}${{filer_data.total_disbursements|intcomma}}{% else %}$0{% endif %}</span>
+           </p>{% endif %}
+           {% if filer_data.cash_on_hand %}<p>
+               <span class="amount_description">Total cash on hand:</span>&nbsp;<span class="amount_dollars">{% if filer_data.cash_on_hand %}${{filer_data.cash_on_hand|intcomma}}{% else %}$0{% endif %}</span>
+           </p>{% endif %}
 
             {% if filer_data.total_indy_expenditures > 0 %}
             <h4>Independent Expenditures</h4>
