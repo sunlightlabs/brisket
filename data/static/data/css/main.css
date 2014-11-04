@@ -930,3 +930,167 @@ ul.login input{
     list-style: disc outside;
     margin-left: 30px;
 }
+
+
+/* PHILLY GRAPH */
+
+#philly-graph * {
+    padding: 0;
+    margin: 0;
+    }
+
+
+#philly-graph {
+    list-style-type: none;
+    float: none;
+    }
+
+#philly-graph body {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #333;
+    }
+
+#philly-graph h3 {
+    color: #666;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: .75em;
+    padding-bottom: 2em;
+    }
+
+#philly-graph h6{
+    font-size: 1em;
+    font-family: Helvetica, Arial, sans-serif;;
+    }
+
+.philly-section {
+    float: left;
+    padding: 0;
+    width: 49.5%;
+    }
+
+.philly-border{
+    border-right: 1px solid #EEE;
+    z-index: 2;
+    }
+
+.philly-chartlist {
+    float: left;
+    width: 100%;
+    border-top: 1px solid #EEE;
+           }
+
+.philly-chartlist li {
+    position: relative;
+    display: block;
+    border-bottom: 1px solid #EEE;
+    _zoom: 1;
+    height: 30px;
+    padding-right: 5px;
+    padding-left: 5px;
+    }
+
+.philly-chartlist li h6 {
+    display: block;
+    padding: .4em 4.5em .4em .5em;
+    position: relative;
+    z-index: 2;
+    }
+
+
+.philly-chartlist .philly-count {
+    display: block;
+    position: absolute;
+    top: 0;
+    color: #000;
+    font-weight: bold;
+    font-size: .875em;
+    line-height: 2em;
+    z-index: 2;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    margin-top: .2em !important;
+    }
+
+
+.philly-chartlist .philly-bar {
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    text-indent: -9999px;
+    overflow: hidden;
+    line-height: 2em;
+    text-align: left;
+    }
+
+.philly-right {
+    right: 0;
+    float: right;
+    width: 49%;
+    text-align: right;
+    }
+
+.philly-left {
+    left: 0;
+    float: left;
+    width: 49%;
+    }
+
+.philly-count-left{
+    left: 0;
+    text-align: left;
+    }
+
+.philly-count-right{
+    right: 0;
+    text-align:right;
+    }
+
+.philly-neg-dem {
+    background: #a5c1d2;
+    }
+
+.philly-neg-rep {
+    background: #daa698;
+    }
+
+.philly-pro_dem {
+    background: #cce9f4;
+    }
+
+.philly-pro-rep {
+    background: #f5beb0;
+    }
+
+#philly-graph .lables p{
+    float: left;
+    width: 20%;
+    color: #666;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: .75em;
+    }
+
+#philly-graph .lables-left{
+    text-align: left;
+    }
+
+#philly-graph .lables-center{
+    text-align: center;
+    }
+
+#philly-graph .lables-right{
+    text-align: right;
+    }
+
+#philly-graph .full-key{
+    width: 100%;
+    padding: 20px 0;
+    clear: both;
+    }
+
+#philly-graph .key{
+    width: 1em;
+    height: 1em;
+    float: left;
+    margin-right: 1em;
+    }

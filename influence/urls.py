@@ -5,7 +5,7 @@ from brisket.influence.views import IndustryLandingView, OrgLandingView, \
                                     PolGroupLandingView, LobbyingOrgLandingView,\
                                     IndividualLandingView, LobbyistLandingView, \
                                     PolLandingView, search_redirect, \
-                                    bioguide_redirect
+                                    bioguide_redirect, fuzzy_match_view
 
 from django.views.generic import TemplateView, RedirectView
 
@@ -48,6 +48,7 @@ urlpatterns = patterns('brisket.influence.views',
     url(r'^individual/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_redirect', name='individual_preview'),
     url(r'^entity/(?P<entity_id>[a-f0-9-]{32,36})/preview', 'entity_preview_redirect', name='entity_preview_redirect'),
 
+
     # entity pages
     url(r'^organization/[\w\-]+/(?P<entity_id>[a-f0-9-]{32,36})', OrganizationEntityView.as_view(),
         name='organization_entity'),
@@ -73,6 +74,8 @@ urlpatterns += patterns('',
     url(r'^(?P<entity_type>(individual|politician|organization|industry|entity)+)/(?P<query_string>[\w\-]+)$', search_redirect),
 
     url(r'^bioguide/(?P<bioguide_id>[a-zA-Z][0-9]{6})$', bioguide_redirect),
+    
+    url(r'^fuzzy$', fuzzy_match_view),
 
     url(r'^people$', RedirectView.as_view(url='/individuals')), # backwards compatability redirect
     

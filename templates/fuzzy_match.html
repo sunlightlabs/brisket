@@ -1,0 +1,141 @@
+{% extends "brisket_base.html" %}
+{% load humanize %}
+
+{% block body_class %}about flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>{{ filer_data.filer_name }}</h2>
+</div>
+
+<div id="ltColumn">
+	    <h3>Advertising Data</h3>
+            <p>
+            <a class="moreLink" style="background:url(/static/dryrub/images/sleuth.png) top left no-repeat;" href="http://politicaladsleuth.com/search/?q={{ad_sleuth_query|urlencode}}">
+                Search Advertising Purchase Data on Political Ad Sleuth
+            </a>
+            
+            <a class="moreLink" style="background:url(/static/dryrub/images/hawk.png) top left no-repeat;" href="http://adhawk.sunlightfoundation.com/search/?q={{ad_sleuth_query|urlencode}}">
+                Search Ads Collected by Ad Hawk
+            </a>
+            </p>
+
+        {% if filer_data.filer_id_namespace == "urn:fec:committee" %}
+	    <h3>FEC Committee</h3>
+            
+            <h4>Summary</h4>
+            {% if filer_data.total_reciepts %}<p>
+               <span class="amount_description">Total receipts:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_reciepts %}${{filer_data.total_reciepts|intcomma}}{% else %}$0{% endif %}</span>
+           </p>{% endif %}
+           {% if filer_data.total_disbursements %}<p>
+               <span class="amount_description">Total disbursements:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_disbursements %}${{filer_data.total_disbursements|intcomma}}{% else %}$0{% endif %}</span>
+           </p>{% endif %}
+           {% if filer_data.cash_on_hand %}<p>
+               <span class="amount_description">Total cash on hand:</span>&nbsp;<span class="amount_dollars">{% if filer_data.cash_on_hand %}${{filer_data.cash_on_hand|intcomma}}{% else %}$0{% endif %}</span>
+           </p>{% endif %}
+
+            {% if filer_data.total_indy_expenditures > 0 %}
+            <h4>Independent Expenditures</h4>
+            <p>
+                <span class="amount_description">Total independent expenditures:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_indy_expenditures %}${{filer_data.total_indy_expenditures|intcomma}}{% else %}$0{% endif %}</span>
+            </p>
+                 
+            <div id="philly-graph">
+                    <div class="full-key">
+                        <div class="philly-neg-dem key"></div>
+                        <div class="philly-pro_dem key"></div>
+                        <div class="lables"><p>Democrat</p></div>
+                        <div class="philly-neg-rep key"></div>
+                        <div class="philly-pro-rep key"></div>
+                        <div class="lables"><p>Republican</p></div>
+                    </div>
+
+                    <div>
+                        <h3 class="philly-left">Oppose</h3>
+                        <h3 class="philly-right">Support</h3>
+                    </div>
+
+                      <div class="philly-section philly-border">
+                        <ul class="philly-chartlist">
+                            <li>
+                                <span class="philly-count philly-count-right">${{ filer_data.ie_oppose_dems|default:0|floatformat:0|intcomma }}</span>
+                                <span class="philly-bar philly-right philly-neg-dem" style="width: {% widthratio filer_data.ie_oppose_dems|default:0 filer_data.total_indy_expenditures 100 %}%">({% widthratio filer_data.ie_oppose_dems|default:0 filer_data.total_indy_expenditures 100 %}%)</span>
+                            </li>
+
+                            <li>
+                                <span class="philly-count philly-count-right">${{ filer_data.ie_oppose_reps|default:0|floatformat:0|intcomma }}</span>
+                                <span class="philly-bar philly-right philly-neg-rep" style="width: {% widthratio filer_data.ie_oppose_reps|default:0 filer_data.total_indy_expenditures 100 %}%">({% widthratio filer_data.ie_oppose_reps|default:0 filer_data.total_indy_expenditures 100 %}%)</span>
+                            </li>
+                        </ul>
+                   </div>
+
+                  <div class="philly-section">
+                       <ul class="philly-chartlist">
+                            <li>
+                                 <span class="philly-count philly-count-left">${{ filer_data.ie_support_dems|default:0|floatformat:0|intcomma }}</span>
+                                 <span class="philly-bar philly-left philly-pro_dem" style="width: {% widthratio filer_data.ie_support_dems|default:0 filer_data.total_indy_expenditures 100 %}%">({% widthratio filer_data.ie_support_dems|default:0 filer_data.total_indy_expenditures 100 %}%)</span>
+                            </li>
+
+                            <li>
+                                  <span class="philly-count  philly-count-left">${{ filer_data.ie_support_reps|default:0|floatformat:0|intcomma }}</span>
+                                  <span class="philly-bar philly-left philly-pro-rep" style="width: {% widthratio filer_data.ie_support_reps|default:0 filer_data.total_indy_expenditures 100 %}%">({% widthratio filer_data.ie_support_reps|default:0 filer_data.total_indy_expenditures 100 %}%)</span>
+                            </li>
+                        </ul>
+
+                  </div>
+
+                    <div class="lables">
+                        <p class="lables-left">100%</p>
+                        <p class="lables-center">50%</p>
+                        <p class="lables-center">0</p>
+                        <p class="lables-center">50%</p>
+                        <p class="lables-right">100%</p>
+                    </div>
+
+                </div>
+                {% endif %}
+
+                <div class="clear"></div>        
+            <a class="moreLink" href="http://realtime.influenceexplorer.com/committee/{{ filer_data.filer_name|slugify}}/{{ filer_data.filer_id }}">
+                View Realtime FEC data for this committee
+            </a>
+	    
+        {% elif filer_data.filer_id_namespace == "urn:pa:committee" %}
+	    <h3>PA Committee</h3>
+            
+            <h4>Summary</h4>
+            <p>
+                <span class="amount_description">Amount brought forward:</span>&nbsp;<span class="amount_dollars">{% if filer_data.amount_brought_forward_from_last_report %}${{filer_data.amount_brought_forward_from_last_report|intcomma}}{% else %}$0{% endif %}</span>
+            </p>
+            <p>
+                <span class="amount_description">Total receipts:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_reciepts %}${{filer_data.total_reciepts|intcomma}}{% else %}$0{% endif %}</span>
+            </p>
+            <p>
+                <span class="amount_description">Total disbursements:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_disbursements %}${{filer_data.total_disbursements|intcomma}}{% else %}$0{% endif %}</span>
+            </p>
+            <p>
+                <span class="amount_description">Total funds available:</span>&nbsp;<span class="amount_dollars">{% if filer_data.total_funds_available %}${{filer_data.total_funds_available|intcomma}}{% else %}$0{% endif %}</span>
+            </p>
+            <p>
+                <span class="amount_description">Total cash on hand:</span>&nbsp;<span class="amount_dollars">{% if filer_data.cash_on_hand %}${{filer_data.cash_on_hand|intcomma}}{% else %}$0{% endif %}</span>
+            </p>
+            
+            <a class="moreLink" href="https://www.campaignfinanceonline.state.pa.us/pages/CFAnnualTotals.aspx?Filer={{ filer_data.filer_id }}">
+                View PA Dept of State data for this committee
+            </a>
+        {% endif %}
+</div>
+{% endblock %}
+<!--  
+<div class="numeric_summary">
+        <span class="amount_description">Total receipts:</span>&nbsp;<span class="amount_dollars">{% if committee.total_receipts %}${{committee.total_receipts|intcomma}}{% else %}$0{% endif %}</span>
+
+<br><span class="amount_description">Total disbursements:</span>&nbsp;<span class="amount_dollars">{% if committee.total_disbursements %}${{committee.total_disbursements|intcomma}}{% else %}$0{% endif %}</span>  
+
+<br><span class="amount_description">Total independent expenditures:</span>&nbsp;<span class="amount_dollars">{% if committee.total_indy_expenditures %}${{committee.total_indy_expenditures|intcomma}}{% else %}$0{% endif %}</span>
+
+<br><span class="amount_description">Cash on hand (as of {{ committee.cash_on_hand_date }})</span>&nbsp;<span class="amount_dollars">{% if committee.cash_on_hand %}${{committee.cash_on_hand|intcomma}}{% else %}$0{% endif %}</span>
+
+</div>
+-->
