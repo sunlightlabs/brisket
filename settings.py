@@ -95,6 +95,7 @@ INSTALLED_APPS = (
     'storages',
     'dryrub',
     'data',
+    'fortune_blank_hundred',
 )
 
 STATICFILES_FINDERS = (
