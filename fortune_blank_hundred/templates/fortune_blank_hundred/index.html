@@ -33,6 +33,11 @@ tr.special {
     border-bottom: 1px solid #cccccc;
     font-weight: bold;
 }
+
+#mainPageTable td {
+    padding: 10px 5px;
+}
+
 td.subsidy-link a {
     text-indent: -9999px;
     display: block;
@@ -40,6 +45,12 @@ td.subsidy-link a {
     height: 16px;
     background: url('/static/dryrub/images/doc_text_image.png') no-repeat top left;
 }
+
+td.numeric {
+    text-align: right;
+}
+
+
 </style>
 {% endblock %}
 
@@ -72,14 +83,14 @@ td.subsidy-link a {
                 <tr>
                     <th class="sort headerSortDown">Rank</th>
                     <th class="sort">Organization</th>
-                    <th class="sort">Donor Total</th>
-                    <th class="sort">Lobby Total</th>
-                    <th class="sort">Influence Total</th>
-                    <th class="sort">Incumbent&nbsp;%</th>
-                    <th class="sort">Federal Business Total</th>
-                    <th class="sort">Federa Aid Total</th>
+                    <th class="sort">Contributions</th>
+                    <th class="sort">Lobbying</th>
+                    <th class="sort">Total Influence</th>
+                    <th class="sort">Hill Cov</th>
+                    <th class="sort">Federal Business</th>
+                    <th class="sort">Federal Support</th>
                     <th class="sort">Effective Tax Rate</th>
-                    <th class="{sorter: false}">More Info</th>
+                    <th class="{sorter: false}">State Subsidies</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,30 +99,36 @@ td.subsidy-link a {
                     {% if row.special_title %}
                         <td>{{ row.special_title }}</td>
                     {% else %}
-                        <td style="background: #{{ row.color }}; color: #ffffff;">{{ row.rank }}</td>
+                        <td style="background: #{{ row.color }}; color: #ffffff;">{{ row|get:"Rank" }}</td>
                     {% endif %}
-                    <td><a href="/organization/{{ row.organization|standardize_organization_name|slugify }}/{{ row.ie_id }}">{{ row.organization }}</a></td>
-                    <td>${{ row.donor_total|intcomma }}</td>
-                    <td>${{ row.lobby_total|intcomma }}</td>
-                    <td>${{ row.influence_total|intcomma }}</td>
-                    <td>{{ row.incumbent_pct }}</td>
-                    <td>
-                        {% if row.federal_biz_total|add:"0" < 0 %}
-                            -${{ row.federal_biz_total|slice:"1:"|intcomma }}
+                    <td><a href="/organization/{{ row|get:"Organization"|standardize_organization_name|slugify }}/{{ row|get:"Influence Explorer ID" }}">{{ row|get:"Organization" }}</a></td>
+                    <td class="numeric">${{ row|get:"Contributions"|intcomma }}</td>
+                    <td class="numeric">${{ row|get:"Lobbying"|intcomma }}</td>
+                    <td class="numeric">${{ row|get:"Total Influence"|intcomma }}</td>
+                    <td class="numeric">{{ row|get:"Hill Coverage" }}</td>
+                    <td class="numeric">
+                        {% if row|get:"Federal Business"|add:"0" < 0 %}
+                            -${{ row|get:"Federal Business"|slice:"1:"|intcomma }}
                         {% else %}
-                            ${{ row.federal_biz_total|intcomma }}
+                            ${{ row|get:"Federal Business"|intcomma }}
                         {% endif %}
                         </td>
-                    <td>${{ row.federal_aid_total|intcomma }}</td>
+                    <td class="numeric">${{ row|get:"Federal Support"|intcomma }}</td>
                     <td>
-                        {% if row.effective_tax_rate.strip != "" %}
-                            <a href="{{ row.tax_link }}">{{ row.effective_tax_rate }}</a>
-                        {% endif %}
+                        {% with row|get:"Effective Tax Rate" as efr %}
+                            {% if efr != "#N/A" %}
+                                {% with row|get:"Citizens for Tax Justice ID" as cti %}
+                                    <a href="http://ctj.org/corporatetaxdodgers/tax-dodgers.php?id={{ cti }}">{{ efr }}%</a>
+                                {% endwith %}
+                            {% endif %}
+                        {% endwith %}
                     </td>
                     <td class="subsidy-link">
-                        {% if row.state_subsidy_link %}
-                            <a href="{{ row.state_subsidy_link }}">{{ row.organization }}</a>
-                        {% endif %}
+                        {% with row|get:"Subsidy Tracker Slug" as st %}
+                            {% if st != "#N/A" %}
+                                <a href="http://subsidytracker.goodjobsfirst.org/prog.php?parent={{ st }}">View</a>
+                            {% endif %}
+                        {% endwith %}
                     </td>
                 </tr>
                 {% endfor %}
