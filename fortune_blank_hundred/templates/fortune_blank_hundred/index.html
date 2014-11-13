@@ -298,3 +298,64 @@
 </div>
 
 {% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(function() {
+    // deal with negative dollars
+    $.tablesorter.addParser({
+        // set a unique id
+        id: 'negnumbers',
+        is: function(s) {
+            // return false so this parser is not auto detected
+            return false;
+        },
+        format: function(s) {
+            // format your data for normalization
+            var out = $.trim(s.replace(/(<([^>]+)>)/ig,"").replace(/\$/,'').replace(/,/g,'').replace(/%/g,''));
+            return (out == "" ? -99999999 : out);
+        },
+        // set type, either numeric or text
+        type: 'numeric'
+    });
+
+    // deal with total and average rows
+    $.tablesorter.addWidget({
+        // give the widget a id
+        id: "specialRows",
+        // format is called when the on init and when a sorting has finished
+        format: function(table) {
+            // cache and collect all TH headers
+            if (!this.specials) {
+                var s = this.specials = [];
+                $("tbody tr.special", table).each(function() {
+                    s.push($(this));
+                });
+            }
+            
+            // remove appended headers by classname.
+            $("tbody tr.special", table).remove();
+            
+            // loop all tr elements and insert a copy of the "headers"
+            for (var i=0; i < this.specials.length; i++) {
+                // insert a copy of the table head every 10th row
+                $("tbody", table).append(this.specials[i]);
+            }
+        }
+    });
+    
+    $('#mainPageTable').tablesorter({
+        headers: {
+            6: {
+                sorter: 'negnumbers'
+            },
+            8: {
+                sorter: 'negnumbers'
+            }
+        },
+        widgets: ['specialRows', 'zebra']
+    });
+});
+</script>
+{% endblock %}
