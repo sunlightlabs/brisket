@@ -81,3 +81,11 @@ class FortuneIndexView(TemplateView):
         table = get_table()
 
         return {'table': table['rows'] + [table['averages'], table['totals']]}
+
+
+class FortuneMethodologyView(TemplateView):
+    template_name = "fortune_blank_hundred/methodology.html"
+
+
+class FortuneOverviewView(TemplateView):
+    template_name = "fortune_blank_hundred/overview.html"

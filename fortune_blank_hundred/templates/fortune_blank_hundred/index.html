@@ -1,155 +1,122 @@
-{% extends "brisket_base.html" %}
+{% extends "fortune_blank_hundred/base.html" %}
 {% load influence_extras %}
 {% load humanize %}
 
-{% block body_class %}fortune flatText{% endblock %}
-
-{% block pagetitle %}Fortune Blank Hundred | {% endblock %}
-
-{% block sitecss %}
-{% comment %}Put CSS in here to keep everything self-contained and not muck around with dryrub, etc., for a one-off.{% endcomment %}
-{{ block.super }}
-<style type="text/css">
-#td_nav {
-    margin-top: -15px;
-    list-style: none;
-}
-#td_nav li {
-    list-style: none;
-}
-#td_nav li:hover {
-    font-weight: normal !important;
-}
-
-.fx00-table .table-scroll {
-    overflow-x: auto;
-    margin-bottom: 30px;
-}
-.table-scroll #mainPageTable {
-    margin-bottom: 0;
-}
-tr.special {
-    background: #e4e2e2 !important;
-    border-bottom: 1px solid #cccccc;
-    font-weight: bold;
-}
-
-#mainPageTable td {
-    padding: 10px 5px;
-}
-
-td.subsidy-link a {
-    text-indent: -9999px;
-    display: block;
-    width: 16px;
-    height: 16px;
-    background: url('/static/dryrub/images/doc_text_image.png') no-repeat top left;
-}
-
-td.numeric {
-    text-align: right;
-}
-
-
-</style>
-{% endblock %}
-
 {% block main %}
 
-<div id="contentHeader">
-    <h2>Fixed Fortunes</h2>
-</div>
-<nav id="td_nav">
-    <ul>
-        <li class="last"><a href="#methodology">Methodology</a></li>
-        <li><a href="#overview">Overview</a></li>
-        <li><a href="#data-table">Data</a></li>
-    </ul>
-    <div class="clear"></div>
-</nav>
+{{ block.super }}
 
-<div class="module" id="overview">
-    <h3>Overview</h3>
+<div class="module" id="overview-snippet">
     <p >Between 2007 and 2012, 200 of America&#8217;s most politically active corporations spent a combined $5.8 billion on federal lobbying and campaign contributions. A year-long analysis by the Sunlight Foundation suggests, however, that what they gave pales compared to what those same corporations got: $4.4 trillion in federal business and support.</p>
     <p >That figure, more than the $4.3 trillion the federal government paid the nation&#8217;s 50 million Social Security recipients over the same period, is the result of an unprecedented effort to quantify the less-examined side of the campaign finance equation: Do political donors get something in return for what they give?</p>
     <p >Four years ago, the U.S. Supreme Court suggested the answer to that question was no. Corporate spending to influence federal elections would not &#8220;give rise to corruption or the appearance of corruption,&#8221; the majority wrote in the landmark Citizens United v. Federal Election Commission&#160;decision.</p>
     <p >Sunlight decided to test that premise by examining influence and its potential results on federal decision makers over six years, three before the 2010 Citizens United&#160;decision and three after. </p>
-    <p >We focused on the records of 200 for-profit corporations, all of which had active political action committees and lobbyists in the 2008, 2010 and 2012 election cycles and were among the top donors to campaign committees registered with the Federal Election Commission. Their investment in politics was enormous. There were 20,500 paying lobbying clients over the six years we examined; the 200 companies we tracked accounted for a whopping 26 percent of the total spent. On average, their PACs, employees and their family members made campaign contributions to 144 sitting members of Congress each cycle.</p>
-    <p >After examining 14 million records, including data on campaign contributions, lobbying expenditures, federal budget allocations and spending, we found that, on average, for every dollar spent on influencing politics, the nation&#8217;s most politically active corporations received $760 from the government. The $4.4 trillion total represents two-thirds of the $6.5 trillion that individual taxpayers paid into the federal treasury. </p>
-    <p >Welcome to the world of Fixed Fortunes, a seemingly closed universe where the most persistent and savvy political players not so mysteriously have the ability to attract federal dollars regardless of who is running Washington. </p>
-    <p >During the six years we studied, newly elected Democratic majorities took control in the House and Senate. Two years later, the White House shifted from Republican to Democratic control, while two years after that, the G.O.P. came back to take the House. The collapse of the housing bubble in 2007 led to massive bailout efforts by Treasury and the Federal Reserve, two massive stimulus bills and the loss of more than eight million jobs. Congress passed laws that overhauled healthcare insurance and financial industry regulation. Troops surged in Afghanistan and withdrew from Iraq. There were 16 separate &#8220;continuing resolutions&#8221; to fund the government, a debt ceiling standoff that caused a downgrade in the nation&#8217;s credit rating and a &#8220;super committee&#8221; to wrestle with the federal budget. As middle class Americans lost ground, the Fixed Fortune 200 got what they needed.</p>
-    <p >What they needed included loans that helped automakers and banks survive the recent recession while many homeowners went under. It included full funding and expansion of federal programs started in the 1930s that, year after year, decade after decade, help prop up prices for agribusinesses and secure trade deals for our biggest manufacturers. It included budget busting emergency measures that funneled extra dollars to everything from defense contractors to public utility companies to financial industry giants. The record suggests that the money corporations spend on political campaigns and Washington lobbying firms is not an unwise investment.</p>
-    <p >The Fixed Fortune 200 come from a wide range of industries. There are a host of familiar names among them, like Ford Motor Company, McDonald&#8217;s and Bank of America, and some less famous, like MacAndrews &amp; Forbes, the Carlyle Group and Cerberus Capital Management (for the complete list, including what they gave and what they got, click here). There are retailers and investment banks, construction and telecommunications firms, health insurers and gun makers, entertainment conglomerates, banks and pharmaceutical manufacturers, among others.</p>
-    <p >Overall, the Fixed Fortune 200&#8217;s PACs, employees and their family members gave $597 million to political committees and disclosed spending $5.2 billion on lobbying. They make this enormous investment in politics in large part because their businesses are inextricably entwined with government decisions&#8212;including spending decisions. </p>
-    <p >For example, the federal government issued contracts to purchase goods and services that totaled a little more that $3 trillion during the period; companies among the top 200 corporate political givers won $1 trillion worth, a third of the total. The Treasury Department managed $410 billion of loans and other assistance issued under the Troubled Asset Relief Program, created by Congress to cope with the 2008 financial crisis; of that amount, $298 million, about 73 percent, went to 16 firms among the Fixed Fortune 200. When the Federal Reserve took extraordinary measures in the wake of the 2008 financial crisis, it funneled nearly $2.8 trillion through 29 Fixed Fortune firms. The companies that participated the most in politics got huge returns.</p>
-    <p >Of the 200 corporations we examined, we could sum the financial rewards for 179. Of those, 138 received more from the federal government than they spent on politics, 102 of them received more than 10 times what they spent on politics, and 29 received 1,000 times or more from the federal government than they invested in lobbyists or contributed to political committees via their employees, their family members and their PACs. </p>
-    <p >As for the other 21 companies on our list, while we could not quantify&#160;the financial benefits that some received, we were able to identify them. Some examples:</p>
-        <ul>
-            <li >Arch Coal lists the Tennessee Valley Authority, the government corporation that’s the largest public electricity producer, as one of its three biggest customers. TVA does not release data on its coal purchases. </li>
-            <li >Forest City Enterprises does not appear as a landlord in the Government Services Agency’s database of federal rental agreements, though their annual report notes that the U.S. government is the third biggest customer for their pricey New York City office space. </li>
-            <li >Occidental Petroleum has leases on federal land to extract natural gas, but the government does not release information on how much that gas is withdrawn or how much it is worth. </li>
-            <li >And while the government so far refused to release information on what retails get the most purchases via food stamps, Wal-Mart went so far as to acknowledge in a filing with the Securities and Exchange Commission that reductions in the now $78-billion-a-year Supplemental Nutrition Assistance Program—or food stamps—could have a significant impact on the company’s earnings, which totaled $476 billion in its most recent fiscal year. </li>
-        </ul>
-    <p >Of the 200 companies analyzed for Fixed Fortunes, 28 are in what the money in politics research organization the Center for Responsive Politics classifies as the communications and electronics sector, 21 in healthcare, 13 in defense/aerospace, 13 agribusinesses, 11 in energy and natural resources, and 7 in transportation. The biggest sector, accounting for 48 of the 200, was finance, insurance and real estate, which is consistently the largest source of campaign funds for politicians cycle after cycle. Congress and the executive branch have paid particular attention to the industry, approving hundreds of billions in aid to help it weather the financial crisis, while the Federal Reserve advanced trillions in credit which, the nation&#8217;s central bank hoped, would trickle down through the rest of the economy.</p>
-    <p >Companies with the biggest returns on their political investments include three foreign financial service and banking firms, UBS AG and Credit Suisse Group from Switzerland and Deutsche Bank, all of which benefited from the Treasury Department&#8217;s taxpayer-financed rescue of American International Group. Investment banks Goldman Sachs and Morgan Stanley and commercial banks like JPMorgan Chase &amp; Co., Citigroup, Wells Fargo and Bank of America are also received far more from government than they put into politics&#8212;they benefited from the bailouts of the financial industry undertaken by Treasury and the Federal Reserve. Weapons manufacturers like Boeing and Lockheed Martin, both of which disclosed spending more than $10 million each year on lobbying, also made the list. So did McKesson, a pharmaceutical wholesaler that is the biggest vendor for Veterans Affairs, and the Carlyle Group, a wealth management firm started by former government insiders who invest in firms that have significant involvement with government like defense, telecommunications and health care. &#160;</p>
-    <p >To catalogue the money flowing two and from the Fixed Fortune 200, we examined data on campaign contributions, lobbying expenditures. We compiled and queried a host of government spending records including spending approved through the normal budgeting process. We also looked at additional spending measures&#8212;extra-budgetary spending on the Global War on Terror, renamed Overseas Contingency Operations in 2009, and emergency or one-time measures like the Emergency Economic Stabilization Act of 2008 and the American Recovery and Reinvestment Act of 2009. And because the Federal Reserve made use of its power to, in extraordinary circumstances, advance credit to private firms, we also examined its interventions in the economy. </p>
-    <p >See our <a href="#methodology">methodology</a> for a complete explanation of how we arrived at these numbers, and more&gt;</p>
-    <p >Some of the getting is harder to quantify. While corporate interests disclose lobbying on federal spending&#8212;the budget and appropriations process&#8212;more than any other issue, they also seek to influence trade agreements, labor rules, environmental regulation and the Internal Revenue Code. </p>
-    <p >Blue Cross/Blue Shield has its own provision in the tax code, section 833, that saves its companies an estimated $1 billion a year. Life insurance companies like New York Life and Pacific Mutual, and their customers, are eligible for tax breaks that save the industry $30 billion a year, with about $3 billion going to the companies and the balance going to their policyholders. The corporate tax code is full of loopholes and subsidies that companies lobby for to help their bottom lines; Citizens for Tax Justice researched the Securities and Exchange Commission disclosures filed by publicly traded corporations in an effort to determine their effective tax rates; their analysis included 89 members of the group Sunlight examined. The average effective tax rate of those companies was 17.7 percent between 2008 and 2012. Federal law sets the corporate tax rate at 35 percent. </p>
-    <p >As far as we can tell, one thing the Fixed Fortune 200 did not do, for the most part, was take advantage of the new opportunities to spend on politics that the Citizens United decision afforded them. The 200 corporate donors gave just $3 million to super PACs, with the bulk of that amount a single $2.5 million donation from Chevron to the Congressional Leadership PAC, a super PAC that&#8217;s been linked to House Speaker John Boehner. Important to note, however, that contributions by these companies to politically active non-profits (a category that includes the Chamber of Commerce) are impossible to track because of tax laws that allow those entities to shield donors.</p>
-    <p >Though beyond the scope of our study, which focused on the federal government, it is worth noting that 174 of the 200 corporations won subsidies from state and local governments, according to Good Jobs First, an organization that tracks economic development programs. The Citizens United decision also applies to state election laws, giving corporations the right to speak at the state and local levels as well.</p>
-    <p >Nonetheless, opinion polls show that majorities of Americans generally trust governments in their city halls, township boards and state capitals. That doesn&#8217;t compare well to the mere 19 percent of Americans who trust their federal government. Frustration with Washington runs high for any number of reasons, but consider:</p>
-        <ul >
-            <li >Two-thirds of Americans believe corporations pay too little in taxes, and believe they should pay more, but tax reform stalls in Congress year after year;</li>
-            <li >Prominent politicians from both parties have denounced corporate welfare programs that benefit big business for more than two decades, but not one of those programs has been repealed; </li>
-            <li >The President and Congress ended a reduction in payroll taxes that benefited wage earners in January 2013 but extended business tax breaks for insurers, energy companies and other corporations;</li>
-            <li >Federal bailouts returned financial industry firms that started the crisis to profitability, while middle class income and net worth of the middle class fell. </li>
-        </ul>
-    <p >More than seven years after Washington passed the first measures to stimulate the economy as the housing bubble started to burst, more and more Americans are living on less, with less savings and other assets to fall back on in hard times. Washington policies that have restored corporate profits and made the stock market boom have left much of the country behind. Perhaps that&#8217;s why a whole host of polls, from networks and news organizations and nonprofit groups, show large majorities of Americans, year after year, saying that the country is on the wrong track, </p>
-    <p >In its Citizens United decision, the Court took for granted that &#8220;favoritism and influence&#8221; are inherent in electoral democracy and that &#8220;democracy is premised on responsiveness,&#8221; of politicians to those who support them. We found ample evidence of that.</p>
-    <p >&#8220;The appearance of influence or access,&#8221; the Court said, &#8220;will not cause the electorate to lose faith in our democracy.&#8221;</p>
-    <p >It appears that the electorate might not agree.</p>
-<div>
+        <a href="{% url 'fortune-overview-view' %}" class="moreLink">Read more</a>
+        <div class="clear"></div> 
+</div>
+
+<div class="module" id="data-intro">
+    <h3>The Data</h3>
+    <p>Below is a table representing the summary totals involved. All data is downloadable and released under <b>FIXME: LICENSE?</b>. 
+    <ul>
+        <li>Summary (table, below) as <a href="https://docs.google.com/spreadsheets/d/1vMdkh3xLuYXli18_4iPs9y1CX1yvoghoW3bvd1p4vnw/edit?usp=sharing">spreadsheet</a>, <a href="https://docs.google.com/spreadsheets/d/1vMdkh3xLuYXli18_4iPs9y1CX1yvoghoW3bvd1p4vnw/pubhtml">html</a>, or <a href="https://docs.google.com/spreadsheets/d/1vMdkh3xLuYXli18_4iPs9y1CX1yvoghoW3bvd1p4vnw/export?format=csv">csv</a></li>
+        <li>Full data set as <a href="#">zipped csv</a></li>
+    </ul>
+    <p>For clarification on column names, please refer to the <a href="#data-dictionary">data dictionary</a> below</p>
+</div>
 
 <div class="module fx00-table">
     <div class="table-scroll" id="data-table">
         <table id="mainPageTable" class="tablesorter">
             <thead>
                 <tr>
-                    <th class="sort headerSortDown">Rank</th>
-                    <th class="sort">Organization</th>
-                    <th class="sort">Contributions</th>
-                    <th class="sort">Lobbying</th>
-                    <th class="sort">Total Influence</th>
-                    <th class="sort">Hill Cov</th>
-                    <th class="sort">Federal Business</th>
-                    <th class="sort">Federal Support</th>
-                    <th class="sort">Effective Tax Rate</th>
-                    <th class="{sorter: false}">State Subsidies</th>
+                    <th class="sort rotate headerSortDown">
+                        <div>
+                            <span>Rank</span>
+                        </div>
+                    </th>
+                    <th class="sort">
+                        <div>
+                            <span>Organization</span>
+                        </div>
+                    </th>
+                    <th class="sort">
+                        <div>
+                            <span>Contrib-<br/>utions</span>
+                        </div>
+                    </th>
+                    <th class="sort">
+                        <div>
+                            <span>Lobbying</span>
+                        </div>
+                    </th>
+                    <th class="sort">
+                        <div>
+                            <span>Total Influence</span>
+                        </div>
+                    </th>
+                    <th class="sort">
+                        <div>
+                            <span>Hill Cover-</br>age</span>
+                        </div>
+                    </th>
+                    <th class="sort">
+                        <div>
+                            <span>Federal Business</span>
+                        </div>
+                    </th>
+                    <th class="sort">
+                        <div>
+                            <span>Federal Support</span>
+                        </div>
+                    </th>
+                    <th class="sort">
+                        <div>
+                            <span>Effective Tax Rate</span>
+                        </div>
+                    </th>
+                    <th class="{sorter: false} noleft">
+                        <div>
+                            <span>State Subsidies</span>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in table %}
                 <tr class="{% if row.special_title %}special{% else %}{% cycle 'even' 'odd' %}{% endif %}">
                     {% if row.special_title %}
-                        <td>{{ row.special_title }}</td>
+                        <td colspan=2>{{ row.special_title }}</td>
                     {% else %}
                         <td style="background: #{{ row.color }}; color: #ffffff;">{{ row|get:"Rank" }}</td>
+                        <td data-organization="{{ row|get:"Organization" }}">
+                            <a href="/organization/{{ row|get:"Organization"|standardize_organization_name|slugify }}/{{ row|get:"Influence Explorer ID" }}">
+                                {{ row|get:"Organization" }}
+                            </a>
+                        </td>
                     {% endif %}
-                    <td><a href="/organization/{{ row|get:"Organization"|standardize_organization_name|slugify }}/{{ row|get:"Influence Explorer ID" }}">{{ row|get:"Organization" }}</a></td>
-                    <td class="numeric">${{ row|get:"Contributions"|intcomma }}</td>
-                    <td class="numeric">${{ row|get:"Lobbying"|intcomma }}</td>
-                    <td class="numeric">${{ row|get:"Total Influence"|intcomma }}</td>
-                    <td class="numeric">{{ row|get:"Hill Coverage" }}</td>
-                    <td class="numeric">
+                    <td class="numeric" data-contributions="{{ row|get:"Contributions" }}">
+                        ${{ row|get:"Contributions"|money_to_int|illionize:"short .1f" }}
+                    </td>
+                    <td class="numeric" data-lobbying="{{ row|get:"Lobbying" }}">
+                        ${{ row|get:"Lobbying"|money_to_int|illionize:"short .1f" }}
+                    </td>
+                    <td class="numeric" data-total-influence="{{ row|get:"Total Influence" }}">
+                        ${{ row|get:"Total Influence"|money_to_int|illionize:"short .1f" }}
+                    </td>
+                    <td class="numeric" data-hill-coverage="{{ row|get:"Hill Coverage" }}">
+                        {{ row|get:"Hill Coverage" }}
+                    </td>
+                    <td class="numeric" data-federal-business="{{ row|get:"Federal Business" }}">
                         {% if row|get:"Federal Business"|add:"0" < 0 %}
-                            -${{ row|get:"Federal Business"|slice:"1:"|intcomma }}
+                            -${{ row|get:"Federal Business"|slice:"1:"|money_to_int|illionize:"short .1f" }}
                         {% else %}
-                            ${{ row|get:"Federal Business"|intcomma }}
+                            ${{ row|get:"Federal Business"|money_to_int|illionize:"short .1f" }}
                         {% endif %}
                         </td>
-                    <td class="numeric">${{ row|get:"Federal Support"|intcomma }}</td>
-                    <td>
+                    <td class="numeric" data-federal-support="{{ row|get:"Federal Support" }}">
+                        ${{ row|get:"Federal Support"|money_to_int|illionize:"short .1f" }}</td>
+                    <td class="numeric" data-effective-tax-rate="{{ row|get:"Effective Tax Rate" }}">
                         {% with row|get:"Effective Tax Rate" as efr %}
                             {% if efr != "#N/A" %}
                                 {% with row|get:"Citizens for Tax Justice ID" as cti %}
@@ -158,7 +125,7 @@ td.numeric {
                             {% endif %}
                         {% endwith %}
                     </td>
-                    <td class="subsidy-link">
+                    <td class="subsidy-link" data-subsidy-tracker-slug="{{ row|get:"Subsidy Tracker Slug" }}">
                         {% with row|get:"Subsidy Tracker Slug" as st %}
                             {% if st != "#N/A" %}
                                 <a href="http://subsidytracker.goodjobsfirst.org/prog.php?parent={{ st }}">View</a>
@@ -172,126 +139,151 @@ td.numeric {
     </div>
 </div>
 
-<div class="module" id="methodology">
-    <h3>Methodology</h3>
-    <p >The Supreme Court's decision in Citizen United v. Federal Election Commission&#160;held that corporate speech expressly advocating the election or defeat of federal candidates&#8212;including TV and radio ads, pamphlets, calls from phone banks and other activities taken on by political campaigns&#8212;enjoy the full protection of the First Amendment. Subsequent court rulings and agency rulemakings gave birth to super PACs&#8212;political committees that can raise contributions in unlimited amounts from individuals and corporate entities&#8212;and led to an unprecedented flood of money from independent organizations attempting to influence electoral outcomes. </p>
-    <p >The Sunlight Foundation has been at the forefront of tracking the flow of outside spending that the decision unleashed. We built the first tool that tracked this outside spending, &#8220;Follow the Unlimited Money,&#8221; that provided real-time information on super PAC filings. We have since expanded it to include all Federal Election Commission filings and renamed it Real-Time FEC. In 2010, we coined the phrase &#8220;dark money&#8221; to describe spending by subset of outside spending organizations&#8212;mostly nonprofits formed under 501(c)4 of the Internal Revenue Code&#8212;that don&#8217;t disclose their donors. Later, we built tools like PoliticalAdSleuth.com, which captures dark money expenditures on television ads that are not reported to the Federal Election Commission, and Political Ad Hawk, which catalogs their actual advertisements, in an effort to track all the &#8220;corporate speech&#8221; unleashed by Citizens United.&#160;</p>
-    <p >In the wake of the 2012 presidential election, we began looking at other ways of assessing the decision&#8217;s impact on politics and government. Of particular interest to us were the theoretical underpinnings of the high court&#8217;s holding:</p>
-    <ol>
-            <li>1) That allowing corporations&#8212;whether for-profit or nonprofit&#8212;to spend directly from their treasuries to influence elections would not lead to corruption or the appearance of corruption, and</p>
-            <li>2) that absent such a decision, government &#8220;muffle[d] the voices that best represent the most significant segments of the economy.&#8221;
-    </ol>
-    <p >The corruption/appearance of corruption standard comes from an earlier Supreme Court case, Buckley v. Vallejo, which held the Congress could limit the size and source of contributions to federal candidates in the interest of preventing corruption or the appearance of it. Independent expenditures&#8212;which are not coordinated with candidates or parties&#8212;would not create even the appearance of corruption in essence because candidates and parties would not get the money. </p>
-    <p >The &#8220;muffled voices&#8221; doctrine comes from a dissent authored by Associate Justice Antonin Scalia in McConnell v. FEC, the case that upheld the Bipartisan Campaign Finance Reform Act&#8217;s ban on corporations, labor unions and even individuals from contributing &#8220;soft money&#8221; to political party committees. Scalia worried that barring corporate spending to influence elections would limit corporate influence over government decisions. &#8220;Imagine, then, a government that wished to suppress nuclear power--or oil and gas exploration, or automobile manufacturing, or gun ownership, or civil liberties--and that had the power to prohibit corporate advertising against its proposals.&#8221; </p>
-    <p >The Citizens United opinion is far more complex than we are crediting here, but Fixed Fortunes set out to test those two premises. Did campaign finance laws muffle corporate voices from the most significant segments of the economy? Or did their influence, both before and after the decision, have an impact on policymakers that to a reasonable person would constitute an appearance of corruption (one &#8220;stemming from public awareness of the opportunities for abuse inherent in a regime of large individual financial contributions,&#8221; in the words of the Buckley court). </p>
-    <p >We set out to answer that question by looking at organizations that pay into politics, and determining what they get out of politics.</p>
-    <h4>Influence spending</h4>
-    <h5>Organization</h5>
-    <p >To determine this, we looked at major for-profit corporations that contributed to political campaigns from the 2008 election cycle to the 2012 election cycle&#8212;the Citizens United&#160;decision was announced in January 2010, roughly at the middle of the period. We chose to focus on for-profit corporations with active political action committees in each of the three cycles and that had active lobbyists each of the three cycles. Determining which corporations made our list involved ranking them by the amount of money they contributed to federal political committees; we chose to look at the top 200 givers. </p>
-    <p >For each corporation, we identified as many of their subsidiaries as we could by looking at company websites, annual reports filed with the Securities and Exchange Commission, news reports accessed online or via the Lexis-Nexis database, from the Center for Responsive Politics&#8217; extensive database of parent-child relationships and other sources. Particularly valuable for this purpose were Bloomberg Businessweek company snapshots, which often list the official date that merged or acquired entities officially became subsidiaries. For this project, we took a conservative approach and began including information for subsidiaries on that date, rather than the data on which the acquisition was announced, which is generally several months before the acquisition or merger is finalized. </p>
-    <p >Generally speaking, we followed the organization names Center for Responsive Politics uses. In a few cases, companies that are part of the Fixed Fortunes group underwent significant change after the period we examined; for example, defense contractor Science Applied International Corp., or SAIC, split into two entities, one preserving the original name and a second called Leidos. That split, announced August 30, 2012, was not fully completed until 2013. We therefore have data on the original, unsplit SAIC.</p>
-    <h5>Contributions</h5>
-    <p >We downloaded data from the Center for Responsive Politics bulk data page, identified entities with political action committees, excluded labor unions, trade associations and other nonprofit groups, and then ranked the remaining for-profit donors by total campaign contributions&#8212;from their political action committees and their employees and their family members. We should add that we are grateful to the Center for Responsive Politics, who provided the data and critical guidance and assistance with our analysis. Any errors are of course our own.</p>
-    <p >Next, we eliminated from our list of big donors law and lobbying firms, whose giving can sometimes be in the interest of clients rather on their own behalf: we will examine them separately. Then we determined which of our entities, in addition to having political action committees, also maintained active lobbyists through each of the three campaign cycles we looked at. We ended with a list of the top 500 entities.</p>
-    <p >After reviewing our results, we also chose to exclude companies that gave 60 percent or more of their total, usually via executives, to super PACs, even if they met our other criteria. This eliminated a very few companies, including Sands Corporation, whose majority shareholder, Sheldon Adelson and his wife contributed more than $90 million to super PACs in the 2012 election alone, and Bain Capital, whose executives gave generously to Restore Our Future, the super PAC that supported their former colleague Mitt Romney. The pattern for giving for these entities was so significantly different than the rest of the sample that we chose to exclude them. We did included corporations whose parents did not have a political action committee, but had one or more subsidiary that did have a PAC.</p>
-    <p >Let us further note for the record that, of course, labor unions, trade associations, law and lobbying firms, super PACs and political nonprofits also have huge impacts on elections and politicians. While this analysis focuses only on for-profit corporations, we certainly do not intend by that focus to imply that these are the only type of corporate entities whose influence that can lead to an appearance of corruption. Thirteen of the 25 biggest donors to federal candidates and party committees going back to 1989 are labor unions, according to the Center for Responsive Politics, and five of them are trade associations. For this study, we chose to focus on for-profit corporations because we believed it would be easier to quantify what they get from government. </p>
-    <h5>Lobbying</h5>
-    <p >Once we developed our final list of the 200 for-profit corporate entities that had contributed the most to candidates and political parties over the six-year period, we added their total disclosed spending on lobbying, relying again on data from the Center for Responsive Politics bulk data download page. And here a note about the limitations of all the data we looked at and a huge caution for users of our numbers: Lobbying and other numbers used in this analysis are extremely imprecise due to the manner in which they are collected, processed (or not processed) and published.&#160;For-profit corporations, for example, can report lobbying expenditures using one of two different definitions. One, set forth in the Lobbying Disclosure Act of 1995, requires reporting of expenditures on federal lobbying activities, while the other allows companies to use an Internal Revenue Code definition of lobbying and political expenses, including for influencing state and local politics. A company using the LDA definition that contributed $1 million from its treasury to a super PAC would not report that donation as a lobbying expense while a company using the tax code definition would. A company using the LDA definition would not report its $10 million contribution to a state-level committee opposing a ballot initiative, while a company using the tax code definition would. And a company using the LDA definition would not report the annual dues it pays to a trade association like the U.S. Chamber of Commerce, while a company using the tax code definition would include the nontaxable portion of its donation that was used for political purposes. We included the disclosed spending on lobbying of each of the 200 companies we examined, but advise users that the numbers spent by different companies are not necessarily comparable. </p>
-    <h5>Total Influence</h5>
-    <p >Our total disclosed political spending consists of campaign contributions added to lobbying data. The total amount of federal influence spending could be higher, if corporations using the LDA definition are also contributing to trade associations and other politically active nonprofits, or lower, if corporations using tax code definitions are spending significant amounts of money influencing state and local expenditures. These are not the only limitations of the federal data we relied on that render make these numbers less than precise. We are more confident in the accuracy and comparability of the contribution figures. Unlike the lobbying data, the contribution data is all reported according to one set of rules. Thus, we ranked the companies by contribution data. </p>
-    <h5>Hill Coverage</h5>
-    <p >One of the things that struck us when looking at the giving of these organizations is that they gave to dozens of members of Congress. We queried our data to determine how many campaign committees of incumbent members of Congress&#8212;both the House and the Senate&#8212;received contributions from each company in each cycle, then averaged those three numbers to come up with a &#8220;Hill coverage&#8221; percentage. If corporations could find a way to contribute to a large percentage of members of Congress, presumably they could also make their policy preferences known to them.</p>
-    <p >Federal Business: Both federal business and federal support are loosely defined categories consisting of multiple elements. The distinction is that federal business consists of funds that generally speaking do not have to be paid back, e.g., a contract to sell the military a tank, while federal support is money that does have to be paid back, like a loan from the Commodity Credit Corporation to an agribusiness to support sugar prices. </p>
-    <p >While these represent disparate types of support at the taxpayers' expense -- and while government argues that the Troubled Asset Relief Program and the Export Import Bank actually turn profits for taxpayers -- what interested us was the total amount of dollars that the federal government offered to corporations. After all, as many homeowners or farmers could attest, not everyone who needed a loan from the federal government got one in time to save their assets during the recent financial crisis</p>
-    <h5>Federal contracts, grants and loans</h5>
-    <p >After considering several different data sources, each of which proved to be problematic, we reluctantly chose to use data from USASpending.gov. Sunlight has extensively criticized shortcomings of this dataset, including missing and inconsistently reported information. Even worse, not all agencies report information to USASpending.gov, leaving large gaps in disclosure. As short of perfection as the data is, we believe it undercounts rather than over counts federal contracting and assistance data, and that it is a better source of information than the Federal Procurement Data System. We searched for parents and subsidiaries, and added a standardized parent company name in an &#8220;orgname&#8221; field. Contracts were included in the federal business category, while grants and loans were included in federal support. The data includes spending that was funded by the American Recovery and Reinvestment Act of 2009, better known as the Stimulus. We excluded data from the Export Import Bank, because the bank releases more complete information on Data.gov.</p>
-    <p >Export-Import Bank: We downloaded data from data.gov on Ex-Im Bank loan activity from fiscal year 2007 through fiscal year 2013. We standardized names of primary exporters&#8212;the companies whose goods foreign purchasers borrow money loaned or guaranteed by the bank&#8212;in a field called primary_exporter_sunlight. We totaled the approved_declined_amount field for each company to determine the amount of sales facilitated by the Ex-Im Bank. We also standardized the names of lenders in a field called primary_lender_sunlight. Except where a primary exporter was among our 200 companies, we counted loan guarantees as federal support.</p>
-    <h4>2008 Bailout and Beyond</h4>
-    <p >In response to the financial crisis that peaked in September and October of 2008, the federal government took extraordinary measures to support financial firms and a few other large corporations. With the exception of Lehman Brothers, which collapsed into bankruptcy in September 2008, the federal government chose to rescue as many firms as it could, directing the bulk of its aid to the biggest firms. We examined Treasury and Federal Reserve programs that were the vehicles for that aid.</p>
-    <h5>AIG Counterparties</h5>
-    <p >As part of the rescue of American International Group, the Treasury Department authorized the giant insurer to pay about $125 billion borrowed from taxpayers to other financial firms with which it had entered into credit default swaps. We used the original documents AIG released in March 2009 to construct a spreadsheet showing who among our 200 Fixed Fortunes companies received money under the deal. Included in federal business.</p>
-    <h5>Asset-Backed Commercial Paper Money Market Mutual Fund Liquidity Facility (AMLF) purchases</h5>
-    <p >AMLF was one of the Federal Reserve&#8217;s programs to ease the liquidity crisis that followed the collapse of the housing bubble. It had two classes of beneficiaries: 1. Money market mutual fund managers held pooled investments of mortgage, auto, student loan and other debt that they couldn&#8217;t sell, largely because no one knew the creditworthiness and ability to pay of the debtors. 2. Banks that purchased the asset-backed paper, using loans from the Federal Reserve. Loans to banks to purchase the paper were included in federal support; the fund managers who sold the paper were included in the federal business category. Data was downloaded from the Federal Reserve.</p>
-    <h5>Capital Purchase Program</h5>
-    <p >One of the components of the Troubled Asset Relief Program. We downloaded PDFs summarizing financial activity in the program from Treasury.gov and created our own spreadsheets showing the initial amount that Treasury provided, plus information on the mechanisms through which it was provided. Participants in the Capital Purchase Program issued preferred stock to Treasury in exchange for a cash infusion, as well as warrants to purchase common stock. We include data on the amount of stock, warrants, share price, repayment amount and profit or loss on each investment. </p>
-    <h5>Automotive Industry Financing</h5>
-    <p >Another component of the Troubled Asset Relief Program. The information was downloaded from Treasury.gov as a PDF file and entered into a spreadsheet. General Motors was the only beneficiary of the program among the corporations we studied.</p>
-    <h5>Targeted Investment Program</h5> 
-    <p >Another component of the Troubled Asset Relief Program. The information was downloaded from Treasury.gov as a PDF file and entered into a spreadsheet. Bank of America and Citigroup were the only beneficiaries of the program.</p>
-    <h5>Term Auction Facility</h5>
-    <p >One of the first of the bailout programs, the Term Auction Facility offered short-term loans to U.S. banks and U.S. subsidiaries of foreign banks that were eligible to borrow from the Fed&#8217;s discount window through its primary credit program. The Federal Reserve launched the Term Auction Facility in December 2007 to increase liquidity among banks, which were then already under pressure. Data downloaded from the Federal Reserve.</p>
-    <h5>Term Securities Lending Facility</h5>
-    <p >The Federal Reserve exchanged Treasury securities for &#8220;less liquid&#8221; securities, including mortgage-backed securities whose value was in doubt even ahead of the housing foreclosure crisis in 2008. Primary dealers&#8212;the largest financial institutions that act as counterparties for the Fed when it adjusts the money supply&#8212;were eligible to participate. Data downloaded from the Federal Reserve. </p>
-    <h5>Commercial Paper Funding Facility</h5>
-    <p >Corporations issue commercial paper to borrow money for short-term expenses. During the financial crisis, lenders were unsure which companies were creditworthy and which were likely to fail, so the Federal Reserve created the Commercial Paper Funding Facility to become a corporate bond buyer. The Fed created a limited liability company, CPFF LLC, to which it loaned money. CPFF, in turn, purchased commercial paper from companies. Data downloaded from the Federal Reserve.</p>
-    <h5>Term Asset-Backed Securities Loan Facility</h5>
-    <p >The Federal Reserve loaned money to financial institutions in order to stimulate demand for asset-backed securities Firms issuing the securities were the main beneficiaries. Data downloaded from the Federal Reserve. Note: We excluded legacy asset backed securities from the analysis, because while the original issuer was listed, it was unclear whether the issuer was remained the owner at the time Federal Reserve funds were used to purchase the asset. </p>
+<div class="module" id="data-intro">
+    <h3>Data Dictionary</h3>
 </div>
 
-<div class="module" id="findings">
-    <h3>Findings</h3>
-    <p>These are the most commonly sighted of the three populations in the coastal waters of the northeast Pacific. Residents' diets consist primarily of fish and sometimes squid, and they live in complex and cohesive family groups called pods. Female residents characteristically have rounded dorsal fin tips that terminate in a sharp corner. They visit the same areas consistently. British Columbia and Washington resident populations are amongst the most intensively studied marine mammals. Researchers have identified and named over 300 killer whales over the past 30 years.</p>
-    <p>The diets of these whales consist almost exclusively of marine mammals. Transients generally travel in small groups, usually of two to six animals, and have less persistent family bonds than residents. Transients vocalize in less variable and less complex dialects. Female transients are characterized by more triangular and pointed dorsal fins than those of residents. The gray or white area around the dorsal fin, known as the "saddle patch", often contains some black colouring in residents. However, the saddle patches of transients are solid and uniformly gray. Transients roam widely along the coast; some individuals have been sighted in both southern Alaska and California. Transients are also referred to as Bigg's killer whale in honor of Michael Bigg. The term has become increasingly common and may eventually replace the transient label.</p>
+<div class="module fx00-table">
+    <div class="table-scroll" id="data-dictionary-table">
+        <table id="mainPageTable">
+            <thead>
+                <tr>
+                    <th>
+                        <div>
+                            <span>Column</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            <span>Definition</span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="even">
+                    <td>
+                        <div>
+                            <span>Rank</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span><b>FIXME: Needs Definition</b></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd">
+                    <td>
+                        <div>
+                            <span>Organization</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span>The organization's name, with a link to their Influence Explorer profile</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="even">
+                    <td>
+                        <div>
+                            <span>Contributions</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span>Includes PAC and individual contributions to federal committees made between Jan. 1, 2007 and Dec. 31, 2012. Data downloaded from the <a href="http://opensecrets.org">Center for Responsive Politics</a> and analyzed by the Sunlight Foundation.</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd">
+                    <td>
+                        <div>
+                            <span>Lobbying</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span>Disclosed spending on federal lobbying from 2007 to 2012. Data downloaded from the Center for Responsive Politics and analyzed by the Sunlight Foundation.</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="even">
+                    <td>
+                        <div>
+                            <span>Total Influence</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span>Sum of the contribution and lobbying totals.</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd">
+                    <td>
+                        <div>
+                            <span>Hill Coverage</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span>Average percentage of incumbent members of Congress receiving contributions from the organization over the course of the 2008, 2010 and 2012 election cycles.</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="even">
+                    <td>
+                        <div>
+                            <span>Federal Business</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span>Company business generated or facilitated by the federal government. Includes federal contracts, foreign sales created through the Export-Import Bank, Federal Reserve purchases of asset-backed securities and payments made to counter-parties of American International Group after the federal government took over the insurance giant.</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd">
+                    <td>
+                        <div>
+                            <span>Federal Support</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span>Government support for businesses, including loans, loan guarantees, grants, and money advanced to companies in the aftermath of the financial crisis through an array of mechanisms including the Capital Purchase Program, the Auto Industry Financing Program, the Targeted Investment Program, the Term Auction Facility, the Term Securities Lending Facility, the Commercial Paper Funding Facility, the Term Asset-Backed Securities Loan Facility and the Asset-Backed Commercial Paper Money Market Mutual Fund Liquidity Facility.</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="even">
+                    <td>
+                        <div>
+                            <span>Effective Tax Rate</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span><a href="http://www.ctj.org">Citizens for Tax Justice</a> analyzed the effective corporate tax rate for 125 publicly traded companies covering the years 2008 through 2013. Many of the companies CTJ analyzed were also companies Sunlight examined. CTJ has much more information on corporate taxation in their <a href="http://www.ctj.org/corporatetaxdodgers/">Sorry State of Corporate Taxation report</a>. </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd">
+                    <td>
+                        <div>
+                            <span>State Subsidies</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <span><a href="http://www.goodjobsfirst.org/">Good Jobs First</a> tracks state and local subsidies won by for-profit companies. Many of the companies examined in the Fixed Fortunes study also have won subsidies from state and local governments. Click the link to see those subsidies for each company listed above, or visit the Good Jobs First\n<a href="http://www.goodjobsfirst.org/subsidy-tracker">Subsidy Tracker</a> to learn more.</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-{% endblock %}
 
-{% block js %}
-{{ block.super }}
-<script type="text/javascript">
-$(function() {
-    // deal with negative dollars
-    $.tablesorter.addParser({
-        // set a unique id
-        id: 'negnumbers',
-        is: function(s) {
-            // return false so this parser is not auto detected
-            return false;
-        },
-        format: function(s) {
-            // format your data for normalization
-            var out = $.trim(s.replace(/(<([^>]+)>)/ig,"").replace(/\$/,'').replace(/,/g,'').replace(/%/g,''));
-            return (out == "" ? -99999999 : out);
-        },
-        // set type, either numeric or text
-        type: 'numeric'
-    });
-
-    // deal with total and average rows
-    $.tablesorter.addWidget({
-        // give the widget a id
-        id: "specialRows",
-        // format is called when the on init and when a sorting has finished
-        format: function(table) {
-            // cache and collect all TH headers
-            if (!this.specials) {
-                var s = this.specials = [];
-                $("tbody tr.special", table).each(function() {
-                    s.push($(this));
-                });
-            }
-            
-            // remove appended headers by classname.
-            $("tbody tr.special", table).remove();
-            
-            // loop all tr elements and insert a copy of the "headers"
-            for (var i=0; i < this.specials.length; i++) {
-                // insert a copy of the table head every 10th row
-                $("tbody", table).append(this.specials[i]);
-            }
-        }
-    });
-    
-    $('#mainPageTable').tablesorter({
-        headers: {
-            6: {
-                sorter: 'negnumbers'
-            },
-            8: {
-                sorter: 'negnumbers'
-            }
-        },
-        widgets: ['specialRows', 'zebra']
-    });
-});
-</script>
 {% endblock %}

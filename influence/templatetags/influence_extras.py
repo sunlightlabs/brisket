@@ -2,6 +2,8 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from BeautifulSoup import BeautifulSoup
 import urlparse, urllib
+import re
+import math
 from name_cleaver import PoliticianNameCleaver, IndividualNameCleaver, \
         OrganizationNameCleaver
 from influence.helpers import standardize_name
@@ -182,3 +184,48 @@ def get( dict, key, default = '' ):
     return dict.get(key,default)
   except:
     return default
+
+@register.filter(name='money_to_int')
+@stringfilter
+def money_to_int_filter(value):
+    _value = re.sub(r'\s','',value[:])
+    _value = re.sub(r'[(),$]', '', _value)
+    _value = re.sub(r'USD?', '', _value)
+    if re.match(r'-?[0-9](\.[0-9]{,2})?', _value):
+        return int(float(_value))
+
+# adapted from http://stackoverflow.com/questions/3154460/python-human-readable-large-numbers
+@register.filter(name='illionize')
+def illionize(value, args='short .0f'):
+    _value = float(value)
+
+    if _value == 0.0:
+        return "0"
+
+    affix_len = 'short'
+    numformat = '.0f'
+
+    if args:
+        argv = args.split(' ')
+        if len(argv) == 2:
+            affix_len, numformat = argv
+
+    def _truncate(value, base):
+        return int(base * round(float(value)/base))
+
+    if affix_len == 'long':
+        num_affixes = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion']
+    else:
+        num_affixes = ['', 'k', 'M', 'B', 'T', 'Q']
+
+
+    places = int(math.floor(math.log10(abs(_value))))
+    groups = int(places/3)
+    order = places - 1
+
+    affix = num_affixes[max(0, min(len(num_affixes)-1, groups))]
+
+    _trunc_val = round(_value/(10**order), groups*3)
+    val_template = '{v:' + numformat + '} {a}'
+
+    return val_template.format(v=_trunc_val, a=affix)
