@@ -5,6 +5,15 @@
 {% block main %}
 
 {{ block.super }}
+<nav id="td_nav">
+    <ul>
+        <li class="last"><a href="{% url 'fortune-methodology-view' %}">Methodology</a></li>
+        <li><a href="{% url 'fortune-overview-view' %}">Overview</a></li>
+        <li><a href="{% url 'fortune-index-view' %}#data-intro">Data</a></li>
+    </ul>
+    <div class="clear"></div>
+</nav>
+
 
 <div class="module" id="overview-snippet">
     <p >Between 2007 and 2012, 200 of America&#8217;s most politically active corporations spent a combined $5.8 billion on federal lobbying and campaign contributions. A year-long analysis by the Sunlight Foundation suggests, however, that what they gave pales compared to what those same corporations got: $4.4 trillion in federal business and support.</p>
@@ -105,7 +114,9 @@
                         ${{ row|get:"Total Influence"|money_to_int|illionize:"short .1f" }}
                     </td>
                     <td class="numeric" data-hill-coverage="{{ row|get:"Hill Coverage" }}">
-                        {{ row|get:"Hill Coverage" }}
+                        {% if row|get:"Hill Coverage" %}
+                            {{ row|get:"Hill Coverage"|cut:"%" }}%
+                        {% endif %}
                     </td>
                     <td class="numeric" data-federal-business="{{ row|get:"Federal Business" }}">
                         {% if row|get:"Federal Business"|add:"0" < 0 %}
@@ -118,7 +129,7 @@
                         ${{ row|get:"Federal Support"|money_to_int|illionize:"short .1f" }}</td>
                     <td class="numeric" data-effective-tax-rate="{{ row|get:"Effective Tax Rate" }}">
                         {% with row|get:"Effective Tax Rate" as efr %}
-                            {% if efr != "#N/A" %}
+                            {% if efr and efr != "#N/A" %}
                                 {% with row|get:"Citizens for Tax Justice ID" as cti %}
                                     <a href="http://ctj.org/corporatetaxdodgers/tax-dodgers.php?id={{ cti }}">{{ efr }}%</a>
                                 {% endwith %}

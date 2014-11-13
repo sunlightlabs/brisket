@@ -83,23 +83,37 @@ td.subsidy-link a {
 td.numeric {
     text-align: right;
 }
+
+h1.ff_logo {
+    float: left;
+    padding-top: 0px;
+    padding-left: 20px;
+    margin-bottom: 0px;
+    width: 347px; 
+    height: 121px;
+    margin-left: 10px;
+}
+
+#ff_logo {
+    color: #000;
+    text-decoration: none;
+    text-indent:-9999em;
+    background: url(/static/dryrub/images/ff_logo.png) top left no-repeat;
+    width: 347px;
+    height: 121px;
+}
+
 </style>
 {% endblock %}
 
 {% block main %}
 
-<div id="contentHeader">
-    <h2>Fixed Fortunes</h2>
+<div id="content_header">
+    <h1 class="ff_logo">
+        <a href="{% url "fortune-index-view" %}" id="ff_logo">Fixed Fortunes</a>
+    </h1>
 </div>
-<nav id="td_nav">
-    <ul>
-        <li class="last"><a href="{% url 'fortune-methodology-view' %}">Methodology</a></li>
-        <li><a href="{% url 'fortune-overview-view' %}">Overview</a></li>
-        <li><a href="{% url 'fortune-index-view' %}#data-intro">Data</a></li>
-    </ul>
-    <div class="clear"></div>
-</nav>
-
+<div class="clear"></div>
 {% endblock %}
 
 {% block js %}

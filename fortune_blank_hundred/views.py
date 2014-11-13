@@ -67,6 +67,9 @@ def get_table():
         totals[key] = sum(value_list)
         averages[key] = int(round(float(totals[key]) / len(value_list)))
 
+    del totals['Hill Coverage']
+    del totals['Effective Tax Rate']
+
     return {
         'rows': data,
         'averages': averages,
