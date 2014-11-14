@@ -97,20 +97,20 @@
                     {% if row.special_title %}
                         <td colspan=2>{{ row.special_title }}</td>
                     {% else %}
-                        <td style="background: #{{ row.color }}; color: #ffffff;">{{ row|get:"Rank" }}</td>
+                        <td data-rank="{{ row|get:"Rank" }}" style="background: #{{ row.color }}; color: #ffffff;">{{ row|get:"Rank" }}</td>
                         <td data-organization="{{ row|get:"Organization" }}">
                             <a href="/organization/{{ row|get:"Organization"|standardize_organization_name|slugify }}/{{ row|get:"Influence Explorer ID" }}">
                                 {{ row|get:"Organization" }}
                             </a>
                         </td>
                     {% endif %}
-                    <td class="numeric" data-contributions="{{ row|get:"Contributions" }}">
+                    <td class="numeric" data-contributions="{{ row|get:"Contributions"|money_to_int }}">
                         ${{ row|get:"Contributions"|money_to_int|illionize:"short .1f" }}
                     </td>
-                    <td class="numeric" data-lobbying="{{ row|get:"Lobbying" }}">
+                    <td class="numeric" data-lobbying="{{ row|get:"Lobbying"|money_to_int }}">
                         ${{ row|get:"Lobbying"|money_to_int|illionize:"short .1f" }}
                     </td>
-                    <td class="numeric" data-total-influence="{{ row|get:"Total Influence" }}">
+                    <td class="numeric" data-total-influence="{{ row|get:"Total Influence"|money_to_int }}">
                         ${{ row|get:"Total Influence"|money_to_int|illionize:"short .1f" }}
                     </td>
                     <td class="numeric" data-hill-coverage="{{ row|get:"Hill Coverage" }}">
@@ -118,14 +118,14 @@
                             {{ row|get:"Hill Coverage"|cut:"%" }}%
                         {% endif %}
                     </td>
-                    <td class="numeric" data-federal-business="{{ row|get:"Federal Business" }}">
+                    <td class="numeric" data-federal-business="{{ row|get:"Federal Business"|money_to_int }}">
                         {% if row|get:"Federal Business"|add:"0" < 0 %}
                             -${{ row|get:"Federal Business"|slice:"1:"|money_to_int|illionize:"short .1f" }}
                         {% else %}
                             ${{ row|get:"Federal Business"|money_to_int|illionize:"short .1f" }}
                         {% endif %}
                         </td>
-                    <td class="numeric" data-federal-support="{{ row|get:"Federal Support" }}">
+                    <td class="numeric" data-federal-support="{{ row|get:"Federal Support"|money_to_int }}">
                         ${{ row|get:"Federal Support"|money_to_int|illionize:"short .1f" }}</td>
                     <td class="numeric" data-effective-tax-rate="{{ row|get:"Effective Tax Rate" }}">
                         {% with row|get:"Effective Tax Rate" as efr %}
