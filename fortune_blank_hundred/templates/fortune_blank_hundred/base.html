@@ -2,7 +2,24 @@
 
 {% block body_class %}fortune flatText{% endblock %}
 
-{% block pagetitle %}Fortune Blank Hundred | {% endblock %}
+{% block pagetitle %}Fixed Fortunes | {% endblock %}
+
+{% block og %}
+  <meta name="og:title" content="Fixed Fortunes: Biggest corporate political interests spend billions, get trillions">
+  <meta name="og:description" content="In just six years, 200 of US’ most politically active corporations received $4.4 billion in federal business and support.">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png">
+  <meta name="og:url" content="http://{{ OG_DOMAIN }}{{ request.path }}">
+  <meta name="og:site_name" content="Influence Explorer">
+  <meta name="fb:admins" content="7812952,5308565">
+{% endblock %}
+
+{% block sitesocial %}
+<div id="share-buttons" class="clear">
+    <a class="socialite facebook-share" href="http://facebook.com/sharer/sharer.php?">Facebook</a>
+    <a class="socialite twitter-simple" href="http://twitter.com/share" data-text="Fixed Fortunes: Powerful US companies spent billions on politics and earned trillions in return, via @sunfoundation">Twitter</a>
+</div>
+{% endblock %}
 
 {% block sitecss %}
 {% comment %}Put CSS in here to keep everything self-contained and not muck around with dryrub, etc., for a one-off.{% endcomment %}
