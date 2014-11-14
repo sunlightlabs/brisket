@@ -219,13 +219,12 @@ def illionize(value, args='short .0f'):
         num_affixes = ['', 'k', 'M', 'B', 'T', 'Q']
 
 
-    places = int(math.floor(math.log10(abs(_value))))
-    groups = int(places/3)
-    order = places - 1
+    order = int(math.floor(math.log10(abs(_value))))
+    groups = int(order/3)
 
     affix = num_affixes[max(0, min(len(num_affixes)-1, groups))]
 
-    _trunc_val = round(_value/(10**order), groups*3)
+    _trunc_val = _value/(10**(groups*3))
     val_template = '{v:' + numformat + '} {a}'
 
     return val_template.format(v=_trunc_val, a=affix)
