@@ -303,19 +303,40 @@
 {{ block.super }}
 <script type="text/javascript">
 $(function() {
-    // deal with negative dollars
+
     $.tablesorter.addParser({
         // set a unique id
-        id: 'negnumbers',
-        is: function(s) {
+        id: 'data',
+        is: function(s, table, cell, $cell) {
             // return false so this parser is not auto detected
             return false;
         },
-        format: function(s) {
-            // format your data for normalization
-            var out = $.trim(s.replace(/(<([^>]+)>)/ig,"").replace(/\$/,'').replace(/,/g,'').replace(/%/g,''));
-            return (out == "" ? -99999999 : out);
+        format: function(s, table, cell, cellIndex) {
+            var $cell = $(cell);
+
+            if (cellIndex === 0) {
+                return parseInt($cell.attr('data-rank'), 10);
+            } else if (cellIndex === 2) {
+                return parseInt($cell.attr('data-contributions'), 10);
+            } else if (cellIndex === 3) {
+                return parseInt($cell.attr('data-lobbying'), 10);
+            } else if (cellIndex === 4) {
+                return parseInt($cell.attr('data-total-influence'), 10);
+            } else if (cellIndex === 5) {
+                return parseInt($cell.attr('data-hill-coverage'), 10);
+            } else if (cellIndex === 6) {
+                return parseInt($cell.attr('data-federal-business'), 10);
+            } else if (cellIndex === 7) {
+                return parseInt($cell.attr('data-federal-support'), 10);
+            } else if (cellIndex === 8) {
+                return parseInt($cell.attr('data-effective-tax-rate'), 10);
+            } 
+    
+            // return cell text, just in case
+            return s;
         },
+        // flag for filter widget (true = ALWAYS search parsed values; false = search cell text)
+        parsed: false,
         // set type, either numeric or text
         type: 'numeric'
     });
@@ -347,11 +368,29 @@ $(function() {
     
     $('#mainPageTable').tablesorter({
         headers: {
+            0: {
+                sorter: 'data'
+            },
+            2: {
+                sorter: 'data'
+            },
+            3: {
+                sorter: 'data'
+            },
+            4: {
+                sorter: 'data'
+            },
+            5: {
+                sorter: 'data'
+            },
             6: {
-                sorter: 'negnumbers'
+                sorter: 'data'
+            },
+            7: {
+                sorter: 'data'
             },
             8: {
-                sorter: 'negnumbers'
+                sorter: 'data'
             }
         },
         widgets: ['specialRows', 'zebra']
