@@ -97,7 +97,13 @@
                     {% if row.special_title %}
                         <td colspan=2>{{ row.special_title }}</td>
                     {% else %}
-                        <td data-rank="{{ row|get:"Rank" }}" style="background: #{{ row.color }}; color: #ffffff;">{{ row|get:"Rank" }}</td>
+                        <td data-rank="{{ row|get:"Rank" }}" style="background: #{{ row.color }}; color: #ffffff;">
+                            <a style="color:#ffffff" name={{ row|get:"Organization"|standardize_organization_name|slugify }}>
+                            
+                                {{ row|get:"Rank" }}
+                            </a>
+                        </td>
+
                         <td data-organization="{{ row|get:"Organization" }}">
                             <a href="/organization/{{ row|get:"Organization"|standardize_organization_name|slugify }}/{{ row|get:"Influence Explorer ID" }}">
                                 {{ row|get:"Organization" }}
