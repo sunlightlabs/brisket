@@ -1,0 +1,52 @@
+{% extends "brisket_base.html" %}
+
+{% block body_class %}methodology flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Real-time Federal Post-Employment Notices Methodology</h2>
+</div>
+
+<div id="ltColumn">
+    <p id="tip">This document describes the process we use to scrape and ingest information from post-employment notifications released by the Senate Office of Public Record and the House Clerk's Office.</p>
+    
+    <h3>Background</h3>
+    <p>
+    The Honest Leadership and Open Government Act of 2007 requires the House clerk and the secretary of the Senate to notify departing members and staffers of any applicable post-employment restrictions and to post on their websites a list of these notifications.
+    </p>
+
+    <p>
+    This feed combines those Senate and House lists and makes it easier to see individuals whose restriction periods are ending soon. In addition, an RSS feed is available to keep track of whose restrictions will be expiring
+    </p>
+
+    <h3>Live updates</h3>
+    
+    <p>
+    The data available through this tracker is updated one a week. The original sources are updated once every pay period (about two weeks).
+    </p>
+
+    <h3>De-duplication and Entity Resolution</h3>
+    
+    <p>
+    Each time this data is updated, the system performs an automated de-duplication task, which resolves entities (former employees and the offices they were employed with) whose names appear slightly differently across many filings. This allows users to browse by any of the entities mentioned in the filing, to get a better sense of the history of that individual or organization's history of filing.
+       </p>
+
+    <h3>New Identifiers</h3>
+
+    <p>
+    The identifiers assigned to people and organizations in this database are a break from the wider Influence Explorer identifier scheme, and represent our first move toward using <a href="http://opencivicdata.org/">Open Civic Data</a> identifiers. For now, they only uniquely identify entities found in post-employment notices, but will, in the future, allow users to view related records across all of Influence Explorer's datasets.
+    </p>
+
+    <h3>What Could Go Wrong</h3>
+
+    <p>
+    Because the entity resolution process is automated, it's possible that it might match two individuals or organizations that ought to be treated as separate entities. We're refining this process to limit our error rate, but if you see something tha tshould be fixed, please let us know! Use the feedback widget on the right side of the page, and please send us as much information as you have about the data you'd like to see fixed.
+    </p>
+
+</div>
+
+
+</div>
+
+{% endblock %}

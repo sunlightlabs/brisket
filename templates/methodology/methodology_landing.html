@@ -1,0 +1,52 @@
+{% extends "brisket_base.html" %}
+
+{% block body_class %}methodology flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Methodology</h2>
+</div>
+
+<div id="ltColumn">
+    <p id="tip">This document contains links to documentation of the processes we use to ingest and aggregate information from various sources of influence-related disclosures.</p>
+    
+    <h3>Real-time Data</h3>
+        <p>
+            <a href="http://realtime.influenceexplorer.com/about/">Real-time Federal Campaign Finance</a>
+        </p>
+        <p>
+            <a href="/about/methodology/realtime-lobbying/registrations/">Real-time Federal Lobbying Registrations</a> 
+        </p>
+        <p>
+            <a href="/about/methodology/realtime-lobbying/post-employment/">Real-time Post-employment Notices</a> 
+        </p>
+        <p>
+            <a href="http://foreign.influenceexplorer.com/about/">Real-time Foreign Lobbying (FARA)</a>
+        </p>
+
+    <h3>Periodically Collected Data</h3>
+    
+        <p>
+            <a href="/about/methodology/fed_spending">Federal Spending</a>
+        </p>
+        <p>
+            <a href="/about/methodology/earmarks/">Federal Earmarks</a> (no longer updated)
+        </p>
+        <p>
+            <a href="/about/methodology/echo"> EPA ECHO</a> (not updated at this time)
+        </p>
+
+    <h3>Historical Data</h3>
+        <p>
+	<a href="/about/methodology/campaign_finance">Federal Campaign Finance</a>
+        </p>
+        <p>
+        <a href="/about/methodology/lobbying">Federal Lobbying</a>
+        </p>
+        <p>
+        <a href="/about/methodology/lobbyist_bundling">Federal Lobbyist Bundling</a> 
+        </p>
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "brisket_base.html" %}
+
+{% block body_class %}methodology flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Real-time Federal Lobbying Registrations Methodology</h2>
+</div>
+
+<div id="ltColumn">
+    <p id="tip">This document describes the process we use to scrape and ingest information from lobbying registrations filed with the Senate Office of Public Record and the House Clerk's Office.</p>
+    
+    <h3>Background</h3>
+    
+    <p>
+    The Lobbying Disclosure Act requires lobbyists and lobbying firms to register with the House and the Senate within 45 days of being hired by a client. The registrations list the issue areas that will be covered by the lobbying. This database allows users to see those registrations as they're submitted and to browse by issue, registrant and client. The database is based on records published by the Senate Office of Public Record and includes all registrations starting in 2009.
+    </p>
+
+    <h3>Live updates</h3>
+    
+    <p>
+    The data available through this tracker is updated approximately twice an hour. The original data is updated continuously.
+    </p>
+
+    <h3>De-duplication and Entity Resolution</h3>
+    
+    <p>
+    Each time this data is updated, the system performs an automated de-duplication task, which resolves entities (registrants, clients and lobbyists) whose names appear slightly differently across many filings. This allows users to browse by any of the entities mentioned in the filing, to get a better sense of the history of that individual or organization's history of filing.
+       </p>
+
+    <h3>New Identifiers</h3>
+
+    <p>
+    The identifiers assigned to people and organizations in this database are a break from the wider Influence Explorer identifier scheme, and represent our first move toward using <a href="http://opencivicdata.org/">Open Civic Data</a> identifiers. For now, they only uniquely identify entities found in lobbying registrations, but will, in the future, allow users to view related records across all of Influence Explorer's datasets.
+    </p>
+
+    <h3>What Could Go Wrong</h3>
+
+    <p>
+    Because the entity resolution process is automated, it's possible that it might match two individuals or organizations that ought to be treated as separate entities. We're refining this process to limit our error rate, but if you see something tha tshould be fixed, please let us know! Use the feedback widget on the right side of the page, and please send us as much information as you have about the data you'd like to see fixed.
+    </p>
+
+</div>
+
+{% endblock %}

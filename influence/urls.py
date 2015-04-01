@@ -84,6 +84,8 @@ urlpatterns += patterns('',
     url(r'^contact/?$', TemplateView.as_view(template_name='contact.html')),
 
     url(r'^about/?$', TemplateView.as_view(template_name='about.html')),
+    
+    url(r'^about/methodology?$', TemplateView.as_view(template_name='methodology/methodology_landing.html')),
         
     url(r'^about/methodology/campaign_finance/?$', TemplateView.as_view(template_name='methodology/campaign_finance_methodology.html')),
 
@@ -96,6 +98,8 @@ urlpatterns += patterns('',
     url(r'^about/methodology/earmarks/?$', TemplateView.as_view(template_name='methodology/earmark_methodology.html')),
 
     url(r'^about/methodology/echo/?$', TemplateView.as_view(template_name='methodology/epa_echo_methodology.html')),
+    url(r'^about/methodology/realtime-lobbying/registrations/?$', TemplateView.as_view(template_name='methodology/realtime_lobbying/registrations_methodology.html')),
+    url(r'^about/methodology/realtime-lobbying/post-employment/?$', TemplateView.as_view(template_name='methodology/realtime_lobbying/post_employment_methodology.html')),
    
     url(r'^checking/?$', TemplateView.as_view(template_name='checking.html')),
 )
