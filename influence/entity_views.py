@@ -348,8 +348,8 @@ class OrganizationEntityView(EntityView):
         OrgRegulationsSection,
         OrgEarmarksSection,
         OrgSpendingSection,
-        OrgContractorMisconductSection,
-        OrgEpaEchoSection,
+        #OrgContractorMisconductSection,
+        #OrgEpaEchoSection,
         OrgFacaSection
     ]
 
