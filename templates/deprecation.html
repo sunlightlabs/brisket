@@ -1,0 +1,31 @@
+{% extends "brisket_base.html" %}
+
+{% block body_class %}about flatText{% endblock %}
+
+{% block main %}
+
+<div id="contentHeader">
+    <h2>Deprecation Notice</h2>
+</div>
+
+<div id="ltColumn">
+	<h3>Retiring TransparencyData</h3>
+
+                <p>
+                Effective immediately, we'll be phasing out the TransparencyData project. TransparencyData started <a href="http://sunlightfoundation.com/blog/2010/04/08/introducing-transparencydatacom/">more than five years ago</a> as a resource for mashing up data from <a href="http://www.opensecrets.org/">OpenSecrets.org</a> and <a href="http://www.followthemoney.org/">FollowTheMoney.org</a>, along with a few other sources. In the years since, both OpenSecrets and FollowTheMoney have matured and today each makes their data available both in bulk and through APIs. At Sunlight, we're thrilled to see that, and recognize the limited utility of having a third-party API that republishes these resources.
+                </p>
+                <p>
+                With that in mind, and with huge congratulations to our partners at the Center for Responsive Politics and the National Institute on Money in State Politics, we're retiring TransparencyData. Starting in September 2015, we are deprecating the Influence Explorer and TransparencyData APIs. They will be turned off beginning January 2016.
+                </p>
+	
+        <h3>Historical Data</h3>
+
+        <p>Historical data collected through Q2 2015 will remain available for download, but will not be updated in the future. Please follow the links below to original sources of this data for future updates.</p>
+
+	<h3>Contact Us</h3>
+	
+	<p>For questions or comments, please use the Feedback widget on the side of the page.</p>
+		
+</div>
+
+{% endblock %}
